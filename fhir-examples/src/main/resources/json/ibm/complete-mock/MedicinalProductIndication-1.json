@@ -1,0 +1,228 @@
+{
+    "resourceType": "MedicinalProductIndication",
+    "id": "nHjD7mjYua",
+    "meta": {
+        "versionId": "FSBrHd2F1-",
+        "lastUpdated": "2019-08-03T00:12:35.968-04:00",
+        "source": "hJcxSv2A9C",
+        "profile": [
+            "SFdTO_fPDs"
+        ],
+        "security": [
+            {
+                "system": "cx5NBnZjvY",
+                "version": "cbNs54Wo2J",
+                "code": "14pVRvg0z6",
+                "display": "9hDnNttMfb",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "Cb8aSSiLnV",
+                "version": "HkAKWhH7PY",
+                "code": "0Sxh8JMOyA",
+                "display": "0XopUXAxdn",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "yxpQ4lHUZ7",
+    "language": "WO9k1mqXo3",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "subject": [
+        {
+            "reference": "31dM0YAX6V",
+            "type": "YSgzXAFQcl",
+            "identifier": {
+                "use": "official",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "enZDkccnU1",
+                            "version": "8HuGhdN9ZB",
+                            "code": "k2vO8g1II9",
+                            "display": "AMV5Y7yprU",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Do4Wm2YRf5"
+                },
+                "system": "Iz73TljhrQ",
+                "value": "uTuJMUqyCP",
+                "period": {
+                    "start": "2019-08-03T00:12:35.970-04:00",
+                    "end": "2019-08-03T00:12:35.970-04:00"
+                }
+            },
+            "display": "FO7uYuqK0F"
+        }
+    ],
+    "diseaseSymptomProcedure": {
+        "coding": [
+            {
+                "system": "erUTrnVR89",
+                "version": "yANDrWil8W",
+                "code": "OSMOI9jYcw",
+                "display": "wnnoPCBqRq",
+                "userSelected": true
+            }
+        ],
+        "text": "Jj3Ut6k4hO"
+    },
+    "diseaseStatus": {
+        "coding": [
+            {
+                "system": "lQzQM41yca",
+                "version": "FEwvd53OU0",
+                "code": "raJUtZR5X3",
+                "display": "HwRYDFWF0p",
+                "userSelected": true
+            }
+        ],
+        "text": "UAlYyV5iDk"
+    },
+    "comorbidity": [
+        {
+            "coding": [
+                {
+                    "system": "xqHEVMTegS",
+                    "version": "Ivl1sDyalU",
+                    "code": "KQCcIP5Hb5",
+                    "display": "bjPWYai_h8",
+                    "userSelected": true
+                }
+            ],
+            "text": "4VnxDvXIZt"
+        }
+    ],
+    "intendedEffect": {
+        "coding": [
+            {
+                "system": "xCcIoC9z02",
+                "version": "LB4GfgEsiz",
+                "code": "qUqv3qHYxq",
+                "display": "MxxjX1v0YZ",
+                "userSelected": true
+            }
+        ],
+        "text": "dWc4jgeGVr"
+    },
+    "duration": {
+        "value": 219416456027,
+        "comparator": ">",
+        "unit": "9WlXeVTJYa",
+        "system": "GoEt84u4Ig",
+        "code": "9sJMj1vLkD"
+    },
+    "otherTherapy": [
+        {
+            "therapyRelationshipType": {
+                "coding": [
+                    {
+                        "system": "EC7344SEtL",
+                        "version": "i7lSYstO9W",
+                        "code": "eScU2zAQ8V",
+                        "display": "f2tk1UwtNy",
+                        "userSelected": true
+                    }
+                ],
+                "text": "dqm0zLv22h"
+            },
+            "medicationCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "KWab1aUCid",
+                        "version": "92SrUjsqrF",
+                        "code": "k3oiGBF9wM",
+                        "display": "P8P92fxxLH",
+                        "userSelected": true
+                    }
+                ],
+                "text": "Sy6q0E7L4n"
+            }
+        }
+    ],
+    "undesirableEffect": [
+        {
+            "reference": "OYcB2Sy_1w",
+            "type": "GEvmHycr5e",
+            "identifier": {
+                "use": "old",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "aoNu_a5JYb",
+                            "version": "E7Dh8N_dq6",
+                            "code": "HYv9IT3gWa",
+                            "display": "ZiiOk5FFxQ",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "YNh0D37Bbd"
+                },
+                "system": "6HpoH_hWf8",
+                "value": "ZPHx1widL9",
+                "period": {
+                    "start": "2019-08-03T00:12:35.976-04:00",
+                    "end": "2019-08-03T00:12:35.976-04:00"
+                }
+            },
+            "display": "6KNV9rxw4d"
+        }
+    ],
+    "population": [
+        {
+            "ageRange": {
+                "low": {
+                    "value": 229630833224,
+                    "unit": "o96FjhxRWZ",
+                    "system": "sLshHQXyEv",
+                    "code": "HLLp9bDg3K"
+                }
+            },
+            "gender": {
+                "coding": [
+                    {
+                        "system": "IB5IlUWQQY",
+                        "version": "kbkMGvhP_W",
+                        "code": "_Jh5ddiw8O",
+                        "display": "xmJACu6TDh",
+                        "userSelected": true
+                    }
+                ],
+                "text": "MJ5WvFdOWB"
+            },
+            "race": {
+                "coding": [
+                    {
+                        "system": "KQ8_pVF7nZ",
+                        "version": "GzRdy04E5a",
+                        "code": "ZPlFIX5W6M",
+                        "display": "RQVT6lsnzW",
+                        "userSelected": true
+                    }
+                ],
+                "text": "TDGymEVNMY"
+            },
+            "physiologicalCondition": {
+                "coding": [
+                    {
+                        "system": "TbniW2zBVV",
+                        "version": "ItTXQ1zgAQ",
+                        "code": "7Rj0udDLh5",
+                        "display": "jJ3eEeGt7l",
+                        "userSelected": true
+                    }
+                ],
+                "text": "i1SBs2Ujbe"
+            }
+        }
+    ]
+}

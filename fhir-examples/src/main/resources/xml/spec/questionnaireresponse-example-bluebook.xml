@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><QuestionnaireResponse xmlns="http://hl7.org/fhir">
+  <!--  Please not that in this questionnaire, the questions are mostly unnamed, that is, the questions are not identified using the <name> element. It will therefore
+    be hard to extract useful information in an automated way from this questionnaire. This is, however, quite often the case when modeling existing questionnaires  -->
+  <id value="bb"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <pre>
+        Cathy Jones, female. Birth weight 3.25 kg at 44.3 cm. 
+        Injection of Vitamin K given on 1972-11-30 (first dose) and 1972-12-11 (second dose)
+        Note: Was able to speak Chinese at birth.
+      </pre>
+    </div>
+  </text>
+  <status value="completed"/>
+  <subject>
+    <reference value="http://hl7.org/fhir/Patient/1"/>
+    <type value="Patient"/>
+  </subject>
+  <authored value="2013-02-19T14:15:00+10:00"/>
+  <author>
+    <reference value="http://hl7.org/fhir/Practitioner/example"/>
+    <type value="Practitioner"/>
+  </author>
+    <!--  Many groups left out of this example  -->
+  <item>
+    <linkId value="birthDetails"/>
+    <text value="Birth details - To be completed by health professional"/>
+    <item>
+	  <linkId value="group"/>
+      <item>
+        <linkId value="nameOfChild"/>
+        <text value="Name of child"/>
+        <answer>
+          <valueString value="Cathy Jones"/>
+        </answer>
+      </item>
+      <item>
+        <linkId value="sex"/>
+        <text value="Sex"/>
+        <answer>
+          <valueCoding>
+            <code value="f"/>
+          </valueCoding>
+        </answer>
+      </item>
+    </item>
+    <item>
+      <linkId value="neonatalInformation"/>
+      <text value="Neonatal Information"/>
+      <item>
+        <linkId value="birthWeight"/>
+        <text value="Birth weight (kg)"/>
+        <answer>
+          <valueDecimal value="3.25"/>
+        </answer>
+      </item>
+      <item>
+        <linkId value="birthLength"/>
+        <text value="Birth length (cm)"/>
+        <answer>
+          <valueDecimal value="44.3"/>
+        </answer>
+      </item>
+      <item>
+        <linkId value="vitaminKgiven"/>
+        <text value="Vitamin K given"/>
+        <answer>
+          <valueCoding>
+            <code value="INJECTION"/>
+          </valueCoding>
+          <item>
+            <linkId value="vitaminKgivenDoses"/>
+            <item>
+              <linkId value="vitaminKDose1"/>
+              <text value="1st dose"/>
+              <answer>
+                <valueDate value="1972-11-30"/>
+              </answer>
+            </item>
+            <item>
+              <linkId value="vitaminKDose2"/>
+              <text value="2nd dose"/>
+              <answer>
+                <valueDate value="1972-12-11"/>
+              </answer>
+            </item>
+          </item>
+        </answer>
+      </item>
+      <item>
+        <linkId value="hepBgiven"/>
+        <text value="Hep B given y / n"/>
+        <answer>
+          <valueBoolean value="true"/>
+          <item>
+            <linkId value="hepBgivenDate"/>
+            <text value="Date given"/>
+            <answer>
+              <valueDate value="1972-12-04"/>
+            </answer>
+          </item>
+        </answer>
+      </item>
+      <item>
+        <linkId value="abnormalitiesAtBirth"/>
+        <text value="Abnormalities noted at birth"/>
+        <answer>
+          <valueString value="Already able to speak Chinese"/>
+        </answer>
+      </item>
+    </item>
+  </item>
+</QuestionnaireResponse>

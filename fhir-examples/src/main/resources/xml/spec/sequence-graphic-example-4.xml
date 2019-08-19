@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><MolecularSequence xmlns="http://hl7.org/fhir">
+    <id value="graphic-example-4"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: graphic-example-4</p><p><b>type</b>: dna</p><p><b>coordinateSystem</b>: 0</p><h3>ReferenceSeqs</h3><table><tr><td>-</td><td><b>Chromosome</b></td><td><b>GenomeBuild</b></td><td><b>Strand</b></td><td><b>WindowStart</b></td><td><b>WindowEnd</b></td></tr><tr><td>*</td><td>chromosome 2 <span>(Details : {http://terminology.hl7.org/CodeSystem/chromosome-human code '2' = 'chromosome 2', given as 'chromosome 2'})</span></td><td>GRCh 38</td><td>watson</td><td>128273736</td><td>128273740</td></tr></table></div></text><type value="dna"/>
+    <coordinateSystem value="0"/>
+    <referenceSeq>
+        <chromosome>
+            <coding>
+                <system value="http://terminology.hl7.org/CodeSystem/chromosome-human"/>
+                <code value="2"/>
+                <display value="chromosome 2"/>
+            </coding>
+        </chromosome>
+        <genomeBuild value="GRCh 38"/>    
+        <strand value="watson"/>
+        <windowStart value="128273736"/>
+        <windowEnd value="128273740"/>
+    </referenceSeq>
+</MolecularSequence>

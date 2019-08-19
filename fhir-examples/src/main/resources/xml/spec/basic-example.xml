@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><Basic xmlns="http://hl7.org/fhir">
+  <id value="referral"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><b>Patient:</b>Roel</p>
+      <p><b>Requestor:</b>Dokter Bronsig</p>
+      <p><b>Type:</b>Consultation</p>
+      <p><b>Target Date:</b>April 1 - April 31</p>
+      <p>COMPLETED</p>
+      <b>The patient had fever peaks over the last couple of days. He is worried about these peaks.</b>
+    </div>
+  </text>
+  <extension url="http://example.org/do-not-use/fhir-extensions/referral#requestingPractitioner">
+    <valueReference>
+      <reference value="Practitioner/f201"/>
+      <display value="Dokter Bronsig"/>
+    </valueReference>
+  </extension>
+  <extension url="http://example.org/do-not-use/fhir-extensions/referral#notes">
+    <valueString value="The patient had fever peaks over the last couple of days. He is worried about these peaks."/>
+  </extension>
+  <extension url="http://example.org/do-not-use/fhir-extensions/referral#fulfillingEncounter">
+    <valueReference>
+      <reference value="Encounter/f201"/>
+    </valueReference>
+  </extension>
+  <modifierExtension url="http://example.org/do-not-use/fhir-extensions/referral#referredForService">
+    <valueCodeableConcept>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="11429006"/>
+        <display value="Consultation"/>
+      </coding>
+    </valueCodeableConcept>
+  </modifierExtension>
+  <modifierExtension url="http://example.org/do-not-use/fhir-extensions/referral#targetDate">
+    <valuePeriod>
+      <start value="2013-04-01"/>
+      <end value="2013-04-15"/>
+    </valuePeriod>
+  </modifierExtension>
+  <modifierExtension url="http://example.org/do-not-use/fhir-extensions/referral#status">
+    <valueCode value="complete"/>
+  </modifierExtension>
+  <identifier>
+    <system value="http://goodhealth.org/basic/identifiers"/>
+    <value value="19283746"/>
+  </identifier>
+  <code>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/basic-resource-type"/>
+      <code value="referral"/>
+    </coding>
+  </code>
+  <subject>
+    <reference value="Patient/f201"/>
+    <display value="Roel"/>
+  </subject>
+  <created value="2013-05-14"/>
+  <author>
+    <reference value="Practitioner/example"/>
+  </author>
+</Basic>

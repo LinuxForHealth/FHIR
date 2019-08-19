@@ -1,0 +1,156 @@
+<Questionnaire xmlns="http://hl7.org/fhir">
+  <id value="K5sDBbskh0"/>
+  <meta>
+    <versionId value="BNGB5WPZ3c"/>
+    <lastUpdated value="2019-08-08T09:17:30.747-04:00"/>
+    <source value="6mQU2CUVHJ"/>
+    <profile value="8LfH1gbjgm"/>
+    <security>
+      <system value="nowgyVH8Cp"/>
+      <version value="UKiNYxnSnx"/>
+      <code value="vrpwejy1aD"/>
+      <display value="7ZlMHhOUCS"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="yhPjyck_NC"/>
+      <version value="Aeh8bA7F84"/>
+      <code value="93ohCdNaOy"/>
+      <display value="JCoBZcs7ax"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="sgKO6sB0Pk"/>
+  <language value="8Y0RrJnbpZ"/>
+  <text>
+    <status value="extensions"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="4BApbWgInW"/>
+  <identifier>
+    <use value="secondary"/>
+    <type>
+      <coding>
+        <system value="ogKxVQwsG3"/>
+        <version value="8UNlTjGWCP"/>
+        <code value="myiKSb6dZ8"/>
+        <display value="MCIC3KZcNP"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="mim_XfDjtK"/>
+    </type>
+    <system value="VfMHwZUjSp"/>
+    <value value="Kd677DqryP"/>
+    <period>
+      <start value="2019-08-08T09:17:30.747-04:00"/>
+      <end value="2019-08-08T09:17:30.747-04:00"/>
+    </period>
+  </identifier>
+  <version value="48KdljN65w"/>
+  <name value="xIN92EXtL5"/>
+  <title value="qnGmJkOgHd"/>
+  <derivedFrom value="H3wtW9qOkV"/>
+  <status value="retired"/>
+  <experimental value="true"/>
+  <subjectType value="Practitioner"/>
+  <date value="2019-08-08T09:17:30.750-04:00"/>
+  <publisher value="r9Nz2w0Ey2"/>
+  <contact>
+    <name value="JIU86xBq6T"/>
+    <telecom>
+      <system value="fax"/>
+      <value value="v6XODAqH_C"/>
+      <use value="old"/>
+      <rank value="1524428917"/>
+      <period>
+        <start value="2019-08-08T09:17:30.747-04:00"/>
+        <end value="2019-08-08T09:17:30.747-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="JIOgGkSo7B"/>
+  <useContext>
+    <code>
+      <system value="3_Hiqf0g5J"/>
+      <version value="toljfwLTve"/>
+      <code value="hj7rqfuqXW"/>
+      <display value="5DPJ1DZNR8"/>
+      <userSelected value="true"/>
+    </code>
+    <valueReference>
+      <reference value="as23ictmzf"/>
+      <type value="mtDo0wJ6JD"/>
+      <identifier>
+        <use value="official"/>
+        <type>
+          <coding>
+            <system value="kgfCuxlpLt"/>
+            <version value="4eEd2i6Cy5"/>
+            <code value="J0TAzB4taw"/>
+            <display value="kF0ItPDlrx"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="jTCLnukSxR"/>
+        </type>
+        <system value="fF36OeRBs1"/>
+        <value value="MDdXBT21qb"/>
+        <period>
+          <start value="2019-08-08T09:17:30.748-04:00"/>
+          <end value="2019-08-08T09:17:30.748-04:00"/>
+        </period>
+      </identifier>
+      <display value="lN6LafkoZw"/>
+    </valueReference>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="QPb5P_D6DW"/>
+      <version value="WOLWz8cV5L"/>
+      <code value="YVfS7Wwh7W"/>
+      <display value="HDM7q9yuZl"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="Ru29IWAAod"/>
+  </jurisdiction>
+  <purpose value="QAks8WC0kB"/>
+  <copyright value="S0el6DoS7_"/>
+  <approvalDate value="2019-08-08"/>
+  <lastReviewDate value="2019-08-08"/>
+  <effectivePeriod>
+    <start value="2019-08-08T09:17:30.749-04:00"/>
+    <end value="2019-08-08T09:17:30.749-04:00"/>
+  </effectivePeriod>
+  <code>
+    <system value="Yy0DEXjKcS"/>
+    <version value="xpGEndfEuG"/>
+    <code value="6fzT0MYkur"/>
+    <display value="nOZyBIR2TA"/>
+    <userSelected value="true"/>
+  </code>
+  <item>
+    <linkId value="xh7cXsLNCh"/>
+    <definition value="BtVelEzcfZ"/>
+    <code>
+      <system value="v4QtqJh1cZ"/>
+      <version value="4OZ_hej6AJ"/>
+      <code value="6YJiLIGtOv"/>
+      <display value="eMthEM1_ev"/>
+      <userSelected value="true"/>
+    </code>
+    <prefix value="ZIy12YF0Qf"/>
+    <text value="ZKQ16ErzmO"/>
+    <type value="question"/>
+    <enableWhen>
+      <question value="CHN36zdLMO"/>
+      <operator value="="/>
+      <answerDecimal value="296453830518"/>
+    </enableWhen>
+    <enableBehavior value="all"/>
+    <required value="true"/>
+    <repeats value="true"/>
+    <readOnly value="true"/>
+  </item>
+</Questionnaire>

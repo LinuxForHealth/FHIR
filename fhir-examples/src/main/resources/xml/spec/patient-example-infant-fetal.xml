@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><Patient xmlns="http://hl7.org/fhir">
+	<!--   example of a fetal (pre-birth) patient   -->
+	<id value="infant-fetal"/>
+	<!--   The details of the child   -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: infant-fetal</p><p><b>identifier</b>: Medical record number = MRN657865757378</p><p><b>gender</b>: male</p><h3>Contacts</h3><table><tr><td>-</td><td><b>Relationship</b></td><td><b>Name</b></td><td><b>Telecom</b></td></tr><tr><td>*</td><td>Mother <span>(Details : {SNOMED CT code '72705000' = 'Mother', given as 'Mother'}; {http://terminology.hl7.org/CodeSystem/v2-0131 code 'N' = 'Next-of-Kin; {http://terminology.hl7.org/CodeSystem/v3-RoleCode code 'MTH' = 'mother)</span></td><td>Leia Organa (MAIDEN)</td><td>ph: +31201234567(MOBILE)</td></tr></table></div></text><extension url="http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName">
+		<valueString value="Organa"/>
+	</extension>
+	<identifier>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+				<code value="MR"/>
+			</coding>
+		</type>
+		<system value="http://coruscanthealth.org/main-hospital/patient-identifier"/>
+		<value value="MRN657865757378"/>
+	</identifier>
+	<gender value="male"/>
+	<contact>
+		<!--   Contact of the patient   -->
+		<relationship>
+			<!--   Indicates that the contact is the patient's mother   -->
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="72705000"/>
+				<display value="Mother"/>
+			</coding>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v2-0131"/>
+				<code value="N"/>
+			</coding>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode"/>
+				<code value="MTH"/>
+			</coding>    
+		</relationship>
+		<name>
+			<use value="maiden"/>
+			<family value="Organa"/>
+			<given value="Leia"/>
+		</name>
+		<telecom>
+			<system value="phone"/>
+			<value value="+31201234567"/>
+			<use value="mobile"/>
+		</telecom>
+	</contact>
+</Patient>

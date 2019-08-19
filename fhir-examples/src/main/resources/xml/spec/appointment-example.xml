@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><Appointment xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">Brian MRI results discussion</div>
+	</text>
+	<status value="booked"/>
+	<serviceCategory>
+		<coding>
+			<system value="http://example.org/service-category"/>
+			<code value="gp"/>
+			<display value="General Practice"/>
+		</coding>
+	</serviceCategory>
+	<serviceType>
+		<coding>
+			<code value="52"/>
+			<display value="General Discussion"/>
+		</coding>
+	</serviceType>
+	<specialty>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="394814009"/>
+			<display value="General practice"/>
+		</coding>
+	</specialty>
+	<appointmentType>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v2-0276"/>
+			<code value="FOLLOWUP"/>
+			<display value="A follow up visit from a previous appointment"/>
+		</coding>
+	</appointmentType>
+	<reasonReference>
+		<reference value="Condition/example"/>
+		<display value="Severe burn of left ear"/>
+	</reasonReference>
+	<priority value="5"/>
+	<description value="Discussion on the results of your recent MRI"/>
+	<start value="2013-12-10T09:00:00Z"/>
+	<end value="2013-12-10T11:00:00Z"/>
+	<created value="2013-10-10"/>
+	<comment value="Further expand on the results of the MRI and determine the next actions that may be appropriate."/>
+	<basedOn>
+		<reference value="ServiceRequest/myringotomy"/>
+	</basedOn>
+	<participant>
+		<actor>
+			<reference value="Patient/example"/>
+			<display value="Peter James Chalmers"/>
+		</actor>
+		<required value="required"/>
+		<status value="accepted"/>
+	</participant>
+	<participant>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v3-ParticipationType"/>
+				<code value="ATND"/>
+			</coding>
+		</type>
+		<actor>
+			<reference value="Practitioner/example"/>
+			<display value="Dr Adam Careful"/>
+		</actor>
+		<required value="required"/>
+		<status value="accepted"/>
+	</participant>
+	<participant>
+		<actor>
+			<reference value="Location/1"/>
+			<display value="South Wing, second floor"/>
+		</actor>
+		<required value="required"/>
+		<status value="accepted"/>
+	</participant>
+</Appointment>

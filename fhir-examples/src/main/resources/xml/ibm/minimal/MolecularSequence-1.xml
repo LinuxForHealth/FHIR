@@ -1,0 +1,12 @@
+<MolecularSequence xmlns="http://hl7.org/fhir">
+  <meta>
+    <tag>
+      <code value="ibm/minimal"/>
+    </tag>
+  </meta>
+  <coordinateSystem>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </coordinateSystem>
+</MolecularSequence>

@@ -1,0 +1,20 @@
+{
+    "resourceType": "Schedule",
+    "meta": {
+        "tag": [
+            {
+                "code": "ibm/minimal"
+            }
+        ]
+    },
+    "actor": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                    "valueCode": "unknown"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="PlanDefinition-data-requirements"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Data Requirements</h2>
+      <p>OPERATION: Data Requirements</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/PlanDefinition-data-requirements</pre>
+      <div>
+        <p>The data-requirements operation aggregates and returns the parameters and data requirements for the plan definition and all its dependencies as a single module definition library</p>
+
+      </div>
+      <p>URL: [base]/PlanDefinition/[id]/$data-requirements</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>return</td>
+          <td>1..1</td>
+          <td>
+            <a href="library.html">Library</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The result of the requirements gathering is a module-definition Library that describes the aggregate parameters, data requirements, and dependencies of the plan definition</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <p>The effect of invoking this operation is to determine the aggregate set of data requirements and dependencies for the plan definition. The result is a Library resource with a type of module-definition that contains all the parameter definitions and data requirements of the plan definition and any libraries referenced by it. Implementations SHOULD aggregate data requirements intelligently (i.e. by collapsing overlapping data requirements)</p>
+
+      </div>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="2"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/PlanDefinition-data-requirements"/>
+  <version value="4.0.0"/>
+  <name value="Data Requirements"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="The data-requirements operation aggregates and returns the parameters and data requirements for the plan definition and all its dependencies as a single module definition library"/>
+  <code value="data-requirements"/>
+  <comment value="The effect of invoking this operation is to determine the aggregate set of data requirements and dependencies for the plan definition. The result is a Library resource with a type of module-definition that contains all the parameter definitions and data requirements of the plan definition and any libraries referenced by it. Implementations SHOULD aggregate data requirements intelligently (i.e. by collapsing overlapping data requirements)"/>
+  <resource value="PlanDefinition"/>
+  <system value="false"/>
+  <type value="false"/>
+  <instance value="true"/>
+  <parameter>
+    <name value="return"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The result of the requirements gathering is a module-definition Library that describes the aggregate parameters, data requirements, and dependencies of the plan definition"/>
+    <type value="Library"/>
+  </parameter>
+</OperationDefinition>

@@ -1,0 +1,22 @@
+<DeviceRequest xmlns="http://hl7.org/fhir">
+  <meta>
+    <tag>
+      <code value="ibm/minimal"/>
+    </tag>
+  </meta>
+  <intent>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </intent>
+  <codeReference>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </codeReference>
+  <subject>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </subject>
+</DeviceRequest>

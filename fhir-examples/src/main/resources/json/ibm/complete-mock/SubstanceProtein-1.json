@@ -1,0 +1,116 @@
+{
+    "resourceType": "SubstanceProtein",
+    "id": "bvlAGbbqEs",
+    "meta": {
+        "versionId": "vmBs37FltX",
+        "lastUpdated": "2019-08-03T00:12:38.490-04:00",
+        "source": "iO6CI7Or33",
+        "profile": [
+            "NknYyWvnIc"
+        ],
+        "security": [
+            {
+                "system": "auCu986Nj6",
+                "version": "Ls4oj82Se2",
+                "code": "pQOx6hhEYE",
+                "display": "cJSKJWmoLw",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "JJgfsUjbH0",
+                "version": "q9Xw49lbLR",
+                "code": "d2Rvw27IPB",
+                "display": "JOodJQEL2e",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "CoIjNxlnip",
+    "language": "6N5ggve1Z9",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "sequenceType": {
+        "coding": [
+            {
+                "system": "_z73uFXlAS",
+                "version": "cwLY5xDHDn",
+                "code": "Lc5VHLl1xt",
+                "display": "FmCaFgUiCh",
+                "userSelected": true
+            }
+        ],
+        "text": "K1aYqUw39X"
+    },
+    "numberOfSubunits": 1820688662,
+    "disulfideLinkage": [
+        "ApzUf5fy62"
+    ],
+    "subunit": [
+        {
+            "subunit": 240342466,
+            "sequence": "3aulBL8HXe",
+            "length": 1404439159,
+            "sequenceAttachment": {
+                "contentType": "PSYm3SSYbw",
+                "language": "SEyLsAJ3dd",
+                "data": "RHcRYns=",
+                "url": "wYmoQAJK22",
+                "size": 1955278613,
+                "hash": "FFABJQs=",
+                "title": "oGAvPvpwMW",
+                "creation": "2019-08-03T00:12:38.492-04:00"
+            },
+            "nTerminalModificationId": {
+                "use": "secondary",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "RzJHKzVO6_",
+                            "version": "MmAjJ28Oba",
+                            "code": "J73wMjFi4D",
+                            "display": "uc50P6kBQt",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "yUqc9Bwygk"
+                },
+                "system": "7bZjg7dusw",
+                "value": "FJxMNJCtSc",
+                "period": {
+                    "start": "2019-08-03T00:12:38.492-04:00",
+                    "end": "2019-08-03T00:12:38.492-04:00"
+                }
+            },
+            "nTerminalModification": "tQuj_kVL4t",
+            "cTerminalModificationId": {
+                "use": "official",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "p09mGAOj1a",
+                            "version": "LpPZb_07Gj",
+                            "code": "8rsp62RUqW",
+                            "display": "rHC58rSpdR",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "lKHzquFUPy"
+                },
+                "system": "e7bKNQgOmb",
+                "value": "MmYJs5aYIN",
+                "period": {
+                    "start": "2019-08-03T00:12:38.493-04:00",
+                    "end": "2019-08-03T00:12:38.493-04:00"
+                }
+            },
+            "cTerminalModification": "YKVI9wqmaK"
+        }
+    ]
+}

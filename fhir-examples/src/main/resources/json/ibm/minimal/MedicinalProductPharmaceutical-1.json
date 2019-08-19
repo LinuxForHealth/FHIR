@@ -1,0 +1,30 @@
+{
+    "resourceType": "MedicinalProductPharmaceutical",
+    "meta": {
+        "tag": [
+            {
+                "code": "ibm/minimal"
+            }
+        ]
+    },
+    "administrableDoseForm": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+            }
+        ]
+    },
+    "routeOfAdministration": [
+        {
+            "code": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
+            }
+        }
+    ]
+}

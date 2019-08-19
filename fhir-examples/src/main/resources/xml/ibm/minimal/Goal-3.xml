@@ -1,0 +1,22 @@
+<Goal xmlns="http://hl7.org/fhir">
+  <meta>
+    <tag>
+      <code value="ibm/minimal"/>
+    </tag>
+  </meta>
+  <lifecycleStatus>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </lifecycleStatus>
+  <description>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </description>
+  <subject>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </subject>
+</Goal>

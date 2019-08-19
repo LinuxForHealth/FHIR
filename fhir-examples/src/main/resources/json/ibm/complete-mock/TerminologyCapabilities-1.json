@@ -1,0 +1,163 @@
+{
+    "resourceType": "TerminologyCapabilities",
+    "id": "AIGqfQL52p",
+    "meta": {
+        "versionId": "y7A7jrTxGq",
+        "lastUpdated": "2019-08-03T00:12:39.439-04:00",
+        "source": "zeflxYJSF9",
+        "profile": [
+            "qg6MY4fEDJ"
+        ],
+        "security": [
+            {
+                "system": "vgqjQRwSWl",
+                "version": "BblLAlCA05",
+                "code": "SKyvZ_3A2I",
+                "display": "lbnaFWvZcr",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "NVxMXaxZaz",
+                "version": "gaAk6EuBT4",
+                "code": "KpxShYEpfO",
+                "display": "EUYs0oNqyE",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "THUIQKRL0T",
+    "language": "AikA25ExXm",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "DcSfVnhSOv",
+    "version": "c2kIL91V9c",
+    "name": "BfTgJqGbqd",
+    "title": "v9LPCWDU_4",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-08-03T00:12:39.420-04:00",
+    "publisher": "C7k8vjNbpl",
+    "contact": [
+        {
+            "name": "tbSbW1FgoC",
+            "telecom": [
+                {
+                    "system": "sms",
+                    "value": "UgmiA0dApD",
+                    "use": "old",
+                    "rank": 252065686,
+                    "period": {
+                        "start": "2019-08-03T00:12:39.439-04:00",
+                        "end": "2019-08-03T00:12:39.439-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "E7_hLxZwu8",
+    "useContext": [
+        {
+            "code": {
+                "system": "qqeTiD1gqv",
+                "version": "SD8139jMOs",
+                "code": "DjeP7x_FXW",
+                "display": "unJtshEbs_",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "5Yc0nSLvGM",
+                        "version": "KQjYIxL2Rp",
+                        "code": "mS5MOxOWuM",
+                        "display": "sXeUSJKVhR",
+                        "userSelected": true
+                    }
+                ],
+                "text": "hr8oVhXh37"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "GtPsRlOzH4",
+                    "version": "ReXDnwEWqR",
+                    "code": "GqrcMSJK0K",
+                    "display": "hTq4pSn4CL",
+                    "userSelected": true
+                }
+            ],
+            "text": "rNPfVHAVoY"
+        }
+    ],
+    "purpose": "hse7ZkCl7a",
+    "copyright": "qKAui1rmxr",
+    "kind": "requirements",
+    "software": {
+        "name": "_s1UMfYOHV",
+        "version": "pWkZXyRqm7"
+    },
+    "implementation": {
+        "description": "DvrCv8zKUQ",
+        "url": "8uNw50vUoS"
+    },
+    "lockedDate": true,
+    "codeSystem": [
+        {
+            "uri": "wBFP9fRpbv",
+            "version": [
+                {
+                    "code": "bqDu5dACwc",
+                    "isDefault": true,
+                    "compositional": true,
+                    "language": [
+                        "YbKZwKPeiy"
+                    ],
+                    "filter": [
+                        {
+                            "code": "skISKJyxc5",
+                            "op": [
+                                "d2fET8HXm_"
+                            ]
+                        }
+                    ],
+                    "property": [
+                        "EqyoyNaspw"
+                    ]
+                }
+            ],
+            "subsumption": true
+        }
+    ],
+    "expansion": {
+        "hierarchical": true,
+        "paging": true,
+        "incomplete": true,
+        "parameter": [
+            {
+                "name": "GdlaukgmgB",
+                "documentation": "Ht2zpRoxBG"
+            }
+        ],
+        "textFilter": "vxr9Jr9P7Z"
+    },
+    "codeSearch": "explicit",
+    "validateCode": {
+        "translations": true
+    },
+    "translation": {
+        "needsMap": true
+    },
+    "closure": {
+        "translation": true
+    }
+}

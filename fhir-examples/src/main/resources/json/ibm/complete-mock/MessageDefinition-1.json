@@ -1,0 +1,160 @@
+{
+    "resourceType": "MessageDefinition",
+    "id": "ca55GasERs",
+    "meta": {
+        "versionId": "DDCVp2GTiy",
+        "lastUpdated": "2019-08-03T00:12:36.132-04:00",
+        "source": "ey0U5_7Rs5",
+        "profile": [
+            "nh49pZTyUP"
+        ],
+        "security": [
+            {
+                "system": "87n4ltRhhz",
+                "version": "16MO0qXHEg",
+                "code": "sNvp0Xa9hH",
+                "display": "kJDk4oOFen",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "BmiUOF6Ar8",
+                "version": "RqXw7GUeD0",
+                "code": "iPeWOrjhoH",
+                "display": "7SPcidt0F6",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "RGujgx0HNQ",
+    "language": "gG0puqbKxa",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "pBwARtyhSS",
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "bN2i6DjPyu",
+                        "version": "8OI1ukI3p9",
+                        "code": "UOULHahRBd",
+                        "display": "SC9xfOlmRQ",
+                        "userSelected": true
+                    }
+                ],
+                "text": "gtjFdapvz3"
+            },
+            "system": "Z0QZnD8Ytl",
+            "value": "GMiS3IGJiN",
+            "period": {
+                "start": "2019-08-03T00:12:36.135-04:00",
+                "end": "2019-08-03T00:12:36.135-04:00"
+            }
+        }
+    ],
+    "version": "3mvmh7FiAZ",
+    "name": "zUnB9IATXR",
+    "title": "biG7TwRS7U",
+    "replaces": [
+        "GuaOOeXhiw"
+    ],
+    "status": "unknown",
+    "experimental": true,
+    "date": "2019-08-03T00:12:36.132-04:00",
+    "publisher": "dsLMGIn23a",
+    "contact": [
+        {
+            "name": "TygXxjr76w",
+            "telecom": [
+                {
+                    "system": "fax",
+                    "value": "hRQCINeDKl",
+                    "use": "mobile",
+                    "rank": 1871378800,
+                    "period": {
+                        "start": "2019-08-03T00:12:36.136-04:00",
+                        "end": "2019-08-03T00:12:36.136-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "QbOd7Qh3JB",
+    "useContext": [
+        {
+            "code": {
+                "system": "FRIUJQkWSc",
+                "version": "l6Nqbr60qN",
+                "code": "XTOwtjgSCA",
+                "display": "nhGuP0KcXm",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "WCq3nEFUYH",
+                        "version": "g12ljwMdA6",
+                        "code": "KIpTH9OhhP",
+                        "display": "ZmnXpviEXj",
+                        "userSelected": true
+                    }
+                ],
+                "text": "kG0_3p0gu6"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "Po3IaIfq_X",
+                    "version": "ZGm1662Vzn",
+                    "code": "xJB6PuwGNQ",
+                    "display": "3TqYF3McHq",
+                    "userSelected": true
+                }
+            ],
+            "text": "5EyCG7tC3p"
+        }
+    ],
+    "purpose": "u9XeeELlqd",
+    "copyright": "Rz0_UAQbMO",
+    "base": "V7HcmmIEnx",
+    "parent": [
+        "Kh8kGvIub5"
+    ],
+    "eventCoding": {
+        "system": "N1XuhgnQ_m",
+        "version": "PPCm6ctMwM",
+        "code": "COcT2DJjpo",
+        "display": "1RLMeQhuXz",
+        "userSelected": true
+    },
+    "category": "currency",
+    "focus": [
+        {
+            "code": "RequestGroup",
+            "profile": "SBqwAe0tos",
+            "min": 17753718,
+            "max": "*"
+        }
+    ],
+    "responseRequired": "always",
+    "allowedResponse": [
+        {
+            "message": "Fi7u7MQJti",
+            "situation": "IVnVii2ITB"
+        }
+    ],
+    "graph": [
+        "gMpOMZiH_J"
+    ]
+}

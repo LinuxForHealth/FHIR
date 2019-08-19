@@ -1,0 +1,147 @@
+{
+    "resourceType": "Slot",
+    "id": "Fy7I8JUq4x",
+    "meta": {
+        "versionId": "zsBeFSIAGy",
+        "lastUpdated": "2019-08-03T00:12:37.650-04:00",
+        "source": "eFmSWNjW9O",
+        "profile": [
+            "uu5iE8jsi7"
+        ],
+        "security": [
+            {
+                "system": "uc1jm4XtCT",
+                "version": "dgeloXg9X0",
+                "code": "nWn7lrST7g",
+                "display": "lxt8YWZ6iT",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "wxBvxe9JwB",
+                "version": "XteTCDLIrd",
+                "code": "5hg23O5Vfx",
+                "display": "8bLCoexzuY",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "3PN4nd_SoB",
+    "language": "ucakAT6HMd",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "jURSNYJxla",
+                        "version": "Xxuz6d_gPM",
+                        "code": "SVzgoB2qb3",
+                        "display": "6_FnZoRF3h",
+                        "userSelected": true
+                    }
+                ],
+                "text": "ldDJeNLAKE"
+            },
+            "system": "pJvq3IBC5H",
+            "value": "FCACtN5JjQ",
+            "period": {
+                "start": "2019-08-03T00:12:37.650-04:00",
+                "end": "2019-08-03T00:12:37.650-04:00"
+            }
+        }
+    ],
+    "serviceCategory": [
+        {
+            "coding": [
+                {
+                    "system": "lFqTGUJN7q",
+                    "version": "ZHXIpuThkg",
+                    "code": "hjQ2TTlg2X",
+                    "display": "BpFU_Yqv_Z",
+                    "userSelected": true
+                }
+            ],
+            "text": "J7ByhRVwj4"
+        }
+    ],
+    "serviceType": [
+        {
+            "coding": [
+                {
+                    "system": "Sw3HXIeXOm",
+                    "version": "2SOYJfU5Ui",
+                    "code": "yEvccYCzy1",
+                    "display": "I6mmOvwRcJ",
+                    "userSelected": true
+                }
+            ],
+            "text": "VVxYUluUug"
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "iskCgzuYSX",
+                    "version": "TTe9v9pYX2",
+                    "code": "t54K4T5m28",
+                    "display": "YyIEA9vX9U",
+                    "userSelected": true
+                }
+            ],
+            "text": "dg9D561BpP"
+        }
+    ],
+    "appointmentType": {
+        "coding": [
+            {
+                "system": "fYebA9V843",
+                "version": "OfubDZr9ig",
+                "code": "BFkWmPqudV",
+                "display": "qYolCeFQBa",
+                "userSelected": true
+            }
+        ],
+        "text": "rY_Tqq6u3G"
+    },
+    "schedule": {
+        "reference": "QUFysiMsOc",
+        "type": "v8pqctskX8",
+        "identifier": {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "vHz0q1Pd5C",
+                        "version": "9tm5qOoyUx",
+                        "code": "HEvPRMaFHl",
+                        "display": "kU6m616JKW",
+                        "userSelected": true
+                    }
+                ],
+                "text": "aGDBZlZ2Tb"
+            },
+            "system": "sxnYAiX8Rm",
+            "value": "E_S8NtSMIn",
+            "period": {
+                "start": "2019-08-03T00:12:37.649-04:00",
+                "end": "2019-08-03T00:12:37.649-04:00"
+            }
+        },
+        "display": "Dk99nh2ad5"
+    },
+    "status": "busy",
+    "start": "2019-08-03T00:12:37.648-04:00",
+    "end": "2019-08-03T00:12:37.649-04:00",
+    "overbooked": true,
+    "comment": "oaJxJCKvi2"
+}

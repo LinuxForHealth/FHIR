@@ -1,0 +1,212 @@
+<PaymentNotice xmlns="http://hl7.org/fhir">
+  <id value="133YCBSXzb"/>
+  <meta>
+    <versionId value="qYo9AyhwMI"/>
+    <lastUpdated value="2019-08-08T09:17:30.390-04:00"/>
+    <source value="qqNLC6ThQD"/>
+    <profile value="u5Qirueg6H"/>
+    <security>
+      <system value="ZhPw_c2j_s"/>
+      <version value="LWSb8uI0Lp"/>
+      <code value="DEr8dS_KI1"/>
+      <display value="8AQoeNFQdr"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="BwuFhUnn6Y"/>
+      <version value="QmV4oKPOoj"/>
+      <code value="rBjj1Npey2"/>
+      <display value="M1YcnHl7na"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="VnEw685Uye"/>
+  <language value="C0imhmlL84"/>
+  <text>
+    <status value="extensions"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="secondary"/>
+    <type>
+      <coding>
+        <system value="lKIPavxe9c"/>
+        <version value="4P6PZKXy7C"/>
+        <code value="hWSGATUXqN"/>
+        <display value="zQ_l901y7O"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="Q2v8WxCpo5"/>
+    </type>
+    <system value="jRzJDJGHJ3"/>
+    <value value="iWOzF3iDYK"/>
+    <period>
+      <start value="2019-08-08T09:17:30.390-04:00"/>
+      <end value="2019-08-08T09:17:30.390-04:00"/>
+    </period>
+  </identifier>
+  <status value="active"/>
+  <request>
+    <reference value="smvbISyTNc"/>
+    <type value="ALyqpwjNM0"/>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="97GnJox7VJ"/>
+          <version value="kRRMLkQDSw"/>
+          <code value="9TJBXwWT_I"/>
+          <display value="zT39cum803"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="1syd5bLIYY"/>
+      </type>
+      <system value="Iv8JTz7Vcv"/>
+      <value value="YWLVqbcXZw"/>
+      <period>
+        <start value="2019-08-08T09:17:30.391-04:00"/>
+        <end value="2019-08-08T09:17:30.391-04:00"/>
+      </period>
+    </identifier>
+    <display value="WF1XpEw1um"/>
+  </request>
+  <response>
+    <reference value="QNiCqiFVKT"/>
+    <type value="UiX58OJR7w"/>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="8n5yS2g2oH"/>
+          <version value="fsA9DIJSUr"/>
+          <code value="X5Appp0xwU"/>
+          <display value="SuUeOAEF6t"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="iHtfK50buz"/>
+      </type>
+      <system value="mTHMDkXBxg"/>
+      <value value="64DRWx7lQC"/>
+      <period>
+        <start value="2019-08-08T09:17:30.393-04:00"/>
+        <end value="2019-08-08T09:17:30.393-04:00"/>
+      </period>
+    </identifier>
+    <display value="KspA7aBEFs"/>
+  </response>
+  <created value="2019-08-08T09:17:30.391-04:00"/>
+  <provider>
+    <reference value="pLFZI8j58z"/>
+    <type value="VNEFMQBEZg"/>
+    <identifier>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="vtIieZT7Pj"/>
+          <version value="QZH6aVtwSN"/>
+          <code value="C0bk6Y8BM4"/>
+          <display value="JdgcwLWeKd"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="C8KryhiZqC"/>
+      </type>
+      <system value="8roIGTMlAJ"/>
+      <value value="60_ImTK4mZ"/>
+      <period>
+        <start value="2019-08-08T09:17:30.389-04:00"/>
+        <end value="2019-08-08T09:17:30.389-04:00"/>
+      </period>
+    </identifier>
+    <display value="Yp3VXWaVn9"/>
+  </provider>
+  <payment>
+    <reference value="Z8iuujIyMz"/>
+    <type value="YPMRO7Jb_O"/>
+    <identifier>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="ms_wezqs3n"/>
+          <version value="xY1wo8eFeG"/>
+          <code value="_WQUTTkWjA"/>
+          <display value="HkwyfHjdFm"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="hKtel7f0Io"/>
+      </type>
+      <system value="cZdj0xhyYw"/>
+      <value value="bR7aS_5Oqg"/>
+      <period>
+        <start value="2019-08-08T09:17:30.392-04:00"/>
+        <end value="2019-08-08T09:17:30.392-04:00"/>
+      </period>
+    </identifier>
+    <display value="OePzvc1bkg"/>
+  </payment>
+  <paymentDate value="2019-08-08"/>
+  <payee>
+    <reference value="ANDG5tKzYC"/>
+    <type value="BKkUS8GgzO"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="50j7gyeyK2"/>
+          <version value="BKOFBo31p3"/>
+          <code value="EBvtmwyapB"/>
+          <display value="mzf8rLK889"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="OeQlQoHZpT"/>
+      </type>
+      <system value="yhGyke5Cf1"/>
+      <value value="3nhYahUYB8"/>
+      <period>
+        <start value="2019-08-08T09:17:30.392-04:00"/>
+        <end value="2019-08-08T09:17:30.392-04:00"/>
+      </period>
+    </identifier>
+    <display value="YydNVYfdUm"/>
+  </payee>
+  <recipient>
+    <reference value="EpbuFT6nUI"/>
+    <type value="BUwUWHDM3P"/>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="g79A7_WMzi"/>
+          <version value="Yq7qOHF8jw"/>
+          <code value="EoCzTGV_vM"/>
+          <display value="SFZgF7Wz7r"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="e4UoT7fQp2"/>
+      </type>
+      <system value="9jyiY4dORi"/>
+      <value value="cW0L9OzQ2e"/>
+      <period>
+        <start value="2019-08-08T09:17:30.391-04:00"/>
+        <end value="2019-08-08T09:17:30.391-04:00"/>
+      </period>
+    </identifier>
+    <display value="JfSMk053Nh"/>
+  </recipient>
+  <amount>
+    <value value="392587916904"/>
+    <currency value="FVCAZrYWwW"/>
+  </amount>
+  <paymentStatus>
+    <coding>
+      <system value="k7AiO3HOXI"/>
+      <version value="XqhkHSTgN2"/>
+      <code value="LzYyDUQQqL"/>
+      <display value="S3ZCD6vIhw"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="H2TM09K2UT"/>
+  </paymentStatus>
+</PaymentNotice>

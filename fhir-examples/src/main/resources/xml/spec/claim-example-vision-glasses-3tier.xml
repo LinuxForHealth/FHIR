@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?><Claim xmlns="http://hl7.org/fhir">
+	<id value="660152"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the Vision Claim for Glasses</div>
+	</text>
+
+	<contained>
+		<Device>
+			<id value="device-frame"/>
+			<!--  rest of the resource omitted for brevity  -->
+		</Device>
+	</contained>
+
+	<contained>
+		<Device>
+			<id value="device-lens"/>
+			<!--  rest of the resource omitted for brevity  -->
+		</Device>
+	</contained>
+
+
+	<identifier>
+		<system value="http://happysight.com/claim"/>
+		<value value="6612347"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/claim-type"/>
+			<code value="vision"/>
+		</coding>
+	</type>
+
+	<use value="claim"/>
+
+	<patient>
+		<reference value="Patient/1"/>
+	</patient>
+
+	<created value="2014-08-16"/>
+
+	<insurer>
+		<reference value="Organization/2"/>
+	</insurer>
+
+	<provider>
+		<reference value="Organization/1"/>
+	</provider>
+
+	<priority>
+		<coding>
+			<code value="normal"/>
+		</coding>
+	</priority>
+
+	<prescription>
+		<reference value="http://www.optdocs.com/prescription/12345"/>
+	</prescription>   
+
+	<payee>
+		<type>
+			<coding>
+				<code value="provider"/>
+			</coding>
+		</type>
+	</payee>
+
+	<careTeam>
+		<sequence value="1"/>
+		<provider>
+			<reference value="Practitioner/example"/>
+		</provider>
+	</careTeam>
+
+	<diagnosis>
+		<sequence value="1"/>
+		<diagnosisCodeableConcept>
+			<coding>
+				<code value="654321"/>
+			</coding>
+		</diagnosisCodeableConcept>
+	</diagnosis>
+
+	<insurance> <!--  Patient's own coverage - primary  -->
+		<sequence value="1"/>
+		<focal value="false"/>
+		<coverage>
+			<reference value="Coverage/9876B1"/>
+		</coverage>
+		<preAuthRef value="PR7652387237"/>
+		<claimResponse>
+			<reference value="ClaimResponse/R3500"/>
+		</claimResponse>
+	</insurance>
+
+	<insurance> <!--  Spouses's own coverage - secondary  -->
+		<sequence value="2"/>
+		<focal value="true"/>
+		<coverage>
+			<reference value="Coverage/9876B1"/>
+		</coverage>
+		<preAuthRef value="AB543GTD7567"/>
+	</insurance>
+
+	<item>
+		<sequence value="1"/>
+		<careTeamSequence value="1"/>
+		<revenue>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/ex-revenue-center"/>
+				<code value="0010"/>
+				<display value="Vision Clinic"/>
+			</coding>
+		</revenue>
+		<category>
+			<coding>
+				<system value="http://example.org/fhir/CodeSystem/benefit-subcategory"/>
+				<code value="F6"/>
+				<display value="Vision Coverage"/>
+			</coding>
+		</category>
+		<productOrService>
+			<coding>
+				<system value="http://example.org/fhir/CodeSystem/ex-visionservice"/>
+				<code value="glasses"/>
+			</coding>
+		</productOrService>
+		<modifier>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/modifiers"/>
+				<code value="rooh"/>
+			</coding>
+		</modifier>
+		<programCode>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/ex-programcode"/>
+				<code value="none"/>
+			</coding>
+		</programCode>	
+		<servicedDate value="2014-08-16"/>
+		<unitPrice>
+			<value value="235.40"/>
+			<currency value="USD"/> 
+		</unitPrice> 
+		<net>
+			<value value="235.40"/>
+			<currency value="USD"/> 
+		</net> 
+
+		<detail>
+			<sequence value="1"/>
+			<revenue>
+				<coding>
+					<system value="http://terminology.hl7.org/CodeSystem/ex-revenue-center"/>
+					<code value="0010"/>
+					<display value="Vision Clinic"/>
+				</coding>
+			</revenue>
+			<category>
+				<coding>
+					<system value="http://example.org/fhir/CodeSystem/benefit-subcategory"/>
+					<code value="F6"/>
+					<display value="Vision Coverage"/>
+				</coding>
+			</category>
+			<productOrService>
+				<coding>
+					<system value="http://example.org/fhir/CodeSystem/ex-visionservice"/>
+					<code value="frame"/>
+				</coding>
+			</productOrService>
+			<modifier>
+				<coding>
+					<system value="http://terminology.hl7.org/CodeSystem/modifiers"/>
+					<code value="rooh"/>
+				</coding>
+			</modifier>
+			<unitPrice>
+				<value value="100.00"/>
+				<currency value="USD"/> 
+			</unitPrice> 
+			<factor value="1.1"/> <!--  10% surcharge for out of hours work  -->
+			<net>
+				<value value="110.00"/>
+				<currency value="USD"/> 
+			</net> 
+			<udi>
+				<reference value="#device-frame"/>
+			</udi>
+		</detail>
+
+		<detail>
+			<sequence value="2"/>
+			<revenue>
+				<coding>
+					<system value="http://terminology.hl7.org/CodeSystem/ex-revenue-center"/>
+					<code value="0010"/>
+					<display value="Vision Clinic"/>
+				</coding>
+			</revenue>
+			<category>
+				<coding>
+					<system value="http://example.org/fhir/CodeSystem/benefit-subcategory"/>
+					<code value="F6"/>
+					<display value="Vision Coverage"/>
+				</coding>
+			</category>
+			<productOrService>
+				<coding>
+					<system value="http://example.org/fhir/CodeSystem/ex-visionservice"/>
+					<code value="lens"/>
+				</coding>
+			</productOrService>
+			<programCode>
+				<coding>
+					<system value="http://terminology.hl7.org/CodeSystem/ex-programcode"/>
+					<code value="none"/>
+				</coding>
+			</programCode>	
+			<quantity>
+				<value value="2"/>
+			</quantity>
+			<unitPrice>
+				<value value="55.00"/>
+				<currency value="USD"/> 
+			</unitPrice> 
+			<net>
+				<value value="110.00"/>
+				<currency value="USD"/> 
+			</net> 
+
+			<subDetail>
+				<sequence value="1"/>
+				<revenue>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/ex-revenue-center"/>
+						<code value="0010"/>
+						<display value="Vision Clinic"/>
+					</coding>
+				</revenue>
+				<category>
+					<coding>
+						<system value="http://example.org/fhir/CodeSystem/benefit-subcategory"/>
+						<code value="F6"/>
+						<display value="Vision Coverage"/>
+					</coding>
+				</category>
+				<productOrService>
+					<coding>
+						<system value="http://example.org/fhir/CodeSystem/ex-visionservice"/>
+						<code value="lens"/>
+					</coding>
+				</productOrService>
+				<modifier>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/modifiers"/>
+						<code value="rooh"/>
+					</coding>
+				</modifier>
+				<programCode>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/ex-programcode"/>
+						<code value="none"/>
+					</coding>
+				</programCode>	
+				<quantity>
+					<value value="2"/>
+				</quantity>
+				<unitPrice>
+					<value value="30.00"/>
+					<currency value="USD"/> 
+				</unitPrice> 
+				<factor value="1.1"/> <!--  10% surchage for out of hours work  -->
+				<net>
+					<value value="66.00"/>
+					<currency value="USD"/> 
+				</net> 
+				<udi>
+					<reference value="#device-lens"/>
+				</udi>
+			</subDetail>
+
+			<subDetail>
+				<sequence value="2"/>
+				<revenue>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/ex-revenue-center"/>
+						<code value="0010"/>
+						<display value="Vision Clinic"/>
+					</coding>
+				</revenue>
+				<category>
+					<coding>
+						<system value="http://example.org/fhir/CodeSystem/benefit-subcategory"/>
+						<code value="F6"/>
+						<display value="Vision Coverage"/>
+					</coding>
+				</category>
+				<productOrService>
+					<coding>
+						<system value="http://example.org/fhir/CodeSystem/ex-visionservice"/>
+						<code value="hardening"/>
+					</coding>
+				</productOrService>
+				<modifier>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/modifiers"/>
+						<code value="rooh"/>
+					</coding>
+				</modifier>
+				<quantity>
+					<value value="2"/>
+				</quantity>
+				<unitPrice>
+					<value value="15.00"/>
+					<currency value="USD"/> 
+				</unitPrice> 
+				<factor value="1.1"/> <!--  10% surchage for out of hours work  -->
+				<net>
+					<value value="33.00"/>
+					<currency value="USD"/> 
+				</net> 
+			</subDetail>
+
+			<subDetail>
+				<sequence value="3"/>
+				<revenue>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/ex-revenue-center"/>
+						<code value="0010"/>
+						<display value="Vision Clinic"/>
+					</coding>
+				</revenue>
+				<category>
+					<coding>
+						<system value="http://example.org/fhir/CodeSystem/benefit-subcategory"/>
+						<code value="F6"/>
+						<display value="Vision Coverage"/>
+					</coding>
+				</category>
+				<productOrService>
+					<coding>
+						<system value="http://example.org/fhir/CodeSystem/ex-visionservice"/>
+						<code value="UV coating"/>
+					</coding>
+				</productOrService>
+				<modifier>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/modifiers"/>
+						<code value="rooh"/>
+					</coding>
+				</modifier>
+				<quantity>
+					<value value="2"/>
+				</quantity>
+				<unitPrice>
+					<value value="5.00"/>
+					<currency value="USD"/> 
+				</unitPrice> 
+				<factor value="1.1"/> <!--  10% surchage for out of hours work  -->
+				<net>
+					<value value="11.00"/>
+					<currency value="USD"/> 
+				</net> 
+			</subDetail>
+		</detail>
+
+		<detail>
+			<sequence value="3"/>
+			<revenue>
+				<coding>
+					<system value="http://terminology.hl7.org/CodeSystem/ex-revenue-center"/>
+					<code value="0010"/>
+					<display value="Vision Clinic"/>
+				</coding>
+			</revenue>
+			<category>
+				<coding>
+					<system value="http://example.org/fhir/CodeSystem/benefit-subcategory"/>
+					<code value="F6"/>
+					<display value="Vision Coverage"/>
+				</coding>
+			</category>
+			<productOrService>
+				<coding>
+					<system value="http://example.org/fhir/CodeSystem/ex-visionservice"/>
+					<code value="fst"/>
+				</coding>
+			</productOrService>
+			<unitPrice>
+				<value value="220.00"/>
+				<currency value="USD"/> 
+			</unitPrice> 
+			<factor value="0.07"/>
+			<net>
+				<value value="15.40"/>
+				<currency value="USD"/> 
+			</net> 
+		</detail>
+	</item>
+
+</Claim>

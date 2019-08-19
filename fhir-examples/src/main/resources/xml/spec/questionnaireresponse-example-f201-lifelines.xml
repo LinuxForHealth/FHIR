@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><QuestionnaireResponse xmlns="http://hl7.org/fhir">
+ <id value="f201"/>
+   <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f201</p><p><b>status</b>: completed</p><p><b>subject</b>: <a>Roel</a></p><p><b>authored</b>: 18/06/2013 12:00:00 AM</p><p><b>author</b>: <a>Practitioner/f201</a></p><p><b>source</b>: <a>Practitioner/f201</a></p><blockquote><p><b>item</b></p><p><b>linkId</b>: 1</p><h3>Items</h3><table><tr><td>-</td></tr><tr><td>*</td></tr></table></blockquote><blockquote><p><b>item</b></p><p><b>linkId</b>: 2</p><p><b>text</b>: General questions</p><h3>Items</h3><table><tr><td>-</td></tr><tr><td>*</td></tr><tr><td>*</td></tr><tr><td>*</td></tr><tr><td>*</td></tr></table></blockquote><blockquote><p><b>item</b></p><p><b>linkId</b>: 3</p><p><b>text</b>: Intoxications</p><h3>Items</h3><table><tr><td>-</td></tr><tr><td>*</td></tr><tr><td>*</td></tr></table></blockquote></div></text><status value="completed"/>
+  <!--  Fictive, only the below answers are non-fictive  -->
+  <subject>
+    <reference value="Patient/f201"/>
+    <display value="Roel"/>
+  </subject>
+  <authored value="2013-06-18T00:00:00+01:00"/>
+  <author>
+    <reference value="Practitioner/f201"/>
+  </author>
+  <source>
+    <reference value="Practitioner/f201"/>
+  </source>
+  <item>
+    <linkId value="1"/>
+    <item>
+      <!--  Seperate answer  -->
+<linkId value="1.1"/>
+      <text value="Do you have allergies?"/>
+      <answer>
+        <valueString value="I am allergic to house dust"/>
+      </answer>
+    </item>
+  </item>
+  <item>
+    <!--  Answers to general questions  -->
+    <linkId value="2"/>
+    <text value="General questions"/>
+    <item>
+      <linkId value="2.1"/>
+      <text value="What is your gender?"/>
+      <answer>
+        <valueString value="Male"/>
+      </answer>
+    </item>
+    <item>
+      <linkId value="2.2"/>
+      <text value="What is your date of birth?"/>
+      <answer>
+        <valueDate value="1960-03-13"/>
+      </answer>
+    </item>
+    <item>
+      <linkId value="2.3"/>
+      <text value="What is your country of birth?"/>
+      <answer>
+        <valueString value="The Netherlands"/>
+      </answer>
+    </item>
+    <item>
+      <linkId value="2.4"/>
+      <text value="What is your marital status?"/>
+      <answer>
+        <valueString value="married"/>
+      </answer>
+    </item>
+  </item>
+  <item>
+    <!--  Answers to intoxications  -->
+    <linkId value="3"/>
+    <text value="Intoxications"/>
+    <item>
+      <linkId value="3.1"/>
+      <text value="Do you smoke?"/>
+      <answer>
+        <valueString value="No"/>
+      </answer>
+    </item>
+    <item>
+      <linkId value="3.2"/>
+      <text value="Do you drink alchohol?"/>
+      <answer>
+        <valueString value="No, but I used to drink"/>
+      </answer>
+    </item>
+  </item>
+</QuestionnaireResponse>

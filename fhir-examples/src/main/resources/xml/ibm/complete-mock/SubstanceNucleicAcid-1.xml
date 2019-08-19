@@ -1,0 +1,136 @@
+<SubstanceNucleicAcid xmlns="http://hl7.org/fhir">
+  <id value="RlZcX63kTP"/>
+  <meta>
+    <versionId value="-QRoGI-zYh"/>
+    <lastUpdated value="2019-08-08T09:17:32.261-04:00"/>
+    <source value="hCj1A7f2MK"/>
+    <profile value="q3COUD6z1c"/>
+    <security>
+      <system value="gyipOYR5nh"/>
+      <version value="0CVXInXNLF"/>
+      <code value="_a_oxtPKt6"/>
+      <display value="JPzA6rC1Yy"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="imbzgfMwwK"/>
+      <version value="eoKalOcw9q"/>
+      <code value="cmUUknpncw"/>
+      <display value="3SVMXZrRWU"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="tTgHa9nv3h"/>
+  <language value="NLGku6oLI3"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <sequenceType>
+    <coding>
+      <system value="3Ap7gswd9t"/>
+      <version value="xnvKx22UhP"/>
+      <code value="1lw3joaFJg"/>
+      <display value="qT2UnmRyQl"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="esMmlJSHKR"/>
+  </sequenceType>
+  <numberOfSubunits value="1180620074"/>
+  <areaOfHybridisation value="y2Vr_Baukx"/>
+  <oligoNucleotideType>
+    <coding>
+      <system value="VquElzSfYu"/>
+      <version value="0KMzZ3CRD7"/>
+      <code value="sDX3Q9UCH0"/>
+      <display value="W5xQVHrHkd"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="s_SeAxOoVw"/>
+  </oligoNucleotideType>
+  <subunit>
+    <subunit value="1035744889"/>
+    <sequence value="Q3U_twGQb0"/>
+    <length value="1505043633"/>
+    <sequenceAttachment>
+      <contentType value="aKe_T7l8Uc"/>
+      <language value="DwIj3uGpyz"/>
+      <data value="JR0sOlE="/>
+      <url value="HLHQMvuWAM"/>
+      <size value="436289172"/>
+      <hash value="dzdkeT0="/>
+      <title value="ttXhe55HPr"/>
+      <creation value="2019-08-08T09:17:32.269-04:00"/>
+    </sequenceAttachment>
+    <fivePrime>
+      <coding>
+        <system value="ZpAP1e3Z4Q"/>
+        <version value="3QxjnGKa2G"/>
+        <code value="ZXZzoqSWc1"/>
+        <display value="cfGmLCO8mQ"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="h2aI_W7VDa"/>
+    </fivePrime>
+    <threePrime>
+      <coding>
+        <system value="QVCrpOhoMB"/>
+        <version value="HSNDkoYbtP"/>
+        <code value="bMtZPeFVfM"/>
+        <display value="ero9tQzDZT"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="9LXgh2YMI_"/>
+    </threePrime>
+    <linkage>
+      <connectivity value="4ttOd0Qe6N"/>
+      <identifier>
+        <use value="secondary"/>
+        <type>
+          <coding>
+            <system value="1_y8t2UnjU"/>
+            <version value="lHO0jw5skZ"/>
+            <code value="ljkiEciLaL"/>
+            <display value="Vsur2biXhe"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="f93G_ZzzK4"/>
+        </type>
+        <system value="RwZTCiEbs2"/>
+        <value value="7_GB8yGEzo"/>
+        <period>
+          <start value="2019-08-08T09:17:32.266-04:00"/>
+          <end value="2019-08-08T09:17:32.266-04:00"/>
+        </period>
+      </identifier>
+      <name value="9jra_XF3vO"/>
+      <residueSite value="pmxoHrbKGJ"/>
+    </linkage>
+    <sugar>
+      <identifier>
+        <use value="old"/>
+        <type>
+          <coding>
+            <system value="gO5soWGl8Q"/>
+            <version value="e5Zrzl50QZ"/>
+            <code value="jrEZ1Fmt7j"/>
+            <display value="5dsGPuYVmM"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="EOnhCyGAAm"/>
+        </type>
+        <system value="y7bnJkiD0O"/>
+        <value value="LXxJJLSQU9"/>
+        <period>
+          <start value="2019-08-08T09:17:32.268-04:00"/>
+          <end value="2019-08-08T09:17:32.268-04:00"/>
+        </period>
+      </identifier>
+      <name value="Z7ZBmthDc4"/>
+      <residueSite value="fZG1g68bl4"/>
+    </sugar>
+  </subunit>
+</SubstanceNucleicAcid>

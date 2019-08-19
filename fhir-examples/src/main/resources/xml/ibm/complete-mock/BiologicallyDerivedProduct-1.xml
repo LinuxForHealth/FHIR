@@ -1,0 +1,214 @@
+<BiologicallyDerivedProduct xmlns="http://hl7.org/fhir">
+  <id value="eLRgdHrai7"/>
+  <meta>
+    <versionId value="Y7qw3ziKKe"/>
+    <lastUpdated value="2019-08-08T09:17:24.589-04:00"/>
+    <source value="E1Lm1Taom0"/>
+    <profile value="GeTyTzM1Pk"/>
+    <security>
+      <system value="aI0ds_25uQ"/>
+      <version value="iq6BAXPq5I"/>
+      <code value="7heHwNholV"/>
+      <display value="LacPqUhgmG"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="x2tv7zrS3Y"/>
+      <version value="etGoolBDfF"/>
+      <code value="7MFEKBKJaE"/>
+      <display value="GizRCvccYK"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="bQdrmhu6bI"/>
+  <language value="FepzIZc1RY"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="usual"/>
+    <type>
+      <coding>
+        <system value="v8FKEq37_d"/>
+        <version value="T1g7ErAVOp"/>
+        <code value="B4ON8Ik6r7"/>
+        <display value="UDBBykhCiV"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="bXm1ZbdkAR"/>
+    </type>
+    <system value="Dxw69Tcuze"/>
+    <value value="JSKzoO1kTU"/>
+    <period>
+      <start value="2019-08-08T09:17:24.591-04:00"/>
+      <end value="2019-08-08T09:17:24.591-04:00"/>
+    </period>
+  </identifier>
+  <productCategory value="biologicalAgent"/>
+  <productCode>
+    <coding>
+      <system value="aoJ2nEsshp"/>
+      <version value="akDdS_7Wys"/>
+      <code value="h38ygxljqm"/>
+      <display value="sruSpnXqvX"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="vjWziLDJIq"/>
+  </productCode>
+  <status value="available"/>
+  <request>
+    <reference value="IniLvu7kC4"/>
+    <type value="gEbG3AVKW3"/>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="ESWX0kSOLH"/>
+          <version value="sxIi3DH9n8"/>
+          <code value="5MQu9QD5Gn"/>
+          <display value="jcoBYYg8nZ"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="G4R3DGifm0"/>
+      </type>
+      <system value="zC2CxFX2PA"/>
+      <value value="yUPzcLRz6Z"/>
+      <period>
+        <start value="2019-08-08T09:17:24.608-04:00"/>
+        <end value="2019-08-08T09:17:24.608-04:00"/>
+      </period>
+    </identifier>
+    <display value="Ow1bTbVdqW"/>
+  </request>
+  <quantity value="1408542650"/>
+  <parent>
+    <reference value="CboQV7MQHM"/>
+    <type value="s1sQ5oHj8C"/>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="FADJtYDSWz"/>
+          <version value="SzyVJERrjl"/>
+          <code value="bGALYXHmwa"/>
+          <display value="BQbjKcN4Dw"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="kmZAwAjYPi"/>
+      </type>
+      <system value="pTKaKcE2zk"/>
+      <value value="3vzI6Hfn9N"/>
+      <period>
+        <start value="2019-08-08T09:17:24.585-04:00"/>
+        <end value="2019-08-08T09:17:24.585-04:00"/>
+      </period>
+    </identifier>
+    <display value="wbd5vhvZDd"/>
+  </parent>
+  <collection>
+    <collector>
+      <reference value="M2mewFz4X0"/>
+      <type value="3OibRA7kb3"/>
+      <identifier>
+        <use value="secondary"/>
+        <type>
+          <coding>
+            <system value="i3SDMetu6J"/>
+            <version value="Nb5LYsaO4Y"/>
+            <code value="X1Eq84Q8JF"/>
+            <display value="bJZH6k7fuC"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="f4IJ8XsW9u"/>
+        </type>
+        <system value="TW8J9hlWEh"/>
+        <value value="U2GX9u_h7Y"/>
+        <period>
+          <start value="2019-08-08T09:17:24.596-04:00"/>
+          <end value="2019-08-08T09:17:24.596-04:00"/>
+        </period>
+      </identifier>
+      <display value="9ukqgG57X4"/>
+    </collector>
+    <source>
+      <reference value="mbhJ_nofUJ"/>
+      <type value="Hky8bUACPI"/>
+      <identifier>
+        <use value="old"/>
+        <type>
+          <coding>
+            <system value="1CHd_QkruL"/>
+            <version value="wP3j4ofhx5"/>
+            <code value="iXxALCdb4C"/>
+            <display value="f2dDnFr_P2"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="JHo5p8ypZQ"/>
+        </type>
+        <system value="5DnzuviBcZ"/>
+        <value value="Z_V3MEbHxH"/>
+        <period>
+          <start value="2019-08-08T09:17:24.594-04:00"/>
+          <end value="2019-08-08T09:17:24.594-04:00"/>
+        </period>
+      </identifier>
+      <display value="0Uv1cp7N2A"/>
+    </source>
+    <collectedDateTime value="2019-08-08T09:17:24.596-04:00"/>
+  </collection>
+  <processing>
+    <description value="pWJySxwOSW"/>
+    <procedure>
+      <coding>
+        <system value="fKPqN3LEw9"/>
+        <version value="UsYazx_oVS"/>
+        <code value="AjgWA8rS6q"/>
+        <display value="SFBibBRecD"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="RpnVG4kF3T"/>
+    </procedure>
+    <additive>
+      <reference value="0ZWmvWVKPz"/>
+      <type value="nzkC88wcaX"/>
+      <identifier>
+        <use value="temp"/>
+        <type>
+          <coding>
+            <system value="2FO6KbJBDr"/>
+            <version value="ZgS_J3v7ht"/>
+            <code value="4gpv_YFNj6"/>
+            <display value="E5FKgrB0Sh"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="TU9ONSKREz"/>
+        </type>
+        <system value="0EluusmCAm"/>
+        <value value="dTR4JbBTFC"/>
+        <period>
+          <start value="2019-08-08T09:17:24.601-04:00"/>
+          <end value="2019-08-08T09:17:24.601-04:00"/>
+        </period>
+      </identifier>
+      <display value="6nFLbMOSFR"/>
+    </additive>
+    <timeDateTime value="2019-08-08T09:17:24.600-04:00"/>
+  </processing>
+  <manipulation>
+    <description value="7b6PLRK8Ze"/>
+    <timeDateTime value="2019-08-08T09:17:24.609-04:00"/>
+  </manipulation>
+  <storage>
+    <description value="21Iqkfjnfl"/>
+    <temperature value="137544233013"/>
+    <scale value="farenheit"/>
+    <duration>
+      <start value="2019-08-08T09:17:24.605-04:00"/>
+      <end value="2019-08-08T09:17:24.605-04:00"/>
+    </duration>
+  </storage>
+</BiologicallyDerivedProduct>

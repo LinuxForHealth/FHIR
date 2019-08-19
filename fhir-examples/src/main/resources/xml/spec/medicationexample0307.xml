@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><Medication xmlns="http://hl7.org/fhir">
+  <id value="med0307"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: med0307</p><p><b>contained</b>: </p><p><b>code</b>: Novolog 100u/ml <span>(Details : {http://hl7.org/fhir/sid/ndc code '0169-7501-11' = '0169-7501-11', given as 'Novolog 100u/ml'})</span></p><p><b>manufacturer</b>: id: org3; name: Novo Nordisk</p><p><b>form</b>: Injection solution (qualifier value) <span>(Details : {SNOMED CT code '385219001' = 'Injection solution', given as 'Injection solution (qualifier value)'})</span></p><h3>Ingredients</h3><table><tr><td>-</td><td><b>Item[x]</b></td><td><b>Strength</b></td></tr><tr><td>*</td><td>Insulin Aspart (substance) <span>(Details : {SNOMED CT code '325072002' = 'Insulin aspart', given as 'Insulin Aspart (substance)'})</span></td><td>100 U<span> (Details: UCUM code U = 'U')</span>/1 mL<span> (Details: UCUM code mL = 'mL')</span></td></tr></table><h3>Batches</h3><table><tr><td>-</td><td><b>LotNumber</b></td><td><b>ExpirationDate</b></td></tr><tr><td>*</td><td>12345</td><td>31/10/2019</td></tr></table></div></text><contained>
+    <Organization>
+      <id value="org3"/>
+      <name value="Novo Nordisk"/>
+    </Organization>
+  </contained>
+  <code>
+    <coding>
+      <system value="http://hl7.org/fhir/sid/ndc"/>
+      <code value="0169-7501-11"/>
+      <display value="Novolog 100u/ml"/>
+    </coding>
+  </code>
+  
+  <manufacturer>
+    <reference value="#org3"/>
+  </manufacturer>
+    <form>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="385219001"/>
+        <display value="Injection solution (qualifier value)"/>
+      </coding>
+    </form>
+    <ingredient>
+      <itemCodeableConcept>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="325072002"/>
+          <display value="Insulin Aspart (substance)"/>
+        </coding>
+      </itemCodeableConcept>
+      <strength>
+        <numerator>
+          <value value="100"/>
+          <system value="http://unitsofmeasure.org"/>
+          <code value="U"/>
+        </numerator>
+        <denominator>
+          <value value="1"/>
+          <system value="http://unitsofmeasure.org"/>
+          <code value="mL"/>
+        </denominator>
+      </strength>
+    </ingredient>
+  <batch>
+    <lotNumber value="12345"/>
+    <expirationDate value="2019-10-31"/>
+  </batch>
+  
+  
+</Medication>

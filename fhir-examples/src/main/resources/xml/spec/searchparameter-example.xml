@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><SearchParameter xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>url</b>: <b>http://hl7.org/fhir/SearchParameter/example</b></p><p><b>version</b>: 1</p><p><b>name</b>: ID-SEARCH-PARAMETER</p><p><b>derivedFrom</b>: <a>http://hl7.org/fhir/SearchParameter/Resource-id</a></p><p><b>status</b>: draft</p><p><b>experimental</b>: true</p><p><b>date</b>: 23/10/2013</p><p><b>publisher</b>: Health Level Seven International (FHIR Infrastructure)</p><p><b>contact</b>: </p><p><b>description</b>: Search by resource identifier - e.g. same as the read interaction, but can return included resources</p><p><b>useContext</b>: </p><p><b>jurisdiction</b>: United States of America (the) <span>(Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America', given as 'United States of America (the)'})</span></p><p><b>purpose</b>: Need to search by identifier for various infrastructural cases - mainly retrieving packages, and matching as part of a chain</p><p><b>code</b>: _id</p><p><b>base</b>: Resource</p><p><b>type</b>: token</p><p><b>expression</b>: id</p><p><b>xpath</b>: f:*/f:id</p><p><b>xpathUsage</b>: normal</p><p><b>comparator</b>: eq</p></div></text><url value="http://hl7.org/fhir/SearchParameter/example"/>
+	<version value="1"/>
+	<name value="ID-SEARCH-PARAMETER"/>
+	<derivedFrom value="http://hl7.org/fhir/SearchParameter/Resource-id"/>
+	<status value="draft"/>
+	<experimental value="true"/>
+	<date value="2013-10-23"/>
+	<publisher value="Health Level Seven International (FHIR Infrastructure)"/>
+	<contact>
+		<name value="[string]"/><!--   0..1 Name of an individual to contact   -->
+		<telecom>
+			<system value="url"/>
+			<value value="http://hl7.org/fhir"/>
+		</telecom>
+	</contact>
+	<description value="Search by resource identifier - e.g. same as the read interaction, but can return included resources"/>
+	<useContext>
+		<code>
+			<system value="http://terminology.hl7.org/CodeSystem/usage-context-type"/>
+			<code value="focus"/>
+		</code>
+		<valueCodeableConcept>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/variant-state"/>
+				<code value="positive"/>
+			</coding>
+		</valueCodeableConcept>
+	</useContext>
+	<jurisdiction>
+		<coding>
+			<system value="urn:iso:std:iso:3166"/>
+			<code value="US"/>
+			<display value="United States of America (the)"/>
+		</coding>
+	</jurisdiction>
+	
+	<!--  	this is the canonical definition for the _id search parameter	  -->
+	<purpose value="Need to search by identifier for various infrastructural cases - mainly retrieving packages, and matching as part of a chain"/>
+	<code value="_id"/>
+	<base value="Resource"/>
+	<type value="token"/>
+	<expression value="id"/>
+	<xpath value="f:*/f:id"/>
+	<xpathUsage value="normal"/>
+	<comparator value="eq"/>
+ 
+</SearchParameter>

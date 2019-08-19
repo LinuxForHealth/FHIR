@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><OperationOutcome xmlns="http://hl7.org/fhir">
+  <id value="101"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>The code "W" is not known and not legal Patient.gender.</p>
+    </div>
+  </text>
+  <issue>
+    <severity value="error"/>
+    <code value="code-invalid"/>
+    <details> 
+      <text value="The code &#34;W&#34; is not known and not legal in this context"/>    
+    </details>
+    <diagnostics value="Acme.Interop.FHIRProcessors.Patient.processGender line 2453"/>
+    <location value="/f:Patient/f:gender"/>
+    <expression value="Patient.gender"/>
+  </issue>
+</OperationOutcome>

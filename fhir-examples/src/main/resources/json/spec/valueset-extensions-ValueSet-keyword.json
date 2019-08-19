@@ -1,0 +1,16 @@
+{
+  "resourceType": "SearchParameter",
+  "id": "valueset-extensions-ValueSet-keyword",
+  "url": "http://hl7.org/fhir/SearchParameter/valueset-extensions-ValueSet-keyword",
+  "version": "4.0.0",
+  "name": "keyword",
+  "status": "draft",
+  "experimental": true,
+  "description": "Optional Extensions Element",
+  "code": "keyword",
+  "type": "string",
+  "xpath": "f:ValueSet/f:extension[@url\u003d\u0027http://hl7.org/fhir/StructureDefinition/valueset-keyWord\u0027] | /f:#keyWord",
+  "xpathUsage": "normal",
+  "multipleOr": true,
+  "multipleAnd": true
+}

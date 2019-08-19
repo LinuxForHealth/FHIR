@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><DetectedIssue xmlns="http://hl7.org/fhir">
+  <id value="duplicate"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>Similar test was performed within the past 14 days</p>
+      <ul>
+        <li>
+          <a href="ServiceRequest/id">Chest CT - ordered May 8, 2013 by Dr. Adam Careful</a>
+        </li>
+        <li>
+          <a href="ImagingStudy/example">Image 1 from Series 3: CT Images on Patient MINT (MINT1234) taken at 1-Jan 2011 01:20 AM</a>
+        </li>
+      </ul>
+    </div>
+  </text>
+  <identifier>
+    <use value="official"/>
+    <system value="http://example.org"/>
+    <value value="12345"/>
+  </identifier>
+  <status value="final"/>
+  <code>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+      <code value="DUPTHPY"/>
+      <display value="Duplicate Therapy Alert"/>
+    </coding>
+  </code>
+  <patient>
+    <reference value="Patient/dicom"/>
+  </patient>
+  <identifiedDateTime value="2013-05-08"/>
+  <author>
+    <reference value="Device/software"/>
+  </author>
+  <!--  test 1  -->
+  <implicated>
+    <reference value="ServiceRequest/di"/>
+    <display value="Chest CT - ordered May 8, 2013 by Dr. Adam Careful"/>
+  </implicated>
+  <!--  test 2  -->
+  <implicated>
+    <reference value="ImagingStudy/example"/>
+    <display value="Image 1 from Series 3: CT Images on Patient MINT (MINT1234) taken at 1-Jan 2011 01:20 AM"/>
+  </implicated>
+  <detail value="Similar test was performed within the past 14 days"/>
+  <reference value="http://www.tmhp.com/RadiologyClinicalDecisionSupport/2011/CHEST%20IMAGING%20GUIDELINES%202011.pdf"/>
+</DetectedIssue>

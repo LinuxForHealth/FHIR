@@ -1,0 +1,215 @@
+{
+    "resourceType": "StructureMap",
+    "id": "74cu6SQ6uJ",
+    "meta": {
+        "versionId": "5OkPVQqRUB",
+        "lastUpdated": "2019-08-03T00:12:37.892-04:00",
+        "source": "rOAxwtFCkg",
+        "profile": [
+            "tH1ubWhobF"
+        ],
+        "security": [
+            {
+                "system": "PMq09aFhyI",
+                "version": "lwp7dCvQqA",
+                "code": "VJfq0asJ5F",
+                "display": "g8Gw7H3Ckl",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "kkXkHLd3vr",
+                "version": "HmdzKoPgqI",
+                "code": "DET39cAv92",
+                "display": "gk4DeygjDa",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "EBf6UDzIG7",
+    "language": "KxDaxJJngA",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "4IO7zeUtE0",
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "3jpuaGqKbs",
+                        "version": "TAYvCI_lQ4",
+                        "code": "a27hQ7Z0Ua",
+                        "display": "mbuwqqhsns",
+                        "userSelected": true
+                    }
+                ],
+                "text": "tJTvIozlCV"
+            },
+            "system": "YWNEi3eW5F",
+            "value": "UHJC9ohwui",
+            "period": {
+                "start": "2019-08-03T00:12:37.893-04:00",
+                "end": "2019-08-03T00:12:37.893-04:00"
+            }
+        }
+    ],
+    "version": "tcLKm2ojFJ",
+    "name": "EalNniBX7e",
+    "title": "QPT5Ca_cFp",
+    "status": "retired",
+    "experimental": true,
+    "date": "2019-08-03T00:12:37.892-04:00",
+    "publisher": "GZJhinIuj7",
+    "contact": [
+        {
+            "name": "iKZcsFXUby",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "OYMtQjWxaq",
+                    "use": "work",
+                    "rank": 554898159,
+                    "period": {
+                        "start": "2019-08-03T00:12:37.893-04:00",
+                        "end": "2019-08-03T00:12:37.893-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "UmQwYpwTyH",
+    "useContext": [
+        {
+            "code": {
+                "system": "CT77UdL3CJ",
+                "version": "PApwJoq96H",
+                "code": "jD0nCCDxj5",
+                "display": "KoR8PMSuqM",
+                "userSelected": true
+            },
+            "valueReference": {
+                "reference": "ti0b_gUDBA",
+                "type": "_09vNq6bXw",
+                "identifier": {
+                    "use": "usual",
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "2ETPozf20F",
+                                "version": "NLiFWBk5fL",
+                                "code": "kIKlAoqcDi",
+                                "display": "eWkNzYMcsI",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "XpEaU0hIhd"
+                    },
+                    "system": "me1wVQXER2",
+                    "value": "yhiZTbCR5S",
+                    "period": {
+                        "start": "2019-08-03T00:12:37.891-04:00",
+                        "end": "2019-08-03T00:12:37.891-04:00"
+                    }
+                },
+                "display": "Nn_qlqTIyC"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "yeK_ii_5pd",
+                    "version": "m83vv0IAVS",
+                    "code": "rM4nohlXuK",
+                    "display": "K_p_iMkSwy",
+                    "userSelected": true
+                }
+            ],
+            "text": "QnTE6A0N1G"
+        }
+    ],
+    "purpose": "dNBVdB7cbM",
+    "copyright": "XcuzJiT_CU",
+    "structure": [
+        {
+            "url": "lJl16Fifik",
+            "mode": "source",
+            "alias": "kPtY3BRc1R",
+            "documentation": "FJ5o_2wkee"
+        }
+    ],
+    "import": [
+        "5RzEbFOeX9"
+    ],
+    "group": [
+        {
+            "name": "Ud1F2-9fjB",
+            "extends": "WQ7RIsrkkE",
+            "typeMode": "types",
+            "documentation": "ziXxmb305J",
+            "input": [
+                {
+                    "name": "ZVakdFYF0n",
+                    "type": "tam5SimjgY",
+                    "mode": "source",
+                    "documentation": "snbsp1sFbL"
+                }
+            ],
+            "rule": [
+                {
+                    "name": "fCRVYyWdET",
+                    "source": [
+                        {
+                            "context": "VcbUZEZ5u5",
+                            "min": 1453921409,
+                            "max": "kwp2taQ7j6",
+                            "type": "VIHvpvLOow",
+                            "defaultValueDecimal": 292513671233,
+                            "element": "R_9uc0BSx6",
+                            "listMode": "not_first",
+                            "variable": "Nfl1ZewxT0",
+                            "condition": "Eya_csEoG4",
+                            "check": "tUrzmASayy",
+                            "logMessage": "SXLl4W6IEz"
+                        }
+                    ],
+                    "target": [
+                        {
+                            "context": "65Oej0tAt6",
+                            "contextType": "type",
+                            "element": "dcKECbRV6H",
+                            "variable": "rQLLJOO60j",
+                            "listMode": [
+                                "last"
+                            ],
+                            "listRuleId": "Gant6XWQKJ",
+                            "transform": "escape",
+                            "parameter": [
+                                {
+                                    "valueDecimal": 280789524515
+                                }
+                            ]
+                        }
+                    ],
+                    "dependent": [
+                        {
+                            "name": "lXrxFKnFjf",
+                            "variable": [
+                                "Xuu_Y44Hvz"
+                            ]
+                        }
+                    ],
+                    "documentation": "0v7446gppZ"
+                }
+            ]
+        }
+    ]
+}

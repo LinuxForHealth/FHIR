@@ -1,0 +1,201 @@
+{
+    "resourceType": "StructureMap",
+    "id": "OhJ1uTvpOt",
+    "meta": {
+        "versionId": "SWJ5LmKeUc",
+        "lastUpdated": "2019-08-03T00:12:37.838-04:00",
+        "source": "41RRKvFjUj",
+        "profile": [
+            "maw3_FLs0j"
+        ],
+        "security": [
+            {
+                "system": "i6d8zMxmFP",
+                "version": "yn6gengF3V",
+                "code": "2VhpVYUO0d",
+                "display": "k7JjBcIyxm",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "S78Z3jJ0Fw",
+                "version": "pIlcZ9Yf4w",
+                "code": "O3yMgYuSwW",
+                "display": "36yGeonmP5",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "fGXLp4iYKt",
+    "language": "rfR6hrRra4",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "e01yohWjJb",
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "moLob5gG73",
+                        "version": "Ta3hPqX3OA",
+                        "code": "6JgmbFm0kT",
+                        "display": "_ucJysdLvb",
+                        "userSelected": true
+                    }
+                ],
+                "text": "ETxPNyx_nX"
+            },
+            "system": "mv0MTZS1wW",
+            "value": "34tZBuoHzc",
+            "period": {
+                "start": "2019-08-03T00:12:37.838-04:00",
+                "end": "2019-08-03T00:12:37.838-04:00"
+            }
+        }
+    ],
+    "version": "mCmwPbtS_j",
+    "name": "L5Zl4Yy_1e",
+    "title": "9w0pSstA6b",
+    "status": "unknown",
+    "experimental": true,
+    "date": "2019-08-03T00:12:37.837-04:00",
+    "publisher": "TgEtnVFoN3",
+    "contact": [
+        {
+            "name": "B05JAG8FrT",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "sHtlzHanLi",
+                    "use": "temp",
+                    "rank": 704381434,
+                    "period": {
+                        "start": "2019-08-03T00:12:37.839-04:00",
+                        "end": "2019-08-03T00:12:37.839-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "dblu9y7IDI",
+    "useContext": [
+        {
+            "code": {
+                "system": "XKFJXmG4uc",
+                "version": "oWluygLqiK",
+                "code": "7uwos4Yu9F",
+                "display": "iyzTYfweQi",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "Rnu1T887A1",
+                        "version": "NccS5jwWmp",
+                        "code": "NWC0sM8vTp",
+                        "display": "HdNWl7SIls",
+                        "userSelected": true
+                    }
+                ],
+                "text": "vHehVJojJw"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "pssWe5SU9v",
+                    "version": "xQ6VV4lnQx",
+                    "code": "EiyonUnj1X",
+                    "display": "FWtqgyCJ_X",
+                    "userSelected": true
+                }
+            ],
+            "text": "sfB1SJIoGf"
+        }
+    ],
+    "purpose": "1PT3xOX5Mn",
+    "copyright": "RCwi5k6y10",
+    "structure": [
+        {
+            "url": "zu5ihlPN80",
+            "mode": "produced",
+            "alias": "FsHVjagAuc",
+            "documentation": "SQog44IOgh"
+        }
+    ],
+    "import": [
+        "FYIJvJ0dsL"
+    ],
+    "group": [
+        {
+            "name": "Xl7wZl9pjN",
+            "extends": "fcO5eAA69N",
+            "typeMode": "types",
+            "documentation": "kcPgkH_eSq",
+            "input": [
+                {
+                    "name": "3em1VvWxrW",
+                    "type": "N9OBClRvI4",
+                    "mode": "source",
+                    "documentation": "Ut4oCtG84_"
+                }
+            ],
+            "rule": [
+                {
+                    "name": "xX8H-6TKBe",
+                    "source": [
+                        {
+                            "context": "yUwLfHaciy",
+                            "min": 744069896,
+                            "max": "hNdT016aYj",
+                            "type": "hqBDnoHeT6",
+                            "defaultValueBase64Binary": "DR53B2I=",
+                            "element": "vAkocxj_NZ",
+                            "listMode": "not_first",
+                            "variable": "0Voyn450Mw",
+                            "condition": "sezngMEpTt",
+                            "check": "xFS8qTglez",
+                            "logMessage": "rgRaRO8zIq"
+                        }
+                    ],
+                    "target": [
+                        {
+                            "context": "EIboSaKz2c",
+                            "contextType": "variable",
+                            "element": "g6eDjlxjPL",
+                            "variable": "smWh8GXzDA",
+                            "listMode": [
+                                "first"
+                            ],
+                            "listRuleId": "ihKZvnZx-V",
+                            "transform": "escape",
+                            "parameter": [
+                                {
+                                    "valueId": "ubsmgGMJp8"
+                                }
+                            ]
+                        }
+                    ],
+                    "dependent": [
+                        {
+                            "name": "xJL2IIWQV5",
+                            "variable": [
+                                "bAhhAQZCz7"
+                            ]
+                        }
+                    ],
+                    "documentation": "Dbwt19N6_q"
+                }
+            ]
+        }
+    ]
+}

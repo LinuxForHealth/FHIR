@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><PaymentNotice xmlns="http://hl7.org/fhir">
+	<id value="77654"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the PaymentNotice</div>
+	</text>
+
+	<identifier>
+		<system value="http://benefitsinc.com/paymentnotice"/>
+		<value value="776543"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<request>
+		<reference value="http://benefitsinc.com/fhir/claim/12345"/>
+	</request>
+
+	<response>
+		<reference value="http://benefitsinc.com/fhir/claimresponse/CR12345"/>
+	</response>
+
+	<created value="2014-08-16"/>
+
+	<provider>
+		<reference value="Organization/1"/>
+	</provider>
+
+	<payment>
+		<reference value="PaymentReconciliation/ER2500"/>
+	</payment>
+
+	<paymentDate value="2014-08-15"/>
+
+	<payee>
+		<reference value="Organization/1"/>
+	</payee>
+
+	<recipient>
+		<identifier>
+			<system value="http://regulators.gov"/>
+			<value value="AB123"/>
+		</identifier>
+	</recipient>
+
+	<amount>
+		<value value="12500.00"/>
+		<currency value="USD"/> 
+	</amount>
+
+	<paymentStatus>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/paymentstatus"/>
+			<code value="paid"/>
+		</coding>
+	</paymentStatus>
+
+</PaymentNotice>

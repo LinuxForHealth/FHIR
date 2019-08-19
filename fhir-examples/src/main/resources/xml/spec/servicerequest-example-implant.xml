@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><ServiceRequest xmlns="http://hl7.org/fhir">
+	<id value="example-implant"/>
+	<!--   Example of a device manipulation service request  -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-implant</p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>code</b>: Implant Pacemaker <span>(Details : {SNOMED CT code '25267002' = 'Insertion of intracardiac pacemaker', given as 'Insertion of intracardiac pacemaker (procedure)'})</span></p><p><b>subject</b>: <a>Patient/example</a></p><p><b>authoredOn</b>: 30/03/2015</p><p><b>requester</b>: <a>Dr. Beverly Crusher</a></p><p><b>performer</b>: <a>Dr Cecil Surgeon</a></p><p><b>reasonCode</b>: Bradycardia <span>(Details )</span></p></div></text><status value="completed"/>
+	<intent value="order"/>
+	<code>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="25267002"/>
+			<display value="Insertion of intracardiac pacemaker (procedure)"/>
+		</coding>
+		<text value="Implant Pacemaker"/>
+	</code>
+	<subject>
+		<reference value="Patient/example"/>
+	</subject>
+	<authoredOn value="2015-03-30"/>
+	<requester>
+			<reference value="Practitioner/3ad0687e-f477-468c-afd5-fcc2bf897809"/>
+			<display value="Dr. Beverly Crusher"/>
+	</requester>
+	<performer>
+		<reference value="Practitioner/example"/>
+		<display value="Dr Cecil Surgeon"/>
+	</performer>
+	<reasonCode>
+		<text value="Bradycardia"/>
+	</reasonCode>
+</ServiceRequest>

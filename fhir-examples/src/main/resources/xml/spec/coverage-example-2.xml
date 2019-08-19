@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><Coverage xmlns="http://hl7.org/fhir">
+	<id value="7546D"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the coverage</div>
+	</text>
+
+	<identifier>
+		<system value="http://xyz.com/codes/identifier"/>
+		<value value="AB98761"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+			<code value="EHCPOL"/>
+			<display value="extended healthcare"/>
+		</coding>
+	</type>
+
+	<subscriber>
+		<reference value="Patient/5"/>
+	</subscriber>
+
+	<subscriberId value="AB9876"/>
+
+	<beneficiary>
+		<reference value="Patient/5"/>
+	</beneficiary>
+
+	<dependent value="1"/>
+
+	<relationship>
+		<coding>
+			<code value="self"/>
+		</coding>	 
+	</relationship>
+
+	<period> 
+		<start value="2011-03-17"/>
+		<end value="2012-03-17"/>
+	</period>
+
+	<payor>
+		<reference value="Organization/2"/>
+	</payor>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="group"/>
+			</coding>
+		</type>
+		<value value="WESTAIR"/>
+		<name value="Western Airlines"/>
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="plan"/>
+			</coding>
+		</type>
+		<value value="BG4352"/>
+		<name value="Full Coverage: Medical, Dental, Pharmacy, Vision, EHC"/>
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="subplan"/>
+			</coding>
+		</type>
+		<value value="D15C9"/>
+		<name value="Platinum"/>
+	</class>
+
+	<order value="2"/> <!--  Second after the national medical coverage  -->
+
+	<network value="5"/>
+
+	<costToBeneficiary>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-copay-type"/>
+				<code value="gpvisit"/> <!--  normally $40.00  -->
+			</coding>
+		</type>
+		<valueMoney>
+			<value value="20.00"/>
+			<currency value="USD"/>
+		</valueMoney>
+		<exception>
+			<type>
+				<coding>
+					<system value="http://terminology.hl7.org/CodeSystem/ex-coverage-financial-exception"/>
+					<code value="retired"/>
+				</coding>
+			</type>
+			<period>
+				<start value="2018-01-01"/>
+				<end value="2018-12-31"/>
+			</period>
+		</exception>
+	</costToBeneficiary>
+
+	<contract>
+		<reference value="Contract/INS-101"/>
+	</contract>
+
+</Coverage>

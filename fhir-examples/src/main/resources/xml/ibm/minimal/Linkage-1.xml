@@ -1,0 +1,19 @@
+<Linkage xmlns="http://hl7.org/fhir">
+  <meta>
+    <tag>
+      <code value="ibm/minimal"/>
+    </tag>
+  </meta>
+  <item>
+    <type>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </type>
+    <resource>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </resource>
+  </item>
+</Linkage>

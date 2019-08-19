@@ -1,0 +1,126 @@
+<MedicinalProductUndesirableEffect xmlns="http://hl7.org/fhir">
+  <id value="4RT-IE1fqL"/>
+  <meta>
+    <versionId value="aW2pL3M2ZA"/>
+    <lastUpdated value="2019-08-08T09:17:29.695-04:00"/>
+    <source value="R7q8XFvrBb"/>
+    <profile value="VfyJ1tpdt_"/>
+    <security>
+      <system value="rx1oVTSi4v"/>
+      <version value="3l7oKpn9gp"/>
+      <code value="zScgVgilIo"/>
+      <display value="eP1LQKFk6C"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="12PqaSqYUA"/>
+      <version value="soBLqJf6e2"/>
+      <code value="84wotHKDaD"/>
+      <display value="e67bT0on0y"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="cjXHl4kKHP"/>
+  <language value="_LPPx4wIdz"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <subject>
+    <reference value="ys50_PaRow"/>
+    <type value="ZVcsbDoYz1"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="y9Gnfycr_O"/>
+          <version value="yh5Zb6CUYP"/>
+          <code value="ieJvHT_fbl"/>
+          <display value="s1RyrNYiYB"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="1TNwlt7_8d"/>
+      </type>
+      <system value="R1KGFIKes7"/>
+      <value value="xXzMLai_et"/>
+      <period>
+        <start value="2019-08-08T09:17:29.697-04:00"/>
+        <end value="2019-08-08T09:17:29.697-04:00"/>
+      </period>
+    </identifier>
+    <display value="P3abqwOHM5"/>
+  </subject>
+  <symptomConditionEffect>
+    <coding>
+      <system value="Lclxc_G4mD"/>
+      <version value="WJFIh813pe"/>
+      <code value="R9Hq61IIgt"/>
+      <display value="M9Z8IhrOVi"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="E7UgnfJ81U"/>
+  </symptomConditionEffect>
+  <classification>
+    <coding>
+      <system value="kHtlilH3Sn"/>
+      <version value="lsKRxdBYEY"/>
+      <code value="8cHiwJ0Mcv"/>
+      <display value="ZHD6h74Q3x"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="hB1fWFzkNI"/>
+  </classification>
+  <frequencyOfOccurrence>
+    <coding>
+      <system value="T158zHacKD"/>
+      <version value="20Fgw_HBCD"/>
+      <code value="gqnFajR9Kq"/>
+      <display value="VVqvGFkH56"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="PqD2UlCQ5J"/>
+  </frequencyOfOccurrence>
+  <population>
+    <ageRange>
+      <low>
+        <value value="173045983011"/>
+        <unit value="goqrOlQoLH"/>
+        <system value="37I9ahTRIp"/>
+        <code value="jGptqfkjwZ"/>
+      </low>
+    </ageRange>
+    <gender>
+      <coding>
+        <system value="mJvH6O00w5"/>
+        <version value="S_4CvQ4Bu4"/>
+        <code value="_Vy8e195Ul"/>
+        <display value="7vLT5G5Y0q"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="83rFcMUMMa"/>
+    </gender>
+    <race>
+      <coding>
+        <system value="j5HyXlnkSQ"/>
+        <version value="LPjjT11mtP"/>
+        <code value="IBfodPPpVr"/>
+        <display value="_kVf6Mjioq"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="M61FvyXeQG"/>
+    </race>
+    <physiologicalCondition>
+      <coding>
+        <system value="KFQqyqFZyX"/>
+        <version value="x6OZtwBC3Y"/>
+        <code value="nfCuU6rU2j"/>
+        <display value="9COpPvYiXP"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="4o5_x55hPW"/>
+    </physiologicalCondition>
+  </population>
+</MedicinalProductUndesirableEffect>

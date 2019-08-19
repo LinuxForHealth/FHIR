@@ -1,0 +1,209 @@
+{
+    "resourceType": "MedicinalProductContraindication",
+    "id": "A0PLWyaxhW",
+    "meta": {
+        "versionId": "vDKmJ4kKi9",
+        "lastUpdated": "2019-08-03T00:12:35.941-04:00",
+        "source": "V4Zkaq2xXv",
+        "profile": [
+            "gUVKFfabF6"
+        ],
+        "security": [
+            {
+                "system": "GaaJJPYJWx",
+                "version": "cmwQcZSS5c",
+                "code": "8pGe_acojH",
+                "display": "h7Om6S0GCC",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "PUdsDnxfJm",
+                "version": "GCNEh1X_Lj",
+                "code": "fj_NdIQHHu",
+                "display": "cXEsHMJ94b",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "lGXT9Q3moj",
+    "language": "NhrF3uT3NT",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "subject": [
+        {
+            "reference": "klc0OouQr_",
+            "type": "qAq2XNJmQH",
+            "identifier": {
+                "use": "secondary",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "2zHqIlQX0K",
+                            "version": "K9N6M6x9dm",
+                            "code": "wcwo3ZENfs",
+                            "display": "VROGViyZQg",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "G0aXtcBmM4"
+                },
+                "system": "MD0K6ncIW3",
+                "value": "Cu_n6yg0Tl",
+                "period": {
+                    "start": "2019-08-03T00:12:35.942-04:00",
+                    "end": "2019-08-03T00:12:35.942-04:00"
+                }
+            },
+            "display": "zRJXb9GDyt"
+        }
+    ],
+    "disease": {
+        "coding": [
+            {
+                "system": "E80v36bhtj",
+                "version": "jjf7v9bH0R",
+                "code": "7_YPVdWMwC",
+                "display": "MA3xvBekXM",
+                "userSelected": true
+            }
+        ],
+        "text": "kFjZBkzo6e"
+    },
+    "diseaseStatus": {
+        "coding": [
+            {
+                "system": "g2TFK_m4S7",
+                "version": "42WPTj1ilW",
+                "code": "UeptwI6U0z",
+                "display": "wo4YrwQ7Eb",
+                "userSelected": true
+            }
+        ],
+        "text": "CGsYI2IZ0j"
+    },
+    "comorbidity": [
+        {
+            "coding": [
+                {
+                    "system": "n8Cv1I5eoB",
+                    "version": "rsPkSiKmgr",
+                    "code": "WVhuyGijFJ",
+                    "display": "sIpDtl2uNe",
+                    "userSelected": true
+                }
+            ],
+            "text": "mz2fBAxh5V"
+        }
+    ],
+    "therapeuticIndication": [
+        {
+            "reference": "yfIt4Nvkhn",
+            "type": "1bMSQ7SG1U",
+            "identifier": {
+                "use": "usual",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "p5abXCyhaD",
+                            "version": "XPOcMz2WLc",
+                            "code": "oaqvLnrehb",
+                            "display": "_5FswskTHt",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "tV_1o0EWuF"
+                },
+                "system": "5EgoexMEgr",
+                "value": "anodXnlk0A",
+                "period": {
+                    "start": "2019-08-03T00:12:35.944-04:00",
+                    "end": "2019-08-03T00:12:35.944-04:00"
+                }
+            },
+            "display": "IJVWvgdvzO"
+        }
+    ],
+    "otherTherapy": [
+        {
+            "therapyRelationshipType": {
+                "coding": [
+                    {
+                        "system": "NzBMgAFqc9",
+                        "version": "3VJZjStN2X",
+                        "code": "pDC7UEetkc",
+                        "display": "u_ZOqE9ZHz",
+                        "userSelected": true
+                    }
+                ],
+                "text": "RVE3weT2Kj"
+            },
+            "medicationCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "bcbkNto6wG",
+                        "version": "YQ25mm1Ydy",
+                        "code": "zxxFP09SlB",
+                        "display": "0wNvLCwjHZ",
+                        "userSelected": true
+                    }
+                ],
+                "text": "7vndfS0cRL"
+            }
+        }
+    ],
+    "population": [
+        {
+            "ageRange": {
+                "low": {
+                    "value": 412858122508,
+                    "unit": "QTl6AOTRDH",
+                    "system": "iVh_7TkaeF",
+                    "code": "JMZ7KaJpCs"
+                }
+            },
+            "gender": {
+                "coding": [
+                    {
+                        "system": "IThi0Guszu",
+                        "version": "zaYWfhkoO5",
+                        "code": "p3RQvQGqkk",
+                        "display": "nZCS7n2jZR",
+                        "userSelected": true
+                    }
+                ],
+                "text": "M5iEyb36UW"
+            },
+            "race": {
+                "coding": [
+                    {
+                        "system": "iJ0Pm8mpho",
+                        "version": "S61oo1t5l8",
+                        "code": "1Mmpy11vLY",
+                        "display": "c6ZxpGIohC",
+                        "userSelected": true
+                    }
+                ],
+                "text": "IY53GOnp8V"
+            },
+            "physiologicalCondition": {
+                "coding": [
+                    {
+                        "system": "olGZFHREEr",
+                        "version": "cZZoQmTC7u",
+                        "code": "V2Wjos_cFU",
+                        "display": "oO_7YC3EB6",
+                        "userSelected": true
+                    }
+                ],
+                "text": "l7JnKv7H3a"
+            }
+        }
+    ]
+}

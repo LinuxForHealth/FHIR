@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><VisionPrescription xmlns="http://hl7.org/fhir">
+	<id value="33123"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">
+			<p>OD -2.00 SPH         +2.00 add    0.5 p.d. BD</p>
+			<p>OS -1.00 -0.50 x 180 +2.00 add    0.5 p.d. BU</p>
+		</div>
+	</text>
+
+	<identifier>
+		<system value="http://www.happysight.com/prescription"/>
+		<value value="15013"/>
+	</identifier>
+
+	<status value="active"/>
+	<created value="2014-06-15"/>
+	<patient>
+		<reference value="Patient/example"/>
+	</patient>
+
+	<dateWritten value="2014-06-15"/>
+
+	<prescriber>
+		<reference value="Practitioner/example"/>
+	</prescriber>
+
+	<lensSpecification>
+		<product>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct"/>
+				<code value="lens"/>
+			</coding>
+		</product>
+		<eye value="right"/>
+		<sphere value="-2.00"/>
+		<prism>
+			<amount value="0.5"/>
+			<base value="down"/>
+		</prism>
+		<add value="2.00"/>
+	</lensSpecification>
+
+	<lensSpecification>
+		<product>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct"/>
+				<code value="lens"/>
+			</coding>
+		</product>
+		<eye value="left"/>
+		<sphere value="-1.00"/>
+		<cylinder value="-0.50"/>
+		<axis value="180"/>
+		<prism>
+			<amount value="0.5"/>
+			<base value="up"/>
+		</prism>
+		<add value="2.00"/>
+	</lensSpecification>
+
+</VisionPrescription>

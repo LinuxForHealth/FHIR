@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><Practitioner xmlns="http://hl7.org/fhir">
+  <id value="f001"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>identifier</b>: 938273695 (OFFICIAL), 129IDH4OP733 (USUAL)</p><p><b>name</b>: Eric van den broek (OFFICIAL)</p><p><b>telecom</b>: ph: 0205568263(WORK), E.M.vandenbroek@bmc.nl(WORK), fax: 0205664440(WORK)</p><p><b>address</b>: Galapagosweg 91 Den Burg 9105 PZ NLD (WORK)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 07/12/1975</p></div></text><identifier>
+        <use value="official"/>
+        <system value="urn:oid:2.16.528.1.1007.3.1"/>
+        <!--   Identificatiesysteem Zorgverlener UZI   -->
+        <value value="938273695"/>
+    </identifier>
+    <identifier>
+        <use value="usual"/>
+        <system value="urn:oid:2.16.840.1.113883.2.4.6.3"/>
+        <!--   BSN identification system   -->
+        <value value="129IDH4OP733"/>
+    </identifier>
+    <name>
+        <use value="official"/>
+        <family value="van den broek"/>
+        <given value="Eric"/>
+        <suffix value="MD"/>
+    </name>
+    <telecom>
+        <system value="phone"/>
+        <value value="0205568263"/>
+        <use value="work"/>
+    </telecom>
+    <telecom>
+        <system value="email"/>
+        <value value="E.M.vandenbroek@bmc.nl"/>
+        <use value="work"/>
+    </telecom>
+    <telecom>
+        <system value="fax"/>
+        <value value="0205664440"/>
+        <use value="work"/>
+    </telecom>
+    <address>
+        <use value="work"/>
+        <line value="Galapagosweg 91"/>
+        <city value="Den Burg"/>
+        <postalCode value="9105 PZ"/>
+        <country value="NLD"/> <!--   ISO 3166 Codes (Countries)   -->
+    </address>
+
+    <gender value="male"/>
+    <birthDate value="1975-12-07"/>
+
+</Practitioner>

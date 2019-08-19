@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><ClaimResponse xmlns="http://hl7.org/fhir">
+
+	<id value="R3500"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the ClaimResponse</div>
+	</text>
+
+	<identifier>
+		<system value="http://www.BenefitsInc.com/fhir/remittance"/>
+		<value value="R3500"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/claim-type"/>
+			<code value="oral"/>
+		</coding>
+	</type>
+
+	<subType>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/ex-claimsubtype"/>
+			<code value="emergency"/>
+		</coding>
+	</subType>
+
+	<use value="claim"/>
+	
+	<patient>
+		<reference value="Patient/1"/>
+	</patient>
+
+	<created value="2014-08-16"/>
+
+	<insurer>
+		<identifier>
+			<system value="http://www.jurisdiction.org/insurers"/>
+			<value value="555123"/>
+		</identifier>
+	</insurer>
+
+	<requestor>
+		<reference value="Organization/1"/>
+	</requestor>
+
+	<request>
+		<reference value="http://www.BenefitsInc.com/fhir/oralhealthclaim/15476332402"/>
+	</request>
+
+	<outcome value="complete"/>
+	
+	<disposition value="Claim settled as per contract."/>
+
+	<payeeType>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/payeetype"/>
+			<code value="provider"/>
+		</coding>
+	</payeeType>
+
+	<!--  Adjudication details  -->
+
+	<item>
+
+		<itemSequence value="1"/> 
+
+		<adjudication>
+			<category>
+				<coding>
+					<code value="eligible"/>
+				</coding>
+			</category>
+			<amount>
+				<value value="135.57"/>
+				<currency value="USD"/>
+			</amount>
+		</adjudication>
+
+		<adjudication>
+			<category>
+				<coding>
+					<code value="copay"/>
+				</coding>
+			</category>
+			<amount>
+				<value value="10.00"/>
+				<currency value="USD"/>
+			</amount>  
+		</adjudication>
+
+		<adjudication>
+			<category>
+				<coding>
+					<code value="eligpercent"/>
+				</coding>
+			</category>
+			<value value="80.00"/>
+		</adjudication>
+		<adjudication>
+			<category>
+				<coding>
+					<code value="benefit"/>
+				</coding>
+			</category>
+			<reason>
+				<coding>
+					<system value="http://terminology.hl7.org/CodeSystem/adjudication-reason"/>
+					<code value="ar002"/>
+					<display value="Plan Limit Reached"/>
+					<!--  should have paid 100.47  -->
+				</coding>
+			</reason>
+			<amount>
+				<value value="90.47"/>
+				<currency value="USD"/>
+			</amount>	
+		</adjudication>
+
+	</item>
+
+	<total>
+		<category>
+			<coding>
+				<code value="submitted"/>
+			</coding>
+		</category>
+		<amount>
+			<value value="135.57"/>
+			<currency value="USD"/> 
+		</amount> 
+	</total>
+	
+	<total>
+		<category>
+			<coding>
+				<code value="benefit"/>
+			</coding>
+		</category>
+		<amount>
+			<value value="90.47"/>
+			<currency value="USD"/> 
+		</amount> 
+	</total>
+
+	<!--  Payment details  -->
+	<payment>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/ex-paymenttype"/>
+				<code value="complete"/>
+			</coding>
+		</type>	
+
+		<date value="2014-08-31"/>
+
+		<amount>
+			<value value="100.47"/>
+			<currency value="USD"/>
+		</amount>	
+
+		<identifier>
+			<system value="http://www.BenefitsInc.com/fhir/paymentidentifier"/>
+			<value value="201408-2-1569478"/>
+		</identifier>	
+	</payment>
+</ClaimResponse>

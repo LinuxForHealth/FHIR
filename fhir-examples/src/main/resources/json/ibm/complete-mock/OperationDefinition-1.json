@@ -1,0 +1,148 @@
+{
+    "resourceType": "OperationDefinition",
+    "id": "L5RWHGsJBF",
+    "meta": {
+        "versionId": "HjMfpbIQuT",
+        "lastUpdated": "2019-08-03T00:12:36.558-04:00",
+        "source": "gZaGNTc4jO",
+        "profile": [
+            "4VCbiyu6rB"
+        ],
+        "security": [
+            {
+                "system": "YnRf0fgFHz",
+                "version": "ytrRm5QFjk",
+                "code": "HBnkpBcfMq",
+                "display": "mB1_4ttJRQ",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "JoEQ7pTZg0",
+                "version": "yNm3JhrR9a",
+                "code": "RIKUKQSfE4",
+                "display": "P0TpnPqrOe",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "l5IEcKulfI",
+    "language": "IooZlrcd_m",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "KnrJYqphSn",
+    "version": "KR1OZhHsp2",
+    "name": "H_oioRTZXv",
+    "title": "6VPKjav2lK",
+    "status": "unknown",
+    "kind": "operation",
+    "experimental": true,
+    "date": "2019-08-03T00:12:36.557-04:00",
+    "publisher": "1BYI8anQ95",
+    "contact": [
+        {
+            "name": "xkF_hF3fvz",
+            "telecom": [
+                {
+                    "system": "fax",
+                    "value": "VPuxtIDx4v",
+                    "use": "temp",
+                    "rank": 165807035,
+                    "period": {
+                        "start": "2019-08-03T00:12:36.558-04:00",
+                        "end": "2019-08-03T00:12:36.558-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "4Qg6UOWZJB",
+    "useContext": [
+        {
+            "code": {
+                "system": "FnYoXyqxkp",
+                "version": "EUZLDWXkIK",
+                "code": "G1loEA1WLc",
+                "display": "uwAHCxQQIX",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "rqySPwq2hA",
+                        "version": "uvZJLZYw0z",
+                        "code": "G3BJlwCjXB",
+                        "display": "CT93pM5bap",
+                        "userSelected": true
+                    }
+                ],
+                "text": "ELkME0SHvo"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "ss12CJCRx5",
+                    "version": "dvdcLWmwAj",
+                    "code": "6uEbRcjx7L",
+                    "display": "KNEQfh7qQl",
+                    "userSelected": true
+                }
+            ],
+            "text": "h9uwZTWZqo"
+        }
+    ],
+    "purpose": "vQyk8ILI9X",
+    "affectsState": true,
+    "code": "QT_oMBj0j6",
+    "comment": "OJOnHp8ulV",
+    "base": "60rqfAPjtX",
+    "resource": [
+        "MeasureReport"
+    ],
+    "system": true,
+    "type": true,
+    "instance": true,
+    "inputProfile": "XyXH5utQVr",
+    "outputProfile": "0RBy1vYxyM",
+    "parameter": [
+        {
+            "name": "q5nGuwJe2N",
+            "use": "in",
+            "min": 611311066,
+            "max": "3jggRrQNyV",
+            "documentation": "3bj5Q18Kek",
+            "type": "time",
+            "targetProfile": [
+                "HP5cXE7Cq_"
+            ],
+            "searchType": "reference",
+            "binding": {
+                "strength": "extensible",
+                "valueSet": "d9hTGeu9O3"
+            },
+            "referencedFrom": [
+                {
+                    "source": "FqSQbNNnjX",
+                    "sourceId": "OFWm2K5iYN"
+                }
+            ]
+        }
+    ],
+    "overload": [
+        {
+            "parameterName": [
+                "lpu6KCggNV"
+            ],
+            "comment": "VFnMzSYhyi"
+        }
+    ]
+}

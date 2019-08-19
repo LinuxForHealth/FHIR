@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><DeviceDefinition xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>identifier</b>: 0</p></div></text><identifier>
+		<value value="0"/>
+	</identifier>
+</DeviceDefinition>

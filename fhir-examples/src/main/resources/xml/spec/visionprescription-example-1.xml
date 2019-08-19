@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><VisionPrescription xmlns="http://hl7.org/fhir">
+	<id value="33124"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">Sample Contract Lens prescription</div>
+	</text>
+
+	<identifier>
+		<system value="http://www.happysight.com/prescription"/>
+		<value value="15014"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<created value="2014-06-15"/>
+
+	<patient>
+		<reference value="Patient/example"/>
+	</patient>
+
+	<encounter>
+		<reference value="Encounter/f001"/>
+	</encounter>
+
+	<dateWritten value="2014-06-15"/>
+
+	<prescriber>
+		<reference value="Practitioner/example"/>
+	</prescriber>
+
+	<lensSpecification>
+		<product>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct"/>
+				<code value="contact"/>
+			</coding>
+		</product>
+		<eye value="right"/>
+		<cylinder value="-2.25"/>
+		<axis value="160"/>
+		<add value="1.75"/>
+		<power value="-2.75"/>
+		<backCurve value="8.7"/>
+		<diameter value="14.0"/>
+		<duration>
+			<value value="1"/>
+			<unit value="month"/>
+			<system value="http://unitsofmeasure.org"/>
+			<code value="month"/>
+		</duration>
+		<color value="green"/>
+		<brand value="OphthaGuard"/>
+		<note>
+			<text value="Shade treatment for extreme light sensitivity"/>
+		</note>
+	</lensSpecification>
+
+	<lensSpecification>
+		<product>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct"/>
+				<code value="contact"/>
+			</coding>
+		</product>
+		<eye value="left"/>
+		<cylinder value="-3.50"/>
+		<axis value="160"/>
+		<add value="1.75"/>
+		<power value="-2.75"/>
+		<backCurve value="8.7"/>
+		<diameter value="14.0"/>
+		<duration>
+			<value value="1"/>
+			<unit value="month"/>
+			<system value="http://unitsofmeasure.org"/>
+			<code value="month"/>
+		</duration>
+		<color value="green"/>
+		<brand value="OphthaGuard"/>
+		<note>
+			<text value="Shade treatment for extreme light sensitivity"/>
+		</note>
+	</lensSpecification>
+
+</VisionPrescription>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><EpisodeOfCare xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      HACC Program for Peter James Chalmers at HL7 Healthcare 15 Sept 2014 - current<br/>
+			was on leave from 22 Sept - 24 Sept while in respite care
+    </div>
+  </text>
+  <identifier>
+    <system value="http://example.org/sampleepisodeofcare-identifier"/>
+    <value value="123"/>
+  </identifier>
+  <status value="active"/>
+  <statusHistory>
+    <status value="planned"/>
+    <period>
+      <start value="2014-09-01"/>
+      <end value="2014-09-14"/>
+    </period>
+  </statusHistory>
+  <statusHistory>
+    <status value="active"/>
+    <period>
+      <start value="2014-09-15"/>
+      <end value="2014-09-21"/>
+    </period>
+  </statusHistory>
+  <statusHistory>
+    <status value="onhold"/>
+    <period>
+      <start value="2014-09-22"/>
+      <end value="2014-09-24"/>
+    </period>
+  </statusHistory>
+  <statusHistory>
+    <status value="active"/>
+    <period>
+      <start value="2014-09-25"/>
+    </period>
+  </statusHistory>
+  <type>
+    <coding>
+        <system value="http://terminology.hl7.org/CodeSystem/episodeofcare-type"/>
+        <code value="hacc"/>
+        <display value="Home and Community Care"/>
+    </coding>
+  </type>
+  <diagnosis>
+    <condition>
+	    <reference value="Condition/stroke"/>
+    </condition>
+    <role>
+      <coding>
+        <system value="http://terminology.hl7.org/CodeSystem/diagnosis-role"/>
+        <code value="CC"/>
+        <display value="Chief complaint"/>
+      </coding>
+    </role>
+    <rank value="1"/>
+  </diagnosis>
+  <patient>
+    <reference value="Patient/example"/>
+  </patient>
+  <managingOrganization>
+    <reference value="Organization/hl7"/>
+  </managingOrganization>
+  <period>
+    <start value="2014-09-01"/>
+  </period>
+  <referralRequest>
+    <display value="Referral from Example Aged Care Services"/>
+  </referralRequest>
+  <careManager>
+    <reference value="Practitioner/14"/>
+    <display value="Amanda Assigned"/>
+  </careManager>
+  <team>
+    <reference value="CareTeam/example"/>
+    <display value="example care team"/>
+  </team>
+  <account>
+    <reference value="Account/example"/>
+    <display value="example account"/>
+  </account>
+</EpisodeOfCare>

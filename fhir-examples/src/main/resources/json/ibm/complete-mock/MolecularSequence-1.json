@@ -1,0 +1,403 @@
+{
+    "resourceType": "MolecularSequence",
+    "id": "huTYY350dW",
+    "meta": {
+        "versionId": "AzwsysMkBx",
+        "lastUpdated": "2019-08-03T00:12:36.195-04:00",
+        "source": "B8XWc0mBCt",
+        "profile": [
+            "iRLinOaQdN"
+        ],
+        "security": [
+            {
+                "system": "HORUHvfvsv",
+                "version": "HWIjqVIYck",
+                "code": "rLNZ91lrwx",
+                "display": "nvCdl8Pepk",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "IU0lBl1y0v",
+                "version": "OXQuWEQCxz",
+                "code": "ImeZ8URc9Q",
+                "display": "OjMTUly_xl",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "qbKNsko0xu",
+    "language": "HLQKRK7_9f",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "T7TO_9HB6B",
+                        "version": "po1_Aw_2lA",
+                        "code": "D3ixBT3oWU",
+                        "display": "y5bD4YtsOv",
+                        "userSelected": true
+                    }
+                ],
+                "text": "fPs1P28EFR"
+            },
+            "system": "pUlIS3qLWh",
+            "value": "YtvJqWoV7R",
+            "period": {
+                "start": "2019-08-03T00:12:36.196-04:00",
+                "end": "2019-08-03T00:12:36.196-04:00"
+            }
+        }
+    ],
+    "type": "dna",
+    "coordinateSystem": 1893409899,
+    "patient": {
+        "reference": "kBkAO45JG0",
+        "type": "JijFVsHI_m",
+        "identifier": {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "ihOIZ3eYpC",
+                        "version": "dJHFlg9Eg8",
+                        "code": "XLgxbEVR_c",
+                        "display": "HkQzR3ecBw",
+                        "userSelected": true
+                    }
+                ],
+                "text": "FVH6AgTcE5"
+            },
+            "system": "1gdbucSwUx",
+            "value": "Qb9KnyiSZn",
+            "period": {
+                "start": "2019-08-03T00:12:36.195-04:00",
+                "end": "2019-08-03T00:12:36.195-04:00"
+            }
+        },
+        "display": "UJLe5O1Az_"
+    },
+    "specimen": {
+        "reference": "RkQo9KEF3k",
+        "type": "qPRJ3mN4oG",
+        "identifier": {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "ruOMVYGm2J",
+                        "version": "yA3gl2km1J",
+                        "code": "hfKeqrMpjc",
+                        "display": "VCaIMA46Av",
+                        "userSelected": true
+                    }
+                ],
+                "text": "7MY4SJtkM2"
+            },
+            "system": "laLMIbw7wW",
+            "value": "RvqvIJzmZf",
+            "period": {
+                "start": "2019-08-03T00:12:36.194-04:00",
+                "end": "2019-08-03T00:12:36.194-04:00"
+            }
+        },
+        "display": "zjetYfbXw_"
+    },
+    "device": {
+        "reference": "qLQXew6cto",
+        "type": "7J1DqleGL_",
+        "identifier": {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "e7uHzoNOsD",
+                        "version": "fBcjzRTBRU",
+                        "code": "XKWoskmuwX",
+                        "display": "2wHtXpScWI",
+                        "userSelected": true
+                    }
+                ],
+                "text": "1zzajQVIIN"
+            },
+            "system": "KgaSSznc8h",
+            "value": "pQn3gc5RIj",
+            "period": {
+                "start": "2019-08-03T00:12:36.193-04:00",
+                "end": "2019-08-03T00:12:36.194-04:00"
+            }
+        },
+        "display": "K_g91NLRae"
+    },
+    "performer": {
+        "reference": "Z1pnjgh4AA",
+        "type": "ogzzpPSNgu",
+        "identifier": {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "tAvIScMt8m",
+                        "version": "GZhmy0tb_T",
+                        "code": "XUZdED1eqQ",
+                        "display": "3DQcrXHkzo",
+                        "userSelected": true
+                    }
+                ],
+                "text": "M3DUdot2wc"
+            },
+            "system": "LqvRfcaFuj",
+            "value": "JXrQUckLLw",
+            "period": {
+                "start": "2019-08-03T00:12:36.196-04:00",
+                "end": "2019-08-03T00:12:36.196-04:00"
+            }
+        },
+        "display": "Elg7X0ERRr"
+    },
+    "quantity": {
+        "value": 525637877603,
+        "comparator": "<=",
+        "unit": "1feGp1uZcp",
+        "system": "NDhkJqUxdA",
+        "code": "9HO1MTGTcM"
+    },
+    "referenceSeq": {
+        "chromosome": {
+            "coding": [
+                {
+                    "system": "zk5v7Dw4WL",
+                    "version": "PWzhniajxu",
+                    "code": "R_qHxpOi0P",
+                    "display": "_TcWtfxIk5",
+                    "userSelected": true
+                }
+            ],
+            "text": "B7K_M7f6n7"
+        },
+        "genomeBuild": "floWMaLLe9",
+        "orientation": "sense",
+        "referenceSeqId": {
+            "coding": [
+                {
+                    "system": "OFqtReKVQS",
+                    "version": "9bJMVejXEi",
+                    "code": "Pp_NONVDU5",
+                    "display": "_f5kTQDAO1",
+                    "userSelected": true
+                }
+            ],
+            "text": "u3X2AdrO_4"
+        },
+        "referenceSeqPointer": {
+            "reference": "ENLlld_xnq",
+            "type": "hYqEIEQ_1G",
+            "identifier": {
+                "use": "usual",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "lx_rV1ay0e",
+                            "version": "gCZXyZkcwg",
+                            "code": "70Ufordj_x",
+                            "display": "xnHy9c69JE",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "t92ke1YdEb"
+                },
+                "system": "JApO9GqywF",
+                "value": "wchpuTqwJB",
+                "period": {
+                    "start": "2019-08-03T00:12:36.213-04:00",
+                    "end": "2019-08-03T00:12:36.213-04:00"
+                }
+            },
+            "display": "_I94l0fjod"
+        },
+        "referenceSeqString": "Y93EtATIvI",
+        "strand": "watson",
+        "windowStart": 159999604,
+        "windowEnd": 623727141
+    },
+    "variant": [
+        {
+            "start": 1012684731,
+            "end": 106997215,
+            "observedAllele": "CpNYZydRJo",
+            "referenceAllele": "5SlkKzitrU",
+            "cigar": "L9zJzl80Gz",
+            "variantPointer": {
+                "reference": "pMDJk7Oe3t",
+                "type": "ZwA26yYdUS",
+                "identifier": {
+                    "use": "temp",
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "dmBFXAxQB9",
+                                "version": "OPFWPgUUvh",
+                                "code": "EYjFsjGpwC",
+                                "display": "COwEsidv00",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "Z2hkjDu1ih"
+                    },
+                    "system": "FuP65FJEdH",
+                    "value": "1SEsav36lL",
+                    "period": {
+                        "start": "2019-08-03T00:12:36.192-04:00",
+                        "end": "2019-08-03T00:12:36.192-04:00"
+                    }
+                },
+                "display": "vAvujDoWaa"
+            }
+        }
+    ],
+    "observedSeq": "ZLKE4Ym23f",
+    "quality": [
+        {
+            "type": "indel",
+            "standardSequence": {
+                "coding": [
+                    {
+                        "system": "D0kNGsT4LW",
+                        "version": "5ERYZ9bneJ",
+                        "code": "w11u7YfW2a",
+                        "display": "NYB5ZftnU7",
+                        "userSelected": true
+                    }
+                ],
+                "text": "gVO9ApxkbS"
+            },
+            "start": 1500530956,
+            "end": 34381292,
+            "score": {
+                "value": 272530153018,
+                "comparator": "<=",
+                "unit": "hanvRSIDNz",
+                "system": "jmssWrbHgJ",
+                "code": "s6HpD02EWt"
+            },
+            "method": {
+                "coding": [
+                    {
+                        "system": "Cw7fe_KC9s",
+                        "version": "2RfGWcfcqe",
+                        "code": "qeWVn55fuz",
+                        "display": "m2F7idxFYT",
+                        "userSelected": true
+                    }
+                ],
+                "text": "UveRmflSwv"
+            },
+            "truthTP": 64430436693,
+            "queryTP": 275482417420,
+            "truthFN": 425493876791,
+            "queryFP": 171869550372,
+            "gtFP": 414286364701,
+            "precision": 43612074594,
+            "recall": 13964814390,
+            "fScore": 324140271641,
+            "roc": {
+                "score": [
+                    924947362
+                ],
+                "numTP": [
+                    60572993
+                ],
+                "numFP": [
+                    596886833
+                ],
+                "numFN": [
+                    1344861016
+                ],
+                "precision": [
+                    258490399272
+                ],
+                "sensitivity": [
+                    429639233284
+                ],
+                "fMeasure": [
+                    362026177334
+                ]
+            }
+        }
+    ],
+    "readCoverage": 223566460,
+    "repository": [
+        {
+            "type": "other",
+            "url": "RqFIi0yq3G",
+            "name": "0Hjvr3QDHJ",
+            "datasetId": "1PGKWS8L3a",
+            "variantsetId": "vMdVHsnU58",
+            "readsetId": "D097NSzqYI"
+        }
+    ],
+    "pointer": [
+        {
+            "reference": "ldqLcFVMDC",
+            "type": "id2z8U0FOr",
+            "identifier": {
+                "use": "usual",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "6MZYZotzMT",
+                            "version": "U04ZhPkfXy",
+                            "code": "Zp9SAFCiT5",
+                            "display": "fF7epB50vy",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "MXfw0pcoqh"
+                },
+                "system": "_x5Z4GVoeE",
+                "value": "3wYLHyEYq5",
+                "period": {
+                    "start": "2019-08-03T00:12:36.193-04:00",
+                    "end": "2019-08-03T00:12:36.193-04:00"
+                }
+            },
+            "display": "11vb6IrC9M"
+        }
+    ],
+    "structureVariant": [
+        {
+            "variantType": {
+                "coding": [
+                    {
+                        "system": "ATvQz8g0z_",
+                        "version": "Gxaqm9Bn7V",
+                        "code": "JJRrN4D3j5",
+                        "display": "N0dBpSTkRC",
+                        "userSelected": true
+                    }
+                ],
+                "text": "kDOMZzti0z"
+            },
+            "exact": true,
+            "length": 253003657,
+            "outer": {
+                "start": 1744882940,
+                "end": 797689705
+            },
+            "inner": {
+                "start": 787759212,
+                "end": 329420059
+            }
+        }
+    ]
+}

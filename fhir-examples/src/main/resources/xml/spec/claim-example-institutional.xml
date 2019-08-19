@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><Claim xmlns="http://hl7.org/fhir">
+	<id value="960150"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the Claim</div>
+	</text>
+
+	<identifier>
+		<system value="http://happyhospital.com/claim"/>
+		<value value="9612345"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/claim-type"/>
+			<code value="institutional"/>
+		</coding>
+	</type>
+
+	<subType>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/ex-claimsubtype"/>
+			<code value="emergency"/>
+		</coding>
+	</subType> 
+
+	<use value="claim"/>
+
+	<patient>
+		<reference value="Patient/1"/>
+	</patient>
+
+	<created value="2014-08-16"/>
+
+	<enterer>
+		<identifier>
+			<system value="http://jurisdiction.org/facilities/HOSP1234/users"/>
+			<value value="UC1234"/>
+		</identifier>
+	</enterer>
+
+	<insurer>
+		<reference value="Organization/2"/>
+	</insurer>
+
+	<provider>
+		<reference value="Organization/1"/>
+	</provider>
+
+	<priority>
+		<coding>
+			<code value="normal"/>
+		</coding>
+	</priority>
+
+	<payee>
+		<type>
+			<coding>
+				<code value="provider"/>
+			</coding>
+		</type>
+	</payee>
+
+	<facility>
+		<identifier>
+			<system value="http://jurisdiction.org/facilities"/>
+			<value value="HOSP1234"/>
+		</identifier>
+	</facility>
+
+	<careTeam>
+		<sequence value="1"/>
+		<provider>
+			<reference value="Practitioner/example"/>
+		</provider>
+	</careTeam>
+
+	<diagnosis>
+		<sequence value="1"/>
+		<diagnosisCodeableConcept>
+			<coding>
+				<code value="654456"/>
+			</coding>
+		</diagnosisCodeableConcept>
+	</diagnosis>
+
+	<procedure>
+		<sequence value="1"/>
+		<type>
+			<coding>
+				<code value="primary"/>
+			</coding>
+		</type>	
+		<date value="2014-08-16"/>
+		<procedureCodeableConcept>
+			<coding>
+				<code value="SDI9901"/>
+			</coding>
+			<text value="Subcutaneous diagnostic implant"/>
+		</procedureCodeableConcept>
+		<udi>
+			<reference value="Device/example"/>
+		</udi>
+	</procedure>
+
+	<insurance>
+		<sequence value="1"/>
+		<focal value="true"/>
+		<coverage>
+			<reference value="Coverage/9876B1"/>
+		</coverage>
+	</insurance>
+
+	<item>
+		<sequence value="1"/>
+		<careTeamSequence value="1"/>
+		<productOrService>
+			<coding>
+				<system value="http://hl7.org/fhir/ex-serviceproduct"/>
+				<code value="exam"/> 
+			</coding>
+		</productOrService>
+		<servicedDate value="2014-08-16"/>
+		<unitPrice>
+			<value value="125.00"/>
+			<currency value="USD"/> 
+		</unitPrice> 
+		<net>
+			<value value="125.00"/>
+			<currency value="USD"/> 
+		</net> 
+		<encounter>
+			<reference value="Encounter/example"/>
+		</encounter>
+	</item>
+
+	<total>
+		<value value="125.00"/>
+		<currency value="USD"/>  
+	</total>
+</Claim>

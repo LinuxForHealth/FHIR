@@ -1,0 +1,282 @@
+{
+    "resourceType": "CapabilityStatement",
+    "id": "4OEstYrMSJ",
+    "meta": {
+        "versionId": "7CaTuXTtLK",
+        "lastUpdated": "2019-08-03T00:12:30.470-04:00",
+        "source": "L0TtD4YZvK",
+        "profile": [
+            "c4AIhZNl5m"
+        ],
+        "security": [
+            {
+                "system": "RZnZu4zsG0",
+                "version": "UA9I7U_vWe",
+                "code": "ZZeJC8OfQl",
+                "display": "lxpqjUM6zt",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "cwaW1kbc2h",
+                "version": "t1NZFTBtji",
+                "code": "jj6fZiwGV5",
+                "display": "hiNGfcqhTn",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "SjxcE0P9yR",
+    "language": "7sGgiGMotM",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "Y6O9_8uE7t",
+    "version": "RoUDgsPClk",
+    "name": "8Q94545YxE",
+    "title": "l6xRsJyUvJ",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-08-03T00:12:30.466-04:00",
+    "publisher": "_UD6laVDAz",
+    "contact": [
+        {
+            "name": "HimAQxHS4c",
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "GKWsA8_9iH",
+                    "use": "work",
+                    "rank": 1255797999,
+                    "period": {
+                        "start": "2019-08-03T00:12:30.471-04:00",
+                        "end": "2019-08-03T00:12:30.471-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "wtYFoIK_nb",
+    "useContext": [
+        {
+            "code": {
+                "system": "GhFw5oXtkD",
+                "version": "iRN0hHsoFR",
+                "code": "TOsOh1V_Ul",
+                "display": "8Hk4JohPAC",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "RZhAMk_BFa",
+                        "version": "EvFjSf9f32",
+                        "code": "sLol_ZLUPl",
+                        "display": "qtGuTtnHzC",
+                        "userSelected": true
+                    }
+                ],
+                "text": "NUU_1Hj6qh"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "mATnhl6Zxb",
+                    "version": "NEgYvCAEQu",
+                    "code": "yXIQen9pmG",
+                    "display": "xGmJso4Xwq",
+                    "userSelected": true
+                }
+            ],
+            "text": "EWbsWGzJGD"
+        }
+    ],
+    "purpose": "9_Pw3W7IO4",
+    "copyright": "4l5IgneILu",
+    "kind": "instance",
+    "instantiates": [
+        "mQ5FNPa8vy"
+    ],
+    "imports": [
+        "GYZQEsrjpZ"
+    ],
+    "software": {
+        "name": "RQRfwCLTJl",
+        "version": "MfMz2kgznz",
+        "releaseDate": "2019-08-03T00:12:30.416-04:00"
+    },
+    "implementation": {
+        "description": "IBsv_YfnaP",
+        "url": "6kzcIERHFe",
+        "custodian": {
+            "reference": "bTHWHvSZcM",
+            "type": "fVHqidtr3k",
+            "identifier": {
+                "use": "secondary",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "ecOqgMkYrr",
+                            "version": "DZYG66P77O",
+                            "code": "imQfqPDGhd",
+                            "display": "nGUJK1NB5I",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "NzFHkTP0bw"
+                },
+                "system": "MNJCpqkzk6",
+                "value": "nYT56498NW",
+                "period": {
+                    "start": "2019-08-03T00:12:30.457-04:00",
+                    "end": "2019-08-03T00:12:30.457-04:00"
+                }
+            },
+            "display": "3WNxKTXzqU"
+        }
+    },
+    "fhirVersion": "1.0.0",
+    "format": [
+        "4tFszrdW6I"
+    ],
+    "patchFormat": [
+        "88o9U7WnK3"
+    ],
+    "implementationGuide": [
+        "41K4S9esOZ"
+    ],
+    "rest": [
+        {
+            "mode": "client",
+            "documentation": "if3uhwfT64",
+            "security": {
+                "cors": true,
+                "service": [
+                    {
+                        "coding": [
+                            {
+                                "system": "8s8OU5ATBQ",
+                                "version": "x8zYhhakoI",
+                                "code": "r5XZsDQ61v",
+                                "display": "Rozt6ml1EZ",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "Xw2cdJrGuK"
+                    }
+                ],
+                "description": "I7I2VgeDO3"
+            },
+            "resource": [
+                {
+                    "type": "CoverageEligibilityResponse",
+                    "profile": "SdVvuUN_yL",
+                    "supportedProfile": [
+                        "F6aNAPdQnU"
+                    ],
+                    "documentation": "xLnG9RG2AQ",
+                    "interaction": [
+                        {
+                            "code": "search-type",
+                            "documentation": "fC3dJ3W9HL"
+                        }
+                    ],
+                    "versioning": "no-version",
+                    "readHistory": true,
+                    "updateCreate": true,
+                    "conditionalCreate": true,
+                    "conditionalRead": "not-match",
+                    "conditionalUpdate": true,
+                    "conditionalDelete": "not-supported",
+                    "referencePolicy": [
+                        "resolves"
+                    ],
+                    "searchInclude": [
+                        "CgMUD8wSRc"
+                    ],
+                    "searchRevInclude": [
+                        "_suaSY1aaI"
+                    ],
+                    "searchParam": [
+                        {
+                            "name": "IfVHqdfO31",
+                            "definition": "7LJIJ7JQLR",
+                            "type": "token",
+                            "documentation": "Gd3qEJFH8u"
+                        }
+                    ],
+                    "operation": [
+                        {
+                            "name": "bYd7Cy2Qrc",
+                            "definition": "OKOD1lKSC4",
+                            "documentation": "puScOtG8ml"
+                        }
+                    ]
+                }
+            ],
+            "interaction": [
+                {
+                    "code": "transaction",
+                    "documentation": "VQOXOrHbhE"
+                }
+            ],
+            "searchParam": [
+                {
+                    "name": "7rZPUgKKRe",
+                    "definition": "xIp6Ux2Ii0",
+                    "type": "date",
+                    "documentation": "_KSvyL4C80"
+                }
+            ],
+            "operation": [
+                {
+                    "name": "zuHi2CenwW",
+                    "definition": "aJsJsAak_K",
+                    "documentation": "CapcMaLBwz"
+                }
+            ],
+            "compartment": [
+                "sTOtTtbrhs"
+            ]
+        }
+    ],
+    "messaging": [
+        {
+            "endpoint": [
+                {
+                    "protocol": {
+                        "system": "nBFJqS18_k",
+                        "version": "oeRRGOqcQi",
+                        "code": "I5WLdj_YsG",
+                        "display": "YsjtU5cu34",
+                        "userSelected": true
+                    },
+                    "address": "zGeig04pTO"
+                }
+            ],
+            "reliableCache": 536128994,
+            "documentation": "O5QBta2RXU",
+            "supportedMessage": [
+                {
+                    "mode": "receiver",
+                    "definition": "66nJUSP3Mz"
+                }
+            ]
+        }
+    ],
+    "document": [
+        {
+            "mode": "consumer",
+            "documentation": "518KYHmV7K",
+            "profile": "Qtmq84gdI2"
+        }
+    ]
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+	<id value="f203"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f203</p><p><b>identifier</b>: 1304-03720-Bicarbonate</p><p><b>status</b>: final</p><p><b>code</b>: Bicarbonate [Moles/?volume] in Serum <span>(Details : {LOINC code '1963-8' = 'Bicarbonate [Moles/volume] in Serum', given as 'Bicarbonate [Moles/?volume] in Serum'}; {SNOMED CT code '365722008' = 'Bicarbonate level - finding', given as 'Bicarbonate level'})</span></p><p><b>subject</b>: <a>Roel</a></p><p><b>issued</b>: 04/04/2013 2:34:00 PM</p><p><b>performer</b>: <a>Luigi Maas</a></p><p><b>value</b>: 28 mmol/L<span> (Details: SNOMED CT code 258813002 = 'mM')</span></p><p><b>interpretation</b>: Serum bicarbonate level normal <span>(Details : {SNOMED CT code '166698001' = 'Serum bicarbonate level normal', given as 'Serum bicarbonate level normal'}; {http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation code 'N' = 'Normal)</span></p><p><b>method</b>: enzymatic method <span>(Details )</span></p><h3>ReferenceRanges</h3><table><tr><td>-</td><td><b>Low</b></td><td><b>High</b></td><td><b>Type</b></td></tr><tr><td>*</td><td>22</td><td>29</td><td>Normal Range <span>(Details : {http://terminology.hl7.org/CodeSystem/referencerange-meaning code 'normal' = 'Normal Range', given as 'Normal Range'})</span></td></tr></table></div></text><identifier>
+		<system value="https://intranet.aumc.nl/labvalues"/><!--   Does not exist   --><value value="1304-03720-Bicarbonate"/>
+	</identifier><!--   Bicarbonate was measured on April fourth   --><status value="final"/>
+	<code><!--   Kind of observation = Bicarbonate LOINC and SNOMED CT translations here - Note in the US the primary code will be LOINC per meaningful use.  Further SNOMED CT  has acceeded to LOINC being the primary coding system for vitals and anthropromorphic measures.  SNOMED CT is required in some countries such as the UK.  --><coding>
+			<system value="http://loinc.org"/>
+			<code value="1963-8"/>
+			<display value="Bicarbonate [Moles/?volume] in Serum"/>
+		</coding>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="365722008"/>
+			<display value="Bicarbonate level"/>
+		</coding>
+	</code>
+	<subject>
+		<reference value="Patient/f201"/>
+		<display value="Roel"/>
+	</subject>
+	<issued value="2013-04-04T14:34:00+01:00"/>
+	<performer>
+		<reference value="Practitioner/f202"/>
+		<display value="Luigi Maas"/>
+	</performer>
+	<valueQuantity><!--   Bicarbonate=28mmol/L   --><value value="28"/>
+		<unit value="mmol/L"/>
+		<system value="http://snomed.info/sct"/>
+		<code value="258813002"/>
+	</valueQuantity>
+	<interpretation>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="166698001"/>
+			<display value="Serum bicarbonate level normal"/>
+		</coding>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+			<code value="N"/>
+		</coding>
+	</interpretation><!--   The observation is complete   --><!--   No reliability concerns   --><method><!--   Method was enzymatic method   --><text value="enzymatic method"/>
+	</method>
+	<referenceRange><!--   Healthy bicarbonate level ranges from 22mmol/L to 29mmol/L   --><low>
+			<value value="22"/>
+		</low>
+		<high>
+			<value value="29"/>
+		</high>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/referencerange-meaning"/>
+				<code value="normal"/>
+				<display value="Normal Range"/>
+			</coding>
+		</type>
+	</referenceRange>
+</Observation>

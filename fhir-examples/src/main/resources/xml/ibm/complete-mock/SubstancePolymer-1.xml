@@ -1,0 +1,268 @@
+<SubstancePolymer xmlns="http://hl7.org/fhir">
+  <id value="GPv6YdpQNs"/>
+  <meta>
+    <versionId value="eLwoxjPm6d"/>
+    <lastUpdated value="2019-08-08T09:17:32.277-04:00"/>
+    <source value="83tlCiqbz6"/>
+    <profile value="c5G1ifk13E"/>
+    <security>
+      <system value="fyNFmjBv_c"/>
+      <version value="T0ppacfvqN"/>
+      <code value="fBoP0HyutY"/>
+      <display value="XYoH9j3Lff"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="iTMUbzBHSu"/>
+      <version value="bo1RfT4sj9"/>
+      <code value="RwkkVaLWxw"/>
+      <display value="ffMyxN94vw"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="VJzEmTFmc2"/>
+  <language value="XdIf57yz9C"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <class>
+    <coding>
+      <system value="XzECOoH8Td"/>
+      <version value="cVBwC49jn0"/>
+      <code value="V2rj3ApyQW"/>
+      <display value="bzXlHN3ctM"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="dM7tLuVQqK"/>
+  </class>
+  <geometry>
+    <coding>
+      <system value="qWsIwt0WZh"/>
+      <version value="QylsZUK2Jb"/>
+      <code value="d3allSspGY"/>
+      <display value="S_0W7gSorF"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="_qHRgcvSkh"/>
+  </geometry>
+  <copolymerConnectivity>
+    <coding>
+      <system value="AGA1VEc7I6"/>
+      <version value="npPSPit52E"/>
+      <code value="gulOmtetq2"/>
+      <display value="ZggSUUEB81"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="ck8fI5SkD9"/>
+  </copolymerConnectivity>
+  <modification value="omF1Xmwp60"/>
+  <monomerSet>
+    <ratioType>
+      <coding>
+        <system value="wJN8RZAMfS"/>
+        <version value="XIYPzWZ0Vr"/>
+        <code value="201uzBhMgD"/>
+        <display value="QPci6R9AED"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="jUMGaV2dg3"/>
+    </ratioType>
+    <startingMaterial>
+      <material>
+        <coding>
+          <system value="axJypKcdHT"/>
+          <version value="P0E6jFqus5"/>
+          <code value="f2eZfJzMeA"/>
+          <display value="06oSbYxVGp"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="PFl_u0BE5i"/>
+      </material>
+      <type>
+        <coding>
+          <system value="rPXsPyPWy1"/>
+          <version value="C2_8R6cSRM"/>
+          <code value="58qEr6cpvm"/>
+          <display value="yEmD5PNxTa"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="a3luQtqHAZ"/>
+      </type>
+      <isDefining value="true"/>
+      <amount>
+        <amountQuantity>
+          <value value="96353914657"/>
+          <comparator value="&lt;"/>
+          <unit value="Lheba3yG5c"/>
+          <system value="2Ix5kMHHw4"/>
+          <code value="Lovk0kFpcN"/>
+        </amountQuantity>
+        <amountType>
+          <coding>
+            <system value="OyBI1AFlzC"/>
+            <version value="U1xnA78GrL"/>
+            <code value="BG3hQc7rPn"/>
+            <display value="sisrXVSXDS"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="fYM94ksezf"/>
+        </amountType>
+        <amountText value="3musWimgp_"/>
+        <referenceRange>
+          <lowLimit>
+            <value value="418292527123"/>
+            <comparator value=">"/>
+            <unit value="fUYdg_ea9q"/>
+            <system value="dP2BYpk7lD"/>
+            <code value="SIndjOFlOH"/>
+          </lowLimit>
+          <highLimit>
+            <value value="221181659240"/>
+            <comparator value=">"/>
+            <unit value="m9fuwOxYkE"/>
+            <system value="UBIgLFJcR_"/>
+            <code value="TKuhfYFlRP"/>
+          </highLimit>
+        </referenceRange>
+      </amount>
+    </startingMaterial>
+  </monomerSet>
+  <repeat>
+    <numberOfUnits value="483549803"/>
+    <averageMolecularFormula value="bbu_dkddes"/>
+    <repeatUnitAmountType>
+      <coding>
+        <system value="KCDODSSKTn"/>
+        <version value="4_fdRg0ED3"/>
+        <code value="9ebX8o7XTB"/>
+        <display value="sY6jO8Sxbf"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="WfPosMokhV"/>
+    </repeatUnitAmountType>
+    <repeatUnit>
+      <orientationOfPolymerisation>
+        <coding>
+          <system value="x5mEWnEs5D"/>
+          <version value="kjKhOk8RkO"/>
+          <code value="89h5EMB9rA"/>
+          <display value="iDc7uAPJsJ"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="ygdeXUbZzS"/>
+      </orientationOfPolymerisation>
+      <repeatUnit value="OMHqHkFHpm"/>
+      <amount>
+        <amountQuantity>
+          <value value="435119878195"/>
+          <comparator value=">="/>
+          <unit value="G_3keSzh71"/>
+          <system value="TkonSdyTgu"/>
+          <code value="RGK8q6r6v9"/>
+        </amountQuantity>
+        <amountType>
+          <coding>
+            <system value="iTP2Ni3WGo"/>
+            <version value="LaV3dxZiBi"/>
+            <code value="afDBUNCx15"/>
+            <display value="k3wRgoHRG2"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="CUYrUUNNfx"/>
+        </amountType>
+        <amountText value="pNRC8BauXA"/>
+        <referenceRange>
+          <lowLimit>
+            <value value="215508203364"/>
+            <comparator value=">="/>
+            <unit value="vACQQp8YPs"/>
+            <system value="vW9VcgrlfS"/>
+            <code value="qRp3DaRT3f"/>
+          </lowLimit>
+          <highLimit>
+            <value value="96590769943"/>
+            <comparator value="&lt;"/>
+            <unit value="Jgezm_LNt1"/>
+            <system value="bCiGlOrEQy"/>
+            <code value="gWFCGAz5c0"/>
+          </highLimit>
+        </referenceRange>
+      </amount>
+      <degreeOfPolymerisation>
+        <degree>
+          <coding>
+            <system value="f0C4Hi9TKm"/>
+            <version value="j7ulYT2gEY"/>
+            <code value="5LczMyVFfZ"/>
+            <display value="S1KRSsRCXu"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="zrkqX6h6cK"/>
+        </degree>
+        <amount>
+          <amountQuantity>
+            <value value="464477553019"/>
+            <comparator value=">="/>
+            <unit value="cp2m6gKHpo"/>
+            <system value="bbY4ALYcxa"/>
+            <code value="ALRupeFb1s"/>
+          </amountQuantity>
+          <amountType>
+            <coding>
+              <system value="_81oxtplWg"/>
+              <version value="4lMGX8o8Gt"/>
+              <code value="QnGy5meFk7"/>
+              <display value="RlVVzz01wr"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="Ni5w9b3jU3"/>
+          </amountType>
+          <amountText value="easUxG9yeT"/>
+          <referenceRange>
+            <lowLimit>
+              <value value="211348949063"/>
+              <comparator value="&lt;="/>
+              <unit value="BfeBPcTYnR"/>
+              <system value="Ah5d8EHNFj"/>
+              <code value="LafDp7kCVv"/>
+            </lowLimit>
+            <highLimit>
+              <value value="193947576378"/>
+              <comparator value=">"/>
+              <unit value="nFaSEtcodA"/>
+              <system value="lbRCUc68pn"/>
+              <code value="6ezg4xajHd"/>
+            </highLimit>
+          </referenceRange>
+        </amount>
+      </degreeOfPolymerisation>
+      <structuralRepresentation>
+        <type>
+          <coding>
+            <system value="7RvzXlsUIt"/>
+            <version value="BSxtkhBhOi"/>
+            <code value="617h8gNMan"/>
+            <display value="Yx0j4tIqjm"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="hlwcCm7K5k"/>
+        </type>
+        <representation value="s92ZQ67AwU"/>
+        <attachment>
+          <contentType value="MIvJg5A2Rh"/>
+          <language value="PDJ5ptmKyJ"/>
+          <data value="bHFgcUM="/>
+          <url value="wPVamRlFHt"/>
+          <size value="1543617280"/>
+          <hash value="TFVmClw="/>
+          <title value="azbtvWocsm"/>
+          <creation value="2019-08-08T09:17:32.287-04:00"/>
+        </attachment>
+      </structuralRepresentation>
+    </repeatUnit>
+  </repeat>
+</SubstancePolymer>

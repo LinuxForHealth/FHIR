@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><List xmlns="http://hl7.org/fhir">
+  <id value="f201"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f201</p><p><b>contained</b>: , </p><p><b>status</b>: current</p><p><b>mode</b>: snapshot</p><p><b>code</b>: History of family member diseases <span>(Details : {LOINC code '8670-2' = 'History of family member diseases', given as 'History of family member diseases'})</span></p><p><b>subject</b>: <a>Roel</a></p><p><b>note</b>: Both parents, both brothers and both children (twin) are still alive.</p><blockquote><p><b>entry</b></p><p><b>item</b>: id: fmh-1; status: completed; Mother <span>(Details : {SNOMED CT code '72705000' = 'Mother', given as 'Mother'})</span>; </p></blockquote><blockquote><p><b>entry</b></p><p><b>item</b>: id: fmh-2; status: completed; Uncle <span>(Details : {SNOMED CT code '38048003' = 'Uncle', given as 'Uncle'})</span>; deceased</p></blockquote></div></text><contained>
+    <FamilyMemberHistory>
+      <id value="fmh-1"/>
+      <!--  ROB's Mother has a hernia  -->
+      <status value="completed"/>
+	  <patient>
+        <reference value="Patient/f201"/>
+        <display value="Roel"/>
+      </patient>
+      
+      <relationship>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="72705000"/>
+          <display value="Mother"/>
+        </coding>
+      </relationship>
+      <deceasedBoolean value="false"/>
+      <condition>
+        <code>
+          <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="39839004"/>
+            <display value="Diaphragmatic hernia"/>
+          </coding>
+        </code>
+      </condition>
+    </FamilyMemberHistory>
+  </contained>
+  <contained>
+    <FamilyMemberHistory>
+      <id value="fmh-2"/>
+      <!--  ROB's uncle from mother's side died from cancer  -->
+      <status value="completed"/>
+      <patient>
+        <reference value="Patient/f201"/>
+        <display value="Roel"/>
+      </patient>
+      <relationship>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="38048003"/>
+          <display value="Uncle"/>
+        </coding>
+      </relationship>
+      <deceasedBoolean value="true"/>
+      <condition>
+        <code>
+          <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="115665000"/>
+            <display value="Atopy"/>
+          </coding>
+        </code>
+        <outcome>
+          <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="419099009"/>
+            <display value="Died"/>
+          </coding>
+        </outcome>
+      </condition>
+    </FamilyMemberHistory>
+  </contained>
+  <status value="current"/>
+  <mode value="snapshot"/>
+  <code>
+    <coding>
+      <system value="http://loinc.org"/>
+      <code value="8670-2"/>
+      <display value="History of family member diseases"/>
+    </coding>
+  </code>
+  <subject>
+    <reference value="Patient/f201"/>
+    <display value="Roel"/>
+  </subject>
+  <note>
+    <text value="Both parents, both brothers and both children (twin) are still alive."/>
+  </note>
+  <!--  Other relatives  -->
+  <entry>
+    <item>
+      <reference value="#fmh-1"/>
+    </item>
+  </entry>
+  <entry>
+    <item>
+      <reference value="#fmh-2"/>
+    </item>
+  </entry>
+</List>

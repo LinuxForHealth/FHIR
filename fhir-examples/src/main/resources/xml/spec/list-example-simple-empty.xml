@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><List xmlns="http://hl7.org/fhir">
+  <id value="example-simple-empty"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>Patient Admission Waitoing list</p>
+    </div>
+  </text>
+  <status value="current"/>
+  <mode value="snapshot"/>
+  <code>
+    <coding>
+      <system value="http://acme.com/list-codes"/>
+      <code value="346638"/>
+      <display value="Patient Admission List"/>
+    </coding>
+  </code>
+  <date value="2016-07-14T11:54:05+10:00"/>
+
+  <!--  no items on the list, it's just empty 
+    e.g. you don't need to have any empty reason -->  
+</List>

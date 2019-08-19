@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="ConceptMap-closure"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Closure Table Maintenance</h2>
+      <p>OPERATION: Closure Table Maintenance</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/ConceptMap-closure</pre>
+      <div>
+        <p>This operation provides support for ongoing maintenance of a client-side 
+          <a href="https://en.wikipedia.org/wiki/Transitive_closure#In_graph_theory">transitive closure table</a> based on server-side terminological logic. For details of how this is used, see 
+          <a href="terminology-service.html#closure">Maintaining a Closure Table</a>
+        </p>
+
+      </div>
+      <p>URL: [base]/$closure</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>name</td>
+          <td>1..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The name that defines the particular context for the subsumption based closure table</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>concept</td>
+          <td>0..*</td>
+          <td>
+            <a href="datatypes.html#Coding">Coding</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>Concepts to add to the closure table</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>version</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>A request to resynchronise - request to send all new entries since the nominated version was sent by the server</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>return</td>
+          <td>1..1</td>
+          <td>
+            <a href="conceptmap.html">ConceptMap</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>A list of new entries (code / system --&gt; code/system) that the client should add to its closure table. The only kind of entry mapping equivalences that can be returned are equal, specializes, subsumes and unmatched</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div/>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="3"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/ConceptMap-closure"/>
+  <version value="4.0.0"/>
+  <name value="Closure Table Maintenance"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="This operation provides support for ongoing maintenance of a client-side [transitive closure table](https://en.wikipedia.org/wiki/Transitive_closure#In_graph_theory) based on server-side terminological logic. For details of how this is used, see [Maintaining a Closure Table](terminology-service.html#closure)"/>
+  <code value="closure"/>
+  <resource value="ConceptMap"/>
+  <system value="true"/>
+  <type value="false"/>
+  <instance value="false"/>
+  <parameter>
+    <name value="name"/>
+    <use value="in"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The name that defines the particular context for the subsumption based closure table"/>
+    <type value="string"/>
+  </parameter>
+  <parameter>
+    <name value="concept"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="*"/>
+    <documentation value="Concepts to add to the closure table"/>
+    <type value="Coding"/>
+  </parameter>
+  <parameter>
+    <name value="version"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="A request to resynchronise - request to send all new entries since the nominated version was sent by the server"/>
+    <type value="string"/>
+  </parameter>
+  <parameter>
+    <name value="return"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="A list of new entries (code / system --&gt; code/system) that the client should add to its closure table. The only kind of entry mapping equivalences that can be returned are equal, specializes, subsumes and unmatched"/>
+    <type value="ConceptMap"/>
+  </parameter>
+</OperationDefinition>

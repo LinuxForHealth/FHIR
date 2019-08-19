@@ -1,0 +1,234 @@
+{
+    "resourceType": "FamilyMemberHistory",
+    "id": "T-qyVt2s-x",
+    "meta": {
+        "versionId": "tG-OYR1aTg",
+        "lastUpdated": "2019-08-03T00:12:34.690-04:00",
+        "source": "zchvX3esku",
+        "profile": [
+            "GdVsX1GhZ5"
+        ],
+        "security": [
+            {
+                "system": "t0P07oj2E3",
+                "version": "CzJz0MNO61",
+                "code": "vdmFUJsU6C",
+                "display": "rTln_joDn5",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "6r6oSuMYsT",
+                "version": "TuMLHyw2va",
+                "code": "4JNiMaEb3f",
+                "display": "552NxdnFcl",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "qwPSEeSzE6",
+    "language": "JMKhN2Jhi_",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "_09zKPSAQC",
+                        "version": "EgglbSYpSu",
+                        "code": "AAGgCDoQUR",
+                        "display": "V61pZtaxMe",
+                        "userSelected": true
+                    }
+                ],
+                "text": "EBMi4FM8o2"
+            },
+            "system": "shqS2PXhwt",
+            "value": "dJ1avS_Bh5",
+            "period": {
+                "start": "2019-08-03T00:12:34.691-04:00",
+                "end": "2019-08-03T00:12:34.691-04:00"
+            }
+        }
+    ],
+    "instantiatesCanonical": [
+        "h3l7SnM5iy"
+    ],
+    "instantiatesUri": [
+        "Txh8BVbaD0"
+    ],
+    "status": "partial",
+    "dataAbsentReason": {
+        "coding": [
+            {
+                "system": "zQE2S_fFbL",
+                "version": "RoXmpFpKSI",
+                "code": "ieiNhQ5LUr",
+                "display": "d7KI1DSaAK",
+                "userSelected": true
+            }
+        ],
+        "text": "LJWH4S6sM0"
+    },
+    "patient": {
+        "reference": "ZHZQwLPvPU",
+        "type": "itPSxWBBKW",
+        "identifier": {
+            "use": "secondary",
+            "type": {
+                "coding": [
+                    {
+                        "system": "s54EzamUPw",
+                        "version": "vSw3Ugx5HX",
+                        "code": "JMJTgY33Fh",
+                        "display": "ib2c5W3llc",
+                        "userSelected": true
+                    }
+                ],
+                "text": "xMb8EDYUmH"
+            },
+            "system": "R2C5KdlioK",
+            "value": "7A39qfDeyk",
+            "period": {
+                "start": "2019-08-03T00:12:34.690-04:00",
+                "end": "2019-08-03T00:12:34.690-04:00"
+            }
+        },
+        "display": "UbsVShHSgj"
+    },
+    "date": "2019-08-03T00:12:34.688-04:00",
+    "name": "kq1grd1IIS",
+    "relationship": {
+        "coding": [
+            {
+                "system": "a3YA_UP_vP",
+                "version": "OBJ3MlZNB_",
+                "code": "JBqX3tu2PF",
+                "display": "sWCANwRYAw",
+                "userSelected": true
+            }
+        ],
+        "text": "c9oUA_lnA2"
+    },
+    "sex": {
+        "coding": [
+            {
+                "system": "qMc2VcGtGZ",
+                "version": "E3qRD7I12f",
+                "code": "adNMx2XhdW",
+                "display": "mBr_40SR3D",
+                "userSelected": true
+            }
+        ],
+        "text": "ZxeRoL5cGF"
+    },
+    "ageString": "VYq6Hx_lev",
+    "estimatedAge": true,
+    "deceasedAge": {
+        "value": 244968595748,
+        "comparator": ">=",
+        "unit": "jCj6JW61Yk",
+        "system": "http://unitsofmeasure.org",
+        "code": "a"
+    },
+    "reasonCode": [
+        {
+            "coding": [
+                {
+                    "system": "9F1QeSuM_T",
+                    "version": "0ANh260vuA",
+                    "code": "hrNyZu8Jii",
+                    "display": "oeVeZcnikp",
+                    "userSelected": true
+                }
+            ],
+            "text": "qOeSYccyO6"
+        }
+    ],
+    "reasonReference": [
+        {
+            "reference": "ZLeUddiSbe",
+            "type": "u4IRhoO2rN",
+            "identifier": {
+                "use": "usual",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "vcATYyAyeD",
+                            "version": "5fQ8keL5T9",
+                            "code": "FlyZs87SCn",
+                            "display": "UeKxuzgCR9",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "L6UikIJbd_"
+                },
+                "system": "Ya7rCfvg_K",
+                "value": "Q34XiRhoBJ",
+                "period": {
+                    "start": "2019-08-03T00:12:34.687-04:00",
+                    "end": "2019-08-03T00:12:34.687-04:00"
+                }
+            },
+            "display": "qP9VjIiaum"
+        }
+    ],
+    "note": [
+        {
+            "authorString": "1m0vlXbT9l",
+            "time": "2019-08-03T00:12:34.687-04:00",
+            "text": "hwPCQ3KvCz"
+        }
+    ],
+    "condition": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "UjD_9T3VgM",
+                        "version": "81lpjaRIze",
+                        "code": "0kKUGEdN7h",
+                        "display": "EvluTpvLDv",
+                        "userSelected": true
+                    }
+                ],
+                "text": "xO3NrNPLlU"
+            },
+            "outcome": {
+                "coding": [
+                    {
+                        "system": "HmKU4jLqyP",
+                        "version": "TJVmiyGCja",
+                        "code": "zCnnedwcfN",
+                        "display": "KLSFj3vI3i",
+                        "userSelected": true
+                    }
+                ],
+                "text": "eLpR9lteR1"
+            },
+            "contributedToDeath": true,
+            "onsetAge": {
+                "value": 169169465361,
+                "comparator": "<=",
+                "unit": "3nR9jDWL_i",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "note": [
+                {
+                    "authorString": "rprQ3H8ywu",
+                    "time": "2019-08-03T00:12:34.688-04:00",
+                    "text": "ldkLFE8ZxG"
+                }
+            ]
+        }
+    ]
+}

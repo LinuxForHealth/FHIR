@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><CarePlan xmlns="http://hl7.org/fhir">
+  <id value="f203"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f203</p><p><b>contained</b>: , </p><p><b>status</b>: completed</p><p><b>intent</b>: plan</p><p><b>subject</b>: <a>Roel</a></p><p><b>period</b>: 14/04/2013 --&gt; 21/04/2013</p><p><b>careTeam</b>: id: careteam</p><p><b>addresses</b>: <a>Roel's sepsis</a></p><p><b>goal</b>: id: goal; lifecycleStatus: cancelled; Check whether further treatment of sepsis/pulmonary abcess is required <span>(Details )</span></p><blockquote><p><b>activity</b></p><h3>Details</h3><table><tr><td>-</td><td><b>Kind</b></td><td><b>Code</b></td><td><b>Status</b></td><td><b>DoNotPerform</b></td></tr><tr><td>*</td><td>ServiceRequest</td><td>High resolution computed tomography of lungs <span>(Details : {SNOMED CT code '241541005' = 'High resolution CT of lungs', given as 'High resolution computed tomography of lungs'})</span></td><td>not-started</td><td>false</td></tr></table></blockquote></div></text><contained>
+    <CareTeam>
+        <id value="careteam"/>
+        <participant>
+    	    <role>
+      		<coding>
+        	    <system value="http://snomed.info/sct"/>
+	            <code value="425268008"/>
+	            <display value="Review of care plan"/>
+	      </coding>
+    	    </role>
+    	    <member>
+      		<reference value="Practitioner/f201"/>
+      		<display value="Dokter Bronsig"/>
+    	    </member>
+  	</participant>
+ 	<participant>
+    	    <role>
+      		<coding>
+        	    <system value="http://snomed.info/sct"/>
+	            <code value="278110001"/>
+	            <display value="Radiographic imaging"/>
+	      </coding>
+    	    </role>
+    	    <member>
+      		<reference value="Practitioner/f202"/>
+      		<display value="Luigi Maas"/>
+    	    </member>
+  	</participant>
+    </CareTeam>
+  </contained>
+  <contained>
+    <Goal>
+      <id value="goal"/>
+      <lifecycleStatus value="cancelled"/>
+      <description>
+        <text value="Check whether further treatment of sepsis/pulmonary abcess is required"/>
+      </description>
+      <subject>
+        <reference value="Patient/f201"/>
+        <display value="Roel"/>
+      </subject>      
+    </Goal>
+  </contained>
+  <status value="completed"/>
+  <intent value="plan"/>
+  <subject>
+    <!--  It entails Roel's careplan  -->
+    <reference value="Patient/f201"/>
+    <display value="Roel"/>
+  </subject>
+  <period>
+    <start value="2013-04-14"/>
+    <end value="2013-04-21"/>
+  </period>
+  <careTeam>
+    <reference value="#careteam"/>
+  </careTeam>
+  <addresses>
+    <reference value="Condition/f203"/>
+    <display value="Roel's sepsis"/>
+  </addresses>
+  <goal>
+    <reference value="#goal"/>
+  </goal>
+  <activity>
+    <detail>
+      <kind value="ServiceRequest"/>
+      <code>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="241541005"/>
+          <display value="High resolution computed tomography of lungs"/>
+        </coding>
+      </code>
+      <status value="not-started"/>
+      <doNotPerform value="false"/>
+    </detail>
+  </activity>
+</CarePlan>

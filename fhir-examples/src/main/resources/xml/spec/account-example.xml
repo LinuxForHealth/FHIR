@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><Account xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">HACC Funded Billing for Peter James Chalmers</div>
+	</text>
+	<identifier>
+		<system value="urn:oid:0.1.2.3.4.5.6.7"/>
+		<value value="654321"/>
+	</identifier>
+	<status value="active"/>
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+			<code value="PBILLACCT"/>
+			<display value="patient billing account"/>
+		</coding>
+		<text value="patient"/>
+	</type>
+	<name value="HACC Funded Billing for Peter James Chalmers"/>
+	<subject>
+		<reference value="Patient/example"/>
+		<display value="Peter James Chalmers"/>
+	</subject>
+	<servicePeriod>
+		<start value="2016-01-01"/>
+		<end value="2016-06-30"/>
+	</servicePeriod>
+	<coverage>
+		<coverage>
+			<reference value="Coverage/7546D"/>
+		</coverage>
+		<priority value="1"/>
+	</coverage>
+	<owner>
+		<reference value="Organization/hl7"/>
+	</owner>
+	<description value="Hospital charges"/>
+</Account>

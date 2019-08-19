@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><ChargeItemDefinition xmlns="http://hl7.org/fhir">
+	<id value="ebm"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: ebm</p><p><b>url</b>: <b>http://fhir.de/ChargeItemDefinition/kbv/ebm-30110</b></p><p><b>version</b>: 2-2018</p><p><b>status</b>: active</p><p><b>description</b>: Allergologisch-diagnostischer Komplex zur Diagnostik und/oder zum Ausschluss einer (Kontakt-)Allergie vom Spättyp (Typ IV), einschl. Kosten</p><p><b>effectivePeriod</b>: 01/04/2018 --&gt; 30/06/2018</p><p><b>code</b>: Allergologiediagnostik I <span>(Details : {http://fhir.de/CodingSystem/kbv/ebm code '30110' = '30110', given as 'Allergologiediagnostik I'})</span></p><blockquote><p><b>applicability</b></p><p><b>description</b>: Excludes billing code 13250 for same Encounter</p><p><b>language</b>: text/cql</p><p><b>expression</b>: [some CQL expression]</p></blockquote><blockquote><p><b>applicability</b></p><p><b>description</b>: Applies only once per Encounter</p><p><b>language</b>: text/CQL</p><p><b>expression</b>: [some CQL expression]</p></blockquote><blockquote><p><b>propertyGroup</b></p><blockquote><p><b>priceComponent</b></p><p><b>type</b>: base</p><p><b>code</b>: Gesamt (Euro) <span>(Details : {http://fhir.de/CodeSystem/kbv/ebm-attribute code 'gesamt-euro' = 'gesamt-euro', given as 'Gesamt (Euro)'})</span></p><p><b>amount</b>: </p></blockquote><blockquote><p><b>priceComponent</b></p><p><b>type</b>: informational</p><p><b>code</b>: Gesamt (Punkte) <span>(Details : {http://fhir.de/CodeSystem/kbv/ebm-attribute code 'gesamt-punkte' = 'gesamt-punkte', given as 'Gesamt (Punkte)'})</span></p><p><b>factor</b>: 633</p></blockquote></blockquote></div></text><url value="http://fhir.de/ChargeItemDefinition/kbv/ebm-30110"/>
+	<version value="2-2018"/>
+	<status value="active"/> 
+	<description value="Allergologisch-diagnostischer Komplex zur Diagnostik und/oder zum Ausschluss einer (Kontakt-)Allergie vom Spättyp (Typ IV), einschl. Kosten"/>
+	<effectivePeriod>
+		<start value="2018-04-01"/>
+		<end value="2018-06-30"/>
+	</effectivePeriod>
+	<code>	
+		<coding>
+			<system value="http://fhir.de/CodingSystem/kbv/ebm"/>
+			<code value="30110"/> 
+			<display value="Allergologiediagnostik I"/>
+		</coding>
+	</code>
+	<applicability>
+		<description value="Excludes billing code 13250 for same Encounter"/>
+		<language value="text/cql"/>
+		<expression value="[some CQL expression]"/>
+	</applicability>
+	<applicability>
+		<description value="Applies only once per Encounter"/>
+		<language value="text/CQL"/>
+		<expression value="[some CQL expression]"/>
+	</applicability>
+	<!--   a group of static properties (no additional rules apply)  -->
+	<propertyGroup>
+		<priceComponent>
+			<type value="base"/>
+			<code>
+				<coding>
+					<system value="http://fhir.de/CodeSystem/kbv/ebm-attribute"/>
+					<code value="gesamt-euro"/>
+					<display value="Gesamt (Euro)"/>
+				</coding>
+			</code>
+			<amount>
+				<value value="67.44"/>
+				<currency value="EUR"/>
+			</amount>
+		</priceComponent>
+		<priceComponent>
+			<type value="informational"/>
+			<code>
+				<coding>
+					<system value="http://fhir.de/CodeSystem/kbv/ebm-attribute"/>
+					<code value="gesamt-punkte"/>
+					<display value="Gesamt (Punkte)"/>
+				</coding>
+			</code>
+			<factor value="633"/>						
+		</priceComponent>
+	</propertyGroup>
+</ChargeItemDefinition>

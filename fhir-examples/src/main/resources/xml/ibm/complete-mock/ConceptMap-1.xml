@@ -1,0 +1,140 @@
+<ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="TyttTV2SAG"/>
+  <meta>
+    <versionId value="cHreygmIQU"/>
+    <lastUpdated value="2019-08-08T09:17:25.905-04:00"/>
+    <source value="OkLiS0nWgB"/>
+    <profile value="3wBNeU4W1R"/>
+    <security>
+      <system value="tx15pcd1i4"/>
+      <version value="f2R32hIii_"/>
+      <code value="IyJTgK6RiZ"/>
+      <display value="0f_d_91TlM"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="1_tYMuSGNb"/>
+      <version value="jQ3x2Nnyxt"/>
+      <code value="5pOg7TV2uk"/>
+      <display value="Vn_mxtHbEk"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="uYyvI3_JTq"/>
+  <language value="tRo_NQsyZW"/>
+  <text>
+    <status value="extensions"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="qaW6XCsRZG"/>
+  <identifier>
+    <use value="official"/>
+    <type>
+      <coding>
+        <system value="EB7a8Xk7rK"/>
+        <version value="tPvmwT4af3"/>
+        <code value="jTaPM0GHt_"/>
+        <display value="ynGcV9vBrQ"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="mojBu8DtQL"/>
+    </type>
+    <system value="Qhs_7M65JG"/>
+    <value value="rtn4YeCBJw"/>
+    <period>
+      <start value="2019-08-08T09:17:25.905-04:00"/>
+      <end value="2019-08-08T09:17:25.905-04:00"/>
+    </period>
+  </identifier>
+  <version value="g5NsP7NM6a"/>
+  <name value="ZAiMdrSZ95"/>
+  <title value="ITXh2nYmoO"/>
+  <status value="retired"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:25.907-04:00"/>
+  <publisher value="Uobul1ZFyt"/>
+  <contact>
+    <name value="6C4vdoEpUm"/>
+    <telecom>
+      <system value="pager"/>
+      <value value="P9JaeNGU6k"/>
+      <use value="temp"/>
+      <rank value="547493344"/>
+      <period>
+        <start value="2019-08-08T09:17:25.905-04:00"/>
+        <end value="2019-08-08T09:17:25.906-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="bq_0mTRXhE"/>
+  <useContext>
+    <code>
+      <system value="f0nd7pIPGF"/>
+      <version value="8qIJy7Sm3M"/>
+      <code value="bju5FJY8ql"/>
+      <display value="F9ntSxLgfN"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="GzlyQxcUYH"/>
+        <version value="kdLFGV2h3d"/>
+        <code value="Mdvp4JqQsj"/>
+        <display value="j3TZK8HHFQ"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="gBv8Ed2_rN"/>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="_N_5jluTyj"/>
+      <version value="fpTFVlLG6U"/>
+      <code value="_QMsKSbKTZ"/>
+      <display value="W5lOwQOHVc"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="PunfxYLO9s"/>
+  </jurisdiction>
+  <purpose value="j5xL0JQafl"/>
+  <copyright value="1Sj_WboW8I"/>
+  <sourceUri value="A8MhKBQp8q"/>
+  <targetUri value="D4UVss8dgZ"/>
+  <group>
+    <source value="h55DTr5k5p"/>
+    <sourceVersion value="Me1Q3nmVHM"/>
+    <target value="1Wp5mSKw3G"/>
+    <targetVersion value="lY6qHE8hAH"/>
+    <element>
+      <code value="xf1Ihov_1z"/>
+      <display value="9FCuueMh5v"/>
+      <target>
+        <code value="iYE2Z9T_i_"/>
+        <display value="3czk3FrSNq"/>
+        <equivalence value="narrower"/>
+        <comment value="Bwum5cMEcB"/>
+        <dependsOn>
+          <property value="SYcGlXgPJ6"/>
+          <system value="_WsR2t75Ia"/>
+          <value value="bnr7xU5o9J"/>
+          <display value="LGnHLYaPvF"/>
+        </dependsOn>
+        <product>
+          <property value="2DEe7PpJMj"/>
+          <system value="RKGe82KYI8"/>
+          <value value="XgmQcE9e9T"/>
+          <display value="HlRm7TSIz9"/>
+        </product>
+      </target>
+    </element>
+    <unmapped>
+      <mode value="provided"/>
+      <code value="XHL0z98BCS"/>
+      <display value="oeToOngAqq"/>
+      <url value="QTW6P8p63m"/>
+    </unmapped>
+  </group>
+</ConceptMap>

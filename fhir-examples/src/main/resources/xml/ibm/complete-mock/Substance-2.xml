@@ -1,0 +1,143 @@
+<Substance xmlns="http://hl7.org/fhir">
+  <id value="IpuBW7UOja"/>
+  <meta>
+    <versionId value="lak7mCWMEP"/>
+    <lastUpdated value="2019-08-08T09:17:32.251-04:00"/>
+    <source value="POBocgDoMJ"/>
+    <profile value="Hx71XGHInK"/>
+    <security>
+      <system value="A6kIhV6IQq"/>
+      <version value="uehM7II43r"/>
+      <code value="rxaMO23VZr"/>
+      <display value="YXOyqKu3p4"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="CEdIQ5DJtF"/>
+      <version value="Q6LVFE6C1t"/>
+      <code value="G1a17ZzHW3"/>
+      <display value="E4QjqfuxD0"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="juov2zqZdR"/>
+  <language value="H1vpRdpMwZ"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="temp"/>
+    <type>
+      <coding>
+        <system value="0ypTYRtgec"/>
+        <version value="LGRVPzg2zV"/>
+        <code value="s2RoODWtzc"/>
+        <display value="a2tkqX21Tw"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="ftcooQzofN"/>
+    </type>
+    <system value="RY6a85LGxg"/>
+    <value value="dYG7ljYPoF"/>
+    <period>
+      <start value="2019-08-08T09:17:32.251-04:00"/>
+      <end value="2019-08-08T09:17:32.251-04:00"/>
+    </period>
+  </identifier>
+  <status value="inactive"/>
+  <category>
+    <coding>
+      <system value="5c2LIFQH0h"/>
+      <version value="FCi0Wjg0fi"/>
+      <code value="5N9NC7t_ne"/>
+      <display value="CrQvDj3tVd"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="QaaPwVNYb_"/>
+  </category>
+  <code>
+    <coding>
+      <system value="H1XWIkQPo8"/>
+      <version value="5QRali2p_L"/>
+      <code value="msvdbzq4ZF"/>
+      <display value="VVTiTXRnXZ"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="Xu3PwWj2Xz"/>
+  </code>
+  <description value="oWPwm9bWmE"/>
+  <instance>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="nHyhAxopYI"/>
+          <version value="1zROTH4JxT"/>
+          <code value="ky3CmDv5tp"/>
+          <display value="i7YJHMcUoF"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="3YLPtKpHQ3"/>
+      </type>
+      <system value="pGsuGrtSb2"/>
+      <value value="ayV2qMii2A"/>
+      <period>
+        <start value="2019-08-08T09:17:32.250-04:00"/>
+        <end value="2019-08-08T09:17:32.250-04:00"/>
+      </period>
+    </identifier>
+    <expiry value="2019-08-08T09:17:32.250-04:00"/>
+    <quantity>
+      <value value="348873053819"/>
+      <unit value="WJaS5PBin6"/>
+      <system value="R2uBpU_NFl"/>
+      <code value="hjdEMlEQH9"/>
+    </quantity>
+  </instance>
+  <ingredient>
+    <quantity>
+      <numerator>
+        <value value="395425037100"/>
+        <comparator value="&lt;="/>
+        <unit value="PP79izYq21"/>
+        <system value="O8DAZZBRzd"/>
+        <code value="XMHkpEerNR"/>
+      </numerator>
+      <denominator>
+        <value value="1462783511"/>
+        <comparator value="&lt;"/>
+        <unit value="DsDJ7bXaRL"/>
+        <system value="rH86JwGIGD"/>
+        <code value="eVBcLcaJvU"/>
+      </denominator>
+    </quantity>
+    <substanceReference>
+      <reference value="HcRf9H25I6"/>
+      <type value="BaxnJfZD48"/>
+      <identifier>
+        <use value="old"/>
+        <type>
+          <coding>
+            <system value="aEKcdeEJUD"/>
+            <version value="PW5dDdmXJk"/>
+            <code value="F8UWTUYTXK"/>
+            <display value="2eB5eGmQCA"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="39ev1yiWUu"/>
+        </type>
+        <system value="5fRmGTurNg"/>
+        <value value="kM7Du8vVLg"/>
+        <period>
+          <start value="2019-08-08T09:17:32.253-04:00"/>
+          <end value="2019-08-08T09:17:32.253-04:00"/>
+        </period>
+      </identifier>
+      <display value="4pMPgIBFMj"/>
+    </substanceReference>
+  </ingredient>
+</Substance>

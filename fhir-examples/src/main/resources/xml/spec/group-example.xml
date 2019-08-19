@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><Group xmlns="http://hl7.org/fhir">
+  <id value="101"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="additional"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>Herd of 25 horses</p>
+      <p>Gender: mixed</p>
+      <p>Owner: John Smith</p>
+    </div>
+  </text>
+  <identifier>
+    <system value="http://someveterinarianclinic.org/fhir/NamingSystem/herds"/>
+    <value value="12345"/>
+  </identifier>
+  <type value="animal"/>
+  <actual value="true"/>
+  <code>
+    <text value="Horse"/>
+  </code>
+  <name value="John's herd"/>
+  <quantity value="25"/>
+  <characteristic>
+    <code>
+      <text value="gender"/>
+    </code>
+    <valueCodeableConcept>
+      <text value="mixed"/>
+    </valueCodeableConcept>
+    <exclude value="false"/>
+  </characteristic>
+  <characteristic>
+    <code>
+      <text value="owner"/>
+    </code>
+    <valueCodeableConcept>
+      <text value="John Smith"/>
+    </valueCodeableConcept>
+    <exclude value="false"/>
+  </characteristic>
+</Group>

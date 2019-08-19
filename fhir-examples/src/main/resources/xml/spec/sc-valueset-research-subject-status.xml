@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="sc-research-subject-status"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>ResearchSubjectStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-research-subject-status)</h2>
+      <p>Mapping from 
+        <a href="valueset-research-subject-status.html">http://hl7.org/fhir/ValueSet/research-subject-status</a> to 
+        <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
+      </p>
+      <p>DRAFT. Published on 27/12/2018 10:37:54 PM by HL7 (FHIR Project) (
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
+        <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
+      </p>
+      <div>
+        <p>Canonical Mapping for &quot;Indicates the progression of a study subject through a study.&quot;</p>
+
+      </div>
+      <br/>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Source Code</b>
+          </td>
+          <td>
+            <b>Equivalence</b>
+          </td>
+          <td>
+            <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td>candidate, screening, eligible, potential-candidate</td>
+          <td>equivalent</td>
+          <td>draft</td>
+        </tr>
+        <tr>
+          <td>ineligible</td>
+          <td>equivalent</td>
+          <td>declined</td>
+        </tr>
+        <tr>
+          <td>on-study, on-study-intervention, on-study-observation</td>
+          <td>equivalent</td>
+          <td>active</td>
+        </tr>
+        <tr>
+          <td>pending-on-study</td>
+          <td>equivalent</td>
+          <td>suspended</td>
+        </tr>
+        <tr>
+          <td>withdrawn</td>
+          <td>equivalent</td>
+          <td>failed</td>
+        </tr>
+        <tr>
+          <td>follow-up</td>
+          <td>equivalent</td>
+          <td>replaced</td>
+        </tr>
+        <tr>
+          <td>off-study</td>
+          <td>equivalent</td>
+          <td>complete</td>
+        </tr>
+        <tr>
+          <td>not-registered</td>
+          <td>equivalent</td>
+          <td>abandoned</td>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/ConceptMap/sc-research-subject-status"/>
+  <version value="4.0.0"/>
+  <name value="ResearchSubjectStatusCanonicalMap"/>
+  <title value="Canonical Mapping for &quot;ResearchSubjectStatus&quot;"/>
+  <status value="draft"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="Canonical Mapping for &quot;Indicates the progression of a study subject through a study.&quot;"/>
+  <sourceCanonical value="http://hl7.org/fhir/ValueSet/research-subject-status"/>
+  <targetCanonical value="http://hl7.org/fhir/ValueSet/resource-status"/>
+  <group>
+    <source value="http://hl7.org/fhir/research-subject-status"/>
+    <target value="http://hl7.org/fhir/resource-status"/>
+    <element>
+      <code value="candidate, screening, eligible, potential-candidate"/>
+      <target>
+        <code value="draft"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="ineligible"/>
+      <target>
+        <code value="declined"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="on-study, on-study-intervention, on-study-observation"/>
+      <target>
+        <code value="active"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="pending-on-study"/>
+      <target>
+        <code value="suspended"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="withdrawn"/>
+      <target>
+        <code value="failed"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="follow-up"/>
+      <target>
+        <code value="replaced"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="off-study"/>
+      <target>
+        <code value="complete"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="not-registered"/>
+      <target>
+        <code value="abandoned"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+  </group>
+</ConceptMap>

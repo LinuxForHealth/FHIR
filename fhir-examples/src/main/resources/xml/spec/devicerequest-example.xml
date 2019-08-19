@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><DeviceRequest xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+  <!--   insert contents here   -->
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>status</b>: completed</p><p><b>intent</b>: original-order</p><p><b>code</b>: <a>Device/example</a></p><p><b>subject</b>: <a>Patient/example</a></p></div></text><status value="completed"/>
+  <intent value="original-order"/>
+  <codeReference>
+    <reference value="Device/example"/>
+  </codeReference>
+  <subject>
+    <reference value="Patient/example"/>
+  </subject>
+</DeviceRequest>

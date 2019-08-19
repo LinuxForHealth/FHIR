@@ -1,0 +1,394 @@
+<MedicinalProductIngredient xmlns="http://hl7.org/fhir">
+  <id value="qOmcv-zJhj"/>
+  <meta>
+    <versionId value="RI2Pv6aamg"/>
+    <lastUpdated value="2019-08-08T09:17:29.604-04:00"/>
+    <source value="J7FS9yftrA"/>
+    <profile value="8ZvphVPnUH"/>
+    <security>
+      <system value="jfdL3RHI8j"/>
+      <version value="owmFadNXzy"/>
+      <code value="easXK4pKla"/>
+      <display value="alPPBnXAKt"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="DPjssYiFaL"/>
+      <version value="mWN29Fgxp5"/>
+      <code value="mvb3rXv8Kq"/>
+      <display value="6H0XiS8xZp"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="94vJSGbo0O"/>
+  <language value="prapFJP8wz"/>
+  <text>
+    <status value="additional"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="old"/>
+    <type>
+      <coding>
+        <system value="1ebgaE6g_d"/>
+        <version value="fUFTrnV7mf"/>
+        <code value="faJAs64haK"/>
+        <display value="9ZuiLkioqh"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="Oacmfxwgxy"/>
+    </type>
+    <system value="uKgdBbVzdH"/>
+    <value value="bh9hSdXeSc"/>
+    <period>
+      <start value="2019-08-08T09:17:29.604-04:00"/>
+      <end value="2019-08-08T09:17:29.604-04:00"/>
+    </period>
+  </identifier>
+  <role>
+    <coding>
+      <system value="OCnzom68R2"/>
+      <version value="5TVWeWDYlS"/>
+      <code value="IbOt4ienlq"/>
+      <display value="s4KkLCEO2c"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="mCKfbqcNZd"/>
+  </role>
+  <allergenicIndicator value="true"/>
+  <manufacturer>
+    <reference value="GrHdpC5McW"/>
+    <type value="fPj_SsaVA8"/>
+    <identifier>
+      <use value="secondary"/>
+      <type>
+        <coding>
+          <system value="8VOcE2SazV"/>
+          <version value="ptVehosjCP"/>
+          <code value="2ScyhtIPqB"/>
+          <display value="Gyi2Uvw6oV"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="p8rXEbDOKA"/>
+      </type>
+      <system value="HJlKDZ3cxv"/>
+      <value value="Olne0nIdkS"/>
+      <period>
+        <start value="2019-08-08T09:17:29.616-04:00"/>
+        <end value="2019-08-08T09:17:29.616-04:00"/>
+      </period>
+    </identifier>
+    <display value="Drt3tz2UTM"/>
+  </manufacturer>
+  <specifiedSubstance>
+    <code>
+      <coding>
+        <system value="ncRfU7vDtW"/>
+        <version value="f5xG_CpKgg"/>
+        <code value="xiClBHgi8F"/>
+        <display value="dViFbCqtd5"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="9YSp7sVVef"/>
+    </code>
+    <group>
+      <coding>
+        <system value="5FcpOsspNt"/>
+        <version value="iWGUDc2Hhc"/>
+        <code value="mg1lUPV14E"/>
+        <display value="wmYLOjW0C7"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="DjZCX57kBq"/>
+    </group>
+    <confidentiality>
+      <coding>
+        <system value="Kpb4rzH6yJ"/>
+        <version value="xixsC5euM3"/>
+        <code value="uDhW6nauLO"/>
+        <display value="cTmvggw_Sk"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="XaSPXfxUs5"/>
+    </confidentiality>
+    <strength>
+      <presentation>
+        <numerator>
+          <value value="403768304713"/>
+          <comparator value="&lt;="/>
+          <unit value="mm0rbdB5WA"/>
+          <system value="yjVkEDBPh3"/>
+          <code value="yoQLzuW_zj"/>
+        </numerator>
+        <denominator>
+          <value value="319053183329"/>
+          <comparator value=">="/>
+          <unit value="LuYSJGRdp9"/>
+          <system value="d6dwgkvC4g"/>
+          <code value="VCEdABVt7O"/>
+        </denominator>
+      </presentation>
+      <presentationLowLimit>
+        <numerator>
+          <value value="64997449256"/>
+          <comparator value="&lt;="/>
+          <unit value="kervi_WCve"/>
+          <system value="e2Eff5e9Ax"/>
+          <code value="fXZXIRN2Uh"/>
+        </numerator>
+        <denominator>
+          <value value="485785942850"/>
+          <comparator value=">"/>
+          <unit value="5GdMi5jzRc"/>
+          <system value="QgVqqDEBFm"/>
+          <code value="JbQ5eCtegk"/>
+        </denominator>
+      </presentationLowLimit>
+      <concentration>
+        <numerator>
+          <value value="417540489252"/>
+          <comparator value=">"/>
+          <unit value="BXaQmtR4IG"/>
+          <system value="AdV6NjFjsg"/>
+          <code value="0A9zhBUrdL"/>
+        </numerator>
+        <denominator>
+          <value value="193984881252"/>
+          <comparator value=">"/>
+          <unit value="iczZ0HKi_j"/>
+          <system value="Gu1R5ziBBE"/>
+          <code value="voEgiEbODM"/>
+        </denominator>
+      </concentration>
+      <concentrationLowLimit>
+        <numerator>
+          <value value="186804412482"/>
+          <comparator value=">="/>
+          <unit value="v81NnKIcgk"/>
+          <system value="ssWJYxV0w6"/>
+          <code value="X1BqamNJGS"/>
+        </numerator>
+        <denominator>
+          <value value="482750958449"/>
+          <comparator value="&lt;"/>
+          <unit value="M7PLVsGrHm"/>
+          <system value="U9wjb9SUDb"/>
+          <code value="4rLkmssm9Y"/>
+        </denominator>
+      </concentrationLowLimit>
+      <measurementPoint value="k_ESjehyJk"/>
+      <country>
+        <coding>
+          <system value="okvIjYb3Ri"/>
+          <version value="LqkNcPoL6j"/>
+          <code value="wRMWBb6329"/>
+          <display value="pp64vnUw94"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="YMM6wuIaIR"/>
+      </country>
+      <referenceStrength>
+        <substance>
+          <coding>
+            <system value="n4e6WFLXrq"/>
+            <version value="0mVEBLo49u"/>
+            <code value="FxZxlIO6Sh"/>
+            <display value="Qh9OYPAOLy"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="1fJuPpe1ri"/>
+        </substance>
+        <strength>
+          <numerator>
+            <value value="391081635590"/>
+            <comparator value=">"/>
+            <unit value="ZLU8WVEHOu"/>
+            <system value="Trb6kbqjB0"/>
+            <code value="QaKEHLdU0u"/>
+          </numerator>
+          <denominator>
+            <value value="240541962315"/>
+            <comparator value=">="/>
+            <unit value="A1f9pTmEJT"/>
+            <system value="0BKC5og6L9"/>
+            <code value="Flix7YFJIM"/>
+          </denominator>
+        </strength>
+        <strengthLowLimit>
+          <numerator>
+            <value value="293921968186"/>
+            <comparator value="&lt;"/>
+            <unit value="Ka2uiNBTAX"/>
+            <system value="M3vOQUPjKc"/>
+            <code value="t6wQb78xPW"/>
+          </numerator>
+          <denominator>
+            <value value="232137625096"/>
+            <comparator value=">"/>
+            <unit value="4mGSB3Hpfz"/>
+            <system value="jLRNUZlUTI"/>
+            <code value="oREG3vudYK"/>
+          </denominator>
+        </strengthLowLimit>
+        <measurementPoint value="V8SzI7c7ke"/>
+        <country>
+          <coding>
+            <system value="MQAea9Faz0"/>
+            <version value="hYijYEtkpf"/>
+            <code value="YC4d3FDzB3"/>
+            <display value="WZOVGaomF1"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="oomoQQWd8q"/>
+        </country>
+      </referenceStrength>
+    </strength>
+  </specifiedSubstance>
+  <substance>
+    <code>
+      <coding>
+        <system value="Ja6ttWtZ6g"/>
+        <version value="ua24MxYsj3"/>
+        <code value="ujI2W0mEil"/>
+        <display value="MPAp2AUkK_"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="LVjAkGntXK"/>
+    </code>
+    <strength>
+      <presentation>
+        <numerator>
+          <value value="100026619942"/>
+          <comparator value=">"/>
+          <unit value="B7Mqv9SV8d"/>
+          <system value="_DawCi2Q21"/>
+          <code value="CjfxTWdqkS"/>
+        </numerator>
+        <denominator>
+          <value value="21583258161"/>
+          <comparator value="&lt;"/>
+          <unit value="8d8Z88uw9Q"/>
+          <system value="lkrznzQ_Wt"/>
+          <code value="htGZg8v_kD"/>
+        </denominator>
+      </presentation>
+      <presentationLowLimit>
+        <numerator>
+          <value value="233992382063"/>
+          <comparator value=">="/>
+          <unit value="t21owsB3vM"/>
+          <system value="xuxzp0iSPT"/>
+          <code value="P589erwB8f"/>
+        </numerator>
+        <denominator>
+          <value value="526019333180"/>
+          <comparator value="&lt;"/>
+          <unit value="w3X_hgDbMp"/>
+          <system value="ypFwRflAI8"/>
+          <code value="oeElbEziGX"/>
+        </denominator>
+      </presentationLowLimit>
+      <concentration>
+        <numerator>
+          <value value="323486297465"/>
+          <comparator value="&lt;="/>
+          <unit value="TRn2GgUSha"/>
+          <system value="RqIztgKF5_"/>
+          <code value="CTJFZ3eFKT"/>
+        </numerator>
+        <denominator>
+          <value value="404254124041"/>
+          <comparator value="&lt;"/>
+          <unit value="qAyMuwkZhp"/>
+          <system value="5DA13EpCkO"/>
+          <code value="jl2AuZL8mD"/>
+        </denominator>
+      </concentration>
+      <concentrationLowLimit>
+        <numerator>
+          <value value="263760447568"/>
+          <comparator value="&lt;"/>
+          <unit value="aWRhfsSff8"/>
+          <system value="3eWeTasmKz"/>
+          <code value="LJScUd8RQ2"/>
+        </numerator>
+        <denominator>
+          <value value="26697662511"/>
+          <comparator value=">"/>
+          <unit value="BGFRKbO0oM"/>
+          <system value="irJj3numWQ"/>
+          <code value="u39Tk_AbDJ"/>
+        </denominator>
+      </concentrationLowLimit>
+      <measurementPoint value="4aIDQCxKjC"/>
+      <country>
+        <coding>
+          <system value="s7lwdIAi4b"/>
+          <version value="vgjaJtXaWR"/>
+          <code value="gQG6ClMM2a"/>
+          <display value="V83mJwNSO6"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="EZLS3MX7sN"/>
+      </country>
+      <referenceStrength>
+        <substance>
+          <coding>
+            <system value="KPrOFdxDQv"/>
+            <version value="dRuLWuRUYA"/>
+            <code value="EzJDiRv5XQ"/>
+            <display value="pZhYPm70AC"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="ZSsidjMRiv"/>
+        </substance>
+        <strength>
+          <numerator>
+            <value value="57547060768"/>
+            <comparator value=">="/>
+            <unit value="bcSxwL3WN2"/>
+            <system value="TdMtT_BlWN"/>
+            <code value="zFNEXSa2sm"/>
+          </numerator>
+          <denominator>
+            <value value="344273914675"/>
+            <comparator value=">"/>
+            <unit value="_Me_Gjo1QT"/>
+            <system value="fjhiQi80Cb"/>
+            <code value="I3v4yHZ8GG"/>
+          </denominator>
+        </strength>
+        <strengthLowLimit>
+          <numerator>
+            <value value="125767718170"/>
+            <comparator value=">"/>
+            <unit value="VOI_YtVHUV"/>
+            <system value="6tIXO2rr5o"/>
+            <code value="UivIgX96JT"/>
+          </numerator>
+          <denominator>
+            <value value="185006429271"/>
+            <comparator value=">="/>
+            <unit value="tj0OMu7zb0"/>
+            <system value="LLv3NQ7Q0r"/>
+            <code value="RGDSL1kHF5"/>
+          </denominator>
+        </strengthLowLimit>
+        <measurementPoint value="Yzjejiz8aQ"/>
+        <country>
+          <coding>
+            <system value="xNYZSjQaGW"/>
+            <version value="YKGsdS1AQi"/>
+            <code value="kTAwdHVawz"/>
+            <display value="YGcFvyS9Qc"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="RO1RuUwiLe"/>
+        </country>
+      </referenceStrength>
+    </strength>
+  </substance>
+</MedicinalProductIngredient>

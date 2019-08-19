@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><ServiceRequest xmlns="http://hl7.org/fhir">
+	<id value="subrequest"/><!--  	<extension url="http://hl7.org/fhir/StructureDefinition/bodysitecode">
+		<valueCodeableConcept>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="51185008"/>
+				<display value="Thoracic structure"/>
+			</coding>
+		</valueCodeableConcept>
+</extension>
+	  -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: subrequest</p><p><b>basedOn</b>: Original Request</p><p><b>replaces</b>: Previous allergy test</p><p><b>requisition</b>: A13848392</p><p><b>status</b>: active</p><p><b>intent</b>: instance-order</p><p><b>priority</b>: routine</p><p><b>code</b>: Peanut IgG <span>(Details : {LOINC code '35542-0' = 'Peanut IgG Ab [Mass/volume] in Serum)</span></p><p><b>subject</b>: <a>Patient/dicom</a></p><p><b>occurrence</b>: 08/05/2013 9:33:27 AM</p><p><b>requester</b>: <a>Dr. Adam Careful</a></p><p><b>performerType</b>: Nurse <span>(Details : {[not stated] code 'null' = 'null', given as 'Qualified nurse'})</span></p><p><b>reasonCode</b>: Check for Peanut Allergy <span>(Details )</span></p><p><b>bodySite</b>: Right arm <span>(Details : {[not stated] code 'null' = 'null', given as 'Right arm'})</span></p></div></text><basedOn>
+		<display value="Original Request"/>
+	</basedOn>
+	<replaces>
+		<display value="Previous allergy test"/>
+	</replaces>
+
+	<requisition>
+	    <!--   from Element: extension   -->
+	    <value value="A13848392"/>  <!--   0..1 The value that is unique   -->
+	</requisition>
+
+	<status value="active"/>
+	<intent value="instance-order"/>
+	<priority value="routine"/>
+
+	<code>
+		<coding>
+			<system value="http://loinc.org"/>
+			<code value="35542-0"/>
+		</coding>
+		<text value="Peanut IgG"/>
+	</code>
+	<subject>
+		<reference value="Patient/dicom"/>
+	</subject>
+	<occurrenceDateTime value="2013-05-08T09:33:27+07:00"/>
+	<requester>
+			<reference value="Practitioner/example"/>
+			<display value="Dr. Adam Careful"/>
+	</requester>
+	<performerType>
+	    <coding>
+	        <display value="Qualified nurse"/>
+	    </coding>
+	    <text value="Nurse"/>
+	</performerType>
+	<reasonCode>
+		<text value="Check for Peanut Allergy"/>
+	</reasonCode>
+	<bodySite>
+			<coding>
+					<display value="Right arm"/>
+			</coding>
+			<text value="Right arm"/>
+	</bodySite>    <!--   insert contents here   -->
+
+</ServiceRequest>

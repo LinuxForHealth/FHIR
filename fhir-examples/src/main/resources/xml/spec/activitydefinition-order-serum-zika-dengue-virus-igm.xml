@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><ActivityDefinition xmlns="http://hl7.org/fhir">
+  <id value="serum-zika-dengue-virus-igm"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+         <table class="grid dict">
+            <tr>
+               <td>
+                  <b>Id: </b>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 25px; padding-right: 25px;">ActivityDefinition/serum-zika-dengue-virus-igm</td>
+            </tr>
+         </table>
+         <p/>
+         <table class="grid dict">
+            <tr>
+               <td>
+                  <b>Status: </b>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 25px; padding-right: 25px;">draft</td>
+            </tr>
+         </table>
+         <p/>
+         <table class="grid dict">
+            <tr>
+               <td>
+                  <b>Description: </b>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 25px; padding-right: 25px;">Order Serum Zika and Dengue Virus IgM</td>
+            </tr>
+         </table>
+         <p/>
+         <table class="grid dict">
+            <tr>
+               <td>
+                  <b>Related: </b>
+               </td>
+            </tr>
+            <tr style="vertical-align: top;">
+               <td style="padding-left: 25px; padding-right: 25px;">
+                  <p style="margin-top: 5px;">
+                     <b>type: </b>
+                     <span>documentation</span>
+                  </p>
+                  <p style="margin-top: 5px;">
+                     <b>display: </b>
+                     <span>Explanation of diagnostic tests for Zika virus and which to use based on the patients clinical and exposure history.</span>
+                  </p>
+                  <p style="margin-top: 5px;">
+                     <b>url: </b>
+                     <span>http://www.cdc.gov/zika/hc-providers/diagnostic.html</span>
+                  </p>
+               </td>
+            </tr>
+         </table>
+         <p/>
+         <table class="grid dict">
+            <tr>
+               <td>
+                  <b>Category: </b>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 25px; padding-right: 25px;">diagnostic</td>
+            </tr>
+         </table>
+         <p/>
+         <table class="grid dict">
+            <tr>
+               <td>
+                  <b>Code: </b>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-right: 25px;">
+                  <span style="padding-left: 25px;">
+                     <b>text: </b>
+                     <span>Serum Zika and Dengue Virus IgM</span>
+                     <br/>
+                  </span>
+               </td>
+            </tr>
+         </table>
+         <p/>
+         <table class="grid dict">
+            <tr>
+               <td>
+                  <b>Participant: </b>
+               </td>
+            </tr>
+            <tr style="vertical-align: top;">
+               <td style="padding-left: 25px; padding-right: 25px;">practitioner</td>
+            </tr>
+         </table>
+      </div>
+  </text>
+  <url value="http://example.org/ActivityDefinition/serum-zika-dengue-virus-igm"/>
+  <status value="draft"/>
+  <description value="Order Serum Zika and Dengue Virus IgM"/>
+  <relatedArtifact>
+	<type value="documentation"/>
+	<display value="Explanation of diagnostic tests for Zika virus and which to use based on the patient’s clinical and exposure history."/>
+	<url value="http://www.cdc.gov/zika/hc-providers/diagnostic.html"/>
+  </relatedArtifact>
+  <relatedArtifact>
+    <type value="derived-from"/>
+    <resource value="ActivityDefinition/serum-dengue-virus-igm"/>
+  </relatedArtifact>
+  <library value="Library/zika-virus-intervention-logic"/>
+  <kind value="ServiceRequest"/>
+  <code>
+    <text value="Serum Zika and Dengue Virus IgM"/>
+  </code>
+  <timingTiming>
+    <event>
+      <extension url="http://hl7.org/fhir/StructureDefinition/cqf-expression">
+        <valueExpression>
+          <language value="text/cql"/>
+          <expression value="Now()"/>
+        </valueExpression>
+      </extension>
+    </event>
+  </timingTiming>
+	<participant>
+		<type value="practitioner"/>
+  </participant>
+</ActivityDefinition>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><Practitioner xmlns="http://hl7.org/fhir">
+  <id value="f203"/>
+ <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f203</p><p><b>identifier</b>: UZI-nummer = 12345678903 (OFFICIAL), BIG-nummer = 12345678903 (OFFICIAL)</p><p><b>active</b>: true</p><p><b>name</b>: Juri van Gelder(OFFICIAL)</p><p><b>telecom</b>: ph: +31715269111(WORK)</p><p><b>address</b>: Walvisbaai 3 Den helder 2333ZA NLD (WORK)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 20/04/1983</p></div></text><identifier><!--  The identifier for the person as this practitioner (fictive)  -->
+    <use value="official"/>
+        <type><text value="UZI-nummer"/></type>
+        <system value="urn:oid:2.16.528.1.1007.3.1"/>
+    <value value="12345678903"/>
+ </identifier>
+    <identifier><!--  The identifier for this individual  -->
+        <use value="official"/>
+        <type><text value="BIG-nummer"/></type>
+        <system value="https://www.bigregister.nl/"/>
+        <value value="12345678903"/>
+    </identifier>
+	<active value="true"/>
+	<name><!--  The name of the practitioner  -->
+        <use value="official"/>
+        <text value="Juri van Gelder"/>
+    </name>
+    <telecom><!--  A contact detail for the individual  -->
+        <system value="phone"/>
+        <value value="+31715269111"/>
+        <use value="work"/>
+    </telecom>
+    <address><!--  Work address for the individual  -->
+        <use value="work"/>
+        <line value="Walvisbaai 3"/>    
+        <city value="Den helder"/>
+        <postalCode value="2333ZA"/>
+        <country value="NLD"/><!--  ISO 3166 3 letter code  -->
+    </address>   
+    
+    <gender value="male"/><!--  The practitioner's administrative gender  -->
+    <birthDate value="1983-04-20"/>
+<!--      <photo>    
+        <reference value="Media/JvG-203.bmp"/>
+        <display value="Picture_Juri_van_Gelder"/>
+    </photo>  -->
+</Practitioner>

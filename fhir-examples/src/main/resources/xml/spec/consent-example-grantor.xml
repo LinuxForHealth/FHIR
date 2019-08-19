@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><Consent xmlns="http://hl7.org/fhir">
+  <id value="consent-example-grantor"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">The following scenario is based on a question asked on John Moehrke's blog in the 
+	<a href="http://healthcaresecprivacy.blogspot.com/2016/04/consent-given-to-authorized.html">Consent given to authorized representative</a>
+    <p>
+This is a case where a Patient is giving a limited (read-only) access to an individual.
+	</p><p>
+    Patient "P. van de Heuvel" wishes to provide XXX with read-only access to the data at Good Health Psychiatric Hospital 
+   available for patient requested access use.
+   </p>
+   </div>
+  </text>
+  <status value="active"/>
+  <scope>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/consentscope"/>
+      <code value="patient-privacy"/>
+    </coding>  
+        </scope>
+<category>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+      <code value="INFAO"/>
+    </coding>
+  </category>
+  <patient>
+    <reference value="Patient/f001"/>
+    <display value="P. van de Heuvel"/>
+  </patient>
+  <dateTime value="2015-11-18"/>
+  <!--  not bound by a timeframe - Consent.period  -->
+  <!--  I assume the example given is Canada Infoway wide???  AND I assume it is desired to state that in the Consent.authority element  -->
+  <organization>
+    <reference value="Organization/f001"/>
+  </organization>
+  <!--  the text terms of the consent in lawyer speak  -->
+  <sourceAttachment>
+    <title value="The terms of the consent in lawyer speak."/>
+    <!--  likely use url pointer to common text  -->
+  </sourceAttachment>
+  <!--  this is opt-out - e.g. nothing approved unless otherwise stated  -->
+  <policyRule>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+      <code value="OPTOUT"/>
+    </coding>
+  </policyRule>
+  <provision>
+    <actor>
+      <role>
+        <coding>
+          <system value="http://terminology.hl7.org/CodeSystem/v3-ParticipationType"/>
+          <code value="CST"/>
+        </coding>
+      </role>
+      <reference>
+        <reference value="Organization/f001"/>
+      </reference>
+    </actor>
+    <actor>
+      <role>
+        <coding>
+          <system value="http://terminology.hl7.org/CodeSystem/v3-ParticipationType"/>
+          <code value="PRCP"/>
+        </coding>
+      </role>
+      <reference>
+        <reference value="Patient/example"/>
+        <display value="Good Health Clinic"/>
+      </reference>
+    </actor>
+    <action>
+      <coding>
+        <system value="http://terminology.hl7.org/CodeSystem/consentaction"/>
+        <code value="access"/>
+      </coding>
+    </action>
+  </provision>
+</Consent>

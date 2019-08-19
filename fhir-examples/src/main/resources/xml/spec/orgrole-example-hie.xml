@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><OrganizationAffiliation xmlns="http://hl7.org/fhir"> <!--   describes the relationship between Monument HIE and Founding Fathers Memorial Hospital. Founding Fathers is a member of the HIE   -->
+
+	<id value="orgrole2"/>
+
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: orgrole2</p><p><b>identifier</b>: member hospital = hosp32 (SECONDARY)</p><p><b>active</b>: true</p><p><b>organization</b>: <a>Monument Health Information Exchange</a></p><p><b>participatingOrganization</b>: <a>Founding Fathers Memorial Hospital</a></p><p><b>code</b>: Hospital member <span>(Details : {http://hl7.org/fhir/organization-role code 'member' = 'Member', given as 'Member'})</span></p><p><b>endpoint</b>: <a>Founding Fathers Memorial Hospital HIE endpoint</a></p></div></text><identifier> <!--   internal business ID for Founding Fathers Memorial Hospital assigned by Monument HIE   -->
+        <use value="secondary"/>
+        <type>
+            <text value="member hospital"/>
+        </type>
+        <system value="http://example.org/www.monumentHIE.com"/>
+        <value value="hosp32"/>
+        <assigner>
+            <reference value="http://hl7.org/fhir/ig/vhdir/Organization/monumentHIE"/>
+            <display value="Monument Health Information Exchange"/>
+        </assigner>
+    </identifier>
+
+    <active value="true"/> <!--   this record is active   -->
+
+    <organization> <!--   Reference to the resource describing the HIE   -->
+        <reference value="http://hl7.org/fhir/ig/vhdir/Organization/monumentHIE"/>
+        <display value="Monument Health Information Exchange"/>
+    </organization>
+
+    <participatingOrganization> <!--   Founding Fathers participates in the HIE   -->
+        <reference value="http://hl7.org/fhir/ig/vhdir/Organization/foundingfathers"/>
+        <display value="Founding Fathers Memorial Hospital"/>
+    </participatingOrganization>
+
+    <code> <!--   Founding Fathers is a member of the HIE   -->
+        <coding>
+            <system value="http://hl7.org/fhir/organization-role"/>
+            <code value="member"/>
+            <display value="Member"/>
+        </coding>
+        <text value="Hospital member"/>
+    </code>
+
+    <endpoint> <!--   Reference to the endpoint for sending data to Founding Fathers through the HIE   -->
+        <reference value="http://hl7.org/fhir/ig/vhdir/Endpoint/foundingfathersHIE"/>
+        <display value="Founding Fathers Memorial Hospital HIE endpoint"/>
+    </endpoint>
+
+</OrganizationAffiliation>

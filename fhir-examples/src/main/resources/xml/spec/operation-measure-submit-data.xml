@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="Measure-submit-data"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Submit Data</h2>
+      <p>OPERATION: Submit Data</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/Measure-submit-data</pre>
+      <div>
+        <p>The submit-data operation is used to submit data-of-interest for a measure. There is no expectation that the submitted data represents all the data-of-interest, only that all the data submitted is relevant to the calculation of the measure for a particular subject or population</p>
+
+      </div>
+      <p>URL: [base]/Measure/$submit-data</p>
+      <p>URL: [base]/Measure/[id]/$submit-data</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>measureReport</td>
+          <td>1..1</td>
+          <td>
+            <a href="measurereport.html">MeasureReport</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The measure report being submitted</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>resource</td>
+          <td>0..*</td>
+          <td>
+            <a href="resource.html">Resource</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The individual resources that make up the data-of-interest being submitted</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <p>The effect of invoking this operation is that the submitted data is posted to the receiving system and can be used for subsequent calculation of the relevant quality measure. The data-of-interest for a measure can be determined by examining the measure definition, or by invoking the $data-requirements operation</p>
+
+      </div>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="2"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/Measure-submit-data"/>
+  <version value="4.0.0"/>
+  <name value="Submit Data"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="The submit-data operation is used to submit data-of-interest for a measure. There is no expectation that the submitted data represents all the data-of-interest, only that all the data submitted is relevant to the calculation of the measure for a particular subject or population"/>
+  <code value="submit-data"/>
+  <comment value="The effect of invoking this operation is that the submitted data is posted to the receiving system and can be used for subsequent calculation of the relevant quality measure. The data-of-interest for a measure can be determined by examining the measure definition, or by invoking the $data-requirements operation"/>
+  <resource value="Measure"/>
+  <system value="false"/>
+  <type value="true"/>
+  <instance value="true"/>
+  <parameter>
+    <name value="measureReport"/>
+    <use value="in"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The measure report being submitted"/>
+    <type value="MeasureReport"/>
+  </parameter>
+  <parameter>
+    <name value="resource"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="*"/>
+    <documentation value="The individual resources that make up the data-of-interest being submitted"/>
+    <type value="Resource"/>
+  </parameter>
+</OperationDefinition>

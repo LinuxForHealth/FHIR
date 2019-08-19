@@ -1,0 +1,185 @@
+<ImplementationGuide xmlns="http://hl7.org/fhir">
+  <id value="2LT42iyoa0"/>
+  <meta>
+    <versionId value="1iWtv-9P3R"/>
+    <lastUpdated value="2019-08-08T09:17:28.779-04:00"/>
+    <source value="8rqWpiIhFO"/>
+    <profile value="_UGPWOwIFX"/>
+    <security>
+      <system value="s0kR7BLBKo"/>
+      <version value="YqgI6ANSxm"/>
+      <code value="xk6WwI23lY"/>
+      <display value="gDNAi_dIxr"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="ZKgPHRUfS0"/>
+      <version value="VK5eD5kVsh"/>
+      <code value="Dvd0EvIAIj"/>
+      <display value="CICnSVzOW9"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="kaliT3pK4e"/>
+  <language value="oaUOdyKLEa"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="4k4keGllsN"/>
+  <version value="_HTWEbq5Td"/>
+  <name value="kZMuWlGJsj"/>
+  <title value="tTTYRvqJ_v"/>
+  <status value="unknown"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:28.821-04:00"/>
+  <publisher value="LCfGsyX75W"/>
+  <contact>
+    <name value="xL8f5x30VS"/>
+    <telecom>
+      <system value="sms"/>
+      <value value="6f6cUg2sK3"/>
+      <use value="mobile"/>
+      <rank value="844036250"/>
+      <period>
+        <start value="2019-08-08T09:17:28.779-04:00"/>
+        <end value="2019-08-08T09:17:28.779-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="oSlp69v2Xx"/>
+  <useContext>
+    <code>
+      <system value="hZ_Jfoj7An"/>
+      <version value="g_isxvpmCx"/>
+      <code value="0BEcr1XKu1"/>
+      <display value="g7Q681lnkI"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="rWJxQ87D6o"/>
+        <version value="OMgRBHjtE1"/>
+        <code value="L1CriMJLWI"/>
+        <display value="TGei6Gm2UE"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="cykv92Gm2E"/>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="Gm8zefMhLz"/>
+      <version value="UzinZeRfUL"/>
+      <code value="EuRfiPwEWa"/>
+      <display value="mbeS28AIkE"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="QjXlgKeiNw"/>
+  </jurisdiction>
+  <copyright value="cg6hBuFiSG"/>
+  <packageId value="gL4AiIiZh8"/>
+  <license value="SPL-1.0"/>
+  <fhirVersion value="1.8.0"/>
+  <dependsOn>
+    <uri value="RTaUyMrfaQ"/>
+    <packageId value="FpOcZdbirw"/>
+    <version value="EGWT_2FOZq"/>
+  </dependsOn>
+  <global>
+    <type value="DeviceMetric"/>
+    <profile value="Ci8VOXGvbh"/>
+  </global>
+  <definition>
+    <grouping>
+      <name value="dlkcOgnixU"/>
+      <description value="zaMHyq9wLH"/>
+    </grouping>
+    <resource>
+      <reference>
+        <reference value="hqAV7ElwNx"/>
+        <type value="I_RzXOlJPO"/>
+        <identifier>
+          <use value="old"/>
+          <type>
+            <coding>
+              <system value="6kEPiP50ez"/>
+              <version value="323LcJTFmw"/>
+              <code value="qIjUgwnQQO"/>
+              <display value="bCme2XXgPx"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="gKcMJK82O6"/>
+          </type>
+          <system value="e7EAYdUw4Q"/>
+          <value value="ve3FeT7VFL"/>
+          <period>
+            <start value="2019-08-08T09:17:28.814-04:00"/>
+            <end value="2019-08-08T09:17:28.814-04:00"/>
+          </period>
+        </identifier>
+        <display value="Cq6CFOdK_B"/>
+      </reference>
+      <fhirVersion value="1.1.0"/>
+      <name value="JwwpIJAT3R"/>
+      <description value="AfNyr_SaFd"/>
+      <exampleBoolean value="true"/>
+      <groupingId value="qjWJWHBtui"/>
+    </resource>
+    <page>
+      <nameUrl value="OixYZC9Di5"/>
+      <title value="xuTMiKsbmT"/>
+      <generation value="xml"/>
+    </page>
+    <parameter>
+      <code value="path-resource"/>
+      <value value="5pdNrLBo3O"/>
+    </parameter>
+    <template>
+      <code value="FlOMB87EKr"/>
+      <source value="OA1rIVE7t7"/>
+      <scope value="heNRcLaO1L"/>
+    </template>
+  </definition>
+  <manifest>
+    <rendering value="mK0MCT6ZKp"/>
+    <resource>
+      <reference>
+        <reference value="kYqsu7PfLc"/>
+        <type value="I3JBvibPyB"/>
+        <identifier>
+          <use value="secondary"/>
+          <type>
+            <coding>
+              <system value="rUXSuGiMTl"/>
+              <version value="oUQP4XqdoY"/>
+              <code value="q7hQ2EgneS"/>
+              <display value="JkqJVyTz_z"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="ftLrX7d560"/>
+          </type>
+          <system value="udZLfXUXs5"/>
+          <value value="ok7GyKzckI"/>
+          <period>
+            <start value="2019-08-08T09:17:28.801-04:00"/>
+            <end value="2019-08-08T09:17:28.802-04:00"/>
+          </period>
+        </identifier>
+        <display value="uysIJaaMqY"/>
+      </reference>
+      <exampleBoolean value="true"/>
+      <relativePath value="883jvsJtmx"/>
+    </resource>
+    <page>
+      <name value="YI5Ie_NWhL"/>
+      <title value="7lzweMBVhV"/>
+      <anchor value="ATI2XDhqkn"/>
+    </page>
+    <image value="yJ7cfo1s5I"/>
+    <other value="2Hyo_lISI0"/>
+  </manifest>
+</ImplementationGuide>

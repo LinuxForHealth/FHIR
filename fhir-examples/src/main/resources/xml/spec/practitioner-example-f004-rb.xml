@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><Practitioner xmlns="http://hl7.org/fhir">
+  <id value="f004"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f004</p><p><b>identifier</b>: 118265112 (OFFICIAL), 523ASA1LK927 (USUAL)</p><p><b>name</b>: Ronald Briet (OFFICIAL)</p><p><b>telecom</b>: ph: 0205569273(WORK), r.briet@bmc.nl(WORK), fax: 0205664440(WORK)</p><p><b>address</b>: Galapagosweg 91 Amsterdam 1105 AZ NLD (WORK)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 04/02/1980</p><p><b>communication</b>: Language <span>(Details : {urn:ietf:bcp:47 code 'nl' = 'Dutch', given as 'Netherlands'})</span></p></div></text><identifier>
+        <use value="official"/>
+        <system value="urn:oid:2.16.528.1.1007.3.1"/>
+        <!--   Identificatiesysteem Zorgverlener UZI   -->
+        <value value="118265112"/>
+    </identifier>
+    <identifier>
+        <use value="usual"/>
+        <system value="urn:oid:2.16.840.1.113883.2.4.6.3"/>
+        <!--   BSN identification system   -->
+        <value value="523ASA1LK927"/>
+    </identifier>
+    <name>
+        <use value="official"/>
+        <family value="Briet"/>
+        <given value="Ronald"/>
+        <suffix value="MD"/>
+    </name>
+    <telecom>
+        <system value="phone"/>
+        <value value="0205569273"/>
+        <use value="work"/>
+    </telecom>
+    <telecom>
+        <system value="email"/>
+        <value value="r.briet@bmc.nl"/>
+        <use value="work"/>
+    </telecom>
+    <telecom>
+        <system value="fax"/>
+        <value value="0205664440"/>
+        <use value="work"/>
+    </telecom>
+    <address>
+        <use value="work"/>
+        <line value="Galapagosweg 91"/>
+        <city value="Amsterdam"/>
+        <postalCode value="1105 AZ"/>
+        <country value="NLD"/> <!--   ISO 3166 Codes (Countries)   -->
+    </address>
+
+    <gender value="male"/>
+    <birthDate value="1980-02-04"/>
+
+	<communication>
+        <coding>
+            <system value="urn:ietf:bcp:47"/>
+            <!--   List of ISO 639-1 language codes (ISO 3066)   -->
+            <code value="nl"/>
+            <display value="Netherlands"/>
+        </coding>
+        <text value="Language"/>
+    </communication>
+    
+</Practitioner>

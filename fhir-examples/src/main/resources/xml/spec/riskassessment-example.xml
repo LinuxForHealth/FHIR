@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?><RiskAssessment xmlns="http://hl7.org/fhir">
+ <id value="genetic"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>Probability of developing breast cancer before the age indicated:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Age</th>
+            <th>Probability (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>current-53</td>
+            <td>0.0168</td>
+          </tr>
+          <tr>
+            <td>54-57</td>
+            <td>0.0368</td>
+          </tr>
+          <tr>
+            <td>58-62</td>
+            <td>0.0594</td>
+          </tr>
+          <tr>
+            <td>63-67</td>
+            <td>0.0838</td>
+          </tr>
+          <tr>
+            <td>68-72</td>
+            <td>0.1089</td>
+          </tr>
+          <tr>
+            <td>73-77</td>
+            <td>0.1327</td>
+          </tr>
+          <tr>
+            <td>78-82</td>
+            <td>0.1530</td>
+          </tr>
+          <tr>
+            <td>83-87</td>
+            <td>0.1663</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </text>
+  <status value="final"/>
+  <method>
+    <coding>
+      <code value="BRCAPRO"/>
+    </coding>
+  </method>
+  <subject>
+    <reference value="Patient/b248b1b2-1686-4b94-9936-37d7a5f94b51"/>
+  </subject>
+  <occurrenceDateTime value="2006-01-13T23:01:00Z"/>
+  <basis>
+    <reference value="List/prognosis"/>
+  </basis>
+  <prediction>
+    <outcome>
+      <text value="Breast Cancer"/>
+    </outcome>
+    <probabilityDecimal value="0.000168"/>
+    <whenRange>
+      <high>
+        <value value="53"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </high>
+    </whenRange>
+  </prediction>
+  <prediction>
+    <outcome>
+      <text value="Breast Cancer"/>
+    </outcome>
+    <probabilityDecimal value="0.000368"/>
+    <whenRange>
+      <low>
+        <value value="54"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </low>
+      <high>
+        <value value="57"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </high>
+    </whenRange>
+  </prediction>
+  <prediction>
+    <outcome>
+      <text value="Breast Cancer"/>
+    </outcome>
+    <probabilityDecimal value="0.000594"/>
+    <whenRange>
+      <low>
+        <value value="58"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </low>
+      <high>
+        <value value="62"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </high>
+    </whenRange>
+  </prediction>
+  <prediction>
+    <outcome>
+      <text value="Breast Cancer"/>
+    </outcome>
+    <probabilityDecimal value="0.000838"/>
+    <whenRange>
+      <low>
+        <value value="63"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </low>
+      <high>
+        <value value="67"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </high>
+    </whenRange>
+  </prediction>
+  <prediction>
+    <outcome>
+      <text value="Breast Cancer"/>
+    </outcome>
+    <probabilityDecimal value="0.001089"/>
+    <whenRange>
+      <low>
+        <value value="68"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </low>
+      <high>
+        <value value="72"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </high>
+    </whenRange>
+  </prediction>
+  <prediction>
+    <outcome>
+      <text value="Breast Cancer"/>
+    </outcome>
+    <probabilityDecimal value="0.001327"/>
+    <whenRange>
+      <low>
+        <value value="73"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </low>
+      <high>
+        <value value="77"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </high>
+    </whenRange>
+  </prediction>
+  <prediction>
+    <outcome>
+      <text value="Breast Cancer"/>
+    </outcome>
+    <probabilityDecimal value="0.001530"/>
+    <whenRange>
+      <low>
+        <value value="78"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </low>
+      <high>
+        <value value="82"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </high>
+    </whenRange>
+  </prediction>
+  <prediction>
+    <outcome>
+      <text value="Breast Cancer"/>
+    </outcome>
+    <probabilityDecimal value="0.001663"/>
+    <whenRange>
+      <low>
+        <value value="83"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </low>
+      <high>
+        <value value="88"/>
+        <unit value="years"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="a"/>
+      </high>
+    </whenRange>
+  </prediction>
+  <note>
+    <text value="High degree of certainty"/>
+  </note>
+</RiskAssessment>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><Questionnaire xmlns="http://hl7.org/fhir">
+  <id value="bb"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <pre>
+        <b>Birth details - To be completed by health professional</b>
+  Name of child: ____________________________________
+            Sex: __
+            
+  Neonatal Information
+    Birth Weight (kg): ___________
+    Birth Length (cm): ___________
+    Vitamin K given  : __
+             1st dose: ___________
+             2nd dose: ___________
+    Hep B given      : __
+      Date given     : ___________
+    Abnormalities noted at birth:
+      _______________________________________________
+      </pre>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/Questionnaire/bb"/>
+  <title value="NSW Government My Personal Health Record"/>
+  <status value="draft"/>
+  <subjectType value="Patient"/>
+  <date value="2013-02-19"/>
+  <publisher value="New South Wales Department of Health"/>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="AU"/>
+    </coding>
+  </jurisdiction>
+  <item>
+    <linkId value="birthDetails"/>
+    <text value="Birth details - To be completed by health professional"/>
+    <type value="group"/>
+    <item>
+      <linkId value="group"/>
+      <type value="group"/>
+      <item>
+        <linkId value="nameOfChild"/>
+        <text value="Name of child"/>
+        <type value="string"/>
+      </item>
+      <item>
+        <linkId value="sex"/>
+        <text value="Sex"/>
+        <type value="choice"/>
+        <answerOption>
+          <valueCoding>
+            <code value="F"/>
+          </valueCoding>
+        </answerOption>
+        <answerOption>
+          <valueCoding>
+            <code value="M"/>
+          </valueCoding>
+        </answerOption>
+      </item>
+    </item>
+    <item>
+      <linkId value="neonatalInformation"/>
+      <text value="Neonatal Information"/>
+      <type value="group"/>
+      <item>
+        <linkId value="birthWeight"/>
+        <text value="Birth weight (kg)"/>
+        <type value="decimal"/>
+      </item>
+      <item>
+        <linkId value="birthLength"/>
+        <text value="Birth length (cm)"/>
+        <type value="decimal"/>
+      </item>
+      <item>
+        <linkId value="vitaminKgiven"/>
+        <text value="Vitamin K given"/>
+        <type value="choice"/>
+        <answerOption>
+          <valueCoding>
+            <code value="INJECTION"/>
+          </valueCoding>
+        </answerOption>
+        <answerOption>
+          <valueCoding>
+            <code value="INTRAVENOUS"/>
+          </valueCoding>
+        </answerOption>
+        <answerOption>
+          <valueCoding>
+            <code value="ORAL"/>
+          </valueCoding>
+        </answerOption>
+        <item>
+          <linkId value="vitaminKgivenDoses"/>
+          <type value="group"/>
+          <enableWhen>
+            <question value="vitaminKgiven"/>
+            <operator value="exists"/>
+            <answerBoolean value="true"/>
+          </enableWhen>
+          <item>
+            <linkId value="vitaminiKDose1"/>
+            <text value="1st dose"/>
+            <type value="dateTime"/>
+          </item>
+          <item>
+            <linkId value="vitaminiKDose2"/>
+            <text value="2nd dose"/>
+            <type value="dateTime"/>
+          </item>
+        </item>
+      </item>
+      <item>
+        <linkId value="hepBgiven"/>
+        <text value="Hep B given y / n"/>
+        <type value="boolean"/>
+        <item>
+          <linkId value="hepBgivenDate"/>
+          <text value="Date given"/>
+          <type value="date"/>
+        </item>
+      </item>
+      <item>
+        <linkId value="abnormalitiesAtBirth"/>
+        <text value="Abnormalities noted at birth"/>
+        <type value="string"/>
+      </item>
+    </item>
+  </item>
+</Questionnaire>

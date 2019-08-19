@@ -1,0 +1,205 @@
+<ImplementationGuide xmlns="http://hl7.org/fhir">
+  <id value="l-mHwbHvc9"/>
+  <meta>
+    <versionId value="7Qh-InjijB"/>
+    <lastUpdated value="2019-08-08T09:17:28.824-04:00"/>
+    <source value="SLMAPQGDcQ"/>
+    <profile value="Ht8FOmwAke"/>
+    <security>
+      <system value="Rp9UtTw2eC"/>
+      <version value="dIQQeIwxAT"/>
+      <code value="boDoJvqoB_"/>
+      <display value="Sg5XliKLt1"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="r29H_8XGRC"/>
+      <version value="vmYr6S_Tza"/>
+      <code value="vvsfl8X6Qi"/>
+      <display value="_nWAytSpWK"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="rEAFPw6rnZ"/>
+  <language value="xsnfg_LSe4"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="0KR0hejaWv"/>
+  <version value="8XEDGp_Dmr"/>
+  <name value="7lydylQWnB"/>
+  <title value="YMnMur9rY2"/>
+  <status value="active"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:28.828-04:00"/>
+  <publisher value="RunpTnyYbN"/>
+  <contact>
+    <name value="_AavqmRVum"/>
+    <telecom>
+      <system value="url"/>
+      <value value="kotzZG1XxC"/>
+      <use value="mobile"/>
+      <rank value="1445502078"/>
+      <period>
+        <start value="2019-08-08T09:17:28.825-04:00"/>
+        <end value="2019-08-08T09:17:28.825-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="_nhfGNbipp"/>
+  <useContext>
+    <code>
+      <system value="rEE8yPBoJO"/>
+      <version value="OSI2Z4QcjU"/>
+      <code value="dZqarxNLTZ"/>
+      <display value="qkXDSHg_Oo"/>
+      <userSelected value="true"/>
+    </code>
+    <valueQuantity>
+      <value value="442869357344"/>
+      <comparator value="&lt;"/>
+      <unit value="MN5mprP9Cy"/>
+      <system value="jKs8DQpxJU"/>
+      <code value="bTigSH7jXm"/>
+    </valueQuantity>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="dgeqwpZDOt"/>
+      <version value="N5J9YeldEE"/>
+      <code value="PoVAYdc4zX"/>
+      <display value="pjgFErZkz5"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="7_GW9kqH8O"/>
+  </jurisdiction>
+  <copyright value="iXvNT0dSh0"/>
+  <packageId value="smkgbcUoK9"/>
+  <license value="EUDatagrid"/>
+  <fhirVersion value="0.01"/>
+  <dependsOn>
+    <uri value="gGtWhXbdin"/>
+    <packageId value="84otcWZHrg"/>
+    <version value="WKUzDo3gWH"/>
+  </dependsOn>
+  <global>
+    <type value="Coverage"/>
+    <profile value="tsWt523PLm"/>
+  </global>
+  <definition>
+    <grouping>
+      <name value="TZBw65cDQj"/>
+      <description value="e117J5LZfS"/>
+    </grouping>
+    <resource>
+      <reference>
+        <reference value="hOO8zODdUM"/>
+        <type value="iJ8o1b96e0"/>
+        <identifier>
+          <use value="secondary"/>
+          <type>
+            <coding>
+              <system value="VzubFltcRe"/>
+              <version value="_CvLTmv3kr"/>
+              <code value="bD4mGajnzv"/>
+              <display value="8RNpYZmAhC"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="jTngqb4aCu"/>
+          </type>
+          <system value="xIWR0Bu8XR"/>
+          <value value="a9Tc0u8Aau"/>
+          <period>
+            <start value="2019-08-08T09:17:28.827-04:00"/>
+            <end value="2019-08-08T09:17:28.827-04:00"/>
+          </period>
+        </identifier>
+        <display value="szPyzzIAdr"/>
+      </reference>
+      <fhirVersion value="0.0.82"/>
+      <name value="c8wjFWMrcq"/>
+      <description value="Fc8W0xf0eI"/>
+      <exampleCanonical value="0DkWAQ_mbu"/>
+      <groupingId value="UjFxS-T6s9"/>
+    </resource>
+    <page>
+      <nameReference>
+        <reference value="dH_7pq65tR"/>
+        <type value="mzgN1M55OA"/>
+        <identifier>
+          <use value="official"/>
+          <type>
+            <coding>
+              <system value="1ku2eBp06g"/>
+              <version value="4HhZkEZ9if"/>
+              <code value="y3g08GZ03K"/>
+              <display value="2_FfzJOqaX"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="agvw9y4E_T"/>
+          </type>
+          <system value="XelyVoA5gV"/>
+          <value value="VuRMVjz101"/>
+          <period>
+            <start value="2019-08-08T09:17:28.828-04:00"/>
+            <end value="2019-08-08T09:17:28.828-04:00"/>
+          </period>
+        </identifier>
+        <display value="nnyi84TXa1"/>
+      </nameReference>
+      <title value="sEk487mdOL"/>
+      <generation value="xml"/>
+    </page>
+    <parameter>
+      <code value="expansion-parameter"/>
+      <value value="eFZ20Ki65E"/>
+    </parameter>
+    <template>
+      <code value="V9rDCHJ8ZP"/>
+      <source value="c4wHDZ5vIW"/>
+      <scope value="0kecyqgXhG"/>
+    </template>
+  </definition>
+  <manifest>
+    <rendering value="qggzgVyXdc"/>
+    <resource>
+      <reference>
+        <reference value="Y84PuJJPl7"/>
+        <type value="84dMmoc0Zl"/>
+        <identifier>
+          <use value="old"/>
+          <type>
+            <coding>
+              <system value="N7lROBAhqZ"/>
+              <version value="m3Dv8uTRIR"/>
+              <code value="6d9BrXog9G"/>
+              <display value="15iXSh4O_2"/>
+              <userSelected value="true"/>
+            </coding>
+            <text value="Y217LwnyED"/>
+          </type>
+          <system value="gD3xvkcI_A"/>
+          <value value="ESi9mKiNUX"/>
+          <period>
+            <start value="2019-08-08T09:17:28.825-04:00"/>
+            <end value="2019-08-08T09:17:28.825-04:00"/>
+          </period>
+        </identifier>
+        <display value="3PCIGXwdKs"/>
+      </reference>
+      <exampleCanonical value="0ktUQQ2gyy"/>
+      <relativePath value="pQksIxFwNk"/>
+    </resource>
+    <page>
+      <name value="hvLEh9XVlQ"/>
+      <title value="p2le8abrJP"/>
+      <anchor value="k5Ra44JI6t"/>
+    </page>
+    <image value="ncCcrps7sC"/>
+    <other value="mKPJxW9T9M"/>
+  </manifest>
+</ImplementationGuide>

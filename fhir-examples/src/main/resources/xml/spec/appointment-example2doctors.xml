@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><Appointment xmlns="http://hl7.org/fhir">
+	<id value="2docs"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">Brian MRI results discussion</div>
+	</text>
+	<status value="booked"/>
+	<serviceCategory>
+		<coding>
+			<system value="http://example.org/service-category"/>
+			<code value="gp"/>
+			<display value="General Practice"/>
+		</coding>
+	</serviceCategory>
+	<serviceType>
+		<coding>
+			<code value="52"/>
+			<display value="General Discussion"/>
+		</coding>
+	</serviceType>
+	<specialty>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="394814009"/>
+			<display value="General practice"/>
+		</coding>
+	</specialty>
+	<appointmentType>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v2-0276"/>
+			<code value="WALKIN"/>
+			<display value="A previously unscheduled walk-in visit"/>
+		</coding>
+	</appointmentType>
+	<priority value="5"/>
+	<description value="Discussion about Peter Chalmers MRI results"/>
+  <supportingInformation>
+    <reference value="DiagnosticReport/ultrasound"/>
+  </supportingInformation>
+	<start value="2013-12-09T09:00:00Z"/>
+	<end value="2013-12-09T11:00:00Z"/>
+	<comment value="Clarify the results of the MRI to ensure context of test was correct"/>
+	<participant>
+		<actor>
+			<reference value="Patient/example"/>
+			<display value="Peter James Chalmers"/>
+		</actor>
+		<required value="information-only"/>
+		<status value="accepted"/>
+	</participant>
+	<participant>
+		<actor>
+			<reference value="Practitioner/example"/>
+			<display value="Dr Adam Careful"/>
+		</actor>
+		<required value="required"/>
+		<status value="accepted"/>
+	</participant>
+	<participant>
+		<actor>
+			<reference value="Practitioner/f202"/>
+			<display value="Luigi Maas"/>
+		</actor>
+		<required value="required"/>
+		<status value="accepted"/>
+	</participant>
+	<participant>
+		<actor>
+			<display value="Phone Call"/>
+		</actor>
+		<required value="information-only"/>
+		<status value="accepted"/>
+	</participant>
+</Appointment>

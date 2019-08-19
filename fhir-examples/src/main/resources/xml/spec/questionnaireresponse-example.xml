@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><QuestionnaireResponse xmlns="http://hl7.org/fhir">
+  <id value="3141"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <pre>
+            Comorbidity? YES
+              Cardial Comorbidity? YES
+                Angina? YES
+                MI? NO
+              Vascular Comorbidity?
+                (no answers)
+              ...
+            Histopathology
+              Abdominal
+                pT category: 1a
+              ...
+          </pre>
+    </div>
+  </text>
+  <contained>
+    <Patient>
+      <id value="patsub"/>
+      <identifier>
+        <system value="http://cancer.questionnaire.org/systems/id/patientnr"/>
+        <value value="A34442332"/>
+      </identifier>
+      <identifier>
+        <type>
+          <text value="Dutch BSN"/>
+        </type>
+        <system value="urn:oid:2.16.840.1.113883.2.4.6.3"/>
+        <value value="188912345"/>
+      </identifier>
+      <gender value="male"/>
+      <birthDate value="1972-11-30"/>
+    </Patient>
+  </contained>
+  <contained>
+    <ServiceRequest>
+      <id value="order"/>
+      <status value="unknown"/>
+      <intent value="order"/>
+      <subject>
+        <reference value="#patsub"/>
+      </subject>
+      <requester>
+          <reference value="Practitioner/example"/>
+      </requester>
+    </ServiceRequest>
+  </contained>
+  <contained>
+    <Practitioner>
+      <id value="questauth"/>
+      <identifier>
+        <type>
+          <text value="AUMC, Den Helder"/>
+        </type>
+        <system value="http://cancer.questionnaire.org/systems/id/org"/>
+        <value value="AUMC"/>
+      </identifier>
+    </Practitioner>
+  </contained>
+  <!--    TODO: decide how to do this
+  <contained>
+
+    <Observation>
+      <id value="obs.pt-category"/>
+      <status value="final"/>
+      <code>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="53786006"/>
+          <display value="pT1 category"/>
+        </coding>
+      </code>
+      <subject>
+        <reference value="#patsub"/>
+      </subject>
+      <performer>
+        <reference value="#questauth"/>
+      </performer>
+      <valueCodeableConcept>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="443357004"/>
+          <display value="pT1a category"/>
+        </coding>
+      </valueCodeableConcept>
+    </Observation>
+  </contained>  -->
+  <identifier>
+    <system value="http://example.org/fhir/NamingSystem/questionnaire-ids"/>
+    <value value="Q12349876"/>
+  </identifier>
+  <basedOn>
+    <reference value="#order"/>
+  </basedOn>
+  <partOf>
+    <reference value="Procedure/f201"/>
+  </partOf>
+  <status value="completed"/>
+  <subject>
+    <reference value="#patsub"/>
+  </subject>
+  <encounter>
+    <reference value="Encounter/example"/>
+  </encounter>
+  <authored value="2013-02-19T14:15:00-05:00"/>
+  <author>
+    <reference value="#questauth"/>
+  </author>
+  <item>
+    <!--    COMORBIDITY    -->
+    <!--    First main section of the form, questions about comorbidity    -->
+    <!--    section contains one question: whether there is comorbidity    -->
+    <linkId value="1"/>
+    <item>
+      <linkId value="1.1"/>
+      <answer>
+        <valueCoding>
+          <system value="http://cancer.questionnaire.org/system/code/yesno"/>
+          <code value="1"/>
+          <display value="Yes"/>
+        </valueCoding>
+        <item>
+          <!--    COMORBIDITY/CARDIAL    -->
+          <!--    Subsection about specific comorbidity: cardial    -->
+          <linkId value="1.1.1"/>
+          <item>
+            <linkId value="1.1.1.1"/>
+            <answer>
+              <valueCoding>
+                <system value="http://cancer.questionnaire.org/system/code/yesno"/>
+                <code value="1"/>
+              </valueCoding>
+            </answer>
+          </item>
+          <item>
+            <!--    This answer carries both the questionnaire-specific name and an equivalent SNOMED CT code    -->
+            <linkId value="1.1.1.2"/>
+            <answer>
+              <valueCoding>
+                <system value="http://cancer.questionnaire.org/system/code/yesno"/>
+                <code value="1"/>
+              </valueCoding>
+            </answer>
+          </item>
+          <item>
+            <linkId value="1.1.1.3"/>
+            <answer>
+              <valueCoding>
+                <system value="http://cancer.questionnaire.org/system/code/yesno"/>
+                <code value="0"/>
+              </valueCoding>
+            </answer>
+          </item>
+        </item>
+      </answer>
+    </item>
+  </item>
+  <!--    HISTOPATHOLOGY    -->
+  <!--    TODO: decide how to do this
+  <item>
+
+    <item>
+      <item>
+       <dataResource>
+          <reference value="#obs.pt-category"/>
+        </dataResource>
+      </item>
+    </item>
+  </item>    -->
+</QuestionnaireResponse>

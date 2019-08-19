@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationDispense xmlns="http://hl7.org/fhir">
+    <id value="meddisp0330"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: meddisp0330</p><p><b>contained</b>: </p><p><b>status</b>: in-progress</p><p><b>medication</b>: Coumadin 5mg tablet. Generated Summary: id: med0351; Coumadin 5mg tablet <span>(Details : {http://hl7.org/fhir/sid/ndc code '0056-1072-70' = '0056-1072-70', given as 'Coumadin 5mg tablet'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a></td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0331</a></p><p><b>type</b>: Daily Fill <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'DF' = 'Daily Fill', given as 'Daily Fill'})</span></p><p><b>quantity</b>: 1 415818006<span> (Details: SNOMED CT code 415818006 = 'Vial')</span></p><p><b>daysSupply</b>: 1 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 15/01/2015 10:20:00 AM</p><p><b>dosageInstruction</b>: </p></div></text><contained>
+        <Medication>
+            <id value="med0351"/>
+            <code>
+                <coding>
+                    <system value="http://hl7.org/fhir/sid/ndc"/>
+                    <code value="0056-1072-70"/>
+                    <display value="Coumadin 5mg tablet"/>
+                </coding>
+            </code>
+        </Medication>
+    </contained>
+    <status value="in-progress"/>
+    <medicationReference>
+        <!--   Linked to a RESOURCE Medication   -->
+        <reference value="#med0351"/>
+        <display value="Coumadin 5mg tablet"/>
+    </medicationReference>
+    <subject>
+        <reference value="Patient/pat1"/>
+        <display value="Donald Duck"/>
+    </subject>
+    <performer>
+        <actor>
+            <reference value="Practitioner/f006"/>
+        </actor>
+    </performer>
+    <authorizingPrescription>
+        <reference value="MedicationRequest/medrx0331"/>
+    </authorizingPrescription>
+    <type>
+        <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="DF"/>
+            <display value="Daily Fill"/>
+        </coding>
+    </type>
+    <quantity>
+        <value value="1"/>
+        <system value="http://snomed.info/sct"/>
+        <code value="415818006"/>
+    </quantity>
+    <daysSupply>
+        <value value="1"/>
+        <unit value="Day"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="d"/>
+    </daysSupply>
+    <whenPrepared value="2015-01-15T10:20:00Z"/>
+    <dosageInstruction>
+        <sequence value="1"/>
+        <text value="7mg (=one 5mg tablet PLUS one 2mg tablet) once daily"/>
+        <additionalInstruction>
+            <text value="Take along with one 5mg Coumadin tablet for a total daily dose of 7mg as prescribed by physician"/>
+        </additionalInstruction>
+        <timing>
+            <repeat>
+                <frequency value="1"/>
+                <period value="1"/>
+                <periodUnit value="d"/>
+            </repeat>
+        </timing>
+        <doseAndRate>
+            <type>
+                <coding>
+                    <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+                    <code value="ordered"/>
+                    <display value="Ordered"/>
+                </coding>
+            </type>
+            <doseQuantity>
+                <value value="5"/>
+                <unit value="mg"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="mg"/>
+            </doseQuantity>
+        </doseAndRate>
+
+    </dosageInstruction>
+</MedicationDispense>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><List xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <table>
+        <thead>
+          <tr>
+            <th>Condition</th>
+            <th>Severity</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Burnt Ear</td>
+            <td>Severe</td>
+            <td>24-May 2012</td>
+            <td>Left Ear</td>
+            <td>deleted</td>
+          </tr>
+          <tr>
+            <td>Asthma</td>
+            <td>Mild</td>
+            <td>21-Nov 2012</td>
+            <td>--</td>
+            <td>added</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </text>
+  <identifier>
+    <system value="urn:uuid:a9fcea7c-fcdf-4d17-a5e0-f26dda030b59"/>
+    <value value="23974652"/>
+  </identifier>
+  <status value="current"/>
+  <mode value="changes"/>
+  <!--  This list doesn't have a code. In actual fact, 
+    it's a Condition list produced at the end of an encounter 
+    to a regular primary care practitioner. But the only way
+    to know this is to hunt down the place it is used 
+    and find out  -->
+  <subject>
+    <reference value="Patient/example"/>
+  </subject>  
+  <encounter>
+    <reference value="Encounter/example"/>
+  </encounter>  
+  <date value="2012-11-25T22:17:00+11:00"/>
+  <source>
+    <reference value="Patient/example"/>
+  </source>
+  <entry>
+    <flag>
+      <text value="Deleted due to error"/>
+    </flag>
+    <deleted value="true"/>
+    <item>
+      <reference value="Condition/example"/>
+    </item>
+  </entry>
+  <entry>
+    <flag>
+      <text value="Added"/>
+    </flag>
+    <item>
+      <reference value="Condition/example2"/>
+    </item>
+  </entry>
+</List>

@@ -1,0 +1,279 @@
+<Patient xmlns="http://hl7.org/fhir">
+  <id value="Gu1jWQOx9Q"/>
+  <meta>
+    <versionId value="k8txhqVM8g"/>
+    <lastUpdated value="2019-08-08T09:17:30.357-04:00"/>
+    <source value="fmAI020nep"/>
+    <profile value="eP3FQDZ1Ie"/>
+    <security>
+      <system value="lZzzHVlNa8"/>
+      <version value="bc5gUJnfxs"/>
+      <code value="PJ48i9QoH5"/>
+      <display value="Om6fTdEUVb"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="_cwfpqGJgX"/>
+      <version value="Y6XXgkPUDs"/>
+      <code value="WkEIQ_pCtL"/>
+      <display value="KWEArLWFsK"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="dJxq8Fmcv9"/>
+  <language value="nrIUKmocgS"/>
+  <text>
+    <status value="additional"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="temp"/>
+    <type>
+      <coding>
+        <system value="sYG7TELqRE"/>
+        <version value="T4xdigFaqB"/>
+        <code value="AxJTbUR9Jq"/>
+        <display value="b0BFO7OPpV"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="g3qIfvZ_N6"/>
+    </type>
+    <system value="52wyRmuKgr"/>
+    <value value="a1fjbYEeDh"/>
+    <period>
+      <start value="2019-08-08T09:17:30.358-04:00"/>
+      <end value="2019-08-08T09:17:30.358-04:00"/>
+    </period>
+  </identifier>
+  <active value="true"/>
+  <name>
+    <use value="nickname"/>
+    <text value="d9VJaP_MWA"/>
+    <family value="siOePCwp3o"/>
+    <given value="DrPz9GkS5M"/>
+    <prefix value="to7hTtp0GL"/>
+    <suffix value="0s0Ct59HQm"/>
+    <period>
+      <start value="2019-08-08T09:17:30.356-04:00"/>
+      <end value="2019-08-08T09:17:30.356-04:00"/>
+    </period>
+  </name>
+  <telecom>
+    <system value="email"/>
+    <value value="hkZ94THMNo"/>
+    <use value="work"/>
+    <rank value="714967421"/>
+    <period>
+      <start value="2019-08-08T09:17:30.357-04:00"/>
+      <end value="2019-08-08T09:17:30.357-04:00"/>
+    </period>
+  </telecom>
+  <gender value="other"/>
+  <birthDate value="2019-08-08"/>
+  <deceasedBoolean value="true"/>
+  <address>
+    <use value="billing"/>
+    <type value="both"/>
+    <text value="jmNlBMYSVS"/>
+    <line value="MNRkQnDy9m"/>
+    <city value="RG0uFJOz2C"/>
+    <district value="I_Z0Cdi521"/>
+    <state value="PaLOR756TC"/>
+    <postalCode value="kUmyn9ZmgF"/>
+    <country value="54tKSkQ5_R"/>
+    <period>
+      <start value="2019-08-08T09:17:30.356-04:00"/>
+      <end value="2019-08-08T09:17:30.356-04:00"/>
+    </period>
+  </address>
+  <maritalStatus>
+    <coding>
+      <system value="n8YgzVS0Pv"/>
+      <version value="6vvYFcO15Q"/>
+      <code value="tWVQPYTNco"/>
+      <display value="TETifWzrWx"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="M4FsDgulca"/>
+  </maritalStatus>
+  <multipleBirthBoolean value="true"/>
+  <photo>
+    <contentType value="MhfDHqrwYz"/>
+    <language value="hCs0yXWZSV"/>
+    <data value="V09YHUk="/>
+    <url value="H9I3F08fPp"/>
+    <size value="897278741"/>
+    <hash value="S2gnB3s="/>
+    <title value="Fwlwpn7wUX"/>
+    <creation value="2019-08-08T09:17:30.358-04:00"/>
+  </photo>
+  <contact>
+    <relationship>
+      <coding>
+        <system value="RYbqJCoEC7"/>
+        <version value="LR3lSauRhV"/>
+        <code value="mRNRxSHHj_"/>
+        <display value="4GscTP2bel"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="IHGztgTLFW"/>
+    </relationship>
+    <name>
+      <use value="old"/>
+      <text value="fDIw6U3Qc6"/>
+      <family value="KJKZmqNl9m"/>
+      <given value="4rbU4Spf8Z"/>
+      <prefix value="akTXZ5ACOW"/>
+      <suffix value="JhUf7eRWag"/>
+      <period>
+        <start value="2019-08-08T09:17:30.360-04:00"/>
+        <end value="2019-08-08T09:17:30.360-04:00"/>
+      </period>
+    </name>
+    <telecom>
+      <system value="url"/>
+      <value value="l7ZbTKuBUz"/>
+      <use value="temp"/>
+      <rank value="478137999"/>
+      <period>
+        <start value="2019-08-08T09:17:30.361-04:00"/>
+        <end value="2019-08-08T09:17:30.361-04:00"/>
+      </period>
+    </telecom>
+    <address>
+      <use value="home"/>
+      <type value="postal"/>
+      <text value="nStLboYkt8"/>
+      <line value="EypGUPyYqw"/>
+      <city value="GR0LlJU_NT"/>
+      <district value="5zR_Xcdd2y"/>
+      <state value="jWMixngx_W"/>
+      <postalCode value="NkdAl8jTr9"/>
+      <country value="HP19F_9DxL"/>
+      <period>
+        <start value="2019-08-08T09:17:30.360-04:00"/>
+        <end value="2019-08-08T09:17:30.360-04:00"/>
+      </period>
+    </address>
+    <gender value="unknown"/>
+    <organization>
+      <reference value="irZuVm89UI"/>
+      <type value="NV6wm2ENcY"/>
+      <identifier>
+        <use value="usual"/>
+        <type>
+          <coding>
+            <system value="S4Bu_0oJxb"/>
+            <version value="Lk8mBfUrxd"/>
+            <code value="6nLkgMGNgc"/>
+            <display value="5Lt_ycypFV"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="aXm5EXRTuH"/>
+        </type>
+        <system value="GyTktg93Ud"/>
+        <value value="d7NXZ0WLFY"/>
+        <period>
+          <start value="2019-08-08T09:17:30.362-04:00"/>
+          <end value="2019-08-08T09:17:30.362-04:00"/>
+        </period>
+      </identifier>
+      <display value="2_3L2TMTIR"/>
+    </organization>
+    <period>
+      <start value="2019-08-08T09:17:30.361-04:00"/>
+      <end value="2019-08-08T09:17:30.361-04:00"/>
+    </period>
+  </contact>
+  <communication>
+    <language>
+      <coding>
+        <system value="4jXkQskfjV"/>
+        <version value="hsRrC_NF6F"/>
+        <code value="g0TLPh5Uf6"/>
+        <display value="PqFvOhRWMr"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="iJiJ4glvPq"/>
+    </language>
+    <preferred value="true"/>
+  </communication>
+  <generalPractitioner>
+    <reference value="S3fg76dX4H"/>
+    <type value="oj48rEMV2m"/>
+    <identifier>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="2xKNhNtMex"/>
+          <version value="GUdDe7hfgg"/>
+          <code value="C6en3KIjUS"/>
+          <display value="PvvyL85kyi"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="6zCAHPBGcl"/>
+      </type>
+      <system value="n64ZirPLpQ"/>
+      <value value="aIT8z6vg0r"/>
+      <period>
+        <start value="2019-08-08T09:17:30.364-04:00"/>
+        <end value="2019-08-08T09:17:30.364-04:00"/>
+      </period>
+    </identifier>
+    <display value="FAt1OIDrLr"/>
+  </generalPractitioner>
+  <managingOrganization>
+    <reference value="j2ZOqJOcbK"/>
+    <type value="Kt3uhTvKpp"/>
+    <identifier>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="spym9e9zXW"/>
+          <version value="OUp2PrlN_2"/>
+          <code value="DYHOlqyrgi"/>
+          <display value="CAPVvLiK5p"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="lXAPvQLUWv"/>
+      </type>
+      <system value="8u_UuQ2AAo"/>
+      <value value="lGEaiesqC7"/>
+      <period>
+        <start value="2019-08-08T09:17:30.364-04:00"/>
+        <end value="2019-08-08T09:17:30.364-04:00"/>
+      </period>
+    </identifier>
+    <display value="JXIY48F55d"/>
+  </managingOrganization>
+  <link>
+    <other>
+      <reference value="XE80TVJLDq"/>
+      <type value="uRipCF3rvt"/>
+      <identifier>
+        <use value="secondary"/>
+        <type>
+          <coding>
+            <system value="YxBxnsKHPg"/>
+            <version value="_7lNgFlew9"/>
+            <code value="qHDppJsPdk"/>
+            <display value="re3dNOKY4x"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="0NCTdmZuLh"/>
+        </type>
+        <system value="KQcBoDjD3Z"/>
+        <value value="e7pJt3R66p"/>
+        <period>
+          <start value="2019-08-08T09:17:30.368-04:00"/>
+          <end value="2019-08-08T09:17:30.368-04:00"/>
+        </period>
+      </identifier>
+      <display value="8Wm6ljkMOF"/>
+    </other>
+    <type value="replaces"/>
+  </link>
+</Patient>

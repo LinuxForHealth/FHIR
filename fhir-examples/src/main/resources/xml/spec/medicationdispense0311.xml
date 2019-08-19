@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationDispense xmlns="http://hl7.org/fhir">
+    <id value="meddisp0311"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: meddisp0311</p><p><b>status</b>: completed</p><p><b>medication</b>: Acetaminophen 120mg Suppository <span>(Details : {http://hl7.org/fhir/sid/ndc code '50090-0001' = '50090-0001', given as 'Acetaminophen 120mg Suppository'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a></td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0324</a></p><p><b>type</b>: Refill - Part Fill <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'RFP' = 'Refill - Part Fill', given as 'Refill - Part Fill'})</span></p><p><b>quantity</b>: 60 RECSUPP<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code RECSUPP = 'Rectal Suppository')</span></p><p><b>daysSupply</b>: 10 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 15/01/2015 10:20:00 AM</p><p><b>whenHandedOver</b>: 15/01/2015 4:20:00 PM</p><p><b>dosageInstruction</b>: </p></div></text><status value="completed"/>
+   <medicationCodeableConcept>
+       <coding>
+           <system value="http://hl7.org/fhir/sid/ndc"/>
+           <code value="50090-0001"/>
+           <display value="Acetaminophen 120mg Suppository"/>
+       </coding>
+   </medicationCodeableConcept>
+    <subject>       
+        <reference value="Patient/pat1"/>
+        <display value="Donald Duck"/>
+    </subject>
+    <performer>
+        <actor>
+            <reference value="Practitioner/f006"/>
+        </actor>
+    </performer>
+    <authorizingPrescription>
+        <reference value="MedicationRequest/medrx0324"/>
+    </authorizingPrescription>
+    <type>
+        <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="RFP"/>
+            <display value="Refill - Part Fill"/>
+        </coding>
+    </type>
+    <quantity>
+        <value value="60"/>
+        <system value="http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm"/>
+        <code value="RECSUPP"/>
+    </quantity>
+    <daysSupply>
+        <value value="10"/>
+        <unit value="Day"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="d"/>
+    </daysSupply>
+    <whenPrepared value="2015-01-15T10:20:00Z"/>
+    <whenHandedOver value="2015-01-15T16:20:00Z"/>    
+    <dosageInstruction>
+        <sequence value="1"/>
+        <text value="Insert two suppositories (240mg) rectally twice daily as needed for fever to a maximim of 6 per day"/>
+        <additionalInstruction>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="418637003"/>
+                <display value="Do not take with any other paracetamol products (qualifier value)"/>
+            </coding>
+        </additionalInstruction>
+        <timing>
+            <repeat>
+                <frequency value="2"/>
+                <period value="1"/>
+                <periodUnit value="d"/>
+            </repeat>
+        </timing>
+        <asNeededCodeableConcept>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="386661006"/>
+                <display value="Fever (finding)"/>
+            </coding>
+        </asNeededCodeableConcept>
+        <doseAndRate>
+            <type>
+                <coding>
+                    <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+                    <code value="ordered"/>
+                    <display value="Ordered"/>
+                </coding>
+            </type>
+            <doseQuantity>
+                <value value="240"/>
+                <unit value="mg"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="mg"/>
+            </doseQuantity>
+        </doseAndRate>
+
+        <maxDosePerPeriod>
+            <numerator>
+                <value value="720"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="mg"/>
+            </numerator>
+            <denominator>
+                <value value="1"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="d"/>
+            </denominator>
+        </maxDosePerPeriod>
+    </dosageInstruction>
+</MedicationDispense>

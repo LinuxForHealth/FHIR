@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><Specimen xmlns="http://hl7.org/fhir">
+	<id value="101"/>
+	<!--  text>
+    <status value="generated" />
+    <div xmlns="http://www.w3.org/1999/xhtml">[Put rendering here]</div>
+  </text>  -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 101</p><p><b>contained</b>: </p><p><b>identifier</b>: 23234352356</p><p><b>accessionIdentifier</b>: X352356</p><p><b>status</b>: available</p><p><b>type</b>: Venous blood specimen <span>(Details : {SNOMED CT code '122555007' = 'Venous blood specimen', given as 'Venous blood specimen'})</span></p><p><b>subject</b>: <a>Peter Patient</a></p><p><b>receivedTime</b>: 04/03/2011 7:03:00 AM</p><p><b>request</b>: <a>ServiceRequest/example</a></p><h3>Collections</h3><table><tr><td>-</td><td><b>Collector</b></td><td><b>Collected[x]</b></td><td><b>Quantity</b></td><td><b>Method</b></td><td><b>BodySite</b></td></tr><tr><td>*</td><td><a>Practitioner/example</a></td><td>30/05/2011 6:15:00 AM</td><td>6 mL</td><td>Line, Venous <span>(Details : {http://terminology.hl7.org/CodeSystem/v2-0488 code 'LNV' = 'Line, Venous)</span></td><td>Right median cubital vein <span>(Details : {SNOMED CT code '49852007' = 'Median cubital vein', given as 'Structure of median cubital vein (body structure)'})</span></td></tr></table><h3>Containers</h3><table><tr><td>-</td><td><b>Identifier</b></td><td><b>Description</b></td><td><b>Type</b></td><td><b>Capacity</b></td><td><b>SpecimenQuantity</b></td><td><b>Additive[x]</b></td></tr><tr><td>*</td><td>48736-15394-75465</td><td>Green Gel tube</td><td>Vacutainer <span>(Details )</span></td><td>10 mL</td><td>6 mL</td><td>id: hep; Lithium/Li Heparin <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-EntityCode code 'HEPL' = 'Lithium/Li Heparin)</span></td></tr></table><p><b>note</b>: Specimen is grossly lipemic</p></div></text><contained>
+		<Substance>
+			<id value="hep"/>
+			<code>
+				<coding>
+					<system value="http://terminology.hl7.org/CodeSystem/v3-EntityCode"/>
+					<code value="HEPL"/>
+				</coding>
+			</code>
+		</Substance>
+	</contained>
+	<identifier>
+		<!--   a specimen identifier - e.g. assigned when the specimen was taken this is often not done   -->
+		<system value="http://ehr.acme.org/identifiers/collections"/>
+		<value value="23234352356"/>
+	</identifier>
+	<accessionIdentifier>
+		<system value="http://lab.acme.org/specimens/2011"/>
+		<value value="X352356"/>
+	</accessionIdentifier>
+	<status value="available"/>
+	<type>
+		<!--  
+   Type is a loosely defined field because there is such a lot of variation in how it is used.
+   The principal variation is how much information that could be represented elsewhere is also
+   represented here. For instance, here's some possible types:
+     lithium heparin plasma   (+ .container.additive) (e.g. SNOMED CT 446272009)
+     transfusion bag of blood (+ container.type)
+     Peritoneal lavage        (+ collection.bodySite)
+   If the type includes other fields, it would be normal not to populate the other fields
+
+   Note that this practice is so widespread that it's pointless to try and stop it   -->
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="122555007"/>
+			<display value="Venous blood specimen"/>
+		</coding>
+	</type>
+	<subject>
+		<reference value="Patient/example"/>
+		<display value="Peter Patient"/>
+	</subject>
+	<receivedTime value="2011-03-04T07:03:00Z"/>
+	<request>
+		<!--   this points to the order that caused the sample to be drawn   -->
+		<reference value="ServiceRequest/example"/>
+	</request>
+	<collection>
+		<collector>
+			<!--   in practice, collecter is almost always recorded   -->
+			<reference value="Practitioner/example"/>
+		</collector>
+		<!--   the time of collection is usually required. Usually a point in time, but can be a period
+      (collectedPeriod) if it's a timed collection (e.g. a 24 hour urine)   -->
+		<collectedDateTime value="2011-05-30T06:15:00Z"/>
+		<quantity>
+			<value value="6"/>
+			<unit value="mL"/>
+			<!--   e.g. full   -->
+		</quantity>
+		<!--   method is usually implied by type   -->
+		<method>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v2-0488"/>
+				<code value="LNV"/>
+			</coding>
+		</method>
+		<!--   bodysite is usually implied by type too its here to demonstrate its usage to indicating the draw site in this case  -->
+		<bodySite>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="49852007"/>
+				<display value="Structure of median cubital vein (body structure)"/>
+			</coding>
+			<text value="Right median cubital vein"/>
+		</bodySite>
+	</collection>
+	<!--  
+      the container identifier is not the same as the specimen identifier
+      usually, it is pre-printed/implanted etc.on the container prior to
+      use. It might a RFID in the container, or it might be a UDI
+      (http://www.fda.gov/MedicalDevices/DeviceRegulationandGuidance/UniqueDeviceIdentification/)
+      -->
+    <container>
+	<identifier>
+		<!--   this is a serial number off the tube - there's no context such as a system   -->
+		<value value="48736-15394-75465"/>
+	</identifier>
+	<description value="Green Gel tube"/>
+	<type>
+		<!--   again, this might easily be used to cover additives and capacity as well   -->
+		<text value="Vacutainer"/>
+	</type>
+	<capacity>
+		<value value="10"/>
+		<unit value="mL"/>
+	</capacity>
+	<!--   if there's only one container, then this value is the same
+     as .collection.quantity (usually). This is for when there is more
+     than one container   -->
+	<specimenQuantity>
+		<value value="6"/>
+		<unit value="mL"/>
+	</specimenQuantity>
+	<additiveReference>
+		<reference value="#hep"/>
+	</additiveReference>
+	</container>
+	<note>
+		<text value="Specimen is grossly lipemic"/>
+	</note>
+</Specimen>

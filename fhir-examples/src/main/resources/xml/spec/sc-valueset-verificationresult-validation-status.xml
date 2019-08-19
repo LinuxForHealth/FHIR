@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="sc-verificationresult-validation-status"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>validation-statusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-verificationresult-validation-status)</h2>
+      <p>Mapping from 
+        <a href="valueset-verificationresult-validation-status.html">http://hl7.org/fhir/ValueSet/verificationresult-validation-status</a> to 
+        <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
+      </p>
+      <p>DRAFT. Published on 06/06/2018 12:06:02 AM by HL7 (FHIR Project) (
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
+        <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
+      </p>
+      <div>
+        <p>Canonical Mapping for &quot;Status of the validation of the target against the primary source&quot;</p>
+
+      </div>
+      <br/>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Source Code</b>
+          </td>
+          <td>
+            <b>Equivalence</b>
+          </td>
+          <td>
+            <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td>successful</td>
+          <td>equivalent</td>
+          <td>active</td>
+        </tr>
+        <tr>
+          <td>failed</td>
+          <td>equivalent</td>
+          <td>failed</td>
+        </tr>
+        <tr>
+          <td>unknown</td>
+          <td>equivalent</td>
+          <td>unknown</td>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/ConceptMap/sc-verificationresult-validation-status"/>
+  <version value="4.0.0"/>
+  <name value="validation-statusCanonicalMap"/>
+  <title value="Canonical Mapping for &quot;Validation-status&quot;"/>
+  <status value="draft"/>
+  <date value="2018-06-06T00:06:02+10:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="Canonical Mapping for &quot;Status of the validation of the target against the primary source&quot;"/>
+  <sourceCanonical value="http://hl7.org/fhir/ValueSet/verificationresult-validation-status"/>
+  <targetCanonical value="http://hl7.org/fhir/ValueSet/resource-status"/>
+  <group>
+    <source value="http://terminology.hl7.org/CodeSystem/validation-status"/>
+    <target value="http://hl7.org/fhir/resource-status"/>
+    <element>
+      <code value="successful"/>
+      <target>
+        <code value="active"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="failed"/>
+      <target>
+        <code value="failed"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="unknown"/>
+      <target>
+        <code value="unknown"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+  </group>
+</ConceptMap>

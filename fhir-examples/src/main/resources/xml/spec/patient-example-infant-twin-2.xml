@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><Patient xmlns="http://hl7.org/fhir">
+	<!--   newborn twin example   -->
+	<id value="infant-twin-2"/>
+	<!--   The details of the child   -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: infant-twin-2</p><p><b>identifier</b>: Medical record number = MRN7465676978, 7465676978</p><p><b>name</b>: Jacen Solo (OFFICIAL)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 15/05/2017</p><p><b>multipleBirth</b>: 2</p><h3>Contacts</h3><table><tr><td>-</td><td><b>Relationship</b></td><td><b>Name</b></td><td><b>Telecom</b></td></tr><tr><td>*</td><td>Mother <span>(Details : {SNOMED CT code '72705000' = 'Mother', given as 'Mother'}; {http://terminology.hl7.org/CodeSystem/v2-0131 code 'N' = 'Next-of-Kin; {http://terminology.hl7.org/CodeSystem/v3-RoleCode code 'MTH' = 'mother)</span></td><td>Leia Organa (MAIDEN)</td><td>ph: +31201234567(MOBILE)</td></tr></table></div></text><extension url="http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName">
+		<valueString value="Organa"/>
+	</extension>
+	<identifier>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+				<code value="MR"/>
+			</coding>
+		</type>
+		<system value="http://coruscanthealth.org/main-hospital/patient-identifier"/>
+		<value value="MRN7465676978"/>
+	</identifier>
+	<identifier>
+		<system value="http://new-republic.gov/galactic-citizen-identifier"/>
+		<value value="7465676978"/>
+	</identifier>
+	<name>
+		<use value="official"/>
+		<family value="Solo"/>
+		<given value="Jacen"/>
+	</name>
+	<gender value="male"/>
+	<birthDate value="2017-05-15">
+		<extension url="http://hl7.org/fhir/StructureDefinition/patient-birthTime">
+			<valueDateTime value="2017-05-15T17:11:30+01:00"/>
+		</extension>
+	</birthDate>
+	<multipleBirthInteger value="2"/>
+	<contact>
+		<!--   Contact of the patient   -->
+		<relationship>
+			<!--   Indicates that the contact is the patient's mother   -->
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="72705000"/>
+				<display value="Mother"/>
+			</coding>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v2-0131"/>
+				<code value="N"/>
+			</coding>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode"/>
+				<code value="MTH"/>
+			</coding>    
+		</relationship>
+		<name>
+			<use value="maiden"/>
+			<family value="Organa"/>
+			<given value="Leia"/>
+		</name>
+		<telecom>
+			<system value="phone"/>
+			<value value="+31201234567"/>
+			<use value="mobile"/>
+		</telecom>
+	</contact>
+</Patient>

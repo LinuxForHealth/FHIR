@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><Bundle xmlns="http://hl7.org/fhir">
+	<id value="f202"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <type value="collection"/>
+	<entry>
+		<fullUrl value="https://example.com/base/DiagnosticReport/f202"/>
+		<resource>
+			<DiagnosticReport><!--   No identifier was available   --><id value="f202"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f202</p><p><b>basedOn</b>: <a>ServiceRequest/req</a></p><p><b>status</b>: final</p><p><b>category</b>: Laboratory test <span>(Details : {SNOMED CT code '15220000' = 'Laboratory test', given as 'Laboratory test'}; {http://terminology.hl7.org/CodeSystem/v2-0074 code 'LAB' = 'Laboratory)</span></p><p><b>code</b>: Blood culture for bacteria, including anaerobic screen <span>(Details : {SNOMED CT code '104177005' = 'Blood culture for bacteria, including anaerobic screen', given as 'Blood culture for bacteria, including anaerobic screen'})</span></p><p><b>subject</b>: <a>Roel</a></p><p><b>issued</b>: 11/03/2013 10:28:00 AM</p><p><b>performer</b>: <a>AUMC</a></p><p><b>result</b>: <a>Results for staphylococcus analysis on Roel's blood culture</a></p><p><b>conclusion</b>: Blood culture tested positive on staphylococcus aureus</p><p><b>conclusionCode</b>: Bacteremia due to staphylococcus <span>(Details : {SNOMED CT code '428763004' = 'Bacteremia due to Staphylococcus aureus', given as 'Bacteremia due to staphylococcus'})</span></p></div></text><basedOn>
+					<reference value="ServiceRequest/req"/>
+				</basedOn>
+				<status value="final"/>
+				<category><!--   Lab test   --><coding>
+						<system value="http://snomed.info/sct"/>
+						<code value="15220000"/>
+						<display value="Laboratory test"/>
+					</coding>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/v2-0074"/>
+						<code value="LAB"/>
+					</coding>
+				</category>
+				<code>
+					<coding>
+						<system value="http://snomed.info/sct"/>
+						<code value="104177005"/>
+						<display value="Blood culture for bacteria, including anaerobic screen"/>
+					</coding>
+				</code>
+				<subject>
+					<reference value="Patient/f201"/>
+					<display value="Roel"/>
+				</subject>
+				<issued value="2013-03-11T10:28:00+01:00"/>
+				<performer>
+					<reference value="Organization/f201"/>
+					<display value="AUMC"/>
+				</performer>
+				<result>
+					<reference value="Observation/f206"/>
+					<display value="Results for staphylococcus analysis on Roel's blood culture"/>
+				</result>
+				<conclusion value="Blood culture tested positive on staphylococcus aureus"/>
+				<conclusionCode>
+					<coding>
+						<system value="http://snomed.info/sct"/>
+						<code value="428763004"/>
+						<display value="Bacteremia due to staphylococcus"/>
+					</coding>
+				</conclusionCode>
+			</DiagnosticReport>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="https://example.com/base/ServiceRequest/req"/>
+		<resource>
+			<ServiceRequest>
+				<id value="req"/>
+				<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: req</p><p><b>status</b>: active</p><p><b>intent</b>: original-order</p><p><b>code</b>: Blood culture for bacteria, including anaerobic screen <span>(Details : {SNOMED CT code '104177005' = 'Blood culture for bacteria, including anaerobic screen', given as 'Blood culture for bacteria, including anaerobic screen'})</span></p><p><b>subject</b>: <a>Roel</a></p><p><b>encounter</b>: <a>Roel's encounter on March elevanth 2013</a></p><p><b>requester</b>: <a>Dokter Bronsig</a></p></div></text><status value="active"/>
+				<intent value="original-order"/>
+				<code>
+					<coding>
+						<system value="http://snomed.info/sct"/>
+						<code value="104177005"/>
+						<display value="Blood culture for bacteria, including anaerobic screen"/>
+					</coding>
+				</code>
+				<subject>
+					<reference value="Patient/f201"/>
+					<display value="Roel"/>
+				</subject>
+				<encounter>
+					<reference value="Encounter/f203"/>
+					<display value="Roel's encounter on March elevanth 2013"/>
+				</encounter>
+				<requester>
+						<reference value="Practitioner/f201"/>
+						<display value="Dokter Bronsig"/>
+				</requester>
+			</ServiceRequest>
+		</resource>
+	</entry>
+</Bundle>

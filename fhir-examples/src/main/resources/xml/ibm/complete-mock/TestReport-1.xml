@@ -1,0 +1,125 @@
+<TestReport xmlns="http://hl7.org/fhir">
+  <id value="Y-uOhcc-Qo"/>
+  <meta>
+    <versionId value="xqZLCFZYxl"/>
+    <lastUpdated value="2019-08-08T09:17:33.520-04:00"/>
+    <source value="8yMY_WAxha"/>
+    <profile value="7hqTNtQOjv"/>
+    <security>
+      <system value="GU38bgtshm"/>
+      <version value="6ikIkhS81X"/>
+      <code value="T4pNl7BXw7"/>
+      <display value="8_yfe4NvPu"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="LLUTJf97wk"/>
+      <version value="4acPVaQZgO"/>
+      <code value="mUHJlqH8jr"/>
+      <display value="o5t5f1X8YR"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="woJb6KfcD4"/>
+  <language value="O_rAZ8KAZv"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="old"/>
+    <type>
+      <coding>
+        <system value="beSS7I88UA"/>
+        <version value="ynZD5EeK5a"/>
+        <code value="uQRgst6IlM"/>
+        <display value="EJfLuXS4xP"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="OvnyaT5Dya"/>
+    </type>
+    <system value="THQltjOQo9"/>
+    <value value="8XSlUbx5cw"/>
+    <period>
+      <start value="2019-08-08T09:17:33.521-04:00"/>
+      <end value="2019-08-08T09:17:33.521-04:00"/>
+    </period>
+  </identifier>
+  <name value="uADlmN6Zxw"/>
+  <status value="waiting"/>
+  <testScript>
+    <reference value="EIw7AH6ZO5"/>
+    <type value="PzjWj4fK4l"/>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="Hvbt_GkBHl"/>
+          <version value="TbgvlCqJAT"/>
+          <code value="m8TDZVnzZ4"/>
+          <display value="IUdHO3x7DU"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="RYaVUPl1ss"/>
+      </type>
+      <system value="NNElMUdoGK"/>
+      <value value="cA8EZpxd6P"/>
+      <period>
+        <start value="2019-08-08T09:17:33.521-04:00"/>
+        <end value="2019-08-08T09:17:33.521-04:00"/>
+      </period>
+    </identifier>
+    <display value="x4h3It35IY"/>
+  </testScript>
+  <result value="fail"/>
+  <score value="219415867231"/>
+  <tester value="Xv2DzEvDLu"/>
+  <issued value="2019-08-08T09:17:33.521-04:00"/>
+  <participant>
+    <type value="server"/>
+    <uri value="3_vlKvC7yd"/>
+    <display value="vXd9caMsHJ"/>
+  </participant>
+  <setup>
+    <action>
+      <operation>
+        <result value="error"/>
+        <message value="Eeu_nwnvOp"/>
+        <detail value="hxt8Z0PNcW"/>
+      </operation>
+      <assert>
+        <result value="warning"/>
+        <message value="VLp8iX31U1"/>
+        <detail value="HtqEMLqU4B"/>
+      </assert>
+    </action>
+  </setup>
+  <test>
+    <name value="7e1kq_X4S3"/>
+    <description value="Hmqamb60F2"/>
+    <action>
+      <operation>
+        <result value="skip"/>
+        <message value="DmCjc3iqup"/>
+        <detail value="ZCE9uMtrID"/>
+      </operation>
+      <assert>
+        <result value="pass"/>
+        <message value="RDJCyQda8I"/>
+        <detail value="FQY8fssMH7"/>
+      </assert>
+    </action>
+  </test>
+  <teardown>
+    <action>
+      <operation>
+        <result value="warning"/>
+        <message value="d308K5KwNk"/>
+        <detail value="CSOSiQfmMJ"/>
+      </operation>
+    </action>
+  </teardown>
+</TestReport>

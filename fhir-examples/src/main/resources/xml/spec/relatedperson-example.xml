@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><RelatedPerson xmlns="http://hl7.org/fhir">
+ <id value="benedicte"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <table>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>Bénédicte du Marché</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>43, Place du Marché Sainte Catherine, 75004 Paris, France</td>
+          </tr>
+          <tr>
+            <td>Contacts</td>
+            <td>Phone: +33 (237) 998327</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </text>
+
+  <identifier>
+    <use value="usual"/>
+    <type><text value="INSEE"/></type>
+    <system value="urn:oid:1.2.250.1.61"/>
+    <value value="272117510400399"/>
+  </identifier>
+  <active value="true"/>
+
+  <patient>
+    <reference value="Patient/example"/>
+  </patient>
+  
+  <relationship>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v2-0131"/>
+      <code value="N"/>
+    </coding>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode"/>
+      <code value="WIFE"/>
+    </coding>    
+  </relationship>
+  
+  <name>
+    <family value="du Marché">
+    <!--   the "du" part is a family name prefix (VV in iso 21090)   -->
+      <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-prefix">
+        <valueString value="VV"/>
+      </extension>
+    </family>
+    <given value="Bénédicte"/>
+  </name>
+
+  <telecom>
+    <system value="phone"/>
+    <value value="+33 (237) 998327"/>
+  </telecom>
+
+	<gender value="female"/>
+ 
+  <address>
+    <line value="43, Place du Marché Sainte Catherine"/>
+    <city value="Paris"/>
+    <postalCode value="75004"/>
+    <country value="FRA"/>
+  </address>
+  
+  <photo>
+    <contentType value="image/jpeg"/>
+    <url value="Binary/f016"/>
+  </photo>
+</RelatedPerson>

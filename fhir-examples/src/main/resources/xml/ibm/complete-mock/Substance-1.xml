@@ -1,0 +1,129 @@
+<Substance xmlns="http://hl7.org/fhir">
+  <id value="lc8Qw3df01"/>
+  <meta>
+    <versionId value="1FHSdu5q9T"/>
+    <lastUpdated value="2019-08-08T09:17:32.245-04:00"/>
+    <source value="IcQZAIuD6V"/>
+    <profile value="bBHjS77Cz0"/>
+    <security>
+      <system value="B2HMul1rNZ"/>
+      <version value="riq5llVVU9"/>
+      <code value="hR49S1B2Rx"/>
+      <display value="OLCRPxviMN"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="1fIYJJtN50"/>
+      <version value="aykAuddWeA"/>
+      <code value="qBAg1q_giQ"/>
+      <display value="Gc3ogF656N"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="6SiLskrbGM"/>
+  <language value="gSS9OCw40v"/>
+  <text>
+    <status value="extensions"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="old"/>
+    <type>
+      <coding>
+        <system value="4w__WxOMWJ"/>
+        <version value="ot42mAVQvU"/>
+        <code value="NDzyrk5zWi"/>
+        <display value="duqYLTA4No"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="rpcDYJFNEQ"/>
+    </type>
+    <system value="LNiumW0dGG"/>
+    <value value="myw3Yl85qn"/>
+    <period>
+      <start value="2019-08-08T09:17:32.246-04:00"/>
+      <end value="2019-08-08T09:17:32.246-04:00"/>
+    </period>
+  </identifier>
+  <status value="inactive"/>
+  <category>
+    <coding>
+      <system value="q4RJfmy0cC"/>
+      <version value="Z0NDQNNmrc"/>
+      <code value="wggDkF8vXy"/>
+      <display value="YNJGMiHOer"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="uHqtbJlCaj"/>
+  </category>
+  <code>
+    <coding>
+      <system value="AJrpHZ6yTo"/>
+      <version value="s7IzW6qwCG"/>
+      <code value="j6aZF31QFs"/>
+      <display value="NGIxmjlLF4"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="QQMp_HnN83"/>
+  </code>
+  <description value="6vDaxkbOkm"/>
+  <instance>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="gy8bEJT7HW"/>
+          <version value="bqApzW0jA7"/>
+          <code value="nbERfxAXw2"/>
+          <display value="kmbO7a2bCX"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="UCpTPC6zHe"/>
+      </type>
+      <system value="61H8_esC8G"/>
+      <value value="HtIcg6Qyft"/>
+      <period>
+        <start value="2019-08-08T09:17:32.244-04:00"/>
+        <end value="2019-08-08T09:17:32.244-04:00"/>
+      </period>
+    </identifier>
+    <expiry value="2019-08-08T09:17:32.245-04:00"/>
+    <quantity>
+      <value value="212138405228"/>
+      <unit value="ulI4I1452i"/>
+      <system value="yzaXYKNQ1A"/>
+      <code value="4dp9WlsF62"/>
+    </quantity>
+  </instance>
+  <ingredient>
+    <quantity>
+      <numerator>
+        <value value="285166749975"/>
+        <comparator value=">="/>
+        <unit value="Q4629NG53H"/>
+        <system value="zJb8pAkAcU"/>
+        <code value="1cuDenvXA1"/>
+      </numerator>
+      <denominator>
+        <value value="392808892222"/>
+        <comparator value=">="/>
+        <unit value="gzfF3iN3sD"/>
+        <system value="dV5dPDVrpn"/>
+        <code value="jCzU5NQgFQ"/>
+      </denominator>
+    </quantity>
+    <substanceCodeableConcept>
+      <coding>
+        <system value="bOAtUJYaNg"/>
+        <version value="zVvjXJ2z66"/>
+        <code value="5HRnRiHTys"/>
+        <display value="nARheluaFk"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="KYRBBhGcar"/>
+    </substanceCodeableConcept>
+  </ingredient>
+</Substance>

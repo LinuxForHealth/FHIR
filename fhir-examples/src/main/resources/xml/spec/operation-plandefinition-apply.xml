@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="PlanDefinition-apply"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Apply</h2>
+      <p>OPERATION: Apply</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/PlanDefinition-apply</pre>
+      <div>
+        <p>The apply operation applies a PlanDefinition to a given context</p>
+
+      </div>
+      <p>URL: [base]/PlanDefinition/$apply</p>
+      <p>URL: [base]/PlanDefinition/[id]/$apply</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>planDefinition</td>
+          <td>0..1</td>
+          <td>
+            <a href="plandefinition.html">PlanDefinition</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The plan definition to be applied. If the operation is invoked at the instance level, this parameter is not allowed; if the operation is invoked at the type level, this parameter is required</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>subject</td>
+          <td>1..*</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+            <br/>(
+            <a href="search.html#reference">reference</a>)
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The subject(s) that is/are the target of the plan to be applied. The subject may be a Patient, Practitioner, Organization, Location, Device, or Group. Subjects provided in this parameter will be resolved as the subject of the PlanDefinition based on the type of the subject. If multiple subjects of the same type are provided, the behavior is implementation-defined</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>encounter</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+            <br/>(
+            <a href="search.html#reference">reference</a>)
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The encounter in context, if any</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>practitioner</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+            <br/>(
+            <a href="search.html#reference">reference</a>)
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The practitioner applying the plan definition</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>organization</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+            <br/>(
+            <a href="search.html#reference">reference</a>)
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The organization applying the plan definition</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>userType</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#CodeableConcept">CodeableConcept</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The type of user initiating the request, e.g. patient, healthcare provider, or specific type of healthcare provider (physician, nurse, etc.)</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>userLanguage</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#CodeableConcept">CodeableConcept</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>Preferred language of the person using the system</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>userTaskContext</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#CodeableConcept">CodeableConcept</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The task the system user is performing, e.g. laboratory results review, medication list review, etc. This information can be used to tailor decision support outputs, such as recommended information resources</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>setting</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#CodeableConcept">CodeableConcept</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The current setting of the request (inpatient, outpatient, etc.)</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>settingContext</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#CodeableConcept">CodeableConcept</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>Additional detail about the setting of the request, if any</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>return</td>
+          <td>1..1</td>
+          <td>
+            <a href="careplan.html">CarePlan</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The CarePlan that is the result of applying the plan definition</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <p>The result of this operation is a CarePlan resource with a single activity represented by a RequestGroup. The RequestGroup will have actions for each of the applicable actions in the plan based on evaluating the applicability condition in context. For each applicable action, the definition is applied as described in the $apply operation of the ActivityDefinition resource, and the resulting resource is added as an activity to the CarePlan. If the ActivityDefinition includes library references, those libraries will be available to the evaluated expressions. If those libraries have parameters, those parameters will be bound by name to the parameters given to the operation. In addition, parameters to the $apply operation are available within dynamicValue expressions as context variables, accessible by the name of the parameter, prefixed with a percent (%) symbol. For a more detailed description, refer to the PlanDefinition and ActivityDefinition resource documentation</p>
+
+      </div>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="2"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/PlanDefinition-apply"/>
+  <version value="4.0.0"/>
+  <name value="Apply"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="The apply operation applies a PlanDefinition to a given context"/>
+  <code value="apply"/>
+  <comment value="The result of this operation is a CarePlan resource with a single activity represented by a RequestGroup. The RequestGroup will have actions for each of the applicable actions in the plan based on evaluating the applicability condition in context. For each applicable action, the definition is applied as described in the $apply operation of the ActivityDefinition resource, and the resulting resource is added as an activity to the CarePlan. If the ActivityDefinition includes library references, those libraries will be available to the evaluated expressions. If those libraries have parameters, those parameters will be bound by name to the parameters given to the operation. In addition, parameters to the $apply operation are available within dynamicValue expressions as context variables, accessible by the name of the parameter, prefixed with a percent (%) symbol. For a more detailed description, refer to the PlanDefinition and ActivityDefinition resource documentation"/>
+  <resource value="PlanDefinition"/>
+  <system value="false"/>
+  <type value="true"/>
+  <instance value="true"/>
+  <parameter>
+    <name value="planDefinition"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The plan definition to be applied. If the operation is invoked at the instance level, this parameter is not allowed; if the operation is invoked at the type level, this parameter is required"/>
+    <type value="PlanDefinition"/>
+  </parameter>
+  <parameter>
+    <name value="subject"/>
+    <use value="in"/>
+    <min value="1"/>
+    <max value="*"/>
+    <documentation value="The subject(s) that is/are the target of the plan to be applied. The subject may be a Patient, Practitioner, Organization, Location, Device, or Group. Subjects provided in this parameter will be resolved as the subject of the PlanDefinition based on the type of the subject. If multiple subjects of the same type are provided, the behavior is implementation-defined"/>
+    <type value="string"/>
+    <searchType value="reference"/>
+  </parameter>
+  <parameter>
+    <name value="encounter"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The encounter in context, if any"/>
+    <type value="string"/>
+    <searchType value="reference"/>
+  </parameter>
+  <parameter>
+    <name value="practitioner"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The practitioner applying the plan definition"/>
+    <type value="string"/>
+    <searchType value="reference"/>
+  </parameter>
+  <parameter>
+    <name value="organization"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The organization applying the plan definition"/>
+    <type value="string"/>
+    <searchType value="reference"/>
+  </parameter>
+  <parameter>
+    <name value="userType"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The type of user initiating the request, e.g. patient, healthcare provider, or specific type of healthcare provider (physician, nurse, etc.)"/>
+    <type value="CodeableConcept"/>
+  </parameter>
+  <parameter>
+    <name value="userLanguage"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="Preferred language of the person using the system"/>
+    <type value="CodeableConcept"/>
+  </parameter>
+  <parameter>
+    <name value="userTaskContext"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The task the system user is performing, e.g. laboratory results review, medication list review, etc. This information can be used to tailor decision support outputs, such as recommended information resources"/>
+    <type value="CodeableConcept"/>
+  </parameter>
+  <parameter>
+    <name value="setting"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The current setting of the request (inpatient, outpatient, etc.)"/>
+    <type value="CodeableConcept"/>
+  </parameter>
+  <parameter>
+    <name value="settingContext"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="Additional detail about the setting of the request, if any"/>
+    <type value="CodeableConcept"/>
+  </parameter>
+  <parameter>
+    <name value="return"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The CarePlan that is the result of applying the plan definition"/>
+    <type value="CarePlan"/>
+  </parameter>
+</OperationDefinition>

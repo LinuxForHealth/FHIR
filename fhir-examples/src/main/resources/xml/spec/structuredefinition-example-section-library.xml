@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><StructureDefinition xmlns="http://hl7.org/fhir"> 
+  <id value="example-section-library"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-section-library</p><p><b>url</b>: <b>http://hl7.org/fhir/StructureDefinition/example-section-library</b></p><p><b>name</b>: DocumentSectionLibrary</p><p><b>title</b>: Document Section Library (For testing section templates)</p><p><b>status</b>: active</p><p><b>experimental</b>: false</p><p><b>date</b>: 05/11/2018 5:57:00 PM</p><p><b>kind</b>: complex-type</p><p><b>abstract</b>: true</p><p><b>type</b>: <a>Composition</a></p><p><b>baseDefinition</b>: <a>http://hl7.org/fhir/StructureDefinition/Composition</a></p><p><b>derivation</b>: constraint</p><h3>Differentials</h3><table><tr><td>-</td><td><b>Element</b></td></tr><tr><td>*</td><td>todo-bundle</td></tr></table></div></text><url value="http://hl7.org/fhir/StructureDefinition/example-section-library"/>
+  <name value="DocumentSectionLibrary"/>
+  <title value="Document Section Library (For testing section templates)"/>
+  <status value="active"/>
+  <experimental value="false"/>
+  <date value="2018-11-05T17:57:00+11:00"/>
+  <kind value="complex-type"/>
+  <abstract value="true"/>
+  <type value="Composition"/>
+  <baseDefinition value="http://hl7.org/fhir/StructureDefinition/Composition"/>
+  <derivation value="constraint"/>
+  <differential>
+    <element id="Composition">
+      <!--   this is present to work around a bug in the snapshot generator   -->
+      <path value="Composition"/>
+    </element>
+    <element id="Composition.section">
+      <!--   set up slicing on Composition.section - by the code. Actually, this slicing is never used anywhere since this profile is abstract   -->  
+      <path value="Composition.section"/>
+      <slicing>  
+        <discriminator> 
+          <type value="pattern"/>
+          <path value="code"/>
+        </discriminator>
+        <description value="Slice by .section.code when using this library of sections"/>
+        <ordered value="true"/>
+        <rules value="closed"/>
+       </slicing>
+    </element>
+    
+    <!--   code B   -->  
+    <element id="Composition.section:procedure">
+      <path value="Composition.section"/>
+      <sliceName value="procedure"/>
+    </element>
+    <element id="Composition.section:procedure.title">
+      <path value="Composition.section.title"/>
+      <min value="1"/>
+      <fixedString value="Procedures Performed"/>
+    </element>
+    <element id="Composition.section:procedure.code">
+      <path value="Composition.section.code"/>
+      <min value="1"/>
+      <patternCodeableConcept>
+        <coding>
+          <system value="http://loinc.org"/>
+          <code value="29554-3"/>
+          <display value="Procedure Narrative"/>
+        </coding>
+      </patternCodeableConcept>
+    </element>
+    
+    <!--   code A   -->  
+    <element id="Composition.section:medications">
+      <path value="Composition.section"/>
+      <sliceName value="medications"/>
+    </element>
+    <element id="Composition.section:medications.title">
+      <path value="Composition.section.title"/>
+      <min value="1"/>
+      <fixedString value="Medications Administered"/>
+    </element>
+    <element id="Composition.section:medications.code">
+      <path value="Composition.section.code"/>
+      <min value="1"/>
+      <patternCodeableConcept>
+        <coding>
+          <system value="http://loinc.org"/>
+          <code value="29549-3"/>
+          <display value="Medication administered Narrative"/>
+        </coding>
+      </patternCodeableConcept>
+    </element>
+    
+    <!--   code C   -->  
+    <element id="Composition.section:plan">
+      <path value="Composition.section"/>
+      <sliceName value="plan"/>
+    </element>
+    <element id="Composition.section:plan.title">
+      <path value="Composition.section.title"/>
+      <min value="1"/>
+      <fixedString value="Discharge Treatment Plan"/>
+    </element>
+    <element id="Composition.section:plan.code">
+      <path value="Composition.section.code"/>
+      <min value="1"/>
+      <patternCodeableConcept>
+        <coding>
+          <system value="http://loinc.org"/>
+          <code value="18776-5"/>
+          <display value="Plan of treatment (narrative)"/>
+        </coding>
+      </patternCodeableConcept>
+    </element>
+
+  </differential>
+</StructureDefinition>

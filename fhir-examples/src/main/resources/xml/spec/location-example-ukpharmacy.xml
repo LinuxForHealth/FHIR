@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><Location xmlns="http://hl7.org/fhir">
+  <id value="ukp"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">UK Pharmacies</div>
+  </text>  
+  <status value="active"/>
+  <name value="UK Pharmacies"/>
+  <description value="All Pharmacies in the United Kingdom covered by the National Pharmacy Association"/>
+	<mode value="kind"/>
+	<type>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode"/>
+      <code value="PHARM"/>
+      <display value="Pharmacy"/>
+    </coding>
+  </type>
+  <physicalType>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+      <code value="jdn"/>
+      <display value="Jurisdiction"/>
+    </coding>
+  </physicalType>  
+</Location>

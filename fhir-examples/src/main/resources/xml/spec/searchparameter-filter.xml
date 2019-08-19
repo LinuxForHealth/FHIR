@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><SearchParameter xmlns="http://hl7.org/fhir">
+	<id value="filter"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: filter</p><p><b>url</b>: <b>http://hl7.org/fhir/SearchParameter/filter</b></p><p><b>version</b>: 1</p><p><b>name</b>: FilterSearchParameter</p><p><b>status</b>: draft</p><p><b>experimental</b>: false</p><p><b>date</b>: 26/07/2018</p><p><b>publisher</b>: Health Level Seven International (FHIR Infrastructure)</p><p><b>contact</b>: </p><p><b>description</b>: This is the formal declaration for the _filter parameter, documented at [http://hl7.org/fhir/search_filter.html](http://hl7.org/fhir/search_filter.html)</p><p><b>purpose</b>: Support combination searches when the simple name=value basis of search cannot express what is required</p><p><b>code</b>: _filter</p><p><b>base</b>: Resource</p><p><b>type</b>: special</p></div></text><url value="http://hl7.org/fhir/SearchParameter/filter"/>
+	<version value="1"/>
+	<name value="FilterSearchParameter"/>
+	<status value="draft"/>
+	<experimental value="false"/>
+	<date value="2018-07-26"/>
+	<publisher value="Health Level Seven International (FHIR Infrastructure)"/>
+	<contact>
+		<name value="FHIR Project"/>
+		<telecom>
+			<system value="url"/>
+			<value value="http://hl7.org/fhir"/>
+		</telecom>
+	</contact>
+	<description value="This is the formal declaration for the _filter parameter, documented at [http://hl7.org/fhir/search_filter.html](http://hl7.org/fhir/search_filter.html)"/>
+	
+	<!--  	this is the canonical definition for the _id search parameter	  -->
+	<purpose value="Support combination searches when the simple name=value basis of search cannot express what is required"/>
+	<code value="_filter"/>
+	<base value="Resource"/><!--   all resources   -->
+	<type value="special"/>
+</SearchParameter>

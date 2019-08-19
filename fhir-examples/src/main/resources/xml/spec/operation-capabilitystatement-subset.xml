@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="CapabilityStatement-subset"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Fetch a subset of the CapabilityStatement resource</h2>
+      <p>OPERATION: Fetch a subset of the CapabilityStatement resource</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/CapabilityStatement-subset</pre>
+      <div>
+        <p>This operation asks the server to return a subset of the CapabilityStatement resource - just the REST parts that relate to a set of nominated resources - the resources that the client is interested in</p>
+
+      </div>
+      <p>URL: [base]/CapabilityStatement/$subset</p>
+      <p>URL: [base]/CapabilityStatement/[id]/$subset</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>server</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#uri">uri</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The canonical URL - use this if the subset is not invoked on an instance (or on the /metadata end-point)</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>resource</td>
+          <td>1..*</td>
+          <td>
+            <a href="datatypes.html#code">code</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>A resource that the client would like to include in the return</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>return</td>
+          <td>1..1</td>
+          <td>
+            <a href="capabilitystatement.html">CapabilityStatement</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The subsetted CapabilityStatement resource that is returned. This should be tagged with the SUBSETTED code</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div/>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="5"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/CapabilityStatement-subset"/>
+  <version value="4.0.0"/>
+  <name value="Fetch a subset of the CapabilityStatement resource"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="This operation asks the server to return a subset of the CapabilityStatement resource - just the REST parts that relate to a set of nominated resources - the resources that the client is interested in"/>
+  <code value="subset"/>
+  <resource value="CapabilityStatement"/>
+  <system value="false"/>
+  <type value="true"/>
+  <instance value="true"/>
+  <parameter>
+    <name value="server"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The canonical URL - use this if the subset is not invoked on an instance (or on the /metadata end-point)"/>
+    <type value="uri"/>
+  </parameter>
+  <parameter>
+    <name value="resource"/>
+    <use value="in"/>
+    <min value="1"/>
+    <max value="*"/>
+    <documentation value="A resource that the client would like to include in the return"/>
+    <type value="code"/>
+  </parameter>
+  <parameter>
+    <name value="return"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The subsetted CapabilityStatement resource that is returned. This should be tagged with the SUBSETTED code"/>
+    <type value="CapabilityStatement"/>
+  </parameter>
+</OperationDefinition>

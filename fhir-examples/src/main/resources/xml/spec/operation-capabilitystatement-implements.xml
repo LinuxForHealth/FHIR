@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="CapabilityStatement-implements"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Test if a server implements a client&#39;s required operations</h2>
+      <p>OPERATION: Test if a server implements a client&#39;s required operations</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/CapabilityStatement-implements</pre>
+      <div>
+        <p>This operation asks the server to check that it implements all the resources, interactions, search parameters, and operations that the client provides in its capability statement. The client provides its capability statement inline, or by referring the server to the canonical URL of its capability statement</p>
+
+      </div>
+      <p>URL: [base]/CapabilityStatement/$implements</p>
+      <p>URL: [base]/CapabilityStatement/[id]/$implements</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>server</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#canonical">canonical</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>A canonical reference to the server capability statement - use this if the implements is not invoked on an instance (or on the /metadata end-point)</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>client</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#canonical">canonical</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>A canonical reference to the client capability statement - use this if the implements is not invoked on an instance (or on the /metadata end-point)</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>resource</td>
+          <td>0..1</td>
+          <td>
+            <a href="capabilitystatement.html">CapabilityStatement</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The client capability statement, provided inline</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>return</td>
+          <td>1..1</td>
+          <td>
+            <a href="operationoutcome.html">OperationOutcome</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>Outcome of the CapabilityStatement test</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <p>The operation does not perform a full conformance check; in particular it does not check that the profiles align. It merely checks that the behaviors the client wishes to use are provided    Technically, this operation is implemented as follows:</p>
+
+        <ul>
+
+          <li>The server&#39;s capability statement must have an entry for each resource in the client&#39;s capability statement</li>
+
+          <li>The server&#39;s resource support must have matching flags for updateCreate, conditionalCreate, conditionalRead, conditionalUpdate, conditionalDelete, searchInclude, searchRevInclude</li>
+
+          <li>The server&#39;s capability statement must have a matching interaction for each interaction in the client capability statement (whether or not it is on a resource)</li>
+
+          <li>The server&#39;s capability statement must have a search parameter with matching name and definition for any search parameters in the client capability statement</li>
+
+          <li>The server must have an operation definition with a matching reference for any operations in the client capability statement</li>
+
+        </ul>
+
+        <p>If the capability statements match by these rules, then the return value is a 200 OK with an operation outcome that contains no issues with severity &gt;= error. If the capability statement doesn&#39;t match, the return value is a 4xx error, with an OperationOutcome with at least one issue with severity &gt;= error</p>
+
+      </div>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="5"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/CapabilityStatement-implements"/>
+  <version value="4.0.0"/>
+  <name value="Test if a server implements a client&#39;s required operations"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="This operation asks the server to check that it implements all the resources, interactions, search parameters, and operations that the client provides in its capability statement. The client provides its capability statement inline, or by referring the server to the canonical URL of its capability statement"/>
+  <code value="implements"/>
+  <comment value="The operation does not perform a full conformance check; in particular it does not check that the profiles align. It merely checks that the behaviors the client wishes to use are provided    Technically, this operation is implemented as follows:   &#xA;&#xA;* The server&#39;s capability statement must have an entry for each resource in the client&#39;s capability statement    &#xA;* The server&#39;s resource support must have matching flags for updateCreate, conditionalCreate, conditionalRead, conditionalUpdate, conditionalDelete, searchInclude, searchRevInclude   &#xA;* The server&#39;s capability statement must have a matching interaction for each interaction in the client capability statement (whether or not it is on a resource)   &#xA;* The server&#39;s capability statement must have a search parameter with matching name and definition for any search parameters in the client capability statement   &#xA;* The server must have an operation definition with a matching reference for any operations in the client capability statement   &#xA;&#xA;If the capability statements match by these rules, then the return value is a 200 OK with an operation outcome that contains no issues with severity &gt;= error. If the capability statement doesn&#39;t match, the return value is a 4xx error, with an OperationOutcome with at least one issue with severity &gt;= error"/>
+  <resource value="CapabilityStatement"/>
+  <system value="false"/>
+  <type value="true"/>
+  <instance value="true"/>
+  <parameter>
+    <name value="server"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="A canonical reference to the server capability statement - use this if the implements is not invoked on an instance (or on the /metadata end-point)"/>
+    <type value="canonical"/>
+  </parameter>
+  <parameter>
+    <name value="client"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="A canonical reference to the client capability statement - use this if the implements is not invoked on an instance (or on the /metadata end-point)"/>
+    <type value="canonical"/>
+  </parameter>
+  <parameter>
+    <name value="resource"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The client capability statement, provided inline"/>
+    <type value="CapabilityStatement"/>
+  </parameter>
+  <parameter>
+    <name value="return"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="Outcome of the CapabilityStatement test"/>
+    <type value="OperationOutcome"/>
+  </parameter>
+</OperationDefinition>

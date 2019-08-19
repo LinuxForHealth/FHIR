@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><ValueSet xmlns="http://hl7.org/fhir">
+  <id value="example-filter"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>ACME Codes for Cholesterol: Plasma only</h2>
+      <div>
+        <p>ACME Codes for Cholesterol: Plasma only - demonstrating the use of a filter defined in a CodeSystem</p>
+
+      </div>
+      <p>This value set includes codes from the following code systems:</p>
+      <ul>
+        <li>Include codes from 
+          <a href="codesystem-example.html">
+            <code>http://hl7.org/fhir/CodeSystem/example</code>
+          </a> where acme-plasma  =  true
+        </li>
+      </ul>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/ValueSet/example-filter"/>
+  <version value="4.0.0"/>
+  <name value="ACMECholCodesPlasma"/>
+  <title value="ACME Codes for Cholesterol: Plasma only"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2018-11-01"/>
+  <publisher value="HL7 International"/>
+  <contact>
+    <name value="FHIR project team"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+  </contact>
+  <description value="ACME Codes for Cholesterol: Plasma only - demonstrating the use of a filter defined in a CodeSystem"/>
+  <compose>
+    <include>
+      <system value="http://hl7.org/fhir/CodeSystem/example"/>
+      <filter>
+        <property value="acme-plasma"/>
+        <op value="="/>
+        <value value="true"/>
+      </filter>
+    </include>
+  </compose>
+</ValueSet>

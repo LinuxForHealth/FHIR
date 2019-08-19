@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><Substance xmlns="http://hl7.org/fhir">
+ <id value="f201"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f201</p><p><b>code</b>: House dust allergen <span>(Details : {SNOMED CT code '406466009' = 'House dust allergen', given as 'House dust allergen'})</span></p></div></text><code>     
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="406466009"/>
+      <display value="House dust allergen"/>
+    </coding>
+  </code>
+</Substance>

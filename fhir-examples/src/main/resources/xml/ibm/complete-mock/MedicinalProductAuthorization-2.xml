@@ -1,0 +1,262 @@
+<MedicinalProductAuthorization xmlns="http://hl7.org/fhir">
+  <id value="fK9PcrPEUN"/>
+  <meta>
+    <versionId value="HEgXeCw-iI"/>
+    <lastUpdated value="2019-08-08T09:17:29.526-04:00"/>
+    <source value="qlq0sjhSjy"/>
+    <profile value="w1oS0O4art"/>
+    <security>
+      <system value="N9cBnMhdx8"/>
+      <version value="uos9MEEceF"/>
+      <code value="FKXZaDQNMO"/>
+      <display value="Icj_V3J2b4"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="uNM18FSiGk"/>
+      <version value="0uO6go1qrp"/>
+      <code value="m6WbgKLumv"/>
+      <display value="2js9MRWpOt"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="8Y5_g2nO1u"/>
+  <language value="HHOZvk7NtA"/>
+  <text>
+    <status value="additional"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="temp"/>
+    <type>
+      <coding>
+        <system value="DIV8LNXtoO"/>
+        <version value="y6l89N5xi4"/>
+        <code value="AM3BcsL84p"/>
+        <display value="S2X_3fX0ZV"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="PsiKjN3vmQ"/>
+    </type>
+    <system value="LWbD20I0gF"/>
+    <value value="yhLwTTHMCc"/>
+    <period>
+      <start value="2019-08-08T09:17:29.527-04:00"/>
+      <end value="2019-08-08T09:17:29.527-04:00"/>
+    </period>
+  </identifier>
+  <subject>
+    <reference value="8r6EeHbP7S"/>
+    <type value="zvhle34muz"/>
+    <identifier>
+      <use value="secondary"/>
+      <type>
+        <coding>
+          <system value="XKvNDqKdvz"/>
+          <version value="qwUtu6X5Fx"/>
+          <code value="RY640m970f"/>
+          <display value="Q6kcF4TK9P"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="BX2592Dtcv"/>
+      </type>
+      <system value="ZECudmVrTS"/>
+      <value value="BBLhNxyCcj"/>
+      <period>
+        <start value="2019-08-08T09:17:29.530-04:00"/>
+        <end value="2019-08-08T09:17:29.531-04:00"/>
+      </period>
+    </identifier>
+    <display value="FzWRac3zK7"/>
+  </subject>
+  <country>
+    <coding>
+      <system value="A1dHV8_Yt2"/>
+      <version value="3vTuFn3tnw"/>
+      <code value="XoD1yV3g47"/>
+      <display value="ELlT6EfPVu"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="fLIJsVelfi"/>
+  </country>
+  <jurisdiction>
+    <coding>
+      <system value="kGr37SuUHO"/>
+      <version value="ULLh_1OLUU"/>
+      <code value="QD8L4qp6P8"/>
+      <display value="mPBVNjaczV"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="0hq9FtFOVb"/>
+  </jurisdiction>
+  <status>
+    <coding>
+      <system value="1YVIG5G5Pa"/>
+      <version value="B3E6_JGv_b"/>
+      <code value="jklm4zRKpC"/>
+      <display value="01MMKyM8Tk"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="VIes7YOpQZ"/>
+  </status>
+  <statusDate value="2019-08-08T09:17:29.531-04:00"/>
+  <restoreDate value="2019-08-08T09:17:29.531-04:00"/>
+  <validityPeriod>
+    <start value="2019-08-08T09:17:29.531-04:00"/>
+    <end value="2019-08-08T09:17:29.531-04:00"/>
+  </validityPeriod>
+  <dataExclusivityPeriod>
+    <start value="2019-08-08T09:17:29.531-04:00"/>
+    <end value="2019-08-08T09:17:29.532-04:00"/>
+  </dataExclusivityPeriod>
+  <dateOfFirstAuthorization value="2019-08-08T09:17:29.532-04:00"/>
+  <internationalBirthDate value="2019-08-08T09:17:29.532-04:00"/>
+  <legalBasis>
+    <coding>
+      <system value="amoaEdsBew"/>
+      <version value="XGyZLWr9XI"/>
+      <code value="PyOkmdm1a2"/>
+      <display value="paqPZEfJno"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="T0OQ1z2f9i"/>
+  </legalBasis>
+  <jurisdictionalAuthorization>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="jPhTx8y3Vj"/>
+          <version value="dibb9Bptkn"/>
+          <code value="CTHoTKcS1M"/>
+          <display value="rHzvMGqhIb"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="aVqCR7SC0w"/>
+      </type>
+      <system value="T39E5fAwHk"/>
+      <value value="N5GFpZ1U7w"/>
+      <period>
+        <start value="2019-08-08T09:17:29.533-04:00"/>
+        <end value="2019-08-08T09:17:29.533-04:00"/>
+      </period>
+    </identifier>
+    <country>
+      <coding>
+        <system value="aGfYDqvx67"/>
+        <version value="LUtAIktGGI"/>
+        <code value="x5FOPG8Kqw"/>
+        <display value="y61QDYXBhw"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="gLDnDjpFHK"/>
+    </country>
+    <jurisdiction>
+      <coding>
+        <system value="5DeUg2ZWm7"/>
+        <version value="bCeOkna4OY"/>
+        <code value="kjXjJ32pnG"/>
+        <display value="aZ3Czldc7M"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="FHVY_EdSFg"/>
+    </jurisdiction>
+    <legalStatusOfSupply>
+      <coding>
+        <system value="MMAI8uanYZ"/>
+        <version value="bw_fTcKlo6"/>
+        <code value="tIIjJBR5_h"/>
+        <display value="c4O_CGh14J"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="3Re_xjAidP"/>
+    </legalStatusOfSupply>
+    <validityPeriod>
+      <start value="2019-08-08T09:17:29.533-04:00"/>
+      <end value="2019-08-08T09:17:29.533-04:00"/>
+    </validityPeriod>
+  </jurisdictionalAuthorization>
+  <holder>
+    <reference value="9cIQ2ju8kh"/>
+    <type value="mTOfoFjTBh"/>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="37IUBW4G8D"/>
+          <version value="aGE18Gtfi4"/>
+          <code value="ZwS3blR0EW"/>
+          <display value="AX0YD14TQj"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="mQQT5kInRn"/>
+      </type>
+      <system value="JaMoQ51xe6"/>
+      <value value="dOURS6mF0I"/>
+      <period>
+        <start value="2019-08-08T09:17:29.524-04:00"/>
+        <end value="2019-08-08T09:17:29.525-04:00"/>
+      </period>
+    </identifier>
+    <display value="NrY0DjQc2s"/>
+  </holder>
+  <regulator>
+    <reference value="_rX3dpzKkM"/>
+    <type value="yJw_znLkzi"/>
+    <identifier>
+      <use value="secondary"/>
+      <type>
+        <coding>
+          <system value="i8SkjaQ3vx"/>
+          <version value="hKhHRdv3Q5"/>
+          <code value="pexMCXeztL"/>
+          <display value="GTWJfxgbtT"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="8jokPi35RG"/>
+      </type>
+      <system value="1YBC2IQW1B"/>
+      <value value="g2m1ObT30d"/>
+      <period>
+        <start value="2019-08-08T09:17:29.535-04:00"/>
+        <end value="2019-08-08T09:17:29.535-04:00"/>
+      </period>
+    </identifier>
+    <display value="n5W4IUH7Vh"/>
+  </regulator>
+  <procedure>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="wiRNcbKF04"/>
+          <version value="0yeXXYdCjy"/>
+          <code value="2E3lnpp0or"/>
+          <display value="NjwIkxsVex"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="NW1ByrVeCe"/>
+      </type>
+      <system value="N7TRzlulms"/>
+      <value value="7Sb2tY6bRp"/>
+      <period>
+        <start value="2019-08-08T09:17:29.529-04:00"/>
+        <end value="2019-08-08T09:17:29.529-04:00"/>
+      </period>
+    </identifier>
+    <type>
+      <coding>
+        <system value="pZ5axqKvpl"/>
+        <version value="IVY2ae8_CU"/>
+        <code value="uRHc_2O5eB"/>
+        <display value="45No78m415"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="c1Nq7hl8f0"/>
+    </type>
+    <dateDateTime value="2019-08-08T09:17:29.529-04:00"/>
+  </procedure>
+</MedicinalProductAuthorization>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><BodyStructure xmlns="http://hl7.org/fhir">
+	<id value="fetus"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: fetus</p><p><b>identifier</b>: 12345</p><p><b>location</b>: Fetus <span>(Details : {SNOMED CT code '83418008' = 'Fetus', given as 'Entire fetus (body structure)'})</span></p><p><b>description</b>: EDD 1/1/2017 confirmation by LMP</p><p><b>patient</b>: <a>Patient/example</a></p></div></text><identifier>
+		<system value="http://goodhealth.org/bodystructure/identifiers"/>
+		<value value="12345"/>
+	</identifier>
+	<location>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="83418008"/>
+			<display value="Entire fetus (body structure)"/>
+		</coding>
+		<text value="Fetus"/>
+	</location>
+	<description value="EDD 1/1/2017 confirmation by LMP"/>
+	<patient>
+		<reference value="Patient/example"/>
+	</patient>
+</BodyStructure>

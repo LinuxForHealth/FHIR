@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><SupplyDelivery xmlns="http://hl7.org/fhir">
+	<id value="simpledelivery"/>
+	<!--  
+business identifier - in this case the same as the request id
+  -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: simpledelivery</p><p><b>identifier</b>: Order10284</p><p><b>basedOn</b>: <a>SupplyRequest/simpleorder</a></p><p><b>partOf</b>: Central Supply Restock</p><p><b>status</b>: completed</p><p><b>type</b>: Blood collect tubes blue cap <span>(Details : {http://terminology.hl7.org/CodeSystem/supply-item-type code 'device' = 'Device)</span></p><h3>SuppliedItems</h3><table><tr><td>-</td><td><b>Quantity</b></td><td><b>Item[x]</b></td></tr><tr><td>*</td><td>10</td><td>Blood collect tubes blue cap <span>(Details : {[not stated] code 'BlueTubes' = 'BlueTubes', given as 'Blood collect tubes blue cap'})</span></td></tr></table><p><b>occurrence</b>: 31/12/2016</p><p><b>supplier</b>: Vendor1</p><p><b>destination</b>: Location 1</p></div></text><identifier>
+		<value value="Order10284"/>
+	</identifier>
+	<basedOn>
+		<reference value="SupplyRequest/simpleorder"/>
+	</basedOn>
+	<partOf>
+		<display value="Central Supply Restock"/>
+	</partOf>
+	<status value="completed"/>
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/supply-item-type"/>
+			<code value="device"/>
+		</coding>
+		<text value="Blood collect tubes blue cap"/>
+	</type>
+	<suppliedItem>
+		<quantity>
+			<value value="10"/>
+		</quantity>
+		<itemCodeableConcept>
+			<coding>
+				<code value="BlueTubes"/>
+				<display value="Blood collect tubes blue cap"/>
+			</coding>
+		</itemCodeableConcept>
+	</suppliedItem>
+	<occurrenceDateTime value="2016-12-31"/>
+	<supplier>
+		<display value="Vendor1"/>
+	</supplier>
+	<destination>
+		<display value="Location 1"/>
+	</destination>
+</SupplyDelivery>

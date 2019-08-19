@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+	<id value="alcohol-type"/><!--    the mandatory quality flags:    --><meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: alcohol-type</p><p><b>status</b>: final</p><p><b>category</b>: Social History <span>(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'social-history' = 'Social History', given as 'Social History'})</span></p><p><b>code</b>: Type of alcohol consumed <span>(Details : {http://acme-rehab.org code 'alcohol-type' = 'alcohol-type', given as 'Type of alcohol consumed'})</span></p><p><b>subject</b>: <a>Peter James Chalmers</a></p><p><b>effective</b>: 11/12/2014 4:44:16 AM</p><blockquote><p><b>component</b></p><p><b>code</b>: alcohol-type <span>(Details : {http://acme-rehab.org code 'alcohol-type' = 'alcohol-type)</span></p><p><b>value</b>: Wine <span>(Details : {SNOMED CT code '35748005' = 'Wine', given as 'Wine (substance)'})</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: alcohol-type <span>(Details : {http://acme-rehab.org code 'alcohol-type' = 'alcohol-type)</span></p><p><b>value</b>: Beer <span>(Details : {SNOMED CT code '53410008' = 'Beer', given as 'Beer (substance)'})</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: alcohol-type <span>(Details : {http://acme-rehab.org code 'alcohol-type' = 'alcohol-type)</span></p><p><b>value</b>: Liquor <span>(Details : {SNOMED CT code '6524003' = 'Distilled spirits', given as ' Distilled spirits (substance)'})</span></p></blockquote></div></text><status value="final"/><!--   
+    Observations are often coded in multiple code systems.
+      - LOINC
+		- or SNOMED
+      -and/or the source system may provides its own "local" code, which may be less or more granular than LOINC.
+	In this example there is only local codes
+     --><category>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/observation-category"/>
+			<code value="social-history"/>
+			<display value="Social History"/>
+		</coding>
+		<text value="Social History"/>
+	</category>
+	<code><!--    Local - unable to identify a proper LOINC code    --><coding>
+			<system value="http://acme-rehab.org"/>
+			<code value="alcohol-type"/>
+			<display value="Type of alcohol consumed"/>
+		</coding>
+		<text value="Type of alcohol consumed"/>
+	</code>
+	<subject>
+		<reference value="Patient/example"/>
+		<display value="Peter James Chalmers"/>
+	</subject>
+	<effectiveDateTime value="2014-12-11T04:44:16Z"/><!--    When the code is the same as component.code the value element must be empty per invariant obs-7
+      --><!--   Using components since multi-select values/answers share the same attributes (such as id, performer, effective date, status, comment..   --><!--   answer 1   --><component><!--   component.code is same as code   --><code><!--    Local - unable to identify a proper LOINC code    --><coding>
+				<system value="http://acme-rehab.org"/>
+				<code value="alcohol-type"/>
+			</coding>
+		</code><!--   coded value using SNONED-CT, could also use a local code here or only text   --><valueCodeableConcept>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="35748005"/>
+				<display value="Wine (substance)"/>
+			</coding>
+			<text value="Wine"/>
+		</valueCodeableConcept>
+	</component><!--   answer 2   --><component><!--   component.code is same as code   --><code><!--    Local - unable to identify a proper LOINC code    --><coding>
+				<system value="http://acme-rehab.org"/>
+				<code value="alcohol-type"/>
+			</coding>
+		</code><!--   coded value using SNONED-CT, could also use a local code here or only text   --><valueCodeableConcept>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="53410008"/>
+				<display value="Beer (substance)"/>
+			</coding>
+			<text value="Beer"/>
+		</valueCodeableConcept>
+	</component><!--   answer 3   --><component><!--   component.code is same as code   --><code><!--    Local - unable to identify a proper LOINC code    --><coding>
+				<system value="http://acme-rehab.org"/>
+				<code value="alcohol-type"/>
+			</coding>
+		</code><!--   coded value using SNONED-CT, could also use a local code here or only text   --><valueCodeableConcept>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="6524003"/>
+				<display value=" Distilled spirits (substance)"/>
+			</coding>
+			<text value="Liquor"/>
+		</valueCodeableConcept>
+	</component>
+</Observation>

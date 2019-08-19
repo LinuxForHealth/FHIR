@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicinalProductManufactured xmlns="http://hl7.org/fhir">
+    <id value="example"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>manufacturedDoseForm</b>: Film-coatedtablet <span>(Details : {http://ema.europa.eu/example/manufactureddoseform code 'Film-coatedtablet' = 'Film-coatedtablet)</span></p><p><b>unitOfPresentation</b>: Tablet <span>(Details : {http://ema.europa.eu/example/unitofpresentation code 'Tablet' = 'Tablet)</span></p><p><b>quantity</b>: 10 1</p><p><b>manufacturer</b>: <a>Organization/example</a></p><p><b>ingredient</b>: <a>MedicinalProductIngredient/example</a></p><p><b>physicalCharacteristics</b>: </p></div></text><manufacturedDoseForm>
+      <coding>
+        <system value="http://ema.europa.eu/example/manufactureddoseform"/>
+        <code value="Film-coatedtablet"/>
+      </coding>
+    </manufacturedDoseForm>
+    <unitOfPresentation>
+      <coding>
+        <system value="http://ema.europa.eu/example/unitofpresentation"/>
+        <code value="Tablet"/>
+      </coding>
+    </unitOfPresentation>
+    <quantity>
+      <value value="10"/>
+      <unit value="1"/>
+    </quantity>
+    <manufacturer>
+      <reference value="Organization/example"/>
+    </manufacturer>
+    <ingredient>
+      <reference value="MedicinalProductIngredient/example"/>
+    </ingredient>
+    <physicalCharacteristics>
+      <shape value="Oval"/>
+      <color value="Pink"/>
+      <imprint value="894"/>
+    </physicalCharacteristics>
+</MedicinalProductManufactured>

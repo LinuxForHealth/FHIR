@@ -1,0 +1,16 @@
+{
+  "resourceType": "SearchParameter",
+  "id": "codesystem-extensions-CodeSystem-end",
+  "url": "http://hl7.org/fhir/SearchParameter/codesystem-extensions-CodeSystem-end",
+  "version": "4.0.0",
+  "name": "end",
+  "status": "draft",
+  "experimental": true,
+  "description": "Optional Extensions Element",
+  "code": "end",
+  "type": "date",
+  "xpath": "f:CodeSystem/f:extension[@url\u003d\u0027http://hl7.org/fhir/StructureDefinition/codesystem-expirationDate\u0027] | /f:#expirationDate",
+  "xpathUsage": "normal",
+  "multipleOr": true,
+  "multipleAnd": true
+}

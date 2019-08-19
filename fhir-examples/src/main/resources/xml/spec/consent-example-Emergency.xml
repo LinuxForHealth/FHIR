@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><Consent xmlns="http://hl7.org/fhir">
+  <id value="consent-example-Emergency"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+	Withhold Authorization for Treatment rule for Emegency Treatment
+	</p>
+      <p>
+    Patient "P. van de Heuvel" wishes to have no data at the Good Health Psychiatric Hospital 
+   available rule for Emergency treatment use.
+   An overall Deny consent Directive, with an exception "Permit" of purposeOfUse "ETREAT" 
+   at "Good Health" hospital, and exception "Deny" all other purposeOfUse from good health hospital.
+   </p>
+    </div>
+  </text>
+  <status value="active"/>
+  <scope>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/consentscope"/>
+      <code value="patient-privacy"/>
+    </coding>  
+        </scope>
+<category>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+      <code value="EMRGONLY"/>
+    </coding>
+  </category>
+  <patient>
+    <reference value="Patient/f001"/>
+    <display value="P. van de Heuvel"/>
+  </patient>
+  <dateTime value="2015-11-18"/>
+  <!--  not bound by a timeframe - Consent.period  -->
+  <!--  I assume the example given is Canada Infoway wide???  AND I assume it is desired to state that in the Consent.authority element  -->
+  <organization>
+    <reference value="Organization/f001"/>
+  </organization>
+  <!--  the text terms of the consent in lawyer speak  -->
+  <sourceAttachment>
+    <title value="The terms of the consent in lawyer speak."/>
+    <!--  likely use url pointer to common text  -->
+  </sourceAttachment>
+  <!--  
+    this is opt-out - e.g. nothing approved unless otherwise stated.
+   -->
+  <policyRule>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+      <code value="OPTOUT"/>
+    </coding>
+  </policyRule>
+  <provision>
+    <actor>
+      <role>
+        <coding>
+          <system value="http://terminology.hl7.org/CodeSystem/v3-ParticipationType"/>
+          <code value="CST"/>
+        </coding>
+      </role>
+      <reference>
+        <reference value="Organization/f001"/>
+      </reference>
+    </actor>
+    <purpose>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="ETREAT"/>
+    </purpose>
+    <!--  this rule overrides the other one  -->
+    <provision>
+      <type value="deny"/>
+      <actor>
+        <role>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ParticipationType"/>
+            <code value="CST"/>
+          </coding>
+        </role>
+        <reference>
+          <reference value="Organization/f001"/>
+        </reference>
+      </actor>
+    </provision>
+  </provision>
+</Consent>

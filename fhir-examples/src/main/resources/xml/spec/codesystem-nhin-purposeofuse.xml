@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?><CodeSystem xmlns="http://hl7.org/fhir">
+  <id value="nhin-purposeofuse"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>NHIN PurposeOfUse</h2>
+      <div>
+        <p>This value set is suitable for use with the provenance resource. It is derived from, but not compatible with, the HL7 v3 Purpose of use Code system.</p>
+
+      </div>
+      <p>This code system http://healthit.gov/nhin/purposeofuse defines the following codes:</p>
+      <table class="codes">
+        <tr>
+          <td style="white-space:nowrap">
+            <b>Code</b>
+          </td>
+          <td>
+            <b>Display</b>
+          </td>
+          <td>
+            <b>Definition</b>
+          </td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">TREATMENT
+            <a name="nhin-purposeofuse-TREATMENT"> </a>
+          </td>
+          <td>Treatment</td>
+          <td>Treatment</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">PAYMENT
+            <a name="nhin-purposeofuse-PAYMENT"> </a>
+          </td>
+          <td>Payment</td>
+          <td>Payment</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">OPERATIONS
+            <a name="nhin-purposeofuse-OPERATIONS"> </a>
+          </td>
+          <td>Operations</td>
+          <td>Healthcare Operations</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">SYSADMIN
+            <a name="nhin-purposeofuse-SYSADMIN"> </a>
+          </td>
+          <td>Sysadmin</td>
+          <td>System Administration</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">FRAUD
+            <a name="nhin-purposeofuse-FRAUD"> </a>
+          </td>
+          <td>Fraud</td>
+          <td>Fraud detection</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">PSYCHOTHERAPY
+            <a name="nhin-purposeofuse-PSYCHOTHERAPY"> </a>
+          </td>
+          <td>Psychotherapy</td>
+          <td>Use or disclosure of Psychotherapy Notes</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">TRAINING
+            <a name="nhin-purposeofuse-TRAINING"> </a>
+          </td>
+          <td>Training</td>
+          <td>Use or disclosure by the covered entity for its own training programs</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">LEGAL
+            <a name="nhin-purposeofuse-LEGAL"> </a>
+          </td>
+          <td>Legal</td>
+          <td>Use or disclosure by the covered entity to defend itself in a legal action</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">MARKETING
+            <a name="nhin-purposeofuse-MARKETING"> </a>
+          </td>
+          <td>Marketing</td>
+          <td>Marketing</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">DIRECTORY
+            <a name="nhin-purposeofuse-DIRECTORY"> </a>
+          </td>
+          <td>Directory</td>
+          <td>Use and disclosure for facility directories</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">FAMILY
+            <a name="nhin-purposeofuse-FAMILY"> </a>
+          </td>
+          <td>Family</td>
+          <td>Disclose to a family member, other relative, or a close personal friend of the individual</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">PRESENT
+            <a name="nhin-purposeofuse-PRESENT"> </a>
+          </td>
+          <td>Present</td>
+          <td>Uses and disclosures with the individual present.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">EMERGENCY
+            <a name="nhin-purposeofuse-EMERGENCY"> </a>
+          </td>
+          <td>Emergency</td>
+          <td>Permission cannot practicably be provided because of the individual's incapacity or an emergency.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">DISASTER
+            <a name="nhin-purposeofuse-DISASTER"> </a>
+          </td>
+          <td>Disaster</td>
+          <td>Use and disclosures for disaster relief purposes.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">PUBLICHEALTH
+            <a name="nhin-purposeofuse-PUBLICHEALTH"> </a>
+          </td>
+          <td>Public Health</td>
+          <td>Uses and disclosures for public health activities.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">ABUSE
+            <a name="nhin-purposeofuse-ABUSE"> </a>
+          </td>
+          <td>Abuse</td>
+          <td>Disclosures about victims of abuse, neglect or domestic violence.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">OVERSIGHT
+            <a name="nhin-purposeofuse-OVERSIGHT"> </a>
+          </td>
+          <td>Oversight</td>
+          <td>Uses and disclosures for health oversight activities.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">JUDICIAL
+            <a name="nhin-purposeofuse-JUDICIAL"> </a>
+          </td>
+          <td>Judicial</td>
+          <td>Disclosures for judicial and administrative proceedings.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">LAW
+            <a name="nhin-purposeofuse-LAW"> </a>
+          </td>
+          <td>Law Enforcement</td>
+          <td>Disclosures for law enforcement purposes.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">DECEASED
+            <a name="nhin-purposeofuse-DECEASED"> </a>
+          </td>
+          <td>Deceased</td>
+          <td>Uses and disclosures about decedents.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">DONATION
+            <a name="nhin-purposeofuse-DONATION"> </a>
+          </td>
+          <td>Donation</td>
+          <td>Uses and disclosures for cadaveric organ,  eye or tissue donation purposes</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">RESEARCH
+            <a name="nhin-purposeofuse-RESEARCH"> </a>
+          </td>
+          <td>Research</td>
+          <td>Uses and disclosures for research purposes.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">THREAT
+            <a name="nhin-purposeofuse-THREAT"> </a>
+          </td>
+          <td>Threat</td>
+          <td>Uses and disclosures to avert a serious threat to health or safety.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">GOVERNMENT
+            <a name="nhin-purposeofuse-GOVERNMENT"> </a>
+          </td>
+          <td>Government</td>
+          <td>Uses and disclosures for specialized government functions.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">WORKERSCOMP
+            <a name="nhin-purposeofuse-WORKERSCOMP"> </a>
+          </td>
+          <td>Worker's Comp</td>
+          <td>Disclosures for workers' compensation.</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">COVERAGE
+            <a name="nhin-purposeofuse-COVERAGE"> </a>
+          </td>
+          <td>Coverage</td>
+          <td>Disclosures for insurance or disability coverage determination</td>
+        </tr>
+        <tr>
+          <td style="white-space:nowrap">REQUEST
+            <a name="nhin-purposeofuse-REQUEST"> </a>
+          </td>
+          <td>Request</td>
+          <td>Request of the Individual</td>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <url value="http://healthit.gov/nhin/purposeofuse"/>
+  <version value="2.0"/>
+  <name value="NHIN PurposeOfUse"/>
+  <status value="active"/>
+  <experimental value="false"/>
+  <date value="2010-01-29"/>
+  <publisher value="Nationwide Health Information Network (NHIN)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="https://www.healthit.gov/sites/default/files/nhin-authorization-framework-production-specification-v2.0-1.pdf"/>
+    </telecom>
+  </contact>
+  <description value="This value set is suitable for use with the provenance resource. It is derived from, but not compatible with, the HL7 v3 Purpose of use Code system."/>
+  <caseSensitive value="true"/>
+  <valueSet value="http://hl7.org/fhir/ValueSet/nhin-purposeofuse"/>
+  <content value="complete"/>
+  <concept>
+    <code value="TREATMENT"/>
+    <display value="Treatment"/>
+    <definition value="Treatment"/>
+  </concept>
+  <concept>
+    <code value="PAYMENT"/>
+    <display value="Payment"/>
+    <definition value="Payment"/>
+  </concept>
+  <concept>
+    <code value="OPERATIONS"/>
+    <display value="Operations"/>
+    <definition value="Healthcare Operations"/>
+  </concept>
+  <concept>
+    <code value="SYSADMIN"/>
+    <display value="Sysadmin"/>
+    <definition value="System Administration"/>
+  </concept>
+  <concept>
+    <code value="FRAUD"/>
+    <display value="Fraud"/>
+    <definition value="Fraud detection"/>
+  </concept>
+  <concept>
+    <code value="PSYCHOTHERAPY"/>
+    <display value="Psychotherapy"/>
+    <definition value="Use or disclosure of Psychotherapy Notes"/>
+  </concept>
+  <concept>
+    <code value="TRAINING"/>
+    <display value="Training"/>
+    <definition value="Use or disclosure by the covered entity for its own training programs"/>
+  </concept>
+  <concept>
+    <code value="LEGAL"/>
+    <display value="Legal"/>
+    <definition value="Use or disclosure by the covered entity to defend itself in a legal action"/>
+  </concept>
+  <concept>
+    <code value="MARKETING"/>
+    <display value="Marketing"/>
+    <definition value="Marketing"/>
+  </concept>
+  <concept>
+    <code value="DIRECTORY"/>
+    <display value="Directory"/>
+    <definition value="Use and disclosure for facility directories"/>
+  </concept>
+  <concept>
+    <code value="FAMILY"/>
+    <display value="Family"/>
+    <definition value="Disclose to a family member, other relative, or a close personal friend of the individual"/>
+  </concept>
+  <concept>
+    <code value="PRESENT"/>
+    <display value="Present"/>
+    <definition value="Uses and disclosures with the individual present."/>
+  </concept>
+  <concept>
+    <code value="EMERGENCY"/>
+    <display value="Emergency"/>
+    <definition value="Permission cannot practicably be provided because of the individual's incapacity or an emergency."/>
+  </concept>
+  <concept>
+    <code value="DISASTER"/>
+    <display value="Disaster"/>
+    <definition value="Use and disclosures for disaster relief purposes."/>
+  </concept>
+  <concept>
+    <code value="PUBLICHEALTH"/>
+    <display value="Public Health"/>
+    <definition value="Uses and disclosures for public health activities."/>
+  </concept>
+  <concept>
+    <code value="ABUSE"/>
+    <display value="Abuse"/>
+    <definition value="Disclosures about victims of abuse, neglect or domestic violence."/>
+  </concept>
+  <concept>
+    <code value="OVERSIGHT"/>
+    <display value="Oversight"/>
+    <definition value="Uses and disclosures for health oversight activities."/>
+  </concept>
+  <concept>
+    <code value="JUDICIAL"/>
+    <display value="Judicial"/>
+    <definition value="Disclosures for judicial and administrative proceedings."/>
+  </concept>
+  <concept>
+    <code value="LAW"/>
+    <display value="Law Enforcement"/>
+    <definition value="Disclosures for law enforcement purposes."/>
+  </concept>
+  <concept>
+    <code value="DECEASED"/>
+    <display value="Deceased"/>
+    <definition value="Uses and disclosures about decedents."/>
+  </concept>
+  <concept>
+    <code value="DONATION"/>
+    <display value="Donation"/>
+    <definition value="Uses and disclosures for cadaveric organ,  eye or tissue donation purposes"/>
+  </concept>
+  <concept>
+    <code value="RESEARCH"/>
+    <display value="Research"/>
+    <definition value="Uses and disclosures for research purposes."/>
+  </concept>
+  <concept>
+    <code value="THREAT"/>
+    <display value="Threat"/>
+    <definition value="Uses and disclosures to avert a serious threat to health or safety."/>
+  </concept>
+  <concept>
+    <code value="GOVERNMENT"/>
+    <display value="Government"/>
+    <definition value="Uses and disclosures for specialized government functions."/>
+  </concept>
+  <concept>
+    <code value="WORKERSCOMP"/>
+    <display value="Worker's Comp"/>
+    <definition value="Disclosures for workers' compensation."/>
+  </concept>
+  <concept>
+    <code value="COVERAGE"/>
+    <display value="Coverage"/>
+    <definition value="Disclosures for insurance or disability coverage determination"/>
+  </concept>
+  <concept>
+    <code value="REQUEST"/>
+    <display value="Request"/>
+    <definition value="Request of the Individual"/>
+  </concept>
+</CodeSystem>

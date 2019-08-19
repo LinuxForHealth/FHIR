@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+  <id value="clinical-gender"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: clinical-gender</p><p><b>status</b>: final</p><p><b>category</b>: Social History <span>(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'social-history' = 'Social History', given as 'Social History'})</span></p><p><b>code</b>: Gender identity <span>(Details : {LOINC code '76691-5' = 'Gender identity', given as 'Gender identity'})</span></p><p><b>subject</b>: <a>Patient/example</a></p><p><b>encounter</b>: <a>Encounter/example</a></p><p><b>effective</b>: 01/02/2018</p><p><b>performer</b>: <a>Encounter/example</a></p><p><b>value</b>: Feminism in boy <span>(Details : {SNOMED CT code '191788006' = 'Feminism in boy', given as 'Feminism in boy (finding)'})</span></p></div></text><status value="final"/>
+  <category>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/observation-category"/>
+      <code value="social-history"/>
+      <display value="Social History"/>
+    </coding>
+  </category>
+  <code>
+    <coding>
+      <system value="http://loinc.org"/>
+      <!--   0..1 Identity of the terminology system   -->
+      <code value="76691-5"/>
+      <!--   0..1 Symbol in syntax defined by the system   -->
+      <display value="Gender identity"/>
+      <!--   0..1 Representation defined by the system   -->
+    </coding>
+    <text value="Gender identity"/>
+    <!--   0..1 Plain text representation of the concept   -->
+  </code>
+  <subject>
+    <reference value="Patient/example"/>
+  </subject>
+  <encounter>
+    <reference value="Encounter/example"/>
+  </encounter>
+  <effectiveDateTime value="2018-02-01"/>
+  <performer>
+    <!--   0..* Reference(Practitioner|PractitionerRole|Organization|     CareTeam|Patient|RelatedPerson)Who is responsible for the observation   -->
+    <reference value="Encounter/example"/>
+  </performer>
+  <valueCodeableConcept>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <!--   0..1 Identity of the terminology system   -->
+      <code value="191788006"/>
+      <!--   0..1 Symbol in syntax defined by the system   -->
+      <display value="Feminism in boy (finding)"/>
+      <!--   0..1 Representation defined by the system   -->
+    </coding>
+    <text value="Feminism in boy"/>
+    <!--   0..1 Plain text representation of the concept   -->
+  </valueCodeableConcept>
+</Observation>

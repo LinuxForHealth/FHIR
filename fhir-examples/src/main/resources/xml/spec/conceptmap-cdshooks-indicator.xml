@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="cdshooks-indicator"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>IndicatorToRequestPriority (http://cds-hooks.hl7.org/ConceptMap/indicator-to-request-priority)</h2>
+      <p>Mapping from http://cds-hooks.hl7.org/ValueSet/indicator to 
+        <a href="valueset-request-priority.html">http://hl7.org/fhir/ValueSet/request-priority</a>
+      </p>
+      <p>DRAFT. Published on ?? by null. </p>
+      <div>
+        <p>This concept map defines a mapping from CDS Hooks indicator to request priority.</p>
+
+      </div>
+      <br/>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Source Code</b>
+          </td>
+          <td>
+            <b>Equivalence</b>
+          </td>
+          <td>
+            <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td>info</td>
+          <td>equal</td>
+          <td>routine</td>
+        </tr>
+        <tr>
+          <td>warning</td>
+          <td>equal</td>
+          <td>urgent</td>
+        </tr>
+        <tr>
+          <td>critical</td>
+          <td>equal</td>
+          <td>stat</td>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <url value="http://cds-hooks.hl7.org/ConceptMap/indicator-to-request-priority"/>
+  <name value="IndicatorToRequestPriority"/>
+  <status value="draft"/>
+  <experimental value="false"/>
+  <description value="This concept map defines a mapping from CDS Hooks indicator to request priority."/>
+  <sourceCanonical value="http://cds-hooks.hl7.org/ValueSet/indicator"/>
+  <targetCanonical value="http://hl7.org/fhir/ValueSet/request-priority"/>
+  <group>
+    <element>
+      <code value="info"/>
+      <target>
+        <code value="routine"/>
+        <equivalence value="equal"/>
+      </target>
+    </element>
+    <element>
+      <code value="warning"/>
+      <target>
+        <code value="urgent"/>
+        <equivalence value="equal"/>
+      </target>
+    </element>
+    <element>
+      <code value="critical"/>
+      <target>
+        <code value="stat"/>
+        <equivalence value="equal"/>
+      </target>
+    </element>
+  </group>
+</ConceptMap>

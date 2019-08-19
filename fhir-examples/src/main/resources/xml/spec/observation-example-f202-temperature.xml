@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+	<id value="f202"/><!--   Oral temperature was measured on April fourth   --><meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f202</p><p><b>status</b>: entered-in-error</p><p><b>category</b>: Vital Signs <span>(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'vital-signs' = 'Vital Signs', given as 'Vital Signs'})</span></p><p><b>code</b>: Temperature <span>(Details : {http://acme.lab code 'BT' = 'BT', given as 'Body temperature'}; {LOINC code '8310-5' = 'Body temperature', given as 'Body temperature'}; {LOINC code '8331-1' = 'Oral temperature', given as 'Oral temperature'}; {SNOMED CT code '56342008' = 'Temperature taking', given as 'Temperature taking'})</span></p><p><b>subject</b>: <a>Roel</a></p><p><b>issued</b>: 04/04/2013 1:27:00 PM</p><p><b>performer</b>: <a>Practitioner/f201</a></p><p><b>value</b>: 39 degrees C<span> (Details: UCUM code Cel = 'Cel')</span></p><p><b>interpretation</b>: High <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation code 'H' = 'High)</span></p><p><b>bodySite</b>: Oral cavity <span>(Details : {SNOMED CT code '74262004' = 'Oral cavity', given as 'Oral cavity'})</span></p><p><b>method</b>: Oral temperature taking <span>(Details : {SNOMED CT code '89003005' = 'Oral temperature taking', given as 'Oral temperature taking'})</span></p><h3>ReferenceRanges</h3><table><tr><td>-</td><td><b>High</b></td></tr><tr><td>*</td><td>38.2 degrees C</td></tr></table></div></text><status value="entered-in-error"/><!--   category code is A code that classifies the general type of observation being made. This is used for searching, sorting and display purposes.  --><category>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/observation-category"/>
+			<code value="vital-signs"/>
+			<display value="Vital Signs"/>
+		</coding>
+	</category>
+	<code><!--   Kind of observation = Temperature   --><!--   local code here   --><coding>
+			<system value="http://acme.lab"/>
+			<code value="BT"/>
+			<display value="Body temperature"/>
+		</coding><!--   LOINC and SNOMED CT translations here - Note in the US the primary code will be LOINC per meaningful use.  Further SNOMED CT  has acceeded to LOINC being the primary coding system for vitals and anthropromorphic measures.  SNOMED CT is required in some countries such as the UK.  --><coding>
+			<system value="http://loinc.org"/>
+			<code value="8310-5"/>
+			<display value="Body temperature"/>
+		</coding><!--     translation to more specific LOINC code (by system - ie oral temp) this example shows how the  LOINC or method element could be used to convey the same information both not necessary in most cases  --><coding>
+			<system value="http://loinc.org"/>
+			<code value="8331-1"/>
+			<display value="Oral temperature"/>
+		</coding>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="56342008"/>
+			<display value="Temperature taking"/>
+		</coding>
+		<text value="Temperature"/>
+	</code><!--   No identifier could be provided to this observation   --><subject>
+		<reference value="Patient/f201"/>
+		<display value="Roel"/>
+	</subject>
+	<issued value="2013-04-04T13:27:00+01:00"/>
+	<performer>
+		<reference value="Practitioner/f201"/>
+	</performer>
+	<valueQuantity><!--   Temperature=39 degrees Celsius   --><value value="39"/>
+		<unit value="degrees C"/>
+		<system value="http://unitsofmeasure.org"/>
+		<code value="Cel"/>
+	</valueQuantity>
+	<interpretation>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+			<code value="H"/>
+		</coding>
+	</interpretation><!--   In the meantime a new oral temperature is measured   --><!--   http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3418963/   --><bodySite>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="74262004"/>
+			<display value="Oral cavity"/>
+		</coding>
+	</bodySite>
+	<method>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="89003005"/>
+			<display value="Oral temperature taking"/>
+		</coding>
+	</method>
+	<referenceRange><!--    0..* Provides guide for interpretation    --><high>
+			<value value="38.2"/>
+			<unit value="degrees C"/>
+		</high>
+	</referenceRange>
+</Observation>

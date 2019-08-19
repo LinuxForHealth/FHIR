@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><NutritionOrder xmlns="http://hl7.org/fhir"><!--   id = proteinsupplement  file name = nutritionorder-example-proteinsupplement.xml  Name= Protein Supplement  Description = Nutrition Order Protein Supplement Canonical Example
+edited by Eric Haas Health eData Inc
+  --><!--   EH: This example has no food exclusions or preferences   --><!--   EH: use supplement element   --><id value="proteinsupplement"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: proteinsupplement</p><p><b>identifier</b>: 123</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>patient</b>: <a>Peter Chalmers</a></p><p><b>encounter</b>: <a>Inpatient</a></p><p><b>dateTime</b>: 17/09/2014</p><p><b>orderer</b>: <a>Dr Adam Careful</a></p><h3>Supplements</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>ProductName</b></td><td><b>Schedule</b></td><td><b>Quantity</b></td><td><b>Instruction</b></td></tr><tr><td>*</td><td>High Protein Powder <span>(Details : {SNOMED CT code '442991000124104' = 'Adult high protein formula (product)', given as 'Adult high protein formula'}; {http://goodhealthhospital.org/supplement-type-codes code '1000' = '1000', given as 'High Protein Powder'})</span></td><td>Beneprotein</td><td>Starting 10/02/2015, Do , at meals</td><td>1 scoop<span> (Details: UCUM code {scoop} = '{scoop}')</span></td><td>Beneprotein 1 scoop TID with meal.starting on  2015-02-10</td></tr></table></div></text><identifier>
+		<system value="http://goodhealthhospital.org/nutrition-requests"/>
+		<value value="123"/>
+	</identifier>
+	<status value="active"/><intent value="order"/>
+	<patient>
+		<reference value="Patient/example"/>
+		<display value="Peter Chalmers"/>
+	</patient>
+	<encounter>
+		<reference value="Encounter/example"/>
+		<display value="Inpatient"/>
+	</encounter>
+	<dateTime value="2014-09-17"/>
+	<orderer>
+		<reference value="Practitioner/example"/>
+		<display value="Dr Adam Careful"/>
+	</orderer>
+	<supplement>
+		<type>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="442991000124104"/>
+				<display value="Adult high protein formula"/>
+			</coding>
+			<coding>
+				<system value="http://goodhealthhospital.org/supplement-type-codes"/>
+				<code value="1000"/>
+				<display value="High Protein Powder"/>
+			</coding>
+			<text value="High Protein Powder"/>
+		</type>
+		<productName value="Beneprotein"/>
+		<schedule>
+			<repeat>
+        <boundsPeriod>
+          <start value="2015-02-10"/>
+        </boundsPeriod>
+				<when value="C"/>
+			</repeat>
+		</schedule>
+		<quantity>
+			<value value="1"/>
+			<unit value="scoop"/>
+			<system value="http://unitsofmeasure.org"/>
+			<code value="{scoop}"/>
+		</quantity>
+		<!--   EH:  use the .instructions element to list diet  supplement order  -->
+		<instruction value="Beneprotein 1 scoop TID with meal.starting on  2015-02-10"/>
+	</supplement>
+</NutritionOrder>

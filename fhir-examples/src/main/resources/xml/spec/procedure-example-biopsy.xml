@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><Procedure xmlns="http://hl7.org/fhir">
+  <id value="biopsy"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">Biopsy of suspected melanoma L) arm</div>
+  </text>
+  <status value="completed"/>
+  <category>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="103693007"/>
+      <display value="Diagnostic procedure (procedure)"/>
+    </coding>
+    <text value="Diagnostic procedure"/>
+  </category>
+  <code>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="90105005"/>
+      <display value="Biopsy of soft tissue of forearm (Procedure)"/>
+    </coding>
+    <text value="Biopsy of suspected melanoma L) arm"/>
+  </code>
+  <subject>
+    <reference value="Patient/example"/>
+  </subject>
+  <performedDateTime value="2014-02-03"/>
+  <performer>
+    <actor>
+      <reference value="Practitioner/example"/>
+      <display value="Dr Bert Biopser"/>
+    </actor>
+  </performer>
+  <reasonCode>
+    <text value="Dark lesion l) forearm. getting darker last 3 months."/>
+  </reasonCode>
+  <bodySite>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="368225008"/>
+        <display value="Entire Left Forearm"/>
+      </coding>
+      <text value="Left forearm"/>
+  </bodySite>
+  <complication>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="67750007"/>
+      <display value="Ineffective airway clearance (finding)"/>
+    </coding>
+    <text value="Ineffective airway clearance"/>
+  </complication>
+  <followUp>
+    <text value="Review in clinic"/>
+  </followUp>
+  <note>
+    <text value="Standard Biopsy"/>
+  </note> 
+  <usedCode>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="79068005"/>
+      <display value="Needle, device (physical object)"/>
+    </coding>
+    <text value="30-guage needle"/>
+  </usedCode>
+</Procedure>

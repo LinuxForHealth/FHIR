@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationRequest xmlns="http://hl7.org/fhir">
+    <id value="medrx0317"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx0317</p><p><b>contained</b>: </p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>medication</b>: id: med0303; Alemtuzumab 10mg/ml (Lemtrada) <span>(Details : {RxNorm code '1594660' = 'alemtuzumab 10 MG/ML [Lemtrada]', given as 'Alemtuzumab 10mg/ml (Lemtrada)'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>authoredOn</b>: 15/01/2015</p><p><b>requester</b>: <a>Patrick Pump</a></p><p><b>reasonCode</b>: Chronic Lymphoid Leukemia (disorder) <span>(Details : {SNOMED CT code '92814006' = 'Chronic lymphoid leukemia', given as 'Chronic Lymphoid Leukemia (disorder)'})</span></p><p><b>dosageInstruction</b>: , , </p></div></text><contained>
+        <Medication>
+            <id value="med0303"/>
+            <code>
+                <coding>
+                    <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+                    <code value="1594660"/>
+                    <display value="Alemtuzumab 10mg/ml (Lemtrada)"/>
+                </coding>
+            </code>
+        </Medication>
+    </contained>
+    <identifier>
+        <use value="official"/>
+        <system value="http://www.bmc.nl/portal/prescriptions"/>
+        <value value="12345689"/>
+    </identifier>
+    <status value="completed"/>
+    <intent value="order"/>
+    <medicationReference>
+        <reference value="#med0303"/>
+    </medicationReference>
+    <subject>
+        <!--   Linked to the resource patient who needs the medication   -->
+        <reference value="Patient/pat1"/>
+        <display value="Donald Duck"/>
+    </subject>
+    <authoredOn value="2015-01-15"/>
+    <requester>
+        <reference value="Practitioner/f007"/>
+        <display value="Patrick Pump"/>
+    </requester>
+    <reasonCode>
+        <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="92814006"/>
+            <display value="Chronic Lymphoid Leukemia (disorder)"/>
+        </coding>
+    </reasonCode>
+    <dosageInstruction>
+        <sequence value="1"/>
+        <text value="Rapid daily-dose escalation, until tolerated, from 3 mg/d, and then 10 mg/d, to the recommended maintenance dose of 30 mg IV over 120 min, 3 times per wk on alternate days for up to 12 wk"/>
+        <additionalInstruction>
+            <text value="Rapidly increase dose until tolerated"/>
+        </additionalInstruction>
+        <additionalInstruction>
+            <text value="Administer on alternate days"/>
+        </additionalInstruction>
+        <timing>
+            <repeat>
+                <duration value="12"/>
+                <durationUnit value="wk"/>
+                <frequency value="3"/>
+                <period value="1"/>
+                <periodUnit value="wk"/>
+            </repeat>
+        </timing>
+        <route>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="47625008"/>
+                <display value="Intravenous route (qualifier value)"/>
+            </coding>
+        </route>
+        <method>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="422145002"/>
+                <display value="Inject - dosing instruction imperative (qualifier value)"/>
+            </coding>
+        </method>
+        <doseAndRate>
+            <type>
+                <coding>
+                    <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+                    <code value="ordered"/>
+                    <display value="Ordered"/>
+                </coding>
+            </type>
+            <doseQuantity>
+                <value value="3"/>
+                <unit value="mg"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="mg"/>
+            </doseQuantity>
+        </doseAndRate>
+        
+    </dosageInstruction>
+    <dosageInstruction>
+        <sequence value="2"/>
+        <text value="Rapid daily-dose escalation, until tolerated, from 3 mg/d, and then 10 mg/d, to the recommended maintenance dose of 30 mg IV over 120 min, 3 times per wk on alternate days for up to 12 wk"/>
+        <additionalInstruction>
+            <text value="Rapidly increase dose until tolerated"/>
+        </additionalInstruction>
+        <additionalInstruction>
+        <text value="Administer on alternate days"/>
+        </additionalInstruction>
+        <timing>
+            <repeat>
+                <duration value="12"/>
+                <durationUnit value="wk"/>
+                <frequency value="3"/>
+                <period value="1"/>
+                <periodUnit value="wk"/>
+            </repeat>
+        </timing>
+        <route>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="47625008"/>
+                <display value="Intravenous route (qualifier value)"/>
+            </coding>
+        </route>
+        <method>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="422145002"/>
+                <display value="Inject - dosing instruction imperative (qualifier value)"/>
+            </coding>
+        </method>
+        <doseAndRate>
+            <type>
+                <coding>
+                    <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+                    <code value="ordered"/>
+                    <display value="Ordered"/>
+                </coding>
+            </type>
+            <doseQuantity>
+                <value value="10"/>
+                <unit value="mg"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="mg"/>
+            </doseQuantity>
+        </doseAndRate>
+        
+    </dosageInstruction>  
+    <dosageInstruction>
+        <sequence value="3"/>
+        <text value="Rapid daily-dose escalation, until tolerated, from 3 mg/d, and then 10 mg/d, to the recommended maintenance dose of 30 mg IV over 120 min, 3 times per wk on alternate days for up to 12 wk"/>
+        <additionalInstruction>
+            <text value="Rapidly increase dose until tolerated"/>
+        </additionalInstruction>
+        <additionalInstruction>
+        <text value="Administer on alternate days"/>
+        </additionalInstruction>
+        <timing>
+            <repeat>
+                <duration value="12"/>
+                <durationUnit value="wk"/>
+                <frequency value="3"/>
+                <period value="1"/>
+                <periodUnit value="wk"/>
+            </repeat>
+        </timing>
+        <route>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="47625008"/>
+                <display value="Intravenous route (qualifier value)"/>
+            </coding>
+        </route>
+        <method>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="422145002"/>
+                <display value="Inject - dosing instruction imperative (qualifier value)"/>
+            </coding>
+        </method>
+        <doseAndRate>
+            <type>
+                <coding>
+                    <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+                    <code value="ordered"/>
+                    <display value="Ordered"/>
+                </coding>
+            </type>
+            <doseQuantity>
+                <value value="30"/>
+                <unit value="mg"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="mg"/>
+            </doseQuantity>
+        </doseAndRate>
+
+    </dosageInstruction>
+</MedicationRequest>

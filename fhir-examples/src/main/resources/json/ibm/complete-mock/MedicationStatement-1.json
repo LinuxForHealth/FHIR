@@ -1,0 +1,507 @@
+{
+    "resourceType": "MedicationStatement",
+    "id": "9q4VK4hn4F",
+    "meta": {
+        "versionId": "O8LSn-uBae",
+        "lastUpdated": "2019-08-03T00:12:35.756-04:00",
+        "source": "faPa_tgs27",
+        "profile": [
+            "mCU820tLfm"
+        ],
+        "security": [
+            {
+                "system": "Uw7rxsS2b8",
+                "version": "5pbyLyAiHh",
+                "code": "gdm6Vxldgr",
+                "display": "TTis_qa1St",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "Rc94pqnsrU",
+                "version": "3wjj_jO0yH",
+                "code": "4XxoAJS_t_",
+                "display": "7XeM0EmKMe",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "w_9muOuwNP",
+    "language": "cidLmrYb1H",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "QvjMXteEuN",
+                        "version": "cuYu5njCY9",
+                        "code": "2YqlCAWtKe",
+                        "display": "T7eXhVoeNg",
+                        "userSelected": true
+                    }
+                ],
+                "text": "53PpT7Vkfv"
+            },
+            "system": "CvRVU1w9d9",
+            "value": "D6fG_bPp2t",
+            "period": {
+                "start": "2019-08-03T00:12:35.759-04:00",
+                "end": "2019-08-03T00:12:35.759-04:00"
+            }
+        }
+    ],
+    "basedOn": [
+        {
+            "reference": "Pa4nxPTfPo",
+            "type": "m0G4w6X75z",
+            "identifier": {
+                "use": "official",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "hRYaAV3Em_",
+                            "version": "u_mbYAx_Fe",
+                            "code": "bJL_yhJFBh",
+                            "display": "dByetS1UGH",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "VzqUYl07P2"
+                },
+                "system": "R6DQNZtdmf",
+                "value": "Z5Z13PSM6g",
+                "period": {
+                    "start": "2019-08-03T00:12:35.739-04:00",
+                    "end": "2019-08-03T00:12:35.739-04:00"
+                }
+            },
+            "display": "rXpFOQQvmp"
+        }
+    ],
+    "partOf": [
+        {
+            "reference": "NfCfDk_Wd_",
+            "type": "vrCZcpBZZL",
+            "identifier": {
+                "use": "old",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "dR5cDGae9y",
+                            "version": "20xRIomGyM",
+                            "code": "3zsuITwMot",
+                            "display": "tO2zGOJ5uT",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "I56brUk4up"
+                },
+                "system": "JEz7xRxwZx",
+                "value": "fZHh3vijJT",
+                "period": {
+                    "start": "2019-08-03T00:12:35.762-04:00",
+                    "end": "2019-08-03T00:12:35.762-04:00"
+                }
+            },
+            "display": "AcGt6vqZak"
+        }
+    ],
+    "status": "completed",
+    "statusReason": [
+        {
+            "coding": [
+                {
+                    "system": "mAAJUQTP3s",
+                    "version": "WafbNgDW7p",
+                    "code": "kOzDM7ovqY",
+                    "display": "1POuo1RZbI",
+                    "userSelected": true
+                }
+            ],
+            "text": "gt2ycc3dHW"
+        }
+    ],
+    "category": {
+        "coding": [
+            {
+                "system": "MnuwtjrJLT",
+                "version": "u5mjzTGjwi",
+                "code": "a7ihiB34Zn",
+                "display": "4akizy93CK",
+                "userSelected": true
+            }
+        ],
+        "text": "VY9H2ou4Av"
+    },
+    "medicationCodeableConcept": {
+        "coding": [
+            {
+                "system": "nHQirIS9_1",
+                "version": "JqAjw1Cg8A",
+                "code": "ifra25scc9",
+                "display": "D57EuuZPVi",
+                "userSelected": true
+            }
+        ],
+        "text": "WSml3wytSp"
+    },
+    "subject": {
+        "reference": "rvyBtH2s18",
+        "type": "FRwFHZQISO",
+        "identifier": {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "Otl3SoTDKC",
+                        "version": "awf67uAs3o",
+                        "code": "ds4QUbTxLg",
+                        "display": "J496KJX47w",
+                        "userSelected": true
+                    }
+                ],
+                "text": "gOgLnWA_ky"
+            },
+            "system": "ZBVtQrr2R9",
+            "value": "EgsNubO95e",
+            "period": {
+                "start": "2019-08-03T00:12:35.761-04:00",
+                "end": "2019-08-03T00:12:35.761-04:00"
+            }
+        },
+        "display": "0J8cwrYNtV"
+    },
+    "context": {
+        "reference": "UKxI0GKDqY",
+        "type": "jWgcTp75dm",
+        "identifier": {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "aITPtBuevz",
+                        "version": "WI7VeLo9Nh",
+                        "code": "RmQvwnQ5LZ",
+                        "display": "Q8nVrFnN0W",
+                        "userSelected": true
+                    }
+                ],
+                "text": "dn4PrDH6bR"
+            },
+            "system": "W2DkX6ZuVL",
+            "value": "NdlFsPkMBa",
+            "period": {
+                "start": "2019-08-03T00:12:35.738-04:00",
+                "end": "2019-08-03T00:12:35.738-04:00"
+            }
+        },
+        "display": "5l7qZIsd4X"
+    },
+    "effectiveDateTime": "2019-08-03T00:12:35.745-04:00",
+    "dateAsserted": "2019-08-03T00:12:35.763-04:00",
+    "informationSource": {
+        "reference": "Hu10BWW_lh",
+        "type": "9PkIUHTkqi",
+        "identifier": {
+            "use": "secondary",
+            "type": {
+                "coding": [
+                    {
+                        "system": "7YyiJmzBMu",
+                        "version": "cFJT3VPDvP",
+                        "code": "y42N85Wxmh",
+                        "display": "081SeoIEfK",
+                        "userSelected": true
+                    }
+                ],
+                "text": "a0J_WL6y4Z"
+            },
+            "system": "xPozpxCP0i",
+            "value": "hVkQd8o__T",
+            "period": {
+                "start": "2019-08-03T00:12:35.764-04:00",
+                "end": "2019-08-03T00:12:35.764-04:00"
+            }
+        },
+        "display": "sxCM7QPTQ1"
+    },
+    "derivedFrom": [
+        {
+            "reference": "ZX25ZGpPNR",
+            "type": "OBMV_jl2Qx",
+            "identifier": {
+                "use": "secondary",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "gzJRUSC9xU",
+                            "version": "ozs0GK9yiq",
+                            "code": "T9QlhEnYYN",
+                            "display": "GBWIJ61z5p",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "nZE6l3uVtF"
+                },
+                "system": "U4qbQcQQFw",
+                "value": "KwJM1y1eBS",
+                "period": {
+                    "start": "2019-08-03T00:12:35.764-04:00",
+                    "end": "2019-08-03T00:12:35.765-04:00"
+                }
+            },
+            "display": "ShxWwrczL_"
+        }
+    ],
+    "reasonCode": [
+        {
+            "coding": [
+                {
+                    "system": "LO0HB5bzlE",
+                    "version": "fY6tYTPigy",
+                    "code": "wLZl2h7ntA",
+                    "display": "9K8tdNx5po",
+                    "userSelected": true
+                }
+            ],
+            "text": "uugriLFDO4"
+        }
+    ],
+    "reasonReference": [
+        {
+            "reference": "NEWr68Mk_R",
+            "type": "Ru4feY3ekL",
+            "identifier": {
+                "use": "secondary",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "tRCBnpiA_L",
+                            "version": "uyJVbwOizO",
+                            "code": "5sSme4pLbt",
+                            "display": "P0dbA4rQuL",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "VavPjEyN1x"
+                },
+                "system": "nQmPQnemwp",
+                "value": "EQxOcbb4Av",
+                "period": {
+                    "start": "2019-08-03T00:12:35.744-04:00",
+                    "end": "2019-08-03T00:12:35.744-04:00"
+                }
+            },
+            "display": "gPAv7nlin9"
+        }
+    ],
+    "note": [
+        {
+            "authorReference": {
+                "reference": "BxxgQaaO4D",
+                "type": "vrYTj5uf9e",
+                "identifier": {
+                    "use": "temp",
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "n2cdgiwCJh",
+                                "version": "o5onQlMID9",
+                                "code": "moaid9EiaE",
+                                "display": "LpSePcSkfi",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "GC_aCUn5dN"
+                    },
+                    "system": "kXapui2ovC",
+                    "value": "EI0rHqMa_I",
+                    "period": {
+                        "start": "2019-08-03T00:12:35.741-04:00",
+                        "end": "2019-08-03T00:12:35.741-04:00"
+                    }
+                },
+                "display": "1FVCLRnVUC"
+            },
+            "time": "2019-08-03T00:12:35.740-04:00",
+            "text": "Chvs1nF1sd"
+        }
+    ],
+    "dosage": [
+        {
+            "sequence": 170353262,
+            "text": "Fmc_QdXv63",
+            "additionalInstruction": [
+                {
+                    "coding": [
+                        {
+                            "system": "rvqIzq5YB2",
+                            "version": "RHSDtYZ6WE",
+                            "code": "NAA3L95APc",
+                            "display": "7Sr7jeaqzC",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "4ZlSTDhOo3"
+                }
+            ],
+            "patientInstruction": "O_uxSH34EH",
+            "timing": {
+                "event": [
+                    "2019-08-03T00:12:35.752-04:00"
+                ],
+                "repeat": {
+                    "boundsDuration": {
+                        "value": 194198899969,
+                        "comparator": "<=",
+                        "unit": "cjhjtbhA8e",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "h"
+                    },
+                    "count": 2092945490,
+                    "countMax": 1329729335,
+                    "duration": 48137523573,
+                    "durationMax": 83453231703,
+                    "durationUnit": "wk",
+                    "frequency": 1333472690,
+                    "frequencyMax": 810102263,
+                    "period": 421009903393,
+                    "periodMax": 31509774868,
+                    "periodUnit": "h",
+                    "dayOfWeek": [
+                        "wed"
+                    ],
+                    "when": [
+                        "MORN.early"
+                    ]
+                },
+                "code": {
+                    "coding": [
+                        {
+                            "system": "yZAyJLbu4O",
+                            "version": "3463hX0KQD",
+                            "code": "fZZuB4XP0d",
+                            "display": "8n6w4NjofA",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "4tJDXQWvu_"
+                }
+            },
+            "asNeededBoolean": true,
+            "site": {
+                "coding": [
+                    {
+                        "system": "zzgRxBsRPy",
+                        "version": "Pom8HGDAVR",
+                        "code": "vILtUlLWkd",
+                        "display": "P5oBqpPcSu",
+                        "userSelected": true
+                    }
+                ],
+                "text": "lKI9uHENul"
+            },
+            "route": {
+                "coding": [
+                    {
+                        "system": "uL3lsrckz0",
+                        "version": "6UVLtZiApY",
+                        "code": "6YE3OzM38_",
+                        "display": "6naDUsMXFZ",
+                        "userSelected": true
+                    }
+                ],
+                "text": "1AVMRFPsaL"
+            },
+            "method": {
+                "coding": [
+                    {
+                        "system": "4c9LjVeMQL",
+                        "version": "c8QMPlD5Ss",
+                        "code": "YFQfSZ4zjg",
+                        "display": "zkRpF2L45J",
+                        "userSelected": true
+                    }
+                ],
+                "text": "NFW1Ao7weY"
+            },
+            "doseAndRate": [
+                {
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "xgaJuSP5al",
+                                "version": "ilA5xEMNn8",
+                                "code": "1KDdEDbPOV",
+                                "display": "avPjkO3cyv",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "l6rIGBUss6"
+                    },
+                    "doseRange": {
+                        "low": {
+                            "value": 416880949374,
+                            "unit": "r9jr5j2u0i",
+                            "system": "jHykN3KbYO",
+                            "code": "2ZmUNnjOvT"
+                        }
+                    },
+                    "rateRatio": {
+                        "numerator": {
+                            "value": 152173770331,
+                            "comparator": "<=",
+                            "unit": "K2xhbO5PlW",
+                            "system": "AdLFjf36eN",
+                            "code": "h8B1QsZNgK"
+                        },
+                        "denominator": {
+                            "value": 396118222090,
+                            "comparator": "<",
+                            "unit": "5V5cZvkKyJ",
+                            "system": "zUIge1nbo9",
+                            "code": "70yDilJ_ja"
+                        }
+                    }
+                }
+            ],
+            "maxDosePerPeriod": {
+                "numerator": {
+                    "value": 266664546873,
+                    "comparator": ">",
+                    "unit": "Eq0tIHiuD1",
+                    "system": "WHj_pZvZpa",
+                    "code": "g844fwRdHH"
+                },
+                "denominator": {
+                    "value": 391330490189,
+                    "comparator": "<=",
+                    "unit": "9NvvgFHqJS",
+                    "system": "qJ2TawY2VF",
+                    "code": "NJtkAwtJpg"
+                }
+            },
+            "maxDosePerAdministration": {
+                "value": 1129981807,
+                "unit": "IFxOXvO7V3",
+                "system": "vsEFCx5xpb",
+                "code": "0iIFfR82Z2"
+            },
+            "maxDosePerLifetime": {
+                "value": 414285463362,
+                "unit": "to9elzi0ay",
+                "system": "s2QgpaB7m_",
+                "code": "9GQ0wbAMje"
+            }
+        }
+    ]
+}

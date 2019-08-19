@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><Flag xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">Large Dog warning for Peter Patient</div>
+  </text>
+  <identifier>
+       <value value="12345"/>
+  </identifier>
+  <status value="inactive"/>
+  <category>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/flag-category"/>
+      <code value="safety"/>
+      <display value="Safety"/>
+    </coding>
+    <text value="Safety"/>  
+  </category>
+  <code>
+    <coding>
+      <system value="http://example.org/local"/>
+      <code value="bigdog"/>
+      <display value="Big dog"/>
+    </coding>
+    <text value="Patient has a big dog at his home. Always always wear a suit of armor or take other active counter-measures"/>
+  </code>
+  <subject>
+    <reference value="Patient/example"/>
+    <display value="Peter Patient"/>
+  </subject>
+  <period>
+      <start value="2015-01-17"/>
+      <end value="2016-12-01"/>
+    </period>
+  <author>
+    <reference value="Practitioner/example"/>
+    <display value="Nancy Nurse"/>
+  </author>
+  
+  
+</Flag>

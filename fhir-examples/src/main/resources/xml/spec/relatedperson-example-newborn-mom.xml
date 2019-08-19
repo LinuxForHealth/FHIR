@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><RelatedPerson xmlns="http://hl7.org/fhir">
+	<id value="newborn-mom"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: newborn-mom</p><p><b>identifier</b>: Social Security number = 444222222</p><p><b>active</b>: true</p><p><b>patient</b>: <a>Patient/newborn</a></p><p><b>relationship</b>: Natural Mother <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-RoleCode code 'NMTH' = 'natural mother', given as 'natural mother'})</span></p><p><b>name</b>: Eve Everywoman (OFFICIAL)</p><p><b>telecom</b>: ph: 555-555-2003(WORK)</p><p><b>gender</b>: female</p><p><b>birthDate</b>: 31/05/1973</p><p><b>address</b>: 2222 Home Street (HOME)</p></div></text><identifier>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+				<code value="SS"/>
+			</coding>
+		</type>
+		<system value="http://hl7.org/fhir/sid/us-ssn"/>
+		<value value="444222222"/>
+	</identifier>
+	<active value="true"/>
+	<patient>
+		<reference value="Patient/newborn"/>
+	</patient>
+	<relationship>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode"/>
+			<code value="NMTH"/>
+			<display value="natural mother"/>
+		</coding>
+		<text value="Natural Mother"/>
+	</relationship>
+	<name>
+		<use value="official"/>
+		<family value="Everywoman"/>
+		<given value="Eve"/>
+	</name>
+	<telecom>
+		<system value="phone"/>
+		<value value="555-555-2003"/>
+		<use value="work"/>
+	</telecom>
+	<gender value="female"/>
+	<birthDate value="1973-05-31"/>
+	<address>
+		<use value="home"/>
+		<line value="2222 Home Street"/>
+	</address>
+</RelatedPerson>

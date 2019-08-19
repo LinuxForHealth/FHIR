@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><ResearchSubject xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">[Put rendering here]</div>
+	</text>
+	<identifier>
+    <type>
+      <text value="Subject id"/>
+    </type>
+    <system value="http://example.org/studysubjectids"/>
+    <value value="123"/>
+	</identifier>
+	<status value="candidate"/>
+	<study>
+    <reference value="ResearchStudy/example"/>
+	</study>
+	<individual>
+    <reference value="Patient/example"/>
+	</individual>
+</ResearchSubject>

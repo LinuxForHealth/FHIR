@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="sc-product-status"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>BiologicallyDerivedProductStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-product-status)</h2>
+      <p>Mapping from 
+        <a href="valueset-product-status.html">http://hl7.org/fhir/ValueSet/product-status</a> to 
+        <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
+      </p>
+      <p>DRAFT. Published on 27/12/2018 10:37:54 PM by HL7 (FHIR Project) (
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
+        <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
+      </p>
+      <div>
+        <p>Canonical Mapping for &quot;Biologically Derived Product Status.&quot;</p>
+
+      </div>
+      <br/>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Source Code</b>
+          </td>
+          <td>
+            <b>Equivalence</b>
+          </td>
+          <td>
+            <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td>available</td>
+          <td>equivalent</td>
+          <td>active</td>
+        </tr>
+        <tr>
+          <td>unavailable</td>
+          <td>equivalent</td>
+          <td>busy-unavailable</td>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/ConceptMap/sc-product-status"/>
+  <version value="4.0.0"/>
+  <name value="BiologicallyDerivedProductStatusCanonicalMap"/>
+  <title value="Canonical Mapping for &quot;BiologicallyDerivedProductStatus&quot;"/>
+  <status value="draft"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="Canonical Mapping for &quot;Biologically Derived Product Status.&quot;"/>
+  <sourceCanonical value="http://hl7.org/fhir/ValueSet/product-status"/>
+  <targetCanonical value="http://hl7.org/fhir/ValueSet/resource-status"/>
+  <group>
+    <source value="http://hl7.org/fhir/product-status"/>
+    <target value="http://hl7.org/fhir/resource-status"/>
+    <element>
+      <code value="available"/>
+      <target>
+        <code value="active"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="unavailable"/>
+      <target>
+        <code value="busy-unavailable"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+  </group>
+</ConceptMap>

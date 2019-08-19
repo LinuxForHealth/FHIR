@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><NutritionOrder xmlns="http://hl7.org/fhir"><!--   id = enteralbolus  file name = nutritionorder-example-enteralbolus.xml Name= Enteral Bolus  Description = Nutrition Order Enteral Bolus Feeding  Example
+Tube feedings are given in boluses several times a day   edited by Eric Haas Health eData Inc
+  --><!--  EH  Show all the elements in this examples for preference, and intolerance   --><id value="enteralbolus"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: enteralbolus</p><p><b>identifier</b>: 123</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>patient</b>: <a>Peter Chalmers</a></p><p><b>encounter</b>: <a>Inpatient</a></p><p><b>dateTime</b>: 17/09/2014</p><p><b>orderer</b>: <a>Dr Adam Careful</a></p><p><b>allergyIntolerance</b>: <a>Cashew Nuts</a></p><p><b>foodPreferenceModifier</b>: Dairy Free <span>(Details : {http://terminology.hl7.org/CodeSystem/diet code 'dairy-free' = 'Dairy Free)</span></p><p><b>excludeFoodModifier</b>: Cashew Nut <span>(Details : {SNOMED CT code '227493005' = 'Cashew nuts', given as 'Cashew Nut'})</span></p><blockquote><p><b>enteralFormula</b></p><p><b>baseFormulaType</b>: Adult high protein formula <span>(Details : {SNOMED CT code '442991000124104' = 'Adult high protein formula (product)', given as 'Adult high protein formula'})</span></p><p><b>baseFormulaProductName</b>: Acme High Protein Formula</p><p><b>additiveType</b>: Lipid <span>(Details : {http://terminology.hl7.org/CodeSystem/entformula-additive code 'lipid' = 'Lipid', given as 'Lipid'})</span></p><p><b>additiveProductName</b>: Acme Lipid Additive</p><p><b>caloricDensity</b>: 1.5 calories per milliliter<span> (Details: UCUM code cal/mL = 'cal/mL')</span></p><p><b>routeofAdministration</b>: Instillation, gastrostomy tube <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration code 'GT' = 'Instillation, gastrostomy tube', given as 'Instillation, gastrostomy tube'})</span></p><h3>Administrations</h3><table><tr><td>-</td><td><b>Schedule</b></td><td><b>Quantity</b></td></tr><tr><td>*</td><td>Starting 17/09/2014 4:00:00 PM, Do Once per 4 hours</td><td>240 milliliters<span> (Details: UCUM code mL = 'mL')</span></td></tr></table><p><b>maxVolumeToDeliver</b>: 1440 milliliter/day<span> (Details: UCUM code mL/d = 'mL/d')</span></p><p><b>administrationInstruction</b>: 240 mls every 4hrs </p></blockquote></div></text><identifier>
+		<system value="http://www.acme.org/nutritionorders"/>
+		<value value="123"/>
+	</identifier>
+	<status value="active"/><intent value="order"/>
+	<patient>
+		<reference value="Patient/example"/>
+		<display value="Peter Chalmers"/>
+	</patient>
+	<encounter>
+		<reference value="Encounter/example"/>
+		<display value="Inpatient"/>
+	</encounter>
+	<dateTime value="2014-09-17"/>
+	<orderer>
+		<reference value="Practitioner/example"/>
+		<display value="Dr Adam Careful"/>
+	</orderer>
+	<allergyIntolerance>
+		<reference value="AllergyIntolerance/example"/>
+		<display value="Cashew Nuts"/>
+	</allergyIntolerance>
+	<foodPreferenceModifier>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/diet"/>
+			<code value="dairy-free"/>
+		</coding>
+	</foodPreferenceModifier>
+	<excludeFoodModifier>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<version value="20140730"/>
+			<code value="227493005"/>
+			<display value="Cashew Nut"/>
+		</coding>
+	</excludeFoodModifier>
+	<enteralFormula>
+
+		<baseFormulaType>
+			<coding>
+				<!--  EH:  bolus tube feeding instruction in text  -->
+				<system value="http://snomed.info/sct"/>
+				<code value="442991000124104"/>
+				<display value="Adult high protein formula"/>
+			</coding>
+		</baseFormulaType>
+		<baseFormulaProductName value="Acme High Protein Formula"/>
+
+		<additiveType>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/entformula-additive"/>
+				<code value="lipid"/>
+				<display value="Lipid"/>
+			</coding>
+		</additiveType>
+		<additiveProductName value="Acme Lipid Additive"/>
+		<caloricDensity>
+			<value value="1.5"/>
+			<unit value="calories per milliliter"/>
+			<system value="http://unitsofmeasure.org"/>
+			<code value="cal/mL"/>
+		</caloricDensity>
+		<routeofAdministration>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration"/>
+				<code value="GT"/>
+				<display value="Instillation, gastrostomy tube"/>
+			</coding>
+		</routeofAdministration>
+		<administration>
+			<schedule>
+				<repeat>
+				<boundsPeriod>
+				  <start value="2014-09-17T16:00:00Z"/>
+				</boundsPeriod>
+					<frequency value="1"/>
+					<period value="4"/>
+					<periodUnit value="h"/>
+				</repeat>
+			</schedule>
+			<quantity>
+				<value value="240"/>
+				<unit value="milliliters"/>
+				<system value="http://unitsofmeasure.org"/>
+				<code value="mL"/>
+			</quantity>
+		</administration>
+		<maxVolumeToDeliver>
+			<value value="1440"/>
+			<unit value="milliliter/day"/>
+			<system value="http://unitsofmeasure.org"/>
+			<code value="mL/d"/>
+		</maxVolumeToDeliver>
+		<administrationInstruction value="240 mls every 4hrs "/>
+	</enteralFormula>
+</NutritionOrder>

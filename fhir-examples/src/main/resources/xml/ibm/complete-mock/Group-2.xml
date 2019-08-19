@@ -1,0 +1,148 @@
+<Group xmlns="http://hl7.org/fhir">
+  <id value="WhlVR0TwKZ"/>
+  <meta>
+    <versionId value="PhmtmXeL1N"/>
+    <lastUpdated value="2019-08-08T09:17:28.547-04:00"/>
+    <source value="EzMe4sfi8o"/>
+    <profile value="4LdhFHeMFs"/>
+    <security>
+      <system value="Liecf47eQU"/>
+      <version value="Vut4YXA4al"/>
+      <code value="KRJmHo3GaM"/>
+      <display value="uri9DELaeQ"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="ZtS3AKH7w9"/>
+      <version value="6YlM_OObUD"/>
+      <code value="kk5Qq9C3_K"/>
+      <display value="kAVBKvl9Mc"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="sBeXm7iIQJ"/>
+  <language value="MV4ERv8TZY"/>
+  <text>
+    <status value="extensions"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="temp"/>
+    <type>
+      <coding>
+        <system value="PWMV5d7u0a"/>
+        <version value="3GI4bqUtr1"/>
+        <code value="Z3s9wZYEko"/>
+        <display value="K2gJJwsJh_"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="0iQC3N2bF6"/>
+    </type>
+    <system value="RaJqHFhcp8"/>
+    <value value="Xc6oxQfUCG"/>
+    <period>
+      <start value="2019-08-08T09:17:28.548-04:00"/>
+      <end value="2019-08-08T09:17:28.548-04:00"/>
+    </period>
+  </identifier>
+  <active value="true"/>
+  <type value="practitioner"/>
+  <actual value="true"/>
+  <code>
+    <coding>
+      <system value="30C1OVmLab"/>
+      <version value="wegQCI0Ff8"/>
+      <code value="_42nCJ1vuf"/>
+      <display value="ZtmRqnJGFN"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="a91pgalbvk"/>
+  </code>
+  <name value="MZUwcnDRMW"/>
+  <quantity value="1885067965"/>
+  <managingEntity>
+    <reference value="5kdI9RNLCr"/>
+    <type value="E1Q26vvA4Q"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="sDISlyXZHb"/>
+          <version value="37plnsNk8B"/>
+          <code value="c0s6AtwxF4"/>
+          <display value="_p1At2wPf6"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="0S9kcF0TTP"/>
+      </type>
+      <system value="HkDlp0QMIs"/>
+      <value value="HCe84GJbWD"/>
+      <period>
+        <start value="2019-08-08T09:17:28.549-04:00"/>
+        <end value="2019-08-08T09:17:28.550-04:00"/>
+      </period>
+    </identifier>
+    <display value="tRbk3iIhFZ"/>
+  </managingEntity>
+  <characteristic>
+    <code>
+      <coding>
+        <system value="Bhlb0TAypz"/>
+        <version value="5LZlv_pfUf"/>
+        <code value="y1SaVlYGA4"/>
+        <display value="AFFpwLpHGm"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="V0KGfMZY05"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="dVzpZBCOpt"/>
+        <version value="Kz76tIZKyy"/>
+        <code value="3Drj5jeRZa"/>
+        <display value="pCRh0Z9Pdz"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="YJlQTMrBON"/>
+    </valueCodeableConcept>
+    <exclude value="true"/>
+    <period>
+      <start value="2019-08-08T09:17:28.549-04:00"/>
+      <end value="2019-08-08T09:17:28.549-04:00"/>
+    </period>
+  </characteristic>
+  <member>
+    <entity>
+      <reference value="JnTq4HTMEy"/>
+      <type value="Tru94dDaE5"/>
+      <identifier>
+        <use value="temp"/>
+        <type>
+          <coding>
+            <system value="69QUCRJcdA"/>
+            <version value="ENGqplKMnI"/>
+            <code value="wliQgA_eu7"/>
+            <display value="6oKbyTyzKA"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="13iBdpgamX"/>
+        </type>
+        <system value="VqKKZcFpnb"/>
+        <value value="9YvY1oCRHD"/>
+        <period>
+          <start value="2019-08-08T09:17:28.545-04:00"/>
+          <end value="2019-08-08T09:17:28.545-04:00"/>
+        </period>
+      </identifier>
+      <display value="XTrCTOjd6O"/>
+    </entity>
+    <period>
+      <start value="2019-08-08T09:17:28.544-04:00"/>
+      <end value="2019-08-08T09:17:28.545-04:00"/>
+    </period>
+    <inactive value="true"/>
+  </member>
+</Group>

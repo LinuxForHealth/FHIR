@@ -1,0 +1,144 @@
+<CodeSystem xmlns="http://hl7.org/fhir">
+  <id value="tiKRvuA1wY"/>
+  <meta>
+    <versionId value="jyBDLfeGyT"/>
+    <lastUpdated value="2019-08-08T09:17:25.602-04:00"/>
+    <source value="DvF5Hw08Yo"/>
+    <profile value="7EO1tvGNxd"/>
+    <security>
+      <system value="B7w6H6H5FE"/>
+      <version value="yfZaDrrM3D"/>
+      <code value="G5lBPxJNL7"/>
+      <display value="bSH77sLFG7"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="t8rIIuis3l"/>
+      <version value="E7RHf4SBbs"/>
+      <code value="5moSnTovzO"/>
+      <display value="tXBbF0YPqy"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="1E46YfDWOU"/>
+  <language value="hT4WrJTM03"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="_tU7tXiy3x"/>
+  <identifier>
+    <use value="secondary"/>
+    <type>
+      <coding>
+        <system value="hC69GF394H"/>
+        <version value="DSjGZHy2PP"/>
+        <code value="ICtPfm7qKf"/>
+        <display value="0sMZngZpke"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="ok9I44kI_8"/>
+    </type>
+    <system value="8WDukNJuFT"/>
+    <value value="4UidM3psoi"/>
+    <period>
+      <start value="2019-08-08T09:17:25.603-04:00"/>
+      <end value="2019-08-08T09:17:25.603-04:00"/>
+    </period>
+  </identifier>
+  <version value="_0RTCLgLZD"/>
+  <name value="8YcOoYu7bU"/>
+  <title value="hZ3eczunxo"/>
+  <status value="unknown"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:25.617-04:00"/>
+  <publisher value="4nt84b5Ngg"/>
+  <contact>
+    <name value="zPg3gID5vr"/>
+    <telecom>
+      <system value="sms"/>
+      <value value="Aqxvw7HNa8"/>
+      <use value="home"/>
+      <rank value="1830484908"/>
+      <period>
+        <start value="2019-08-08T09:17:25.603-04:00"/>
+        <end value="2019-08-08T09:17:25.604-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="TDnW1ZSm5T"/>
+  <useContext>
+    <code>
+      <system value="KxrXGfwqLo"/>
+      <version value="0v0c3AQMqo"/>
+      <code value="4XzkP8YAMx"/>
+      <display value="5_xJwmb9Pw"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="hDT6PHeayV"/>
+        <version value="u_ZgtAFjPW"/>
+        <code value="yyb7O25ucN"/>
+        <display value="lkyfbs_RjE"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="y1pZk2o3Wi"/>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="wj9T8GdLUJ"/>
+      <version value="214IrsvxLK"/>
+      <code value="XetLOoqzaG"/>
+      <display value="ECGUb_W9di"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="9JHYacJA3F"/>
+  </jurisdiction>
+  <purpose value="L_ZPwilwwN"/>
+  <copyright value="DIxvhxOmXo"/>
+  <caseSensitive value="true"/>
+  <valueSet value="EbSfpT3tzo"/>
+  <hierarchyMeaning value="is-a"/>
+  <compositional value="true"/>
+  <versionNeeded value="true"/>
+  <content value="fragment"/>
+  <supplements value="6Y9KjBcWdM"/>
+  <count value="321219059"/>
+  <filter>
+    <code value="_J80_NgOSh"/>
+    <description value="IyIb7SXO6B"/>
+    <operator value="="/>
+    <value value="osiLeexWos"/>
+  </filter>
+  <property>
+    <code value="sXJuOnHFAC"/>
+    <uri value="NZX1nF3i5W"/>
+    <description value="I3I5l90NNt"/>
+    <type value="boolean"/>
+  </property>
+  <concept>
+    <code value="Hk8ftxMQuF"/>
+    <display value="spzTlnAY3J"/>
+    <definition value="FeNEJV2aqt"/>
+    <designation>
+      <language value="dzfXKugZev"/>
+      <use>
+        <system value="eAVQi13Dgw"/>
+        <version value="OSU6ji0Iod"/>
+        <code value="ree6Qy_KWa"/>
+        <display value="jr5nwVbsUm"/>
+        <userSelected value="true"/>
+      </use>
+      <value value="bDExajcBwI"/>
+    </designation>
+    <property>
+      <code value="rXNOlU8Hp1"/>
+      <valueCode value="HOSDTZ81VI"/>
+    </property>
+  </concept>
+</CodeSystem>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+	<id value="example-genetics-2"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-genetics-2</p><p><b>status</b>: final</p><p><b>code</b>: Genetic analysis master panel--This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result. <span>(Details : {LOINC code '55233-1' = 'Genetic analysis master panel - Blood or Tissue by Molecular genetics method', given as 'Genetic analysis master panel--This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result.'})</span></p><p><b>subject</b>: <a>Molecular Lab Patient ID: HOSP-23456</a></p><p><b>issued</b>: 03/04/2013 3:30:10 PM</p><p><b>performer</b>: <a>Molecular Diagnostics Laboratory</a></p><p><b>value</b>: Positive <span>(Details : {SNOMED CT code '10828004' = 'Positive', given as 'Positive'})</span></p><p><b>derivedFrom</b>: <a>Observation/example-genetics-1</a></p><blockquote><p><b>component</b></p><p><b>code</b>: Genetic disease assessed <span>(Details : {LOINC code '51967-8' = 'Genetic disease assessed [Identifier] in Blood or Tissue by Molecular genetics method', given as 'Genetic disease assessed'})</span></p><p><b>value</b>: Lung cancer <span>(Details : {SNOMED CT code '363358000' = 'Malignant tumor of lung', given as 'Malignant tumor of lung (disorder)'})</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: Genetic disease sequence variation interpretation <span>(Details : {LOINC code '53037-8' = 'Genetic disease sequence variation interpretation [interpretation] in Blood or Tissue by Molecular genetics method', given as 'Genetic disease sequence variation interpretation'})</span></p><p><b>value</b>: Pathogenic <span>(Details : {[not stated] code 'LA6669-1' = 'LA6669-1', given as 'Pathogenic'})</span></p></blockquote></div></text><status value="final"/>
+	<code>
+		<coding>
+			<system value="http://loinc.org"/>
+			<code value="55233-1"/>
+			<display value="Genetic analysis master panel--This is the parent OBR for the panel holding all of the associated observations that can be reported with a molecular genetics analysis result."/>
+		</coding>
+	</code>
+	<subject>
+		<reference value="Patient/example"/>
+		<display value="Molecular Lab Patient ID: HOSP-23456"/>
+	</subject>
+	<issued value="2013-04-03T15:30:10+01:00"/>
+	<performer>
+		<reference value="Practitioner/example"/>
+		<display value="Molecular Diagnostics Laboratory"/>
+	</performer>
+	<valueCodeableConcept>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="10828004"/>
+			<display value="Positive"/>
+		</coding>
+	</valueCodeableConcept>
+	<derivedFrom>
+		<reference value="Observation/example-genetics-1"/>
+	</derivedFrom>
+	<component>
+		<code>
+			<coding>
+				<system value="http://loinc.org"/>
+				<code value="51967-8"/>
+				<display value="Genetic disease assessed"/>
+			</coding>
+		</code>
+		<valueCodeableConcept>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="363358000"/>
+				<display value="Malignant tumor of lung (disorder)"/>
+			</coding>
+			<text value="Lung cancer"/>
+		</valueCodeableConcept>
+	</component>
+	<component>
+		<code>
+			<coding>
+				<system value="http://loinc.org"/>
+				<code value="53037-8"/>
+				<display value="Genetic disease sequence variation interpretation"/>
+			</coding>
+		</code>
+		<valueCodeableConcept>
+			<coding>
+				<code value="LA6669-1"/>
+				<display value="Pathogenic"/>
+			</coding>
+		</valueCodeableConcept>
+	</component>
+</Observation>

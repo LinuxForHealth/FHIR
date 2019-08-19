@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><Organization xmlns="http://hl7.org/fhir">
+  <id value="f003"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f003</p><p><b>active</b>: true</p><p><b>type</b>: Hospital Department <span>(Details : {http://terminology.hl7.org/CodeSystem/organization-type code 'dept' = 'Hospital Department', given as 'Hospital Department'})</span></p><p><b>name</b>: Burgers UMC Ear,Nose,Throat unit</p><p><b>telecom</b>: ph: 022-655 6780</p><p><b>address</b>: West Wing, floor 5 </p><p><b>partOf</b>: <a>Organization/f001</a></p><h3>Contacts</h3><table><tr><td>-</td><td><b>Purpose</b></td><td><b>Name</b></td><td><b>Telecom</b></td><td><b>Address</b></td></tr><tr><td>*</td><td>Administrative <span>(Details : {http://terminology.hl7.org/CodeSystem/contactentity-type code 'ADMIN' = 'Administrative)</span></td><td>mr. F. de Hond</td><td>ph: 022-655 7654</td><td>West Wing, floor 5 </td></tr></table></div></text><active value="true"/>
+  <type>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/organization-type"/>
+      <code value="dept"/>
+      <display value="Hospital Department"/>
+    </coding>
+  </type>
+  <name value="Burgers UMC Ear,Nose,Throat unit"/>
+  <telecom>
+    <system value="phone"/>
+    <value value="022-655 6780"/>
+  </telecom>
+  <address>
+    <line value="West Wing, floor 5"/>
+  </address>
+  <partOf>
+    <reference value="Organization/f001"/>
+  </partOf>
+  <contact>
+    <purpose>
+      <coding>
+        <system value="http://terminology.hl7.org/CodeSystem/contactentity-type"/>
+        <code value="ADMIN"/>
+      </coding>
+    </purpose>
+    <name>
+      <text value="mr. F. de Hond"/>
+    </name>
+    <telecom>
+      <system value="phone"/>
+      <value value="022-655 7654"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="KNO@burgersumc.nl"/>
+    </telecom>
+    <telecom>
+      <system value="fax"/>
+      <value value="022-655 0998"/>
+    </telecom>
+    <address>
+      <line value="West Wing, floor 5"/>
+    </address>
+  </contact>
+</Organization>

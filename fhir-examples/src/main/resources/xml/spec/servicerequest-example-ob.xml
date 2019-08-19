@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><ServiceRequest xmlns="http://hl7.org/fhir">
+	<id value="ob"/>
+	<!--   insert contents here   -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: ob</p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>category</b>: OB <span>(Details : {SNOMED CT code '386637004' = 'Obstetric procedure', given as 'Obstetric procedure (procedure)'})</span></p><p><b>code</b>: Vaginal delivery <span>(Details : {SNOMED CT code '22633006' = 'Vaginal delivery, medical personnel present', given as 'Vaginal delivery, medical personnel present (procedure)'})</span></p><p><b>subject</b>: Jane Doe</p><p><b>occurrence</b>: 02/06/2012</p><p><b>requester</b>: Women’s Hospital</p><p><b>performer</b>: Martha Midwife, RNP</p><p><b>reasonCode</b>: term pregnancy, active labor <span>(Details )</span></p></div></text><status value="completed"/>
+	<intent value="order"/>
+	<category>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="386637004"/>
+			<display value="Obstetric procedure (procedure)"/>
+		</coding>
+		<text value="OB"/>
+	</category>
+	<code>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="22633006"/>
+			<display value="Vaginal delivery, medical personnel present (procedure)"/>
+		</coding>
+		<text value="Vaginal delivery"/>
+	</code>
+	<subject>
+		<display value="Jane Doe"/>
+	</subject>
+	<occurrenceDateTime value="2012-06-02"/>
+	<requester>
+			<display value="Women’s Hospital"/>
+	</requester>
+	<performer>
+		<display value="Martha Midwife, RNP"/>
+	</performer>
+	<reasonCode>
+		<text value="term pregnancy, active labor"/>
+	</reasonCode>
+</ServiceRequest>

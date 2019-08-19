@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="NamingSystem-preferred-id"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Fetch Preferred it</h2>
+      <p>OPERATION: Fetch Preferred it</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/NamingSystem-preferred-id</pre>
+      <div>
+        <p>This operation returns the preferred identifiers for identifiers, and terminologies. The operation takes 2 parameters:</p>
+
+        <ul>
+
+          <li>a system identifier - either a URI, an OID, or a v2 table 0396 (other) code</li>
+
+          <li>a code for what kind of identifier is desired (URI, OID, v2 table 0396 identifier)</li>
+
+        </ul>
+
+        <p>and returns either the requested identifier, or an HTTP errors response with an OperationOutcome because either the provided identifier was not recognized, or the requested identiifer type is not known.</p>
+
+        <p>The principle use of this operation is when converting between v2, CDA and FHIR Identifier/CX/II and CodeableConcepts/C(N/W)E/CD but the operation may also find use when converting metadata such as profiles.</p>
+
+      </div>
+      <p>URL: [base]/NamingSystem/$preferred-id</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>id</td>
+          <td>1..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The server parses the provided id to see what type it is (mary a URI, an OID as a URI, a plain OID, or a v2 table 0396 code). If the server can&#39;t tell what type of identifier it is, it can try it as multiple types. It is an error if more than one system matches the provided identifier</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>type</td>
+          <td>1..1</td>
+          <td>
+            <a href="datatypes.html#code">code</a>
+          </td>
+          <td>
+            <a href="valueset-namingsystem-identifier-type.html">http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.0</a> (Required)
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>result</td>
+          <td>1..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>OIDs are return as plain OIDs (not the URI form).</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <p>Servers handle this request by finding the provided identifier in their known naming systems, and returning the requested identifier type (
+          <a href="namingsystem-definitions.html#NamingSystem.uniqueId.type">NamingSystem.uniqueId.type</a>). If there are multiple possible identifiers of the specified type (e.g. multiple OIDs) the server returns an error.
+        </p>
+
+        <p>If the server wishes, it can also look through all code systems and value sets it knows about when attempting to find the requested identifier</p>
+
+      </div>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="1"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/NamingSystem-preferred-id"/>
+  <version value="4.0.0"/>
+  <name value="Fetch Preferred it"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="This operation returns the preferred identifiers for identifiers, and terminologies. The operation takes 2 parameters:     &#xA;&#xA;* a system identifier - either a URI, an OID, or a v2 table 0396 (other) code  &#xA;* a code for what kind of identifier is desired (URI, OID, v2 table 0396 identifier)    &#xA;&#xA;and returns either the requested identifier, or an HTTP errors response with an OperationOutcome because either the provided identifier was not recognized, or the requested identiifer type is not known.    &#xA;&#xA;The principle use of this operation is when converting between v2, CDA and FHIR Identifier/CX/II and CodeableConcepts/C(N/W)E/CD but the operation may also find use when converting metadata such as profiles."/>
+  <code value="preferred-id"/>
+  <comment value="Servers handle this request by finding the provided identifier in their known naming systems, and returning the requested identifier type ([NamingSystem.uniqueId.type](namingsystem-definitions.html#NamingSystem.uniqueId.type)). If there are multiple possible identifiers of the specified type (e.g. multiple OIDs) the server returns an error.    &#xA;&#xA;If the server wishes, it can also look through all code systems and value sets it knows about when attempting to find the requested identifier"/>
+  <resource value="NamingSystem"/>
+  <system value="false"/>
+  <type value="true"/>
+  <instance value="false"/>
+  <parameter>
+    <name value="id"/>
+    <use value="in"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The server parses the provided id to see what type it is (mary a URI, an OID as a URI, a plain OID, or a v2 table 0396 code). If the server can&#39;t tell what type of identifier it is, it can try it as multiple types. It is an error if more than one system matches the provided identifier"/>
+    <type value="string"/>
+  </parameter>
+  <parameter>
+    <name value="type"/>
+    <use value="in"/>
+    <min value="1"/>
+    <max value="1"/>
+    <type value="code"/>
+    <binding>
+      <strength value="required"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.0"/>
+    </binding>
+  </parameter>
+  <parameter>
+    <name value="result"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="OIDs are return as plain OIDs (not the URI form)."/>
+    <type value="string"/>
+  </parameter>
+</OperationDefinition>

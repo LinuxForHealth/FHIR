@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><Consent xmlns="http://hl7.org/fhir">
+  <id value="consent-example-notTime"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">The following scenario is based on existing jurisdictional policy and are realized in existing systems in Canada. 
+	The default policy is one of implied consent for the provision of care, so these scenarios all deal with withdrawal or withholding consent for that purpose. 
+	In other jurisdictions, where an express consent model is used (Opt-In), these would examples would contain the phrase "consent to" rather 
+	than "withhold" or "withdraw" consent for.
+    <p>
+	specific to use-case 6. Withhold or withdraw consent for disclosure of records related published during a timeframe
+	</p><p>
+    Patient "P. van de Heuvel" wishes to withhold disclosure of all data from a timeframe to any provider. 
+   </p>
+   </div>
+  </text>
+  <status value="active"/>
+  <scope>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/consentscope"/>
+      <code value="patient-privacy"/>
+    </coding>
+    </scope>
+      <category>
+    <coding>
+      <system value="http://loinc.org"/>
+      <code value="59284-0"/>
+    </coding>
+  </category>
+  <patient>
+    <reference value="Patient/f001"/>
+    <display value="P. van de Heuvel"/>
+  </patient>
+  <dateTime value="2015-11-18"/>
+  <!--  not bound by a timeframe - Consent.period  -->
+  <!--  I assume the example given is Canada Infoway wide???  AND I assume it is desired to state that in the Consent.authority element  -->
+  <organization>
+    <reference value="Organization/f001"/>
+  </organization>
+  <!--  the text terms of the consent in lawyer speak  -->
+  <sourceAttachment>
+    <title value="The terms of the consent in lawyer speak."/>
+    <!--  likely use url pointer to common text  -->
+  </sourceAttachment>
+  <!--  this is opt-in - e.g. everything approved unless otherwise stated  -->
+  <policyRule>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+      <code value="OPTIN"/>
+    </coding>
+  </policyRule>
+  <provision>
+    <period>
+      <start value="2015-01-01"/>
+      <end value="2015-02-01"/>
+    </period>
+  </provision>
+</Consent>

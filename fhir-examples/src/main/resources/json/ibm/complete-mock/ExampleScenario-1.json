@@ -1,0 +1,164 @@
+{
+    "resourceType": "ExampleScenario",
+    "id": "k8AzKVi1dl",
+    "meta": {
+        "versionId": "SV7RRiYX9i",
+        "lastUpdated": "2019-08-03T00:12:34.024-04:00",
+        "source": "pYH8cSV1Ks",
+        "profile": [
+            "juawpHFoen"
+        ],
+        "security": [
+            {
+                "system": "n2XJvMIwCa",
+                "version": "Gr5OGtJ0Fu",
+                "code": "z71fbUzCRY",
+                "display": "pVJ58atgBG",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "wBy3x4wbVn",
+                "version": "bMHqw6mQby",
+                "code": "CvuBsJsbNi",
+                "display": "aFf6Q77Xqg",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "WFVJsVNkGE",
+    "language": "GItVCl49tB",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "cP2DwBmA7h",
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "Z4f6QZUTiy",
+                        "version": "ARPVB2_DAB",
+                        "code": "IGNKRrSuKY",
+                        "display": "wBFaHwpj_i",
+                        "userSelected": true
+                    }
+                ],
+                "text": "bR9Ma54hMN"
+            },
+            "system": "Hf_VdZlMTj",
+            "value": "LpsH1a86pw",
+            "period": {
+                "start": "2019-08-03T00:12:34.024-04:00",
+                "end": "2019-08-03T00:12:34.025-04:00"
+            }
+        }
+    ],
+    "version": "qlTA2_bLfI",
+    "name": "qP2h8bmz6n",
+    "status": "active",
+    "experimental": true,
+    "date": "2019-08-03T00:12:34.020-04:00",
+    "publisher": "l6_1muddH_",
+    "contact": [
+        {
+            "name": "SNA8KXpDxX",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "jc9U4DRSYT",
+                    "use": "temp",
+                    "rank": 28241769,
+                    "period": {
+                        "start": "2019-08-03T00:12:34.025-04:00",
+                        "end": "2019-08-03T00:12:34.025-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "useContext": [
+        {
+            "code": {
+                "system": "Vjr68VbVcQ",
+                "version": "giTiOka2Hx",
+                "code": "pBGG7LPXOx",
+                "display": "Z9j29ckmei",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "ZGZ2FsBebh",
+                        "version": "AuJGpSaZsH",
+                        "code": "VT_BqWhIdA",
+                        "display": "AHFEiWE1HO",
+                        "userSelected": true
+                    }
+                ],
+                "text": "8tHIkgQMMX"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "sSIS3wiwhv",
+                    "version": "Kds275hxz_",
+                    "code": "MJ2z4vsT28",
+                    "display": "ejzgWpg9c7",
+                    "userSelected": true
+                }
+            ],
+            "text": "h3T0xiZebk"
+        }
+    ],
+    "copyright": "e4jRSWN6jt",
+    "purpose": "_UZxlFKOnh",
+    "actor": [
+        {
+            "actorId": "45gfVSDRU4",
+            "type": "entity",
+            "name": "MqCVFFbR8X",
+            "description": "v9pv9T5Zmx"
+        }
+    ],
+    "instance": [
+        {
+            "resourceId": "TEDfG1Ro47",
+            "resourceType": "OperationOutcome",
+            "name": "LW9tABwNAW",
+            "description": "yQnzJVh70I",
+            "version": [
+                {
+                    "versionId": "q8LPf8yM9Q",
+                    "description": "JTCf1G8cVp"
+                }
+            ],
+            "containedInstance": [
+                {
+                    "resourceId": "h3OMe_DHjd",
+                    "versionId": "JW50ra3L1v"
+                }
+            ]
+        }
+    ],
+    "process": [
+        {
+            "title": "G1UUtSrn6_",
+            "description": "2yV5ZVpkgS",
+            "preConditions": "zTogQCAlqp",
+            "postConditions": "ZSySQi_PeU"
+        }
+    ],
+    "workflow": [
+        "GF8a4D6MAT"
+    ]
+}

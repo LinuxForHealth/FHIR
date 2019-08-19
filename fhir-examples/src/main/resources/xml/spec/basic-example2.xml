@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><Basic xmlns="http://hl7.org/fhir">
+  <id value="classModel"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><b>Class1</b></p>
+      <ul>
+        <li>Attribute1: 1..*</li>
+        <li>Attribute2: 0..1</li>
+      </ul>
+    </div>
+  </text>
+  <extension url="http://example.org/do-not-use/fhir-extensions/UMLclass">
+    <extension url="name">
+      <valueString value="Class1"/>
+    </extension>
+    <extension url="attribute">
+      <extension url="name">
+        <valueString value="attribute1"/>
+      </extension>
+      <extension url="minOccurs">
+        <valueInteger value="1"/>
+      </extension>
+      <extension url="maxOccurs">
+        <valueCode value="*"/>
+      </extension>
+    </extension>
+    <extension url="attribute">
+      <extension url="name">
+        <valueString value="attribute2"/>
+      </extension>
+      <extension url="minOccurs">
+        <valueInteger value="0"/>
+      </extension>
+      <extension url="maxOccurs">
+        <valueInteger value="1"/>
+      </extension>
+    </extension>
+  </extension>
+  <code>
+    <coding>
+      <system value="http://example.org/do-not-use/fhir-codes#resourceTypes"/>
+      <code value="UMLCLASSMODEL"/>
+    </coding>
+  </code>
+</Basic>

@@ -1,0 +1,99 @@
+<SubstanceProtein xmlns="http://hl7.org/fhir">
+  <id value="kqLxuuG7pB"/>
+  <meta>
+    <versionId value="gDDJQGtvtX"/>
+    <lastUpdated value="2019-08-08T09:17:32.307-04:00"/>
+    <source value="AAfA62824l"/>
+    <profile value="mSAlvYw0tU"/>
+    <security>
+      <system value="gZFVrQQQdL"/>
+      <version value="rfdTajsgbM"/>
+      <code value="AUZ9Q7T3tz"/>
+      <display value="ESh8ztShwn"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="5J99MA6gp_"/>
+      <version value="D3udPhdCjd"/>
+      <code value="RmdQv5TgOX"/>
+      <display value="TUWFdNTXbc"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="0pw3eexeJ0"/>
+  <language value="ljrSVVbAho"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <sequenceType>
+    <coding>
+      <system value="SiT5FKYypV"/>
+      <version value="Kw76002e3X"/>
+      <code value="21lVa_TOA6"/>
+      <display value="RZrwJiOb4l"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="k0WTZH9btS"/>
+  </sequenceType>
+  <numberOfSubunits value="1172253446"/>
+  <disulfideLinkage value="drZ8h9qMU6"/>
+  <subunit>
+    <subunit value="664092421"/>
+    <sequence value="42ITudjx8X"/>
+    <length value="510900772"/>
+    <sequenceAttachment>
+      <contentType value="yLsW950jdy"/>
+      <language value="lPTqR9tMMP"/>
+      <data value="HAgjE3A="/>
+      <url value="7cZreqs8s7"/>
+      <size value="494150695"/>
+      <hash value="fh1WXyU="/>
+      <title value="Oy5Rrlk5us"/>
+      <creation value="2019-08-08T09:17:32.310-04:00"/>
+    </sequenceAttachment>
+    <nTerminalModificationId>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="WZkiV6VoPi"/>
+          <version value="trqXRwRaBC"/>
+          <code value="7mhAOKbqnd"/>
+          <display value="PnQCoUG7XB"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="im1f90MpU6"/>
+      </type>
+      <system value="iZz0mQkfnA"/>
+      <value value="DEHhRROyip"/>
+      <period>
+        <start value="2019-08-08T09:17:32.309-04:00"/>
+        <end value="2019-08-08T09:17:32.310-04:00"/>
+      </period>
+    </nTerminalModificationId>
+    <nTerminalModification value="0RfqjYJra2"/>
+    <cTerminalModificationId>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="m4wPDwYHLH"/>
+          <version value="d8t7k_mjih"/>
+          <code value="h5XBnJdq8R"/>
+          <display value="ratR_ic0Fo"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="n2H8Usw8X4"/>
+      </type>
+      <system value="zxZkSWyKkm"/>
+      <value value="w8e0L2cNK3"/>
+      <period>
+        <start value="2019-08-08T09:17:32.310-04:00"/>
+        <end value="2019-08-08T09:17:32.310-04:00"/>
+      </period>
+    </cTerminalModificationId>
+    <cTerminalModification value="_5T7A49VNv"/>
+  </subunit>
+</SubstanceProtein>

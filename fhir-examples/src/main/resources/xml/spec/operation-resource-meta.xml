@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="Resource-meta"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Access a list of profiles, tags, and security labels</h2>
+      <p>OPERATION: Access a list of profiles, tags, and security labels</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/Resource-meta</pre>
+      <div>
+        <p>This operation retrieves a summary of the profiles, tags, and security labels for the given scope; e.g. for each scope:</p>
+
+        <ul>
+
+          <li>system-wide: a list of all profiles, tags and security labels in use by the system</li>
+
+          <li>resource-type level: A list of all profiles, tags, and security labels for the resource type</li>
+
+          <li>individual resource level: A list of all profiles, tags, and security labels for the current version of the resource.  Also, as a special case, this operation (and other meta operations) can be performed on a historical version of a resource)</li>
+
+        </ul>
+
+      </div>
+      <p>URL: [base]/$meta</p>
+      <p>URL: [base]/Resource/$meta</p>
+      <p>URL: [base]/Resource/[id]/$meta</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>return</td>
+          <td>1..1</td>
+          <td>
+            <a href="datatypes.html#Meta">Meta</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The meta returned by the operation</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <p>At the system and type levels, the $meta operation is used to get a summary of all the labels that are in use across the system. The principal use for this operation is to support search e.g. what tags can be searched for. At these levels, the meta will not contain versionId, lastUpdated etc. Systems are not obligated to implement the operation at this level (and should return a 4xx error if they don&#39;t). At the resource and historical entry level, the $meta operation returns the same meta as would be returned by accessing the resource directly. This can be used to allow a system to get access to the meta-information for the resource without accessing the resource itself, e.g. for security reasons</p>
+
+      </div>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="3"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/Resource-meta"/>
+  <version value="4.0.0"/>
+  <name value="Access a list of profiles, tags, and security labels"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="This operation retrieves a summary of the profiles, tags, and security labels for the given scope; e.g. for each scope:  &#xA;&#xA;* system-wide: a list of all profiles, tags and security labels in use by the system &#xA;* resource-type level: A list of all profiles, tags, and security labels for the resource type &#xA;* individual resource level: A list of all profiles, tags, and security labels for the current version of the resource.  Also, as a special case, this operation (and other meta operations) can be performed on a historical version of a resource)"/>
+  <code value="meta"/>
+  <comment value="At the system and type levels, the $meta operation is used to get a summary of all the labels that are in use across the system. The principal use for this operation is to support search e.g. what tags can be searched for. At these levels, the meta will not contain versionId, lastUpdated etc. Systems are not obligated to implement the operation at this level (and should return a 4xx error if they don&#39;t). At the resource and historical entry level, the $meta operation returns the same meta as would be returned by accessing the resource directly. This can be used to allow a system to get access to the meta-information for the resource without accessing the resource itself, e.g. for security reasons"/>
+  <resource value="Resource"/>
+  <system value="true"/>
+  <type value="true"/>
+  <instance value="true"/>
+  <parameter>
+    <name value="return"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The meta returned by the operation"/>
+    <type value="Meta"/>
+  </parameter>
+</OperationDefinition>

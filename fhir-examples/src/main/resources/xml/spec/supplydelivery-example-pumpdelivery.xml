@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><SupplyDelivery xmlns="http://hl7.org/fhir">
+<id value="pumpdelivery"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">[Put rendering here]</div>
+  </text>
+
+  <!--  insert contents here  -->
+	<identifier>
+		<!--  from Element: extension  -->
+		<value value="98398459409"/>
+		<!--  0..1 The value that is unique  -->
+		<assigner>
+			<display value="SupplierDeliveryNr"/>
+		</assigner>
+	</identifier>
+
+	<status value="in-progress"/>
+
+	<patient>
+		<display value="Mr. Belpit"/>
+	</patient>
+
+	<supplier>
+		<display value="ACME distribution"/>
+	</supplier>
+
+  <destination>
+		<display value="Home care dept"/>
+	</destination>
+
+  <receiver>
+		<display value="Nurse Smith"/>
+	</receiver>
+
+
+</SupplyDelivery>

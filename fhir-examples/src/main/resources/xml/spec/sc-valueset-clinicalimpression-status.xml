@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="sc-clinicalimpression-status"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>ClinicalImpressionStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-clinicalimpression-status)</h2>
+      <p>Mapping from 
+        <a href="valueset-clinicalimpression-status.html">http://hl7.org/fhir/ValueSet/clinicalimpression-status</a> to 
+        <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
+      </p>
+      <p>DRAFT. Published on 27/12/2018 10:37:54 PM by HL7 International - Patient Care WG (
+        <a href="http://www.hl7.org/Special/committees/patientcare/">http://www.hl7.org/Special/com...</a>). 
+      </p>
+      <div>
+        <p>Canonical Mapping for &quot;Codes that reflect the current state of a clinical impression within its overall lifecycle.&quot;</p>
+
+      </div>
+      <br/>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Source Code</b>
+          </td>
+          <td>
+            <b>Equivalence</b>
+          </td>
+          <td>
+            <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td>entered-in-error</td>
+          <td>equivalent</td>
+          <td>error</td>
+        </tr>
+        <tr>
+          <td>draft</td>
+          <td>equivalent</td>
+          <td>active</td>
+        </tr>
+        <tr>
+          <td>completed</td>
+          <td>equivalent</td>
+          <td>complete</td>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/ConceptMap/sc-clinicalimpression-status"/>
+  <version value="4.0.0"/>
+  <name value="ClinicalImpressionStatusCanonicalMap"/>
+  <title value="Canonical Mapping for &quot;Clinical Impression Status&quot;"/>
+  <status value="draft"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 International - Patient Care WG"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://www.hl7.org/Special/committees/patientcare/"/>
+    </telecom>
+  </contact>
+  <description value="Canonical Mapping for &quot;Codes that reflect the current state of a clinical impression within its overall lifecycle.&quot;"/>
+  <sourceCanonical value="http://hl7.org/fhir/ValueSet/clinicalimpression-status"/>
+  <targetCanonical value="http://hl7.org/fhir/ValueSet/resource-status"/>
+  <group>
+    <source value="http://hl7.org/fhir/event-status"/>
+    <target value="http://hl7.org/fhir/resource-status"/>
+    <element>
+      <code value="entered-in-error"/>
+      <target>
+        <code value="error"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="draft"/>
+      <target>
+        <code value="active"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="completed"/>
+      <target>
+        <code value="complete"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+  </group>
+</ConceptMap>

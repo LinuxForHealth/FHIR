@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="Resource-graphql"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Execute a graphql statement</h2>
+      <p>OPERATION: Execute a graphql statement</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/Resource-graphql</pre>
+      <div>
+        <p>Execute a graphql statement on a since resource or against the entire system. See the 
+          <a href="graphql.html">Using GraphQL with FHIR</a> page for further details.
+        </p>
+
+        <p>For the purposes of graphQL compatibility, this operation can also be invoked using a POST with the graphQL as the body, or a JSON body (see 
+          <a href="http://graphql.org/">graphQL spec</a> for details)
+        </p>
+
+      </div>
+      <p>URL: [base]/$graphql</p>
+      <p>URL: [base]/Resource/[id]/$graphql</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>query</td>
+          <td>1..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+          </td>
+          <td/>
+          <td/>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>result</td>
+          <td>1..1</td>
+          <td>
+            <a href="binary.html">Binary</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The content is always returned as application/json; this SHOULD be specified in the Accept header</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div/>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="1"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="trial-use"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/Resource-graphql"/>
+  <version value="4.0.0"/>
+  <name value="Execute a graphql statement"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="Execute a graphql statement on a since resource or against the entire system. See the [Using GraphQL with FHIR](graphql.html) page for further details.&#xA;&#xA;For the purposes of graphQL compatibility, this operation can also be invoked using a POST with the graphQL as the body, or a JSON body (see [graphQL spec](http://graphql.org/) for details)"/>
+  <code value="graphql"/>
+  <resource value="Resource"/>
+  <system value="true"/>
+  <type value="false"/>
+  <instance value="true"/>
+  <parameter>
+    <name value="query"/>
+    <use value="in"/>
+    <min value="1"/>
+    <max value="1"/>
+    <type value="string"/>
+  </parameter>
+  <parameter>
+    <name value="result"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The content is always returned as application/json; this SHOULD be specified in the Accept header"/>
+    <type value="Binary"/>
+  </parameter>
+</OperationDefinition>

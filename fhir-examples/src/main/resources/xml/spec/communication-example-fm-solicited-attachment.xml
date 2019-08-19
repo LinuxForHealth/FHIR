@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><Communication xmlns="http://hl7.org/fhir">
+  <id value="fm-solicited"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">Attachment in response to a Request</div>
+  </text>
+   <contained>
+    <Organization>
+      <id value="provider"/>
+      <identifier>
+        <system value="http://www.jurisdiction.com/provideroffices"/>
+        <value value="3456"/>
+      </identifier>
+    </Organization>
+  </contained>
+
+  <contained>
+    <Organization>
+      <id value="payor"/>
+      <identifier>
+        <system value="http://www.jurisdiction.com/insurer"/>
+        <value value="123456"/>
+      </identifier>
+    </Organization>
+  </contained>
+
+  <contained>
+    <CommunicationRequest>
+      <id value="request"/>
+      <identifier>
+        <system value="http://www.jurisdiction.com/insurer/123456"/>
+        <value value="ABC123"/>
+      </identifier>
+	  <status value="completed"/>
+      <subject>
+        <reference value="Patient/1"/>
+      </subject>
+    </CommunicationRequest>
+  </contained>
+
+  <!--  body of the resource  -->
+  
+  <identifier>
+		<system value="http://www.providerco.com/communication"/>
+		<value value="12345"/>
+  </identifier>
+  <basedOn>
+    <reference value="#request"/>
+  </basedOn>
+  <status value="completed"/>
+  <category>
+    <coding>
+      <system value="http://acme.org/messagetypes"/>
+      <code value="SolicitedAttachment"/>
+    </coding>
+  </category>
+  <subject>
+    <reference value="Patient/1"/>
+  </subject>
+  
+  <sent value="2016-06-12T18:01:10-08:00"/>
+  <recipient>
+    <reference value="#payor"/>
+  </recipient>
+  <sender>
+    <reference value="#provider"/>
+  </sender>
+  
+  <payload>
+    <contentAttachment>
+	  <contentType value="application/pdf"/>
+	  <data value="SGVsbG8="/>
+	  <title value="accident notes 20100201.pdf"/>
+	  <creation value="2010-02-01T11:50:23-05:00"/>
+    </contentAttachment>
+  </payload> 
+  <payload>
+    <contentAttachment>
+	  <contentType value="application/pdf"/>
+	  <url value="http://happyvalley.com/docs/AB12345"/>
+	  <size value="104274"/>
+	  <hash value="SGVsbG8gdGhlcmU="/>
+	  <creation value="2010-02-01T10:57:34+01:00"/>
+    </contentAttachment>
+  </payload>
+</Communication>

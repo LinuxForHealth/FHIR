@@ -1,0 +1,139 @@
+<Questionnaire xmlns="http://hl7.org/fhir">
+  <id value="Iq3QMFe4YH"/>
+  <meta>
+    <versionId value="26rlp9jRYj"/>
+    <lastUpdated value="2019-08-08T09:17:30.718-04:00"/>
+    <source value="c48781QrJy"/>
+    <profile value="JP5LAJIpoo"/>
+    <security>
+      <system value="1DF0TFk47c"/>
+      <version value="8JJMoPHAOy"/>
+      <code value="wI2wZICSGL"/>
+      <display value="3zGxHBVU8r"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="XXJkk1MsUB"/>
+      <version value="3uQuq3kfYM"/>
+      <code value="Mwis6E8DjP"/>
+      <display value="Z_4I1N_SEt"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="KxXvjSuIiS"/>
+  <language value="nZYvJVotMz"/>
+  <text>
+    <status value="additional"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="sJytUlkVSP"/>
+  <identifier>
+    <use value="secondary"/>
+    <type>
+      <coding>
+        <system value="rRfGf363Fo"/>
+        <version value="c8p1qxmdFK"/>
+        <code value="ZPXBhZ3bIt"/>
+        <display value="ncxHA6ZKUp"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="RaOFtMSS5C"/>
+    </type>
+    <system value="vbGoXp9g0V"/>
+    <value value="YnfL3NkXgO"/>
+    <period>
+      <start value="2019-08-08T09:17:30.718-04:00"/>
+      <end value="2019-08-08T09:17:30.719-04:00"/>
+    </period>
+  </identifier>
+  <version value="arxnc4pBbp"/>
+  <name value="mpBQpCmvRL"/>
+  <title value="Rb5yPqyRLs"/>
+  <derivedFrom value="IPQm1nHOoj"/>
+  <status value="active"/>
+  <experimental value="true"/>
+  <subjectType value="Medication"/>
+  <date value="2019-08-08T09:17:30.721-04:00"/>
+  <publisher value="naqvNuMpbI"/>
+  <contact>
+    <name value="tGRzaPMvY8"/>
+    <telecom>
+      <system value="other"/>
+      <value value="ef5V8xGlKV"/>
+      <use value="old"/>
+      <rank value="1869386287"/>
+      <period>
+        <start value="2019-08-08T09:17:30.719-04:00"/>
+        <end value="2019-08-08T09:17:30.719-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="o6t7gUVpQ_"/>
+  <useContext>
+    <code>
+      <system value="0uEseUSYjj"/>
+      <version value="BgYl3fpUkH"/>
+      <code value="PzNovIEG8Q"/>
+      <display value="3lxy4WpWZH"/>
+      <userSelected value="true"/>
+    </code>
+    <valueQuantity>
+      <value value="259242478687"/>
+      <comparator value="&lt;="/>
+      <unit value="n6sWJkwgGC"/>
+      <system value="tG7LMILnle"/>
+      <code value="0kZffordTK"/>
+    </valueQuantity>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="QAOWI9dvs7"/>
+      <version value="gTOooSWDNA"/>
+      <code value="s6LjitfEPK"/>
+      <display value="D5YZHiNrdT"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="kzU3E5T2BY"/>
+  </jurisdiction>
+  <purpose value="scED42QNNW"/>
+  <copyright value="wxTggAiZ2q"/>
+  <approvalDate value="2019-08-08"/>
+  <lastReviewDate value="2019-08-08"/>
+  <effectivePeriod>
+    <start value="2019-08-08T09:17:30.720-04:00"/>
+    <end value="2019-08-08T09:17:30.720-04:00"/>
+  </effectivePeriod>
+  <code>
+    <system value="cG63ZEMcLY"/>
+    <version value="SUcFfgdy1f"/>
+    <code value="u271wzxXDW"/>
+    <display value="aoJiAyzk_U"/>
+    <userSelected value="true"/>
+  </code>
+  <item>
+    <linkId value="laDS0jUXYz"/>
+    <definition value="Lv1hJx9ssz"/>
+    <code>
+      <system value="IhjLHBwhSD"/>
+      <version value="aXkIi5n9p5"/>
+      <code value="Sp26PPxWXf"/>
+      <display value="6oRi0fvOpZ"/>
+      <userSelected value="true"/>
+    </code>
+    <prefix value="FHRIOS_tGX"/>
+    <text value="zvYlgIHCC6"/>
+    <type value="reference"/>
+    <enableWhen>
+      <question value="arS6OAA07X"/>
+      <operator value="&lt;="/>
+      <answerDecimal value="241026284557"/>
+    </enableWhen>
+    <enableBehavior value="all"/>
+    <required value="true"/>
+    <repeats value="true"/>
+    <readOnly value="true"/>
+  </item>
+</Questionnaire>

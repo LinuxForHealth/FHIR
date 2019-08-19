@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><Condition xmlns="http://hl7.org/fhir">
+  <id value="f002"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f002</p><p><b>clinicalStatus</b>: Active <span>(Details : {http://terminology.hl7.org/CodeSystem/condition-clinical code 'active' = 'Active)</span></p><p><b>verificationStatus</b>: Confirmed <span>(Details : {http://terminology.hl7.org/CodeSystem/condition-ver-status code 'confirmed' = 'Confirmed)</span></p><p><b>category</b>: diagnosis <span>(Details : {SNOMED CT code '439401001' = 'Diagnosis', given as 'diagnosis'})</span></p><p><b>severity</b>: Severe <span>(Details : {SNOMED CT code '24484000' = 'Severe', given as 'Severe'})</span></p><p><b>code</b>: NSCLC - Non-small cell lung cancer <span>(Details : {SNOMED CT code '254637007' = 'Non-small cell lung cancer', given as 'NSCLC - Non-small cell lung cancer'})</span></p><p><b>bodySite</b>: Thorax <span>(Details : {SNOMED CT code '51185008' = 'Thorax', given as 'Thorax'})</span></p><p><b>subject</b>: <a>P. van de Heuvel</a></p><p><b>encounter</b>: <a>Encounter/f002</a></p><p><b>onset</b>: 05/05/2011</p><p><b>recordedDate</b>: 03/06/2012</p><p><b>asserter</b>: <a>P. van de Heuvel</a></p><h3>Stages</h3><table><tr><td>-</td><td><b>Summary</b></td><td><b>Type</b></td></tr><tr><td>*</td><td>stage II <span>(Details : {SNOMED CT code '258219007' = 'Stage 2', given as 'stage II'})</span></td><td>Clinical staging (qualifier value) <span>(Details : {SNOMED CT code '260998006' = 'cS - Clinical staging', given as 'Clinical staging (qualifier value)'})</span></td></tr></table><h3>Evidences</h3><table><tr><td>-</td><td><b>Code</b></td></tr><tr><td>*</td><td>CT of thorax <span>(Details : {SNOMED CT code '169069000' = 'CT of chest', given as 'CT of thorax'})</span></td></tr></table></div></text><clinicalStatus>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+      <code value="active"/>
+    </coding>
+  </clinicalStatus>
+
+  <verificationStatus>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+      <code value="confirmed"/>
+    </coding>
+  </verificationStatus>
+  <category>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="439401001"/>
+      <display value="diagnosis"/>
+    </coding>
+  </category>
+  <severity>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="24484000"/>
+      <display value="Severe"/>
+    </coding>
+  </severity>
+  <code>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="254637007"/>
+      <display value="NSCLC - Non-small cell lung cancer"/>
+    </coding>
+  </code>
+  <bodySite>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="51185008"/>
+      <display value="Thorax"/>
+    </coding>
+  </bodySite>
+  <subject>
+    <reference value="Patient/f001"/>
+    <display value="P. van de Heuvel"/>
+  </subject>
+  <encounter>
+    <reference value="Encounter/f002"/>
+  </encounter>
+  <onsetDateTime value="2011-05-05"/>
+  <recordedDate value="2012-06-03"/>
+  <asserter>
+    <reference value="Patient/f001"/>
+    <display value="P. van de Heuvel"/>
+  </asserter>
+  <stage>
+    <summary>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="258219007"/>
+        <display value="stage II"/>
+      </coding>
+    </summary>
+	<type>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="260998006"/>
+        <display value="Clinical staging (qualifier value)"/>
+      </coding>
+    </type>
+  </stage>
+  <evidence>
+    <code>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="169069000"/>
+        <display value="CT of thorax"/>
+      </coding>
+    </code>
+  </evidence>
+</Condition>

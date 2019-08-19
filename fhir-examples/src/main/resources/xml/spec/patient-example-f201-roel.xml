@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><Patient xmlns="http://hl7.org/fhir">
+  <id value="f201"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f201</p><p><b>identifier</b>: BSN = 123456789 (OFFICIAL), BSN = 123456789 (OFFICIAL)</p><p><b>active</b>: true</p><p><b>name</b>: Roel(OFFICIAL)</p><p><b>telecom</b>: ph: +31612345678(MOBILE), ph: +31201234567(HOME)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 13/03/1960</p><p><b>deceased</b>: false</p><p><b>address</b>: Bos en Lommerplein 280 Amsterdam 1055RW NLD (HOME)</p><p><b>maritalStatus</b>: Legally married <span>(Details : {SNOMED CT code '36629006' = 'Legal marriage', given as 'Legally married'}; {http://terminology.hl7.org/CodeSystem/v3-MaritalStatus code 'M' = 'Married)</span></p><p><b>multipleBirth</b>: false</p><p><b>photo</b>: </p><h3>Contacts</h3><table><tr><td>-</td><td><b>Relationship</b></td><td><b>Name</b></td><td><b>Telecom</b></td></tr><tr><td>*</td><td>Wife <span>(Details : {SNOMED CT code '127850001' = 'Wife', given as 'Wife'}; {http://terminology.hl7.org/CodeSystem/v2-0131 code 'N' = 'Next-of-Kin; {http://terminology.hl7.org/CodeSystem/v3-RoleCode code 'WIFE' = 'wife)</span></td><td>Ariadne Bor-Jansma</td><td>ph: +31201234567(HOME)</td></tr></table><h3>Communications</h3><table><tr><td>-</td><td><b>Language</b></td><td><b>Preferred</b></td></tr><tr><td>*</td><td>Dutch <span>(Details : {urn:ietf:bcp:47 code 'nl-NL' = 'Dutch (Region=Netherlands)', given as 'Dutch'})</span></td><td>true</td></tr></table><p><b>managingOrganization</b>: <a>AUMC</a></p></div></text><identifier>
+  <!--   The identifier for the person as this patient (fictive)   -->
+    <use value="official"/>
+    <type>
+      <text value="BSN"/>
+    </type>
+    <system value="urn:oid:2.16.840.1.113883.2.4.6.3"/>
+    <value value="123456789"/>
+  </identifier>
+<!--   Demographics   -->
+  <identifier>
+  <!--   The identifier for this individual   -->
+    <use value="official"/>
+    <type>
+      <text value="BSN"/>
+    </type>
+    <system value="urn:oid:2.16.840.1.113883.2.4.6.3"/>
+    <value value="123456789"/>
+  </identifier>
+<!--   Indicates that the patient is not part of a multiple birth    -->
+  <active value="true"/>
+  <name>
+  <!--   The name associated with the individual (fictive)   -->
+    <use value="official"/>
+    <text value="Roel"/>
+    <family value="Bor"/>
+    <given value="Roelof Olaf"/>
+    <prefix value="Drs."/>
+    <suffix value="PDEng."/>
+  </name>
+  <telecom>
+  <!--   The mobile contact detail for the individual   -->
+    <system value="phone"/>
+    <value value="+31612345678"/>
+    <use value="mobile"/>
+  </telecom>
+  <telecom>
+  <!--   The home contact detail for the individual   -->
+    <system value="phone"/>
+    <value value="+31201234567"/>
+    <use value="home"/>
+  </telecom>
+  <gender value="male"/>
+  <birthDate value="1960-03-13"/>
+<!--   The date and time of birth for the individual    -->
+  <deceasedBoolean value="false"/>
+<!--   Indicates that the individual is not deceased   -->
+  <address>
+  <!--   Home address for the individual   -->
+    <use value="home"/>
+    <line value="Bos en Lommerplein 280"/>
+    <city value="Amsterdam"/>
+    <postalCode value="1055RW"/>
+    <country value="NLD"/>
+  <!--   ISO 3166 3 letter code   -->
+  </address>
+  <maritalStatus>
+  <!--   Marital status of the person   -->
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="36629006"/>
+      <display value="Legally married"/>
+    </coding>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"/>
+      <code value="M"/>
+    </coding>
+  </maritalStatus>
+  <multipleBirthBoolean value="false"/>
+  <photo>
+    <contentType value="image/jpeg"/>
+    <url value="Binary/f006"/>
+  </photo>
+  <contact>
+  <!--   Contact of the patient   -->
+    <relationship>
+    <!--   Indicates that the contact is the patient's wife   -->
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="127850001"/>
+        <display value="Wife"/>
+      </coding>
+      <coding>
+        <system value="http://terminology.hl7.org/CodeSystem/v2-0131"/>
+        <code value="N"/>
+      </coding>
+      <coding>
+        <system value="http://terminology.hl7.org/CodeSystem/v3-RoleCode"/>
+        <code value="WIFE"/>
+      </coding>    
+    </relationship>
+    <name>
+    <!--   The name of the contact   -->
+      <use value="usual"/>
+      <text value="Ariadne Bor-Jansma"/>
+    </name>
+    <telecom>
+    <!--   The home contact detail   -->
+      <system value="phone"/>
+      <value value="+31201234567"/>
+      <use value="home"/>
+    </telecom>
+  </contact>
+  <communication>
+    <language>
+      <coding>
+        <system value="urn:ietf:bcp:47"/>
+        <code value="nl-NL"/>
+        <display value="Dutch"/>
+      </coding>
+    </language>
+    <preferred value="true"/>
+  </communication>
+  <managingOrganization>
+    <reference value="Organization/f201"/>
+    <display value="AUMC"/>
+  </managingOrganization>
+</Patient>

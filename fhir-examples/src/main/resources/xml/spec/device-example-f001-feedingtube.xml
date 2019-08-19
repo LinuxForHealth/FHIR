@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><Device xmlns="http://hl7.org/fhir">
+	<id value="f001"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>identifier</b>: 12345</p><p><b>status</b>: active</p></div></text><identifier>
+		<system value="http:/goodhealthhospital/identifier/devices"/>
+		<value value="12345"/>
+	</identifier>
+<!--  
+	<udiCarrier>
+		<system value="urn:oid:2.16.840.1.113883.3.3719"/>
+		  --><!--   FDA UDI root - urn:oid:2.16.840.1.113883.3.3719  Add following udi system URN to fhir identifier registry :  --><!--  
+		<value value="(01)00000123000017(10)ABC123(17)120415"/>
+		  --><!--   this udi is fictitious and will be updated when more information and better examples of UDI's become active    --><!--  
+	</udiCarrier>
+
+  -->	<status value="active"/>
+
+</Device>

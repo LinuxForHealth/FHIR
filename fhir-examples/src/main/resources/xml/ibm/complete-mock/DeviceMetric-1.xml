@@ -1,0 +1,161 @@
+<DeviceMetric xmlns="http://hl7.org/fhir">
+  <id value="OesV6vX85D"/>
+  <meta>
+    <versionId value="BRAHw8T8wT"/>
+    <lastUpdated value="2019-08-08T09:17:27.324-04:00"/>
+    <source value="jmdxNtFX2m"/>
+    <profile value="VlR7pps02P"/>
+    <security>
+      <system value="Rq_NM7XQhk"/>
+      <version value="IawTIhNp_f"/>
+      <code value="ImMu_dGPxr"/>
+      <display value="iuWgsXuWmi"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="Q3spDZteIe"/>
+      <version value="hOVy4dYYvZ"/>
+      <code value="I74e0QZAha"/>
+      <display value="S_0lgREnPS"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="TV9W0kA8Hh"/>
+  <language value="CvtXG6OWmA"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="old"/>
+    <type>
+      <coding>
+        <system value="rc7eo6HkhX"/>
+        <version value="PxrWyPExYE"/>
+        <code value="wwvtmrffGD"/>
+        <display value="raRGKl3BUz"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="6excTsHSP8"/>
+    </type>
+    <system value="xLi_ROni7C"/>
+    <value value="52SFUoa2Ck"/>
+    <period>
+      <start value="2019-08-08T09:17:27.325-04:00"/>
+      <end value="2019-08-08T09:17:27.325-04:00"/>
+    </period>
+  </identifier>
+  <type>
+    <coding>
+      <system value="FXyMRzFZXp"/>
+      <version value="EfLPIDTn22"/>
+      <code value="SqTM2KoAcl"/>
+      <display value="nz6Eow7Jd5"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="jPHcUCFsds"/>
+  </type>
+  <unit>
+    <coding>
+      <system value="GsbC0Bw_Fe"/>
+      <version value="wYvszGeNjS"/>
+      <code value="IFhUyFNrYL"/>
+      <display value="cxnZGQpVSG"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="CIhM7N9Axx"/>
+  </unit>
+  <source>
+    <reference value="VtVWCwa7HZ"/>
+    <type value="50lQsJHmxW"/>
+    <identifier>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="Nc7VFVgJ3M"/>
+          <version value="0RN9F9RK3H"/>
+          <code value="2h8YD0Qp2H"/>
+          <display value="liOEPA9kX8"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="jmn9UdaeFm"/>
+      </type>
+      <system value="cU0t151RJ9"/>
+      <value value="5Lrj5KcI3s"/>
+      <period>
+        <start value="2019-08-08T09:17:27.326-04:00"/>
+        <end value="2019-08-08T09:17:27.326-04:00"/>
+      </period>
+    </identifier>
+    <display value="XHJVgwb09s"/>
+  </source>
+  <parent>
+    <reference value="vfnoVO02go"/>
+    <type value="frjdbHkyNV"/>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="E0E5HMfNI9"/>
+          <version value="1GyEkiYX2F"/>
+          <code value="P__S89Cx5b"/>
+          <display value="BmGWxNMnbB"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="097oEDNMKy"/>
+      </type>
+      <system value="xDCw0_OdT5"/>
+      <value value="q2SrJV2vRj"/>
+      <period>
+        <start value="2019-08-08T09:17:27.323-04:00"/>
+        <end value="2019-08-08T09:17:27.323-04:00"/>
+      </period>
+    </identifier>
+    <display value="lxqtutJ3M7"/>
+  </parent>
+  <operationalStatus value="entered-in-error"/>
+  <color value="black"/>
+  <category value="calculation"/>
+  <measurementPeriod>
+    <event value="2019-08-08T09:17:27.330-04:00"/>
+    <repeat>
+      <boundsDuration>
+        <value value="283473744489"/>
+        <comparator value=">"/>
+        <unit value="0c3vtQeyt2"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="h"/>
+      </boundsDuration>
+      <count value="1549772752"/>
+      <countMax value="1999766981"/>
+      <duration value="121472245547"/>
+      <durationMax value="341054550395"/>
+      <durationUnit value="s"/>
+      <frequency value="892337516"/>
+      <frequencyMax value="533813965"/>
+      <period value="198394995314"/>
+      <periodMax value="141757084506"/>
+      <periodUnit value="min"/>
+      <dayOfWeek value="wed"/>
+      <when value="CD"/>
+    </repeat>
+    <code>
+      <coding>
+        <system value="Vgrbl0Lhlg"/>
+        <version value="HdTp8Ho1xJ"/>
+        <code value="rkKtjH1N9u"/>
+        <display value="4vkDEvM3dt"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="oxQs5lGHgV"/>
+    </code>
+  </measurementPeriod>
+  <calibration>
+    <type value="unspecified"/>
+    <state value="calibration-required"/>
+    <time value="2019-08-08T09:17:27.337-04:00"/>
+  </calibration>
+</DeviceMetric>

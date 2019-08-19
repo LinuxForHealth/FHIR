@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><NutritionOrder xmlns="http://hl7.org/fhir"><!--   id = diabeticsupplement  file name = nutritionorder-example-diabeticsupplement.xml Name= Diabetic Supplement  Description = Nutrition Order Diabetic Supplement Canonical Example
+edited by Eric Haas Health eData Inc
+
+  --><!--   EH: use supplement element   --><id value="diabeticsupplement"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: diabeticsupplement</p><p><b>identifier</b>: 123</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>patient</b>: <a>Peter Chalmers</a></p><p><b>encounter</b>: <a>Inpatient</a></p><p><b>dateTime</b>: 17/09/2014</p><p><b>orderer</b>: <a>Dr Adam Careful</a></p><p><b>allergyIntolerance</b>: <a>Cashew Nuts</a></p><p><b>foodPreferenceModifier</b>: Kosher <span>(Details : {http://terminology.hl7.org/CodeSystem/diet code 'kosher' = 'Kosher)</span></p><p><b>excludeFoodModifier</b>: Cashew Nut <span>(Details : {SNOMED CT code '227493005' = 'Cashew nuts', given as 'Cashew Nut'})</span></p><h3>Supplements</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>ProductName</b></td><td><b>Schedule</b></td><td><b>Quantity</b></td></tr><tr><td>*</td><td>Adult diabetic formula <span>(Details : {SNOMED CT code '443051000124104' = 'Adult diabetic specialty formula (product)', given as 'Adult diabetes specialty formula'}; {http://goodhealthhospital.org/supplement-type-codes code '1010' = '1010', given as 'Adult diabetic formula'})</span></td><td>Glucerna</td><td>Starting 10/02/2015 3:00:00 PM, Do Once per 24 hours</td><td>1 8 oz bottle</td></tr></table></div></text><identifier>
+		<system value="http://goodhealthhospital.org/nutrition-requests"/>
+		<value value="123"/>
+	</identifier>
+	<status value="active"/><intent value="order"/>
+	<patient>
+		<reference value="Patient/example"/>
+		<display value="Peter Chalmers"/>
+	</patient>
+	<encounter>
+		<reference value="Encounter/example"/>
+		<display value="Inpatient"/>
+	</encounter>
+	<dateTime value="2014-09-17"/>
+	<orderer>
+		<reference value="Practitioner/example"/>
+		<display value="Dr Adam Careful"/>
+	</orderer>
+	<allergyIntolerance>
+		<reference value="AllergyIntolerance/example"/>
+		<display value="Cashew Nuts"/>
+	</allergyIntolerance>
+	<foodPreferenceModifier>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/diet"/>
+			<code value="kosher"/>
+		</coding>
+	</foodPreferenceModifier>
+	<excludeFoodModifier>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<version value="20140730"/>
+			<code value="227493005"/>
+			<display value="Cashew Nut"/>
+		</coding>
+	</excludeFoodModifier>
+	<supplement>
+		<type>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="443051000124104"/>
+				<display value="Adult diabetes specialty formula"/>
+			</coding>
+			<coding>
+				<system value="http://goodhealthhospital.org/supplement-type-codes"/>
+				<code value="1010"/>
+				<display value="Adult diabetic formula"/>
+			</coding>
+			<text value="Adult diabetic formula"/>
+		</type>
+		<productName value="Glucerna"/>
+		<!--  EH:Glucerna Shake at 3pm and HS  -->
+		<schedule>
+			<repeat>
+				<boundsPeriod>
+					<start value="2015-02-10T15:00:00Z"/>
+				</boundsPeriod>
+				<frequency value="1"/>
+				<period value="24"/>
+				<periodUnit value="h"/>
+			</repeat>
+		</schedule>
+		<schedule>
+			<repeat>
+				<duration value="1"/>
+				<durationUnit value="h"/>
+				<when value="HS"/>
+			</repeat>
+		</schedule>
+		<quantity>
+			<value value="1"/>
+			<unit value="8 oz bottle"/>
+		</quantity>
+		<!--   EH:  use the .instructions element to list diet  supplement order
+		<instruction value="Glucerna Shake at 3pm and HS"/>
+  -->
+	</supplement></NutritionOrder>

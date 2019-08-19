@@ -1,0 +1,149 @@
+{
+    "resourceType": "MessageDefinition",
+    "id": "plyoenc-N1",
+    "meta": {
+        "versionId": "C7TML6DXCI",
+        "lastUpdated": "2019-08-03T00:12:36.145-04:00",
+        "source": "_S9fbVdOT1",
+        "profile": [
+            "g8z4sOB0lX"
+        ],
+        "security": [
+            {
+                "system": "D7rZnaPEA6",
+                "version": "fWOLm7j0GN",
+                "code": "QA3X4PXeau",
+                "display": "YfQOKv8LWr",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "VG5cpPKQBd",
+                "version": "sMCDhqEGff",
+                "code": "jWHmT7hLDc",
+                "display": "NO0t_ZXiq8",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "c2vpQFoWLD",
+    "language": "6OrDsy10Yj",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "IfrvylQz4x",
+    "identifier": [
+        {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "NTN__cwtV8",
+                        "version": "fAPkJjuXYp",
+                        "code": "nm30WIpLRs",
+                        "display": "C_M0lYQbYS",
+                        "userSelected": true
+                    }
+                ],
+                "text": "peLPB9ZVtr"
+            },
+            "system": "7ClwskhCtc",
+            "value": "8kpg8bQ1Kf",
+            "period": {
+                "start": "2019-08-03T00:12:36.146-04:00",
+                "end": "2019-08-03T00:12:36.146-04:00"
+            }
+        }
+    ],
+    "version": "_cFPJKUz18",
+    "name": "vLfDAvbSM1",
+    "title": "ltlwWER52H",
+    "replaces": [
+        "dGsoUXqC0A"
+    ],
+    "status": "active",
+    "experimental": true,
+    "date": "2019-08-03T00:12:36.144-04:00",
+    "publisher": "uKxTeFLfPq",
+    "contact": [
+        {
+            "name": "U1weAypsph",
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "5A_rq9E0bv",
+                    "use": "old",
+                    "rank": 1737465810,
+                    "period": {
+                        "start": "2019-08-03T00:12:36.146-04:00",
+                        "end": "2019-08-03T00:12:36.146-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "mpcpzhXJQr",
+    "useContext": [
+        {
+            "code": {
+                "system": "YBnaBXB4vD",
+                "version": "OrRw0QT9Xo",
+                "code": "xNtnClBeYA",
+                "display": "6MCzzDSkp8",
+                "userSelected": true
+            },
+            "valueQuantity": {
+                "value": 443759280936,
+                "comparator": "<",
+                "unit": "WNre1Zjyh9",
+                "system": "NY1idPSeNU",
+                "code": "h2x8SB6Goo"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "oebqtdXDEL",
+                    "version": "h8nZIwNdjm",
+                    "code": "Eikw35TYZY",
+                    "display": "srqcGn1eOy",
+                    "userSelected": true
+                }
+            ],
+            "text": "MLEmc4mq4d"
+        }
+    ],
+    "purpose": "8yX_FH2GMN",
+    "copyright": "V3nxD4pAK1",
+    "base": "6KPwwyjNYR",
+    "parent": [
+        "jPatDQekRc"
+    ],
+    "eventUri": "xec_2wM_9N",
+    "category": "consequence",
+    "focus": [
+        {
+            "code": "CarePlan",
+            "profile": "T0uC6zU8b5",
+            "min": 264001016,
+            "max": "*"
+        }
+    ],
+    "responseRequired": "never",
+    "allowedResponse": [
+        {
+            "message": "VEje39L11i",
+            "situation": "uIgLOtD50g"
+        }
+    ],
+    "graph": [
+        "8SUW_8LghQ"
+    ]
+}

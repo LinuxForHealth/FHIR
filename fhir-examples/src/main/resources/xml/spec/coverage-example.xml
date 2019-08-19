@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><Coverage xmlns="http://hl7.org/fhir">
+	<id value="9876B1"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the coverage</div>
+	</text>
+
+	<identifier>
+		<system value="http://benefitsinc.com/certificate"/>
+		<value value="12345"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+			<code value="EHCPOL"/>
+			<display value="extended healthcare"/>
+		</coding>
+	</type>
+
+	<policyHolder>
+		<reference value="http://benefitsinc.com/FHIR/Organization/CBI35"/>
+	</policyHolder>
+
+	<subscriber>
+		<reference value="Patient/4"/>
+	</subscriber>
+
+	<beneficiary>
+		<reference value="Patient/4"/>
+	</beneficiary>
+	<dependent value="0"/> 
+	<relationship>
+		<coding>
+			<code value="self"/>
+		</coding>
+	</relationship>
+
+	<period> 
+		<start value="2011-05-23"/>
+		<end value="2012-05-23"/>
+	</period>
+
+	<payor>
+		<reference value="Organization/2"/>
+	</payor>
+
+	<!--  The repeating 'class' element is proposed to replace the 'grouping' element  -->
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="group"/>
+			</coding>
+		</type>
+		<value value="CB135"/>
+		<name value="Corporate Baker's Inc. Local #35"/>
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="subgroup"/>
+			</coding>
+		</type>
+		<value value="123"/>
+		<name value="Trainee Part-time Benefits"/>
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="plan"/>
+			</coding>
+		</type>
+		<value value="B37FC"/>
+		<name value="Full Coverage: Medical, Dental, Pharmacy, Vision, EHC"/>
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="subplan"/>
+			</coding>
+		</type>
+		<value value="P7"/>
+		<name value="Includes afterlife benefits"/>
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="class"/>
+			</coding>
+		</type>
+		<value value="SILVER"/>
+		<name value="Silver: Family Plan spouse only"/>
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="subclass"/>
+			</coding>
+		</type>
+		<value value="Tier2"/>
+		<name value="Low deductable, max $20 copay"/>
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="sequence"/>
+			</coding>
+		</type>
+		<value value="9"/>
+	</class>
+
+	<!--  the following RX class values may be used when pharmacy claims under this coverage are sent to a pharmacy claim only processor  -->
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="rxid"/>
+			</coding>
+		</type>
+		<value value="MDF12345"/> <!--  member id used when submitting pharmacy claims  -->
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="rxbin"/>
+			</coding>
+		</type>
+		<value value="987654"/> <!--  the pharmacy processor BIN number used when submitting pharmacy claims  -->
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="rxgroup"/>
+			</coding>
+		</type>
+		<value value="M35PT"/> <!--  group used when submitting pharmacy claims  -->
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="rxpcn"/>
+			</coding>
+		</type>
+		<value value="234516"/> <!--  the PCN number used when submitting pharmacy claims  -->
+	</class>
+
+	<class>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/coverage-class"/>
+				<code value="sequence"/>
+			</coding>
+		</type>
+		<value value="9"/> <!--  the sequence number for a short-term continuance of the coverage  -->
+	</class>
+
+</Coverage>

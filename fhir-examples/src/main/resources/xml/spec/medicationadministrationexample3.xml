@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationAdministration xmlns="http://hl7.org/fhir"> 
+  <id value="medadminexample03"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medadminexample03</p><p><b>contained</b>: </p><p><b>status</b>: on-hold</p><p><b>statusReason</b>: Administration of medication not done due to a contraindication (situation) <span>(Details : {SNOMED CT code '373147003' = 'Medication not administered because contraindicated', given as 'Administration of medication not done due to a contraindication (situation)'})</span></p><p><b>medication</b>: id: med0303; Alemtuzumab 10mg/ml (Lemtrada) <span>(Details : {RxNorm code '1594660' = 'alemtuzumab 10 MG/ML [Lemtrada]', given as 'Alemtuzumab 10mg/ml (Lemtrada)'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>context</b>: <a>Encounter/f001</a></p><p><b>supportingInformation</b>: <a>Condition/f204</a></p><p><b>effective</b>: 15/01/2015 2:30:00 PM --&gt; 15/01/2015 2:30:00 PM</p><p><b>request</b>: <a>MedicationRequest/medrx0317</a></p><p><b>note</b>: Patient started Bupropion this morning - will administer in a reduced dose tomorrow</p></div></text><contained>
+    <Medication>
+      <id value="med0303"/>
+      <code>
+        <coding>
+          <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+          <code value="1594660"/>
+          <display value="Alemtuzumab 10mg/ml (Lemtrada)"/>
+        </coding>
+      </code>
+    </Medication>
+  </contained>
+  <status value="on-hold"/>
+  <statusReason>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="373147003"/>
+      <display value="Administration of medication not done due to a contraindication (situation)"/>
+    </coding>
+  </statusReason>
+  <medicationReference>
+    <reference value="#med0303"/> 
+  </medicationReference>
+ <subject>
+   <reference value="Patient/pat1"/>
+   <display value="Donald Duck"/> 
+  </subject>
+<context>
+  <reference value="Encounter/f001"/>
+</context>
+<supportingInformation>
+  <reference value="Condition/f204"/>
+</supportingInformation>
+ <effectivePeriod>
+  <start value="2015-01-15T14:30:00+01:00"/>
+  <end value="2015-01-15T14:30:00+01:00"/>
+</effectivePeriod>
+
+  <request>
+    <reference value="MedicationRequest/medrx0317"/>
+  </request>
+  
+  <note>
+    <text value="Patient started Bupropion this morning - will administer in a reduced dose tomorrow"/>
+  </note>
+</MedicationAdministration>

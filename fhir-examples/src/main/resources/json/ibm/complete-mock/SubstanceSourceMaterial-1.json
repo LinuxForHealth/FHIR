@@ -1,0 +1,333 @@
+{
+    "resourceType": "SubstanceSourceMaterial",
+    "id": "Hhnmnp4HwG",
+    "meta": {
+        "versionId": "YEob5NTUbp",
+        "lastUpdated": "2019-08-03T00:12:38.550-04:00",
+        "source": "vZj8wEG7ek",
+        "profile": [
+            "Y4jZtLfIql"
+        ],
+        "security": [
+            {
+                "system": "X5gdhSknBE",
+                "version": "zIq4pDaB4m",
+                "code": "HBs9QHCXzZ",
+                "display": "vdx8u10RZf",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "dK2jNX3U6b",
+                "version": "s4K8lm3exZ",
+                "code": "IxSZhZC_Cf",
+                "display": "z8R_dWyJE3",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "rNlebIZPb1",
+    "language": "tJhyZAOo38",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "sourceMaterialClass": {
+        "coding": [
+            {
+                "system": "JrLrRrO4A5",
+                "version": "8sOxBVc1sQ",
+                "code": "qfZklnbQHE",
+                "display": "9kGqpaYctf",
+                "userSelected": true
+            }
+        ],
+        "text": "Z9snPKTl4m"
+    },
+    "sourceMaterialType": {
+        "coding": [
+            {
+                "system": "_eqJatIZE4",
+                "version": "5aPnCw0ig8",
+                "code": "YDqlVhBfXF",
+                "display": "fL1WeUkR3A",
+                "userSelected": true
+            }
+        ],
+        "text": "hQyUYnz975"
+    },
+    "sourceMaterialState": {
+        "coding": [
+            {
+                "system": "V2pNqi6qtS",
+                "version": "Crd4l5stub",
+                "code": "WfnCUU2L48",
+                "display": "7a_02jrvIu",
+                "userSelected": true
+            }
+        ],
+        "text": "HDWDvytjo9"
+    },
+    "organismId": {
+        "use": "temp",
+        "type": {
+            "coding": [
+                {
+                    "system": "M2lG_JQv9N",
+                    "version": "Si_MBgQ4SI",
+                    "code": "SCd1XZquKJ",
+                    "display": "JZ3V9DbnhA",
+                    "userSelected": true
+                }
+            ],
+            "text": "j2GuP01Ayp"
+        },
+        "system": "ifFuadLTaF",
+        "value": "V4btR6fos1",
+        "period": {
+            "start": "2019-08-03T00:12:38.551-04:00",
+            "end": "2019-08-03T00:12:38.551-04:00"
+        }
+    },
+    "organismName": "l1pxTC8izW",
+    "parentSubstanceId": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "K66DR0VrE8",
+                        "version": "PstSqtGjnr",
+                        "code": "v4Zq7iGt26",
+                        "display": "rMjFdNrdgo",
+                        "userSelected": true
+                    }
+                ],
+                "text": "FRyMZ9FiYr"
+            },
+            "system": "GJpKxFiLoD",
+            "value": "3eD9pjwV4H",
+            "period": {
+                "start": "2019-08-03T00:12:38.551-04:00",
+                "end": "2019-08-03T00:12:38.552-04:00"
+            }
+        }
+    ],
+    "parentSubstanceName": [
+        "tK78W2d9rc"
+    ],
+    "countryOfOrigin": [
+        {
+            "coding": [
+                {
+                    "system": "LVmcalHANU",
+                    "version": "KFhT1lfLbB",
+                    "code": "r3YOIJfNbW",
+                    "display": "4XXseR03CB",
+                    "userSelected": true
+                }
+            ],
+            "text": "xxP3BbJyKt"
+        }
+    ],
+    "geographicalLocation": [
+        "gO9baNOilz"
+    ],
+    "developmentStage": {
+        "coding": [
+            {
+                "system": "CTe96HZOHz",
+                "version": "UO7Wo1Qq0v",
+                "code": "ty8JQJEnqD",
+                "display": "VWFusZLUNh",
+                "userSelected": true
+            }
+        ],
+        "text": "ITA85XoFBe"
+    },
+    "fractionDescription": [
+        {
+            "fraction": "nZDRAfmheH",
+            "materialType": {
+                "coding": [
+                    {
+                        "system": "rxOgVsjThc",
+                        "version": "FKbzjL1iCl",
+                        "code": "u1n1Qo96F9",
+                        "display": "HshRMB5Nlg",
+                        "userSelected": true
+                    }
+                ],
+                "text": "4guq6Haqjh"
+            }
+        }
+    ],
+    "organism": {
+        "family": {
+            "coding": [
+                {
+                    "system": "Ag1myAauQL",
+                    "version": "iQBlLncryu",
+                    "code": "ylArQsUbfv",
+                    "display": "iKAcSZX1QV",
+                    "userSelected": true
+                }
+            ],
+            "text": "Kvs_pWe2_O"
+        },
+        "genus": {
+            "coding": [
+                {
+                    "system": "Zaxnr9ZVm8",
+                    "version": "62DalfVMwP",
+                    "code": "OzDLTgDO5y",
+                    "display": "IoRgkgjl6q",
+                    "userSelected": true
+                }
+            ],
+            "text": "T6ntuzGmKq"
+        },
+        "species": {
+            "coding": [
+                {
+                    "system": "H8xun5hHt5",
+                    "version": "AUeLS4NDnI",
+                    "code": "a1nIoW2jJ_",
+                    "display": "tiCWQ64zuo",
+                    "userSelected": true
+                }
+            ],
+            "text": "eX2rWkDi03"
+        },
+        "intraspecificType": {
+            "coding": [
+                {
+                    "system": "aaKxXbXllQ",
+                    "version": "Kljz71_sR_",
+                    "code": "OkCNDMV3eJ",
+                    "display": "jQZRuD9puv",
+                    "userSelected": true
+                }
+            ],
+            "text": "WFtWMXVxRD"
+        },
+        "intraspecificDescription": "pdj3idDizA",
+        "author": [
+            {
+                "authorType": {
+                    "coding": [
+                        {
+                            "system": "DvtHfpegW4",
+                            "version": "hblVu7nVvU",
+                            "code": "PMSgD0nR7m",
+                            "display": "TYSfSwRruH",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "jFxWJXaLpK"
+                },
+                "authorDescription": "LDMEZPyaHi"
+            }
+        ],
+        "hybrid": {
+            "maternalOrganismId": "vfypQc3Zw7",
+            "maternalOrganismName": "IBydAoyUWP",
+            "paternalOrganismId": "_w1CCyQMCQ",
+            "paternalOrganismName": "heh6ZA7X9e",
+            "hybridType": {
+                "coding": [
+                    {
+                        "system": "qd044KcMz5",
+                        "version": "iFp_WYhWRd",
+                        "code": "uVKemHWee9",
+                        "display": "PNgV7B1A82",
+                        "userSelected": true
+                    }
+                ],
+                "text": "ImZ2iKuXpm"
+            }
+        },
+        "organismGeneral": {
+            "kingdom": {
+                "coding": [
+                    {
+                        "system": "PBca7du6yn",
+                        "version": "NoEJYchv6G",
+                        "code": "c6xjNODLZ9",
+                        "display": "fczUjXQcED",
+                        "userSelected": true
+                    }
+                ],
+                "text": "a8w8cumvN6"
+            },
+            "phylum": {
+                "coding": [
+                    {
+                        "system": "3c_7tiPfud",
+                        "version": "M_32c9FiZo",
+                        "code": "lNVtTOD0mi",
+                        "display": "Z3vKgMhCFI",
+                        "userSelected": true
+                    }
+                ],
+                "text": "yFk6OLKakz"
+            },
+            "class": {
+                "coding": [
+                    {
+                        "system": "E6V9Pom2Hl",
+                        "version": "Rx7dELKA47",
+                        "code": "uXm2y_MiIT",
+                        "display": "4bPPYMH0Ez",
+                        "userSelected": true
+                    }
+                ],
+                "text": "YIOzUHJzAf"
+            },
+            "order": {
+                "coding": [
+                    {
+                        "system": "QnSIIHgqfD",
+                        "version": "qNRz4UwaZR",
+                        "code": "gkR79uBbMn",
+                        "display": "lnasjlLXzV",
+                        "userSelected": true
+                    }
+                ],
+                "text": "cFKoj2fGnM"
+            }
+        }
+    },
+    "partDescription": [
+        {
+            "part": {
+                "coding": [
+                    {
+                        "system": "1TAomOwt86",
+                        "version": "CXzzYZpgL1",
+                        "code": "Pq2PVGFlJn",
+                        "display": "YCkgcNXbXO",
+                        "userSelected": true
+                    }
+                ],
+                "text": "Hbn8RQDpKq"
+            },
+            "partLocation": {
+                "coding": [
+                    {
+                        "system": "X3c_rXDX53",
+                        "version": "OXa8GlB2dO",
+                        "code": "qrlDsCP4Rd",
+                        "display": "o3zeSs8O5v",
+                        "userSelected": true
+                    }
+                ],
+                "text": "iPywRzPukn"
+            }
+        }
+    ]
+}

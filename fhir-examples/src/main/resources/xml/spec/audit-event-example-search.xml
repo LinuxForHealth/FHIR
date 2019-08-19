@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><AuditEvent xmlns="http://hl7.org/fhir">
+	<id value="example-search"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-search</p><p><b>type</b>: Restful Operation (Details: http://terminology.hl7.org/CodeSystem/audit-event-type code rest = 'RESTful Operation', stated as 'Restful Operation')</p><p><b>subtype</b>: search (Details: http://hl7.org/fhir/restful-interaction code search = 'search', stated as 'search')</p><p><b>action</b>: E</p><p><b>recorded</b>: 22/08/2015 11:42:24 PM</p><p><b>outcome</b>: 0</p><blockquote><p><b>agent</b></p><p><b>type</b>: human user <span>(Details : {http://terminology.hl7.org/CodeSystem/extra-security-role-type code 'humanuser' = 'human user', given as 'human user'})</span></p><p><b>who</b>: </p><p><b>altId</b>: 601847123</p><p><b>name</b>: Grahame Grieve</p><p><b>requestor</b>: true</p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Source Role ID <span>(Details : {DICOM code '110153' = 'Source Role ID', given as 'Source Role ID'})</span></p><p><b>who</b>: </p><p><b>altId</b>: 6580</p><p><b>requestor</b>: false</p><h3>Networks</h3><table><tr><td>-</td><td><b>Address</b></td><td><b>Type</b></td></tr><tr><td>*</td><td>Workstation1.ehr.familyclinic.com</td><td>1</td></tr></table></blockquote><h3>Sources</h3><table><tr><td>-</td><td><b>Site</b></td><td><b>Observer</b></td><td><b>Type</b></td></tr><tr><td>*</td><td>Cloud</td><td>hl7connect.healthintersections.com.au</td><td>Web Server (Details: http://terminology.hl7.org/CodeSystem/security-source-type code 3 = 'Web Server', stated as 'Web Server')</td></tr></table><h3>Entities</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>Role</b></td><td><b>Query</b></td></tr><tr><td>*</td><td>System Object (Details: http://terminology.hl7.org/CodeSystem/audit-entity-type code 2 = 'System Object', stated as 'System Object')</td><td>Query (Details: http://terminology.hl7.org/CodeSystem/object-role code 24 = 'Query', stated as 'Query')</td><td>aHR0cDovL2ZoaXItZGV2LmhlYWx0aGludGVyc2VjdGlvbnMuY29tLmF1L29wZW4vRW5jb3VudGVyP3BhcnRpY2lwYW50PTEz</td></tr></table></div></text><type>
+		<system value="http://terminology.hl7.org/CodeSystem/audit-event-type"/>
+		<code value="rest"/>
+		<display value="Restful Operation"/>
+	</type>
+	<subtype>
+		<system value="http://hl7.org/fhir/restful-interaction"/>
+		<code value="search"/>
+		<display value="search"/>
+	</subtype>
+	<action value="E"/>
+	<recorded value="2015-08-22T23:42:24Z"/>
+	<outcome value="0"/>
+	<agent>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/extra-security-role-type"/>
+				<code value="humanuser"/>
+				<display value="human user"/>
+			</coding>
+		</type> 
+
+		<who>
+			<identifier>
+				<value value="95"/>
+			</identifier>
+		</who>
+		<altId value="601847123"/>
+		<name value="Grahame Grieve"/>
+		<requestor value="true"/>
+	</agent>
+	<agent>
+		<!--   Source active participant, the software making the . AlternativeUserId - Process ID   --> 
+		<type>
+			<coding>
+				<system value="http://dicom.nema.org/resources/ontology/DCM"/>
+				<code value="110153"/>
+				<display value="Source Role ID"/>
+			</coding>
+		</type> 
+		<who>
+			<identifier>
+				<system value="urn:oid:2.16.840.1.113883.4.2"/> 
+				<value value="2.16.840.1.113883.4.2"/> 
+			</identifier>
+		</who>
+		<altId value="6580"/> 
+		<requestor value="false"/> 
+		<network>
+			<address value="Workstation1.ehr.familyclinic.com"/>
+			<type value="1"/>
+		</network> 
+	</agent>
+	<source>
+		<site value="Cloud"/>
+		<observer>
+			<display value="hl7connect.healthintersections.com.au"/>
+		</observer>
+		<type>
+			<system value="http://terminology.hl7.org/CodeSystem/security-source-type"/>
+			<code value="3"/>
+			<display value="Web Server"/>
+		</type>
+	</source>
+	<entity>
+		<!--   HTTP GET encoded in base64Binary   -->
+		<!--   orignal example encoded here is   -->
+		<!--   "http://fhir-dev.healthintersections.com.au/open/Encounter?participant=13"   -->
+		<type>
+			<system value="http://terminology.hl7.org/CodeSystem/audit-entity-type"/>
+			<code value="2"/>
+			<display value="System Object"/>
+		</type>
+		<role>
+			<system value="http://terminology.hl7.org/CodeSystem/object-role"/>
+			<code value="24"/>
+			<display value="Query"/>
+		</role>
+		<query value="aHR0cDovL2ZoaXItZGV2LmhlYWx0aGludGVyc2VjdGlvbnMuY29tLmF1L29wZW4vRW5jb3VudGVyP3BhcnRpY2lwYW50PTEz"/>
+	</entity>
+</AuditEvent>

@@ -1,0 +1,80 @@
+<CompartmentDefinition xmlns="http://hl7.org/fhir">
+  <id value="JvZr9fBmxl"/>
+  <meta>
+    <versionId value="g-7PlmHS5k"/>
+    <lastUpdated value="2019-08-08T09:17:25.811-04:00"/>
+    <source value="5Td84nRDXy"/>
+    <profile value="RQIegYcVkk"/>
+    <security>
+      <system value="rm81mwoNuD"/>
+      <version value="MhGQQJT0Ei"/>
+      <code value="vdUsIsXpY0"/>
+      <display value="ydKypMDIzv"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="zcbhsHnLij"/>
+      <version value="dmrbnvq9M3"/>
+      <code value="c_69Y8f0LG"/>
+      <display value="rm21v1GN9R"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="YevP_Gb8o7"/>
+  <language value="3AX3hpfCNx"/>
+  <text>
+    <status value="extensions"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="om6XOawfeQ"/>
+  <version value="KrT5ECyl52"/>
+  <name value="tEZLla0MkL"/>
+  <status value="retired"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:25.813-04:00"/>
+  <publisher value="8RrdBJKLml"/>
+  <contact>
+    <name value="CrdzOgmQ2n"/>
+    <telecom>
+      <system value="sms"/>
+      <value value="X20cqgYGW4"/>
+      <use value="work"/>
+      <rank value="968251566"/>
+      <period>
+        <start value="2019-08-08T09:17:25.812-04:00"/>
+        <end value="2019-08-08T09:17:25.812-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="cteW1_LLZg"/>
+  <useContext>
+    <code>
+      <system value="oadGT8edMq"/>
+      <version value="jF_q_Dfd02"/>
+      <code value="4xbecSfZ09"/>
+      <display value="s6aVe2Fp0t"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="oGLVZ1hyjK"/>
+        <version value="uZH9AkHrwo"/>
+        <code value="5ETAp3pes3"/>
+        <display value="Mahc7cVMM9"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="RYKc5yDqJh"/>
+    </valueCodeableConcept>
+  </useContext>
+  <purpose value="Tk7M3E3Rsi"/>
+  <code value="RelatedPerson"/>
+  <search value="true"/>
+  <resource>
+    <code value="SupplyRequest"/>
+    <param value="YQ0fBPcHjr"/>
+    <documentation value="3ZSY2DGLxe"/>
+  </resource>
+</CompartmentDefinition>

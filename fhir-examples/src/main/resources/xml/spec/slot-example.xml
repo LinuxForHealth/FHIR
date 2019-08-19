@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><Slot xmlns="http://hl7.org/fhir">
+ <id value="example"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">
+			25 Dec 2013 9:15am - 9:30am: <b>Busy</b> Physiotherapy
+		</div>
+	</text>
+	<serviceCategory>
+		<coding>
+			<code value="17"/>
+			<display value="General Practice"/>
+		</coding>
+	</serviceCategory>
+	<serviceType>
+		<coding>
+			<code value="57"/>
+			<display value="Immunization"/>
+		</coding>
+	</serviceType>
+	<specialty>
+		<coding>
+			<code value="408480009"/>
+			<display value="Clinical immunology"/>
+		</coding>
+	</specialty>
+	<appointmentType>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v2-0276"/>
+			<code value="WALKIN"/>
+			<display value="A previously unscheduled walk-in visit"/>
+		</coding>
+	</appointmentType>
+  <schedule>
+    <reference value="Schedule/example"/>
+  </schedule>
+  <status value="free"/>
+	<start value="2013-12-25T09:15:00Z"/>
+	<end value="2013-12-25T09:30:00Z"/>
+	<comment value="Assessments should be performed before requesting appointments in this slot."/>
+</Slot>

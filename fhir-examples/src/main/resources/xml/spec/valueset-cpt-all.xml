@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><ValueSet xmlns="http://hl7.org/fhir">
+  <id value="cpt-all"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>All CPT codes</h2>
+      <div>
+        <p>A value set that includes all CPT codes</p>
+
+      </div>
+      <p>
+        <b>Copyright Statement:</b> CPT Copyright © 2014 American Medical Association. All rights reserved.
+      </p>
+      <p>This value set includes codes from the following code systems:</p>
+      <ul>
+        <li>Include all codes defined in 
+          <code>http://www.ama-assn.org/go/cpt</code>
+        </li>
+      </ul>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/ValueSet/cpt-all"/>
+  <version value="4.0.0"/>
+  <name value="All CPT codes"/>
+  <status value="active"/>
+  <date value="2015-03-12"/>
+  <publisher value="Health Level Seven International (Vocabulary)"/>
+  <description value="A value set that includes all CPT codes"/>
+  <useContext>
+    <code>
+      <system value="http://example.org/fhir/CodeSystem/use-contexts"/>
+      <code value="species"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="337915000"/>
+        <display value="Homo sapiens (organism)"/>
+      </coding>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="urn:iso:std:iso:3166"/>
+      <code value="US"/>
+    </coding>
+  </jurisdiction>
+  <copyright value="CPT Copyright © 2014 American Medical Association. All rights reserved."/>
+  <compose>
+    <include>
+      <system value="http://www.ama-assn.org/go/cpt"/>
+    </include>
+  </compose>
+</ValueSet>

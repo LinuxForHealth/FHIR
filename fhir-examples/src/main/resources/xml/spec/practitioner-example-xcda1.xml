@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><Practitioner xmlns="http://hl7.org/fhir">
+  <id value="xcda1"/>   
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: xcda1</p><p><b>identifier</b>: D234123 (OFFICIAL)</p><p><b>name</b>: Sherry Dopplemeyer </p><p><b>telecom</b>: john.doe@healthcare.example.org</p></div></text><identifier>
+    <use value="official"/>
+    <system value="http://healthcare.example.org/identifiers/staff"/>
+    <value value="D234123"/>
+  </identifier>
+  <name>
+    <family value="Dopplemeyer"/>
+    <given value="Sherry"/>
+  </name>
+  <telecom>
+    <system value="email"/>
+    <value value="john.doe@healthcare.example.org"/>
+  </telecom>
+</Practitioner>

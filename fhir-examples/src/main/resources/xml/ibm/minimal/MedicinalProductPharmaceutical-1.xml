@@ -1,0 +1,19 @@
+<MedicinalProductPharmaceutical xmlns="http://hl7.org/fhir">
+  <meta>
+    <tag>
+      <code value="ibm/minimal"/>
+    </tag>
+  </meta>
+  <administrableDoseForm>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </administrableDoseForm>
+  <routeOfAdministration>
+    <code>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </code>
+  </routeOfAdministration>
+</MedicinalProductPharmaceutical>

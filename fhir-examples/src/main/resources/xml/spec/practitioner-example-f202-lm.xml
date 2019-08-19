@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><Practitioner xmlns="http://hl7.org/fhir">
+  <id value="f202"/>
+ <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f202</p><p><b>identifier</b>: UZI-nummer = 12345678902 (OFFICIAL), BIG-nummer = 12345678902 (OFFICIAL)</p><p><b>active</b>: true</p><p><b>name</b>: Luigi Maas(OFFICIAL)</p><p><b>telecom</b>: ph: +31715269111(WORK)</p><p><b>address</b>: Walvisbaai 3 C4 - Automatisering Den helder 2333ZA NLD (WORK)</p><p><b>gender</b>: male</p><p><b>birthDate</b>: 12/06/1960</p></div></text><identifier><!--  The identifier for the person as this practitioner (fictive)  -->
+    <use value="official"/>
+        <type><text value="UZI-nummer"/></type>
+        <system value="urn:oid:2.16.528.1.1007.3.1"/>
+    <value value="12345678902"/>
+ </identifier>
+    <identifier><!--  The identifier for this individual  -->
+        <use value="official"/>
+        <type><text value="BIG-nummer"/></type>
+        <system value="https://www.bigregister.nl/"/>
+        <value value="12345678902"/>
+    </identifier>
+	<active value="true"/>
+	<name><!--  The name of the practitioner  -->
+        <use value="official"/>
+        <text value="Luigi Maas"/>
+        <family value="Maas"/>
+        <given value="Luigi"/>
+        <prefix value="Dr."/>
+    </name>
+    <telecom><!--  A contact detail for the individual  -->
+        <system value="phone"/>
+        <value value="+31715269111"/>
+        <use value="work"/>
+    </telecom>
+    <address><!--  Work address for the individual  -->
+        <use value="work"/>
+        <line value="Walvisbaai 3"/>    
+        <line value="C4 - Automatisering"/>
+        <city value="Den helder"/>
+        <postalCode value="2333ZA"/>
+        <country value="NLD"/><!--  ISO 3166 3 letter code  -->
+    </address>   
+    
+    <gender value="male"/><!--  The practitioner's administrative gender  -->
+    <birthDate value="1960-06-12"/>
+<!--      <photo>    
+        <reference value="Media/LM-203.bmp"/>
+        <display value="Picture_Luigi_Maas"/>
+    </photo>  -->
+</Practitioner>

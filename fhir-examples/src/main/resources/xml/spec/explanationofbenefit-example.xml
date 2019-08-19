@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?><ExplanationOfBenefit xmlns="http://hl7.org/fhir">
+	<id value="EB3500"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the ExplanationOfBenefit</div>
+	</text>
+
+	<identifier>
+		<system value="http://www.BenefitsInc.com/fhir/explanationofbenefit"/>
+		<value value="987654321"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/claim-type"/>
+			<code value="oral"/>
+		</coding>
+	</type>
+	
+	<use value="claim"/>
+
+	<patient>
+		<reference value="Patient/pat1"/>
+	</patient>
+
+	<created value="2014-08-16"/>
+
+	<enterer>
+		<reference value="Practitioner/1"/>
+	</enterer>
+
+	<insurer>
+		<reference value="Organization/3"/>
+	</insurer>
+
+	<provider>
+		<reference value="Practitioner/1"/>
+	</provider>
+
+	<payee>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/payeetype"/>
+				<code value="provider"/>
+			</coding>
+		</type>
+		<party>
+			<reference value="Organization/2"/>
+		</party>
+	</payee>
+
+	<facility>
+		<reference value="Location/1"/>
+	</facility>
+
+	<claim>
+		<reference value="Claim/100150"/>
+	</claim>
+
+	<claimResponse>
+		<reference value="ClaimResponse/R3500"/>
+	</claimResponse> 
+
+	<outcome value="complete"/>
+
+	<disposition value="Claim settled as per contract."/>
+
+	<careTeam>
+		<sequence value="1"/>
+		<provider>
+			<reference value="Practitioner/example"/>
+		</provider>
+	</careTeam>
+
+	<insurance>
+		<focal value="true"/>
+		<coverage>
+			<reference value="Coverage/9876B1"/>
+		</coverage>
+	</insurance>
+
+	<item>
+		<sequence value="1"/>
+		<careTeamSequence value="1"/>
+		<productOrService>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/ex-USCLS"/>
+				<code value="1205"/>
+			</coding>
+		</productOrService>
+		<servicedDate value="2014-08-16"/>
+		<unitPrice>
+			<value value="135.57"/>
+			<currency value="USD"/> 
+		</unitPrice> 
+		<net>
+			<value value="135.57"/>
+			<currency value="USD"/> 
+		</net> 
+		<udi>
+			<reference value="Device/example"/>
+		</udi>
+		<encounter>
+			<reference value="Encounter/example"/>
+		</encounter>
+		<adjudication>
+			<category>
+				<coding>
+					<code value="eligible"/>
+				</coding>
+			</category>
+			<amount>
+				<value value="120.00"/>
+				<currency value="USD"/> 
+			</amount> 
+		</adjudication>
+		<adjudication>
+			<category>
+				<coding>
+					<code value="eligpercent"/>
+				</coding>
+			</category>
+			<value value="0.80"/>
+		</adjudication>
+		<adjudication>
+			<category>
+				<coding>
+					<code value="benefit"/>
+				</coding>
+			</category>
+			<amount>
+				<value value="96.00"/>
+				<currency value="USD"/> 
+			</amount> 
+		</adjudication>
+	</item>
+
+	<item>
+		<sequence value="2"/>
+		<careTeamSequence value="1"/>
+		<productOrService>
+			<coding>
+				<code value="group"/>
+			</coding>
+		</productOrService>
+		<servicedDate value="2014-08-16"/>
+		<net>
+			<value value="200.00"/>
+			<currency value="USD"/> 
+		</net> 
+		<adjudication>
+			<category>
+				<coding>
+					<code value="benefit"/>
+				</coding>
+			</category>
+			<amount>
+				<value value="180.00"/>
+				<currency value="USD"/> 
+			</amount> 
+		</adjudication>
+		<detail>
+			<sequence value="1"/>
+			<productOrService>
+				<coding>
+					<code value="group"/>
+				</coding>
+			</productOrService>
+			<net>
+				<value value="200.00"/>
+				<currency value="USD"/> 
+			</net> 
+			<udi>
+				<reference value="Device/example"/>
+			</udi>
+			<adjudication>
+				<category>
+					<coding>
+						<code value="benefit"/>
+					</coding>
+				</category>
+				<amount>
+					<value value="180.00"/>
+					<currency value="USD"/> 
+				</amount> 
+			</adjudication>
+			<subDetail>
+				<sequence value="1"/>
+				<productOrService>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/ex-USCLS"/>
+						<code value="1205"/>
+					</coding>
+				</productOrService>
+				<unitPrice>
+					<value value="200.00"/>
+					<currency value="USD"/> 
+				</unitPrice> 
+				<net>
+					<value value="200.00"/>
+					<currency value="USD"/> 
+				</net> 
+				<udi>
+					<reference value="Device/example"/>
+				</udi>
+				<adjudication>
+					<category>
+						<coding>
+							<code value="eligible"/>
+						</coding>
+					</category>
+					<amount>
+						<value value="200.00"/>
+						<currency value="USD"/> 
+					</amount> 
+				</adjudication>
+				<adjudication>
+					<category>
+						<coding>
+							<code value="eligpercent"/>
+						</coding>
+					</category>
+					<value value="0.90"/>
+				</adjudication>
+				<adjudication>
+					<category>
+						<coding>
+							<code value="benefit"/>
+						</coding>
+					</category>
+					<amount>
+						<value value="180.00"/>
+						<currency value="USD"/> 
+					</amount> 
+				</adjudication>
+			</subDetail>
+		</detail>
+	</item>
+
+	<total>
+		<category>
+			<coding>
+				<code value="submitted"/>
+			</coding>
+		</category>
+		<amount>
+			<value value="135.57"/>
+			<currency value="USD"/> 
+		</amount> 
+	</total>
+	
+	<total>
+		<category>
+			<coding>
+				<code value="benefit"/>
+			</coding>
+		</category>
+		<amount>
+			<value value="96.00"/>
+			<currency value="USD"/> 
+		</amount> 
+	</total>
+
+</ExplanationOfBenefit>

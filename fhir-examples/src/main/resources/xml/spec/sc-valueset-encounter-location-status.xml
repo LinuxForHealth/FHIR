@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="sc-encounter-location-status"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>EncounterLocationStatusCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-encounter-location-status)</h2>
+      <p>Mapping from 
+        <a href="valueset-encounter-location-status.html">http://hl7.org/fhir/ValueSet/encounter-location-status</a> to 
+        <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
+      </p>
+      <p>DRAFT. Published on 27/12/2018 10:37:54 PM by HL7 (FHIR Project) (
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
+        <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
+      </p>
+      <div>
+        <p>Canonical Mapping for &quot;The status of the location.&quot;</p>
+
+      </div>
+      <br/>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Source Code</b>
+          </td>
+          <td>
+            <b>Equivalence</b>
+          </td>
+          <td>
+            <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td>planned</td>
+          <td>equivalent</td>
+          <td>planned</td>
+        </tr>
+        <tr>
+          <td>reserved</td>
+          <td>equivalent</td>
+          <td>accepted</td>
+        </tr>
+        <tr>
+          <td>active</td>
+          <td>equivalent</td>
+          <td>active</td>
+        </tr>
+        <tr>
+          <td>completed</td>
+          <td>equivalent</td>
+          <td>complete</td>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/ConceptMap/sc-encounter-location-status"/>
+  <version value="4.0.0"/>
+  <name value="EncounterLocationStatusCanonicalMap"/>
+  <title value="Canonical Mapping for &quot;EncounterLocationStatus&quot;"/>
+  <status value="draft"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="Canonical Mapping for &quot;The status of the location.&quot;"/>
+  <sourceCanonical value="http://hl7.org/fhir/ValueSet/encounter-location-status"/>
+  <targetCanonical value="http://hl7.org/fhir/ValueSet/resource-status"/>
+  <group>
+    <source value="http://hl7.org/fhir/encounter-location-status"/>
+    <target value="http://hl7.org/fhir/resource-status"/>
+    <element>
+      <code value="planned"/>
+      <target>
+        <code value="planned"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="reserved"/>
+      <target>
+        <code value="accepted"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="active"/>
+      <target>
+        <code value="active"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="completed"/>
+      <target>
+        <code value="complete"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+  </group>
+</ConceptMap>

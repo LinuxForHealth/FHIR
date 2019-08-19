@@ -1,0 +1,184 @@
+<MedicinalProductManufactured xmlns="http://hl7.org/fhir">
+  <id value="ctIrXwXH2-"/>
+  <meta>
+    <versionId value="s3j0CyByED"/>
+    <lastUpdated value="2019-08-08T09:17:29.642-04:00"/>
+    <source value="U5AlkjI2wa"/>
+    <profile value="HCj5SlLZ7I"/>
+    <security>
+      <system value="deTGTlAgm8"/>
+      <version value="eXsaxHBFaC"/>
+      <code value="Gw35euWbzB"/>
+      <display value="LD196mPPGf"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="Kv5ussO8b_"/>
+      <version value="ozzzQBFQDR"/>
+      <code value="8nMR_NKB4_"/>
+      <display value="JiVUP7moPo"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="CH4m5aRicb"/>
+  <language value="u2aOsfbrCQ"/>
+  <text>
+    <status value="extensions"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <manufacturedDoseForm>
+    <coding>
+      <system value="TLGY0raNXa"/>
+      <version value="bdAQRbOzOj"/>
+      <code value="ufHJHZF3XA"/>
+      <display value="HRMJk8QCCq"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="AsOsWmULYQ"/>
+  </manufacturedDoseForm>
+  <unitOfPresentation>
+    <coding>
+      <system value="7TQwsZMCGs"/>
+      <version value="RAWFlmnRMq"/>
+      <code value="JTcYPTCf6w"/>
+      <display value="BFDvkXO0ZD"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="FOQOUuqhJf"/>
+  </unitOfPresentation>
+  <quantity>
+    <value value="413548160575"/>
+    <comparator value=">="/>
+    <unit value="wpO4JGp_GL"/>
+    <system value="7CbibLsvqM"/>
+    <code value="QxiyovYleu"/>
+  </quantity>
+  <manufacturer>
+    <reference value="Fd9_oUTXKw"/>
+    <type value="BHyzqEJ3w6"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="UqcS7zUdiU"/>
+          <version value="yvire5SDQe"/>
+          <code value="FV0o_irNJ7"/>
+          <display value="G2H3YJQL7S"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="1CwGx6sZys"/>
+      </type>
+      <system value="wSsBxjbk1v"/>
+      <value value="ey81zcrk1I"/>
+      <period>
+        <start value="2019-08-08T09:17:29.645-04:00"/>
+        <end value="2019-08-08T09:17:29.645-04:00"/>
+      </period>
+    </identifier>
+    <display value="ZzROKboggY"/>
+  </manufacturer>
+  <ingredient>
+    <reference value="u8yAxUHYsU"/>
+    <type value="OQMeFTjPiX"/>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="2kfV6hvBVh"/>
+          <version value="ahe9t35dMp"/>
+          <code value="j8xmmqY0Vs"/>
+          <display value="C2_AXonqcG"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="APVfzmcN8N"/>
+      </type>
+      <system value="B6FwcnBocN"/>
+      <value value="THwVPokeI4"/>
+      <period>
+        <start value="2019-08-08T09:17:29.645-04:00"/>
+        <end value="2019-08-08T09:17:29.645-04:00"/>
+      </period>
+    </identifier>
+    <display value="S5_laqNr9O"/>
+  </ingredient>
+  <physicalCharacteristics>
+    <height>
+      <value value="125510366982"/>
+      <comparator value=">"/>
+      <unit value="5yCG7A3ind"/>
+      <system value="X6KE6WiOfs"/>
+      <code value="PHk2rshd56"/>
+    </height>
+    <width>
+      <value value="309881340722"/>
+      <comparator value="&lt;"/>
+      <unit value="qLu2iBW1Rz"/>
+      <system value="WkTy1Fh6yQ"/>
+      <code value="tKe_6ETbfY"/>
+    </width>
+    <depth>
+      <value value="19127872550"/>
+      <comparator value="&lt;="/>
+      <unit value="O5DGBP8LzK"/>
+      <system value="PFdSDL7oXg"/>
+      <code value="UBQj20xWEo"/>
+    </depth>
+    <weight>
+      <value value="194600505179"/>
+      <comparator value=">"/>
+      <unit value="fOj8tvUHf6"/>
+      <system value="9TByd0_uSq"/>
+      <code value="Rp6N2m9eLF"/>
+    </weight>
+    <nominalVolume>
+      <value value="302093645338"/>
+      <comparator value="&lt;"/>
+      <unit value="oBIFElVDet"/>
+      <system value="smokfv2Uou"/>
+      <code value="k1tVO1j0KO"/>
+    </nominalVolume>
+    <externalDiameter>
+      <value value="10319563267"/>
+      <comparator value=">"/>
+      <unit value="fgJw0gr_Km"/>
+      <system value="f1jzWjoZAg"/>
+      <code value="RujiZRgRHG"/>
+    </externalDiameter>
+    <shape value="dEQX9Oeh05"/>
+    <color value="hc8qMMC3hD"/>
+    <imprint value="54BE1ZtMuB"/>
+    <image>
+      <contentType value="t6zKcxb9kz"/>
+      <language value="981lPvVpzz"/>
+      <data value="ExRRLgM="/>
+      <url value="pf_AW3UUyp"/>
+      <size value="344525000"/>
+      <hash value="bwMYQWs="/>
+      <title value="kgRXq1IIxx"/>
+      <creation value="2019-08-08T09:17:29.643-04:00"/>
+    </image>
+    <scoring>
+      <coding>
+        <system value="9g4S5hYAEE"/>
+        <version value="XISSg3fn3r"/>
+        <code value="yB8L5YzcrN"/>
+        <display value="nnbw4ImHcS"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="icG4geFoDB"/>
+    </scoring>
+  </physicalCharacteristics>
+  <otherCharacteristics>
+    <coding>
+      <system value="zJXv4xl29a"/>
+      <version value="Di65b8IY8H"/>
+      <code value="TK8uIWSU7g"/>
+      <display value="Xbvwsx5KXh"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="9E6vKsiOqJ"/>
+  </otherCharacteristics>
+</MedicinalProductManufactured>

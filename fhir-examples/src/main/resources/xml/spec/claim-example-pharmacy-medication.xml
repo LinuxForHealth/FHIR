@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><Claim xmlns="http://hl7.org/fhir">
+	<id value="760151"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the Pharmacy Claim</div>
+	</text>
+
+	<identifier>
+		<system value="http://happypharma.com/claim"/>
+		<value value="7612345"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/claim-type"/>
+			<code value="pharmacy"/>
+		</coding>	
+	</type>
+
+	<use value="claim"/>
+
+	<patient>
+		<reference value="Patient/1"/>
+	</patient>
+
+	<created value="2014-08-16"/>
+
+	<insurer>
+		<reference value="Organization/2"/>
+	</insurer>
+
+	<provider>
+		<reference value="Organization/1"/>
+	</provider>
+
+	<priority>
+		<coding>
+			<code value="stat"/>
+		</coding>
+	</priority>
+
+	<prescription>
+		<reference value="http://pharmacy.org/MedicationRequest/AB1234G"/>
+	</prescription>
+
+	<originalPrescription>
+		<reference value="http://pharmacy.org/MedicationRequest/AB1202B"/>
+	</originalPrescription>
+
+	<payee>
+		<type>
+			<coding>
+				<code value="provider"/>
+			</coding>
+		</type>
+	</payee>
+
+	<careTeam>
+		<sequence value="1"/>
+		<provider>
+			<reference value="Practitioner/example"/>
+		</provider>
+	</careTeam>
+
+	<supportingInfo>
+		<sequence value="1"/>
+		<category>
+			<coding>
+				<code value="pharmacyrefill"/>
+			</coding>
+		</category>
+		<code>
+			<coding>
+				<system value="http://example.org/fhir/CodeSystem/pharmacy-refill"/>
+				<code value="new"/>
+			</coding>
+		</code>	
+	</supportingInfo>
+
+	<supportingInfo>
+		<sequence value="2"/>
+		<category>
+			<coding>
+				<code value="pharmacyinformation"/>
+			</coding>
+		</category>
+		<code>
+			<coding>
+				<system value="http://example.org/fhir/CodeSystem/pharmacy-information"/>
+				<code value="refillsremaining"/>
+			</coding>
+		</code>	
+		<valueQuantity>
+			<value value="2"/>
+		</valueQuantity>
+	</supportingInfo>
+
+	<supportingInfo>
+		<sequence value="3"/>
+		<category>
+			<coding>
+				<code value="pharmacyinformation"/>
+			</coding>
+		</category>
+		<code>
+			<coding>
+				<system value="http://example.org/fhir/CodeSystem/pharmacy-information"/>
+				<code value="dayssupply"/>
+			</coding>
+		</code>	
+		<valueQuantity>
+			<value value="90"/>
+		</valueQuantity>
+	</supportingInfo>
+
+	<diagnosis>
+		<sequence value="1"/>
+		<diagnosisCodeableConcept>
+			<coding>
+				<code value="654456"/>
+			</coding>
+		</diagnosisCodeableConcept>
+	</diagnosis>
+
+	<insurance>
+		<sequence value="1"/>
+		<focal value="true"/>
+		<coverage>
+			<reference value="Coverage/9876B1"/>
+		</coverage>
+	</insurance>
+
+	<item>
+		<sequence value="1"/>
+		<careTeamSequence value="1"/>
+		<informationSequence value="1"/>
+		<informationSequence value="2"/>
+		<informationSequence value="3"/>
+		<!--  type=packagemedication  -->
+		<productOrService>
+			<coding>
+				<system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+				<code value="562721"/> 
+				<display value="Alprazolam 0.25mg (Xanax)"/>
+			</coding> 
+		</productOrService>
+		<servicedDate value="2014-08-16"/>
+		<quantity>
+			<value value="90"/>
+			<unit value="TAB"/>
+			<system value="http://unitsofmeasure.org"/> <!--  UCUM  -->
+			<code value="TAB"/>
+		</quantity>
+		<net>
+			<value value="90.00"/>
+			<currency value="USD"/> 
+		</net> 
+		<detail>
+			<sequence value="1"/>
+			<!--  type=costitem  -->
+			<productOrService>
+				<coding>
+					<system value="http://hl7.org/fhir/ex-pharmaservice"/>
+					<code value="drugcost"/> 
+				</coding> 
+			</productOrService>
+			<net>
+				<value value="45.00"/>
+				<currency value="USD"/> 
+			</net> 
+		</detail>
+		<detail>
+			<sequence value="2"/>
+			<!--  type=costitem  -->
+			<productOrService>
+				<coding>
+					<system value="http://hl7.org/fhir/ex-pharmaservice"/>
+					<code value="markup"/> 
+				</coding> 
+			</productOrService>
+			<net>
+				<value value="9.00"/>
+				<currency value="USD"/> 
+			</net> 
+		</detail>
+		<detail>
+			<sequence value="3"/>
+			<!--  type=costitem  -->
+			<productOrService>
+				<coding>
+					<system value="http://hl7.org/fhir/ex-pharmaservice"/>
+					<code value="dispensefee"/> 
+				</coding> 
+			</productOrService>
+			<net>
+				<value value="36.00"/>
+				<currency value="USD"/> 
+			</net> 
+		</detail>
+	</item>
+	<total>
+		<value value="90.00"/>
+		<currency value="USD"/> 
+	</total>
+</Claim>

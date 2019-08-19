@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><Endpoint xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">
+			Health Intersections CarePlan Hub<br/>
+			CarePlans can be uploaded to/from this loccation
+		</div>
+	</text>
+	<identifier>
+		<system value="http://example.org/enpoint-identifier"/>
+		<value value="epcp12"/>
+	</identifier>
+	<status value="active"/>
+	<connectionType>
+		<system value="http://terminology.hl7.org/CodeSystem/endpoint-connection-type"/>
+		<code value="hl7-fhir-rest"/>
+	</connectionType>
+	<name value="Health Intersections CarePlan Hub"/>
+	<managingOrganization>
+		<reference value="Organization/hl7"/>
+	</managingOrganization>
+	<contact>
+		<system value="email"/>
+		<value value="endpointmanager@example.org"/>
+		<use value="work"/>
+    </contact>
+	<period>
+		<start value="2014-09-01"/>
+	</period>
+	<payloadType>
+		<coding>
+        <system value="http://hl7.org/fhir/resource-types"/>
+			<code value="CarePlan"/>
+		</coding>
+	</payloadType>
+	<payloadMimeType value="application/fhir+xml"/>
+
+	<address value="http://fhir3.healthintersections.com.au/open/CarePlan"/>
+	<!--  Not a valid bearer token, but is here for demonstration purposes  -->
+	<header value="bearer-code BASGS534s4"/>
+</Endpoint>

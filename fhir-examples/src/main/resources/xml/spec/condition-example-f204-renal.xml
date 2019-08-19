@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><Condition xmlns="http://hl7.org/fhir">
+  <id value="f204"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f204</p><p><b>clinicalStatus</b>: Inactive <span>(Details : {http://terminology.hl7.org/CodeSystem/condition-clinical code 'inactive' = 'Inactive)</span></p><p><b>verificationStatus</b>: Differential <span>(Details : {http://terminology.hl7.org/CodeSystem/condition-ver-status code 'differential' = 'Differential)</span></p><p><b>category</b>: Problem <span>(Details : {SNOMED CT code '55607006' = 'Problem', given as 'Problem'}; {http://terminology.hl7.org/CodeSystem/condition-category code 'problem-list-item' = 'Problem List Item)</span></p><p><b>severity</b>: Severe <span>(Details : {SNOMED CT code '24484000' = 'Severe', given as 'Severe'})</span></p><p><b>code</b>: Acute renal insufficiency specified as due to procedure <span>(Details : {SNOMED CT code '36225005' = 'Acute renal failure due to procedure', given as 'Acute renal insufficiency specified as due to procedure'})</span></p><p><b>bodySite</b>: Kidney <span>(Details : {SNOMED CT code '181414000' = 'Kidney', given as 'Kidney'})</span></p><p><b>subject</b>: <a>Roel</a></p><p><b>encounter</b>: <a>Roel's encounter on March elevanth</a></p><p><b>onset</b>: 11/03/2013</p><p><b>abatement</b>: 20/03/2013</p><p><b>recordedDate</b>: 11/03/2013</p><p><b>asserter</b>: <a>Practitioner/f201</a></p><h3>Stages</h3><table><tr><td>-</td><td><b>Summary</b></td><td><b>Assessment</b></td></tr><tr><td>*</td><td>Temporary <span>(Details : {SNOMED CT code '14803004' = 'Transitory', given as 'Temporary'})</span></td><td>Genetic analysis master panel</td></tr></table><p><b>note</b>: The patient is anuric.</p></div></text><clinicalStatus>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+      <code value="inactive"/>
+    </coding>
+  </clinicalStatus>
+
+  <verificationStatus>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+      <code value="differential"/>
+    </coding>
+  </verificationStatus>
+  <category>
+    <!--  Renal insufficiency could become a severe problem  -->
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="55607006"/>
+      <display value="Problem"/>
+    </coding>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/condition-category"/>
+      <code value="problem-list-item"/>
+    </coding>
+  </category>
+  <severity>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="24484000"/>
+      <display value="Severe"/>
+    </coding>
+  </severity>
+  <code>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="36225005"/>
+      <display value="Acute renal insufficiency specified as due to procedure"/>
+    </coding>
+  </code>
+  <bodySite>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="181414000"/>
+      <display value="Kidney"/>
+    </coding>
+  </bodySite>
+  <subject>
+    <!--  It entails Roel's problem  -->
+    <reference value="Patient/f201"/>
+    <display value="Roel"/>
+  </subject>
+  <encounter>
+    <reference value="Encounter/f203"/>
+    <display value="Roel's encounter on March elevanth"/>
+  </encounter>
+  <onsetDateTime value="2013-03-11"/>
+  <abatementDateTime value="2013-03-20"/>
+  <recordedDate value="2013-03-11"/>
+  <asserter>
+    <reference value="Practitioner/f201"/>
+  </asserter>
+  <stage>
+    <!--  The problem is temporary and will not become permanent renal insufficiency  -->
+    <summary>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="14803004"/>
+        <display value="Temporary"/>
+      </coding>
+    </summary>
+	<assessment>
+		<display value="Genetic analysis master panel"/>
+	</assessment>
+  </stage>
+   <note>
+    <text value="The patient is anuric."/>
+  </note>
+</Condition>

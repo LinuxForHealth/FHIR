@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><Slot xmlns="http://hl7.org/fhir">
+ <id value="1"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">
+			25 Dec 2013 9:00am - 9:15am: <b>Busy</b> Physiotherapy
+		</div>
+	</text>
+	<identifier>
+    <system value="http://example.org/identifiers/slots"/>
+    <value value="123132"/>
+  </identifier>
+	<serviceCategory>
+		<coding>
+			<code value="17"/>
+			<display value="General Practice"/>
+		</coding>
+	</serviceCategory>
+  <schedule>
+    <reference value="Schedule/example"/>
+  </schedule>
+  <status value="busy"/>
+	<start value="2013-12-25T09:00:00Z"/>
+	<end value="2013-12-25T09:15:00Z"/>
+	<overbooked value="true"/>
+	<comment value="Assessments should be performed before requesting appointments in this slot."/>
+</Slot>

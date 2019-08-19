@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="Resource-convert"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Convert from one form to another</h2>
+      <p>OPERATION: Convert from one form to another</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/Resource-convert</pre>
+      <div>
+        <p>This operation takes a resource in one form, and returns to in another form. Both input and output are a single resource. The primary use of this operation is to convert between formats (e.g. (XML -&gt; JSON or vice versa)</p>
+
+      </div>
+      <p>URL: [base]/$convert</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>input</td>
+          <td>1..1</td>
+          <td>
+            <a href="resource.html">Resource</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The resource that is to be converted</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>output</td>
+          <td>1..1</td>
+          <td>
+            <a href="resource.html">Resource</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The resource after conversion</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <p>While the primary use of this operation is simple - converting a resource from one format to another, there are many potential uses including:</p>
+
+        <ul>
+
+          <li>converting resources from one version to another</li>
+
+          <li>restructuring information in a resource (e.g. moving method into/out of Observation.code)</li>
+
+          <li>extracting data from a questionnaire</li>
+
+          <li>converting CDA documents or v2 messages (as a binary resource) to a bundle (or vice versa) (or even openEHR or openMHealth).</li>
+
+        </ul>
+
+        <p>These variants would all be associated with parameters that define and control these kind of conversions, though such parameters are not defined at this time. In the absence of any parameters, simple format conversion is all that will occur.</p>
+
+        <p>For this reason, implementers should be aware that:</p>
+
+        <ul>
+
+          <li>the output resource type may be different from the input resource (particularly, it might be a bundle)</li>
+
+          <li>binary resources may be represented directly using some other content-type (i.e. just post the content directly)</li>
+
+        </ul>
+
+        <p>Implementers are encouraged to provide feedback to HL7 about their use of this operation</p>
+
+      </div>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="1"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="draft"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/Resource-convert"/>
+  <version value="4.0.0"/>
+  <name value="Convert from one form to another"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="This operation takes a resource in one form, and returns to in another form. Both input and output are a single resource. The primary use of this operation is to convert between formats (e.g. (XML -&gt; JSON or vice versa)"/>
+  <code value="convert"/>
+  <comment value="While the primary use of this operation is simple - converting a resource from one format to another, there are many potential uses including:&#xA;&#xA;* converting resources from one version to another&#xA;* restructuring information in a resource (e.g. moving method into/out of Observation.code)&#xA;* extracting data from a questionnaire&#xA;* converting CDA documents or v2 messages (as a binary resource) to a bundle (or vice versa) (or even openEHR or openMHealth). &#xA;&#xA;These variants would all be associated with parameters that define and control these kind of conversions, though such parameters are not defined at this time. In the absence of any parameters, simple format conversion is all that will occur.&#xA;&#xA;For this reason, implementers should be aware that:&#xA;&#xA;* the output resource type may be different from the input resource (particularly, it might be a bundle)&#xA;* binary resources may be represented directly using some other content-type (i.e. just post the content directly)&#xA;&#xA;Implementers are encouraged to provide feedback to HL7 about their use of this operation"/>
+  <resource value="Resource"/>
+  <system value="true"/>
+  <type value="false"/>
+  <instance value="false"/>
+  <parameter>
+    <name value="input"/>
+    <use value="in"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The resource that is to be converted"/>
+    <type value="Resource"/>
+  </parameter>
+  <parameter>
+    <name value="output"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The resource after conversion"/>
+    <type value="Resource"/>
+  </parameter>
+</OperationDefinition>

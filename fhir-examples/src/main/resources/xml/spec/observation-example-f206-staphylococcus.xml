@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+	<id value="f206"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f206</p><p><b>status</b>: final</p><p><b>code</b>: Blood culture <span>(Details : {http://acmelabs.org code '104177' = '104177', given as 'Blood culture'}; {LOINC code '600-7' = 'Bacteria identified in Blood by Culture', given as 'Bacteria identified in Blood by Culture'})</span></p><p><b>subject</b>: <a>Roel</a></p><p><b>issued</b>: 11/03/2013 10:28:00 AM</p><p><b>performer</b>: <a>Luigi Maas</a></p><p><b>value</b>: Staphylococcus aureus <span>(Details : {SNOMED CT code '3092008' = 'Staphylococcus aureus', given as 'Staphylococcus aureus'})</span></p><p><b>interpretation</b>: Positive <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation code 'POS' = 'Positive)</span></p><p><b>method</b>: Blood culture for bacteria, including anaerobic screen <span>(Details : {SNOMED CT code '104177005' = 'Blood culture for bacteria, including anaerobic screen', given as 'Blood culture for bacteria, including anaerobic screen'})</span></p></div></text><status value="final"/>
+	<code><!--   Kind of observation = Blood culture   --><coding>
+			<system value="http://acmelabs.org"/>
+			<code value="104177"/>
+			<display value="Blood culture"/>
+		</coding>
+		<coding>
+			<system value="http://loinc.org"/>
+			<code value="600-7"/>
+			<display value="Bacteria identified in Blood by Culture"/>
+		</coding>
+	</code><!--   No identifier could be provided to this observation   --><subject>
+		<reference value="Patient/f201"/>
+		<display value="Roel"/>
+	</subject>
+	<issued value="2013-03-11T10:28:00+01:00"/>
+	<performer>
+		<reference value="Practitioner/f202"/>
+		<display value="Luigi Maas"/>
+	</performer>
+	<valueCodeableConcept>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="3092008"/>
+			<display value="Staphylococcus aureus"/>
+		</coding>
+	</valueCodeableConcept>
+	<interpretation>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+			<code value="POS"/>
+		</coding>
+	</interpretation><!--   BodySite not relevant   --><method>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="104177005"/>
+			<display value="Blood culture for bacteria, including anaerobic screen"/>
+		</coding>
+	</method><!--   ReferenceRange and component are not applicable   --></Observation>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><Linkage xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><b>Source:</b> Condition/example - <i>Severe burn of left ear (Date: 24-May 2012)</i></p>
+      <p><b>Alternate:</b> Condition/condition-example - <i>Severe burn of left ear (Date: 24-May 2012)</i></p>
+    </div>
+  </text>
+  <author>
+    <reference value="Practitioner/f201"/>
+  </author>
+  <item>
+    <type value="source"/>
+    <resource>
+      <reference value="Condition/example"/>
+      <display value="Severe burn of left ear (Date: 24-May 2012)"/>
+    </resource>
+  </item>
+  <item>
+    <type value="alternate"/>
+    <resource>
+      <reference value="Condition/condition-example"/>
+      <display value="Severe burn of left ear (Date: 24-May 2012)"/>
+    </resource>
+  </item>  
+</Linkage>

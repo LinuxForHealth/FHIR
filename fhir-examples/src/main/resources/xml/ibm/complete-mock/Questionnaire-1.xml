@@ -1,0 +1,142 @@
+<Questionnaire xmlns="http://hl7.org/fhir">
+  <id value="MOH48hTCZK"/>
+  <meta>
+    <versionId value="kTfPTqiJYu"/>
+    <lastUpdated value="2019-08-08T09:17:30.703-04:00"/>
+    <source value="d2B6CEigZS"/>
+    <profile value="MjRP8JgqTz"/>
+    <security>
+      <system value="9d_a_I8CI5"/>
+      <version value="5fHW4OctMq"/>
+      <code value="YqglAtb7Qe"/>
+      <display value="KBKH1T7EtE"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="jgKV1CE2bf"/>
+      <version value="mTOe5ofhm1"/>
+      <code value="DiOQMNY4EU"/>
+      <display value="8vLFJ1v7Dy"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="iiIVhA4wk_"/>
+  <language value="_KJRGPJn57"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="mGyX_eD8Jz"/>
+  <identifier>
+    <use value="official"/>
+    <type>
+      <coding>
+        <system value="vjh6VCJ1BV"/>
+        <version value="wUe_BPS_L5"/>
+        <code value="o2CjumyVaE"/>
+        <display value="5Wan4u9mdY"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="tBjCFXD_M8"/>
+    </type>
+    <system value="iVOaFhHUi4"/>
+    <value value="epQ1fOP3Gl"/>
+    <period>
+      <start value="2019-08-08T09:17:30.704-04:00"/>
+      <end value="2019-08-08T09:17:30.704-04:00"/>
+    </period>
+  </identifier>
+  <version value="vqFj5zqaIc"/>
+  <name value="csdroS3yxl"/>
+  <title value="hLk0YwCTvM"/>
+  <derivedFrom value="lophODHOFe"/>
+  <status value="retired"/>
+  <experimental value="true"/>
+  <subjectType value="DomainResource"/>
+  <date value="2019-08-08T09:17:30.716-04:00"/>
+  <publisher value="iKUCIRyqca"/>
+  <contact>
+    <name value="GvkSDi6UiK"/>
+    <telecom>
+      <system value="pager"/>
+      <value value="axl6cZuzAZ"/>
+      <use value="mobile"/>
+      <rank value="731683215"/>
+      <period>
+        <start value="2019-08-08T09:17:30.704-04:00"/>
+        <end value="2019-08-08T09:17:30.704-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="VkYxNo0QYg"/>
+  <useContext>
+    <code>
+      <system value="dB4rlx0Dzb"/>
+      <version value="v4i0Twyq4G"/>
+      <code value="DJZiI64UiL"/>
+      <display value="llOTZ1XCLI"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="viDiTDqZVK"/>
+        <version value="8sJewOAGwo"/>
+        <code value="farEkkYya4"/>
+        <display value="FFrO1t_m2u"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="QDXaHToJAp"/>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="63cyLOAz1j"/>
+      <version value="dac8rtJn59"/>
+      <code value="b9BT2SqzJh"/>
+      <display value="XNOmyZv4yL"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="3uJa95FHAo"/>
+  </jurisdiction>
+  <purpose value="igrPiBu4nk"/>
+  <copyright value="ClVgOwgNv_"/>
+  <approvalDate value="2019-08-08"/>
+  <lastReviewDate value="2019-08-08"/>
+  <effectivePeriod>
+    <start value="2019-08-08T09:17:30.705-04:00"/>
+    <end value="2019-08-08T09:17:30.705-04:00"/>
+  </effectivePeriod>
+  <code>
+    <system value="gOpLsDdaev"/>
+    <version value="zRihNczuYx"/>
+    <code value="FoHtWL5BF4"/>
+    <display value="Nx6W_U67x4"/>
+    <userSelected value="true"/>
+  </code>
+  <item>
+    <linkId value="FDjQcOG2t7"/>
+    <definition value="g8xxXydVee"/>
+    <code>
+      <system value="fwSWF_cALn"/>
+      <version value="6TVWcH1z3o"/>
+      <code value="xwofT69ZgD"/>
+      <display value="AigIgwW8EM"/>
+      <userSelected value="true"/>
+    </code>
+    <prefix value="w51QiQER9D"/>
+    <text value="P7vuAPzhVV"/>
+    <type value="integer"/>
+    <enableWhen>
+      <question value="Wlr77IGXfi"/>
+      <operator value=">="/>
+      <answerBoolean value="true"/>
+    </enableWhen>
+    <enableBehavior value="any"/>
+    <required value="true"/>
+    <repeats value="true"/>
+    <readOnly value="true"/>
+  </item>
+</Questionnaire>

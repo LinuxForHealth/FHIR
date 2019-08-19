@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><Composition xmlns="http://hl7.org/fhir">
+	<id value="example-mixed"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-mixed</p><p><b>status</b>: final</p><p><b>type</b>: Neonatal perinatal medicine Discharge summary <span>(Details : {LOINC code '78418-1' = 'Neonatal perinatal medicine Discharge summary', given as 'Neonatal perinatal medicine Discharge summary'})</span></p><p><b>category</b>: Report <span>(Details : {LOINC code 'LP173421-1' = 'Report', given as 'Report'})</span></p><p><b>date</b>: 30/10/2018 4:56:04 PM</p><p><b>author</b>: <a>Harold Hippocrates, MD</a></p><p><b>title</b>: Discharge Summary (Neonatal Service)</p><p><b>confidentiality</b>: N</p><h3>Attesters</h3><table><tr><td>-</td><td><b>Mode</b></td><td><b>Time</b></td><td><b>Party</b></td></tr><tr><td>*</td><td>legal</td><td>04/01/2012 9:10:14 AM</td><td><a>Harold Hippocrates, MD</a></td></tr></table><p><b>custodian</b>: <a>Good Health Clinic</a></p></div></text><status value="final"/>
+	<type>
+		<coding>
+			<system value="http://loinc.org"/>
+			<code value="78418-1"/>
+			<display value="Neonatal perinatal medicine Discharge summary"/>
+		</coding>
+	</type>
+	<category>
+		<coding>
+			<system value="http://loinc.org"/>
+			<code value="LP173421-1"/>
+			<display value="Report"/>
+		</coding>
+	</category>
+	<subject>
+		<reference value="Patient/newborn"/>
+		<display value="Tahlia Smith"/>
+	</subject>
+	<date value="2018-10-30T16:56:04+11:00"/>
+	<author>
+		<reference value="Practitioner/xcda-author"/>
+		<display value="Harold Hippocrates, MD"/>
+	</author>
+	<title value="Discharge Summary (Neonatal Service)"/>
+	<confidentiality value="N"/>
+	<attester>
+		<mode value="legal"/>
+		<time value="2012-01-04T09:10:14Z"/>
+		<party>
+			<reference value="Practitioner/xcda-author"/>
+			<display value="Harold Hippocrates, MD"/>
+		</party>
+	</attester>
+	<custodian>
+		<reference value="Organization/2.16.840.1.113883.19.5"/>
+		<display value="Good Health Clinic"/>
+	</custodian>
+	<section>
+		<title value="Child's Details"/>
+		<code>
+			<coding>
+				<system value="http://acme.org/codes/SectionType"/>
+				<code value="newborn"/>
+				<display value="New Born Details"/>
+			</coding>
+		</code>
+		<text>
+			<status value="generated"/>
+			<div xmlns="http://www.w3.org/1999/xhtml">
+        (snip)
+			</div>
+		</text>
+    <!--   entries for child - CarePlan, observations, conditions, encounter, Prescriptions, etc   -->
+	</section>
+	<section>
+		<title value="Mpther's Details"/>
+		<code>
+			<coding>
+				<system value="http://acme.org/codes/SectionType"/>
+				<code value="mother"/>
+				<display value="Mother's Details"/>
+			</coding>
+		</code>
+		<text>
+			<status value="generated"/>
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				(snip)
+			</div>
+		</text>
+    <!--   entries for mother - Coverage, Observations, Supplies, etc   -->    
+	</section>
+</Composition>

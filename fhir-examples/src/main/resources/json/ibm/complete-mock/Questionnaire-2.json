@@ -1,0 +1,172 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "VLaU-gLlYi",
+    "meta": {
+        "versionId": "STDbriTzI5",
+        "lastUpdated": "2019-08-03T00:12:37.061-04:00",
+        "source": "s1OWp4WCDO",
+        "profile": [
+            "tbmPh1EGz_"
+        ],
+        "security": [
+            {
+                "system": "onLeP_ZiVO",
+                "version": "Efkftuzd6u",
+                "code": "N8v5nXVsrb",
+                "display": "Vm_GoSHBI0",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "y1jPKVjhaQ",
+                "version": "moJkNSRo5P",
+                "code": "89TqbKoxu3",
+                "display": "PVPdoNzmqM",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "lOsJKOFtEl",
+    "language": "3e3ogmykPo",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "8vV5xjjb67",
+    "identifier": [
+        {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "TFc0gKuMff",
+                        "version": "XqB9uJZiTc",
+                        "code": "zS8_kvIULh",
+                        "display": "xo6myfjDUl",
+                        "userSelected": true
+                    }
+                ],
+                "text": "Ls4j2JzXeF"
+            },
+            "system": "PASsK1Pk0U",
+            "value": "90dTx1_7Bc",
+            "period": {
+                "start": "2019-08-03T00:12:37.062-04:00",
+                "end": "2019-08-03T00:12:37.062-04:00"
+            }
+        }
+    ],
+    "version": "uqCoE8OsWv",
+    "name": "OgdbvBqxvA",
+    "title": "ByNecSqTDM",
+    "derivedFrom": [
+        "cZ7BEkgeTa"
+    ],
+    "status": "unknown",
+    "experimental": true,
+    "subjectType": [
+        "MedicationKnowledge"
+    ],
+    "date": "2019-08-03T00:12:37.060-04:00",
+    "publisher": "TLuCzNF6R5",
+    "contact": [
+        {
+            "name": "z1pVms65Vy",
+            "telecom": [
+                {
+                    "system": "fax",
+                    "value": "jKxzPBKt6e",
+                    "use": "mobile",
+                    "rank": 1722517458,
+                    "period": {
+                        "start": "2019-08-03T00:12:37.062-04:00",
+                        "end": "2019-08-03T00:12:37.062-04:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "FpgnYMzfWq",
+    "useContext": [
+        {
+            "code": {
+                "system": "U_66UEgmH3",
+                "version": "_fZT9m503z",
+                "code": "h9Yzx039eb",
+                "display": "SiGicf8hlO",
+                "userSelected": true
+            },
+            "valueQuantity": {
+                "value": 366972916081,
+                "comparator": "<=",
+                "unit": "DNlr3RYpbL",
+                "system": "1rr2apUvP7",
+                "code": "p3u3AABTOc"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "b1mE3D4rbJ",
+                    "version": "n3EyD94XUs",
+                    "code": "UJh_ibfVjZ",
+                    "display": "pThauKoRFo",
+                    "userSelected": true
+                }
+            ],
+            "text": "wBIdSh1uwZ"
+        }
+    ],
+    "purpose": "QaF72mg49e",
+    "copyright": "dFpskrVwYP",
+    "approvalDate": "2019-08-03",
+    "lastReviewDate": "2019-08-03",
+    "effectivePeriod": {
+        "start": "2019-08-03T00:12:37.058-04:00",
+        "end": "2019-08-03T00:12:37.059-04:00"
+    },
+    "code": [
+        {
+            "system": "2S4y3GNKrA",
+            "version": "IqXu1qb7Zw",
+            "code": "GLLvlqBTxr",
+            "display": "bJeu0J_DPT",
+            "userSelected": true
+        }
+    ],
+    "item": [
+        {
+            "linkId": "bDcbA1oru2",
+            "definition": "5X1YxQNIbr",
+            "code": [
+                {
+                    "system": "Q4ztSAtE1a",
+                    "version": "04lBnk1BDz",
+                    "code": "mYwm1RGqdM",
+                    "display": "h2woRxs0E3",
+                    "userSelected": true
+                }
+            ],
+            "prefix": "gf4kAeGOgn",
+            "text": "WS75HdXj46",
+            "type": "choice",
+            "enableWhen": [
+                {
+                    "question": "BbI3Zl3R2Q",
+                    "operator": ">",
+                    "answerDecimal": 525229388591
+                }
+            ],
+            "enableBehavior": "all",
+            "required": true,
+            "repeats": true,
+            "readOnly": true
+        }
+    ]
+}

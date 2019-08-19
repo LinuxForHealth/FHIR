@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationAdministration xmlns="http://hl7.org/fhir"> 
+  <id value="medadmin0313"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medadmin0313</p><p><b>status</b>: completed</p><p><b>medication</b>: Paracetamol 240mg suppository (product) <span>(Details : {SNOMED CT code '322254008' = 'Paracetamol 240mg suppository', given as 'Paracetamol 240mg suppository (product)'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>effective</b>: 15/01/2015 10:03:00 PM --&gt; 16/01/2015 2:03:00 AM</p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Patrick Pump</a></td></tr></table><p><b>reasonCode</b>: Emergency <span>(Details : {http://terminology.hl7.org/CodeSystem/reason-medication-given code 'c' = 'Emergency', given as 'Emergency'})</span></p><p><b>request</b>: <a>MedicationRequest/medrx0324</a></p><h3>Dosages</h3><table><tr><td>-</td><td><b>Text</b></td><td><b>Site</b></td><td><b>Dose</b></td></tr><tr><td>*</td><td>Insert one suppository rectally twice daily as needed for fever to a maximim of 3 per day</td><td>Rectum structure <span>(Details : {SNOMED CT code '34402009' = 'Rectum', given as 'Rectum structure'})</span></td><td>240 mg<span> (Details: UCUM code mg = 'mg')</span></td></tr></table></div></text><status value="completed"/>
+  <medicationCodeableConcept>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="322254008"/>
+      <display value="Paracetamol 240mg suppository (product)"/>
+    </coding>
+  </medicationCodeableConcept>
+ <subject>
+   <reference value="Patient/pat1"/>
+   <display value="Donald Duck"/> 
+  </subject>
+ <effectivePeriod>
+  <start value="2015-01-15T22:03:00+01:00"/>
+   <end value="2015-01-16T02:03:00+01:00"/>
+</effectivePeriod>
+  <performer>
+    <actor>
+      <reference value="Practitioner/f007"/>
+      <display value="Patrick Pump"/>
+    </actor>
+  </performer>
+  <reasonCode>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/reason-medication-given"/>
+      <code value="c"/>
+      <display value="Emergency"/>
+    </coding>
+  </reasonCode>
+  <request>
+    <reference value="MedicationRequest/medrx0324"/>
+  </request>
+  <dosage>
+    <text value="Insert one suppository rectally twice daily as needed for fever to a maximim of 3 per day"/>
+    <site>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="34402009"/>
+        <display value="Rectum structure"/>
+      </coding>
+    </site>
+    <dose>
+      <value value="240"/>
+      <unit value="mg"/>
+      <system value="http://unitsofmeasure.org"/>
+      <code value="mg"/>
+    </dose>
+  </dosage>
+</MedicationAdministration>

@@ -1,0 +1,141 @@
+<CodeSystem xmlns="http://hl7.org/fhir">
+  <id value="uTfZPnG3ti"/>
+  <meta>
+    <versionId value="b8VLCDeSRw"/>
+    <lastUpdated value="2019-08-08T09:17:25.619-04:00"/>
+    <source value="JbnxKox_HK"/>
+    <profile value="_c5FqGs62x"/>
+    <security>
+      <system value="nhD733QjxK"/>
+      <version value="IZG9ixLZzu"/>
+      <code value="70nRt2Ewed"/>
+      <display value="dKPa0HcvMq"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="BW0Ovvm6Kf"/>
+      <version value="Ead3tjsjAN"/>
+      <code value="UdkRGoV15Y"/>
+      <display value="YgcGjyOHla"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="nn0S5rU3Le"/>
+  <language value="Qbu2q6Qp9a"/>
+  <text>
+    <status value="additional"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="JlRcnhl0MA"/>
+  <identifier>
+    <use value="temp"/>
+    <type>
+      <coding>
+        <system value="IAedBJRdQP"/>
+        <version value="tU1kDQpofP"/>
+        <code value="bzfnOUQAdn"/>
+        <display value="jvbLnflFyv"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="QA1IR_OLtB"/>
+    </type>
+    <system value="NAhReLEr48"/>
+    <value value="Y72ORdDnoc"/>
+    <period>
+      <start value="2019-08-08T09:17:25.620-04:00"/>
+      <end value="2019-08-08T09:17:25.620-04:00"/>
+    </period>
+  </identifier>
+  <version value="pWmBfeHQ_Z"/>
+  <name value="Ejs8N9xWHB"/>
+  <title value="YsaVv8_e47"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:25.622-04:00"/>
+  <publisher value="BrhYzIBo9_"/>
+  <contact>
+    <name value="8y9_H3bWae"/>
+    <telecom>
+      <system value="pager"/>
+      <value value="oVTPCWRaQW"/>
+      <use value="mobile"/>
+      <rank value="1702787613"/>
+      <period>
+        <start value="2019-08-08T09:17:25.620-04:00"/>
+        <end value="2019-08-08T09:17:25.620-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="7EW2X5dDkK"/>
+  <useContext>
+    <code>
+      <system value="p06AphZAJY"/>
+      <version value="xhLtlKTIJi"/>
+      <code value="RZEcZSumdw"/>
+      <display value="c5NvvXHHfW"/>
+      <userSelected value="true"/>
+    </code>
+    <valueQuantity>
+      <value value="60985855269"/>
+      <comparator value="&lt;="/>
+      <unit value="HnEIeB_FM7"/>
+      <system value="y3VqyMYlzB"/>
+      <code value="Vn2MFVXXor"/>
+    </valueQuantity>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="gra6FsZvPq"/>
+      <version value="KvMT2JjdUr"/>
+      <code value="YW7hLRgVBJ"/>
+      <display value="J4Ox7U82c_"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="ciUMuL4jXT"/>
+  </jurisdiction>
+  <purpose value="60CJqpdzyX"/>
+  <copyright value="YGMayS1xtV"/>
+  <caseSensitive value="true"/>
+  <valueSet value="A8f2AZETP0"/>
+  <hierarchyMeaning value="classified-with"/>
+  <compositional value="true"/>
+  <versionNeeded value="true"/>
+  <content value="complete"/>
+  <supplements value="R7VPg8Fqy7"/>
+  <count value="686847327"/>
+  <filter>
+    <code value="5uktT3HQuj"/>
+    <description value="C2VRWwcyjb"/>
+    <operator value="generalizes"/>
+    <value value="khyKsFsLGJ"/>
+  </filter>
+  <property>
+    <code value="YHwQRWd1Gh"/>
+    <uri value="1NTwH5zrCU"/>
+    <description value="To6YxcBSIx"/>
+    <type value="Coding"/>
+  </property>
+  <concept>
+    <code value="mDl7UPI62S"/>
+    <display value="WG8hPDVJ8c"/>
+    <definition value="Lr7fXIPAXU"/>
+    <designation>
+      <language value="cDu6vjuSl7"/>
+      <use>
+        <system value="RS7hEA3_8T"/>
+        <version value="cB56nvAIZS"/>
+        <code value="ghrPhVNBIQ"/>
+        <display value="DEoAIcr7ro"/>
+        <userSelected value="true"/>
+      </use>
+      <value value="5CRJtoWvXR"/>
+    </designation>
+    <property>
+      <code value="UYcFkoepoZ"/>
+      <valueCode value="z_MQvN6ttN"/>
+    </property>
+  </concept>
+</CodeSystem>

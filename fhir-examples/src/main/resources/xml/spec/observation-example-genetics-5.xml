@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+	<id value="example-genetics-5"/>
+
+
+	<!--   replaced the .related type sequel to with an extension   -->
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-genetics-5</p><p><b>status</b>: final</p><p><b>code</b>: PCR validation <span>(Details )</span></p><p><b>subject</b>: <a>Molecular Lab Patient ID: HOSP-23456</a></p><p><b>issued</b>: 03/04/2013 3:30:10 PM</p><p><b>performer</b>: <a>Sequence Analysis Laboratory</a></p><p><b>value</b>: Negative <span>(Details : {SNOMED CT code '260385009' = 'Negative', given as 'Negative'})</span></p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/observation-sequelTo">
+		<valueReference>
+			<reference value="Observation/example-genetics-1"/>
+			<display value="ObservationForGenetics profile example 1"/>
+		</valueReference>
+	</extension>
+	<!--  
+	<related>
+		<type value="sequel-to"/>
+		<target>
+			<reference value="Observation/example-genetics-1"/>
+			<display value="ObservationForGenetics profile example 1"/>
+		</target>
+	</related>
+  -->
+	<status value="final"/>
+	<code>
+		<text value="PCR validation"/>
+	</code>
+	<subject>
+		<reference value="Patient/example"/>
+		<display value="Molecular Lab Patient ID: HOSP-23456"/>
+	</subject>
+	<issued value="2013-04-03T15:30:10+01:00"/>
+	<performer>
+		<reference value="Practitioner/example"/>
+		<display value="Sequence Analysis Laboratory"/>
+	</performer>
+	<valueCodeableConcept>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="260385009"/>
+			<display value="Negative"/>
+		</coding>
+	</valueCodeableConcept>
+</Observation>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><Endpoint xmlns="http://hl7.org/fhir">
+	<id value="direct-endpoint"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: direct-endpoint</p><p><b>status</b>: active</p><p><b>connectionType</b>: direct-project (Details: [not stated] code direct-project = 'direct-project', stated as 'null')</p><p><b>name</b>: MARTIN SMIETANKA</p><p><b>managingOrganization</b>: <a>Organization/299</a></p><p><b>payloadType</b>: urn:hl7-org:sdwg:ccda-structuredBody:1.1 <span>(Details : {urn:oid:1.3.6.1.4.1.19376.1.2.3 code 'urn:hl7-org:sdwg:ccda-structuredBody:1.1' = 'urn:hl7-org:sdwg:ccda-structuredBody:1.1)</span></p><p><b>address</b>: <a>MARTIN.SMIETANKA@directnppes.com</a></p></div></text><status value="active"/>
+	<connectionType>
+		<code value="direct-project"/>
+	</connectionType>
+	<name value="MARTIN SMIETANKA"/>
+	<managingOrganization>
+		<reference value="Organization/299"/>
+	</managingOrganization>
+	<payloadType>
+		<coding>
+			<system value="urn:oid:1.3.6.1.4.1.19376.1.2.3"/>
+			<code value="urn:hl7-org:sdwg:ccda-structuredBody:1.1"/>
+		</coding>
+	</payloadType>
+	<address value="mailto:MARTIN.SMIETANKA@directnppes.com"/>	
+</Endpoint>

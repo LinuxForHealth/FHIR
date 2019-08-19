@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><Slot xmlns="http://hl7.org/fhir">
+ <id value="3"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">
+			25 Dec 2013 9:30am - 9:45am: <b>Unavailable</b> Physiotherapy<br/>
+			Dr Careful is out of the office
+		</div>
+	</text>
+	<serviceCategory>
+		<coding>
+			<code value="17"/>
+			<display value="General Practice"/>
+		</coding>
+	</serviceCategory>
+	<schedule>
+		<reference value="Schedule/example"/>
+	</schedule>
+	<status value="busy-unavailable"/>
+	<start value="2013-12-25T09:30:00Z"/>
+	<end value="2013-12-25T09:45:00Z"/>
+	<comment value="Dr Careful is out of the office"/>
+</Slot>

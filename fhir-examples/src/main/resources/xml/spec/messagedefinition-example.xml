@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageDefinition xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">Message definition base example</div>
+	</text>
+	<url value="http://hl7.org/fhir/MessageDefinition/example"/>
+	<name value="EXAMPLE"/>
+	<title value="Message definition base example"/>
+	<status value="draft"/>
+	<experimental value="true"/>
+	<date value="2016-11-09"/>
+	<publisher value="Health Level Seven, Int'l"/>
+	<contact>
+		<telecom>
+			<system value="url"/>
+			<value value="http://hl7.org"/>
+		</telecom>
+	</contact>
+	<purpose value="Defines a base example for other MessageDefinition instances."/>
+  <eventCoding>
+    <system value="http://example.org/fhir/message-events"/>
+    <code value="admin-notify"/>
+  </eventCoding>
+	<category value="notification"/>
+
+</MessageDefinition>

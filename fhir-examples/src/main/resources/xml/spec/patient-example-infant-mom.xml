@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><Patient xmlns="http://hl7.org/fhir">
+	<!--   mother of infant twins and fetal patient   -->
+	<id value="infant-mom"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: infant-mom</p><p><b>name</b>: Leia Solo (OFFICIAL), Leia Organa (MAIDEN)</p><p><b>gender</b>: female</p><p><b>birthDate</b>: 12/10/1995</p><p><b>maritalStatus</b>: Married <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-MaritalStatus code 'M' = 'Married', given as 'Married'})</span></p><p><b>generalPractitioner</b>: <a>Too-Onebee</a></p></div></text><name>
+		<use value="official"/>
+		<family value="Solo"/>
+		<given value="Leia"/>
+	</name>
+	<name>
+		<use value="maiden"/>
+		<family value="Organa"/>
+		<given value="Leia"/>
+	</name>
+	<gender value="female"/>
+	<birthDate value="1995-10-12"/>
+	<maritalStatus>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"/>
+			<code value="M"/>
+			<display value="Married"/>
+		</coding>
+	</maritalStatus>
+	<generalPractitioner>
+		<reference value="Practitioner/21B"/>
+		<display value="Too-Onebee"/>
+	</generalPractitioner>
+</Patient>

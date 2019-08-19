@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><MolecularSequence xmlns="http://hl7.org/fhir">
+    <id value="example-pgx-1"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example-pgx-1</p><p><b>type</b>: dna</p><p><b>coordinateSystem</b>: 0</p><p><b>patient</b>: <a>Patient/example</a></p><h3>ReferenceSeqs</h3><table><tr><td>-</td><td><b>Orientation</b></td><td><b>ReferenceSeqId</b></td><td><b>Strand</b></td><td><b>WindowStart</b></td><td><b>WindowEnd</b></td></tr><tr><td>*</td><td>sense</td><td>NG_007726.3 <span>(Details : {http://www.ncbi.nlm.nih.gov/nuccore code 'NG_007726.3' = 'NG_007726.3)</span></td><td>watson</td><td>55227970</td><td>55227980</td></tr></table><h3>Variants</h3><table><tr><td>-</td><td><b>Start</b></td><td><b>End</b></td><td><b>ObservedAllele</b></td><td><b>ReferenceAllele</b></td><td><b>VariantPointer</b></td></tr><tr><td>*</td><td>55227976</td><td>55227977</td><td>G</td><td>T</td><td><a>Target Haplotype Observation</a></td></tr></table></div></text><type value="dna"/>
+    <coordinateSystem value="0"/>
+    <patient>
+        <reference value="Patient/example"/>
+    </patient>
+    <referenceSeq>
+        <orientation value="sense"/>
+        <referenceSeqId>
+          <coding>
+            <system value="http://www.ncbi.nlm.nih.gov/nuccore"/>
+            <code value="NG_007726.3"/>
+          </coding>
+        </referenceSeqId>
+        <strand value="watson"/>
+        <windowStart value="55227970"/>
+        <windowEnd value="55227980"/>
+    </referenceSeq>
+    <variant>
+        <start value="55227976"/>
+        <end value="55227977"/>
+        <observedAllele value="G"/>
+        <referenceAllele value="T"/>
+        <variantPointer>
+          <reference value="Observation/example-haplotype1"/>
+          <display value="Target Haplotype Observation"/>
+        </variantPointer>
+    </variant>
+</MolecularSequence>

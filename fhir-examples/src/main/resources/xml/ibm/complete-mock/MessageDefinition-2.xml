@@ -1,0 +1,118 @@
+<MessageDefinition xmlns="http://hl7.org/fhir">
+  <id value="h-PYDK6iFl"/>
+  <meta>
+    <versionId value="D7MC9Td9PZ"/>
+    <lastUpdated value="2019-08-08T09:17:29.717-04:00"/>
+    <source value="y06qyRkKYm"/>
+    <profile value="ox8O2oeFkr"/>
+    <security>
+      <system value="qHSg9CpvAp"/>
+      <version value="Rm80smrfAy"/>
+      <code value="vCmgStyErK"/>
+      <display value="xlq0h5Knf5"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="QPJmgOzh10"/>
+      <version value="xMpZ5nfxve"/>
+      <code value="2JSUOjIToF"/>
+      <display value="V9iqRI21Te"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="Kaz73MDT3L"/>
+  <language value="KrukkDCHYg"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="2Pl8hN7mCy"/>
+  <identifier>
+    <use value="secondary"/>
+    <type>
+      <coding>
+        <system value="GET2WRVZfg"/>
+        <version value="x2T7lE9_Fj"/>
+        <code value="3H4AMc4rxj"/>
+        <display value="Eglrz3Cc2Q"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="Pmz5Y91tL9"/>
+    </type>
+    <system value="H3WJWxj9mH"/>
+    <value value="FTFISZ2HGX"/>
+    <period>
+      <start value="2019-08-08T09:17:29.717-04:00"/>
+      <end value="2019-08-08T09:17:29.717-04:00"/>
+    </period>
+  </identifier>
+  <version value="5c6H6XOJLJ"/>
+  <name value="aaSADABaTu"/>
+  <title value="G0sNfhtqoI"/>
+  <replaces value="Rxb86sZAsh"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:29.719-04:00"/>
+  <publisher value="ynnOs7obxn"/>
+  <contact>
+    <name value="BsnMlABToY"/>
+    <telecom>
+      <system value="url"/>
+      <value value="sXQ5LVY57m"/>
+      <use value="home"/>
+      <rank value="1731972297"/>
+      <period>
+        <start value="2019-08-08T09:17:29.717-04:00"/>
+        <end value="2019-08-08T09:17:29.717-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="yANe8RXRcB"/>
+  <useContext>
+    <code>
+      <system value="rYkfdALu5R"/>
+      <version value="Q9eTnoXdJ9"/>
+      <code value="pUWud1Zd3j"/>
+      <display value="3F3En4o_Ge"/>
+      <userSelected value="true"/>
+    </code>
+    <valueQuantity>
+      <value value="323582368341"/>
+      <comparator value=">="/>
+      <unit value="MSPqa6YFbQ"/>
+      <system value="8Yv6OMvsU6"/>
+      <code value="2wXFvXKC05"/>
+    </valueQuantity>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="Yr1uWyR9za"/>
+      <version value="w8H8GVS5KL"/>
+      <code value="IKp8ec_bzI"/>
+      <display value="3NuvRI0LQf"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="SqlZ1_pHgf"/>
+  </jurisdiction>
+  <purpose value="6yVwt3kOMY"/>
+  <copyright value="6uWDP0yh5G"/>
+  <base value="0dpzlRVYwa"/>
+  <parent value="QHnomjuvWE"/>
+  <eventUri value="A5erkuhEkQ"/>
+  <category value="consequence"/>
+  <focus>
+    <code value="AllergyIntolerance"/>
+    <profile value="OMrqzvOjJj"/>
+    <min value="1365992021"/>
+    <max value="*"/>
+  </focus>
+  <responseRequired value="never"/>
+  <allowedResponse>
+    <message value="Lvj94X8K_5"/>
+    <situation value="VD6lrft9DU"/>
+  </allowedResponse>
+  <graph value="HcSzOW7Ijg"/>
+</MessageDefinition>

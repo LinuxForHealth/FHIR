@@ -1,0 +1,138 @@
+{
+    "resourceType": "Schedule",
+    "id": "ffWoHBz2pI",
+    "meta": {
+        "versionId": "HSGoGoLSMx",
+        "lastUpdated": "2019-08-03T00:12:37.579-04:00",
+        "source": "X1T0uHWGdJ",
+        "profile": [
+            "W3STQbCO0o"
+        ],
+        "security": [
+            {
+                "system": "y6m9ovfDLI",
+                "version": "VJfG7LcSCk",
+                "code": "GChsNJbTov",
+                "display": "AY38wvDkxN",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "KnuvCXgzIS",
+                "version": "vyuFRX2N10",
+                "code": "sz5QLdUd1G",
+                "display": "his26viw_q",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "ffSTgXDmqV",
+    "language": "tw1PDoi4zt",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "n8MMXtskk9",
+                        "version": "JL8Yy6H834",
+                        "code": "LNKn5Rmysm",
+                        "display": "831IxBeXK9",
+                        "userSelected": true
+                    }
+                ],
+                "text": "420X07vVVw"
+            },
+            "system": "IA6F8LRqee",
+            "value": "4jnRSOXp24",
+            "period": {
+                "start": "2019-08-03T00:12:37.580-04:00",
+                "end": "2019-08-03T00:12:37.580-04:00"
+            }
+        }
+    ],
+    "active": true,
+    "serviceCategory": [
+        {
+            "coding": [
+                {
+                    "system": "TEU3LuBS25",
+                    "version": "l_vFa1N80f",
+                    "code": "C6DpMJicJ_",
+                    "display": "qfvc1z_WB8",
+                    "userSelected": true
+                }
+            ],
+            "text": "oAUtKMoHXc"
+        }
+    ],
+    "serviceType": [
+        {
+            "coding": [
+                {
+                    "system": "90b_uIZiPX",
+                    "version": "SzIdV0Cowv",
+                    "code": "7jxAUiTwRS",
+                    "display": "zUTiNvqGYI",
+                    "userSelected": true
+                }
+            ],
+            "text": "1yE5NW0Cbz"
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "KRdIipbzQG",
+                    "version": "WP5pxm8vkA",
+                    "code": "Nv0Vod_1rY",
+                    "display": "34AL8qonbs",
+                    "userSelected": true
+                }
+            ],
+            "text": "PkYIfZfrNi"
+        }
+    ],
+    "actor": [
+        {
+            "reference": "EUJcZjmz4W",
+            "type": "ExzNo3dqWY",
+            "identifier": {
+                "use": "temp",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "D3yvrT95vC",
+                            "version": "dVyuspmUVX",
+                            "code": "mKrfTkFrYo",
+                            "display": "FVXEHxzGsx",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "geujv1c9bu"
+                },
+                "system": "s3bgQ4ZuVc",
+                "value": "SUx6wRv_Ed",
+                "period": {
+                    "start": "2019-08-03T00:12:37.579-04:00",
+                    "end": "2019-08-03T00:12:37.579-04:00"
+                }
+            },
+            "display": "XJsAN4mjCI"
+        }
+    ],
+    "planningHorizon": {
+        "start": "2019-08-03T00:12:37.580-04:00",
+        "end": "2019-08-03T00:12:37.580-04:00"
+    },
+    "comment": "IkK5x8Bq27"
+}

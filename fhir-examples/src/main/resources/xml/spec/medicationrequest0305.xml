@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationRequest xmlns="http://hl7.org/fhir">
+    <id value="medrx0305"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx0305</p><p><b>contained</b>: </p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>medication</b>: id: med0314; Alprazolam 0.25mg Oral Tablet <span>(Details : {RxNorm code '308047' = 'ALPRAZolam 0.25 MG Oral Tablet', given as 'Alprazolam 0.25mg Oral Tablet'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>encounter</b>: <a>encounter who leads to this prescription</a></p><p><b>authoredOn</b>: 15/01/2015</p><p><b>requester</b>: <a>Patrick Pump</a></p><p><b>dosageInstruction</b>: </p><h3>DispenseRequests</h3><table><tr><td>-</td><td><b>ValidityPeriod</b></td><td><b>NumberOfRepeatsAllowed</b></td><td><b>Quantity</b></td><td><b>ExpectedSupplyDuration</b></td></tr><tr><td>*</td><td>15/01/2015 --&gt; 15/01/2016</td><td>1</td><td>30 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></td><td>10 days<span> (Details: UCUM code d = 'd')</span></td></tr></table><h3>Substitutions</h3><table><tr><td>-</td><td><b>Allowed[x]</b></td><td><b>Reason</b></td></tr><tr><td>*</td><td>true</td><td>formulary policy <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActReason code 'FP' = 'formulary policy', given as 'formulary policy'})</span></td></tr></table></div></text><contained>
+      <Medication>
+          <id value="med0314"/>
+          <code>
+              <coding>
+                  <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+                  <code value="308047"/>
+                  <display value="Alprazolam 0.25mg Oral Tablet"/>
+              </coding>
+          </code>
+      </Medication>
+  </contained>
+    <identifier>
+        <use value="official"/>
+        <system value="http://www.bmc.nl/portal/prescriptions"/>
+        <value value="12345689"/>
+    </identifier>
+    <status value="completed"/>
+    <intent value="order"/>
+    <medicationReference> <!--   Linked to a RESOURCE Medication   -->
+           <reference value="#med0314"/>
+    </medicationReference> 
+    <subject> <!--   Linked to the resource patient who needs the medication   -->
+        <reference value="Patient/pat1"/>
+        <display value="Donald Duck"/>        
+    </subject>
+    <encounter> <!--   Linked to a resource Encounter between patient and practitioner  -->
+        <reference value="Encounter/f001"/>
+        <display value="encounter who leads to this prescription"/>
+    </encounter>
+    <authoredOn value="2015-01-15"/>
+    <requester>
+        <reference value="Practitioner/f007"/>
+        <display value="Patrick Pump"/>
+    </requester>
+    <dosageInstruction>
+        <sequence value="1"/>
+        <text value="0.25mg PO every 6-12 hours as needed for menses from Jan 15-20, 2015.  Do not exceed more than 4mg per day"/>
+        <additionalInstruction>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="418914006"/>
+                <display value="Warning. May cause drowsiness. If affected do not drive or operate machinery. Avoid alcoholic drink (qualifier value)"/>
+            </coding>
+        </additionalInstruction>
+        <timing>
+            <repeat>
+                <boundsPeriod>
+                    <start value="2015-01-15"/>
+                    <end value="2015-01-20"/>
+                </boundsPeriod>
+                <frequency value="1"/>
+                <period value="6"/>
+                <periodMax value="12"/>
+                <periodUnit value="h"/>
+            </repeat>
+        </timing>
+        <asNeededCodeableConcept>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="266599000"/>
+                <display value="Dysmenorrhea (disorder)"/>
+            </coding>
+        </asNeededCodeableConcept>
+        <route>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="26643006"/>
+                <display value="Oral Route"/>
+            </coding>
+        </route>
+        <doseAndRate>
+            <type>
+                <coding>
+                    <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+                    <code value="ordered"/>
+                    <display value="Ordered"/>
+                </coding>
+            </type>
+            <doseQuantity>
+                <value value="1"/>
+                <unit value="TAB"/>
+                <system value="http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm"/>
+                <code value="TAB"/> 
+            </doseQuantity>
+        </doseAndRate>
+        
+        <maxDosePerAdministration>
+            <value value="4"/>
+            <unit value="mg"/>
+            <system value="http://unitsofmeasure.org"/>
+            <code value="mg"/> 
+        </maxDosePerAdministration>
+    </dosageInstruction>
+    <dispenseRequest>
+        <validityPeriod>
+            <start value="2015-01-15"/>
+            <end value="2016-01-15"/>
+        </validityPeriod>
+        <numberOfRepeatsAllowed value="1"/>
+        <quantity>
+            <value value="30"/>
+            <unit value="TAB"/>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm"/>
+            <code value="TAB"/> 
+        </quantity>
+        <expectedSupplyDuration>
+            <value value="10"/>
+            <unit value="days"/>
+            <system value="http://unitsofmeasure.org"/>
+            <code value="d"/> 
+        </expectedSupplyDuration>
+    </dispenseRequest>   
+    <substitution>
+       <allowedBoolean value="true"/>
+        <reason>
+            <coding>
+                <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+                <code value="FP"/>
+                <display value="formulary policy"/>             
+            </coding>
+        </reason>
+    </substitution>
+</MedicationRequest>

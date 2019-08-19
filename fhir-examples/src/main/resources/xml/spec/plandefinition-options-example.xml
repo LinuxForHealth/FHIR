@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><PlanDefinition xmlns="http://hl7.org/fhir">
+  <id value="options-example"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">[Put rendering here]</div>
+  </text>
+  <contained>
+    <ActivityDefinition>
+      <id value="activitydefinition-medicationrequest-1"/>
+      <status value="draft"/>
+      <kind value="MedicationRequest"/>
+      <productCodeableConcept>
+        <text value="Medication 1"/>
+      </productCodeableConcept>
+    </ActivityDefinition>
+  </contained>
+  <contained>
+    <ActivityDefinition>
+      <id value="activitydefinition-medicationrequest-2"/>
+      <status value="draft"/>
+      <kind value="MedicationRequest"/>
+      <productCodeableConcept>
+        <text value="Medication 2"/>
+      </productCodeableConcept>
+    </ActivityDefinition>
+  </contained>
+  <title value="This example illustrates relationships between actions."/>
+  <status value="draft"/>
+  <action>
+    <groupingBehavior value="logical-group"/>
+    <selectionBehavior value="all"/>
+    <action id="medication-action-1">
+      <title value="Administer Medication 1"/>
+      <definitionCanonical value="#activitydefinition-medicationrequest-1"/>
+    </action>
+    <action id="medication-action-2">
+      <title value="Administer Medication 2"/>
+      <relatedAction>
+        <actionId value="medication-action-1"/>
+        <relationship value="after-end"/>
+        <offsetDuration>
+          <value value="1"/>
+          <unit value="h"/>
+        </offsetDuration>
+      </relatedAction>
+      <definitionCanonical value="#activitydefinition-medicationrequest-2"/>
+    </action>
+  </action>
+</PlanDefinition>

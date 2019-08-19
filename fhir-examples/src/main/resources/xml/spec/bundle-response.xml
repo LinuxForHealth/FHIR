@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><Bundle xmlns="http://hl7.org/fhir">
+  <id value="bundle-response"/>
+<!--   this example bundle is a transaction response    -->
+  <meta>
+    <lastUpdated value="2014-08-18T01:43:33Z"/>
+  <!--   when the transaction response was constructed   -->
+  
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <type value="transaction-response"/>
+<!--   
+    one entry for each entry in the transaction, in order, with a 
+    response
+    -->
+  <entry>
+    <fullUrl value="http://example.org/fhir/Patient/12423"/>
+    <resource>
+    <!--   response for the simple create operation   -->
+    <!--   whether to return the result resource depends on client preference   -->
+      <Patient>
+        <id value="12423"/>
+        <meta>
+          <versionId value="1"/>
+          <lastUpdated value="2014-08-18T01:43:31Z"/>
+        </meta>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml">Some narrative</div>
+        </text>
+        <active value="true"/>
+        <name>
+          <use value="official"/>
+          <family value="Chalmers"/>
+          <given value="Peter"/>
+          <given value="James"/>
+        </name>
+        <gender value="male"/>
+        <birthDate value="1974-12-25"/>
+      </Patient>
+    </resource>
+  <!--   now, details about the action to take with the resource   -->
+    <response>
+    <!--   important responses from the server   -->
+      <status value="201 Created"/>
+      <location value="Patient/12423/_history/1"/>
+      <etag value="W/&#34;1&#34;"/>
+      <lastModified value="2014-08-18T01:43:33Z"/>
+      <outcome>
+        <OperationOutcome>
+          <issue>
+             <severity value="warning"/>
+             <code value="not-found"/>
+             <details>
+               <text value="The Managing organization was not known and was deleted"/>
+             </details> 
+             <expression value="Patient.managingOrganization"/>
+          </issue>
+        </OperationOutcome>
+      </outcome>
+    </response>
+  </entry>
+  <entry>
+  <!--   response to the conditional create operation   -->
+  <!--   in this case, there was a match to the If-None-Exist header   -->
+    <response>
+    <!--   no action taken   -->
+      <status value="200 OK"/>
+    </response>
+  </entry>
+  <entry>
+  <!--   response to a simple update operation   -->
+  <!--   no return resource for this example, though in a 
+      real transaction, all entries would have a resource or all would not 
+      -->
+    <response>
+      <status value="200 OK"/>
+      <location value="Patient/123/_history/4"/>
+      <etag value="W/&#34;4&#34;"/>
+    </response>
+  </entry>
+  <entry>
+  <!--   response to the conditional update operation   -->
+    <response>
+    <!--   created a new resource for this one   -->
+      <status value="201 Created"/>
+      <location value="Patient/12424/_history/1"/>
+      <etag value="W/&#34;1&#34;"/>
+    </response>
+  </entry>
+  <entry>
+  <!--   response to the 2nd conditional update operation   -->
+    <response>
+    <!--   created a new resource for this one   -->
+      <status value="200 ok"/>
+      <location value="Patient/123a/_history/3"/>
+      <etag value="W/&#34;3&#34;"/>
+    </response>
+  </entry>
+  <entry>
+  <!--   response to the simple delete operation   -->
+    <response>
+    <!--   successful deletion   -->
+      <status value="202 Accepted"/>
+    </response>
+  </entry>
+  <entry>
+  <!--   response to the conditional delete operation   -->
+    <response>
+    <!--   delete matching resource - but you can't find out what was deleted - an inherent limitation in a condition delete   -->
+      <status value="DELETE"/>
+    </response>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:7f9724ed-ef8d-4434-aacb-41869db83233"/>
+    <resource>
+    <!--   operation response   -->
+      <Parameters>
+        <parameter>
+          <name value="name"/>
+          <valueString value="LOINC"/>
+        </parameter>
+      <!--   etc.  -->
+      </Parameters>
+    </resource>
+    <response>
+    <!--   POST to [base]/ValueSet/$lookup - invoking a lookup operation (see Terminology Service)   -->
+      <status value="200 ok"/>
+    </response>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:e7bcef8e-5ef9-4d2b-87d5-b42b1eec9125"/>
+    <resource>
+    <!--   response to search   -->
+      <Bundle>
+        <id value="fb6ed6cb-324e-4588-87cd-0c92c68986ca"/>
+        <type value="searchset"/>
+      <!--   etc.  -->
+      </Bundle>
+    </resource>
+    <response>
+      <status value="200 OK"/>
+    </response>
+  </entry>
+  <entry>
+    <!--   response to conditional read - no changes -->
+    <response>
+      <status value="304 Not Modified"/>
+    </response>
+  </entry> 
+</Bundle>

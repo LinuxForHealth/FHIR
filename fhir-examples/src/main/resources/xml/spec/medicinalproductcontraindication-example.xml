@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicinalProductContraindication xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+    <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>disease</b>: Hepatic disease associated with coagulopathy and clinically relevant bleeding risk <span>(Details : {http://ema.europa.eu/example/contraindicationsasdisease-symptom-procedure code 'Coagulopathiesandbleedingdiatheses(exclthrombocytopenic)' = 'Coagulopathiesandbleedingdiatheses(exclthrombocytopenic))</span></p><p><b>comorbidity</b>: Hepaticdisease <span>(Details : {http://ema.europa.eu/example/comorbidity code 'Hepaticdisease' = 'Hepaticdisease)</span></p></div></text><disease>
+      <coding>
+        <system value="http://ema.europa.eu/example/contraindicationsasdisease-symptom-procedure"/>
+        <code value="Coagulopathiesandbleedingdiatheses(exclthrombocytopenic)"/>
+      </coding>
+      <text value="Hepatic disease associated with coagulopathy and clinically relevant bleeding risk"/>
+    </disease>
+    <comorbidity>
+      <coding>
+        <system value="http://ema.europa.eu/example/comorbidity"/>
+        <code value="Hepaticdisease"/>
+      </coding>
+    </comorbidity>
+</MedicinalProductContraindication>

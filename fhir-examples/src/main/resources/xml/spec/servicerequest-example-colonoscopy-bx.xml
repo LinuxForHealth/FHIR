@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><ServiceRequest xmlns="http://hl7.org/fhir">
+	<id value="colon-biopsy"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: colon-biopsy</p><p><b>identifier</b>: 12345</p><p><b>requisition</b>: req12345</p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>code</b>: Biopsy of colon <span>(Details : {SNOMED CT code '76164006' = 'Biopsy of colon', given as 'Biopsy of colon (procedure)'})</span></p><p><b>subject</b>: <a>Patient/example</a></p><p><b>authoredOn</b>: 05/03/2017</p><p><b>requester</b>: <a>Dr. Beverly Crusher</a></p><p><b>performer</b>: <a>Dr Adam Careful</a></p></div></text><identifier>
+		<value value="12345"/>
+	</identifier>
+	<!--   Example of biopsy service request that is part of a colonoscopy  -->
+	<requisition>
+		<system value="http://bumc.org/requisitions"/>
+		<value value="req12345"/>
+	</requisition>
+	<status value="completed"/>
+	<intent value="order"/>
+	<code>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="76164006"/>
+			<display value="Biopsy of colon (procedure)"/>
+		</coding>
+		<text value="Biopsy of colon"/>
+	</code>
+	<subject>
+		<reference value="Patient/example"/>
+	</subject>
+	<authoredOn value="2017-03-05"/>
+	<requester>
+
+			<reference value="Practitioner/3ad0687e-f477-468c-afd5-fcc2bf897809"/>
+			<display value="Dr. Beverly Crusher"/>
+
+	</requester>
+	<performer>
+		<reference value="Practitioner/example"/>
+		<display value="Dr Adam Careful"/>
+	</performer>
+</ServiceRequest>

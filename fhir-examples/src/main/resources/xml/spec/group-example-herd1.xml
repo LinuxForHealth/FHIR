@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><Group xmlns="http://hl7.org/fhir">
+	<id value="herd1"/>
+	<!--   added this extension to reference the owner (client) of the herd   -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: herd1</p><p><b>identifier</b>: 20171120-1234</p><p><b>active</b>: true</p><p><b>type</b>: animal</p><p><b>actual</b>: true</p><p><b>code</b>: Porcine <span>(Details : {SNOMED CT code '388393002' = 'Genus Sus', given as 'Genus Sus (organism)'}; {https://www.aphis.usda.gov code 'POR' = 'POR', given as 'porcine'})</span></p><p><b>name</b>: Breeding herd</p><p><b>quantity</b>: 2500</p><h3>Characteristics</h3><table><tr><td>-</td><td><b>Code</b></td><td><b>Value[x]</b></td><td><b>Exclude</b></td></tr><tr><td>*</td><td>gender <span>(Details )</span></td><td>female <span>(Details )</span></td><td>false</td></tr></table></div></text><extension url="http://example.org/fhir/StructureDefinition/owner">
+	<valueReference>
+		<reference value="RelatedPerson/peter"/>
+		<display value="Peter Chalmers"/>
+	</valueReference>
+	</extension>
+	<!--   diagnostic lab's identifier   -->
+	<identifier>
+		<system value="https://vetmed.iastate.edu/vdl"/>
+		<value value="20171120-1234"/>
+	</identifier>
+	<active value="true"/>
+	<type value="animal"/>
+	<actual value="true"/>
+	<!--   describes a bunch of female breeding sows  added a translation from US APHIS codes to SNOMED CT  -->
+	<code>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="388393002"/>
+			<display value="Genus Sus (organism)"/>
+		</coding>
+		<coding>
+			<system value="https://www.aphis.usda.gov"/>
+			<code value="POR"/>
+			<display value="porcine"/>
+		</coding>
+		<text value="Porcine"/>
+	</code>
+	<name value="Breeding herd"/>
+	<quantity value="2500"/>
+	<!--   the share the common charasteristic of being sows   -->
+	<characteristic>
+		<code>
+			<text value="gender"/>
+		</code>
+		<valueCodeableConcept>
+			<text value="female"/>
+		</valueCodeableConcept>
+		<!--   required element - false means they are all sows   -->
+		<exclude value="false"/>
+	</characteristic>
+
+</Group>

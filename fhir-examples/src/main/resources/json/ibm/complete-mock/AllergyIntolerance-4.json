@@ -1,0 +1,269 @@
+{
+    "resourceType": "AllergyIntolerance",
+    "id": "P8a7ErCpWU",
+    "meta": {
+        "versionId": "CsOZ3GgBjD",
+        "lastUpdated": "2019-08-03T00:12:30.118-04:00",
+        "source": "69axGkelQG",
+        "profile": [
+            "h_lZxI9RNI"
+        ],
+        "security": [
+            {
+                "system": "wKbtCWRTOR",
+                "version": "Oh_CWfj0qk",
+                "code": "lUcLEDJ60v",
+                "display": "wh0WDF_yIk",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "H9SQmkgh62",
+                "version": "LBvqvfEoiO",
+                "code": "jZmrxkgfxo",
+                "display": "MPGLtDV4Un",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "lRAHLmYuVx",
+    "language": "_9jAIFkfWD",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "_sT_rm8PPT",
+                        "version": "ZxYMrzD_KQ",
+                        "code": "EDwd_2ia3x",
+                        "display": "MnCyIvdjnG",
+                        "userSelected": true
+                    }
+                ],
+                "text": "tHmhsi5XIz"
+            },
+            "system": "xCWVxhEbBA",
+            "value": "1JS9xiUQwK",
+            "period": {
+                "start": "2019-08-03T00:12:30.132-04:00",
+                "end": "2019-08-03T00:12:30.132-04:00"
+            }
+        }
+    ],
+    "clinicalStatus": {
+        "coding": [
+            {
+                "system": "967VviDYXC",
+                "version": "3x29NZ9w35",
+                "code": "rIt8dMcOQs",
+                "display": "9WYw_9BGkx",
+                "userSelected": true
+            }
+        ],
+        "text": "rdY4ySqcpT"
+    },
+    "verificationStatus": {
+        "coding": [
+            {
+                "system": "_759hgk44P",
+                "version": "KocJ1wpKaW",
+                "code": "YzT75xOUgt",
+                "display": "13VLTbCwpQ",
+                "userSelected": true
+            }
+        ],
+        "text": "T7jrIUNz6e"
+    },
+    "type": "intolerance",
+    "category": [
+        "medication"
+    ],
+    "criticality": "high",
+    "code": {
+        "coding": [
+            {
+                "system": "vvbrnCab5j",
+                "version": "L2jFHbuMTR",
+                "code": "3TpqogYrRV",
+                "display": "JNd5_TUodI",
+                "userSelected": true
+            }
+        ],
+        "text": "9WqY2OjDKC"
+    },
+    "patient": {
+        "reference": "FeeEZSQLxW",
+        "type": "cDVzPRbti6",
+        "identifier": {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "d7Z0MqODHg",
+                        "version": "GqOE9fkXCD",
+                        "code": "a2M1mayrsk",
+                        "display": "yTXJdFjBLS",
+                        "userSelected": true
+                    }
+                ],
+                "text": "utNgxnIvrW"
+            },
+            "system": "gjA1vW8xxS",
+            "value": "rPpvG92mbR",
+            "period": {
+                "start": "2019-08-03T00:12:30.131-04:00",
+                "end": "2019-08-03T00:12:30.131-04:00"
+            }
+        },
+        "display": "B5KgJJWcKF"
+    },
+    "encounter": {
+        "reference": "hX2pn9PGzy",
+        "type": "MAQXFbDfE_",
+        "identifier": {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "mMTUzvZDDi",
+                        "version": "l4QGY88L2z",
+                        "code": "SAOT4UcZl8",
+                        "display": "Ic267PfVvq",
+                        "userSelected": true
+                    }
+                ],
+                "text": "9us1bXCgjj"
+            },
+            "system": "6zCg4cvCXv",
+            "value": "ep04rKhgY2",
+            "period": {
+                "start": "2019-08-03T00:12:30.116-04:00",
+                "end": "2019-08-03T00:12:30.116-04:00"
+            }
+        },
+        "display": "aKDbuEOWiq"
+    },
+    "onsetDateTime": "2019-08-03T00:12:30.115-04:00",
+    "recordedDate": "2019-08-03T00:12:30.134-04:00",
+    "recorder": {
+        "reference": "F_drb38eLS",
+        "type": "sI3XRt5jVO",
+        "identifier": {
+            "use": "secondary",
+            "type": {
+                "coding": [
+                    {
+                        "system": "PA7EOH8R4t",
+                        "version": "4gAmGA7iDK",
+                        "code": "ElUaRdB5lA",
+                        "display": "AuC7FtSMRd",
+                        "userSelected": true
+                    }
+                ],
+                "text": "_lPHyQQM_G"
+            },
+            "system": "DXx9vsaPWA",
+            "value": "zZ3B_ISldw",
+            "period": {
+                "start": "2019-08-03T00:12:30.134-04:00",
+                "end": "2019-08-03T00:12:30.134-04:00"
+            }
+        },
+        "display": "gK_4yvKjBi"
+    },
+    "asserter": {
+        "reference": "OneaH1OWGc",
+        "type": "qE0DB4lV8f",
+        "identifier": {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "iVcyKZo3LA",
+                        "version": "ccW03BEREa",
+                        "code": "dq_5Zxh6sg",
+                        "display": "DphuCIZHrR",
+                        "userSelected": true
+                    }
+                ],
+                "text": "u_9URpXbLn"
+            },
+            "system": "th_Z4jxg_g",
+            "value": "gd3_Nm_x7j",
+            "period": {
+                "start": "2019-08-03T00:12:30.114-04:00",
+                "end": "2019-08-03T00:12:30.114-04:00"
+            }
+        },
+        "display": "5uP1zZ9CKP"
+    },
+    "lastOccurrence": "2019-08-03T00:12:30.113-04:00",
+    "note": [
+        {
+            "authorString": "jtwNJKKW52",
+            "time": "2019-08-03T00:12:30.112-04:00",
+            "text": "QiCc0BQ5wt"
+        }
+    ],
+    "reaction": [
+        {
+            "substance": {
+                "coding": [
+                    {
+                        "system": "eNYLd4E_pc",
+                        "version": "ReA53ko904",
+                        "code": "sG8sjRtSeW",
+                        "display": "HGm219hSfJ",
+                        "userSelected": true
+                    }
+                ],
+                "text": "RSi7uzPNAd"
+            },
+            "manifestation": [
+                {
+                    "coding": [
+                        {
+                            "system": "kTcyOCGy8I",
+                            "version": "uM2KDgDNmX",
+                            "code": "rmquDbVvaO",
+                            "display": "jcNEOOCTk5",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "480LGziq7D"
+                }
+            ],
+            "description": "cWpSoUwuZT",
+            "onset": "2019-08-03T00:12:30.110-04:00",
+            "severity": "mild",
+            "exposureRoute": {
+                "coding": [
+                    {
+                        "system": "HSNI6El_Jo",
+                        "version": "hseNBjaPpR",
+                        "code": "5W69NwGIjv",
+                        "display": "bX5zlr5BSA",
+                        "userSelected": true
+                    }
+                ],
+                "text": "UldRUFoYkH"
+            },
+            "note": [
+                {
+                    "authorString": "JnXsOz6cX7",
+                    "time": "2019-08-03T00:12:30.109-04:00",
+                    "text": "7i0FNIYa7Y"
+                }
+            ]
+        }
+    ]
+}

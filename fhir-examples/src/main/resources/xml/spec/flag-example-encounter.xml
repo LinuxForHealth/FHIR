@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><Flag xmlns="http://hl7.org/fhir">
+  <id value="example-encounter"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">Follow Infection Control Level 3 Protocol</div>
+  </text>
+  <status value="active"/>
+  <category>
+    <coding>
+      <system value="http://example.org/local"/>
+      <code value="infection"/>
+      <display value="Infection Control Level"/>
+    </coding>    
+  </category>
+  <code>
+    <coding>
+      <system value="http://example.org/local/if1"/>
+      <code value="l3"/>
+      <display value="Follow Level 3 Protocol"/>
+    </coding>
+  </code>
+  
+  <subject>
+    <reference value="Patient/example"/>
+    <display value="Peter Patient"/>
+  </subject>
+  
+  <encounter>
+    <reference value="Encounter/example"/>
+  </encounter>
+  
+  
+</Flag>

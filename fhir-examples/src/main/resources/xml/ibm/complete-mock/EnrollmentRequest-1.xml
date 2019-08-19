@@ -1,0 +1,149 @@
+<EnrollmentRequest xmlns="http://hl7.org/fhir">
+  <id value="A2MwaocGsx"/>
+  <meta>
+    <versionId value="LDZcRvdyw9"/>
+    <lastUpdated value="2019-08-08T09:17:27.725-04:00"/>
+    <source value="TpkWVFqmbr"/>
+    <profile value="5FVXIf56ag"/>
+    <security>
+      <system value="dS4u1dyEhr"/>
+      <version value="pWgAmehuJx"/>
+      <code value="Dwx5b3E5WI"/>
+      <display value="HerXLBQa9i"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="1Tl5HRWkRg"/>
+      <version value="IIsa7hNz2D"/>
+      <code value="6I9RMSwM2F"/>
+      <display value="Iosk9K3b7J"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="WKXuI2a3V3"/>
+  <language value="mPpVpftS2a"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="old"/>
+    <type>
+      <coding>
+        <system value="yoSrSWZ5WL"/>
+        <version value="HEVGWN08l_"/>
+        <code value="cpZXm6FWB3"/>
+        <display value="p1njMnjhUF"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="JJO4vNsSYe"/>
+    </type>
+    <system value="LTDTcOmP21"/>
+    <value value="2tJSH9RF5U"/>
+    <period>
+      <start value="2019-08-08T09:17:27.726-04:00"/>
+      <end value="2019-08-08T09:17:27.726-04:00"/>
+    </period>
+  </identifier>
+  <status value="draft"/>
+  <created value="2019-08-08T09:17:27.727-04:00"/>
+  <insurer>
+    <reference value="z23weiVoAX"/>
+    <type value="kR0bD__JhM"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="4mgkVf7bFP"/>
+          <version value="hZ2ExLGPT4"/>
+          <code value="97zC8UDiLg"/>
+          <display value="vNo_5_5THE"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="rRcCNNGDxR"/>
+      </type>
+      <system value="NsremdS4ve"/>
+      <value value="N1l04d4Qfq"/>
+      <period>
+        <start value="2019-08-08T09:17:27.727-04:00"/>
+        <end value="2019-08-08T09:17:27.727-04:00"/>
+      </period>
+    </identifier>
+    <display value="IGGd3Y1JC5"/>
+  </insurer>
+  <provider>
+    <reference value="uxNFfJw4IN"/>
+    <type value="ljZ4TkSW4B"/>
+    <identifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="HyhB56qAOi"/>
+          <version value="WZHzWyJdYA"/>
+          <code value="TIW78By8S1"/>
+          <display value="Rq8Q3i1Ezi"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="VMxuRkmsv2"/>
+      </type>
+      <system value="lvGdUJ6iVY"/>
+      <value value="lgJUHowP_J"/>
+      <period>
+        <start value="2019-08-08T09:17:27.722-04:00"/>
+        <end value="2019-08-08T09:17:27.722-04:00"/>
+      </period>
+    </identifier>
+    <display value="hf8JqjMKwV"/>
+  </provider>
+  <candidate>
+    <reference value="wU2aiNubvG"/>
+    <type value="e8jUp0jvLK"/>
+    <identifier>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="W2D82hXPpk"/>
+          <version value="sUGfN633QT"/>
+          <code value="4ZqKN7FcLR"/>
+          <display value="c9D5XM8O0E"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="ap73FYp7oy"/>
+      </type>
+      <system value="nVf8t3vNnX"/>
+      <value value="OensOmszLS"/>
+      <period>
+        <start value="2019-08-08T09:17:27.727-04:00"/>
+        <end value="2019-08-08T09:17:27.727-04:00"/>
+      </period>
+    </identifier>
+    <display value="hWnCEe0EUv"/>
+  </candidate>
+  <coverage>
+    <reference value="QTlI6CXni4"/>
+    <type value="cu1bEFXLDR"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="iEZlKqT4aZ"/>
+          <version value="denx2zsgZ5"/>
+          <code value="Jg5wPmk7H7"/>
+          <display value="Ud7ld3QwGI"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="qd5wgsdtvG"/>
+      </type>
+      <system value="53nNN5W7Ze"/>
+      <value value="GVJ_Ixy3TZ"/>
+      <period>
+        <start value="2019-08-08T09:17:27.726-04:00"/>
+        <end value="2019-08-08T09:17:27.726-04:00"/>
+      </period>
+    </identifier>
+    <display value="HdGwKV8YDA"/>
+  </coverage>
+</EnrollmentRequest>

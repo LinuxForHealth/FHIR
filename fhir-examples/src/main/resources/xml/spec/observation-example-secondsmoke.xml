@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+	<id value="secondsmoke"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: secondsmoke</p><p><b>status</b>: final</p><p><b>category</b>: Social History <span>(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'social-history' = 'Social History', given as 'Social History'})</span></p><p><b>code</b>: Second hand smoke exposure <span>(Details : {LOINC code '39243-1' = 'Second hand smoke exposure CPHS', given as 'Second hand smoke exposure CPHS'}; {SNOMED CT code '102409004' = 'Second hand cigarette smoke', given as 'Second hand cigarette smoke (substance)'})</span></p><p><b>subject</b>: <a>Patient/infant</a></p><p><b>effective</b>: 18/05/2016 10:33:22 PM</p><p><b>value</b>: YES <span>(Details : {SNOMED CT code '373066001' = 'Yes', given as 'Yes (qualifier value)'})</span></p></div></text><status value="final"/>
+	<category>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/observation-category"/>
+			<code value="social-history"/>
+			<display value="Social History"/>
+		</coding>
+		<text value="Social History"/>
+	</category>
+	<code>
+		<coding>
+			<system value="http://loinc.org"/>
+			<code value="39243-1"/>
+			<display value="Second hand smoke exposure CPHS"/>
+		</coding>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="102409004"/>
+			<display value="Second hand cigarette smoke (substance)"/>
+		</coding>
+		<text value="Second hand smoke exposure"/>
+	</code>
+	<subject>
+		<reference value="Patient/infant"/>
+	</subject>
+	<effectiveDateTime value="2016-05-18T22:33:22Z"/>
+	<valueCodeableConcept>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="373066001"/>
+			<display value="Yes (qualifier value)"/>
+		</coding>
+		<text value="YES"/>
+	</valueCodeableConcept>
+</Observation>

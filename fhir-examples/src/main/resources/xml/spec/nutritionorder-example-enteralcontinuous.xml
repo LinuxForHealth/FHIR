@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><NutritionOrder xmlns="http://hl7.org/fhir"><!--   id = enteralcontinuous  file name = nutritionorder-example-enteralcontinuous.xml  Name= Enteral Continuous Feeding  Description = Nutrition Order Enteral Continuous Feeding Canonical Example
+editor Eric Haas Health eData Inc
+  --><!--   Tube feedings given as continuous rate   --><id value="enteralcontinuous"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: enteralcontinuous</p><p><b>identifier</b>: 123</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>patient</b>: <a>Peter Chalmers</a></p><p><b>encounter</b>: <a>Inpatient</a></p><p><b>dateTime</b>: 17/09/2014</p><p><b>orderer</b>: <a>Dr Adam Careful</a></p><blockquote><p><b>enteralFormula</b></p><p><b>baseFormulaType</b>: Diabetic specialty enteral formula <span>(Details : {SNOMED CT code '6547210000124112' = '6547210000124112', given as 'Diabetic specialty enteral formula'})</span></p><p><b>baseFormulaProductName</b>:  Acme Diabetes Formula</p><p><b>caloricDensity</b>: 1 calories per milliliter<span> (Details: UCUM code cal/mL = 'cal/mL')</span></p><p><b>routeofAdministration</b>: Instillation, nasogastric tube <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration code 'NGT' = 'Instillation, nasogastric tube', given as 'Instillation, nasogastric tube'})</span></p><blockquote><p><b>administration</b></p><p><b>schedule</b>: Starting 17/09/2014 7:00:00 AM, Do Once</p><p><b>rate</b>: 60 ml/hr<span> (Details: UCUM code mL/h = 'mL/h')</span></p></blockquote><blockquote><p><b>administration</b></p><p><b>schedule</b>: Starting 17/09/2014 11:00:00 AM, Do Once</p><p><b>rate</b>: 80 ml/hr<span> (Details: UCUM code mL/h = 'mL/h')</span></p></blockquote><blockquote><p><b>administration</b></p><p><b>schedule</b>: Starting 17/09/2014 3:00:00 PM, Do Once</p><p><b>rate</b>: 100 ml/hr<span> (Details: UCUM code mL/h = 'mL/h')</span></p></blockquote><p><b>maxVolumeToDeliver</b>: 880 milliliter/day<span> (Details: UCUM code mL/d = 'mL/d')</span></p><p><b>administrationInstruction</b>: Hold feedings from 7 pm to 7 am. Add MCT oil to increase calories from 1.0 cal/mL to 1.5 cal/mL</p></blockquote></div></text><identifier>
+		<system value="http://www.acme.org/nutritionorders"/>
+		<value value="123"/>
+	</identifier>
+	<status value="active"/><intent value="order"/>
+	<patient>
+		<reference value="Patient/example"/>
+		<display value="Peter Chalmers"/>
+	</patient>
+	<encounter>
+		<reference value="Encounter/example"/>
+		<display value="Inpatient"/>
+	</encounter>
+	<dateTime value="2014-09-17"/>
+	<orderer>
+		<reference value="Practitioner/example"/>
+		<display value="Dr Adam Careful"/>
+	</orderer>
+	<enteralFormula>
+		<baseFormulaType>
+			<coding>
+				<system value="http://snomed.info/sct"/>
+				<code value="6547210000124112"/>
+				<display value="Diabetic specialty enteral formula"/>
+			</coding>
+		</baseFormulaType>
+		<baseFormulaProductName value=" Acme Diabetes Formula"/>
+		
+		<caloricDensity>
+			<value value="1"/>
+			<unit value="calories per milliliter"/>
+			<system value="http://unitsofmeasure.org"/>
+			<code value="cal/mL"/>
+		</caloricDensity>
+		<routeofAdministration>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration"/>
+				<code value="NGT"/>
+				<display value="Instillation, nasogastric tube"/>
+			</coding>
+		<!--  step up rate of tube feeding by 20 ml/hr every 4 hours   -->
+		</routeofAdministration>
+		<administration>
+			
+			<schedule>
+			<repeat>
+				<boundsPeriod>
+				  <start value="2014-09-17T07:00:00Z"/>
+				</boundsPeriod>
+			</repeat>
+			</schedule>
+			<rateQuantity>
+				<value value="60"/>
+				<unit value="ml/hr"/>
+				<system value="http://unitsofmeasure.org"/>
+				<code value="mL/h"/>
+			</rateQuantity>
+		</administration>
+		<administration>	
+			<schedule>
+			<repeat>
+				<boundsPeriod>
+				  <start value="2014-09-17T11:00:00Z"/>
+				</boundsPeriod>
+			</repeat>
+			</schedule>
+			<rateQuantity>
+				<value value="80"/>
+				<unit value="ml/hr"/>
+				<system value="http://unitsofmeasure.org"/>
+				<code value="mL/h"/>
+			</rateQuantity>
+		</administration>
+		<administration>		
+			<schedule>
+			<repeat>
+				<boundsPeriod>
+				  <start value="2014-09-17T15:00:00Z"/>
+				</boundsPeriod>
+			</repeat>
+			</schedule>
+			<rateQuantity>
+				<value value="100"/>
+				<unit value="ml/hr"/>
+				<system value="http://unitsofmeasure.org"/>
+				<code value="mL/h"/>
+			</rateQuantity>
+		</administration>
+		
+		<maxVolumeToDeliver>
+			<value value="880"/>
+			<unit value="milliliter/day"/>
+			<system value="http://unitsofmeasure.org"/>
+			<code value="mL/d"/>
+		</maxVolumeToDeliver>
+		<administrationInstruction value="Hold feedings from 7 pm to 7 am. Add MCT oil to increase calories from 1.0 cal/mL to 1.5 cal/mL"/>
+		
+	</enteralFormula>
+</NutritionOrder>

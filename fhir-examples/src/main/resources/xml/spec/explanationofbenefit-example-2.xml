@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><ExplanationOfBenefit xmlns="http://hl7.org/fhir">
+	<id value="EB3501"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the ExplanationOfBenefit for a claim that had errors, various other attributes (such as accident and hospitalization) are also completed.</div>
+	</text>
+
+	<identifier>
+		<system value="http://www.BenefitsInc.com/fhir/explanationofbenefit"/>
+		<value value="error-1"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<type>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/claim-type"/>
+			<code value="oral"/>
+		</coding>
+	</type>
+
+	<subType>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/ex-claimsubtype"/>
+			<code value="emergency"/>
+		</coding>
+	</subType>
+
+	<use value="claim"/>
+
+	<patient>
+		<reference value="Patient/pat1"/>
+	</patient>
+
+	<billablePeriod>
+		<start value="2014-02-01"/>
+		<end value="2014-03-01"/>
+	</billablePeriod>
+
+	<created value="2014-08-16"/>
+
+	<enterer>
+		<reference value="Practitioner/1"/>
+	</enterer>
+
+	<insurer>
+		<reference value="Organization/2"/>
+	</insurer>
+
+	<provider>
+		<reference value="Organization/2"/>
+	</provider>
+
+	<related>
+		<reference>
+			<system value="http://www.BenefitsInc.com/case-number"/>
+			<value value="23-56Tu-XX-47-20150M14"/>
+		</reference>
+	</related>
+
+	<prescription>
+		<reference value="MedicationRequest/medrx002"/>
+	</prescription>
+
+	<originalPrescription>
+		<reference value="MedicationRequest/medrx0301"/>
+	</originalPrescription>
+
+	<facility>
+		<reference value="Location/1"/>
+	</facility>
+
+	<claim>
+		<reference value="Claim/100150"/>
+	</claim>
+
+	<claimResponse>
+		<reference value="ClaimResponse/R3500"/>
+	</claimResponse> 
+
+	<outcome value="error"/>
+
+	<disposition value="Could not process."/>
+
+	<supportingInfo>
+		<sequence value="1"/>
+		<category>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/claiminformationcategory"/>
+				<code value="employmentimpacted"/>
+			</coding>
+		</category>
+		<timingPeriod>
+			<start value="2014-02-14"/>
+			<end value="2014-02-28"/>
+		</timingPeriod>
+	</supportingInfo>
+
+	<supportingInfo>
+		<sequence value="2"/>
+		<category>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/claiminformationcategory"/>
+				<code value="hospitalized"/>
+			</coding>
+		</category>
+		<timingPeriod>
+			<start value="2014-02-14"/>
+			<end value="2014-02-16"/>
+		</timingPeriod>
+	</supportingInfo>
+
+	<procedure>
+		<sequence value="1"/>
+		<date value="2014-02-14"/>
+		<procedureCodeableConcept>
+			<coding>
+				<system value="http://hl7.org/fhir/sid/ex-icd-10-procedures"/>
+				<code value="123001"/>
+			</coding>
+		</procedureCodeableConcept>
+		<udi>
+			<reference value="Device/example"/>
+		</udi>
+	</procedure>
+
+	<precedence value="2"/>
+
+	<insurance>
+		<focal value="true"/>
+		<coverage>
+			<reference value="Coverage/9876B1"/>
+		</coverage>
+	</insurance>
+
+	<accident>
+		<date value="2014-02-14"/>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+				<code value="SPT"/>
+			</coding>
+		</type>
+		<locationReference>
+			<reference value="Location/ph"/>
+		</locationReference>
+	</accident>
+
+	<total>
+		<category>
+			<coding>
+				<code value="submitted"/>
+			</coding>
+		</category>
+		<amount>
+			<value value="2478.57"/>
+			<currency value="USD"/> 
+		</amount> 
+	</total>
+
+	<total>
+		<category>
+			<coding>
+				<code value="benefit"/>
+			</coding>
+		</category>
+		<amount>
+			<value value="0.00"/>
+			<currency value="USD"/> 
+		</amount> 
+	</total>
+
+	<formCode>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/forms-codes"/>
+			<code value="2"/>
+		</coding>
+	</formCode>
+
+	<processNote>
+		<number value="1"/>
+		<type value="display"/>
+		<text value="Invalid claim"/>
+		<language>
+			<coding>
+				<system value="urn:ietf:bcp:47"/>
+				<code value="en-CA"/>
+			</coding>
+		</language>
+	</processNote>
+</ExplanationOfBenefit>

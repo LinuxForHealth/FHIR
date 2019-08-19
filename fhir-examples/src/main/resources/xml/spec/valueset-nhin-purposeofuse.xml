@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><ValueSet xmlns="http://hl7.org/fhir">
+  <id value="nhin-purposeofuse"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>NHIN PurposeOfUse</h2>
+      <div>
+        <p>This value set is suitable for use with the provenance resource. It is derived from, but not compatible with, the HL7 v3 Purpose of use Code system.</p>
+
+      </div>
+      <p>This value set includes codes from the following code systems:</p>
+      <ul>
+        <li>Include all codes defined in 
+          <a href="codesystem-nhin-purposeofuse.html">
+            <code>http://healthit.gov/nhin/purposeofuse</code>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </text>
+  <contained>
+    <ConceptMap>
+      <id value="map"/>
+      <name value="NHIN / V3 Mapping"/>
+      <status value="draft"/>
+      <sourceCanonical value="http://hl7.org/fhir/ValueSet/nhin-purposeofuse"/>
+      <targetCanonical value="http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"/>
+      <group>
+        <source value="http://healthit.gov/nhin/purposeofuse"/>
+        <target value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+        <element>
+          <code value="TREATMENT"/>
+          <target>
+            <code value="TREAT"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="PAYMENT"/>
+          <target>
+            <code value="HPAYMT"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="OPERATIONS"/>
+          <target>
+            <code value="HOPERAT"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="SYSADMIN"/>
+          <target>
+            <code value="SYSADMIN"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="FRAUD"/>
+          <target>
+            <code value="FRAUD"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="PSYCHOTHERAPY"/>
+          <target>
+            <code value="PSYCHOTHERAPY"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="TRAINING"/>
+          <target>
+            <code value="TRAINING"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="LEGAL"/>
+          <target>
+            <code value="HLEGAL"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="MARKETING"/>
+          <target>
+            <code value="HMARKT"/>
+            <equivalence value="narrower"/>
+            <comment value="Not clear how much difference there is between 'marketing' and 'healthcare marketing'"/>
+          </target>
+        </element>
+        <element>
+          <code value="DIRECTORY"/>
+          <target>
+            <code value="HDIRECT"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="DISASTER"/>
+          <target>
+            <code value="DISASTER"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="PUBLICHEALTH"/>
+          <target>
+            <code value="PUBHLTH"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="JUDICIAL"/>
+          <target>
+            <code value="HLEGAL"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="LAW"/>
+          <target>
+            <code value="HLEGAL"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="DONATION"/>
+          <target>
+            <code value="DONAT"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="RESEARCH"/>
+          <target>
+            <code value="HRESCH"/>
+            <equivalence value="narrower"/>
+            <comment value="Not clear how much difference there is between 'research' and 'healthcare research'"/>
+          </target>
+        </element>
+        <element>
+          <code value="THREAT"/>
+          <target>
+            <code value="THREAT"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="GOVERNMENT"/>
+          <target>
+            <code value="GOV"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="COVERAGE"/>
+          <target>
+            <code value="OVAUTH"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+        <element>
+          <code value="REQUEST"/>
+          <target>
+            <code value="PATRQT"/>
+            <equivalence value="equivalent"/>
+          </target>
+        </element>
+      </group>
+    </ConceptMap>
+  </contained>
+  <extension url="http://hl7.org/fhir/StructureDefinition/valueset-map">
+    <valueCanonical value="#map"/>
+  </extension>
+  <url value="http://hl7.org/fhir/ValueSet/nhin-purposeofuse"/>
+  <version value="4.0.0"/>
+  <name value="NHIN PurposeOfUse"/>
+  <status value="active"/>
+  <experimental value="false"/>
+  <date value="2010-01-29"/>
+  <publisher value="Nationwide Health Information Network (NHIN)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="https://www.healthit.gov/sites/default/files/nhin-authorization-framework-production-specification-v2.0-1.pdf"/>
+    </telecom>
+  </contact>
+  <description value="This value set is suitable for use with the provenance resource. It is derived from, but not compatible with, the HL7 v3 Purpose of use Code system."/>
+  <compose>
+    <include>
+      <system value="http://healthit.gov/nhin/purposeofuse"/>
+    </include>
+  </compose>
+</ValueSet>

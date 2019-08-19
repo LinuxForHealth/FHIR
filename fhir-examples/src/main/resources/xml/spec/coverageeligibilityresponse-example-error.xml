@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><CoverageEligibilityResponse xmlns="http://hl7.org/fhir">
+	<id value="E2503"/>
+
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">A human-readable rendering of the CoverageEligibilityResponse.</div>
+	</text>
+
+	<identifier>
+		<system value="http://www.BenefitsInc.com/fhir/coverageeligibilityresponse"/>
+		<value value="8812343"/>
+	</identifier>
+
+	<status value="active"/>
+
+	<purpose value="validation"/>
+
+	<patient>
+		<reference value="Patient/f201"/>
+	</patient>
+
+	<created value="2014-09-16"/>
+
+	<requestor>
+		<identifier>
+			<system value="http://national.org/clinic"/>
+			<value value="OR1234"/>
+		</identifier>   
+	</requestor>
+
+	<request>
+		<reference value="http://www.BenefitsInc.com/fhir/coverageeligibilityresponse/225476332406"/>
+	</request>
+
+	<outcome value="error"/>
+	
+	<disposition value="Eligibiliy request could not be processed, please address errors before submitting."/>
+
+	<insurer>
+		<reference value="Organization/2"/>
+	</insurer>
+
+	<form>
+		<coding>
+			<system value="http://national.org/form"/>
+			<code value="ELRSP/2017/01"/>
+		</coding>
+	</form>
+
+	<error>
+		<code>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/adjudication-error"/>
+				<code value="a001"/>
+			</coding>
+		</code>
+	</error>
+
+</CoverageEligibilityResponse>

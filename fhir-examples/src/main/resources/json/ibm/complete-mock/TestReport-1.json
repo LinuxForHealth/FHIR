@@ -1,0 +1,146 @@
+{
+    "resourceType": "TestReport",
+    "id": "l3Q0hFeLsR",
+    "meta": {
+        "versionId": "TmI9rdKUD0",
+        "lastUpdated": "2019-08-03T00:12:39.479-04:00",
+        "source": "td_uubnYKR",
+        "profile": [
+            "MeBdIBPNAC"
+        ],
+        "security": [
+            {
+                "system": "yo13YirrMU",
+                "version": "ue_AI2aPS_",
+                "code": "s0sBCBDqWZ",
+                "display": "oA1cZWpIhI",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "osmzRwpT5B",
+                "version": "fv0kXcsv4R",
+                "code": "6FZGeOgKHP",
+                "display": "SaMcSXuvMI",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "SgLyaDwipj",
+    "language": "oOY4QpRyNg",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": {
+        "use": "usual",
+        "type": {
+            "coding": [
+                {
+                    "system": "FgqktsD_fN",
+                    "version": "p2vvZhUwF0",
+                    "code": "HFnkXRDsRj",
+                    "display": "uqQK4e9zaJ",
+                    "userSelected": true
+                }
+            ],
+            "text": "SrADw3sTXw"
+        },
+        "system": "aJE0bMRVKM",
+        "value": "qCPE7bivXI",
+        "period": {
+            "start": "2019-08-03T00:12:39.479-04:00",
+            "end": "2019-08-03T00:12:39.479-04:00"
+        }
+    },
+    "name": "pqdFqT2BOc",
+    "status": "entered-in-error",
+    "testScript": {
+        "reference": "EeeKqzlbip",
+        "type": "9yiMru6wgf",
+        "identifier": {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "k_FrD4tN_I",
+                        "version": "DhzHIUgCsq",
+                        "code": "1IP0r8BSF9",
+                        "display": "uSZdKIgVXD",
+                        "userSelected": true
+                    }
+                ],
+                "text": "0xZZiUCCt5"
+            },
+            "system": "yDuCiyBzVY",
+            "value": "GfkK3yc0Yb",
+            "period": {
+                "start": "2019-08-03T00:12:39.478-04:00",
+                "end": "2019-08-03T00:12:39.478-04:00"
+            }
+        },
+        "display": "oC11O4QKJF"
+    },
+    "result": "pending",
+    "score": 259376630062,
+    "tester": "zsejTvh80T",
+    "issued": "2019-08-03T00:12:39.478-04:00",
+    "participant": [
+        {
+            "type": "client",
+            "uri": "3ga2sxOTM7",
+            "display": "5zOfyHi1ar"
+        }
+    ],
+    "setup": {
+        "action": [
+            {
+                "operation": {
+                    "result": "pass",
+                    "message": "IubjLkVepW",
+                    "detail": "L7yd67NK7T"
+                },
+                "assert": {
+                    "result": "fail",
+                    "message": "RoXq3V1a_f",
+                    "detail": "hpyfoEo7TO"
+                }
+            }
+        ]
+    },
+    "test": [
+        {
+            "name": "2rznR6dCU5",
+            "description": "kzWAlM489o",
+            "action": [
+                {
+                    "operation": {
+                        "result": "fail",
+                        "message": "YdRDrCHFw9",
+                        "detail": "OAMHqsLl8n"
+                    },
+                    "assert": {
+                        "result": "error",
+                        "message": "Msd04rMxHD",
+                        "detail": "fKPKeY3A64"
+                    }
+                }
+            ]
+        }
+    ],
+    "teardown": {
+        "action": [
+            {
+                "operation": {
+                    "result": "warning",
+                    "message": "VfH40xXui_",
+                    "detail": "T11UqjoxwN"
+                }
+            }
+        ]
+    }
+}

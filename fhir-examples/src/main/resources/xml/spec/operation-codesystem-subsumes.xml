@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationDefinition xmlns="http://hl7.org/fhir">
+  <id value="CodeSystem-subsumes"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>Subsumption Testing</h2>
+      <p>OPERATION: Subsumption Testing</p>
+      <p>The official URL for this operation definition is: </p>
+      <pre>http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes</pre>
+      <div>
+        <p>Test the subsumption relationship between code/Coding A and code/Coding B given the semantics of subsumption in the underlying code system (see 
+          <a href="codesystem-definitions.html#CodeSystem.hierarchyMeaning">hierarchyMeaning</a>).
+        </p>
+
+        <p>When invoking this operation, a client SHALL provide both a and codes, either as code or Coding parameters. The system parameter is required unless the operation is invoked on an instance of a code system resource. Other parameters are optional</p>
+
+      </div>
+      <p>URL: [base]/CodeSystem/$subsumes</p>
+      <p>URL: [base]/CodeSystem/[id]/$subsumes</p>
+      <p>Parameters</p>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Use</b>
+          </td>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Cardinality</b>
+          </td>
+          <td>
+            <b>Type</b>
+          </td>
+          <td>
+            <b>Binding</b>
+          </td>
+          <td>
+            <b>Documentation</b>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>codeA</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#code">code</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The &quot;A&quot; code that is to be tested. If a code is provided, a system must be provided</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>codeB</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#code">code</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The &quot;B&quot; code that is to be tested. If a code is provided, a system must be provided</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>system</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#uri">uri</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The code system in which subsumption testing is to be performed. This must be provided unless the operation is invoked on a code system instance</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>version</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#string">string</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The version of the code system, if one was provided in the source data</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>codingA</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#Coding">Coding</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The &quot;A&quot; Coding that is to be tested. The code system does not have to match the specified subsumption code system, but the relationships between the code systems must be well established</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>codingB</td>
+          <td>0..1</td>
+          <td>
+            <a href="datatypes.html#Coding">Coding</a>
+          </td>
+          <td/>
+          <td>
+            <div>
+              <p>The &quot;B&quot; Coding that is to be tested. The code system does not have to match the specified subsumption code system, but the relationships between the code systems must be well established</p>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>OUT</td>
+          <td>outcome</td>
+          <td>1..1</td>
+          <td>
+            <a href="datatypes.html#code">code</a>
+          </td>
+          <td>
+            <a href="valueset-concept-subsumption-outcome.html">http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.0.0</a> (Required)
+          </td>
+          <td>
+            <div>
+              <p>The subsumption relationship between code/Coding &quot;A&quot; and code/Coding &quot;B&quot;. There are 4 possible codes to be returned (equivalent, subsumes, subsumed-by, and not-subsumed) as defined in the concept-subsumption-outcome value set.  If the server is unable to determine the relationship between the codes/Codings, then it returns an error response with an OperationOutcome.</p>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div/>
+    </div>
+  </text>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
+    <valueInteger value="5"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
+    <valueCode value="normative"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version">
+    <valueCode value="4.0.0"/>
+  </extension>
+  <url value="http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes"/>
+  <version value="4.0.0"/>
+  <name value="Subsumption Testing"/>
+  <status value="draft"/>
+  <kind value="operation"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
+  <publisher value="HL7 (FHIR Project)"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="fhir@lists.hl7.org"/>
+    </telecom>
+  </contact>
+  <description value="Test the subsumption relationship between code/Coding A and code/Coding B given the semantics of subsumption in the underlying code system (see [hierarchyMeaning](codesystem-definitions.html#CodeSystem.hierarchyMeaning)).&#xA;&#xA;When invoking this operation, a client SHALL provide both a and codes, either as code or Coding parameters. The system parameter is required unless the operation is invoked on an instance of a code system resource. Other parameters are optional"/>
+  <code value="subsumes"/>
+  <resource value="CodeSystem"/>
+  <system value="false"/>
+  <type value="true"/>
+  <instance value="true"/>
+  <parameter>
+    <name value="codeA"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The &quot;A&quot; code that is to be tested. If a code is provided, a system must be provided"/>
+    <type value="code"/>
+  </parameter>
+  <parameter>
+    <name value="codeB"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The &quot;B&quot; code that is to be tested. If a code is provided, a system must be provided"/>
+    <type value="code"/>
+  </parameter>
+  <parameter>
+    <name value="system"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The code system in which subsumption testing is to be performed. This must be provided unless the operation is invoked on a code system instance"/>
+    <type value="uri"/>
+  </parameter>
+  <parameter>
+    <name value="version"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The version of the code system, if one was provided in the source data"/>
+    <type value="string"/>
+  </parameter>
+  <parameter>
+    <name value="codingA"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The &quot;A&quot; Coding that is to be tested. The code system does not have to match the specified subsumption code system, but the relationships between the code systems must be well established"/>
+    <type value="Coding"/>
+  </parameter>
+  <parameter>
+    <name value="codingB"/>
+    <use value="in"/>
+    <min value="0"/>
+    <max value="1"/>
+    <documentation value="The &quot;B&quot; Coding that is to be tested. The code system does not have to match the specified subsumption code system, but the relationships between the code systems must be well established"/>
+    <type value="Coding"/>
+  </parameter>
+  <parameter>
+    <name value="outcome"/>
+    <use value="out"/>
+    <min value="1"/>
+    <max value="1"/>
+    <documentation value="The subsumption relationship between code/Coding &quot;A&quot; and code/Coding &quot;B&quot;. There are 4 possible codes to be returned (equivalent, subsumes, subsumed-by, and not-subsumed) as defined in the concept-subsumption-outcome value set.  If the server is unable to determine the relationship between the codes/Codings, then it returns an error response with an OperationOutcome."/>
+    <type value="code"/>
+    <binding>
+      <strength value="required"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.0.0"/>
+    </binding>
+  </parameter>
+</OperationDefinition>

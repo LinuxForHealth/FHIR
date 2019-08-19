@@ -1,0 +1,130 @@
+<TerminologyCapabilities xmlns="http://hl7.org/fhir">
+  <id value="fqaczm2P22"/>
+  <meta>
+    <versionId value="ylhIchkVeK"/>
+    <lastUpdated value="2019-08-08T09:17:33.463-04:00"/>
+    <source value="RFZoDbL_T3"/>
+    <profile value="VP8ThwtfE7"/>
+    <security>
+      <system value="h3NLHQz8XK"/>
+      <version value="Un5Z7Xa8Kg"/>
+      <code value="JmrR_2kUgj"/>
+      <display value="BYg3dks8NS"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="YaxgSKE0Ny"/>
+      <version value="k_sqP8aH8O"/>
+      <code value="DJTpXNafke"/>
+      <display value="p6wm4okIiT"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="FPsuRALBdx"/>
+  <language value="KCrlv7kYM9"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="jtFJ_emvJA"/>
+  <version value="dwmza60mUN"/>
+  <name value="TKxOl1wEjF"/>
+  <title value="kaTEQ39_LZ"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:33.483-04:00"/>
+  <publisher value="YNcn7CmKza"/>
+  <contact>
+    <name value="BwGZCy9LIl"/>
+    <telecom>
+      <system value="other"/>
+      <value value="aYl9xZivCw"/>
+      <use value="home"/>
+      <rank value="1238566577"/>
+      <period>
+        <start value="2019-08-08T09:17:33.463-04:00"/>
+        <end value="2019-08-08T09:17:33.463-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="IAx0Bx1WF2"/>
+  <useContext>
+    <code>
+      <system value="lDE_qLZZwn"/>
+      <version value="FfWO24DEAV"/>
+      <code value="rYE2ytQUL9"/>
+      <display value="je5o74KV5b"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="WlphnoVKHv"/>
+        <version value="uj9X2X4QyW"/>
+        <code value="m1bBlRtBAC"/>
+        <display value="EzdT6rhbp8"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="kwTvEDUjh9"/>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="bE2uCohTUe"/>
+      <version value="cuH1bsIc8S"/>
+      <code value="yAdnJqij3_"/>
+      <display value="M2EJHkxBov"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="Sq76ELHGbr"/>
+  </jurisdiction>
+  <purpose value="R5kryIJXH1"/>
+  <copyright value="pGrMikKFLA"/>
+  <kind value="requirements"/>
+  <software>
+    <name value="Esw9URXu9h"/>
+    <version value="9e89j2P9Vw"/>
+  </software>
+  <implementation>
+    <description value="zsniO1DMY7"/>
+    <url value="nPCc7XsYvs"/>
+  </implementation>
+  <lockedDate value="true"/>
+  <codeSystem>
+    <uri value="sjHUz5Oz8d"/>
+    <version>
+      <code value="8l5IJway3t"/>
+      <isDefault value="true"/>
+      <compositional value="true"/>
+      <language value="bVSU5a2jnc"/>
+      <filter>
+        <code value="pQYT5nvywI"/>
+        <op value="7yUgVp8oGI"/>
+      </filter>
+      <property value="IGbxE8m_cW"/>
+    </version>
+    <subsumption value="true"/>
+  </codeSystem>
+  <expansion>
+    <hierarchical value="true"/>
+    <paging value="true"/>
+    <incomplete value="true"/>
+    <parameter>
+      <name value="49l2TvZjIa"/>
+      <documentation value="a_VWChI7RO"/>
+    </parameter>
+    <textFilter value="qLF5xzVJ4W"/>
+  </expansion>
+  <codeSearch value="explicit"/>
+  <validateCode>
+    <translations value="true"/>
+  </validateCode>
+  <translation>
+    <needsMap value="true"/>
+  </translation>
+  <closure>
+    <translation value="true"/>
+  </closure>
+</TerminologyCapabilities>

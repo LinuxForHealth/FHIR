@@ -1,0 +1,100 @@
+<SearchParameter xmlns="http://hl7.org/fhir">
+  <id value="M5mMathF6z"/>
+  <meta>
+    <versionId value="2q7ueQoMOS"/>
+    <lastUpdated value="2019-08-08T09:17:31.274-04:00"/>
+    <source value="g4zK9IduCP"/>
+    <profile value="xK4yNgqbdW"/>
+    <security>
+      <system value="U_ZBgmVGMq"/>
+      <version value="InjnsLOZ1k"/>
+      <code value="J4hfDZ7vjg"/>
+      <display value="awg_vFud_I"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="7gIFsRudva"/>
+      <version value="fJRKQimQXh"/>
+      <code value="U88vjZhqOp"/>
+      <display value="k7a5GxDLmS"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="EjKnlF_JzT"/>
+  <language value="3J2wp5n1JT"/>
+  <text>
+    <status value="additional"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <url value="DYcXo1vmEh"/>
+  <version value="f3oQ_aVf6d"/>
+  <name value="kDRd2Okmji"/>
+  <derivedFrom value="3DBQ4wTVeI"/>
+  <status value="retired"/>
+  <experimental value="true"/>
+  <date value="2019-08-08T09:17:31.284-04:00"/>
+  <publisher value="vpj2_F7vEc"/>
+  <contact>
+    <name value="iPcXPPPOHy"/>
+    <telecom>
+      <system value="pager"/>
+      <value value="JYSJKApV8W"/>
+      <use value="work"/>
+      <rank value="1895685588"/>
+      <period>
+        <start value="2019-08-08T09:17:31.279-04:00"/>
+        <end value="2019-08-08T09:17:31.280-04:00"/>
+      </period>
+    </telecom>
+  </contact>
+  <description value="FDYahfYrN0"/>
+  <useContext>
+    <code>
+      <system value="NCUJVqAnGE"/>
+      <version value="7XaqK3xpva"/>
+      <code value="rNfAvumBnl"/>
+      <display value="1PrhBttJ4S"/>
+      <userSelected value="true"/>
+    </code>
+    <valueCodeableConcept>
+      <coding>
+        <system value="ONpf31EUYl"/>
+        <version value="bemUR9mQhw"/>
+        <code value="Kkc_6pfzMt"/>
+        <display value="DevMfsXoBn"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="O0S921P2p3"/>
+    </valueCodeableConcept>
+  </useContext>
+  <jurisdiction>
+    <coding>
+      <system value="iLOaKHfg_S"/>
+      <version value="FX62HtkviP"/>
+      <code value="aAhSEfl5T0"/>
+      <display value="vlL9UrDHCI"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="e6LVKCFeOI"/>
+  </jurisdiction>
+  <purpose value="0MpIwM0oPh"/>
+  <code value="2wS6wNr7pZ"/>
+  <base value="ExplanationOfBenefit"/>
+  <type value="uri"/>
+  <expression value="BwO1F_B2Ry"/>
+  <xpath value="w9aJK81Zos"/>
+  <xpathUsage value="normal"/>
+  <target value="Condition"/>
+  <multipleOr value="true"/>
+  <multipleAnd value="true"/>
+  <comparator value="ge"/>
+  <modifier value="identifier"/>
+  <chain value="wT970MkJAy"/>
+  <component>
+    <definition value="o0lrwwLywC"/>
+    <expression value="w785RsB4hW"/>
+  </component>
+</SearchParameter>

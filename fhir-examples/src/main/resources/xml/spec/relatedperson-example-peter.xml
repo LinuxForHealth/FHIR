@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><RelatedPerson xmlns="http://hl7.org/fhir">
+ <id value="peter"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <table>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>Peter Chalmers</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>534 Erewhon, Pleasantville, Vic, 3999</td>
+          </tr>
+          <tr>
+            <td>Contacts</td>
+            <td>Work: (03) 5555 6473</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </text>
+
+  <patient>
+    <reference value="Patient/animal"/>
+  </patient>
+  
+  <relationship>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/v2-0131"/>
+      <code value="C"/>
+    </coding>
+  </relationship>
+  
+  <name>
+    <use value="official"/>
+    <family value="Chalmers"/>
+    <given value="Peter"/>
+    <given value="James"/>
+  </name>
+  <telecom>
+    <system value="phone"/>
+    <value value="(03) 5555 6473"/>
+    <use value="work"/>
+  </telecom>
+
+  <gender value="male"/>
+
+  <address>
+    <use value="home"/>
+    <line value="534 Erewhon St"/>
+    <city value="PleasantVille"/>
+    <state value="Vic"/>
+    <postalCode value="3999"/>
+  </address>
+
+  <photo>
+    <contentType value="image/jpeg"/>
+    <url value="Binary/f012"/>
+  </photo>
+  <period>
+      <start value="2012-03-11"/>
+  </period>
+</RelatedPerson>

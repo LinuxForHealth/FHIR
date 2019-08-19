@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><Task xmlns="http://hl7.org/fhir">
+	<!--  This is an example to demonstrate using task for actioning a servicerequest and to illustrate how to populate many of the task elements - this is the parent task that will be broken into subtask to grab the specimen
+example1 action lipid panel -in progress =>. example2 specimen collection subtask -accepted => example4  specimen collection subtask - completed  with output Specimen=>example 5 action lipid panel -in progress specimen collected => example 6 action lipid panel - completed with output DiagnosticReport   -->
+	<id value="example1"/>
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example1</p><p><b>contained</b>: </p><p><b>identifier</b>: 20170201-001 (OFFICIAL)</p><p><b>basedOn</b>: General Wellness Careplan</p><p><b>groupIdentifier</b>: G20170201-001 (OFFICIAL)</p><p><b>status</b>: in-progress</p><p><b>businessStatus</b>: waiting for specimen <span>(Details )</span></p><p><b>intent</b>: order</p><p><b>priority</b>: routine</p><p><b>code</b>: Lipid Panel <span>(Details )</span></p><p><b>description</b>: Create order for getting specimen, Set up inhouse testing,  generate order for any sendouts and submit with specimen</p><p><b>focus</b>: <a>Lipid Panel Request</a></p><p><b>for</b>: <a>Peter James Chalmers</a></p><p><b>encounter</b>: <a>Example In-Patient Encounter</a></p><p><b>executionPeriod</b>: 31/10/2016 8:25:05 AM --&gt; (ongoing)</p><p><b>authoredOn</b>: 31/10/2016 8:25:05 AM</p><p><b>lastModified</b>: 31/10/2016 9:45:05 AM</p><p><b>requester</b>: <a>Dr Adam Careful</a></p><p><b>performerType</b>: Performer <span>(Details : {http://terminology.hl7.org/CodeSystem/task-performer-type code 'performer' = 'performer', given as 'Performer'})</span></p><p><b>owner</b>: <a>Clinical Laboratory @ Acme Hospital</a></p><p><b>reasonCode</b>: The Task.reason should only be included if there is no Task.focus or if it differs from the reason indicated on the focus <span>(Details )</span></p><p><b>note</b>: This is an example to demonstrate using task for actioning a servicerequest and to illustrate how to populate many of the task elements - this is the parent task that will be broken into subtask to grab the specimen and a sendout lab test </p><p><b>relevantHistory</b>: Author's Signature. Generated Summary: id: signature; recorded: 31/10/2016 8:25:05 AM; </p><h3>Restrictions</h3><table><tr><td>-</td><td><b>Repetitions</b></td><td><b>Period</b></td></tr><tr><td>*</td><td>1</td><td>?? --&gt; 02/11/2016 9:45:05 AM</td></tr></table></div></text><contained>
+		<!--   using contained resource for the purpose of this example only typically this would be a separate independent resource   -->
+		<Provenance>
+			<id value="signature"/>
+			<target>
+				<reference value="ServiceRequest/physiotherapy/_history/1"/>
+			</target>
+			<recorded value="2016-10-31T08:25:05+10:00"/>
+			<agent>
+				<role>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/v3-ParticipationType"/>
+						<code value="AUT"/>
+					</coding>
+				</role>
+				<who>
+					<reference value="Practitioner/f202"/>
+					<display value="Luigi Maas"/>
+				</who>
+			</agent>
+			<signature>
+				<type>
+					<system value="urn:iso-astm:E1762-95:2013"/>
+					<code value="1.2.840.10065.1.12.1.1"/>
+					<display value="Author's Signature"/>
+				</type>
+				<when value="2016-10-31T08:25:05+10:00"/>
+				<who>
+					<reference value="Practitioner/example"/>
+					<display value="Dr Adam Careful"/>
+				</who>
+				<targetFormat value="application/fhir+xml"/>
+				<sigFormat value="application/signature+xml"/>
+				<data value="dGhpcyBibG9iIGlzIHNuaXBwZWQ="/>
+			</signature>
+		</Provenance>
+	</contained>
+	<identifier>
+		<use value="official"/>
+		<system value="http:/goodhealth.org/identifiers"/>
+		<value value="20170201-001"/>
+	</identifier>
+	<basedOn>
+		<display value="General Wellness Careplan"/>
+	</basedOn>
+	<groupIdentifier>
+		<use value="official"/>
+		<system value="http:/goodhealth.org/accession/identifiers"/>
+		<value value="G20170201-001"/>
+	</groupIdentifier>
+	<status value="in-progress"/>
+	<!--  fictive business status populated for this example   -->
+	<businessStatus>
+		<text value="waiting for specimen"/>
+	</businessStatus>
+	<intent value="order"/>
+	<priority value="routine"/>
+	<!--  fictive code and description elements populated for this example   -->
+	<code>
+		<text value="Lipid Panel"/>
+	</code>
+	<description value="Create order for getting specimen, Set up inhouse testing,  generate order for any sendouts and submit with specimen"/>
+	<!--  	Use the lipid servicerequest example   -->
+	<focus>
+		<reference value="ServiceRequest/lipid"/>
+		<display value="Lipid Panel Request"/>
+	</focus>
+	<!--  	who the task is for
+  -->
+	<for>
+		<reference value="Patient/example"/>
+		<display value="Peter James Chalmers"/>
+	</for>
+	<encounter>
+		<reference value="Encounter/example"/>
+		<display value="Example In-Patient Encounter"/>
+	</encounter>
+	<!--  	Lots of dates   -->
+	<executionPeriod>
+		<start value="2016-10-31T08:25:05+10:00"/>
+	</executionPeriod>
+	<authoredOn value="2016-10-31T08:25:05+10:00"/>
+	<lastModified value="2016-10-31T09:45:05+10:00"/>
+	<requester>
+			<reference value="Practitioner/example"/>
+			<display value="Dr Adam Careful"/>
+	</requester>
+	<performerType>
+		<coding>
+			<system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
+			<code value="performer"/>
+			<display value="Performer"/>
+		</coding>
+		<text value="Performer"/>
+	</performerType>
+	<owner>
+		<reference value="Organization/1832473e-2fe0-452d-abe9-3cdb9879522f"/>
+		<display value="Clinical Laboratory @ Acme Hospital"/>
+	</owner>
+	<!--  	populate the reason just to demonstrate it use in this example
+  -->
+	<reasonCode>
+		<text value="The Task.reason should only be included if there is no Task.focus or if it differs from the reason indicated on the focus"/>
+	</reasonCode>
+	<note>
+		<text value="This is an example to demonstrate using task for actioning a servicerequest and to illustrate how to populate many of the task elements - this is the parent task that will be broken into subtask to grab the specimen and a sendout lab test "/>
+	</note>
+	<!--  	add the link to the signature on the task to show how this element is usedemonstrating in this example the relevant history element using a contained resource for the purpose of this example only typically would reference an external resource
+
+  -->
+	<relevantHistory>
+		<reference value="#signature"/>
+		<display value="Author's Signature"/>
+	</relevantHistory>
+	<!--  	complete the request within 48 hrs
+  -->
+	<restriction>
+		<repetitions value="1"/>
+		<period>
+			<end value="2016-11-02T09:45:05+10:00"/>
+		</period>
+	</restriction>
+	<!--  The expected output of this task is a DiagnosticRequest and will generated once the task is near completion   -->
+</Task>
