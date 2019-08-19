@@ -183,17 +183,17 @@ public class CodeGenerator {
     private String buildParseMethodInvocation(JsonObject elementDefinition, String elementName, String fieldType, boolean repeating) {
         if (repeating) {
             if (isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
-                return "parse" + fieldType + "(" + quote(elementName) + ", jsonValue, JsonSupport.getJsonValue(_" + elementName + "Array, index), index)";
+                return "parse" + fieldType + "(" + quote(elementName) + ", " + elementName + "Array.get(i), JsonSupport.getJsonValue(_" + elementName + "Array, i), i)";
             } else if (isStringSubtype(fieldType) || isCodeSubtype(fieldType)) {
-                return "(" + fieldType + ") parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", jsonValue, JsonSupport.getJsonValue(_" + elementName + "Array, index), index)";
+                return "(" + fieldType + ") parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), JsonSupport.getJsonValue(_" + elementName + "Array, i), i)";
             } else if (isUriSubtype(fieldType)) {
-                return "(" + fieldType + ") parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", jsonValue, JsonSupport.getJsonValue(_" + elementName + "Array, index), index)";
+                return "(" + fieldType + ") parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), JsonSupport.getJsonValue(_" + elementName + "Array, i), i)";
             } else if (isIntegerSubtype(fieldType)) {
-                return "(" + fieldType + ") parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", jsonValue, JsonSupport.getJsonValue(_" + elementName + "Array, index), index)";
+                return "(" + fieldType + ") parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), JsonSupport.getJsonValue(_" + elementName + "Array, i), i)";
             } else if (isQuantitySubtype(fieldType)) {
-                return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", (JsonObject) jsonValue, index)";
+                return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", " + elementName + "Array.getJsonObject(i), i)";
             } else {
-                return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", (JsonObject) jsonValue, index)";
+                return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", " + elementName + "Array.getJsonObject(i), i)";
             }
         } else {
             if (isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
@@ -2408,14 +2408,12 @@ public class CodeGenerator {
                         cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ")");
                     }
                     cb._if(elementName + "Array != null");
-                    cb.assign("int index", "0");
                     if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {
                         cb.assign("JsonArray _" + elementName + "Array", "jsonObject.getJsonArray(" + quote("_" + elementName) + ")");
                     }
-                    cb._foreach("JsonValue jsonValue", elementName + "Array");
+                    cb._for("int i = 0", "i < " + elementName + "Array.size()", "i++");
                     parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName, fieldType, true);
                     cb.invoke("builder", fieldName, args(parseMethodInvocation));
-                    cb.statement("index++");
                     cb._end();
                     cb._end();
                 } else {
