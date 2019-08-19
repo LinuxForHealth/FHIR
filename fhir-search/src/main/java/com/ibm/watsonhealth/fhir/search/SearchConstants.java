@@ -116,8 +116,6 @@ public class SearchConstants {
     
     public static final String JOIN_STR = ",";
     
-    public static final String AND_CHAR_STR = "&";    
-    
     // Filter
     public static final String WILDCARD_FILTER = "*";
     
