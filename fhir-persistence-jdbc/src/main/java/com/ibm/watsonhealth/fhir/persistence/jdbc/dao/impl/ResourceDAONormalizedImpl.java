@@ -57,22 +57,28 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     private static final Logger log = Logger.getLogger(ResourceDAONormalizedImpl.class.getName());
     private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName(); 
     
+    // Read the current version of the resource
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                             "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                            "LR.LOGICAL_ID = ? AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID";
-    
+
+    // Read a specific version of the resource
     private static final String SQL_VERSION_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                       "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
     
     
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    //                                                                                 0                 1                   2
+    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
+    // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                  "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
                                               "ORDER BY R.VERSION_ID DESC ";
     
+    // Count the number of versions we have for the resource identified by its logical-id
     private static final String SQL_HISTORY_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
                                                     "R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
     
@@ -704,37 +710,15 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getServiceId());
             stmt.setString(16, this.getReplicationInfo(resource.isDeleted()).getPatientId());
             stmt.setObject(17, this.getReplicationVersionId(), Types.INTEGER);
-            stmt.setInt(18, resource.getVersionId());
-            
-            // Transform the passed search parameters into SQL parameter array structures.
-//            if (parameterDao != null && parameters != null) {
-//                stmt.setArray(19, parameterDao.transformStringParameters(connection, currentSchema, parameters));
-//                stmt.setArray(20, parameterDao.transformNumberParameters(connection, currentSchema, parameters));
-//                stmt.setArray(21, parameterDao.transformDateParameters(connection, currentSchema, parameters));
-//                stmt.setArray(22, parameterDao.transformLatLongParameters(connection, currentSchema, parameters));
-//                stmt.setArray(23, parameterDao.transformTokenParameters(connection, currentSchema, parameters));
-//                stmt.setArray(24, parameterDao.transformQuantityParameters(connection, currentSchema, parameters));
-//            }
-//            else {
-            // For R4, we are switching to using batch-based inserts for the parameters
-            // primary because it seems that ARRAY types cannot be used in dynamic SQL
-            // statements (and we want to avoid the cost of creating on procedure per
-            // resource type...when there are so many of them)
-            stmt.setArray(19, null);
-            stmt.setArray(20, null);
-            stmt.setArray(21, null);
-            stmt.setArray(22, null);
-            stmt.setArray(23, null);
-            stmt.setArray(24, null);
-//            }
-            stmt.setString(25, this.isRepInfoRequired() ? "Y": "N");
-            stmt.registerOutParameter(26, Types.BIGINT);
+            stmt.setInt(18, resource.getVersionId());            
+            stmt.setString(19, this.isRepInfoRequired() ? "Y": "N");
+            stmt.registerOutParameter(20, Types.BIGINT);
             
             dbCallStartTime = System.nanoTime();
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             
-            resource.setId(stmt.getLong(26));
+            resource.setId(stmt.getLong(20));
             
             // Parameter time - enable multitenncy on the DAO.
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
@@ -803,7 +787,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                 
         try {
             connection = this.getConnection();
-            DerbyResourceDAO derbyResourceDAO = new DerbyResourceDAO(connection, parameterDao);
+            DerbyResourceDAO derbyResourceDAO = new DerbyResourceDAO(connection);
             
             resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
             if (resourceTypeId == null) {

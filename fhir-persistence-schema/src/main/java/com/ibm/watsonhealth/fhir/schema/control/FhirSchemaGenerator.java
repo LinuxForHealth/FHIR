@@ -130,13 +130,27 @@ public class FhirSchemaGenerator {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
 
-        // The FHIR user will need execute privileges on the following procedures
+        // The FHIR user (e.g. "FHIRSERVER") will need these privileges to be granted to it. Note that
+        // we use the group identified by FHIR_USER_GRANT_GROUP here - these privileges can be applied
+        // to any DB2 user using an admin user, or another user with sufficient GRANT TO privileges.
+        
+        
+        // The FHIRSERVER user gets EXECUTE privilege specifically on the SET_TENANT procedure, which is
+        // owned by the admin user, not the FHIRSERVER user.
         procedurePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.EXECUTE));
+        
+        // FHIRSERVER needs INSERT, SELECT, UPDATE and DELETE on all the resource data tables
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.INSERT));
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT));
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE));
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE));
+        
+        // FHIRSERVER gets only READ privilege to the SV_TENANT_ID variable. The only way FHIRSERVER can
+        // set (write to) SV_TENANT_ID is by calling the SET_TENANT stored procedure, which requires
+        // both TENANT_NAME and TENANT_KEY to be provided.
         variablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.READ));
+        
+        // FHIRSERVER gets to use the 
         sequencePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.USAGE));
 
         // All the resource types we will create tables for
@@ -144,104 +158,6 @@ public class FhirSchemaGenerator {
             resourceTypes.add(rt.value());
         }
         
-        // Old DSTU2 resources
-//        resourceTypes.add("Account");
-//        resourceTypes.add("AllergyIntolerance");
-//        resourceTypes.add("Appointment");
-//        resourceTypes.add("AppointmentResponse");
-//        resourceTypes.add("AuditEvent");
-//        resourceTypes.add("Basic");
-//        resourceTypes.add("Binary");
-//        resourceTypes.add("BodySite");
-//        resourceTypes.add("Bundle");
-//        resourceTypes.add("CarePlan");
-//        resourceTypes.add("Claim");
-//        resourceTypes.add("ClaimResponse");
-//        resourceTypes.add("ClinicalImpression");
-//        resourceTypes.add("Communication");
-//        resourceTypes.add("CommunicationRequest");
-//        resourceTypes.add("Composition");
-//        resourceTypes.add("ConceptMap");
-//        resourceTypes.add("Condition");
-//        resourceTypes.add("Conformance");
-//        resourceTypes.add("Contract");
-//        resourceTypes.add("Coverage");
-//        resourceTypes.add("DataElement");
-//        resourceTypes.add("DetectedIssue");
-//        resourceTypes.add("Device");
-//        resourceTypes.add("DeviceComponent");
-//        resourceTypes.add("DeviceMetric");
-//        resourceTypes.add("DeviceUseRequest");
-//        resourceTypes.add("DeviceUseStatement");
-//        resourceTypes.add("DiagnosticOrder");
-//        resourceTypes.add("DiagnosticReport");
-//        resourceTypes.add("DocumentManifest");
-//        resourceTypes.add("DocumentReference");
-//        resourceTypes.add("DomainResource");
-//        resourceTypes.add("EligibilityRequest");
-//        resourceTypes.add("EligibilityResponse");
-//        resourceTypes.add("Encounter");
-//        resourceTypes.add("EnrollmentRequest");
-//        resourceTypes.add("EnrollmentResponse");
-//        resourceTypes.add("EpisodeOfCare");
-//        resourceTypes.add("ExplanationOfBenefit");
-//        resourceTypes.add("FamilyMemberHistory");
-//        resourceTypes.add("Flag");
-//        resourceTypes.add("Goal");
-//        resourceTypes.add("Group");
-//        resourceTypes.add("HealthcareService");
-//        resourceTypes.add("ImagingObjectSelection");
-//        resourceTypes.add("ImagingStudy");
-//        resourceTypes.add("Immunization");
-//        resourceTypes.add("ImmunizationRecommendation");
-//        resourceTypes.add("ImplementationGuide");
-//        resourceTypes.add("List");
-//        resourceTypes.add("Location");
-//        resourceTypes.add("Media");
-//        resourceTypes.add("Medication");
-//        resourceTypes.add("MedicationAdministration");
-//        resourceTypes.add("MedicationDispense");
-//        resourceTypes.add("MedicationOrder");
-//        resourceTypes.add("MedicationStatement");
-//        resourceTypes.add("MessageHeader");
-//        resourceTypes.add("NamingSystem");
-//        resourceTypes.add("NutritionOrder");
-//        resourceTypes.add("Observation");
-//        resourceTypes.add("OperationDefinition");
-//        resourceTypes.add("OperationOutcome");
-//        resourceTypes.add("Order");
-//        resourceTypes.add("OrderResponse");
-//        resourceTypes.add("Organization");
-//        resourceTypes.add("Parameters");
-//        resourceTypes.add("Patient");
-//        resourceTypes.add("PaymentNotice");
-//        resourceTypes.add("PaymentReconciliation");
-//        resourceTypes.add("Person");
-//        resourceTypes.add("Practitioner");
-//        resourceTypes.add("Procedure");
-//        resourceTypes.add("ProcedureRequest");
-//        resourceTypes.add("ProcessRequest");
-//        resourceTypes.add("ProcessResponse");
-//        resourceTypes.add("Provenance");
-//        resourceTypes.add("Questionnaire");
-//        resourceTypes.add("QuestionnaireResponse");
-//        resourceTypes.add("ReferralRequest");
-//        resourceTypes.add("RelatedPerson");
-//        resourceTypes.add("Resource");
-//        resourceTypes.add("RiskAssessment");
-//        resourceTypes.add("Schedule");
-//        resourceTypes.add("SearchParameter");
-//        resourceTypes.add("Slot");
-//        resourceTypes.add("Specimen");
-//        resourceTypes.add("StructureDefinition");
-//        resourceTypes.add("Subscription");
-//        resourceTypes.add("Substance");
-//        resourceTypes.add("SupplyDelivery");
-//        resourceTypes.add("SupplyRequest");
-//        resourceTypes.add("TestScript");
-//        resourceTypes.add("ValueSet");
-//        resourceTypes.add("VisionPrescription");
-
     }
 
     /**
@@ -282,7 +198,8 @@ public class FhirSchemaGenerator {
     }
     
     /**
-     * Add the session variable we need
+     * Add the session variable we need. This variable is used to support multi-tenancy
+     * via the row-based access control permission predicate.
      * @param model
      */
     public void addVariable(PhysicalDataModel model) {
@@ -379,6 +296,9 @@ CREATE SEQUENCE fhir_sequence
         addParameterNames(model);
         addCodeSystems(model);
         addResourceTypes(model);
+        addLogicalResources(model); // for system-level parameter search
+        addLogicalResourceTokenValues(model); // for system-level _tag and _security parameters
+        addLogicalResourceStrValues(model); // for system-level _profile parameters
         addResourceTables(model);
 
         // Make sure we have the row and array types defined
@@ -409,6 +329,131 @@ CREATE SEQUENCE fhir_sequence
         
         pd = model.addProcedure(this.schemaName, ADD_ANY_RESOURCE, FhirSchemaConstants.INITIAL_VERSION, () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase() + ".sql", null), Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+    }
+
+    /**
+     * Add the system-wide logical_resources table. Note that LOGICAL_ID is
+     * denormalized, stored in both LOGICAL_RESOURCES and <RESOURCE_TYPE>_LOGICAL_RESOURCES.
+     * This avoids an additional join, and simplifies the migration to this
+     * new schema model.
+     * @param prefix
+     */
+    public void addLogicalResources(PhysicalDataModel pdm) {
+        final String tableName = LOGICAL_RESOURCES;
+
+        Table tbl = Table.builder(schemaName, tableName)
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
+                .addIntColumn(RESOURCE_TYPE_ID, false)
+                .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
+                .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
+                .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+    }
+
+    /**
+     * Add the system-wide TOKEN_VALUES table which is used for
+     * _tag and _security search properties in R4
+     * @param prefix
+     */
+    public void addLogicalResourceTokenValues(PhysicalDataModel pdm) {
+
+        final String tableName = TOKEN_VALUES;
+        final int tvb = MAX_TOKEN_VALUE_BYTES;
+
+        // logical_resources (0|1) ---- (*) token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(     PARAMETER_NAME_ID,      false)
+                .addIntColumn(        CODE_SYSTEM_ID,      false)
+                .addVarcharColumn(       TOKEN_VALUE, tvb,  true)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIndex(IDX + tableName + "_PNCSCV", PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE)
+                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CS", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm)
+                ;
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+    }
+
+    /**
+     * Add system-wide STR_VALUES table to support _profile
+     * properties (which are of type REFERENCE). 
+     * @param group
+     * @param prefix
+     */
+    public void addLogicalResourceStrValues(PhysicalDataModel pdm) {
+        final int msb = MAX_SEARCH_STRING_BYTES;
+        
+        Table tbl = Table.builder(schemaName, STR_VALUES)
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(     PARAMETER_NAME_ID,      false)
+                .addVarcharColumn(         STR_VALUE, msb,  true)
+                .addVarcharColumn(   STR_VALUE_LCASE, msb,  true)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIndex(IDX + STR_VALUES + "_PSR", PARAMETER_NAME_ID, STR_VALUE, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + STR_VALUES + "_PLR", PARAMETER_NAME_ID, STR_VALUE_LCASE, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + STR_VALUES + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, STR_VALUE)
+                .addIndex(IDX + STR_VALUES + "_RPL", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, STR_VALUE_LCASE)
+                .addForeignKeyConstraint(FK + STR_VALUES + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + STR_VALUES + "_RID", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm)
+                ;
+
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+    }
+
+    /**
+     * A LIST resource contains a list of items which are references to
+     * other resources
+     * @param pdm
+     */
+    public void addLogicalResourceListItems(PhysicalDataModel pdm) {
+
+        final String tableName = TOKEN_VALUES;
+        final int tvb = MAX_TOKEN_VALUE_BYTES;
+
+        // logical_resources (0|1) ---- (*) token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(     PARAMETER_NAME_ID,      false)
+                .addIntColumn(        CODE_SYSTEM_ID,      false)
+                .addVarcharColumn(       TOKEN_VALUE, tvb,  true)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIndex(IDX + tableName + "_PNCSCV", PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE)
+                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CS", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm)
+                ;
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
     }
 
 

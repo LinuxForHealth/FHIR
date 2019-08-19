@@ -32,7 +32,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) FROM ";
     private static final String SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM ";
     private static final String UNION_ALL = " UNION ALL ";
-    private static final String REVINCLUDE_JOIN = "JOIN  {0}_STR_VALUES P1 ON P1.RESOURCE_ID = R.RESOURCE_ID ";
+    private static final String REVINCLUDE_JOIN = "JOIN  {0}_STR_VALUES P1 ON P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID ";
         
     private List<InclusionParameter> includeParameters;
     private List<InclusionParameter> revIncludeParameters;
@@ -58,7 +58,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
            (SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
           Patient_RESOURCES R JOIN 
           Patient_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID JOIN 
-          Patient_TOKEN_VALUES P1 ON P1.RESOURCE_ID=R.RESOURCE_ID WHERE 
+          Patient_TOKEN_VALUES P1 ON P1.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID WHERE 
           R.IS_DELETED <> 'Y' AND 
           P1.RESOURCE_ID = R.RESOURCE_ID AND 
           (P1.PARAMETER_NAME_ID=1 AND ((P1.TOKEN_VALUE = ?))) 
@@ -81,7 +81,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             (SELECT R.RESOURCE_ID FROM 
              Patient_RESOURCES R JOIN 
              Patient_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID JOIN 
-             Patient_TOKEN_VALUES P1 ON P1.RESOURCE_ID=R.RESOURCE_ID WHERE 
+             Patient_TOKEN_VALUES P1 ON P1.LOGICAL_RESOURCE_ID=R.LOGICAL_RESOURCE_ID WHERE 
              R.IS_DELETED <> 'Y' AND 
              P1.RESOURCE_ID = R.RESOURCE_ID AND 
              (P1.PARAMETER_NAME_ID=1 AND ((P1.TOKEN_VALUE = ?)))
@@ -203,9 +203,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // P1.PARAMETER_NAME_ID=xx AND 
             queryString.append("P1.PARAMETER_NAME_ID=").append(this.getParameterNameId(includeParm.getSearchParameter())).append(" AND ");
             // P1.RESOURCE_ID IN 
-            queryString.append("P1.RESOURCE_ID IN ");
-            // (SELECT R.RESOURCE_ID  
-            queryString.append("(SELECT R.RESOURCE_ID ");
+            queryString.append("P1.LOGICAL_RESOURCE_ID IN ");
+            // (SELECT R.LOGICAL_RESOURCE_ID  
+            queryString.append("(SELECT R.LOGICAL_RESOURCE_ID ");
             // Add FROM clause for "root" resource type
             queryString.append(super.buildFromClause());
             // Add WHERE clause for "root" resource type

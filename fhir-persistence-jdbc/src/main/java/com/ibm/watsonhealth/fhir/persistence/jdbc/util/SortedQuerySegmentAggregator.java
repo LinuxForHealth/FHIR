@@ -242,7 +242,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * Builds the LEFT OUTER JOIN clauses necessary to return sorted Resource ids. 
      * For example:
      * JOIN r.parameters p1 
-     * LEFT OUTER JOIN Patient_STR_VALUES S1 ON (S1.PARAMETER_NAME_ID=50 AND S1.RESOURCE_ID = R.RESOURCE_ID)  
+     * LEFT OUTER JOIN Patient_STR_VALUES S1 ON (S1.PARAMETER_NAME_ID=50 AND S1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID)  
      *   
      * @throws FHIRPersistenceException
      */
@@ -277,7 +277,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
                       .append("(")
                       .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".PARAMETER_NAME_ID=").append(sortParameterNameId)
                       .append(" AND ")
-                      .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".RESOURCE_ID = R.RESOURCE_ID")
+                      .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
                       .append(") ");
                     
             sortParmIndex++;

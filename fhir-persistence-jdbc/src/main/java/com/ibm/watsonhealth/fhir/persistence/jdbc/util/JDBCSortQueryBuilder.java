@@ -181,6 +181,7 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
         }
         
         // Build the LEFT OUTER JOINs needed to access the required sort parameters.
+        // TODO logical_resource_id join for R4...this is going to be wrong
         int sortParmIndex = 1;
         for (SortParameter sortParm: sortParms) {
             queryBuffer.append(" LEFT OUTER JOIN Parameter ");
@@ -190,7 +191,7 @@ public class JDBCSortQueryBuilder extends JDBCQueryBuilder {
             queryBuffer.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT).append(NAME)
                        .append(EQUALS).append(QUOTE).append(sortParm.getName()).append(QUOTE)
                        .append(AND)
-                       .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT).append("resource_id").append(EQUALS).append("r.id");
+                       .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT).append("logical_resource_id").append(EQUALS).append("r.lrid");
             queryBuffer.append(RIGHT_PAREN);
                     
             sortParmIndex++;

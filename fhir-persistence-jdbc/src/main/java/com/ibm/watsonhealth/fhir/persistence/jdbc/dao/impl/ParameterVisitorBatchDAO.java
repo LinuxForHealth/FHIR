@@ -40,8 +40,8 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     // the max number of rows we accumulate for a given statement before we submit the batch
     private final int batchSize;
     
-    // FK to the resource for the parameters being added
-    private final long resourceId;
+    // FK to the logical resource for the parameters being added
+    private final long logicalResourceId;
     
     // Maintainers: remember to close all statements in AutoCloseable#close()
     private final PreparedStatement strings;
@@ -73,40 +73,40 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
      * @param c
      * @param resourceId
      */
-    public ParameterVisitorBatchDAO(Connection c, String adminSchemaName, String tablePrefix, boolean multitenant, long resourceId, int batchSize,
+    public ParameterVisitorBatchDAO(Connection c, String adminSchemaName, String tablePrefix, boolean multitenant, long logicalResourceId, int batchSize,
         IParameterNameCache pnc, ICodeSystemCache csc) throws SQLException {
         if (batchSize < 1) {
             throw new IllegalArgumentException("batchSize must be >= 1");
         }
         
-        this.resourceId = resourceId;
+        this.logicalResourceId = logicalResourceId;
         this.batchSize = batchSize;
         this.parameterNameCache = pnc;
         this.codeSystemCache = csc;
 
         String insert;
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_str_values (parameter_name_id, str_value, str_value_lcase, resource_id) VALUES (?,?,?,?)";
+        insert = multitenant ? "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                : "INSERT INTO " + tablePrefix + "_str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
         strings = c.prepareStatement(insert);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_number_values (mt_id, parameter_name_id, number_value, resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?)"
-                :"INSERT INTO " + tablePrefix + "_number_values (parameter_name_id, number_value, resource_id) VALUES (?,?,?)";
+        insert = multitenant ? "INSERT INTO " + tablePrefix + "_number_values (mt_id, parameter_name_id, number_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?)"
+                :"INSERT INTO " + tablePrefix + "_number_values (parameter_name_id, number_value, logical_resource_id) VALUES (?,?,?)";
         numbers = c.prepareStatement(insert);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_date_values (parameter_name_id, date_value, date_start, date_end, resource_id) VALUES (?,?,?,?,?)";
+        insert = multitenant ? "INSERT INTO " + tablePrefix + "_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                : "INSERT INTO " + tablePrefix + "_date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
         dates = c.prepareStatement(insert);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_token_values (mt_id, parameter_name_id, code_system_id, token_value, resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_token_values (parameter_name_id, code_system_id, token_value, resource_id) VALUES (?,?,?,?)";
+        insert = multitenant ? "INSERT INTO " + tablePrefix + "_token_values (mt_id, parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                : "INSERT INTO " + tablePrefix + "_token_values (parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (?,?,?,?)";
         tokens = c.prepareStatement(insert);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_quantity_values (mt_id, parameter_name_id, code_system_id, code, quantity_value, quantity_value_low, quantity_value_high, resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_quantity_values (parameter_name_id, code_system_id, code, quantity_value, quantity_value_low, quantity_value_high, resource_id) VALUES (?,?,?,?,?,?,?)";
+        insert = multitenant ? "INSERT INTO " + tablePrefix + "_quantity_values (mt_id, parameter_name_id, code_system_id, code, quantity_value, quantity_value_low, quantity_value_high, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?,?,?)"
+                : "INSERT INTO " + tablePrefix + "_quantity_values (parameter_name_id, code_system_id, code, quantity_value, quantity_value_low, quantity_value_high, logical_resource_id) VALUES (?,?,?,?,?,?,?)";
         quantities = c.prepareStatement(insert);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_latlng_values (mt_id, parameter_name_id, latitude_value, longitude_value, resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_latlng_values (parameter_name_id, latitude_value, longitude_value, resource_id) VALUES (?,?,?,?)";
+        insert = multitenant ? "INSERT INTO " + tablePrefix + "_latlng_values (mt_id, parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                : "INSERT INTO " + tablePrefix + "_latlng_values (parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (?,?,?,?)";
         locations = c.prepareStatement(insert);
     }
 
@@ -157,7 +157,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
                 strings.setNull(2, Types.VARCHAR);
                 strings.setNull(3, Types.VARCHAR);
             }
-            strings.setLong(4, resourceId);
+            strings.setLong(4, logicalResourceId);
             strings.addBatch();
             
             if (++stringCount == this.batchSize) {
@@ -178,7 +178,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         try {
             numbers.setInt(1, getParameterNameId(parameterName));
             numbers.setBigDecimal(2, value);
-            numbers.setLong(3, resourceId);
+            numbers.setLong(3, logicalResourceId);
             numbers.addBatch();
         
             if (++numberCount == this.batchSize) {
@@ -201,7 +201,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
             dates.setTimestamp(2, date);
             dates.setTimestamp(3, dateStart);
             dates.setTimestamp(4, dateEnd);
-            dates.setLong(5, resourceId);
+            dates.setLong(5, logicalResourceId);
             dates.addBatch();
             
             if (++dateCount == this.batchSize) {
@@ -232,7 +232,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
             tokens.setInt(1, parameterNameId);
             tokens.setInt(2, codeSystemId);
             tokens.setString(3, tokenValue);
-            tokens.setLong(4, resourceId);
+            tokens.setLong(4, logicalResourceId);
             tokens.addBatch();
             
             if (++tokenCount == this.batchSize) {
@@ -268,7 +268,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
                 quantities.setBigDecimal(4, quantityValue);
                 quantities.setBigDecimal(5, quantityLow);
                 quantities.setBigDecimal(6, quantityHigh);
-                quantities.setLong(7, resourceId);
+                quantities.setLong(7, logicalResourceId);
                 quantities.addBatch();
                 
                 if (++quantityCount == batchSize) {

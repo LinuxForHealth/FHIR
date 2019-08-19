@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.resource.Location;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -44,6 +43,21 @@ import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesFactory;
 /**
  * This is the JDBC implementation of a query builder for the 'normalized' schema of the JDBC persistence layer. Queries
  * are built in SQL.
+ * 
+ * For the new R4 schema, the search parameter tables (e.g. <resourceType>_STR_VALUES) are
+ * joined to their corresponding <resourceType>_LOGICAL_RESOURCES tables on LOGICAL_RESOURCE_ID.
+ * This is because the search parameters are not versioned, and are associated with
+ * the logical resource, not the resource version.
+ * 
+ * Useful column reference:
+ * ------------------------
+ * RESOURCE_TYPE_NAME    the formal name of the resource type e.g. 'Patient'
+ * RESOURCE_TYPE_ID      FK to the RESOURCE_TYPES table
+ * LOGICAL_ID            the VARCHAR holding the logical-id of the resource. Unique for a given resource type
+ * LOGICAL_RESOURCE_ID   the database BIGINT
+ * CURRENT_RESOURCE_ID   the unique BIGINT id of the latest resource version for the logical resource
+ * VERSION_ID            INT resource version number incrementing by 1
+ * RESOURCE_ID           the PK of the version-specific resource. Now only used as the target for CURRENT_RESOURCE_ID
  * 
  * @author markd
  *
@@ -447,13 +461,13 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
      *
      *      SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA,
      *      LR.LOGICAL_ID FROM Observation_RESOURCES R, Observation_LOGICAL_RESOURCES LR , Observation_STR_VALUES P1
-     *      WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND
+     *      WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND
      *      P1.PARAMETER_NAME_ID = 107 AND (p1.STR_VALUE IN (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
      *      Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CR1.LOGICAL_RESOURCE_ID AND
      *      CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN (SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM
      *      Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE CR2.RESOURCE_ID =
-     *      CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
+     *      CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.LOGICAL_RESOURCE_ID = CR2.LOGICAL_RESOURCE_ID AND
      *      CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')));
      *
      * @param queryParm
@@ -586,9 +600,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
         whereClauseSegment.append(chainedParmVar).append(" WHERE ");
 
-        // Build this piece: CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID =
-        // CR1.RESOURCE_ID AND
-        whereClauseSegment.append(chainedResourceTableAlias).append("RESOURCE_ID = ").append(chainedLogicalResourceTableAlias).append("CURRENT_RESOURCE_ID").append(AND).append(chainedResourceTableAlias).append("IS_DELETED").append(" <> 'Y'").append(AND).append(chainedParmTableAlias).append("RESOURCE_ID = ").append(chainedResourceTableAlias).append("RESOURCE_ID").append(AND);
+        // Build this piece: CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID =
+        // CLR1.LOGICAL_RESOURCE_ID AND
+        whereClauseSegment.append(chainedResourceTableAlias).append("RESOURCE_ID = ").append(chainedLogicalResourceTableAlias).append("CURRENT_RESOURCE_ID").append(AND).append(chainedResourceTableAlias).append("IS_DELETED").append(" <> 'Y'").append(AND).append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ").append(chainedResourceTableAlias).append("LOGICAL_RESOURCE_ID").append(AND);
     }
 
     /**
@@ -661,20 +675,20 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
      *
      *      SELECT COUNT(R.RESOURCE_ID) FROM AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR ,
      *      AuditEvent_STR_VALUES P1 WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND
-     *      P1.RESOURCE_ID = R.RESOURCE_ID AND ((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR
+     *      P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND ((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR
      *      ((P1.PARAMETER_NAME_ID=13 AND (P1.STR_VALUE IN (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
      *      Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
      *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR ((P1.PARAMETER_NAME_ID=13 AND (P1.STR_VALUE IN (SELECT
      *      'RelatedPerson' || '/' || CLR1.LOGICAL_ID FROM RelatedPerson_RESOURCES CR1, RelatedPerson_LOGICAL_RESOURCES
      *      CLR1, RelatedPerson_STR_VALUES CP1 WHERE CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <>
-     *      'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
+     *      'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
      *      ((P1.PARAMETER_NAME_ID=16 AND (P1.STR_VALUE IN (SELECT 'AuditEvent' || '/' || CLR1.LOGICAL_ID FROM
      *      auditevent_RESOURCES CR1, auditevent_LOGICAL_RESOURCES CLR1, auditevent_STR_VALUES CP1 WHERE CR1.RESOURCE_ID
-     *      = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *      = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
      *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ? UNION SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
      *      device_RESOURCES CR1, device_LOGICAL_RESOURCES CLR1, device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
      *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
      */
     @Override
@@ -1364,9 +1378,9 @@ CODE_REMOVED
 
         // if (missing != null && !missing) {
         // // Build this piece of the segment:
-        // // (P1.PARAMETER_NAME_ID = x AND P1.resource_id = R.resource_id)
+        // // (P1.PARAMETER_NAME_ID = x AND P1.logical_resource_id = LR.logical_resource_id)
         // this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), tableAlias);
-        // whereClauseSegment.append(AND).append(tableAlias + DOT + "RESOURCE_ID = R.RESOURCE_ID");
+        // whereClauseSegment.append(AND).append(tableAlias + DOT + "LOGICAL_RESOURCE_ID = LR.LOGICL_RESOURCE_ID");
         // whereClauseSegment.append(RIGHT_PAREN);
         // } else {
         StringBuilder valuesTable = new StringBuilder(resourceType.getSimpleName());
@@ -1399,9 +1413,9 @@ CODE_REMOVED
         whereClauseSegment.append("EXISTS ").append("(SELECT 1 FROM " + valuesTable + WHERE);
 
         // Build this piece of the segment:
-        // (P1.PARAMETER_NAME_ID = x AND P1.resource_id = R.resource_id))
+        // (P1.PARAMETER_NAME_ID = x AND P1.logical_resource_id = R.logical_resource_id))
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), valuesTable.toString());
-        whereClauseSegment.append(AND).append(valuesTable + DOT + "RESOURCE_ID = R.RESOURCE_ID");
+        whereClauseSegment.append(AND).append(valuesTable + DOT + "LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
         // }
 

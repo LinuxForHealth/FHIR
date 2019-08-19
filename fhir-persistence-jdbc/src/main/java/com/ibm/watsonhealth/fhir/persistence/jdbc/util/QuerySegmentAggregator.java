@@ -109,7 +109,7 @@ class QuerySegmentAggregator {
      * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
      *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
      *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-     *     P1.RESOURCE_ID = R.RESOURCE_ID AND
+     *     P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND
      *     (P1.PARAMETER_NAME_ID = 4 AND
      *     P1.STR_VALUE LIKE ? ESCAPE '+')
      *   ORDER BY r.RESOURCE_ID ASC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY
@@ -155,7 +155,7 @@ class QuerySegmentAggregator {
      *     SELECT COUNT(R.RESOURCE_ID)FROM
      *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
      *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-     *     (P1.RESOURCE_ID = R.RESOURCE_ID AND
+     *     (P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND
      *     (P1.PARAMETER_NAME_ID = 4 AND
      *     P1.STR_VALUE LIKE ? ESCAPE '+'))
      * 
@@ -312,7 +312,7 @@ class QuerySegmentAggregator {
                      break;
             }
             fromClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
-            fromClause.append(ON).append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".RESOURCE_ID=R.RESOURCE_ID");
+            fromClause.append(ON).append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".LOGICAL_RESOURCE_ID=R.LOGICAL_RESOURCE_ID");
             
             parameterTableAliasIndex++;
         }
@@ -350,7 +350,7 @@ class QuerySegmentAggregator {
                 }
                 whereClauseSegment = querySegment.getQueryString();
                 if (!Modifier.MISSING.equals(param.getModifier())) {
-                    whereClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".").append("RESOURCE_ID = R.RESOURCE_ID AND ");
+                    whereClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".").append("LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND ");
                 }
                 resolvedTableAlias = PARAMETER_TABLE_VAR + parameterTableAliasIndex + ".";
                 whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", resolvedTableAlias);

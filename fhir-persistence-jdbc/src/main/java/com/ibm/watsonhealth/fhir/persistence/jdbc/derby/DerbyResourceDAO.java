@@ -21,7 +21,6 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterVisitorDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 
 /**
@@ -29,12 +28,12 @@ CODE_REMOVED
  * to pass the parameter list into the stored procedure, but this approach
  * exposed some query optimizer issues in DB2 resulting in significant 
  * concurrency problems (related to dynamic statistics collection and
- * query compilation). The solution uses row type arrays instead, but these
- * aren't supported in Derby.
+ * query compilation). The solution used row type arrays instead, but these
+ * aren't supported in Derby, and have since been replaced by a DAO-based
+ * batch statements due to issues with dynamic SQL and array types in DB2.
  * 
- * For Derby, we take a different tack. Rather than messing around with a 
- * (Java) Derby stored procedure, we can simply execute the necessary 
- * statements as a sequence of JDBC calls. This also simplifies debugging.
+ * So this class follows the logic of the stored procedure, but does so
+ * using a series of individual JDBC statements.
  * 
  * @author rarnold
  */
@@ -44,11 +43,6 @@ public class DerbyResourceDAO {
     
     private static final DerbyTranslator translator = new DerbyTranslator();
     
-    private final ParameterNormalizedDAO parameterDAO;
-
-    // DAO used to obtain sequence values from FHIR_SEQUENCE
-    private final FhirSequenceDAO fhirSequenceDAO;
-
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private final FhirRefSequenceDAO fhirRefSequenceDAO;
 
@@ -65,10 +59,8 @@ public class DerbyResourceDAO {
      * @param connection the database connection
      * @param parameterDAO the DAO/cache for obtaining parameter and code system ids
      */
-    public DerbyResourceDAO(Connection connection, ParameterNormalizedDAO parameterDAO) {
+    public DerbyResourceDAO(Connection connection) {
         this.conn = connection;
-        this.parameterDAO = parameterDAO;
-        this.fhirSequenceDAO = new FhirSequenceDAOImpl(connection);
         this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(connection);
         this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirRefSequenceDAO);
         this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirRefSequenceDAO);
@@ -143,14 +135,14 @@ public class DerbyResourceDAO {
             throw new IllegalStateException("resource type not found: " + v_resource_type);
         }
 
-        // Get a lock at the logical resource level
-        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, current_resource_id FROM " + tablePrefix + "_logical_resources WHERE logical_id = ? FOR UPDATE";
+        // Get a lock at the system-wide logical resource level. Note the Derby-specific syntax
+        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR UPDATE";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
-            stmt.setString(1, p_logical_id);
+            stmt.setInt(1, v_resource_type_id);
+            stmt.setString(2, p_logical_id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 v_logical_resource_id = rs.getLong(1);
-                v_current_resource_id = rs.getLong(2);
             }
             else {
                 v_not_found = true;
@@ -174,12 +166,13 @@ public class DerbyResourceDAO {
             }
 
             try {
-                // insert the logical resource record
-                final String sql3 = "INSERT INTO "+ tablePrefix + "_logical_resources (logical_resource_id, logical_id) VALUES (?, ?)";
+                // insert the system-wide logical resource record.
+                final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id) VALUES (?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
                     // bind parameters
                     stmt.setLong(1, v_logical_resource_id);
-                    stmt.setString(2, p_logical_id);
+                    stmt.setInt(2, v_resource_type_id);
+                    stmt.setString(3, p_logical_id);
                     stmt.executeUpdate();
                 }
             } catch (SQLException e) {
@@ -199,26 +192,52 @@ public class DerbyResourceDAO {
             if (v_duplicate) {
                 try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
                     // bind parameters
-                    stmt.setString(1, p_logical_id);
+                    stmt.setInt(1, v_resource_type_id);
+                    stmt.setString(2, p_logical_id);
                     ResultSet res = stmt.executeQuery();
                     if (res.next()) {
                         v_logical_resource_id = res.getLong(1);
-                        v_current_resource_id = res.getLong(2);
                     }
                     else {
                         // Extremely unlikely as we should never delete logical resource records
-                        throw new IllegalStateException("Logical resource was deleted: " + p_logical_id);
+                        throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
                     }
                 }
             } 
             else {
                 v_new_resource = true;
+                
+                // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
+                // so it gets stored again here for convenience
+                final String sql3 = "INSERT INTO " + tablePrefix + "_logical_resources (logical_resource_id, logical_id) VALUES (?, ?)";
+                try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
+                    // bind parameters
+                    stmt.setLong(1, v_logical_resource_id);
+                    stmt.setString(2, p_logical_id);
+                    stmt.executeUpdate();
+                }
             }
         }
 
         if (!v_new_resource) {
-            //resource exists, so if we are storing a specific version, do a quick check to make
-            //sure that this version doesn't currently exist. This is only done when processing
+            // existing resource.  We need to know the current version from the 
+            // resource-specific logical resources table.
+            final String sql3 = "SELECT current_resource_id FROM " + tablePrefix + "_logical_resources WHERE logical_resource_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
+                stmt.setLong(1, v_logical_resource_id);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    v_current_resource_id = rs.getLong(1);
+                }
+                else {
+                    // This database is broken, because we shouldn't have logical_resource records without
+                    // corresponding resource-specific logical_resource records.
+                    throw new SQLException("Logical_id record '" + p_logical_id + "' missing for resource " + tablePrefix);
+                }
+            }
+            
+            // so if we are storing a specific version, do a quick check to make
+            // sure that this version doesn't currently exist. This is only done when processing
             // replication messages which might be duplicated. We want the operation to be idempotent,
             // so if the resource already exists, we don't need to do anything else.
 
@@ -235,7 +254,6 @@ public class DerbyResourceDAO {
                         return v_resource_id;
                     }
                 }
-
             }
 
             // Grab the version value for the current version (identified by v_current_resource_id)
@@ -257,12 +275,12 @@ public class DerbyResourceDAO {
             // later than the current version
             if (p_version == null || p_version > v_version) {
                 // existing resource, so need to delete all its parameters
-                deleteFromParameterTable(conn, tablePrefix + "_str_values", v_current_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_number_values", v_current_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_date_values", v_current_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_current_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_token_values", v_current_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_current_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_token_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
             }
         }
         
@@ -339,7 +357,7 @@ public class DerbyResourceDAO {
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
                 // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_resource_id, 100, 
+                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100, 
                     new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
                     for (Parameter p: parameters) {
                         p.visit(pvd);
@@ -347,40 +365,6 @@ public class DerbyResourceDAO {
                 }
             }
         }
-
-        /**
-         * finally we insert a record into our replication log table. This also covers
-         * us for Part 11 audit. The replicator process reads records from this table
-         * and delivers them into kafka, then deleting the row once it is convinced
-         * kafka has received the record. Don't do this if this is a replicated
-         * resource (where we are given a p_version value)
-         */
-        if (p_version == null && p_write_rep_log) {
-            String sql6 = "INSERT INTO fhir_replication_log (last_updated, resource_type_id, resource_id, previous_resource_id, version_id, is_deleted, source_key, tx_correlation_id, changed_by, correlation_token, tenant_id, reason, event,site_id, study_id, patient_id, service_id) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement stmt = conn.prepareStatement(sql6)) {
-                // bind parameters
-                stmt.setTimestamp(1, p_last_updated);
-                stmt.setLong(2, v_resource_type_id);
-                stmt.setLong(3, v_resource_id);
-                stmt.setLong(4, v_current_resource_id);
-                stmt.setInt(5, v_version + 1);
-                stmt.setString(6, p_is_deleted ? "Y" : "N");
-                stmt.setString(7, p_source_key);
-                stmt.setString(8, p_tx_correlation_id);
-                stmt.setString(9, p_changed_by);
-                stmt.setString(10, p_correlation_token);
-                stmt.setString(11, p_tenant_id);
-                stmt.setString(12, p_reason);
-                stmt.setString(13, p_event);
-                stmt.setString(14, p_site_id);
-                stmt.setString(15, p_study_id);
-                stmt.setString(16, p_patient_id);
-                stmt.setString(17, p_service_id);
-
-                stmt.executeUpdate();
-            }
-        }
-
         logger.exiting(CLASSNAME, METHODNAME);
         return v_resource_id;
     }
@@ -391,11 +375,11 @@ public class DerbyResourceDAO {
      * @param tableName
      * @param resourceId
      */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long resourceId) throws SQLException {
-        String delStrValues = "DELETE FROM " + tableName + " WHERE resource_id = ?";
+    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
+        String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
             // bind parameters
-            stmt.setLong(1, resourceId);
+            stmt.setLong(1, logicalResourceId);
             stmt.executeUpdate();
         }
         
