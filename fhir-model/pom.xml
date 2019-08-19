@@ -47,7 +47,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -59,6 +58,12 @@
                     <groupId>com.ibm.watsonhealth.fhir</groupId>
                     <artifactId>fhir-tools</artifactId>
                     <dependencies>
+                        <!-- javax.json API -->
+                        <dependency>
+                            <groupId>jakarta.json</groupId>
+                            <artifactId>jakarta.json-api</artifactId>
+                            <version>1.1.5</version>
+                        </dependency>
                         <!-- javax.json implementation -->
                         <dependency>
                             <groupId>org.glassfish</groupId>
