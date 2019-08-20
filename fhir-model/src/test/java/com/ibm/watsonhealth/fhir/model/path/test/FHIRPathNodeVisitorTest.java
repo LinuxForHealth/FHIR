@@ -23,7 +23,6 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathElementNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
@@ -73,13 +72,12 @@ public class FHIRPathNodeVisitorTest {
     public void testFHIRPathNodeVisitor() {
         Patient patient = buildPatient();
         FHIRPathTree tree = FHIRPathTree.tree(patient);
-        FHIRPathNode root = tree.getRoot();
-        List<String> actual = new ArrayList<>();
-        root.accept(actual, new PrintingVisitor());
-        Assert.assertEquals(actual, EXPECTED);
+        List<String> list = new ArrayList<>();
+        tree.getRoot().accept(list, new ListBuildingVisitor());
+        Assert.assertEquals(list, EXPECTED);
     }
     
-    public static class PrintingVisitor extends FHIRPathAbstractNodeVisitor<List<String>> {
+    public static class ListBuildingVisitor extends FHIRPathAbstractNodeVisitor<List<String>> {
         @Override
         protected void doVisit(List<String> param, FHIRPathBooleanValue value) {
             param.add("FHIRPathBooleanValue: " + value._boolean());

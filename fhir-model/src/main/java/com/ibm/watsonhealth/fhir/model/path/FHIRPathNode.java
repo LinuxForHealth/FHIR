@@ -50,4 +50,7 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
         FHIRPathNode build();
     }
     <T> void accept(T param, FHIRPathNodeVisitor<T> visitor);
+    default <T> void accept(FHIRPathNodeVisitor<T> visitor) {
+        accept(null, visitor);
+    }
 }
