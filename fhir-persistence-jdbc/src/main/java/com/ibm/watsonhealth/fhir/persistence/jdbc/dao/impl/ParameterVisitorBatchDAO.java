@@ -16,12 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.IParameterNameCache;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.IParameterTypeCache;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.IParameterVisitor;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants;
@@ -61,6 +57,18 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     
     private final PreparedStatement locations;
     private int locationCount;
+    
+    // Searchable string attributes stored at the Resource (system) level
+    private final PreparedStatement resourceStrings;
+    private int resourceStringCount;
+    
+    // Searchable date attributes stored at the Resource (system) level
+    private final PreparedStatement resourceDates;
+    private int resourceDateCount;
+    
+    // Searchable token attributes stored at the Resource (system) level
+    private final PreparedStatement resourceTokens;
+    private int resourceTokenCount;
 
     // For looking up parameter name ids
     private final IParameterNameCache parameterNameCache;
@@ -108,6 +116,21 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         insert = multitenant ? "INSERT INTO " + tablePrefix + "_latlng_values (mt_id, parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
                 : "INSERT INTO " + tablePrefix + "_latlng_values (parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (?,?,?,?)";
         locations = c.prepareStatement(insert);
+
+        // Resource level string attributes
+        insert = multitenant ? "INSERT INTO str_values (mt_id, parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                : "INSERT INTO str_values (parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (?,?,?,?)";
+        resourceStrings = c.prepareStatement(insert);
+        
+        // Resource level date attributes
+        insert = multitenant ? "INSERT INTO date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                : "INSERT INTO date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+        resourceDates = c.prepareStatement(insert);
+        
+        // Resource level token attributes
+        insert = multitenant ? "INSERT INTO token_values (mt_id, parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                : "INSERT INTO token_values (parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (?,?,?,?)";
+        resourceTokens = c.prepareStatement(insert);
     }
 
     /**
@@ -134,7 +157,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
      * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dto.IParameterVisitor#stringValue(java.lang.String, java.lang.String)
      */
     @Override
-    public void stringValue(String parameterName, String value) throws FHIRPersistenceException {
+    public void stringValue(String parameterName, String value, boolean isBase) throws FHIRPersistenceException {
         while (value != null && value.getBytes().length > FhirSchemaConstants.MAX_SEARCH_STRING_BYTES) {
             // keep chopping the string in half until its byte representation fits inside
             // the VARCHAR
@@ -143,26 +166,52 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         
         try {
             int parameterNameId = getParameterNameId(parameterName);
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
-            }
-            
-            strings.setInt(1, parameterNameId);
-            if (value != null) {
+            if (isBase) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("baseStringValue: " + parameterName + "[" + parameterNameId + "], " + value);
+                }
                 
-                strings.setString(2, value);
-                strings.setString(3, value.toLowerCase());
+                resourceStrings.setInt(1, parameterNameId);
+                if (value != null) {
+                    
+                    resourceStrings.setString(2, value);
+                    resourceStrings.setString(3, value.toLowerCase());
+                }
+                else {
+                    resourceStrings.setNull(2, Types.VARCHAR);
+                    resourceStrings.setNull(3, Types.VARCHAR);
+                }
+                resourceStrings.setLong(4, logicalResourceId);
+                resourceStrings.addBatch();
+                
+                if (++resourceStringCount == this.batchSize) {
+                    resourceStrings.executeBatch();
+                    resourceStringCount = 0;
+                }
             }
             else {
-                strings.setNull(2, Types.VARCHAR);
-                strings.setNull(3, Types.VARCHAR);
-            }
-            strings.setLong(4, logicalResourceId);
-            strings.addBatch();
-            
-            if (++stringCount == this.batchSize) {
-                strings.executeBatch();
-                stringCount = 0;
+                // standard resource property
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
+                }
+                
+                strings.setInt(1, parameterNameId);
+                if (value != null) {
+                    
+                    strings.setString(2, value);
+                    strings.setString(3, value.toLowerCase());
+                }
+                else {
+                    strings.setNull(2, Types.VARCHAR);
+                    strings.setNull(3, Types.VARCHAR);
+                }
+                strings.setLong(4, logicalResourceId);
+                strings.addBatch();
+                
+                if (++stringCount == this.batchSize) {
+                    strings.executeBatch();
+                    stringCount = 0;
+                }
             }
         }
         catch (SQLException x) {
@@ -195,18 +244,36 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
      * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dto.IParameterVisitor#dateValue(java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp)
      */
     @Override
-    public void dateValue(String parameterName, Timestamp date, Timestamp dateStart, Timestamp dateEnd) throws FHIRPersistenceException {
+    public void dateValue(String parameterName, Timestamp date, Timestamp dateStart, Timestamp dateEnd, boolean isBase) throws FHIRPersistenceException {
         try {
-            dates.setInt(1, getParameterNameId(parameterName));
-            dates.setTimestamp(2, date);
-            dates.setTimestamp(3, dateStart);
-            dates.setTimestamp(4, dateEnd);
-            dates.setLong(5, logicalResourceId);
-            dates.addBatch();
+            int parameterNameId = getParameterNameId(parameterName);
             
-            if (++dateCount == this.batchSize) {
-                dates.executeBatch();
-                dateCount = 0;
+            if (isBase) {
+                // Insert record into the base level date attribute table
+                resourceDates.setInt(1, parameterNameId);
+                resourceDates.setTimestamp(2, date);
+                resourceDates.setTimestamp(3, dateStart);
+                resourceDates.setTimestamp(4, dateEnd);
+                resourceDates.setLong(5, logicalResourceId);
+                resourceDates.addBatch();
+                
+                if (++resourceDateCount == this.batchSize) {
+                    resourceDates.executeBatch();
+                    resourceDateCount = 0;
+                }
+            }
+            else {        
+                dates.setInt(1, parameterNameId);
+                dates.setTimestamp(2, date);
+                dates.setTimestamp(3, dateStart);
+                dates.setTimestamp(4, dateEnd);
+                dates.setLong(5, logicalResourceId);
+                dates.addBatch();
+                
+                if (++dateCount == this.batchSize) {
+                    dates.executeBatch();
+                    dateCount = 0;
+                }
             }
         }
         catch (SQLException x) {
@@ -219,25 +286,46 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
      * @see com.ibm.watsonhealth.fhir.persistence.jdbc.dto.IParameterVisitor#tokenValue(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void tokenValue(String parameterName, String codeSystem, String tokenValue) throws FHIRPersistenceException {
+    public void tokenValue(String parameterName, String codeSystem, String tokenValue, boolean isBase) throws FHIRPersistenceException {
         
         try {
             int parameterNameId = getParameterNameId(parameterName);
             int codeSystemId = getCodeSystemId(codeSystem);
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("tokenValue: " + parameterName + "[" + parameterNameId + "], " 
-                        + codeSystem + "[" + codeSystemId + "], " + tokenValue);
+            
+            if (isBase) {
+                // store in the base (resource) table
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("baseTokenValue: " + parameterName + "[" + parameterNameId + "], " 
+                            + codeSystem + "[" + codeSystemId + "], " + tokenValue);
+                }
+                
+                resourceTokens.setInt(1, parameterNameId);
+                resourceTokens.setInt(2, codeSystemId);
+                resourceTokens.setString(3, tokenValue);
+                resourceTokens.setLong(4, logicalResourceId);
+                resourceTokens.addBatch();
+                
+                if (++resourceTokenCount == this.batchSize) {
+                    resourceTokens.executeBatch();
+                    resourceTokenCount = 0;
+                }
             }
-            
-            tokens.setInt(1, parameterNameId);
-            tokens.setInt(2, codeSystemId);
-            tokens.setString(3, tokenValue);
-            tokens.setLong(4, logicalResourceId);
-            tokens.addBatch();
-            
-            if (++tokenCount == this.batchSize) {
-                tokens.executeBatch();
-                tokenCount = 0;
+            else {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("tokenValue: " + parameterName + "[" + parameterNameId + "], " 
+                            + codeSystem + "[" + codeSystemId + "], " + tokenValue);
+                }
+                
+                tokens.setInt(1, parameterNameId);
+                tokens.setInt(2, codeSystemId);
+                tokens.setString(3, tokenValue);
+                tokens.setLong(4, logicalResourceId);
+                tokens.addBatch();
+                
+                if (++tokenCount == this.batchSize) {
+                    tokens.executeBatch();
+                    tokenCount = 0;
+                }
             }
         }
         catch (FHIRPersistenceDataAccessException x) {

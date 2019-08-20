@@ -37,6 +37,9 @@ public class Parameter {
     private String valueCode;
     private TimeType timeType;
     
+    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
+    private String base;
+    
     // We need to provide a default value for the token-system as the schema
     // column is not null (simplifying queries)
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
@@ -188,21 +191,26 @@ public class Parameter {
      * @param visitor
      */
     public void visit(IParameterVisitor visitor) throws FHIRPersistenceException {
+        
+        // Search parameters _id, _lastUpdated, _tag, _profile, _security
+        // are stored at the system level.
+        boolean baseLevel = "Resource".equals(this.base);
+        
         switch (this.type) {
         case STRING:
-            visitor.stringValue(name, valueString);
+            visitor.stringValue(name, valueString, baseLevel);
             break;
         case NUMBER:
             visitor.numberValue(name, this.valueNumber, this.valueNumberLow, this.valueNumberHigh);
             break;
         case DATE:
-            visitor.dateValue(name, this.valueDate, this.valueDateStart, this.valueDateEnd);
+            visitor.dateValue(name, this.valueDate, this.valueDateStart, this.valueDateEnd, baseLevel);
             break;
         case TOKEN:
             if (valueSystem == null || valueSystem.isEmpty()) {
                 valueSystem = DEFAULT_TOKEN_SYSTEM;
             }
-            visitor.tokenValue(name, this.valueSystem, this.valueCode);
+            visitor.tokenValue(name, this.valueSystem, this.valueCode, baseLevel);
             break;
         case QUANTITY:
             if (valueSystem == null || valueSystem.isEmpty()) {
@@ -211,10 +219,10 @@ public class Parameter {
             visitor.quantityValue(name, this.valueCode, this.valueSystem, this.valueNumber, this.valueNumberLow, this.valueNumberHigh);
             break;
         case REFERENCE:
-            visitor.stringValue(name, this.valueString);
+            visitor.stringValue(name, this.valueString, baseLevel);
             break;
         case URI:
-            visitor.stringValue(name, this.valueString);
+            visitor.stringValue(name, this.valueString, baseLevel);
             break;
         }
     }
@@ -225,5 +233,19 @@ public class Parameter {
 
     public void setTimeType(TimeType timeType) {
         this.timeType = timeType;
+    }
+
+    /**
+     * @return the base
+     */
+    public String getBase() {
+        return base;
+    }
+
+    /**
+     * @param base the base to set
+     */
+    public void setBase(String base) {
+        this.base = base;
     }
 }

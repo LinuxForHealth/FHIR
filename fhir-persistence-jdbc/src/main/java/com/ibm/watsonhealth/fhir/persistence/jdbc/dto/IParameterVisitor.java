@@ -23,7 +23,7 @@ public interface IParameterVisitor {
      * @param value
      * @throws SQLException
      */
-    void stringValue(String parameterName, String value) throws FHIRPersistenceException;
+    void stringValue(String parameterName, String value, boolean isBase) throws FHIRPersistenceException;
 
     /**
      * Process a number parameter value
@@ -43,7 +43,7 @@ public interface IParameterVisitor {
      * @param dateEnd
      * @throws SQLException
      */
-    void dateValue(String parameterName, java.sql.Timestamp date, java.sql.Timestamp dateStart, java.sql.Timestamp dateEnd) throws FHIRPersistenceException;
+    void dateValue(String parameterName, java.sql.Timestamp date, java.sql.Timestamp dateStart, java.sql.Timestamp dateEnd, boolean isBase) throws FHIRPersistenceException;
 
     /**
      * Process a token parameter value
@@ -52,7 +52,7 @@ public interface IParameterVisitor {
      * @param tokenValue
      * @throws SQLException
      */
-    void tokenValue(String parameterName, String codeSystem, String tokenValue) throws FHIRPersistenceException;
+    void tokenValue(String parameterName, String codeSystem, String tokenValue, boolean isBase) throws FHIRPersistenceException;
 
     /**
      * Process a quantity parameter value
