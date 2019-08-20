@@ -406,7 +406,6 @@ public class SortingTest extends FHIRServerTestBase {
                     list.add(this.getFamilyNames(patient, SortDirection.DESCENDING).get(0));
                 }
 
-<<<<<<< HEAD
             }
         }
         assertTrueNaturalOrderingReverse(list);
@@ -577,6 +576,7 @@ public class SortingTest extends FHIRServerTestBase {
             "testCreateObservation5" })
     public void testSortValueQuantityAscending() {
         WebTarget target = getWebTarget();
+        // we do support coding instead of code for the pipe search.
         Response response =
                 target.path("Observation").queryParam("status", "final").queryParam("code", "55284-4").queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity").request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
