@@ -79,7 +79,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
     public void testMinimumObservationWithAllSearchParameters() throws Exception {
         String testFile = "extract/observation-empty.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.add("code", "Diplotype Call");
         builder.add("combo-code", "Diplotype Call");
         builder.add("status", "final");
@@ -93,7 +93,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
     public void testMinimumObservationWithAllSearchParametersNoSkip() throws Exception {
         String testFile = "extract/observation-empty.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.add("code", "Diplotype Call");
         builder.add("combo-code", "Diplotype Call");
         builder.add("status", "final");
@@ -107,7 +107,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
     public void testSomeObservationWithAllSearchParameters() throws Exception {
         String testFile = "extract/observation-some.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.add("_id", "example-diplotype1").strict(false);
         builder.add("_lastUpdated", "2018-12-27T22:37:54.724+11:00");
 
@@ -119,7 +119,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
     public void testFullObservationWithAllSearchParameters() throws Exception {
         String testFile = "extract/observation-full.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.add("_id", "example-diplotype1").strict(false);
         builder.add("_lastUpdated", "2018-12-27T22:37:54.724+11:00");
 
@@ -136,7 +136,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         String testFile = "extract/observation-some.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.strict(false);
 
         runTest(testFile, Observation.class, false, builder.build());
@@ -152,7 +152,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         String testFile = "extract/insuranceplan-name.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.add("name", "test");
         builder.add("phonetic", "test");
         builder.strict(true);
@@ -170,7 +170,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         String testFile = "extract/insuranceplan-alias.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.add("name", "test");
         builder.strict(true);
 
@@ -183,7 +183,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         String testFile = "extract/patient-deceased-boolean.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.add("deceased", "true");
         builder.strict(false);
 
@@ -196,7 +196,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         String testFile = "extract/patient-deceased-time.json";
 
-        Builder builder = ExtractorValidator.Builder.builder();
+        Builder builder = ExtractorValidator.builder();
         builder.add("deceased", "true");
         builder.strict(false);
 

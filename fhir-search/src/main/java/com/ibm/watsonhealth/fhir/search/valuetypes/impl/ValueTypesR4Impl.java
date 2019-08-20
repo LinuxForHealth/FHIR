@@ -137,7 +137,7 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     /**
-     * This method is specific to this implementation.
+     * adds value types for tenants to a list by resource and code. 
      * 
      * @param valueTypesList
      */

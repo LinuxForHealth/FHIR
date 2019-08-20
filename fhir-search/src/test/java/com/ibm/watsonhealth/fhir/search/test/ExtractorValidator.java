@@ -196,6 +196,10 @@ public class ExtractorValidator {
         return val;
     }
 
+    public static ExtractorValidator.Builder builder() {
+        return new ExtractorValidator.Builder();
+    }
+    
     /**
      * Builder
      * 
@@ -227,10 +231,6 @@ public class ExtractorValidator {
 
         public ExtractorValidator build() {
             return validator;
-        }
-
-        public static ExtractorValidator.Builder builder() {
-            return new ExtractorValidator.Builder();
         }
 
     }

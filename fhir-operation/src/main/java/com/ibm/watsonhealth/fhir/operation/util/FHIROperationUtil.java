@@ -16,34 +16,41 @@ import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters.Parameter;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.OperationParameterUse;
 
 public class FHIROperationUtil {
-    
-    private FHIROperationUtil() { }
-    
-    public static Parameters getInputParameters(OperationDefinition definition, Map<String, List<String>> queryParameters) throws FHIROperationException {
+
+    private FHIROperationUtil() {
+    }
+
+    public static Parameters getInputParameters(OperationDefinition definition,
+        Map<String, List<String>> queryParameters) throws FHIROperationException {
         try {
             Parameters.Builder parametersBuilder = Parameters.builder();
+            parametersBuilder.id(Id.of("InputParameters"));
             if (definition != null) {
+
                 for (OperationDefinition.Parameter parameter : definition.getParameter()) {
                     if (OperationParameterUse.IN.getValue().equals(parameter.getUse().getValue())) {
                         String name = parameter.getName().getValue();
-                        String typeName = parameter.getType().getValue();                
+                        String typeName = parameter.getType().getValue();
                         List<String> values = queryParameters.get(name);
                         if (values != null) {
-                            String value = values.get(0);                           
-                            Parameter.Builder parameterBuilder = Parameter.builder().name(string(name));
+                            String value = values.get(0);
+                            Parameter.Builder parameterBuilder =
+                                    Parameter.builder().name(string(name));
                             if ("string".equals(typeName)) {
-                              parameterBuilder.value(string(value));
+                                parameterBuilder.value(string(value));
                             } else if ("boolean".equals(typeName)) {
-                              parameterBuilder.value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(value));
+                                parameterBuilder.value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(value));
                             } else if ("decimal".equals(typeName)) {
-                              parameterBuilder.value(com.ibm.watsonhealth.fhir.model.type.Decimal.of(value));
+                                parameterBuilder.value(com.ibm.watsonhealth.fhir.model.type.Decimal.of(value));
                             } else if ("integer".equals(typeName)) {
-                              parameterBuilder.value(com.ibm.watsonhealth.fhir.model.type.Integer.of(value));
+                                parameterBuilder.value(com.ibm.watsonhealth.fhir.model.type.Integer.of(value));
                             } else {
-                                throw new FHIROperationException("Invalid parameter type: '" + typeName + "'");
+                                throw new FHIROperationException("Invalid parameter type: '"
+                                        + typeName + "'");
                             }
                             parametersBuilder.parameter(parameterBuilder.build());
                         }
@@ -58,41 +65,53 @@ public class FHIROperationUtil {
         }
     }
 
-    public static Parameters getInputParameters(OperationDefinition definition, Resource resource) throws Exception {
+
+    public static Parameters getInputParameters(OperationDefinition definition, Resource resource)
+        throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();
+        parametersBuilder.id(Id.of("InputParameters"));
         for (OperationDefinition.Parameter parameterDefinition : definition.getParameter()) {
             String parameterTypeName = parameterDefinition.getType().getValue();
             String resourceTypeName = resource.getClass().getSimpleName();
-            if ((resourceTypeName.equals(parameterTypeName) || "Resource".equals(parameterTypeName)) && OperationParameterUse.IN.getValue().equals(parameterDefinition.getUse().getValue())) {              
-                Parameter.Builder parameterBuilder = Parameter.builder().name(string(parameterDefinition.getName().getValue()));
-                
-          //      ResourceContainer container = factory.createResourceContainer();
-          //      FHIRUtil.setResourceContainerResource(container, resource);
-          //      parameter.setResource(container);
-          /* TODO  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
-          /* So, assume we always want the resource itself instead the wrapping ResourceContainer */      
+            if ((resourceTypeName.equals(parameterTypeName) || "Resource".equals(parameterTypeName))
+                    && OperationParameterUse.IN.getValue().equals(parameterDefinition.getUse().getValue())) {
+                Parameter.Builder parameterBuilder =
+                        Parameter.builder().name(string(parameterDefinition.getName().getValue()));
+
+                // ResourceContainer container = factory.createResourceContainer();
+                // FHIRUtil.setResourceContainerResource(container, resource);
+                // parameter.setResource(container);
+                /*
+                 * TODO because we don't want to support virtual resource which is the only one who really needs
+                 * ResourceContainer
+                 */
+                /* So, assume we always want the resource itself instead the wrapping ResourceContainer */
                 parametersBuilder.parameter(parameterBuilder.resource(resource).build());
             }
         }
         return parametersBuilder.build();
     }
-    
+
     public static Parameters getOutputParameters(Resource resource) throws Exception {
-        Parameters.Builder parametersBuilder = Parameters.builder();        
+        Parameters.Builder parametersBuilder = Parameters.builder();
         parametersBuilder.parameter(Parameter.builder().name(string("return")).resource(resource).build());
         return parametersBuilder.build();
     }
-    
+
     public static boolean hasSingleResourceOutputParameter(Parameters parameters) {
-        return parameters.getParameter().size() == 1 && 
+        return parameters.getParameter().size() == 1 &&
                 "return".equals(parameters.getParameter().get(0).getName().getValue()) &&
                 parameters.getParameter().get(0).getResource() != null;
     }
-    
-    public static Resource getSingleResourceOutputParameter(Parameters parameters) throws Exception {
-    //    return FHIRUtil.getResourceContainerResource(parameters.getParameter().get(0).getResource());
-        /* TODO  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
-        /* So, assume we always want the resource itself instead the wrapping ResourceContainer */  
+
+    public static Resource getSingleResourceOutputParameter(Parameters parameters)
+        throws Exception {
+        // return FHIRUtil.getResourceContainerResource(parameters.getParameter().get(0).getResource());
+        /*
+         * TODO because we don't want to support virtual resource which is the only one who really needs
+         * ResourceContainer
+         */
+        /* So, assume we always want the resource itself instead the wrapping ResourceContainer */
         return parameters.getParameter().get(0).getResource();
     }
 }

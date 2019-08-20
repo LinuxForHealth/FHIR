@@ -84,7 +84,6 @@ public class UriBuilder {
         queryString.append(context.getPageSize());
         queryString.append(SearchConstants.AND_CHAR);
 
-        // _self Generated URI is incorrect, and therefore the block of code to append
         // the URLs is converted from a for loop to a functional paradigm. The functional
         // paradigm is consistent with JOINING multiple strings
         Function<Parameter, String> serializeSearchParmToQueryString = p -> serializeSearchParmToQueryString(p);
