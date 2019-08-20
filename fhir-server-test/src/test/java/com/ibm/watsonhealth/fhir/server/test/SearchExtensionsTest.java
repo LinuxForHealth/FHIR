@@ -33,7 +33,8 @@ import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Integer;
 
 public class SearchExtensionsTest extends FHIRServerTestBase {
-    private static final String EXTENSION_BASE_URL = "http://ibm.com/watsonhealth/fhir/extension/Patient/";
+    private static final String EXTENSION_BASE_URL =
+            "http://ibm.com/watsonhealth/fhir/extension/Patient/";
 
     private static final boolean DEBUG = false;
 
@@ -53,14 +54,16 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
                                                         + "favorite-date").value(Date.of("2018-10-25")).build()).build();
 
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient").request().header("X-FHIR-TENANT-ID", "tenant1").post(entity, Response.class);
+        Response response =
+                target.path("Patient").request().header("X-FHIR-TENANT-ID", "tenant1").post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response =
+                target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatientWithExtensions = responsePatient;
@@ -71,13 +74,16 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
     public void testSearchPatientWithExtensions() {
         WebTarget target = getWebTarget();
 
-        String favoriteColor = ((com.ibm.watsonhealth.fhir.model.type.String) savedCreatedPatientWithExtensions.getExtension().get(0).getValue()).getValue();
+        String favoriteColor =
+                ((com.ibm.watsonhealth.fhir.model.type.String) savedCreatedPatientWithExtensions.getExtension().get(0).getValue()).getValue();
         Response response =
                 target.path("Patient").queryParam("favorite-color", favoriteColor).request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
-        SearchAllTest.generateOutput(bundle);
+        if (DEBUG) {
+            SearchAllTest.generateOutput(bundle);
+        }
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -111,7 +117,8 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         assertNotNull(bundle);
 
         // lenient is the default, so leaving out the Prefer header should be equivalent
-        response = target.path("Patient").queryParam("fake-parameter", "fakeValue").request(MediaType.APPLICATION_FHIR_JSON).get();
+        response =
+                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -149,12 +156,17 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
     public void testSearchPatientWithBaseParametersAndExtensions() {
         WebTarget target = getWebTarget();
         String family = savedCreatedPatientWithExtensions.getName().get(0).getFamily().getValue();
-        String favoriteColor = ((com.ibm.watsonhealth.fhir.model.type.String) savedCreatedPatientWithExtensions.getExtension().get(0).getValue()).getValue();
-        Integer favoriteNumber = (Integer) savedCreatedPatientWithExtensions.getExtension().get(1).getValue();
-        Coding favoriteCode = ((CodeableConcept) savedCreatedPatientWithExtensions.getExtension().get(2).getValue()).getCoding().get(0);
+        String favoriteColor =
+                ((com.ibm.watsonhealth.fhir.model.type.String) savedCreatedPatientWithExtensions.getExtension().get(0).getValue()).getValue();
+        Integer favoriteNumber =
+                (Integer) savedCreatedPatientWithExtensions.getExtension().get(1).getValue();
+        Coding favoriteCode =
+                ((CodeableConcept) savedCreatedPatientWithExtensions.getExtension().get(2).getValue()).getCoding().get(0);
         Uri favoriteUri = (Uri) savedCreatedPatientWithExtensions.getExtension().get(3).getValue();
-        Quantity favoriteQuantity = (Quantity) savedCreatedPatientWithExtensions.getExtension().get(4).getValue();
-        Date favoriteDate = (Date) savedCreatedPatientWithExtensions.getExtension().get(5).getValue();
+        Quantity favoriteQuantity =
+                (Quantity) savedCreatedPatientWithExtensions.getExtension().get(4).getValue();
+        Date favoriteDate =
+                (Date) savedCreatedPatientWithExtensions.getExtension().get(5).getValue();
 
         /*
          * Previously the favorite-code favorite-code=http://ibm.com/fhir/system%7CsomeCode-1234 using <code>

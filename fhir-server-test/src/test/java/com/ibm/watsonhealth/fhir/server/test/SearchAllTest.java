@@ -127,8 +127,10 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
 
         assertNotNull(bundle);
-
-        generateOutput(bundle);
+        if(DEBUG) {
+            generateOutput(bundle);
+        }
+        
 
         assertTrue(bundle.getEntry().size() >= 1);
     }
