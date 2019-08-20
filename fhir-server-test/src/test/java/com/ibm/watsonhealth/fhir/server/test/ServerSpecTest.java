@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static com.ibm.watsonhealth.fhir.model.type.Uri.uri;
-import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -46,8 +45,6 @@ import com.ibm.watsonhealth.fhir.model.type.HumanName;
 import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
-import com.ibm.watsonhealth.fhir.model.type.Narrative;
-import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
 import com.ibm.watsonhealth.fhir.model.type.ObservationStatus;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 
@@ -103,15 +100,15 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" })
     public void testCreatePatientErrorInvalidResource() throws JAXBException {
         WebTarget target = getWebTarget();
-      //  Patient patient = Patient.builder().build();
         
         JsonObject patient = Json.createObjectBuilder().add("resourceType", "Patient")
                 .build();
         
         Entity<JsonObject> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        // assertValidationOperationOutcome(response.readEntity(OperationOutcome.class), "global-1");
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        
+        assertValidationOperationOutcome(response.readEntity(OperationOutcome.class), "global-1");
     }
 
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
@@ -319,14 +316,12 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Patient patient = buildPatient();
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
-        SearchAllTest.generateOutput(response.readEntity(Bundle.class));
+
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource type 'Patient' does not match type specified in request URI: Observation");
     }
     
     private Patient buildPatient() {
-        java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
-        
         Id id = Id.builder()
                 .value(UUID.randomUUID().toString())
                 .build();
@@ -341,15 +336,9 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 .family(string("Doe2"))
                 .build();
         
-        Narrative text = Narrative.builder()
-                .status(NarrativeStatus.GENERATED)
-                .div(xhtml(div))
-                .build();
-        
         return Patient.builder()
                 .id(id)
                 .meta(meta)
-                .text(text)
                 .active(Boolean.TRUE)
                 .name(name)
                 .birthDate(Date.of("1980-01-01"))
