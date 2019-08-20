@@ -491,8 +491,13 @@ public class SearchUtil {
             if (expression != null && !SearchParamType.COMPOSITE.equals(type) && !SearchParamType.SPECIAL.equals(type)) {
 
                 try {
+                   
                     Collection<FHIRPathNode> tmpResults = evaluator.evaluate(expression.getValue(), tree.getRoot());
-
+                    
+                    if (log.isLoggable(Level.FINEST)) {
+                        log.finest("Expression [" + expression.getValue() + "] parameter-code [" + parameter.getCode().getValue() + "] Size -[" + tmpResults.size() + "]");
+                    }
+                    
                     // Adds only if !skipEmpty || collect is not empty
                     if (!tmpResults.isEmpty() || !skipEmpty) {
                         result.put(parameter, new ArrayList<>(tmpResults));
