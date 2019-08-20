@@ -8,9 +8,6 @@ package com.ibm.watsonhealth.fhir.examples.plugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-
-import javax.json.JsonObject;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;

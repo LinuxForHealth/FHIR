@@ -24,12 +24,12 @@ public class ElementFilter implements Function<JsonObject, JsonObject> {
     
     private Set<String> includeElements = new HashSet<>();
 
-    public ElementFilter(String resourceType) {
+    public ElementFilter(Class<?> resourceType) {
         includeElements.addAll(REQUIRED_ELEMENTS);
         includeElements.addAll(JsonSupport.getRequiredElementNames(resourceType));
     }
 
-    public ElementFilter(String resourceType, Collection<String> elements) {
+    public ElementFilter(Class<?> resourceType, Collection<String> elements) {
         this(resourceType);
         includeElements.addAll(elements);
     }

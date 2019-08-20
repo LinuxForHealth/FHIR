@@ -491,21 +491,17 @@ public class SearchUtil {
             if (expression != null && !SearchParamType.COMPOSITE.equals(type) && !SearchParamType.SPECIAL.equals(type)) {
 
                 try {
-                   
                     Collection<FHIRPathNode> tmpResults = evaluator.evaluate(expression.getValue(), tree.getRoot());
-                    
-                    if (log.isLoggable(Level.FINEST)) {
-                        log.finest("Expression [" + expression.getValue() + "] parameter-code [" + parameter.getCode().getValue() + "] Size -[" + tmpResults.size() + "]");
-                    }
-                    
+
                     // Adds only if !skipEmpty || collect is not empty
                     if (!tmpResults.isEmpty() || !skipEmpty) {
                         result.put(parameter, new ArrayList<>(tmpResults));
                     }
 
                 } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
-                    // switched to using code instead of name
+                    // Issue 202: switched to using code
                     log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(), expression.getValue(), uoe.getMessage()));
+                    uoe.printStackTrace();
                 }
             } else {
                 if (log.isLoggable(Level.FINER)) {
@@ -1219,7 +1215,7 @@ public class SearchUtil {
      */
     private static void parseElementsParameter(Class<?> resourceType, FHIRSearchContext context, List<String> elementLists, boolean lenient) throws Exception {
 
-        Set<String> resourceFieldNames = JsonSupport.getElementNames(resourceType.getSimpleName());
+        Set<String> resourceFieldNames = JsonSupport.getElementNames(resourceType);
 
         for (String elements : elementLists) {
 

@@ -16,18 +16,15 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
 import javax.json.JsonString;
 import javax.json.JsonValue;
@@ -38,11 +35,10 @@ import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorExceptio
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 public final class JsonSupport {
-    private static final JsonObject JSON_SUPPORT = readJsonSupportObject();
-    private static final Map<String, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap();
-    private static final Map<String, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildRequiredElementNameMap();
-    private static final Map<String, Set<String>> CHOICE_ELEMENT_NAME_MAP = buildChoiceElementNameMap();
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+    
+    private static final Map<Class<?>, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap(false);
+    private static final Map<Class<?>, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildElementNameMap(true);
     
     private JsonSupport() { }
     
@@ -50,66 +46,44 @@ public final class JsonSupport {
         // allows us to initialize this class during startup
     }
 
-    private static JsonObject readJsonSupportObject() {
-        try (JsonReader reader = Json.createReader(JsonSupport.class.getClassLoader().getResourceAsStream("json-support.json"))) {
-            return reader.readObject();
-        } catch (Exception e) {
-            throw new Error(e);
-        }
-    }
-
-    private static Map<String, Set<String>> buildElementNameMap() {
-        Map<String, Set<String>> elementNameMap = new LinkedHashMap<>();
-        for (String key : JSON_SUPPORT.keySet()) {
-            JsonObject jsonObject = JSON_SUPPORT.get(key).asJsonObject();
-            Set<String> elementNames = new LinkedHashSet<>();
-            for (JsonValue jsonValue : jsonObject.getJsonArray("elementNames")) {
-                JsonString jsonString = (JsonString) jsonValue;
-                elementNames.add(jsonString.getString());
+    private static Map<Class<?>, Set<String>> buildElementNameMap(boolean required) {
+        Map<Class<?>, Set<String>> elementNameMap = new LinkedHashMap<>();
+        for (Class<?> modelClass : ModelSupport.getModelClasses()) {
+            if (ModelSupport.isPrimitiveType(modelClass)) {
+                continue;
             }
-            elementNameMap.put(key, Collections.unmodifiableSet(elementNames));
+            Set<String> elementNames = new LinkedHashSet<>();
+            for (String elementName : ModelSupport.getElementNames(modelClass)) {
+                if (required && !ModelSupport.isRequiredElement(modelClass, elementName)) {
+                    continue;
+                }
+                if (ModelSupport.isChoiceElement(modelClass, elementName)) {
+                    for (Class<?> choiceElementType : ModelSupport.getChoiceElementTypes(modelClass, elementName)) {
+                        String choiceElementName = ModelSupport.getChoiceElementName(elementName, choiceElementType);
+                        elementNames.add(choiceElementName);
+                        if (ModelSupport.isPrimitiveType(choiceElementType)) {
+                            elementNames.add("_" + choiceElementName);
+                        }
+                    }
+                } else {
+                    elementNames.add(elementName);
+                    Class<?> elementType = ModelSupport.getElementType(modelClass, elementName);
+                    if (ModelSupport.isPrimitiveType(elementType)) {
+                        elementNames.add("_" + elementName);
+                    }
+                }
+            }
+            elementNameMap.put(modelClass, Collections.unmodifiableSet(elementNames));
         }
         return Collections.unmodifiableMap(elementNameMap);
     }
-    
-    private static Map<String, Set<String>> buildRequiredElementNameMap() {
-        Map<String, Set<String>> requiredElementNameMap = new LinkedHashMap<>();
-        for (String key : JSON_SUPPORT.keySet()) {
-            JsonObject jsonObject = JSON_SUPPORT.get(key).asJsonObject();
-            Set<String> requiredElementNames = new LinkedHashSet<>();
-            for (JsonValue jsonValue : jsonObject.getJsonArray("requiredElementNames")) {
-                JsonString jsonString = (JsonString) jsonValue;
-                requiredElementNames.add(jsonString.getString());
-            }
-            requiredElementNameMap.put(key, Collections.unmodifiableSet(requiredElementNames));
-        }
-        return Collections.unmodifiableMap(requiredElementNameMap);
-    }
-    
-    private static Map<String, Set<String>> buildChoiceElementNameMap() {
-        Map<String, Set<String>> choiceElementNameMap = new LinkedHashMap<>();
-        for (String key : JSON_SUPPORT.keySet()) {
-            JsonObject jsonObject = JSON_SUPPORT.get(key).asJsonObject();
-            Set<String> elementNames = new LinkedHashSet<>();
-            for (JsonValue jsonValue : jsonObject.getJsonArray("choiceElementNames")) {
-                JsonString jsonString = (JsonString) jsonValue;
-                elementNames.add(jsonString.getString());
-            }
-            choiceElementNameMap.put(key, Collections.unmodifiableSet(elementNames));
-        }
-        return Collections.unmodifiableMap(choiceElementNameMap);
-    }
 
-    public static Set<String> getElementNames(String typeName) {
-        return ELEMENT_NAME_MAP.getOrDefault(typeName, Collections.emptySet());
+    public static Set<String> getElementNames(Class<?> type) {
+        return ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet());
     }
     
-    public static Set<String> getRequiredElementNames(String typeName) {
-        return REQUIRED_ELEMENT_NAME_MAP.getOrDefault(typeName, Collections.emptySet());
-    }
-    
-    public static Set<String> getChoiceElementNames(String typeName) {
-        return CHOICE_ELEMENT_NAME_MAP.getOrDefault(typeName, Collections.emptySet());
+    public static Set<String> getRequiredElementNames(Class<?> type) {
+        return REQUIRED_ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet());
     }
     
     public static JsonArray getJsonArray(JsonObject jsonObject, String key) {
@@ -146,28 +120,6 @@ public final class JsonSupport {
             throw new IllegalArgumentException("Expected: " + expectedType.getSimpleName() + " but found: " + jsonValue.getValueType());
         }
         return expectedType.cast(jsonValue);
-    }
-
-    public static String getTypeName(Class<?> type) {
-        List<String> names = new ArrayList<>();
-        while (type != null) {
-            names.add(type.getSimpleName());
-            type = type.getEnclosingClass();
-        }
-        Collections.reverse(names);
-        return String.join(".", names);
-    }
-
-    public static boolean isElement(Class<?> type, String elementName) {
-        return getElementNames(getTypeName(type)).contains(elementName);
-    }
-
-    public static boolean isRequiredElement(Class<?> type, String elementName) {
-        return getRequiredElementNames(getTypeName(type)).contains(elementName);
-    }
-
-    public static boolean isChoiceElement(Class<?> type, String name) {
-        return getChoiceElementNames(getTypeName(type)).contains(name);
     }
     
     // TODO: replace this method with a class that converts Resource to JsonObject directly
@@ -211,5 +163,27 @@ public final class JsonSupport {
                 // do nothing
             }
         };
+    }
+    
+    public static void checkForUnrecognizedElements(Class<?> type, JsonObject jsonObject) {
+        Set<java.lang.String> elementNames = JsonSupport.getElementNames(type);
+        for (java.lang.String key : jsonObject.keySet()) {
+            if (!elementNames.contains(key) && !"resourceType".equals(key) && !"fhir_comments".equals(key)) {
+                throw new IllegalArgumentException("Unrecognized element: '" + key + "'");
+            }
+        }
+    }
+
+    public static Class<?> getResourceType(JsonObject jsonObject) {
+        JsonString resourceTypeString = jsonObject.getJsonString("resourceType");
+        if (resourceTypeString == null) {
+            throw new IllegalArgumentException("Missing required element: 'resourceType'");
+        }
+        String resourceTypeName = resourceTypeString.getString();
+        Class<?> resourceType = ModelSupport.getResourceType(resourceTypeName);
+        if (resourceType == null) {
+            throw new IllegalArgumentException("Invalid resource type: '" + resourceTypeName + "'");
+        }
+        return resourceType;
     }
 }

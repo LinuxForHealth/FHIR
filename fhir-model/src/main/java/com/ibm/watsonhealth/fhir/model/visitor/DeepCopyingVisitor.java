@@ -20,7 +20,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
-import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport;
 
 /**
  * Copy the value of each element within a Resource/Element to a new element with the same values.
@@ -114,7 +114,7 @@ public class DeepCopyingVisitor<T extends Visitable> extends AbstractVisitor {
                 MethodHandle methodHandle;
                 try {
                     MethodType mt;
-                    if (JsonSupport.isChoiceElement(parentBuilder.getClass().getEnclosingClass(), elementName) ||
+                    if (ModelSupport.isChoiceElement(parentBuilder.getClass().getEnclosingClass(), elementName) ||
                             isResourceContainer(parentBuilder, elementName)) {
                         // visitableClass is Element if its a choice element or Resource if "ResourceContainer"
                         mt = MethodType.methodType(parentBuilder.getClass(), visitableClass);

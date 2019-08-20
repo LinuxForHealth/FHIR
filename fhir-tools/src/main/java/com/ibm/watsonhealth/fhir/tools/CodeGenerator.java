@@ -37,14 +37,9 @@ import java.util.stream.Collectors;
 
 import javax.json.Json;
 import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
-import javax.json.JsonWriter;
-import javax.json.JsonWriterFactory;
-import javax.json.stream.JsonGenerator;
 import javax.lang.model.SourceVersion;
 
 public class CodeGenerator {
@@ -211,8 +206,8 @@ public class CodeGenerator {
             } else if (isQuantitySubtype(fieldType)) {
                 return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
             } else if (isChoiceElement(elementDefinition)) {
-                String choiceTypeNames = getChoiceTypeNames(elementDefinition).stream().map(s -> quote(s)).collect(Collectors.joining(", "));
-                return "parseChoiceElement(" + quote(elementName) + ", jsonObject, " + choiceTypeNames + ")";
+                String choiceTypeClasses = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
+                return "parseChoiceElement(" + quote(elementName) + ", jsonObject, " + choiceTypeClasses + ")";
             } else if (isJavaString(fieldType)) {
                 return "parseJavaString(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonString.class), -1)";
             } else {
@@ -259,6 +254,43 @@ public class CodeGenerator {
         generateAbstractVisitorClass(basePath);
         generateJsonParser(basePath);
         generateXMLParser(basePath);
+        generateModelClassesFile(basePath);
+    }
+
+    private void generateModelClassesFile(String basePath) {
+        // Work around the pseudo hardcoding
+        String baseDir = ".";
+        if (System.getProperty("TargetBaseDir") != null) {
+            baseDir = System.getProperty("TargetBaseDir");
+        }
+        
+        List<String> qualifiedClassNames = new ArrayList<>();
+        for (String generatedClassName : generatedClassNames) {
+            String packageName;
+            if (generatedClassName.contains(".")) {
+                // nested class
+                String enclosingClassName = generatedClassName.substring(0, generatedClassName.indexOf("."));
+                packageName = typeClassNames.contains(enclosingClassName) ? 
+                        "com.ibm.watsonhealth.fhir.model.type" : 
+                        "com.ibm.watsonhealth.fhir.model.resource";
+            } else {
+                packageName = typeClassNames.contains(generatedClassName) ? 
+                        "com.ibm.watsonhealth.fhir.model.type" : 
+                        "com.ibm.watsonhealth.fhir.model.resource";
+            }
+            String className = generatedClassName.replace(".", "$");
+            String qualifiedClassName = packageName + "." + className;
+            qualifiedClassNames.add(qualifiedClassName);
+        }
+        
+        Collections.sort(qualifiedClassNames);
+
+        try {
+            File file = new File(baseDir + "/src/main/resources/modelClasses");
+            Files.write(file.toPath(), qualifiedClassNames);
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
 
     private void generateAbstractVisitorClass(String basePath) {
@@ -699,6 +731,45 @@ public class CodeGenerator {
         cb.javadocEnd();
     }
     
+    private void generateClass(JsonObject structureDefinition, String basePath) {
+        CodeBuilder cb = new CodeBuilder();
+        
+        String className = titleCase(structureDefinition.getString("name"));
+        
+        String packageName = null;
+        String kind = structureDefinition.getString("kind");
+        if ("resource".equals(kind) || "logical".equals(kind)) {
+            packageName = "com.ibm.watsonhealth.fhir.model.resource";
+            resourceClassNames.add(className);
+        } else {
+            packageName = "com.ibm.watsonhealth.fhir.model.type";
+            typeClassNames.add(className);
+        }
+        cb.lines(HEADER).newLine();
+        cb._package(packageName).newLine();
+        
+        generateImports(structureDefinition, cb);
+    
+        String path = getElementDefinitions(structureDefinition).get(0).getString("path");
+        generateClass(structureDefinition, Collections.singletonList(path), cb, false);
+        
+        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + className + ".java");
+        try {
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                Files.createFile(file.toPath());
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(cb.toString());
+        } catch (Exception e) {
+            throw new Error(e);
+        }        
+    }
+
     private void generateClass(JsonObject structureDefinition, List<String> paths, CodeBuilder cb, boolean nested) {
         for (String path : paths) {
             List<String> mods = new ArrayList<>(mods("public"));
@@ -1182,45 +1253,6 @@ public class CodeGenerator {
             cb.javadocReturn("An immutable object of type " + javadocLink(reference) + ".");
         }
         cb.javadocEnd();
-    }
-
-    private void generateClass(JsonObject structureDefinition, String basePath) {
-        CodeBuilder cb = new CodeBuilder();
-        
-        String className = titleCase(structureDefinition.getString("name"));
-        
-        String packageName = null;
-        String kind = structureDefinition.getString("kind");
-        if ("resource".equals(kind) || "logical".equals(kind)) {
-            packageName = "com.ibm.watsonhealth.fhir.model.resource";
-            resourceClassNames.add(className);
-        } else {
-            packageName = "com.ibm.watsonhealth.fhir.model.type";
-            typeClassNames.add(className);
-        }
-        cb.lines(HEADER).newLine();
-        cb._package(packageName).newLine();
-        
-        generateImports(structureDefinition, cb);
-
-        String path = getElementDefinitions(structureDefinition).get(0).getString("path");
-        generateClass(structureDefinition, Collections.singletonList(path), cb, false);
-        
-        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + className + ".java");
-        try {
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                Files.createFile(file.toPath());
-            }
-        } catch (Exception e) {
-            throw new Error(e);
-        }
-
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(cb.toString());
-        } catch (Exception e) {
-            throw new Error(e);
-        }        
     }
 
     private void generateFactoryMethods(JsonObject structureDefinition, CodeBuilder cb) {
@@ -2029,7 +2061,6 @@ public class CodeGenerator {
         cb._import("java.io.Reader");
         cb._import("java.nio.charset.StandardCharsets");
         cb._import("java.util.Collection");
-        cb._import("java.util.Set");
         cb._import("java.util.Stack");
         cb._import("java.util.StringJoiner");
         
@@ -2054,8 +2085,8 @@ public class CodeGenerator {
         cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
         cb._import("com.ibm.watsonhealth.fhir.model.type.String");
         cb._import("com.ibm.watsonhealth.fhir.model.util.ElementFilter");
-        cb._import("com.ibm.watsonhealth.fhir.model.util.FHIRUtil");
         cb._import("com.ibm.watsonhealth.fhir.model.util.JsonSupport");
+        cb._import("com.ibm.watsonhealth.fhir.model.util.ModelSupport");
         
         cb.newLine();
         
@@ -2126,12 +2157,12 @@ public class CodeGenerator {
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("JsonObject jsonObject", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
             ._try()
                 .invoke("reset", args())
-                .assign("java.lang.String resourceType", "getResourceType(jsonObject)")
+                .assign("Class<?> resourceType", "JsonSupport.getResourceType(jsonObject)")
                 ._if("elementsToInclude != null")
                     .assign("ElementFilter elementFilter", "new ElementFilter(resourceType, elementsToInclude)")
                     .assign("jsonObject", "elementFilter.apply(jsonObject)")
                 ._end()
-                ._return("(T) parseResource(resourceType, jsonObject, -1)")
+                ._return("(T) parseResource(resourceType.getSimpleName(), jsonObject, -1)")
             ._catch("Exception e")
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
@@ -2150,8 +2181,8 @@ public class CodeGenerator {
         cb._if("jsonObject == null");
         cb._return("null");
         cb._end();
-        cb.assign("java.lang.String resourceType", "getResourceType(jsonObject)");
-        cb._switch("resourceType");
+        cb.assign("Class<?> resourceType", "JsonSupport.getResourceType(jsonObject)");
+        cb._switch("resourceType.getSimpleName()");
         for (String resourceClassName : resourceClassNames) {
             if ("Resource".equals(resourceClassName) || "DomainResource".equals(resourceClassName)) {
                 continue;
@@ -2209,33 +2240,8 @@ public class CodeGenerator {
             .assign("java.lang.String javaString", "jsonString.getString()")
             .invoke("stackPop", args())
             ._return("javaString")
-        .end().newLine();
-        
-        cb.method(mods("private"), "void", "checkForUnrecognizedElements", args("java.lang.String typeName", "JsonObject jsonObject"))
-            .assign("Set<java.lang.String> elementNames", "JsonSupport.getElementNames(typeName)")
-            ._foreach("java.lang.String key", "jsonObject.keySet()")
-                ._if("!elementNames.contains(key) && !\"resourceType\".equals(key) && !\"fhir_comments\".equals(key)")
-                    .statement("throw new IllegalArgumentException(\"Unrecognized element: '\" + key + \"'\")")
-                ._end()
-            ._end()
-        .end().newLine();
-        
-        cb.method(mods("private"), "java.lang.String", "getResourceType", params("JsonObject jsonObject"))
-            .assign("JsonString resourceTypeString", "jsonObject.getJsonString(\"resourceType\")")
-            ._if("resourceTypeString == null")
-                ._throw("new IllegalArgumentException(\"Missing required element: 'resourceType'\")")
-            ._end()
-            .assign("java.lang.String resourceType", "resourceTypeString.getString()")
-            ._try()
-                .invoke("ResourceType.ValueSet", "from", args("resourceType"))
-            ._catch("IllegalArgumentException e")
-                ._throw("new IllegalArgumentException(\"Invalid resource type: '\" + resourceType + \"'\")")
-            ._end()
-            ._return("resourceTypeString.getString()")
         .end();
         
-        JsonObject jsonSupport = buildJsonSupportObject();
-
         cb._end();
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/FHIRJsonParser.java");
@@ -2247,27 +2253,16 @@ public class CodeGenerator {
         } catch (Exception e) {
             throw new Error(e);
         }
-        
-        Map<String, Object> config = new HashMap<>();
-        config.put(JsonGenerator.PRETTY_PRINTING, true);
-        JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(config);
-        
-        // Work around the pseudo hardcoding
-        String baseDir = ".";
-        if (System.getProperty("JsonBaseDir") != null) {
-            baseDir = System.getProperty("JsonBaseDir");
-        }
-        
-        try (FileWriter writer = new FileWriter(file); JsonWriter jsonWriter = jsonWriterFactory.createWriter(new FileWriter(new File(baseDir + "/src/main/resources/json-support.json")))) {
+
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(cb.toString());
-            jsonWriter.write(jsonSupport);
         } catch (Exception e) {
             throw new Error(e);
         }
     }
     
     private void generateParseChoiceElementMethod(CodeBuilder cb) {
-        cb.method(mods("private"), "Element", "parseChoiceElement", params("java.lang.String name", "JsonObject jsonObject", "java.lang.String... choiceTypeNames"));
+        cb.method(mods("private"), "Element", "parseChoiceElement", params("java.lang.String name", "JsonObject jsonObject", "Class<?>... choiceTypes"));
         cb._if("jsonObject == null")
             ._return("null")
         ._end();
@@ -2276,18 +2271,18 @@ public class CodeGenerator {
         
         cb.assign("java.lang.String elementName", "null");
         cb.assign("java.lang.String _elementName", "null");
-        cb.assign("java.lang.String elementType", "null");
+        cb.assign("Class<?> elementType", "null");
         
         cb.newLine();
         
-        cb._foreach("java.lang.String choiceTypeName", "choiceTypeNames")
-            .assign("java.lang.String key", "name + FHIRUtil.getConcreteTypeName(choiceTypeName)")
+        cb._foreach("Class<?> choiceType", "choiceTypes")
+            .assign("java.lang.String key", "ModelSupport.getChoiceElementName(name, choiceType)")
             ._if("jsonObject.containsKey(key)")
                 ._if("elementName != null")
                     ._throw("new IllegalArgumentException()")
                 ._end()
                 .assign("elementName", "key")
-                .assign("elementType", "choiceTypeName")
+                .assign("elementType", "choiceType")
             ._end()
             
             .newLine()
@@ -2299,7 +2294,7 @@ public class CodeGenerator {
                 ._end()
                 .assign("_elementName", "_key")
                 ._if("elementType == null")
-                    .assign("elementType", "choiceTypeName")
+                    .assign("elementType", "choiceType")
                 ._end()
             ._end()
         ._end();
@@ -2327,7 +2322,7 @@ public class CodeGenerator {
         cb.newLine();
 
         cb._if("elementType != null");
-        cb._switch("elementType");
+        cb._switch("elementType.getSimpleName()");
         for (String dataTypeName : DATA_TYPE_NAMES) {
             cb._case(quote(dataTypeName));
             if (isStringSubtype(dataTypeName)) {
@@ -2375,7 +2370,7 @@ public class CodeGenerator {
                 ._return("null")
             ._end();
             cb.invoke("stackPush", args("elementName", "elementIndex"));
-            cb.invoke("checkForUnrecognizedElements", args(quote(generatedClassName), "jsonObject"));
+            cb.invoke("JsonSupport", "checkForUnrecognizedElements", args(generatedClassName + ".class", "jsonObject"));
         }
         
         if (!isAbstract(structureDefinition) && !"Quantity".equals(generatedClassName)) {
@@ -2460,7 +2455,7 @@ public class CodeGenerator {
         
         cb._if("_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT")
             .assign("JsonObject jsonObject", "(JsonObject) _jsonValue")
-            .invoke("checkForUnrecognizedElements", args(quote("Element"), "jsonObject"))
+            .invoke("JsonSupport", "checkForUnrecognizedElements", args("Element.class", "jsonObject"))
             .invoke("parseElement", args("builder", "jsonObject"))
         ._end();
 
@@ -2910,97 +2905,6 @@ public class CodeGenerator {
     private String getElementName(JsonObject elementDefinition, String path) {
         return elementDefinition.getString("path").replaceFirst(path + ".", "").replace("[x]", "");
     }
-    
-    private JsonObject buildJsonSupportObject() {
-        JsonObjectBuilder builder = Json.createObjectBuilder();
-        
-        for (String generatedClassName : generatedClassNames) {
-            if (isPrimitiveType(generatedClassName)) {
-                continue;
-            }
-            
-            JsonArrayBuilder elementNameArrayBuilder = Json.createArrayBuilder();
-            for (String elementName : getElementNames(generatedClassName)) {
-                elementNameArrayBuilder.add(elementName);
-            }
-            
-            JsonArrayBuilder requiredElementNameArrayBuilder = Json.createArrayBuilder();
-            for (String elementName : getRequiredElementNames(generatedClassName)) {
-                requiredElementNameArrayBuilder.add(elementName);
-            }
-            
-            JsonArrayBuilder choiceElementNameArrayBuilder = Json.createArrayBuilder();
-            for (String elementName : getChoiceElementNames(generatedClassName)) {
-                choiceElementNameArrayBuilder.add(elementName);
-            }
-            
-            builder.add(generatedClassName, Json.createObjectBuilder()
-                .add("elementNames", elementNameArrayBuilder)
-                .add("requiredElementNames", requiredElementNameArrayBuilder)
-                .add("choiceElementNames", choiceElementNameArrayBuilder));            
-        }
-        
-        return builder.build();
-    }
-    
-    private List<String> getChoiceElementNames(String generatedClassName) {
-        List<String> choiceElementNames = new ArrayList<>();
-        JsonObject structureDefinition = getStructureDefinition(generatedClassName);
-        String path = getPath(generatedClassName);
-        List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path).stream()
-                .filter(e -> isChoiceElement(e))
-                .collect(Collectors.toList());
-        for (JsonObject elementDefinition : elementDefinitions) {
-            String elementName = getElementName(elementDefinition, path);
-            choiceElementNames.add(elementName);
-        }
-        return choiceElementNames;
-    }
-
-    private List<String> getElementNames(String generatedClassName) {
-        return getElementNames(generatedClassName, false);
-    }
-    
-    private List<String> getRequiredElementNames(String generatedClassName) {
-        return getElementNames(generatedClassName, true);
-    }
-    
-    private List<String> getElementNames(String generatedClassName, boolean required) {
-        List<String> elementNames = new ArrayList<>();
-        
-        JsonObject structureDefinition = getStructureDefinition(generatedClassName);
-        
-        String path = getPath(generatedClassName);
-        List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
-        
-        for (JsonObject elementDefinition : elementDefinitions) {
-            if (!isRequired(elementDefinition) && required) {
-                continue;
-            }
-            
-            String elementName = getElementName(elementDefinition, path);           
-            if (isChoiceElement(elementDefinition)) {
-                for (String type : getTypes(elementDefinition).stream().map(o -> titleCase(o.getString("code"))).collect(Collectors.toList())) {
-                    String choiceElementName = elementName + type;
-                    elementNames.add(choiceElementName);
-                    if (isPrimitiveType(type)) {
-                        elementNames.add("_" + choiceElementName);
-                    }
-                }
-            } else {
-                elementNames.add(elementName);
-                List<JsonObject> types = getTypes(elementDefinition);
-                if (!types.isEmpty()) {
-                    String type = types.get(0).getString("code", null);
-                    if (type != null && isPrimitiveType(titleCase(type))) {
-                        elementNames.add("_" + elementName);
-                    }
-                }
-            }
-        }
-        
-        return elementNames;
-    }
 
     private String getEnumConstantName(String name, String value) {
         StringBuilder sb = new StringBuilder();
@@ -3161,21 +3065,6 @@ public class CodeGenerator {
     
     private JsonObject getModifierExtensionDefinition(String path) {
         return modifierExtensionDefinitionMap.computeIfAbsent(path, k -> buildModifierExtensionDefinition(k));
-    }
-    
-    private String getPath(String generatedClassName) {
-        if ("SimpleQuantity".equals(generatedClassName) || "MoneyQuantity".equals(generatedClassName)) {
-            return "Quantity";
-        }
-        
-        JsonObject structureDefinition = getStructureDefinition(generatedClassName);
-                
-        String path = titleCase(Arrays.asList(generatedClassName.split("\\.")).stream().map(s -> camelCase(s)).collect(Collectors.joining(".")));
-        if (isPrimitiveType(structureDefinition)) {
-            path = camelCase(path);
-        }
-        
-        return path;
     }
     
     private String getPattern(JsonObject structureDefinition) {        

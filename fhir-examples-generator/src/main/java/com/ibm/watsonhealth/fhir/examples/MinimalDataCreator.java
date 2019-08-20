@@ -11,14 +11,13 @@ import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Set;
 
 import com.ibm.watsonhealth.fhir.model.builder.Builder;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
-import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport;
 
 public class MinimalDataCreator extends DataCreatorBase {
 
@@ -76,22 +75,7 @@ public class MinimalDataCreator extends DataCreatorBase {
     }
     
     private boolean isRequiredElement(Class<?> clazz, String name) {
-        String elementName = name;
-        // If this is a choice element then set elementName to a "concrete" elementName
-        // because JsonSupport.isRequiredElement only works with concrete elements (e.g. choiceString, not choice)
-        if (JsonSupport.isChoiceElement(clazz, name)) {
-            // hacky
-            String lookupName = clazz.getCanonicalName().substring(clazz.getPackage().getName().length() + 1);
-            Set<String> requiredElementNames = JsonSupport.getRequiredElementNames(lookupName);
-            for (String requiredElementName : requiredElementNames) {
-                if (requiredElementName.startsWith(name)) {
-                    elementName = requiredElementName;
-                    break;
-                }
-            }
-        }
-        
-        return JsonSupport.isRequiredElement(clazz, elementName);
+        return ModelSupport.isRequiredElement(clazz, name);
     }
 
     private String reverseJavaEncoding(String javaName) {

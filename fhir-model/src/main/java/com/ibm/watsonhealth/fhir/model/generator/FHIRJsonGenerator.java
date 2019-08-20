@@ -161,8 +161,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 visitStart("extension", element.getExtension(), Extension.class);
                 int elementIndex = 0;
                 for (Extension extension : element.getExtension()) {
-                    extension.accept("extension", elementIndex, this);
-                    elementIndex++;
+                    extension.accept("extension", elementIndex++, this);
                 }
                 visitEnd("extension", element.getExtension(), Extension.class);
             }
@@ -352,9 +351,6 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         public void visitEnd(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
             generator.writeEnd();
             if (isPrimitiveType(type) && hasExtensionOrId(visitables)) {
-                if (isChoiceElement(elementName)) {
-                    elementName = getChoiceElementName(elementName, type);
-                }                
                 generator.writeStartArray("_" + elementName);
                 for (Visitable visitable : visitables) {
                     if (hasExtensionOrId((Element) visitable)) {

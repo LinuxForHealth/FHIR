@@ -6,13 +6,11 @@
 
 package com.ibm.watsonhealth.fhir.model.generator;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getConcreteTypeName;
-
 import java.util.Stack;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
-import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 
 public abstract class GeneratingVisitor extends PathAwareAbstractVisitor {
@@ -23,7 +21,7 @@ public abstract class GeneratingVisitor extends PathAwareAbstractVisitor {
     }
     
     protected final java.lang.String getChoiceElementName(java.lang.String name, Class<?> type) {
-        return name + getConcreteTypeName(type.getSimpleName());
+        return ModelSupport.getChoiceElementName(name, type);
     }
 
     protected final int getDepth() {
@@ -32,8 +30,7 @@ public abstract class GeneratingVisitor extends PathAwareAbstractVisitor {
     
     protected final boolean isChoiceElement(java.lang.String name) {
         if (getDepth() > 1) {
-            // TODO: move isChoiceElement to a utility class that is not JSON specific
-            return JsonSupport.isChoiceElement(typeStack.get(getDepth() - 2), name);
+            return ModelSupport.isChoiceElement(typeStack.get(getDepth() - 2), name);
         }
         return false;
     }

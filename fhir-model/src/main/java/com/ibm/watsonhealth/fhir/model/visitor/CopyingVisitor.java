@@ -20,7 +20,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
-import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport;
 
 /**
  * Copy a Resource or Element. Because model objects are immutable, by default this will return a reference to
@@ -128,7 +128,7 @@ public class CopyingVisitor<T extends Visitable> extends AbstractVisitor {
                     MethodHandle methodHandle;
                     try {
                         MethodType mt;
-                        if ((visited instanceof Element && JsonSupport.isChoiceElement(parentBuilder.getClass().getEnclosingClass(), elementName)) 
+                        if ((visited instanceof Element && ModelSupport.isChoiceElement(parentBuilder.getClass().getEnclosingClass(), elementName)) 
                                 || (visited instanceof Resource && isResourceContainer(parentBuilder, elementName))) {
                             mt = MethodType.methodType(parentBuilder.getClass(), elementOrResource);
                         } else {
