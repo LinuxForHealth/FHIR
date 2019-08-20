@@ -77,15 +77,6 @@ public class FHIROperationUtil {
                     && OperationParameterUse.IN.getValue().equals(parameterDefinition.getUse().getValue())) {
                 Parameter.Builder parameterBuilder =
                         Parameter.builder().name(string(parameterDefinition.getName().getValue()));
-
-                // ResourceContainer container = factory.createResourceContainer();
-                // FHIRUtil.setResourceContainerResource(container, resource);
-                // parameter.setResource(container);
-                /*
-                 * TODO because we don't want to support virtual resource which is the only one who really needs
-                 * ResourceContainer
-                 */
-                /* So, assume we always want the resource itself instead the wrapping ResourceContainer */
                 parametersBuilder.parameter(parameterBuilder.resource(resource).build());
             }
         }
@@ -106,12 +97,6 @@ public class FHIROperationUtil {
 
     public static Resource getSingleResourceOutputParameter(Parameters parameters)
         throws Exception {
-        // return FHIRUtil.getResourceContainerResource(parameters.getParameter().get(0).getResource());
-        /*
-         * TODO because we don't want to support virtual resource which is the only one who really needs
-         * ResourceContainer
-         */
-        /* So, assume we always want the resource itself instead the wrapping ResourceContainer */
         return parameters.getParameter().get(0).getResource();
     }
 }
