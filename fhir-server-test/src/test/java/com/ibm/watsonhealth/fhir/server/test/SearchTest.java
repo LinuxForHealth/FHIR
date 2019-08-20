@@ -43,9 +43,9 @@ import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
-    
+
     private static final boolean DEBUG = false;
-    
+
     private String patientId;
     private String observationId;
     private Boolean compartmentSearchSupported = null;
@@ -503,6 +503,10 @@ public class SearchTest extends FHIRServerTestBase {
         Observation responseObservation =
                 response.readEntity(Observation.class);
 
+        if (DEBUG) {
+            SearchAllTest.generateOutput(responseObservation);
+        }
+
         // use it for serach
         observationId = responseObservation.getId().getValue();
         assertResourceEquals(observation, responseObservation);
@@ -748,7 +752,7 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchObservationCodeSystem() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Observation").queryParam("component-value-quantity", "125.0||mmHg").request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+                target.path("Observation").queryParam("value-quantity", "125.0||mmHg").request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -759,7 +763,7 @@ public class SearchTest extends FHIRServerTestBase {
             "testCreateObservation" })
     public void test_SearchObservationCodeSystem() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("component-value-quantity", "125.0||mmHg");
+        parameters.searchParam("value-quantity", "125.0||mmHg");
         FHIRRequestHeader header =
                 new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
         FHIRResponse response =
@@ -775,7 +779,7 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchObservationCodeLTSystem() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Observation").queryParam("component-value-quantity", "le126.0||mmHg").request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+                target.path("Observation").queryParam("value-quantity", "le126.0||mmHg").request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -786,7 +790,7 @@ public class SearchTest extends FHIRServerTestBase {
             "testCreateObservation" })
     public void test_SearchObservationCodeLTSystem() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("component-value-quantity", "le126.0||mmHg");
+        parameters.searchParam("value-quantity", "le126.0||mmHg");
         FHIRRequestHeader header =
                 new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
         FHIRResponse response =
@@ -802,11 +806,13 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchObservationCodeGTSystem() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Observation").queryParam("component-value-quantity", "gt123.0||mmHg").request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+                target.path("Observation").queryParam("value-quantity", "gt123.0||mmHg").request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        SearchAllTest.generateOutput(bundle);
+        if (DEBUG) {
+            SearchAllTest.generateOutput(bundle);
+        }
         assertTrue(bundle.getEntry().size() >= 1);
     }
 
@@ -814,7 +820,7 @@ public class SearchTest extends FHIRServerTestBase {
             "testCreateObservation" })
     public void test_SearchObservationCodeGTSystem() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("component-value-quantity", "gt123.0||mmHg");
+        parameters.searchParam("value-quantity", "gt123.0||mmHg");
         FHIRRequestHeader header =
                 new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
         FHIRResponse response =
