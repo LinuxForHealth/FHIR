@@ -37,7 +37,7 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 
 public class SearchAllTest extends FHIRServerTestBase {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG_SEARCH = false;
 
     private String patientId;
     private Instant lastUpdated;
@@ -55,7 +55,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         patient =
                 patient.toBuilder().meta(Meta.builder().security(security).tag(tag).profile(Canonical.of("http://ibm.com/watsonhealth/fhir/profile/Profile")).build()).build();
 
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             generateOutput(patient);
         }
 
@@ -127,7 +127,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
 
         assertNotNull(bundle);
-        if(DEBUG) {
+        if(DEBUG_SEARCH) {
             generateOutput(bundle);
         }
         

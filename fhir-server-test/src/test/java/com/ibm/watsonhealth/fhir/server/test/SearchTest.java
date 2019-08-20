@@ -44,7 +44,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG_SEARCH = false;
 
     private String patientId;
     private String observationId;
@@ -437,7 +437,7 @@ public class SearchTest extends FHIRServerTestBase {
         boolean result = false;
         for (Bundle.Entry entry : bundle.getEntry()) {
 
-            if (DEBUG) {
+            if (DEBUG_SEARCH) {
 
                 SearchAllTest.generateOutput(entry.getResource());
                 System.out.println(result + " "
@@ -503,7 +503,7 @@ public class SearchTest extends FHIRServerTestBase {
         Observation responseObservation =
                 response.readEntity(Observation.class);
 
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             SearchAllTest.generateOutput(responseObservation);
         }
 
@@ -600,7 +600,7 @@ public class SearchTest extends FHIRServerTestBase {
         boolean result = false;
         for (Bundle.Entry entry : bundle.getEntry()) {
 
-            if (DEBUG) {
+            if (DEBUG_SEARCH) {
 
                 SearchAllTest.generateOutput(entry.getResource());
                 System.out.println(result + " "
@@ -810,7 +810,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
@@ -846,7 +846,7 @@ public class SearchTest extends FHIRServerTestBase {
                 client._search("Observation", parameters, tenantHeader, preferStrictHeader);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
 
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             SearchAllTest.generateOutput(response.getResource(OperationOutcome.class));
         }
 

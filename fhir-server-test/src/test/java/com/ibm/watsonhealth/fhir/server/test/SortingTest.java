@@ -53,7 +53,7 @@ import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class SortingTest extends FHIRServerTestBase {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG_SEARCH = false;
 
     // used for adjustInto calls to obtain usable Zulu instants from Year, YearMonth, LocalDate
     private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00";
@@ -323,7 +323,7 @@ public class SortingTest extends FHIRServerTestBase {
         boolean result = false;
         for (Bundle.Entry entry : bundle.getEntry()) {
 
-            if (DEBUG) {
+            if (DEBUG_SEARCH) {
 
                 SearchAllTest.generateOutput(entry.getResource());
                 System.out.println(result + " "
@@ -428,7 +428,7 @@ public class SortingTest extends FHIRServerTestBase {
             Patient patient = (Patient) entry.getResource();
             if (patient.getTelecom() != null && patient.getTelecom().size() > 0) {
 
-                if (DEBUG) {
+                if (DEBUG_SEARCH) {
                     SearchAllTest.generateOutput(patient);
                 }
 
@@ -503,7 +503,7 @@ public class SortingTest extends FHIRServerTestBase {
                         currentBirthDate = null;
                     }
 
-                    if (DEBUG) {
+                    if (DEBUG_SEARCH) {
                         SearchAllTest.generateOutput(patient);
                     }
                     if (previousFamily != null && previousFamily.equals(currentFamily)) {
@@ -594,7 +594,7 @@ public class SortingTest extends FHIRServerTestBase {
                 list.add(((Quantity) observationComponent.getValue()).getValue().getValue());
             }
         }
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             System.out.println(list);
         }
         assertTrueNaturalOrdering(list);
@@ -606,15 +606,15 @@ public class SortingTest extends FHIRServerTestBase {
         for (HumanName patientName : patient.getName()) {
             if (patientName.getUse() != null
                     && patientName.getUse().getValue().compareTo("usual") == 0) {
-                if (DEBUG) {
-                    // Only output when debugging.
+                if (DEBUG_SEARCH) {
+                    // Only output when DEBUG_SEARCHging.
                     SearchAllTest.generateOutput(patient);
                 }
 
                 System.out.println("Skipping usual type as there is no family name ");
 
             } else {
-                if (DEBUG) {
+                if (DEBUG_SEARCH) {
                     SearchAllTest.generateOutput(patient);
                 }
 
@@ -648,7 +648,7 @@ public class SortingTest extends FHIRServerTestBase {
             while (iter.hasNext()) {
                 BigDecimal current = iter.next();
 
-                if (DEBUG) {
+                if (DEBUG_SEARCH) {
                     System.out.println(prior + " " + current);
                 }
 
@@ -662,7 +662,7 @@ public class SortingTest extends FHIRServerTestBase {
 
     private void assertTrueNaturalOrderingString(List<String> list) {
 
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             System.out.println(list);
         }
         List<String> sortedList = list.stream().sorted().collect(Collectors.toList());
@@ -685,7 +685,7 @@ public class SortingTest extends FHIRServerTestBase {
 
     private void assertTrueNaturalOrderingReverse(List<String> list) {
 
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             System.out.println(list);
         }
 
@@ -701,7 +701,7 @@ public class SortingTest extends FHIRServerTestBase {
             String thisString = primary.next();
             String testString = secondary.next();
 
-            if (DEBUG) {
+            if (DEBUG_SEARCH) {
                 System.out.println(thisString + " " + testString);
             }
             assertTrue(testString.compareTo(thisString) >= 0);
@@ -717,7 +717,7 @@ public class SortingTest extends FHIRServerTestBase {
 
         Iterator<Instant> primary = sortedList.iterator();
 
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             System.out.println(sortedList);
         }
 
@@ -726,7 +726,7 @@ public class SortingTest extends FHIRServerTestBase {
         while (primary.hasNext()) {
             Instant thisInstant = primary.next();
 
-            if (DEBUG) {
+            if (DEBUG_SEARCH) {
                 System.out.println("Compare " + lastInstant + " " + lastInstant);
             }
 

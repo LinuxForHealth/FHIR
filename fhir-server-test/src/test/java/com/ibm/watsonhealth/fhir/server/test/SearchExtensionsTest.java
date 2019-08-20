@@ -36,7 +36,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
     private static final String EXTENSION_BASE_URL =
             "http://ibm.com/watsonhealth/fhir/extension/Patient/";
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG_SEARCH = false;
 
     private Patient savedCreatedPatientWithExtensions;
 
@@ -81,7 +81,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             SearchAllTest.generateOutput(bundle);
         }
         assertNotNull(bundle);
@@ -98,7 +98,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
 
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             SearchAllTest.generateOutput(bundle);
         }
         assertNotNull(bundle);
@@ -183,7 +183,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
 
-        if (DEBUG) {
+        if (DEBUG_SEARCH) {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
