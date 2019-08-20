@@ -17,7 +17,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathAbstractNodeVisitor;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue;
@@ -28,6 +27,7 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
+import com.ibm.watsonhealth.fhir.model.path.visitor.FHIRPathAbstractNodeVisitor;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Date;

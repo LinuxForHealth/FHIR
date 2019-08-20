@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.ibm.watsonhealth.fhir.model.path.visitor.FHIRPathNodeVisitor;
+
 public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPathNumberValue {
     private final Integer integer;
     private final BigDecimal decimal;

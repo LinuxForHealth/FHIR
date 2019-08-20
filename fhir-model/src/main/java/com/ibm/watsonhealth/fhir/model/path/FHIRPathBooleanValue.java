@@ -9,6 +9,8 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.ibm.watsonhealth.fhir.model.path.visitor.FHIRPathNodeVisitor;
+
 public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
     public static final FHIRPathBooleanValue TRUE = FHIRPathBooleanValue.booleanValue(true);
     public static final FHIRPathBooleanValue FALSE = FHIRPathBooleanValue.booleanValue(false);

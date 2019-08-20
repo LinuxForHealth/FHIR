@@ -9,6 +9,8 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import com.ibm.watsonhealth.fhir.model.path.visitor.FHIRPathNodeVisitor;
+
 public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     String name();
     String path();

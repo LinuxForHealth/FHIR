@@ -21,6 +21,8 @@ import java.time.temporal.TemporalAmount;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.ibm.watsonhealth.fhir.model.path.visitor.FHIRPathNodeVisitor;
+
 public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
     private static final DateTimeFormatter TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("'T'HH:mm:ss")

@@ -9,6 +9,8 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.ibm.watsonhealth.fhir.model.path.visitor.FHIRPathNodeVisitor;
+
 public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
     public static final FHIRPathStringValue EMPTY_STRING = stringValue("");
     

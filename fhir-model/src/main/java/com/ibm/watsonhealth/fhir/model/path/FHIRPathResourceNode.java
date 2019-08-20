@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.ibm.watsonhealth.fhir.model.path.visitor.FHIRPathNodeVisitor;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 public class FHIRPathResourceNode extends FHIRPathAbstractNode {
