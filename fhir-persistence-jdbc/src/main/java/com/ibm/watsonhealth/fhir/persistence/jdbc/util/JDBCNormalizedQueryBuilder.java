@@ -375,7 +375,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 // For anything other than an exact match, we search against the STR_VALUE_LCASE column in the
                 // Resource's string values table.
                 // Also, the search value is "normalized"; it has accents removed and is lower-cased. This enables a
-                // case-insensitve, accent-insesnsitive search.
+                // case-insensitive, accent-insensitive search.
                 // Build this piece: pX.str_value_lcase {operator} search-attribute-value
                 whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE_LCASE).append(operator.value()).append(BIND_VAR);
                 searchValue = SearchUtil.normalizeForSearch(searchValue);

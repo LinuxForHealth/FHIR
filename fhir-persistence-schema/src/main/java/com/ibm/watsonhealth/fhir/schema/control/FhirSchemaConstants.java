@@ -49,7 +49,10 @@ public class FhirSchemaConstants {
     
     // R4 Logical Resource Profile property is a REFERENCE (str_values)
     public static final String STR_VALUES = "STR_VALUES";
-    
+
+    // R4 Logical Resource Date values for things like lastUpdated
+    public static final String DATE_VALUES = "DATE_VALUES";
+
     // R4 Special extension to LIST_LOGICAL_RESOURCES to support list items
     public static final String LIST_LOGICAL_RESOURCES = "LIST_LOGICAL_RESOURCES";
     public static final String LIST_LOGICAL_RESOURCE_ITEMS = "LIST_LOGICAL_RESOURCE_ITEMS";

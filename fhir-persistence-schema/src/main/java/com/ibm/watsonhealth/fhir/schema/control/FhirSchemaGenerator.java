@@ -297,8 +297,9 @@ CREATE SEQUENCE fhir_sequence
         addCodeSystems(model);
         addResourceTypes(model);
         addLogicalResources(model); // for system-level parameter search
-        addLogicalResourceTokenValues(model); // for system-level _tag and _security parameters
-        addLogicalResourceStrValues(model); // for system-level _profile parameters
+        addResourceTokenValues(model); // for system-level _tag and _security parameters
+        addResourceStrValues(model); // for system-level _profile parameters
+        addResourceDateValues(model); // for system-level date parameters
         addResourceTables(model);
 
         // Make sure we have the row and array types defined
@@ -364,7 +365,7 @@ CREATE SEQUENCE fhir_sequence
      * _tag and _security search properties in R4
      * @param prefix
      */
-    public void addLogicalResourceTokenValues(PhysicalDataModel pdm) {
+    public void addResourceTokenValues(PhysicalDataModel pdm) {
 
         final String tableName = TOKEN_VALUES;
         final int tvb = MAX_TOKEN_VALUE_BYTES;
@@ -393,12 +394,12 @@ CREATE SEQUENCE fhir_sequence
     }
 
     /**
-     * Add system-wide STR_VALUES table to support _profile
+     * Add system-wide RESOURCE_STR_VALUES table to support _profile
      * properties (which are of type REFERENCE). 
      * @param group
      * @param prefix
      */
-    public void addLogicalResourceStrValues(PhysicalDataModel pdm) {
+    public void addResourceStrValues(PhysicalDataModel pdm) {
         final int msb = MAX_SEARCH_STRING_BYTES;
         
         Table tbl = Table.builder(schemaName, STR_VALUES)
@@ -424,38 +425,36 @@ CREATE SEQUENCE fhir_sequence
     }
 
     /**
-     * A LIST resource contains a list of items which are references to
-     * other resources
-     * @param pdm
+     * Add the table for data search parameters at the (system-wide) resource level
+     * @param model
      */
-    public void addLogicalResourceListItems(PhysicalDataModel pdm) {
-
-        final String tableName = TOKEN_VALUES;
-        final int tvb = MAX_TOKEN_VALUE_BYTES;
-
-        // logical_resources (0|1) ---- (*) token_values
+    public void addResourceDateValues(PhysicalDataModel model) {
+        final String tableName = DATE_VALUES;
+        final String logicalResourcesTable = LOGICAL_RESOURCES;
+        
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
-                .addIntColumn(        CODE_SYSTEM_ID,      false)
-                .addVarcharColumn(       TOKEN_VALUE, tvb,  true)
+                .addTimestampColumn(      DATE_VALUE,      true)
+                .addTimestampColumn(      DATE_START,      true)
+                .addTimestampColumn(        DATE_END,      true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
-                .addIndex(IDX + tableName + "_PNCSCV", PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE)
+                .addIndex(IDX + tableName + "_PVR", PARAMETER_NAME_ID, DATE_VALUE, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_RPV", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_VALUE)
+                .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_RPSE", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_START, DATE_END)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
-                .addForeignKeyConstraint(FK + tableName + "_CS", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
-                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .build(pdm)
+                .build(model)
                 ;
 
-        // TODO should not need to add as a table and an object. Get the table to add itself?
-        pdm.addTable(tbl);
-        pdm.addObject(tbl);
+        model.addTable(tbl);
+        model.addObject(tbl);
     }
-
 
 
     /**

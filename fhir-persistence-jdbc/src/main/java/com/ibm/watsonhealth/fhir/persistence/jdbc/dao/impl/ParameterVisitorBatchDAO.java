@@ -118,18 +118,18 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         locations = c.prepareStatement(insert);
 
         // Resource level string attributes
-        insert = multitenant ? "INSERT INTO str_values (mt_id, parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO str_values (parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (?,?,?,?)";
+        insert = multitenant ? "INSERT INTO resource_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                : "INSERT INTO resource_str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
         resourceStrings = c.prepareStatement(insert);
         
         // Resource level date attributes
-        insert = multitenant ? "INSERT INTO date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
-                : "INSERT INTO date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+        insert = multitenant ? "INSERT INTO resource_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                : "INSERT INTO resource_date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
         resourceDates = c.prepareStatement(insert);
         
         // Resource level token attributes
-        insert = multitenant ? "INSERT INTO token_values (mt_id, parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO token_values (parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (?,?,?,?)";
+        insert = multitenant ? "INSERT INTO resource_token_values (mt_id, parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                : "INSERT INTO resource_token_values (parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (?,?,?,?)";
         resourceTokens = c.prepareStatement(insert);
     }
 
@@ -433,12 +433,30 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
             locationCount = 0;
         }
         
+        if (resourceStringCount > 0) {
+            resourceStrings.executeBatch();
+            resourceStringCount = 0;
+        }
+        
+        if (resourceDateCount > 0) {
+            resourceDates.executeBatch();
+            resourceDateCount = 0;
+        }
+        
+        if (resourceTokenCount > 0) {
+            resourceTokens.executeBatch();
+            resourceTokenCount = 0;
+        }
+        
         closeStatement(strings);
         closeStatement(numbers);
         closeStatement(dates);
         closeStatement(tokens);
         closeStatement(quantities);
         closeStatement(locations);
+        closeStatement(resourceStrings);
+        closeStatement(resourceDates);
+        closeStatement(resourceTokens);
     }
     
     /**
