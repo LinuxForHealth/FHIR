@@ -17,13 +17,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathAbstractNodeVisitor;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathElementNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNodeVisitor;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
@@ -79,65 +79,50 @@ public class FHIRPathNodeVisitorTest {
         Assert.assertEquals(actual, EXPECTED);
     }
     
-    public static class PrintingVisitor implements FHIRPathNodeVisitor<List<String>> {
-        private void visitChildren(List<String> param, FHIRPathNode node) {
-            for (FHIRPathNode child : node.children()) {
-                child.accept(param, this);
-            }
-        }
-
+    public static class PrintingVisitor extends FHIRPathAbstractNodeVisitor<List<String>> {
         @Override
-        public void visit(List<String> param, FHIRPathBooleanValue value) {
+        protected void doVisit(List<String> param, FHIRPathBooleanValue value) {
             param.add("FHIRPathBooleanValue: " + value._boolean());
-            visitChildren(param, value);
         }
 
         @Override
-        public void visit(List<String> param, FHIRPathDateTimeValue value) {
+        protected void doVisit(List<String> param, FHIRPathDateTimeValue value) {
             param.add("FHIRPathBooleanValue: " + value.dateTime());
-            visitChildren(param, value);
         }
 
         @Override
-        public void visit(List<String> param, FHIRPathDecimalValue value) {
+        protected void doVisit(List<String> param, FHIRPathDecimalValue value) {
             param.add("FHIRPathDecimalValue: " + value.decimal());
-            visitChildren(param, value);
         }
 
         @Override
-        public void visit(List<String> param, FHIRPathElementNode node) {
+        protected void doVisit(List<String> param, FHIRPathElementNode node) {
             param.add("FHIRPathElementNode: " + node.element().getClass().getSimpleName());
-            visitChildren(param, node);
         }
 
         @Override
-        public void visit(List<String> param, FHIRPathIntegerValue value) {
+        protected void doVisit(List<String> param, FHIRPathIntegerValue value) {
             param.add("FHIRPathIntegerValue: " + value.integer());
-            visitChildren(param, value);
         }
 
         @Override
-        public void visit(List<String> param, FHIRPathQuantityNode node) {
+        protected void doVisit(List<String> param, FHIRPathQuantityNode node) {
             param.add("FHIRPathQuantityNode: " + node.quantity());
-            visitChildren(param, node);
         }
 
         @Override
-        public void visit(List<String> param, FHIRPathResourceNode node) {
+        protected void doVisit(List<String> param, FHIRPathResourceNode node) {
             param.add("FHIRPathResourceNode: " + node.resource().getClass().getSimpleName());
-            visitChildren(param, node);
         }
 
         @Override
-        public void visit(List<String> param, FHIRPathStringValue value) {
+        protected void doVisit(List<String> param, FHIRPathStringValue value) {
             param.add("FHIRPathStringValue: " + value.string());
-            visitChildren(param, value);
         }
 
         @Override
-        public void visit(List<String> param, FHIRPathTimeValue value) {
+        protected void doVisit(List<String> param, FHIRPathTimeValue value) {
             param.add("FHIRPathTimeValue: " + value.time());
-            visitChildren(param, value);
         }
     }
     
