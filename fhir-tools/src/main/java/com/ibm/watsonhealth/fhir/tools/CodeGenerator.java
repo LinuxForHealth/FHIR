@@ -178,13 +178,13 @@ public class CodeGenerator {
     private String buildParseMethodInvocation(JsonObject elementDefinition, String elementName, String fieldType, boolean repeating) {
         if (repeating) {
             if (isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
-                return "parse" + fieldType + "(" + quote(elementName) + ", " + elementName + "Array.get(i), JsonSupport.getJsonValue(_" + elementName + "Array, i), i)";
+                return "parse" + fieldType + "(" + quote(elementName) + ", " + elementName + "Array.get(i), getJsonValue(_" + elementName + "Array, i), i)";
             } else if (isStringSubtype(fieldType) || isCodeSubtype(fieldType)) {
-                return "(" + fieldType + ") parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), JsonSupport.getJsonValue(_" + elementName + "Array, i), i)";
+                return "(" + fieldType + ") parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), getJsonValue(_" + elementName + "Array, i), i)";
             } else if (isUriSubtype(fieldType)) {
-                return "(" + fieldType + ") parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), JsonSupport.getJsonValue(_" + elementName + "Array, i), i)";
+                return "(" + fieldType + ") parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), getJsonValue(_" + elementName + "Array, i), i)";
             } else if (isIntegerSubtype(fieldType)) {
-                return "(" + fieldType + ") parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), JsonSupport.getJsonValue(_" + elementName + "Array, i), i)";
+                return "(" + fieldType + ") parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", " + elementName + "Array.get(i), getJsonValue(_" + elementName + "Array, i), i)";
             } else if (isQuantitySubtype(fieldType)) {
                 return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", " + elementName + "Array.getJsonObject(i), i)";
             } else {
@@ -193,25 +193,25 @@ public class CodeGenerator {
         } else {
             if (isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
                 String expectedType = getExpectedType(fieldType);
-                return "parse" + fieldType + "(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", " + expectedType + ".class), jsonObject.get(" + quote("_" + elementName) + "), -1)";
+                return "parse" + fieldType + "(" + quote(elementName) + ", getJsonValue(jsonObject, " + quote(elementName) + ", " + expectedType + ".class), jsonObject.get(" + quote("_" + elementName) + "), -1)";
             } else if (isStringSubtype(fieldType) || isCodeSubtype(fieldType)) {
                 String expectedType = getExpectedType(fieldType);
-                return "(" + fieldType + ") " + "parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", " + expectedType + ".class), jsonObject.get(" + quote("_" + elementName) + "), -1)";
+                return "(" + fieldType + ") " + "parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", getJsonValue(jsonObject, " + quote(elementName) + ", " + expectedType + ".class), jsonObject.get(" + quote("_" + elementName) + "), -1)";
             } else if (isUriSubtype(fieldType)) {
                 String expectedType = getExpectedType(fieldType);
-                return "(" + fieldType + ") " + "parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", " + expectedType + ".class), jsonObject.get(" + quote("_" + elementName) + "), -1)";
+                return "(" + fieldType + ") " + "parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", getJsonValue(jsonObject, " + quote(elementName) + ", " + expectedType + ".class), jsonObject.get(" + quote("_" + elementName) + "), -1)";
             } else if (isIntegerSubtype(fieldType)) {
                 String expectedType = getExpectedType(fieldType);
-                return "(" + fieldType + ") " + "parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", " + expectedType + ".class), jsonObject.get(" + quote("_" + elementName) + "), -1)";
+                return "(" + fieldType + ") " + "parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", getJsonValue(jsonObject, " + quote(elementName) + ", " + expectedType + ".class), jsonObject.get(" + quote("_" + elementName) + "), -1)";
             } else if (isQuantitySubtype(fieldType)) {
-                return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
+                return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
             } else if (isChoiceElement(elementDefinition)) {
                 String choiceTypeClasses = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                 return "parseChoiceElement(" + quote(elementName) + ", jsonObject, " + choiceTypeClasses + ")";
             } else if (isJavaString(fieldType)) {
-                return "parseJavaString(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonString.class), -1)";
+                return "parseJavaString(" + quote(elementName) + ", getJsonValue(jsonObject, " + quote(elementName) + ", JsonString.class), -1)";
             } else {
-                return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", JsonSupport.getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
+                return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", getJsonValue(jsonObject, " + quote(elementName) + ", JsonObject.class), -1)";
             }
         }
     }
@@ -2057,6 +2057,17 @@ public class CodeGenerator {
         String packageName = "com.ibm.watsonhealth.fhir.model.parser";
         cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
+        
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.JsonSupport", "checkForUnrecognizedElements");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.JsonSupport", "getJsonArray");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.JsonSupport", "getJsonValue");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.JsonSupport", "getResourceType");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.JsonSupport", "nonClosingInputStream");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.JsonSupport", "nonClosingReader");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.ModelSupport", "getChoiceElementName");
+        
+        cb.newLine();
+        
         cb._import("java.io.InputStream");
         cb._import("java.io.Reader");
         cb._import("java.nio.charset.StandardCharsets");
@@ -2085,8 +2096,6 @@ public class CodeGenerator {
         cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
         cb._import("com.ibm.watsonhealth.fhir.model.type.String");
         cb._import("com.ibm.watsonhealth.fhir.model.util.ElementFilter");
-        cb._import("com.ibm.watsonhealth.fhir.model.util.JsonSupport");
-        cb._import("com.ibm.watsonhealth.fhir.model.util.ModelSupport");
         
         cb.newLine();
         
@@ -2116,7 +2125,7 @@ public class CodeGenerator {
         
         // public <T extends Resource> T parseAndFilter(InputStream in, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("InputStream in", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
-            ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(JsonSupport.nonClosingInputStream(in), StandardCharsets.UTF_8)")
+            ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingInputStream(in), StandardCharsets.UTF_8)")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
             ._catch("Exception e")
@@ -2136,7 +2145,7 @@ public class CodeGenerator {
         
         // public <T extends Resource> T parseAndFilter(Reader reader, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("Reader reader", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
-            ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(JsonSupport.nonClosingReader(reader))")
+            ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingReader(reader))")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
             ._catch("Exception e")
@@ -2157,7 +2166,7 @@ public class CodeGenerator {
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("JsonObject jsonObject", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
             ._try()
                 .invoke("reset", args())
-                .assign("Class<?> resourceType", "JsonSupport.getResourceType(jsonObject)")
+                .assign("Class<?> resourceType", "getResourceType(jsonObject)")
                 ._if("elementsToInclude != null")
                     .assign("ElementFilter elementFilter", "new ElementFilter(resourceType, elementsToInclude)")
                     .assign("jsonObject", "elementFilter.apply(jsonObject)")
@@ -2181,7 +2190,7 @@ public class CodeGenerator {
         cb._if("jsonObject == null");
         cb._return("null");
         cb._end();
-        cb.assign("Class<?> resourceType", "JsonSupport.getResourceType(jsonObject)");
+        cb.assign("Class<?> resourceType", "getResourceType(jsonObject)");
         cb._switch("resourceType.getSimpleName()");
         for (String resourceClassName : resourceClassNames) {
             if ("Resource".equals(resourceClassName) || "DomainResource".equals(resourceClassName)) {
@@ -2276,7 +2285,7 @@ public class CodeGenerator {
         cb.newLine();
         
         cb._foreach("Class<?> choiceType", "choiceTypes")
-            .assign("java.lang.String key", "ModelSupport.getChoiceElementName(name, choiceType)")
+            .assign("java.lang.String key", "getChoiceElementName(name, choiceType)")
             ._if("jsonObject.containsKey(key)")
                 ._if("elementName != null")
                     ._throw("new IllegalArgumentException()")
@@ -2370,7 +2379,7 @@ public class CodeGenerator {
                 ._return("null")
             ._end();
             cb.invoke("stackPush", args("elementName", "elementIndex"));
-            cb.invoke("JsonSupport", "checkForUnrecognizedElements", args(generatedClassName + ".class", "jsonObject"));
+            cb.invoke("checkForUnrecognizedElements", args(generatedClassName + ".class", "jsonObject"));
         }
         
         if (!isAbstract(structureDefinition) && !"Quantity".equals(generatedClassName)) {
@@ -2398,9 +2407,9 @@ public class CodeGenerator {
                 String parseMethodInvocation;            
                 if (isRepeating(elementDefinition)) {
                     if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {
-                        cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ", true)");
+                        cb.assign("JsonArray " + elementName + "Array", "getJsonArray(jsonObject, " + quote(elementName) + ", true)");
                     } else {
-                        cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ")");
+                        cb.assign("JsonArray " + elementName + "Array", "getJsonArray(jsonObject, " + quote(elementName) + ")");
                     }
                     cb._if(elementName + "Array != null");
                     if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {
@@ -2455,7 +2464,7 @@ public class CodeGenerator {
         
         cb._if("_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT")
             .assign("JsonObject jsonObject", "(JsonObject) _jsonValue")
-            .invoke("JsonSupport", "checkForUnrecognizedElements", args("Element.class", "jsonObject"))
+            .invoke("checkForUnrecognizedElements", args("Element.class", "jsonObject"))
             .invoke("parseElement", args("builder", "jsonObject"))
         ._end();
 
