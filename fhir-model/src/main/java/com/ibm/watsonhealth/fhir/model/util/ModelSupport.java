@@ -6,12 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,6 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.lang.model.SourceVersion;
 
@@ -191,8 +194,8 @@ public final class ModelSupport {
 
     private static Map<Class<?>, Map<String, ElementInfo>> buildModelClassElementInfoMap() {
         Map<Class<?>, Map<String, ElementInfo>> modelClassElementInfoMap = new LinkedHashMap<>();
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(ModelSupport.class.getClassLoader().getResource("modelClasses").toURI()));
+        try (InputStream in = ModelSupport.class.getClassLoader().getResourceAsStream("modelClasses")) {
+            List<String> lines = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
             for (String className : lines) {
                 Class<?> modelClass = Class.forName(className);
                 Map<String, ElementInfo> elementInfoMap = new LinkedHashMap<>();
@@ -202,9 +205,7 @@ public final class ModelSupport {
                     boolean required = isRequired(field);
                     boolean repeating = isRepeating(field);
                     boolean choice = isChoice(field);
-                    Set<Class<?>> choiceTypes = choice ? 
-                            Collections.unmodifiableSet(getChoiceTypes(field)) : 
-                            Collections.emptySet();
+                    Set<Class<?>> choiceTypes = choice ? Collections.unmodifiableSet(getChoiceTypes(field)) : Collections.emptySet();
                     ElementInfo elementInfo = new ElementInfo(type, required, repeating, choice, choiceTypes);
                     elementInfoMap.put(elementName, elementInfo);
                 }
