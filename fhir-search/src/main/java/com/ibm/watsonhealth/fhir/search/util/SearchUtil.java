@@ -491,17 +491,21 @@ public class SearchUtil {
             if (expression != null && !SearchParamType.COMPOSITE.equals(type) && !SearchParamType.SPECIAL.equals(type)) {
 
                 try {
+                   
                     Collection<FHIRPathNode> tmpResults = evaluator.evaluate(expression.getValue(), tree.getRoot());
-
+                    
+                    if (log.isLoggable(Level.FINEST)) {
+                        log.finest("Expression [" + expression.getValue() + "] parameter-code [" + parameter.getCode().getValue() + "] Size -[" + tmpResults.size() + "]");
+                    }
+                    
                     // Adds only if !skipEmpty || collect is not empty
                     if (!tmpResults.isEmpty() || !skipEmpty) {
                         result.put(parameter, new ArrayList<>(tmpResults));
                     }
 
                 } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
-                    // Issue 202: switched to using code
+                    // switched to using code instead of name
                     log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(), expression.getValue(), uoe.getMessage()));
-                    uoe.printStackTrace();
                 }
             } else {
                 if (log.isLoggable(Level.FINER)) {
