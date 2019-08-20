@@ -159,4 +159,9 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
     public String toString() {
         return decimal.toPlainString();
     }
+
+    @Override
+    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
+        visitor.visit(param, this);
+    }
 }

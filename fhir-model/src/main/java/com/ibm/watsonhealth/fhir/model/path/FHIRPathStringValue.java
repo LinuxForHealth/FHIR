@@ -179,4 +179,9 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public String toString() {
         return string;
     }
+
+    @Override
+    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
+        visitor.visit(param, this);
+    }
 }

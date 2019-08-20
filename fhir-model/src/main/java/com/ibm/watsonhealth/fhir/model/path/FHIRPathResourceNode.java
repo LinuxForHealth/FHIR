@@ -108,4 +108,9 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
     public int hashCode() {
         return Objects.hashCode(resource);
     }
+
+    @Override
+    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
+        visitor.visit(param, this);
+    }
 }

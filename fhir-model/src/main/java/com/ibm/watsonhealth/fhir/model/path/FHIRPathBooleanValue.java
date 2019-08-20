@@ -160,4 +160,9 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     public String toString() {
         return _boolean ? "'true'" : "'false'";
     }
+
+    @Override
+    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
+        visitor.visit(param, this);
+    }
 }

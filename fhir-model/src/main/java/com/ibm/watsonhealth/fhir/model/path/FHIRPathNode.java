@@ -49,4 +49,5 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
         Builder children(Collection<FHIRPathNode> children);
         FHIRPathNode build();
     }
+    <T> void accept(T param, FHIRPathNodeVisitor<T> visitor);
 }

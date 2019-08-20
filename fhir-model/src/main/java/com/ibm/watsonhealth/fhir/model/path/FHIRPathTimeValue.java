@@ -189,4 +189,9 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
     public String toString() {
         return TIME_PARSER_FORMATTER.format(time);
     }
+
+    @Override
+    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
+        visitor.visit(param, this);
+    }
 }

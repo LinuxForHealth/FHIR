@@ -197,4 +197,9 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     public static void main(String[] args) {
         System.out.println(LocalDate.from(Year.now()));
     }
+
+    @Override
+    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
+        visitor.visit(param, this);
+    }
 }

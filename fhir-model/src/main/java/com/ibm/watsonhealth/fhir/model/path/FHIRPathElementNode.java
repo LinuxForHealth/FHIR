@@ -153,4 +153,9 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         }
         return super.toString();
     }
+
+    @Override
+    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
+        visitor.visit(param, this);
+    }
 }
