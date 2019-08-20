@@ -121,16 +121,14 @@ public class SearchAllTest extends FHIRServerTestBase {
         FHIRParameters parameters = new FHIRParameters();
 
         // Original - "http://ibm.com/watsonhealth/fhir/security|security"
-        parameters.searchParam("_security", "security");
+        parameters.searchParam("_security", "http://ibm.com/watsonhealth/fhir/security|security");
         FHIRResponse response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
 
         assertNotNull(bundle);
-        if(DEBUG) {
-            generateOutput(bundle);
-        }
-        
+
+        generateOutput(bundle);
 
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -149,7 +147,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     /*
      * generates the output into a resource.
      */
-    public static void generateOutput(Resource resource) {
+    private void generateOutput(Resource resource) {
 
         try (StringWriter writer = new StringWriter();) {
             FHIRGenerator.generator(Format.JSON, true).generate(resource, System.out);
