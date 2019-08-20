@@ -291,19 +291,10 @@ public class SortingTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-<<<<<<< HEAD
-        Coding subsettedTag = Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
-                .code(Code.of("SUBSETTED"))
-                .display(string("subsetted"))
-                .build();
-
-        assertTrue(FHIRUtil.hasTag(bundle, subsettedTag));
-=======
         Coding subsettedTag =
                 Coding.builder().system(Uri.of("http://hl7.org/fhir/v3/ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
 
         assertTrue(FHIRUtil.containsTag(bundle, subsettedTag));
->>>>>>> Remove dependency on google-collections #481
         assertTrue(bundle.getEntry().size() > 1);
         List<String> list = new ArrayList<String>();
         Patient patient;
@@ -366,137 +357,6 @@ public class SortingTest extends FHIRServerTestBase {
                 // the LAST family name in the natural ordering to add to the list.
                 list.add(this.getFamilyNames(patient, SortDirection.DESCENDING).get(0));
 <<<<<<< HEAD
-            }
-        }
-        assertTrue(Ordering.natural().reverse().isOrdered(list));
-    }
-
-    //Patient?gender=male&_sort=telecom
-    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
-    public void testSortTelecom() {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Patient").queryParam("gender", "male").queryParam("_count", "50").queryParam("_sort", "telecom").request(MediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() > 1);
-        List<String> list = new ArrayList<String>();
-        for(int i=0;i<bundle.getEntry().size();i++){
-            if(((Patient) bundle.getEntry().get(i).getResource()).getTelecom()!=null&&((Patient)bundle.getEntry().get(i).getResource()).getTelecom().size()>0){
-                list.add(((Patient)bundle.getEntry().get(i).getResource()).getTelecom().get(0).getValue().getValue());
-            }
-        }
-        assertTrue(Ordering.natural().isOrdered(list));
-    }
-
-    //Patient?gender=male&_sort:desc=birthDate
-    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
-    public void testSortBirthDate() {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Patient").queryParam("gender", "male").queryParam("_count", "50").queryParam("_sort:desc", "birthdate").request(MediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() > 1);
-        List<java.time.LocalDate> list = new ArrayList<java.time.LocalDate>();
-        for(int i=0;i<bundle.getEntry().size();i++){
-            if(((Patient)bundle.getEntry().get(i).getResource()).getBirthDate()!=null){
-                list.add(java.time.LocalDate.parse(((Patient) bundle.getEntry()
-                        .get(i).getResource()).getBirthDate().getValue().toString()));
-            }
-        }
-
-        assertTrue(Ordering.natural().reverse().isOrdered(list));
-    }
-
-    //Patient?gender=male&_sort:desc=family&_sort:asc=birthdate
-    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
-    public void testSortTwoParameters() {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Patient").queryParam("_count", "50").queryParam("_sort:desc", "family").queryParam("_sort:asc", "birthdate").request(MediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() > 1);
-        List<String> list = new ArrayList<String>();
-        String previousFamily=null;
-        Date previousBirthDate=null;
-
-        //Check birthDate order first, and then check family name order.
-        for(int i=0;i<bundle.getEntry().size();i++) {
-            if(((Patient)bundle.getEntry().get(i).getResource()).getName() !=null && ((Patient)bundle.getEntry().get(i).getResource()).getName().size() > 0) {
-                String currentFamily = this.getFamilyNames((Patient)bundle.getEntry().get(i).getResource(), SortDirection.DESCENDING).get(0);
-                Date currentBirthDate = null;
-                if(((Patient)bundle.getEntry().get(i).getResource()).getBirthDate() != null) {
-                    currentBirthDate = ((Patient)bundle.getEntry().get(i).getResource()).getBirthDate();
-                }
-                else{
-                    currentBirthDate = null;
-                }
-                if(previousFamily != null && previousFamily.equals(currentFamily)){
-                   assertTrue(previousBirthDate == null ||
-                           (java.time.Instant.from(previousBirthDate.getValue())
-                                   .compareTo(java.time.Instant.from(currentBirthDate.getValue())) <= 0));
-                }
-                list.add(currentFamily);
-
-                previousFamily = currentFamily;
-                previousBirthDate = currentBirthDate;
-            }
-        }
-        assertTrue(Ordering.natural().reverse().isOrdered(list));
-    }
-
-  //Patient?gender=male&_sort:desc=family&_sort:desc=birthdate
-    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1", "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
-    public void testSortTwoParametersDescending() {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Patient").queryParam("_count", "50").queryParam("_sort:desc", "family").queryParam("_sort:desc", "birthdate").request(MediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() > 1);
-        List<String> list = new ArrayList<String>();
-        String previousFamily=null;
-        Date previousBirthDate=null;
-
-        //Check birthDate order first, and then check family name order.
-        for(int i=0;i<bundle.getEntry().size();i++){
-            if(((Patient)bundle.getEntry().get(i).getResource()).getName() !=null && ((Patient)bundle.getEntry().get(i).getResource()).getName().size() > 0){
-                String currentFamily = this.getFamilyNames((Patient)bundle.getEntry().get(i).getResource(), SortDirection.DESCENDING).get(0);
-                Date currentBirthDate = null;
-                if(((Patient)bundle.getEntry().get(i).getResource()).getBirthDate() != null) {
-                    currentBirthDate = ((Patient)bundle.getEntry().get(i).getResource()).getBirthDate();
-                }
-                else{
-                    currentBirthDate = null;
-                }
-                if(previousFamily != null && previousFamily.equals(currentFamily)) {
-                    assertTrue(previousBirthDate == null ||
-                            (java.time.Instant.from(previousBirthDate.getValue())
-                                    .compareTo(java.time.Instant.from(currentBirthDate.getValue())) >= 0));
-                }
-                list.add(currentFamily);
-
-                previousFamily = currentFamily;
-                previousBirthDate = currentBirthDate;
-            }
-        }
-        assertTrue(Ordering.natural().reverse().isOrdered(list));
-    }
-
-    //Observation?status=final&code=http://loinc.org|55284-4&_sort:asc=value-quantity
-    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation1", "testCreateObservation2", "testCreateObservation3", "testCreateObservation5" })
-    public void testSortValueQuantityAscending() {
-        WebTarget target = getWebTarget();
-        // we do support coding instead of code for the pipe search.
-        Response response = target.path("Observation").queryParam("status", "final").queryParam("code","http://loinc.org|55284-4")
-                .queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity").request(MediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() > 1);
-=======
             }
         }
         assertTrueNaturalOrderingReverse(list);
@@ -633,7 +493,6 @@ public class SortingTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() > 1);
->>>>>>> Remove dependency on google-collections #481
         List<BigDecimal> list = new ArrayList<BigDecimal>();
 
         for (int i = 0; i < bundle.getEntry().size(); i++) {
@@ -701,12 +560,12 @@ public class SortingTest extends FHIRServerTestBase {
     }
 
     private void assertTrueNaturalOrderingReverse(List<String> list) {
-
+        
         List<String> sortedList = list.stream().sorted().collect(Collectors.toList());
         Collections.reverse(sortedList);
-
+        
         Collections.reverse(list);
-
+        
         Iterator<String> primary = list.iterator();
         Iterator<String> secondary = sortedList.iterator();
         boolean done = false;
@@ -726,9 +585,9 @@ public class SortingTest extends FHIRServerTestBase {
     private void assertTrueNaturalOrderingReverseInstant(List<Instant> list) {
         List<Instant> sortedList = list.stream().sorted().collect(Collectors.toList());
         Collections.reverse(sortedList);
-
+        
         Collections.reverse(list);
-
+        
         Iterator<Instant> primary = list.iterator();
         Iterator<Instant> secondary = sortedList.iterator();
         boolean done = false;
