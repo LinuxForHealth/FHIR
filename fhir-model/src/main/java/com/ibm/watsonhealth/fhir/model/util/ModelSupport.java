@@ -193,8 +193,8 @@ public final class ModelSupport {
     }
 
     private static Map<Class<?>, Map<String, ElementInfo>> buildModelClassElementInfoMap() {
-        Map<Class<?>, Map<String, ElementInfo>> modelClassElementInfoMap = new LinkedHashMap<>();
         try (InputStream in = ModelSupport.class.getClassLoader().getResourceAsStream("modelClasses")) {
+            Map<Class<?>, Map<String, ElementInfo>> modelClassElementInfoMap = new LinkedHashMap<>();
             List<String> lines = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
             for (String className : lines) {
                 Class<?> modelClass = Class.forName(className);
@@ -211,10 +211,10 @@ public final class ModelSupport {
                 }
                 modelClassElementInfoMap.put(modelClass, Collections.unmodifiableMap(elementInfoMap));
             }
+            return modelClassElementInfoMap;
         } catch (Exception e) {
             throw new Error(e);
         }
-        return modelClassElementInfoMap;
     }
 
     private static Map<String, Class<?>> buildResourceTypeMap() {
