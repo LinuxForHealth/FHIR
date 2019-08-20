@@ -26,7 +26,7 @@ public class SearchTagTest {
     public void testSomeObservationWithAllSearchParameters() throws Exception {
         String testFile = "extract/tag-test.json";
 
-        Builder builder = ExtractorValidator.Builder.builder().strict(false);
+        Builder builder = ExtractorValidator.builder().strict(false);
         builder.add("_security", "security");
         builder.add("_tag", "tag");
         builder.add("_profile", "http://ibm.com/watsonhealth/fhir/profile/Profile");
