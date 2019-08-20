@@ -6,16 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static com.ibm.watsonhealth.fhir.model.type.Uri.uri;
+import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static com.ibm.watsonhealth.fhir.model.type.String.string;
-import static com.ibm.watsonhealth.fhir.model.type.Uri.uri;
 
-import java.math.BigInteger;
 import java.net.URI;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import javax.json.Json;
@@ -31,18 +32,24 @@ import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
-import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
-import com.ibm.watsonhealth.fhir.model.type.BundleType;
-import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
-import com.ibm.watsonhealth.fhir.model.type.ObservationStatus;
-import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
+import com.ibm.watsonhealth.fhir.model.type.Boolean;
+import com.ibm.watsonhealth.fhir.model.type.BundleType;
+import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.Date;
 import com.ibm.watsonhealth.fhir.model.type.HumanName;
 import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
+import com.ibm.watsonhealth.fhir.model.type.Narrative;
+import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
+import com.ibm.watsonhealth.fhir.model.type.ObservationStatus;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
 
 /**
  * This class tests the REST API's compliance with the FHIR spec in terms of status code and OperationOutcome responses,
@@ -305,15 +312,48 @@ public class ServerSpecTest extends FHIRServerTestBase {
 
     // Test: include incorrect resource type in request body.
     @Test(groups = { "server-spec" })
-    public void testCreateObservationErrorInvalidResourceType() throws JAXBException {
+    public void testCreateObservationErrorInvalidResourceType() {
         WebTarget target = getWebTarget();
 
         // Build an Observation, then try to call the 'create patient' API.
-        Patient patient = Patient.builder().build();
+        Patient patient = buildPatient();
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
+        SearchAllTest.generateOutput(response.readEntity(Bundle.class));
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource type 'Patient' does not match type specified in request URI: Observation");
+    }
+    
+    private Patient buildPatient() {
+        java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
+        
+        Id id = Id.builder()
+                .value(UUID.randomUUID().toString())
+                .build();
+        
+        Meta meta = Meta.builder()
+                .versionId(Id.of("1"))
+                .lastUpdated(Instant.now(ZoneOffset.UTC))
+                .build();
+        
+        HumanName name = HumanName.builder()
+                .given(string("John2"))
+                .family(string("Doe2"))
+                .build();
+        
+        Narrative text = Narrative.builder()
+                .status(NarrativeStatus.GENERATED)
+                .div(xhtml(div))
+                .build();
+        
+        return Patient.builder()
+                .id(id)
+                .meta(meta)
+                .text(text)
+                .active(Boolean.TRUE)
+                .name(name)
+                .birthDate(Date.of("1980-01-01"))
+                .build();
     }
 
     // Test: retrieve non-existent Patient.
