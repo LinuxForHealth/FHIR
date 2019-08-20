@@ -6,9 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.test.common;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
-import static org.testng.AssertJUnit.fail;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,10 +28,11 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.xml.bind.JAXBException;
 
-import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
@@ -316,11 +317,18 @@ public class FHIRModelTestBase {
 
         // Check if the document matches with the control document and throw exceptions if they differ
         try {
-            XMLUnit.setIgnoreWhitespace(true);
-            XMLUnit.setIgnoreComments(true);
-            XMLUnit.setIgnoreAttributeOrder(true);
-            Diff myDiff = new Diff(FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(xmlExpectedString), FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(xmlActualString));
-            assertXMLEqual("pieces of XML are not similar ", myDiff, true);
+            String controlXml = FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(xmlExpectedString);
+            String testXml = FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(xmlActualString);
+            
+            // Attribute order is always ignored.
+            Diff diff = DiffBuilder.compare(Input.fromString(controlXml).build())
+                .withTest(Input.fromString(testXml).build())
+                .normalizeWhitespace()
+                .ignoreWhitespace()
+                .ignoreComments()
+                .build();
+            
+            assertFalse("pieces of XML are not similar ", diff.hasDifferences());
         } catch (Exception e) {
             e.printStackTrace();
         }
