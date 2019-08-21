@@ -2,7 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <groupId>com.ibm.watsonhealth.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
     <version>99-SNAPSHOT</version>
@@ -61,16 +61,17 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.ibm.whc</groupId>
-                <artifactId>audittrail-retrieve-api</artifactId>
-                <version>2.1.0-3-201710100829</version>
-            </dependency>
-            <dependency>
                 <groupId>net.wasdev.maven.tools.targets</groupId>
                 <artifactId>liberty-target</artifactId>
                 <version>${was.liberty.version}</version>
                 <type>pom</type>
                 <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
             <dependency>
@@ -145,11 +146,6 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>com.cloudant</groupId>
-                <artifactId>cloudant-client</artifactId>
-                <version>2.4.1</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>2.8.1</version>
@@ -180,11 +176,6 @@
                 <artifactId>javax.transaction-api</artifactId>
                 <version>1.2</version>
                 <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>net.sf.saxon</groupId>
-                <artifactId>Saxon-HE</artifactId>
-                <version>9.7.0-5</version>
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
@@ -235,11 +226,6 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-core</artifactId>
-                <version>3.5.3</version>
-            </dependency>
-            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <scope>test</scope>
@@ -264,6 +250,21 @@
                 <groupId>org.owasp.encoder</groupId>
                 <artifactId>encoder</artifactId>
                 <version>1.2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.9.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.9.9</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.9.9</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -369,11 +370,6 @@
                     <artifactId>maven-scm-plugin</artifactId>
                     <version>1.9.5</version>
                     <configuration></configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.liquibase</groupId>
-                    <artifactId>liquibase-maven-plugin</artifactId>
-                    <version>3.5.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -542,8 +538,12 @@ CODE_REMOVED
         <pluginRepository>
             <id>na-artifactory-releases</id>
 CODE_REMOVED
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </pluginRepository>
     </pluginRepositories>
 
