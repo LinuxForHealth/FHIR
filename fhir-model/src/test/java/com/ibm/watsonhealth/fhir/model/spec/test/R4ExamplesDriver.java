@@ -7,12 +7,8 @@
 package com.ibm.watsonhealth.fhir.model.spec.test;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -155,7 +151,7 @@ public class R4ExamplesDriver {
         List<ExampleProcessorException> errors = new ArrayList<>();
         try {
             // Each line of this directory should be an example resource in json format
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(ExamplesUtil.getInputStream(filename), StandardCharsets.UTF_8))) {
+            try (BufferedReader br = new BufferedReader(ExamplesUtil.reader(filename))) {
                 String line;
 
                 while ((line = br.readLine()) != null) {
@@ -384,8 +380,8 @@ public class R4ExamplesDriver {
     public Resource readResource(String fileName, Format format) throws Exception {
 
         // We don't really care about knowing the resource type. We can check this later
-        try (InputStream is = ExamplesUtil.getInputStream(fileName)) {
-            return FHIRParser.parser(format).parse(is);
+        try (Reader reader = ExamplesUtil.reader(fileName)) {
+            return FHIRParser.parser(format).parse(reader);
         }
     }
 

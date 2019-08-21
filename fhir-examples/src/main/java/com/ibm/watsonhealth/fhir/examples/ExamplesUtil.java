@@ -6,35 +6,37 @@
 
 package com.ibm.watsonhealth.fhir.examples;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 public class ExamplesUtil {
     /**
-     * Read the given resource as an {@link InputStream}
+     * Return a reader for the specified example resource.
+     * The resource should be an example resource such as "json/ibm/minimal/Account-1.json".
+     * 
      * @param resource
-     * @return
+     *          The relative path to the example resource within fhir-examples
+     * @return reader A reader for reading the example resource
+     * @throws IllegalStateException
+     *          If the specified resource does not exist
      */
-    public static InputStream getInputStream(String resource) throws IOException {
-        InputStream result;
+    public static Reader reader(String resource) throws IOException {
+        InputStream is;
     
-        if (resource.startsWith("file:")) {
-            result = new FileInputStream(resource.substring(5));
-        }
-        else {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            result = cl.getResourceAsStream(resource);
-            if (result == null) {
-                // Try the class's classloader instead
-                result = ExamplesUtil.class.getResourceAsStream(resource);
-            }
-            
-            if (result == null) {
-                throw new IllegalStateException("resource not found: " + resource);
-            }
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        is = cl.getResourceAsStream(resource);
+        if (is == null) {
+            // Try the class's classloader instead
+            is = ExamplesUtil.class.getResourceAsStream(resource);
         }
 
-        return result;
+        if (is == null) {
+            throw new IllegalStateException("resource not found: " + resource);
+        }
+
+        return new InputStreamReader(is, StandardCharsets.UTF_8);
     }
 }
