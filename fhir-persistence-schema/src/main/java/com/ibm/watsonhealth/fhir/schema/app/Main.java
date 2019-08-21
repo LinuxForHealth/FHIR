@@ -52,7 +52,6 @@ import com.ibm.watsonhealth.database.utils.transaction.SimpleTransactionProvider
 import com.ibm.watsonhealth.database.utils.transaction.TransactionFactory;
 import com.ibm.watsonhealth.database.utils.version.CreateVersionHistory;
 import com.ibm.watsonhealth.database.utils.version.VersionHistoryService;
-import com.ibm.watsonhealth.fhir.schema.control.AdminSchemaGenerator;
 import com.ibm.watsonhealth.fhir.schema.control.Db2AddResourceType;
 import com.ibm.watsonhealth.fhir.schema.control.Db2GetResourceTypeList;
 import com.ibm.watsonhealth.fhir.schema.control.FhirSchemaConstants;
@@ -213,6 +212,14 @@ public class Main {
                 this.updateSchema = false;
                 this.dropSchema = true;
                 break;
+            case "--pool-size":
+                if (++i < args.length) {
+                    this.maxConnectionPoolSize = Integer.parseInt(args[i]);
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
             case "--prop":
                 if (++i < args.length) {
                     // properties are given as name=value
@@ -341,6 +348,10 @@ public class Main {
         }
     }
 
+    /**
+     * Drop all the objects in the admin and data schemas. Typically used
+     * during development.
+     */
     protected void dropSchema() {
 
         // Build/update the tables as well as the stored procedures

@@ -403,49 +403,61 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     public void close() throws Exception {
         // flush any stragglers, remembering to reset each count because
         // close() should be idempotent.
-        if (stringCount > 0) {
-            strings.executeBatch();
-            stringCount = 0;
+        try {
+            if (stringCount > 0) {
+                strings.executeBatch();
+                stringCount = 0;
+            }
+            
+            if (numberCount > 0) {
+                numbers.executeBatch();
+                numberCount = 0;
+            }
+            
+            if (dateCount > 0) {
+                dates.executeBatch();
+                dateCount = 0;
+            }
+            
+            if (tokenCount > 0) {
+                tokens.executeBatch();
+                tokenCount = 0;
+            }
+            
+            if (quantityCount > 0) {
+                quantities.executeBatch();
+                quantityCount = 0;
+            }
+            
+            if (locationCount > 0) {
+                locations.executeBatch();
+                locationCount = 0;
+            }
+            
+            if (resourceStringCount > 0) {
+                resourceStrings.executeBatch();
+                resourceStringCount = 0;
+            }
+            
+            if (resourceDateCount > 0) {
+                resourceDates.executeBatch();
+                resourceDateCount = 0;
+            }
+            
+            if (resourceTokenCount > 0) {
+                resourceTokens.executeBatch();
+                resourceTokenCount = 0;
+            }
         }
-        
-        if (numberCount > 0) {
-            numbers.executeBatch();
-            numberCount = 0;
-        }
-        
-        if (dateCount > 0) {
-            dates.executeBatch();
-            dateCount = 0;
-        }
-        
-        if (tokenCount > 0) {
-            tokens.executeBatch();
-            tokenCount = 0;
-        }
-        
-        if (quantityCount > 0) {
-            quantities.executeBatch();
-            quantityCount = 0;
-        }
-        
-        if (locationCount > 0) {
-            locations.executeBatch();
-            locationCount = 0;
-        }
-        
-        if (resourceStringCount > 0) {
-            resourceStrings.executeBatch();
-            resourceStringCount = 0;
-        }
-        
-        if (resourceDateCount > 0) {
-            resourceDates.executeBatch();
-            resourceDateCount = 0;
-        }
-        
-        if (resourceTokenCount > 0) {
-            resourceTokens.executeBatch();
-            resourceTokenCount = 0;
+        catch (SQLException x) {
+            SQLException batchException = x.getNextException();
+            if (batchException != null) {
+                // We're really interested in the underlying cause here
+                throw batchException;
+            }
+            else {
+                throw x;
+            }
         }
         
         closeStatement(strings);

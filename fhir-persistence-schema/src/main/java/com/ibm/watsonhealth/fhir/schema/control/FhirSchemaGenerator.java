@@ -356,6 +356,8 @@ CREATE SEQUENCE fhir_sequence
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
     }
@@ -389,6 +391,8 @@ CREATE SEQUENCE fhir_sequence
                 ;
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
     }
@@ -420,6 +424,8 @@ CREATE SEQUENCE fhir_sequence
                 .build(pdm)
                 ;
 
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
     }
@@ -452,6 +458,8 @@ CREATE SEQUENCE fhir_sequence
                 .build(model)
                 ;
 
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
         model.addTable(tbl);
         model.addObject(tbl);
     }
