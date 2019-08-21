@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 
+import com.ibm.watsonhealth.fhir.examples.ExamplesUtil;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.parser.exception.FHIRParserException;
@@ -154,7 +155,7 @@ public class R4ExamplesDriver {
         List<ExampleProcessorException> errors = new ArrayList<>();
         try {
             // Each line of this directory should be an example resource in json format
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream(filename), StandardCharsets.UTF_8))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(ExamplesUtil.getInputStream(filename), StandardCharsets.UTF_8))) {
                 String line;
 
                 while ((line = br.readLine()) != null) {
@@ -383,37 +384,9 @@ public class R4ExamplesDriver {
     public Resource readResource(String fileName, Format format) throws Exception {
 
         // We don't really care about knowing the resource type. We can check this later
-        try (InputStream is = getInputStream(fileName)) {
+        try (InputStream is = ExamplesUtil.getInputStream(fileName)) {
             return FHIRParser.parser(format).parse(is);
         }
     }
-    
-    /**
-     * Read the given resource as an {@link InputStream}
-     * @param resource
-     * @return
-     */
-    protected InputStream getInputStream(String resource) throws IOException {
-        InputStream result;
-    
-        if (resource.startsWith("file:")) {
-            result = new FileInputStream(resource.substring(5));
-        }
-        else {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            result = cl.getResourceAsStream(resource);
-            if (result == null) {
-                // Try the class's classloader instead
-                result = getClass().getResourceAsStream(resource);
-            }
-            
-            if (result == null) {
-                throw new IllegalStateException("resource not found: " + resource);
-            }
-        }
-
-        return result;
-    }
-    
 
 }
