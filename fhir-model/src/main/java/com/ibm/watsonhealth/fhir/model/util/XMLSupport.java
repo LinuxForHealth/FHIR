@@ -9,7 +9,6 @@ package com.ibm.watsonhealth.fhir.model.util;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -29,6 +28,10 @@ public final class XMLSupport {
     private static final XMLOutputFactory XML_OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     
     private XMLSupport() { }
+    
+    public static void init() {
+        // allows us to initialize this class during startup
+    }
 
     /**
      * Checks the order of the current element using its position relative to the position
@@ -390,19 +393,9 @@ public final class XMLSupport {
     }
     
     public static void main(String[] args) throws Exception {
-        String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
-        XMLStreamReader reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
-        reader.next();
-        System.out.println(parseDiv(reader));
-        
-        div = "<h:div xmlns:h=\"http://www.w3.org/1999/xhtml\"><h:p><h:b>Generated Narrative</h:b></h:p></h:div>";
-        reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
-        reader.next();
-        System.out.println(parseDiv(reader));
-        
-        div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div><p>Anything</p></div></div>";
-        reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
-        reader.next();
-        System.out.println(parseDiv(reader));
+        long start = System.nanoTime();
+        XMLSupport.init();
+        double elapsed = (System.nanoTime() - start) / 1000.0;
+        System.out.println("Initialization time: " + elapsed + " microseconds");
     }
 }

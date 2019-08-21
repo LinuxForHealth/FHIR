@@ -186,4 +186,11 @@ public final class JsonSupport {
         }
         return resourceType;
     }
+    
+    public static void main(String[] args) throws Exception {
+        long start = System.nanoTime();
+        JsonSupport.init();
+        double elapsed = (System.nanoTime() - start) / 1000.0;
+        System.out.println("Initialization time: " + elapsed + " microseconds");
+    }
 }

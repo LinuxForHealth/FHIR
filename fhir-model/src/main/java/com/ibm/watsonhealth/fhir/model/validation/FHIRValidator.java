@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
@@ -28,6 +29,7 @@ import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport;
 import com.ibm.watsonhealth.fhir.model.validation.exception.FHIRValidationException;
 import com.ibm.watsonhealth.fhir.model.visitor.PathAwareVisitorAdapter;
 
@@ -87,22 +89,6 @@ public class FHIRValidator {
         private List<Issue> getIssues() {
             return Collections.unmodifiableList(issues);
         }
-        
-        private List<Constraint> getConstraints(Class<?> type) {
-            List<Class<?>> classes = new ArrayList<>();
-            while (!Object.class.equals(type)) {
-                classes.add(type);
-                type = type.getSuperclass();
-            }
-            Collections.reverse(classes);
-            List<Constraint> constraints = new ArrayList<>();
-            for (Class<?> _class : classes) {
-                for (Constraint constraint : _class.getDeclaredAnnotationsByType(Constraint.class)) {
-                    constraints.add(constraint);
-                }
-            }
-            return constraints;
-        }
 
         private FHIRPathResourceNode getResource(Class<?> type, FHIRPathNode node) {
             if (!Resource.class.isAssignableFrom(type)) {
@@ -131,7 +117,7 @@ public class FHIRValidator {
         }
 
         private void validate(Class<?> type) {
-            List<Constraint> constraints = getConstraints(type);
+            Set<Constraint> constraints = ModelSupport.getConstraints(type);
             String path = getPath();
             for (Constraint constraint : constraints) {
                 if (constraint.modelChecked()) {

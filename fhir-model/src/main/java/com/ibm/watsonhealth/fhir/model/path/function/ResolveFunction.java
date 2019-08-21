@@ -46,14 +46,16 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * and nothing is added to the output collection. The items in the collection may also represent a Reference, in which 
      * case the Reference.reference is resolved.
      * 
-     * This method creates a "proxy" resource node that is a placeholder for the actual resource, thus allowing for the 
+     * <p>This method creates a "proxy" resource node that is a placeholder for the actual resource, thus allowing for the 
      * FHIRPath evaluator to perform type checking on the result of the resolve function. For example:
      * 
+     * <pre>
      *     Observation.subject.where(resolve() is Patient)
-     *     
-     * If the resource type cannot be inferred from the reference URL or type, then FHIR_UNKNOWN_RESOURCE_TYPE is used.
+     * </pre>
      * 
-     * Type checking on FHIR_UNKNOWN_RESOURCE_TYPE will always return 'true'.
+     * <p>If the resource type cannot be inferred from the reference URL or type, then FHIR_UNKNOWN_RESOURCE_TYPE is used.
+     * 
+     * <p>Type checking on {@code FHIR_UNKNOWN_RESOURCE_TYPE} will always return 'true'.
      * 
      * @param environment
      *     the evaluation environment

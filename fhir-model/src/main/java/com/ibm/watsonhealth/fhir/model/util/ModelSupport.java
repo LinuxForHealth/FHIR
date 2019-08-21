@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import javax.lang.model.SourceVersion;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Address;
@@ -88,7 +89,7 @@ public final class ModelSupport {
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
-    
+    private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
         Base64Binary.class, 
         com.ibm.watsonhealth.fhir.model.type.Boolean.class, 
@@ -192,9 +193,23 @@ public final class ModelSupport {
         return Collections.unmodifiableMap(concreteTypeMap);
     }
 
+    private static Map<Class<?>, Set<Constraint>> buildModelClassConstraintMap() {
+        Map<Class<?>, Set<Constraint>> modelClassConstraintMap = new LinkedHashMap<>(1024);
+        for (Class<?> modelClass : getModelClasses()) {
+            Set<Constraint> constraints = new LinkedHashSet<>();
+            for (Class<?> clazz : getClosure(modelClass)) {
+                for (Constraint constraint : clazz.getDeclaredAnnotationsByType(Constraint.class)) {
+                    constraints.add(constraint);
+                }
+            }
+            modelClassConstraintMap.put(modelClass, Collections.unmodifiableSet(constraints));
+        }
+        return Collections.unmodifiableMap(modelClassConstraintMap);
+    }
+
     private static Map<Class<?>, Map<String, ElementInfo>> buildModelClassElementInfoMap() {
         try (InputStream in = ModelSupport.class.getClassLoader().getResourceAsStream("modelClasses")) {
-            Map<Class<?>, Map<String, ElementInfo>> modelClassElementInfoMap = new LinkedHashMap<>();
+            Map<Class<?>, Map<String, ElementInfo>> modelClassElementInfoMap = new LinkedHashMap<>(1024);
             List<String> lines = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
             for (String className : lines) {
                 Class<?> modelClass = Class.forName(className);
@@ -206,8 +221,7 @@ public final class ModelSupport {
                     boolean repeating = isRepeating(field);
                     boolean choice = isChoice(field);
                     Set<Class<?>> choiceTypes = choice ? Collections.unmodifiableSet(getChoiceTypes(field)) : Collections.emptySet();
-                    ElementInfo elementInfo = new ElementInfo(type, required, repeating, choice, choiceTypes);
-                    elementInfoMap.put(elementName, elementInfo);
+                    elementInfoMap.put(elementName, new ElementInfo(type, required, repeating, choice, choiceTypes));
                 }
                 modelClassElementInfoMap.put(modelClass, Collections.unmodifiableMap(elementInfoMap));
             }
@@ -218,7 +232,7 @@ public final class ModelSupport {
     }
 
     private static Map<String, Class<?>> buildResourceTypeMap() {
-        Map<String, Class<?>> resourceTypeMap = new LinkedHashMap<>();
+        Map<String, Class<?>> resourceTypeMap = new LinkedHashMap<>(256);
         for (Class<?> modelClass : getModelClasses()) {
             if (isResourceType(modelClass)) {
                 resourceTypeMap.put(modelClass.getSimpleName(), modelClass);
@@ -257,7 +271,7 @@ public final class ModelSupport {
         return new LinkedHashSet<>(Arrays.asList(field.getAnnotation(Choice.class).value()));
     }
 
-    public static List<Class<?>> getClosure(Class<?> modelClass) {
+    private static List<Class<?>> getClosure(Class<?> modelClass) {
         List<Class<?>> closure = new ArrayList<>();
         while (!Object.class.equals(modelClass)) {
             closure.add(modelClass);
@@ -274,15 +288,19 @@ public final class ModelSupport {
         return type;
     }
 
+    public static Set<Constraint> getConstraints(Class<?> modelClass) {
+        return MODEL_CLASS_CONSTRAINT_MAP.getOrDefault(modelClass, Collections.emptySet());
+    }
+
     private static ElementInfo getElementInfo(Class<?> modelClass, String elementName) {
         return MODEL_CLASS_ELEMENT_INFO_MAP.getOrDefault(modelClass, Collections.emptyMap()).get(elementName);
     }
     
-    public static String getElementName(Field field) {
+    private static String getElementName(Field field) {
         return getElementName(field.getName());
     }
     
-    public static String getElementName(String fieldName) {
+    private static String getElementName(String fieldName) {
         if ("clazz".equals(fieldName)) {
             return "class";
         }
@@ -432,6 +450,9 @@ public final class ModelSupport {
     }
     
     public static void main(String[] args) throws Exception {
+        long start = System.nanoTime();
         ModelSupport.init();
+        double elapsed = (System.nanoTime() - start) / 1000.0;
+        System.out.println("Initialization time: " + elapsed + " microseconds");
     }
 }
