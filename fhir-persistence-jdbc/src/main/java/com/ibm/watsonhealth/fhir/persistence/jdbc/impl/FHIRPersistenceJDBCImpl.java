@@ -950,10 +950,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
 
     private OperationOutcome buildOKOperationOutcome() {
-        return FHIRUtil.buildOperationOutcome("All OK", IssueType.ValueSet.NO_STORE, IssueSeverity.ValueSet.ERROR);
+        return FHIRUtil.buildOperationOutcome("All OK", IssueType.ValueSet.INFORMATIONAL, IssueSeverity.ValueSet.INFORMATION);
     }
 
     private OperationOutcome buildErrorOperationOutcome() {
-        return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.ValueSet.INFORMATIONAL, IssueSeverity.ValueSet.INFORMATION);
+        return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.ValueSet.NO_STORE, IssueSeverity.ValueSet.ERROR);
     }
 }
