@@ -12,7 +12,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Basic;
 
 /**
  * @author lmsurpre
- * @see https://hl7.org/fhir/dstu2/search.html#reference
+ * @see https://hl7.org/fhir/r4/search.html#reference
  */
 public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
     

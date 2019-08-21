@@ -58,7 +58,7 @@ CODE_REMOVED
         "audit":{
             "enabled":true,
             "logPath":"${server.config.dir}/logs/",
-CODE_REMOVED
+            "tenantId":"Customer"
         },
         "persistence":{
             "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jpa.FHIRPersistenceJPAFactory",

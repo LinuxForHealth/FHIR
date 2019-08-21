@@ -152,10 +152,6 @@ public class SearchConstants {
      */
     public enum SortDirection {
         
-        // Issue 438: 
-        
-        // dstu2 - https://www.hl7.org/fhir/dstu2/search.html#sort
-        
         // r4 - https://www.hl7.org/fhir/r4/search.html#sort
         
         ASCENDING("asc"), 

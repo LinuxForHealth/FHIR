@@ -13,7 +13,7 @@ import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 
 /**
  * @author lmsurpre
- * @see https://hl7.org/fhir/dstu2/search.html#string
+ * @see https://hl7.org/fhir/r4/search.html#string
  */
 public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 

@@ -541,7 +541,7 @@ public class FHIRUtil {
     /**
      * Resolve the reference {@code ref} to a bundle entry and return the corresponding resource container
      * 
-     * @see https://www.hl7.org/fhir/DSTU2/references.html#contained
+     * @see https://www.hl7.org/fhir/r4/references.html#contained
      * @throws Exception
      *             if the resource could not be found, the reference has no value, or the value does not match the
      *             expected format for a contained reference
@@ -569,7 +569,7 @@ public class FHIRUtil {
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle} and return the corresponding resource
      * 
-     * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
+     * @see https://www.hl7.org/fhir/r4/bundle.html#references
      * @param resourceType
      * @param bundle
      * @param sourceEntry
@@ -591,7 +591,7 @@ public class FHIRUtil {
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle}
      * 
-     * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
+     * @see https://www.hl7.org/fhir/r4/bundle.html#references
      * @param bundle
      * @param sourceEntry
      *            allowed to be null if and only if the reference is absolute

@@ -3235,9 +3235,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         if (e.getResponseBundle() != null) {
             if (e.getIssues() != null && e.getIssues().size() > 0) {
                 // DSTU2 says we should return the response bundle:
-                // http://www.hl7.org/fhir/dstu2/http.html#transaction-response
+                // http://www.hl7.org/fhir/r4/http.html#transaction-response
                 // STU3 says we should return a single OperationOutcome with the issues:
-                // http://www.hl7.org/fhir/stu3/http.html#transaction-response
+                // http://www.hl7.org/fhir/r4/http.html#transaction-response
                 String msg =
                         "FHIRRestBundledRequestException contains both a response bundle and a list of issues. " + "Only the response bundle will be returned.";
                 log.log(Level.WARNING, msg, e);
