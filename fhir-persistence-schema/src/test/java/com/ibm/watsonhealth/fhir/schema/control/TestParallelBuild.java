@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.schema.control;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
@@ -43,7 +44,7 @@ public class TestParallelBuild {
         TaskService taskService = new TaskService();
         ExecutorService pool = Executors.newFixedThreadPool(40);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
-        PrintTarget tgt = new PrintTarget(null);
+        PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
         Db2Adapter adapter = new Db2Adapter(tgt);
         model.collect(collector, adapter, new TestTransactionProvider(), vhs);
 

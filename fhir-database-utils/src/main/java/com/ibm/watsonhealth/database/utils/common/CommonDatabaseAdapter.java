@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -229,7 +230,11 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @throws SQLException
      */
     private void runStatement(Connection c, final String ddl) throws SQLException {
-        System.out.println(ddl);
+        
+        if (logger.isLoggable(Level.FINE)) {
+            System.out.println(ddl);
+        }
+        
         try (Statement s = c.createStatement()) {
             s.executeUpdate(ddl);
         }

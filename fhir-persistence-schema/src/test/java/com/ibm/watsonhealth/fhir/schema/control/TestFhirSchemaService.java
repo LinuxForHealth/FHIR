@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
@@ -45,7 +46,7 @@ public class TestFhirSchemaService {
         gen.buildSchema(model);
 
         // Print the statements instead of executing them against a database
-        PrintTarget tgt = new PrintTarget(null);
+        PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
 
         // Pretend that our target is a DB2 database
         Db2Adapter adapter = new Db2Adapter(tgt);
@@ -67,7 +68,7 @@ public class TestFhirSchemaService {
         TaskService taskService = new TaskService();
         ExecutorService pool = Executors.newFixedThreadPool(40);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
-        PrintTarget tgt = new PrintTarget(null);
+        PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
         Db2Adapter adapter = new Db2Adapter(tgt);
         model.collect(collector, adapter, new TestTransactionProvider(), vhs);
 
@@ -88,7 +89,7 @@ public class TestFhirSchemaService {
         gen.buildSchema(model);
 
         // Print the statements instead of executing them against a database
-        PrintTarget tgt = new PrintTarget(null);
+        PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
 
         // Pretend that our target is a Derby database
         DerbyAdapter adapter = new DerbyAdapter(tgt);
@@ -128,7 +129,7 @@ public class TestFhirSchemaService {
         gen.buildSchema(model);
 
         // Print the statements instead of executing them against a database
-        PrintTarget tgt = new PrintTarget(null);
+        PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
 
         // Pretend that our target is a DB2 database
         Db2Adapter adapter = new Db2Adapter(tgt);
@@ -138,7 +139,7 @@ public class TestFhirSchemaService {
     @Test
     public void testVersionHistorySchema() {
         // Create a simple print target so all we see is the DDL
-        PrintTarget tgt = new PrintTarget(null);
+        PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
 
         // Pretend that our target is a DB2 database
         Db2Adapter adapter = new Db2Adapter(tgt);

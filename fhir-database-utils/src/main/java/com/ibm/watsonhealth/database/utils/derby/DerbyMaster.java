@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.database.utils.api.AllVersionHistoryService;
@@ -169,10 +170,17 @@ public class DerbyMaster implements AutoCloseable {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     
-                    // Decorate the target so that we print all the DDL before executing
-                    PrintTarget printer = new PrintTarget(target);
-                    DerbyAdapter adapter = new DerbyAdapter(printer);
-                    fn.accept(adapter);
+                    if (logger.isLoggable(Level.FINE)) {
+                        // Decorate the target so that we print all the DDL before executing
+                        PrintTarget printer = new PrintTarget(target, logger.isLoggable(Level.FINE));
+                        DerbyAdapter adapter = new DerbyAdapter(printer);
+                        fn.accept(adapter);
+                    }
+                    else {
+                        // Keep the logs a little cleaner by just executing instead of logging all the DDL
+                        DerbyAdapter adapter = new DerbyAdapter(target);
+                        fn.accept(adapter);
+                    }
                 }
                 catch (DataAccessException x) {
                     c.rollback();

@@ -8,14 +8,16 @@ package com.ibm.watsonhealth.database.utils.derby;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.database.utils.api.IDatabaseTarget;
 import com.ibm.watsonhealth.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.watsonhealth.database.utils.common.DataDefinitionUtil;
 import com.ibm.watsonhealth.database.utils.model.ColumnBase;
-import com.ibm.watsonhealth.database.utils.model.PartitionDef;
 import com.ibm.watsonhealth.database.utils.model.PrimaryKeyDef;
 import com.ibm.watsonhealth.database.utils.model.Table;
 
@@ -27,12 +29,34 @@ import com.ibm.watsonhealth.database.utils.model.Table;
 public class DerbyAdapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(DerbyAdapter.class.getName());
 
+    // Different warning messages we track so that we only have to report them once
+    private enum MessageKey {
+        MULTITENANCY, CREATE_VAR, CREATE_PERM, ENABLE_ROW_ACCESS, DISABLE_ROW_ACCESS, PARTITIONING, 
+        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, TABLESPACE
+    }
+    
+    // Just warn once for each unique message key. This cleans up build logs a lot
+    private static final Set<MessageKey> warned = ConcurrentHashMap.newKeySet();
+    
+
     /**
      * Public constructor
      * @param tgt the target database we want to manage
      */
     public DerbyAdapter(IDatabaseTarget tgt) {
         super(tgt, new DerbyTranslator());
+
+    }
+
+    /**
+     * Once write each warning message once
+     * @param msg
+     */
+    public void warnOnce(MessageKey messageKey, String msg) {
+        if (logger.isLoggable(Level.WARNING) && !warned.contains(messageKey)) {
+            warned.add(messageKey);
+            logger.warning("[ONCE] " + msg);
+        }
     }
 
     /* (non-Javadoc)
@@ -44,7 +68,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
-            logger.warning("Derby does not multi-tenancy: " + name);
+            warnOnce(MessageKey.MULTITENANCY, "Derby does support not multi-tenancy: " + name);
         }
 
         // We also ignore tablespace for Derby
@@ -72,7 +96,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void createIntVariable(String schemaName, String variableName) {
-        logger.warning("Derby does not support CREATE VARIABLE for: " + variableName);
+        warnOnce(MessageKey.CREATE_VAR, "Derby does not support CREATE VARIABLE for: " + variableName);
     }
 
     /* (non-Javadoc)
@@ -80,7 +104,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void createPermission(String schemaName, String permissionName, String tableName, String predicate) {
-        logger.warning("Derby does not support CREATE PERMISSION for: " + permissionName);
+        warnOnce(MessageKey.CREATE_PERM, "Derby does not support CREATE PERMISSION for: " + permissionName);
     }
 
     /* (non-Javadoc)
@@ -88,7 +112,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void activateRowAccessControl(String schemaName, String tableName) {
-        logger.warning("Derby does not support ROW ACCESS CONTROL for table: " + tableName);
+        warnOnce(MessageKey.ENABLE_ROW_ACCESS, "Derby does not support ROW ACCESS CONTROL for table: " + tableName);
     }
 
     /* (non-Javadoc)
@@ -107,7 +131,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void deactivateRowAccessControl(String schemaName, String tableName) {
-        logger.warning("Derby does not support ROW ACCESS CONTROL for table: " + tableName);
+        warnOnce(MessageKey.DISABLE_ROW_ACCESS, "Derby does not support ROW ACCESS CONTROL for table: " + tableName);
     }
 
     /* (non-Javadoc)
@@ -115,7 +139,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB) {
-        logger.warning("Derby does not support tenant partitioning");
+        warnOnce(MessageKey.PARTITIONING, "Derby does not support tenant partitioning");
     }
 
     /* (non-Javadoc)
@@ -123,7 +147,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void createRowType(String schemaName, String typeName, List<ColumnBase> columns) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.ROW_TYPE, "Create row type not supported in Derby");
     }
 
     /* (non-Javadoc)
@@ -131,7 +155,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void createArrType(String schemaName, String typeName, String valueType, int arraySize) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.ROW_ARR_TYPE, "Create array row type not supported in Derby");
     }
 
     /* (non-Javadoc)
@@ -139,7 +163,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void dropType(String schemaName, String typeName) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.DROP_TYPE, "Drop type not supported in Derby");
     }
 
     /* (non-Javadoc)
@@ -147,7 +171,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void createProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in Derby");
     }
 
     /* (non-Javadoc)
@@ -155,28 +179,28 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.DROP_PROC, "Drop procedure not supported in Derby");
     }
 
     @Override
     public void createTablespace(String tablespaceName) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in Derby");
     }
 
     @Override
     public void dropTablespace(String tablespaceName) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.TABLESPACE, "Drop tablespace not supported in Derby");
     }
 
     @Override
     public void detachPartition(String schemaName, String tableName, String partitionName, String newTableName) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.PARTITIONING, "Detach partition not supported in Derby");
     }
 
     @Override
     public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
             String tenantStagingTable) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.PARTITIONING, "Remove tenant partitions not supported in Derby");
     }
 
     /* (non-Javadoc)
@@ -184,7 +208,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     @Override
     public void createTablespace(String tablespaceName, int extentSizeKB) {
-        logger.warning("Feature not supported in Derby");
+        warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in Derby");
     }
     
     /* (non-Javadoc)

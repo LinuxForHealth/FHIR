@@ -12,25 +12,18 @@ import com.ibm.watsonhealth.database.utils.api.IDatabaseTarget;
 import com.ibm.watsonhealth.database.utils.api.IDatabaseTranslator;
 
 /**
- * Simple decorator to print out the DDL statement being run
+ * An {@link IDatabaseTarget} which just acts as a sink and doesn't actually
+ * do anything. Useful for tests, just to exercise the code.
  * @author rarnold
  *
  */
-public class PrintTarget implements IDatabaseTarget {
+public class NopTarget implements IDatabaseTarget {
     
-    // The IDatabaseTarget implementation we are decorating
-    private final IDatabaseTarget decorated;
-    
-    // to print, or not to print
-    private final boolean printFlag;
-
     /**
      * Public constructor
      * @param decorated
      */
-    public PrintTarget(IDatabaseTarget decorated, boolean printFlag) {
-        this.decorated = decorated;
-        this.printFlag = printFlag;
+    public NopTarget() {
     }
     
     /* (non-Javadoc)
@@ -38,13 +31,6 @@ public class PrintTarget implements IDatabaseTarget {
      */
     @Override
     public void runStatement(IDatabaseTranslator translator, String ddl) {
-        if (printFlag) {
-            System.out.println(ddl + ";");
-        }
-        
-        if (this.decorated != null) {
-            this.decorated.runStatement(translator, ddl);
-        }
     }
 
     /* (non-Javadoc)
@@ -52,13 +38,6 @@ public class PrintTarget implements IDatabaseTarget {
      */
     @Override
     public void runStatementWithInt(IDatabaseTranslator translator, String sql, int value) {
-        if (this.printFlag) {
-            System.out.println(sql + "; [value=" + value + "]");
-        }
-        
-        if (this.decorated != null) {
-            this.decorated.runStatementWithInt(translator, sql, value);
-        }
     }
 
     /* (non-Javadoc)
@@ -66,15 +45,6 @@ public class PrintTarget implements IDatabaseTarget {
      */
     @Override
     public void runStatement(IDatabaseTranslator translator, IDatabaseStatement statement) {
-        // Print out the statement first before delegating the execution
-        if (this.printFlag) {
-            System.out.println(statement.toString() + ";");
-        }
-        
-        if (this.decorated != null) {
-            this.decorated.runStatement(translator, statement);
-        }
-        
     }
 
     /* (non-Javadoc)
@@ -82,16 +52,6 @@ public class PrintTarget implements IDatabaseTarget {
      */
     @Override
     public <T> T runStatement(IDatabaseTranslator translator, IDatabaseSupplier<T> supplier) {
-        if (this.printFlag) {
-            System.out.println(supplier.toString() + ";");
-        }
-        
-        if (this.decorated != null) {
-            return this.decorated.runStatement(translator, supplier);
-        }
-        else {
-            return null;
-        }
+        return null;
     }
-
 }
