@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.type;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -20,6 +21,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Time extends Element {
+    public static final DateTimeFormatter PARSER_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     private final LocalTime value;
 
     private volatile int hashCode;
@@ -100,14 +103,6 @@ public class Time extends Element {
             hashCode = result;
         }
         return result;
-    }
-
-    @Override
-    public java.lang.String toString() {
-        if (value != null) {
-            return value.toString();
-        }
-        return super.toString();
     }
 
     @Override
@@ -193,7 +188,7 @@ public class Time extends Element {
         }
 
         public Builder value(java.lang.String value) {
-            this.value = LocalTime.parse(value);
+            this.value = PARSER_FORMATTER.parse(value, LocalTime::from);
             return this;
         }
 

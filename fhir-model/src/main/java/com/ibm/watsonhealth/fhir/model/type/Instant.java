@@ -117,14 +117,6 @@ public class Instant extends Element {
     }
 
     @Override
-    public java.lang.String toString() {
-        if (value != null) {
-            return PARSER_FORMATTER.format(value);
-        }
-        return super.toString();
-    }
-
-    @Override
     public Builder toBuilder() {
         return new Builder().from(this);
     }

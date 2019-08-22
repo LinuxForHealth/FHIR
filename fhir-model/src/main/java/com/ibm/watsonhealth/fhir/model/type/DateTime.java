@@ -128,17 +128,6 @@ public class DateTime extends Element {
     }
 
     @Override
-    public java.lang.String toString() {
-        if (value != null) {
-            if (isPartial()) {
-                return value.toString();
-            }
-            return PARSER_FORMATTER.format(value);
-        }
-        return super.toString();
-    }
-
-    @Override
     public Builder toBuilder() {
         return new Builder().from(this);
     }

@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -55,8 +54,6 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 public class FHIRJsonGenerator implements FHIRGenerator {
     private static final JsonGeneratorFactory GENERATOR_FACTORY = Json.createGeneratorFactory(null);
     private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY = createPrettyPrintingGeneratorFactory();
-    
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         
     private final boolean prettyPrinting;
 
@@ -217,7 +214,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 elementName = getChoiceElementName(elementName, Date.class);
             }            
             if (date.getValue() != null) {
-                writeValue(elementName, elementIndex, date.getValue().toString());
+                writeValue(elementName, elementIndex, Date.PARSER_FORMATTER.format(date.getValue()));
             } else {
                 writeNull(elementName, elementIndex, date);
             }
@@ -230,11 +227,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 elementName = getChoiceElementName(elementName, DateTime.class);
             }            
             if (dateTime.getValue() != null) {
-                if (!dateTime.isPartial()) {
-                    writeValue(elementName, elementIndex, DATE_TIME_FORMATTER.format(dateTime.getValue()));
-                } else {
-                    writeValue(elementName, elementIndex, dateTime.getValue().toString());
-                }
+                writeValue(elementName, elementIndex, DateTime.PARSER_FORMATTER.format(dateTime.getValue()));
             } else {
                 writeNull(elementName, elementIndex, dateTime);
             }
@@ -260,7 +253,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 elementName = getChoiceElementName(elementName, Instant.class);
             }            
             if (instant.getValue() != null) {
-                writeValue(elementName, elementIndex, DATE_TIME_FORMATTER.format(instant.getValue()));
+                writeValue(elementName, elementIndex, Instant.PARSER_FORMATTER.format(instant.getValue()));
             } else {
                 writeNull(elementName, elementIndex, instant);
             }
@@ -304,7 +297,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 elementName = getChoiceElementName(elementName, Time.class);
             }            
             if (time.getValue() != null) {
-                writeValue(elementName, elementIndex, time.getValue().toString());
+                writeValue(elementName, elementIndex, Time.PARSER_FORMATTER.format(time.getValue()));
             } else {
                 writeNull(elementName, elementIndex, time);
             }

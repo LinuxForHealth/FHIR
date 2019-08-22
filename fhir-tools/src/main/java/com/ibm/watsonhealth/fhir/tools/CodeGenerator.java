@@ -600,7 +600,7 @@ public class CodeGenerator {
         
         if (isTime(structureDefinition)) {
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
-                .assign("this.value", "LocalTime.parse(value)")
+                .assign("this.value", "PARSER_FORMATTER.parse(value, LocalTime::from)")
                 ._return("this")
             .end().newLine();
         }
@@ -841,6 +841,10 @@ public class CodeGenerator {
                 cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy-MM-dd'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").toFormatter()").newLine();
             }
             
+            if (isTime(structureDefinition)) {
+                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "DateTimeFormatter.ofPattern(\"HH:mm:ss\")").newLine();
+            }
+            
             if (isBoolean(structureDefinition)) {
                 cb.field(mods("public", "static", "final"), "Boolean", "TRUE", "Boolean.of(true)");
                 cb.field(mods("public", "static", "final"), "Boolean", "FALSE", "Boolean.of(false)").newLine();
@@ -1011,7 +1015,8 @@ public class CodeGenerator {
             generateFactoryMethods(structureDefinition, cb);
             generateAcceptMethod(structureDefinition, className, path, cb);
             generateEqualsHashCodeMethods(structureDefinition, className, path, cb);
-            generateToStringMethod(structureDefinition, cb);
+            // TODO: toString method design needs more attention
+//          generateToStringMethod(structureDefinition, cb);
                         
             List<String> params = new ArrayList<>();
             List<String> args = new ArrayList<>();
@@ -1059,35 +1064,13 @@ public class CodeGenerator {
         }
     }
 
+    @SuppressWarnings("unused")
     private void generateToStringMethod(JsonObject structureDefinition, CodeBuilder cb) {
-        if (isDateTime(structureDefinition)) {
-            cb.override()
-            .method(mods("public"), "java.lang.String", "toString")
-                ._if("value != null")
-                    ._if("isPartial()")
-                        ._return("value.toString()")
-                    ._end()
-                    ._return("PARSER_FORMATTER.format(value)")
-                ._end()
-                ._return("super.toString()")
-            .end()
-            .newLine();
-        }
-        if (isInstant(structureDefinition)) {
+        if (isDateTime(structureDefinition) || isInstant(structureDefinition) || isDate(structureDefinition) || isTime(structureDefinition)) {
             cb.override()
             .method(mods("public"), "java.lang.String", "toString")
                 ._if("value != null")
                     ._return("PARSER_FORMATTER.format(value)")
-                ._end()
-                ._return("super.toString()")
-            .end()
-            .newLine();
-        }
-        if (isDate(structureDefinition) || isTime(structureDefinition)) {
-            cb.override()
-            .method(mods("public"), "java.lang.String", "toString")
-                ._if("value != null")
-                    ._return("value.toString()")
                 ._end()
                 ._return("super.toString()")
             .end()
@@ -1486,7 +1469,7 @@ public class CodeGenerator {
             imports.add("java.time.LocalTime");
         }
         
-        if (isDate(structureDefinition) || isDateTime(structureDefinition) || isInstant(structureDefinition)) {
+        if (isDate(structureDefinition) || isDateTime(structureDefinition) || isInstant(structureDefinition) || isTime(structureDefinition)) {
             if (isDate(structureDefinition) || isDateTime(structureDefinition)) {
                 imports.add("java.time.temporal.TemporalAccessor");
                 imports.add("java.time.LocalDate");

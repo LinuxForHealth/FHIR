@@ -6,17 +6,16 @@
 
 package com.ibm.watsonhealth.fhir.model.generator;
 
+import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS_URI;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.createStreamWriterDelegate;
-import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.Writer;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -56,7 +55,6 @@ import com.ibm.watsonhealth.fhir.model.util.XMLSupport.StreamWriterDelegate;
 
 
 public class FHIRXMLGenerator implements FHIRGenerator {
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     private final boolean prettyPrinting;
     
     protected FHIRXMLGenerator() {
@@ -195,16 +193,12 @@ public class FHIRXMLGenerator implements FHIRGenerator {
             } else if (element instanceof Date) {
                 Date date = (Date) element;
                 if (date.getValue() != null) {
-                    value = date.getValue().toString();
+                    value = Date.PARSER_FORMATTER.format(date.getValue());
                 }
             } else if (element instanceof DateTime) {
                 DateTime dateTime = (DateTime) element;
                 if (dateTime.getValue() != null) {
-                    if (!dateTime.isPartial()) {
-                        value = DATE_TIME_FORMATTER.format(dateTime.getValue());
-                    } else {
-                        value = dateTime.getValue().toString();
-                    }
+                    value = DateTime.PARSER_FORMATTER.format(dateTime.getValue());
                 }
             } else if (element instanceof Decimal) {
                 Decimal decimal = (Decimal) element;
@@ -214,7 +208,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
             } else if (element instanceof Instant) {
                 Instant instant = (Instant) element;
                 if (instant.getValue() != null) {
-                    value = DATE_TIME_FORMATTER.format(instant.getValue());
+                    value = Instant.PARSER_FORMATTER.format(instant.getValue());
                 }
             } else if (element instanceof Integer) {
                 Integer integer = (Integer) element;
@@ -229,7 +223,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
             } else if (element instanceof Time) {
                 Time time = (Time) element;
                 if (time.getValue() != null) {
-                    value = time.getValue().toString();
+                    value = Time.PARSER_FORMATTER.format(time.getValue());
                 }
             } else if (element instanceof Uri) {
                 Uri uri = (Uri) element;
