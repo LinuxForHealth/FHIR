@@ -84,6 +84,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
+import com.ibm.watsonhealth.fhir.model.type.Canonical;
 import com.ibm.watsonhealth.fhir.model.type.CapabilityStatementKind;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -143,7 +144,6 @@ import com.ibm.watsonhealth.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.watsonhealth.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.watsonhealth.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
-import com.ibm.watsonhealth.fhir.model.type.Canonical;
 
 @Path("/")
 @Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
@@ -3337,6 +3337,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         interactions.add(buildInteractionStatement(TypeRestfulInteraction.VREAD));
         interactions.add(buildInteractionStatement(TypeRestfulInteraction.HISTORY_INSTANCE));
         interactions.add(buildInteractionStatement(TypeRestfulInteraction.SEARCH_TYPE));
+        interactions.add(buildInteractionStatement(TypeRestfulInteraction.PATCH));
 
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
@@ -3416,8 +3417,24 @@ public class FHIRResource implements FHIRResourceHelpers {
         format.add(Code.of(MediaType.APPLICATION_FHIR_XML));
 
         // Finally, create the Conformance resource itself.
-        CapabilityStatement conformance =
-                CapabilityStatement.builder().status(PublicationStatus.ACTIVE).date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC))).kind(CapabilityStatementKind.of(CapabilityStatementKind.ValueSet.INSTANCE)).fhirVersion(FHIRVersion.VERSION_4_0_0).format(format).version(string(buildInfo.getBuildVersion())).name(string(FHIR_SERVER_NAME)).description(com.ibm.watsonhealth.fhir.model.type.Markdown.of(buildDescription)).copyright(com.ibm.watsonhealth.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT)).publisher(string("IBM Corporation")).software(CapabilityStatement.Software.builder().name(string(FHIR_SERVER_NAME)).version(string(buildInfo.getBuildVersion())).id(buildInfo.getBuildId()).build()).rest(rest).build();
+        CapabilityStatement conformance = CapabilityStatement.builder()
+                                          .status(PublicationStatus.ACTIVE)
+                                          .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
+                                          .kind(CapabilityStatementKind.of(CapabilityStatementKind.ValueSet.INSTANCE))
+                                          .fhirVersion(FHIRVersion.VERSION_4_0_0)
+                                          .format(format)
+                                          .patchFormat(Code.of(MediaType.APPLICATION_JSON_PATCH))
+                                          .version(string(buildInfo.getBuildVersion()))
+                                          .name(string(FHIR_SERVER_NAME))
+                                          .description(com.ibm.watsonhealth.fhir.model.type.Markdown.of(buildDescription))
+                                          .copyright(com.ibm.watsonhealth.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT))
+                                          .publisher(string("IBM Corporation"))
+                                          .software(CapabilityStatement.Software.builder()
+                                                    .name(string(FHIR_SERVER_NAME))
+                                                    .version(string(buildInfo.getBuildVersion()))
+                                                    .id(buildInfo.getBuildId()).build())
+                                          .rest(rest)
+                                          .build();
 
         try {
             conformance = addExtensionElements(conformance);
