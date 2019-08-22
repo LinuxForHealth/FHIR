@@ -60,6 +60,24 @@ public class BasicServerTest extends FHIRServerTestBase {
     }
 
     /**
+     * Verify the 'metadata' API with Content-Type XML.
+     */
+    @Test(groups = { "server-basic" })
+    public void testMetadataAPI_XML() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("metadata").request(MediaType.APPLICATION_FHIR_XML).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        assertEquals(MediaType.APPLICATION_FHIR_XML_TYPE, response.getMediaType());
+
+        CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
+        assertNotNull(conf);
+        assertNotNull(conf.getFormat());
+        assertEquals(4, conf.getFormat().size());
+        assertNotNull(conf.getVersion());
+        assertNotNull(conf.getName());
+    }
+
+    /**
      * Create a Patient, then make sure we can retrieve it.
      */
     @Test(groups = { "server-basic" })
