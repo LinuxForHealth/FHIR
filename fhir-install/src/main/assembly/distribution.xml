@@ -77,20 +77,6 @@
                 <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
             </excludes>
         </dependencySet>
-<!-- These operations are now packaged with the fhir-server-webapp -->
-<!--
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <useTransitiveDependencies>false</useTransitiveDependencies>
-            <outputDirectory>fhir/server/usr/servers/fhir-server/userlib</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>${project.groupId}:fhir-operation-document:*</include>
-                <include>${project.groupId}:fhir-operation-validate:*</include>
-            </includes>
-        </dependencySet>
- -->
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>fhir/server/usr/shared/resources/lib/derby</outputDirectory>
