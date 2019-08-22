@@ -157,7 +157,12 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         }
         
         private void generate(Element element) {
+            if (element.getId() != null) {
+                // visit id
+                visit("id", element.getId());
+            }
             if (!element.getExtension().isEmpty()) {
+                // visit extension
                 visitStart("extension", element.getExtension(), Extension.class);
                 int elementIndex = 0;
                 for (Extension extension : element.getExtension()) {
@@ -165,18 +170,15 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 }
                 visitEnd("extension", element.getExtension(), Extension.class);
             }
-            if (element.getId() != null) {
-                writeValue("id", -1, element.getId());
-            }
+        }
+
+        private boolean hasIdOrExtension(Element element) {
+            return element.getId() != null || !element.getExtension().isEmpty();
         }
         
-        private boolean hasExtensionOrId(Element element) {
-            return !element.getExtension().isEmpty() || element.getId() !=  null;
-        }
-        
-        private boolean hasExtensionOrId(java.util.List<? extends Visitable> visitables) {
+        private boolean hasIdOrExtension(java.util.List<? extends Visitable> visitables) {
             for (Visitable visitable : visitables) {
-                if (hasExtensionOrId((Element) visitable)) {
+                if (hasIdOrExtension((Element) visitable)) {
                     return true;
                 }
             }
@@ -280,9 +282,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         
         @Override
         public void visit(java.lang.String elementName, java.lang.String value) {
-            if (value != null) {
-                writeValue(elementName, -1, value);
-            }
+            writeValue(elementName, -1, value);
         }
     
         @Override
@@ -337,7 +337,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 if (isChoiceElement(elementName)) {
                     elementName = getChoiceElementName(elementName, elementType);
                 }
-                if (elementIndex == -1 && hasExtensionOrId(element)) {
+                if (elementIndex == -1 && hasIdOrExtension(element)) {
                     generator.writeStartObject("_" + elementName);
                     generate(element);
                     generator.writeEnd();
@@ -350,10 +350,10 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         @Override
         public void visitEnd(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
             generator.writeEnd();
-            if (isPrimitiveType(type) && hasExtensionOrId(visitables)) {
+            if (isPrimitiveType(type) && hasIdOrExtension(visitables)) {
                 generator.writeStartArray("_" + elementName);
                 for (Visitable visitable : visitables) {
-                    if (hasExtensionOrId((Element) visitable)) {
+                    if (hasIdOrExtension((Element) visitable)) {
                         generator.writeStartObject();
                         generate((Element) visitable);
                         generator.writeEnd();
@@ -395,7 +395,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
         }
     
         private void writeNull(java.lang.String elementName, int elementIndex, Element element) {
-            if (elementIndex != -1 && hasExtensionOrId(element)) {
+            if (elementIndex != -1 && hasIdOrExtension(element)) {
                 generator.writeNull();
             }
         }
@@ -475,6 +475,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 .build();
         
         String otherGiven = String.builder()
+                .id("someOtherId")
                 .extension(Extension.builder()
                     .url("http://www.ibm.com/someExtension")
                     .value(String.of("extension only"))

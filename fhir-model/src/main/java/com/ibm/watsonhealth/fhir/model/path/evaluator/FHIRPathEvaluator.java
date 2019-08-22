@@ -80,7 +80,7 @@ public class FHIRPathEvaluator {
     }
     
     private FHIRPathEvaluator(FHIRPathTree tree) {
-        this.environment = new Environment(tree);
+        environment = new Environment(tree);
         visitor = new EvaluatingVisitor(environment);
     }
     
