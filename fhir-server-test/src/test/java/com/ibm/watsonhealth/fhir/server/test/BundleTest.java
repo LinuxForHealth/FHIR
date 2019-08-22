@@ -733,6 +733,17 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() > 1);
+        
+        boolean result = false;
+        for(Bundle.Entry entry : resultSet.getEntry()) {
+            if(entry.getResponse() != null){
+                String returnedStatus = entry.getResponse().getStatus().getValue();
+                assertNotNull(returnedStatus);
+                assertTrue("200".compareTo(returnedStatus)==0);
+                result = true;
+            }
+        }
+        assertTrue("Test the entries are processed", result);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })

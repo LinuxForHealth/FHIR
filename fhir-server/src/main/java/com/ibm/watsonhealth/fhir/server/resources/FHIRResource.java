@@ -3604,9 +3604,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                                            .url(Url.of(method == HTTPVerb.POST ? resourceType : resourceType + "/" + logicalId))
                                            .build();
 
+            Bundle.Entry.Response response = Bundle.Entry.Response.builder().status(string("200")).build();
+            
             Bundle.Entry entry = Bundle.Entry.builder()
                                  .request(request)
                                  .fullUrl(Uri.of(getRequestBaseUri() + "/" + resource.getClass().getSimpleName() + "/" + resource.getId().getValue()))
+                                 .response(response)
                                  .resource(resource)
                                  .build();
 
