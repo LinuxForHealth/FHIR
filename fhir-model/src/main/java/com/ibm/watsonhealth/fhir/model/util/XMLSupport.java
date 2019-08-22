@@ -29,9 +29,10 @@ public final class XMLSupport {
     
     private XMLSupport() { }
     
-    public static void init() {
-        // allows us to initialize this class during startup
-    }
+    /**
+     * Calling this method allows us to load/initialize this class during startup.
+     */
+    public static void init() { }
 
     /**
      * Checks the order of the current element using its position relative to the position

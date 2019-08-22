@@ -146,9 +146,10 @@ public final class ModelSupport {
     private ModelSupport() {
     }
 
-    public static void init() {
-        // allows us to initialize this class during startup
-    }
+    /**
+     * Calling this method allows us to load/initialize this class during startup.
+     */
+    public static void init() { }
 
     private static final class ElementInfo {
         private final Class<?> type;

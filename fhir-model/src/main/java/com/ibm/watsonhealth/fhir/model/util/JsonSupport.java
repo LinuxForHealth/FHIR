@@ -41,10 +41,11 @@ public final class JsonSupport {
     private static final Map<Class<?>, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildElementNameMap(true);
     
     private JsonSupport() { }
-    
-    public static void init() {
-        // allows us to initialize this class during startup
-    }
+
+    /**
+     * Calling this method allows us to load/initialize this class during startup.
+     */
+    public static void init() { }
 
     private static Map<Class<?>, Set<String>> buildElementNameMap(boolean required) {
         Map<Class<?>, Set<String>> elementNameMap = new LinkedHashMap<>();
