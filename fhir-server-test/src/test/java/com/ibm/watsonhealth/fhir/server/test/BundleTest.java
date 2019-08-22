@@ -739,7 +739,7 @@ public class BundleTest extends FHIRServerTestBase {
             if(entry.getResponse() != null){
                 String returnedStatus = entry.getResponse().getStatus().getValue();
                 assertNotNull(returnedStatus);
-                assertTrue("200".compareTo(returnedStatus)==0);
+                assertTrue(returnedStatus.startsWith("200"));
                 result = true;
             }
         }
