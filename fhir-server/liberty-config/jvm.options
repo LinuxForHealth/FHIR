@@ -12,7 +12,6 @@
 # See the InfoCenter for full documentation
 
 -Dorg.apache.xml.dtm.DTMManager=org.apache.xml.dtm.ref.DTMManagerDefault
--Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl
 -Dcom.ibm.jsse2.renegotiate=DISABLED
 
 # Initial heap size (same as max so no reallocations will occur)
