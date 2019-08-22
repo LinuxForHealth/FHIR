@@ -226,7 +226,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = Response.Status.OK;
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), status);
 
-            return Response.ok().entity(getConformanceStatement()).build();
+            return Response.ok().entity(getCapabilityStatement()).build();
         } catch (FHIRHttpException e) {
             log.log(Level.SEVERE, errMsg, e);
             status = e.getHttpStatus();
@@ -3308,10 +3308,10 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
-    private synchronized CapabilityStatement getConformanceStatement() throws Exception {
+    private synchronized CapabilityStatement getCapabilityStatement() throws Exception {
         try {
-            CapabilityStatement conformance = buildConformanceStatement();
-            return conformance;
+            CapabilityStatement capability = buildCapabilityStatement();
+            return capability;
         } catch (Throwable t) {
             String msg = "An error occurred while constructing the Conformance statement.";
             log.log(Level.SEVERE, msg, t);
@@ -3320,23 +3320,23 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * Builds a Conformance resource instance which describes this server.
+     * Builds a CapabilityStatement resource instance which describes this server.
      * 
      * @throws Exception
      */
-    private CapabilityStatement buildConformanceStatement() throws Exception {
+    private CapabilityStatement buildCapabilityStatement() throws Exception {
         // Build the list of interactions that are supported for each resource type.
 
         List<Rest.Resource.Interaction> interactions = new ArrayList<>();
-        interactions.add(buildConformanceInteraction(TypeRestfulInteraction.CREATE));
-        interactions.add(buildConformanceInteraction(TypeRestfulInteraction.UPDATE));
+        interactions.add(buildInteractionStatement(TypeRestfulInteraction.CREATE));
+        interactions.add(buildInteractionStatement(TypeRestfulInteraction.UPDATE));
         if (isDeleteSupported()) {
-            interactions.add(buildConformanceInteraction(TypeRestfulInteraction.DELETE));
+            interactions.add(buildInteractionStatement(TypeRestfulInteraction.DELETE));
         }
-        interactions.add(buildConformanceInteraction(TypeRestfulInteraction.READ));
-        interactions.add(buildConformanceInteraction(TypeRestfulInteraction.VREAD));
-        interactions.add(buildConformanceInteraction(TypeRestfulInteraction.HISTORY_INSTANCE));
-        interactions.add(buildConformanceInteraction(TypeRestfulInteraction.SEARCH_TYPE));
+        interactions.add(buildInteractionStatement(TypeRestfulInteraction.READ));
+        interactions.add(buildInteractionStatement(TypeRestfulInteraction.VREAD));
+        interactions.add(buildInteractionStatement(TypeRestfulInteraction.HISTORY_INSTANCE));
+        interactions.add(buildInteractionStatement(TypeRestfulInteraction.SEARCH_TYPE));
 
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
@@ -3498,7 +3498,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         return Arrays.asList(notificationResourceTypes).toString().replace("[", "").replace("]", "").replace(" ", "");
     }
 
-    private Interaction buildConformanceInteraction(TypeRestfulInteraction value) {
+    private Interaction buildInteractionStatement(TypeRestfulInteraction value) {
         Interaction ci = Interaction.builder().code(value).build();
         return ci;
     }
@@ -3520,7 +3520,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                 Bundle.builder().type(BundleType.SEARCHSET).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.watsonhealth.fhir.model.type.UnsignedInt.of((int) (long) searchContext.getTotalCount()));
 
         for (Resource resource : resources) {
-            Bundle.Entry entry = Bundle.Entry.builder().resource(resource).build();
+            if (resource.getId() == null || !resource.getId().hasValue()) {
+                throw new IllegalStateException("Returned resources must have an id.");
+            }
+            Bundle.Entry entry = Bundle.Entry.builder()
+                    .fullUrl(Uri.of(getRequestBaseUri() + "/" + resource.getClass().getSimpleName() + "/" + resource.getId().getValue()))
+                    .resource(resource).build();
 
             bundleBuider.entry(entry);
         }
@@ -3555,6 +3560,10 @@ public class FHIRResource implements FHIRResourceHelpers {
         for (int i = 0; i < resources.size(); i++) {
             Resource resource = resources.get(i);
 
+            if (resource.getId() == null || !resource.getId().hasValue()) {
+                throw new IllegalStateException("Returned resources must have an id.");
+            }
+
             Integer versionId = Integer.valueOf(resource.getMeta().getVersionId().getValue());
             String logicalId = resource.getId().getValue();
             String resourceType = FHIRUtil.getResourceTypeName(resource);
@@ -3573,10 +3582,16 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Create the 'request' entry, and set the request.url field.
             // 'create' --> url = "<resourceType>"
             // 'update'/'delete' --> url = "<resourceType>/<logicalId>"
-            Bundle.Entry.Request request =
-                    Bundle.Entry.Request.builder().method(method).url(Url.of(method == HTTPVerb.POST ? resourceType : resourceType + "/" + logicalId)).build();
+            Bundle.Entry.Request request = Bundle.Entry.Request.builder()
+                                           .method(method)
+                                           .url(Url.of(method == HTTPVerb.POST ? resourceType : resourceType + "/" + logicalId))
+                                           .build();
 
-            Bundle.Entry entry = Bundle.Entry.builder().request(request).resource(resource).build();
+            Bundle.Entry entry = Bundle.Entry.builder()
+                                 .request(request)
+                                 .fullUrl(Uri.of(getRequestBaseUri() + "/" + resource.getClass().getSimpleName() + "/" + resource.getId().getValue()))
+                                 .resource(resource)
+                                 .build();
 
             bundleBuilder.entry(entry);
         }

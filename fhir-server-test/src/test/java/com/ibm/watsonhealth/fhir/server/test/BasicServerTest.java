@@ -19,7 +19,6 @@ import java.util.List;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import javax.xml.datatype.DatatypeConstants;
 
 import org.testng.annotations.Test;
 
