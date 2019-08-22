@@ -51,7 +51,7 @@ Edit `wlp/usr/servers/fhir-server/config/TNT1/fhir-server-config.json` and add t
                     "tenantKey": "<the-base64-tenant-key>",
                     "type": "db2",
                     "connectionProperties": {
-CODE_REMOVED
+                        "serverName": "<db2-host-name>",
                         "portNumber": 50001,
                         "databaseName": "BLUDB",
                         "apiKey": "<your-db2-api-key>",

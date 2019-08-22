@@ -17,9 +17,7 @@ import java.util.logging.Logger;
 import com.ibm.watsonhealth.database.utils.derby.DerbyTranslator;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 
@@ -376,7 +374,7 @@ public class DerbyResourceDAO {
      * @param resourceId
      */
     protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
-        String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
+        final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
             // bind parameters
             stmt.setLong(1, logicalResourceId);
@@ -394,7 +392,7 @@ public class DerbyResourceDAO {
     protected Integer getResourceTypeId(String resourceTypeName) throws SQLException {
         Integer result;
         
-        String sql1 = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
+        final String sql1 = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
         
         try (PreparedStatement stmt = conn.prepareStatement(sql1)) {
             stmt.setString(1, resourceTypeName);

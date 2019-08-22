@@ -14,7 +14,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.watsonhealth.fhir.persistence.test.common.AbstractDeleteTest;
 
 /**
- * Concreate subclass for delete tests run against the JDBC normalized schema.
+ * Concrete subclass for delete tests run against the JDBC normalized schema.
  * @author markd
  *
  */

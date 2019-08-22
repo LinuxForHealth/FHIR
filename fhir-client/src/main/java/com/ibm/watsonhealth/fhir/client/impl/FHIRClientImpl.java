@@ -350,7 +350,7 @@ public class FHIRClientImpl implements FHIRClient {
             // For a normal delete operation, add the resource id to the URL pattern of the request.
             endpoint = endpoint.path(resourceId);
         } else {
-            // Otherwise, for a conditional delte, add the search query parameter(s) to the request.
+            // Otherwise, for a conditional delete, add the search query parameter(s) to the request.
             endpoint = addParametersToWebTarget(endpoint, parameters);
         }
 

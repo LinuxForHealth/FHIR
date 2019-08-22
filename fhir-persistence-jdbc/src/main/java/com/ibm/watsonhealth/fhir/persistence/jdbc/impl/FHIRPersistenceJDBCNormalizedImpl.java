@@ -515,7 +515,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 }
             }
             else {
-                throw new FHIRPersistenceException("resource does not exist: " + resourceType.getSimpleName() + ":" + logicalId);
+                // issue fhir-527. Need to return not found
+                throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " + resourceType.getSimpleName() + ":" + logicalId);
             }
                     
             return existingResource;

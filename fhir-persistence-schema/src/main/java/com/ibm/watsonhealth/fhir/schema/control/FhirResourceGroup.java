@@ -182,8 +182,8 @@ public class FhirResourceGroup {
     public void addResources(List<IDatabaseObject> group, String prefix) {
 
         // The index which also used by the database to support the primary key constraint
-        List<String> prfIndexCols = Arrays.asList(RESOURCE_ID);
-        List<String> prfIncludeCols = Arrays.asList(LOGICAL_RESOURCE_ID, VERSION_ID, IS_DELETED);
+        final List<String> prfIndexCols = Arrays.asList(RESOURCE_ID);
+        final List<String> prfIncludeCols = Arrays.asList(LOGICAL_RESOURCE_ID, VERSION_ID, IS_DELETED);
         final String tableName = prefix + _RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
