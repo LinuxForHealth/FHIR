@@ -842,7 +842,7 @@ public class CodeGenerator {
             }
             
             if (isTime(structureDefinition)) {
-                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "DateTimeFormatter.ofPattern(\"HH:mm:ss\")").newLine();
+                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().toFormatter()").newLine();
             }
             
             if (isBoolean(structureDefinition)) {
@@ -1477,7 +1477,7 @@ public class CodeGenerator {
                 imports.add("java.time.YearMonth");
             }
             imports.add("java.time.format.DateTimeFormatter");
-            if (isDateTime(structureDefinition) || isInstant(structureDefinition)) {
+            if (isDateTime(structureDefinition) || isInstant(structureDefinition) || isTime(structureDefinition)) {
                 imports.add("java.time.temporal.ChronoField");
                 imports.add("java.time.format.DateTimeFormatterBuilder");
             }
