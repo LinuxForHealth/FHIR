@@ -83,7 +83,7 @@ public class BundleTest extends FHIRServerTestBase {
     private Patient patientTD1 = null;
     private Patient patientTD2 = null;
     private Patient patientTCD1 = null;
-    private Patient patientTCD2 = null; 
+    private Patient patientTCD2 = null;
 
     // Variables used by the transaction tests.
     private Patient patientT1 = null;
