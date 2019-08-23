@@ -33,14 +33,14 @@ public class FHIRValidatorBenchmark {
         public FhirContext context;
         public FhirValidator validator;
         public Resource resource;
-        public IBaseResource hapiResource;
+        public IBaseResource baseResource;
         
         @Setup
         public void setUp() throws Exception {
             context = FhirContext.forR4();
             validator = context.newValidator();
             resource = FHIRParser.parser(Format.JSON).parse(new StringReader(JSON_SPEC_EXAMPLE));
-            hapiResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
+            baseResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
         }
     }
     
@@ -51,7 +51,7 @@ public class FHIRValidatorBenchmark {
     
     @Benchmark
     public void benchmarkHAPIValidator(FHIRValidatorState state) throws Exception {
-        state.validator.validateWithResult(state.hapiResource);
+        state.validator.validateWithResult(state.baseResource);
     }
     
     public static void main(String[] args) throws Exception {
