@@ -180,10 +180,12 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
 
         
         try {
-                
+            // This create() operation is only called by a REST create. If the given resource
+            // contains an id, the for R4 we need to ignore it and replace it with our
+            // system-generated value. For the update-or-create scenario, see doUpdate()
             // Default version is 1 for a brand new FHIR Resource.
             int newVersionNumber = 1;
-            logicalId = (resource.getId() != null ? resource.getId().getValue() : UUID.randomUUID().toString());
+            logicalId = UUID.randomUUID().toString();
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
             }

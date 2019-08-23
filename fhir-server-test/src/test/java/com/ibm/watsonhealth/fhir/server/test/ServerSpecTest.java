@@ -83,8 +83,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     }
 
     // Test: create a new patient that contains an id
+    /**
+     * Test: create a new patient with a resource containing an id. This id
+     * should be ignored and replaced by a different value.
+     * @throws Exception
+     */
     @Test(groups = { "server-spec" })
-    public void testCreatePatientErrorHasId() throws Exception {
+    public void testCreatePatientIgnoresId() throws Exception {
         WebTarget target = getWebTarget();
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
         // Set an id on the patient.
@@ -92,8 +97,17 @@ public class ServerSpecTest extends FHIRServerTestBase {
         
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "A 'create' operation cannot be performed on a resource that contains an 'id' attribute.");
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        URI location = response.getLocation();
+        assertNotNull(location);
+        assertNotNull(location.toString());
+        assertFalse(location.toString().isEmpty());
+
+        // Get the patient's logical id value.
+        String newPatientId = getLocationLogicalId(response);
+        
+        // Check that this id DOES NOT match the id we included in the resource we submitted
+        assertNotEquals(patient.getId().getValue(), newPatientId);
     }
 
     // Test: create an invalid patient

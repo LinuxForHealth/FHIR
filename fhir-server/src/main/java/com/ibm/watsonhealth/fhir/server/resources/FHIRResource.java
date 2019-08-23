@@ -1002,10 +1002,10 @@ public class FHIRResource implements FHIRResourceHelpers {
                 }
             }
 
-            // A new resource should not contain an ID.
-            if (resource.getId() != null) {
-                String msg = "A 'create' operation cannot be performed on a resource that contains an 'id' attribute.";
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+            // For R4, resources may contain an id. For create, this should be ignored and
+            // we no longer reject the request.
+            if (resource.getId() != null && log.isLoggable(Level.FINE)) {
+                log.fine(String.format("create request resource includes id: '%s'", resource.getId().getValue()));
             }
 
             // Validate the input resource and return any validation errors, but warnings are OK
