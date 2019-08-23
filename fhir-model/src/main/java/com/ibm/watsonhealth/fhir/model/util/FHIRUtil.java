@@ -6,8 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
-import static com.ibm.watsonhealth.fhir.model.FHIRModel.*;
-import static com.ibm.watsonhealth.fhir.model.FHIRModel.getToStringIndentAmountOrDefault;
+import static com.ibm.watsonhealth.fhir.model.FHIRModel.getToStringFormat;
+import static com.ibm.watsonhealth.fhir.model.FHIRModel.getToStringIndentAmount;
+import static com.ibm.watsonhealth.fhir.model.FHIRModel.getToStringPrettyPrinting;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static java.util.Objects.nonNull;
 
@@ -193,10 +194,10 @@ public class FHIRUtil {
      */
     public static String toString(Visitable visitable) {
         try {
-            FHIRGenerator generator = FHIRGenerator.generator(getToStringFormatOrDefault(Format.JSON), getToStringPrettyPrintingOrDefault(true));
+            FHIRGenerator generator = FHIRGenerator.generator(getToStringFormat(), getToStringPrettyPrinting());
             if (generator.isPropertySupported(FHIRGenerator.PROPERTY_INDENT_AMOUNT)) {
                 // indent amount is only supported by the XML generator and is only applicable if prettyPrinting is turned on
-                generator.setProperty(FHIRGenerator.PROPERTY_INDENT_AMOUNT, getToStringIndentAmountOrDefault(2));
+                generator.setProperty(FHIRGenerator.PROPERTY_INDENT_AMOUNT, getToStringIndentAmount());
             }
             StringWriter writer = new StringWriter();
             generator.generate(visitable, writer);

@@ -19,9 +19,24 @@ import com.ibm.watsonhealth.fhir.model.format.Format;
  * This class is used to manage runtime configuration for the FHIR model APIs.
  */
 public final class FHIRModel {
+    /**
+     * The format (JSON or XML) to use with the toString method
+     */
     public static final String PROPERTY_TO_STRING_FORMAT = "com.ibm.watsonhealth.fhir.model.toStringFormat";
+    
+    /**
+     * The number of spaces to use when indenting (pretty printing must be enabled)
+     */
     public static final String PROPERTY_TO_STRING_INDENT_AMOUNT = "com.ibm.watsonhealth.fhir.model.toStringIndentAmount";
+    
+    /**
+     * Used to determine whether the toString method return value should be formatted
+     */
     public static final String PROPERTY_TO_STRING_PRETTY_PRINTING = "com.ibm.watsonhealth.fhir.model.toStringPrettyPrinting";
+    
+    private static final Format DEFAULT_TO_STRING_FORMAT = Format.JSON;
+    private static final int DEFAULT_TO_STRING_INDENT_AMOUNT = 2;
+    private static final boolean DEFAULT_TO_STRING_PRETTY_PRINTING = true;
 
     private static final Map<String, Object> properties = new ConcurrentHashMap<>();
    
@@ -30,25 +45,25 @@ public final class FHIRModel {
     public static void setToStringFormat(Format format) {
         setProperty(PROPERTY_TO_STRING_FORMAT, format);
     }
-   
-    public static Format getToStringFormatOrDefault(Format defaultFormat) {
-        return getPropertyOrDefault(PROPERTY_TO_STRING_FORMAT, defaultFormat, Format.class);
+    
+    public static Format getToStringFormat() {
+        return getPropertyOrDefault(PROPERTY_TO_STRING_FORMAT, DEFAULT_TO_STRING_FORMAT, Format.class);
     }
     
     public static void setToStringIndentAmount(int indentAmount) {
         setProperty(PROPERTY_TO_STRING_INDENT_AMOUNT, indentAmount);
     }
-   
-    public static int getToStringIndentAmountOrDefault(int defaultIndentAmount) {
-        return getPropertyOrDefault(PROPERTY_TO_STRING_INDENT_AMOUNT, defaultIndentAmount, Integer.class);
+    
+    public static int getToStringIndentAmount() {
+        return getPropertyOrDefault(PROPERTY_TO_STRING_INDENT_AMOUNT, DEFAULT_TO_STRING_INDENT_AMOUNT, Integer.class);
     }
     
     public static void setToStringPrettyPrinting(boolean prettyPrinting) {
         setProperty(PROPERTY_TO_STRING_PRETTY_PRINTING, prettyPrinting);
     }
    
-    public static boolean getToStringPrettyPrintingOrDefault(boolean defaultPrettyPrinting) {
-        return getPropertyOrDefault(PROPERTY_TO_STRING_PRETTY_PRINTING, defaultPrettyPrinting, Boolean.class);
+    public static boolean getToStringPrettyPrinting() {
+        return getPropertyOrDefault(PROPERTY_TO_STRING_PRETTY_PRINTING, DEFAULT_TO_STRING_PRETTY_PRINTING, Boolean.class);
     }
    
     public static void setProperty(String name, Object value) {
