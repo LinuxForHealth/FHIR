@@ -3401,11 +3401,21 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         String regURL = regURLTemplate.replaceAll("<host>", actualHost);
 
-        CapabilityStatement.Rest.Security restSecurity =
-                CapabilityStatement.Rest.Security.builder().service(CodeableConcept.builder().coding(Coding.builder().code(Code.of("SMART-on-FHIR")).system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service")).build()).text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")).build()).extension(Extension.builder().url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris").extension(Extension.builder().url("token").value(Url.of(tokenURL)).build(), Extension.builder().url("authorize").value(Url.of(authURL)).build(), Extension.builder().url("register").value(Url.of(regURL)).build()).build()).build();
+        CapabilityStatement.Rest.Security restSecurity = CapabilityStatement.Rest.Security.builder()
+                .service(CodeableConcept.builder().coding(Coding.builder().code(Code.of("SMART-on-FHIR"))
+                        .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service")).build())
+                        .text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")).build())
+                .extension(Extension.builder().url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
+                        .extension(Extension.builder().url("token").value(Url.of(tokenURL)).build(), 
+                                Extension.builder().url("authorize").value(Url.of(authURL)).build(), 
+                                Extension.builder().url("register").value(Url.of(regURL)).build()).build())
+                .build();
 
-        CapabilityStatement.Rest rest =
-                CapabilityStatement.Rest.builder().mode(RestfulCapabilityMode.SERVER).security(restSecurity).resource(resources).interaction(CapabilityStatement.Rest.Interaction.builder().code(transactionMode).build()).build();
+        CapabilityStatement.Rest rest = CapabilityStatement.Rest.builder().mode(RestfulCapabilityMode.SERVER)
+                .security(restSecurity)
+                .resource(resources)
+                .interaction(CapabilityStatement.Rest.Interaction.builder().code(transactionMode).build())
+                .build();
 
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion() + " build id " + buildInfo.getBuildId() + "";
