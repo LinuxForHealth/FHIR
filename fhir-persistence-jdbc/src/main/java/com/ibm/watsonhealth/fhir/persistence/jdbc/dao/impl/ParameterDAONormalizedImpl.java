@@ -174,7 +174,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.");
+            throw severe(log, fx, e);
         }
         finally {
             this.cleanup(stmt, connection);
@@ -333,7 +334,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                     log.fine("Registered CodeSystemsCacheUpdater.");
                 }
                 catch(Throwable e) {
-                    throw new FHIRPersistenceException("Failure registering CodeSystemsCacheUpdater", e);
+                    FHIRPersistenceException fx = new FHIRPersistenceException("Failure registering CodeSystemsCacheUpdater");
+                    throw severe(log, fx, e);
                 }
             }
             this.newCodeSystemIds.put(codeSystemName, codeSystemId);
@@ -364,7 +366,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                     log.fine("Registered ParameterNamesCacheUpdater.");
                 }
                 catch(Throwable e) {
-                    throw new FHIRPersistenceException("Failure registering ParameterNamesCacheUpdater", e);
+                    FHIRPersistenceException fx = new FHIRPersistenceException("Failure registering ParameterNamesCacheUpdater");
+                    throw severe(log, fx, e);
                 }
             }
             this.newParameterNameIds.put(parameterName, parameterId);
@@ -487,7 +490,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure transforming String parameters.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming String parameters.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -531,7 +535,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure transforming Number parameters.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Number parameters.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -574,7 +579,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure transforming Date parameters.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Date parameters.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -618,7 +624,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure transforming Lat/Long parameters.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Lat/Lng parameters.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -661,7 +668,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure transforming Token parameters.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Token parameters.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -708,7 +716,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure transforming Quantity parameters.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Quantity parameters.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);

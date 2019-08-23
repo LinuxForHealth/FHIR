@@ -27,6 +27,7 @@ import com.ibm.watsonhealth.database.utils.db2.Db2Adapter;
 import com.ibm.watsonhealth.database.utils.db2.Db2SetTenantVariable;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
@@ -96,7 +97,39 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
         this();
         this.setExternalConnection(conn);
     }
+    
+    /**
+     * Convenience function to log the cause of an exception about to be thrown. This
+     * is useful when avoiding chaining the cause with the persistence exception, which
+     * could inadvertently leak sensitive information (details of the schema, for example)
+     * @param logger
+     * @param fx
+     * @param cause
+     * @return
+     */
+    protected <XT extends FHIRPersistenceException> XT severe(Logger logger, XT fx, Throwable cause) {
+        logger.log(Level.SEVERE, fx.getMessage(), cause);
+        return fx;
+    }
 
+    /**
+     * Log the exception message here along with the cause stack. Return the
+     * exception fx to the caller so that it can be thrown easily.
+     * @param logger
+     * @param fx
+     * @param errorMessage
+     * @param cause
+     * @return
+     */
+    protected <XT extends FHIRPersistenceException> XT severe(Logger logger, XT fx, String errorMessage, Throwable cause) {
+        if (cause != null) {
+            logger.log(Level.SEVERE, fx.addProbeId(errorMessage), cause);
+        }
+        else {
+            logger.log(Level.SEVERE, fx.addProbeId(errorMessage));
+        }
+        return fx;
+    }
 
 
     /* (non-Javadoc)
@@ -105,7 +138,6 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         final String METHODNAME = "getConnection";
-        String adminSchemaName = this.adminSchemaName;
         
         if (log.isLoggable(Level.FINEST)) {
             log.entering(CLASSNAME, METHODNAME);
@@ -123,7 +155,8 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                     connection = connectionProvider.getConnection();                    
                 }
                 catch (SQLException x) {
-                    throw new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider", x);
+                    FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider");
+                    throw severe(log, fx, x);
                 }
             }
             else if (this.getDbProps() == null) {
@@ -139,7 +172,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                         log.fine("Got the connection for [" + tenantId + "/" + dsId + "]!");
                     }
                 } catch (Throwable e) {
-                    throw new FHIRPersistenceDBConnectException("Failure acquiring Connection for datasource: " + getDataSourceJndiName(), e);
+                    // Don't emit secrets in case they are returned to a client
+                    FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failure acquiring connection for datasource");
+                    throw severe(log, fx, "Failure acquiring connection for datasource: " + getDataSourceJndiName(), e);
                 }
             } else {
                 if (!dbDriverLoaded) {
@@ -148,6 +183,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                         Class.forName(dbDriverName);
                         dbDriverLoaded = true;
                     } catch (ClassNotFoundException e) {
+                        // Not concerned about revealing a classname in the exception
                         throw new FHIRPersistenceDBConnectException("Failed to load driver: " + dbDriverName, e);
                     }
                 }
@@ -158,10 +194,11 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
 
                     // Most queries assume the current schema is set up properly
                     String schemaName = this.getDbProps().getProperty("schemaName", "FHIRDATA");
-                    adminSchemaName = this.getDbProps().getProperty("adminSchemaName", "FHIR_ADMIN");
                     connection.setSchema(schemaName);
                 } catch (Throwable e) {
-                    throw new FHIRPersistenceDBConnectException("Failed to acquire DB connection. dbUrl=" + dbUrl, e);
+                    // Don't emit secrets like the dbUrl in case they are returned to a client
+                    FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failed to acquire DB connection");
+                    throw severe(log, fx, "Failed to acquire DB connection. dbUrl=" + dbUrl, e);
                 }
             }
             
@@ -170,7 +207,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
             String tenantKey = FHIRRequestContext.get().getTenantKey();
             
             if (tenantName != null && tenantKey != null) {
-                log.info("Setting tenant access on connection for: " + tenantName);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Setting tenant access on connection for: " + tenantName);
+                }
                 Db2SetTenantVariable cmd = new Db2SetTenantVariable("FHIR_ADMIN", tenantName, tenantKey);
                 JdbcTarget target = new JdbcTarget(connection);
                 Db2Adapter adapter = new Db2Adapter(target);
@@ -181,7 +220,8 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
         } catch (FHIRPersistenceDBConnectException e) {
             throw e;
         } catch (Throwable t) {
-            throw new FHIRPersistenceDBConnectException("An unexpected error occurred while connecting to the database.", t);
+            FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("An unexpected error occurred while connecting to the database.");
+            throw severe(log, fx, t);
         } finally {
             if (log.isLoggable(Level.FINEST)) {
                 log.exiting(CLASSNAME, METHODNAME);
@@ -239,7 +279,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                     ctxt = new InitialContext();
                     fhirDb = (DataSource) ctxt.lookup(getDataSourceJndiName());
                 } catch (Throwable e) {
-                    throw new FHIRPersistenceDBConnectException("Failure acquiring Datasource for " + getDataSourceJndiName(), e);
+                    FHIRException fx = new FHIRPersistenceDBConnectException("Failure acquiring datasource");
+                    log.log(Level.SEVERE, fx.addProbeId("Failure acquiring datasource: " + getDataSourceJndiName()), e);
+                    throw fx;
                 }
             }
 
@@ -348,8 +390,10 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
             throw e;
         }
         catch (Throwable e) {
+            // avoid leaking SQL because the exception message might be returned to a client
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR objects");
             errMsg = "Failure retrieving FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs);
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            throw severe(log, fx, errMsg, e);
         } 
         finally {
             this.cleanup(resultSet, stmt, connection);
@@ -398,14 +442,18 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
                 }
             }
             else {
-                throw new FHIRPersistenceDataAccessException(errMsg);
+                // Don't emit the SQL text in an exception - it risks returning it to the client in a response
+                FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
+                throw severe(log, fx, errMsg, null);
             }
         } 
         catch(FHIRPersistenceException e) {
             throw e;
         }
         catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            // Don't emit the SQL text in an exception - it risks returning it to the client in a response
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
+            throw severe(log, fx, errMsg, e);
         } 
         finally {
             this.cleanup(resultSet, stmt, connection);
@@ -437,7 +485,9 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
             }
         } 
         catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure creating DTOs.", e);
+            // Don't chain the cause, because we might leak secrets
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure creating DTOs.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);

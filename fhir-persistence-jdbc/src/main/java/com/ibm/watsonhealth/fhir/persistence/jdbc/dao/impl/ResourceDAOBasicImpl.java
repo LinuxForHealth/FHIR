@@ -105,7 +105,8 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
             resource.setVersionId(resultSet.getInt("VERSION_ID"));
         }
         catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure creating Resource DTO.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure creating Resource DTO.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -152,7 +153,8 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
+            throw severe(log, fx, e);
         }
         finally {
             this.cleanup(resultSet, stmt, connection);
@@ -258,8 +260,10 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
             throw e;
         }
         catch (Throwable e) {
+            // Log the SQL but don't expose it in the exception
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids.");
             errMsg = "Failure retrieving FHIR Resource Ids. SQL=" + sqlSelect;
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            throw severe(log, fx, errMsg, e);
         } 
         finally {
             this.cleanup(resultSet, stmt, connection);
@@ -308,8 +312,11 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
             throw e;
         }
         catch (Throwable e) {
+            // Log the SQL but don't expose it in the exception
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources.");
             errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            throw severe(log, fx, errMsg, e);
+
         } 
         finally {
             this.cleanup(resultSet, stmt, connection);
@@ -373,7 +380,10 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
                 
             }
         } catch (SQLException e) {
-            throw new FHIRPersistenceDataAccessException("Failure running history query: " + historyQuery, e);
+            // Log the SQL but don't expose it in the exception
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure running history query.");
+            final String errMsg = "Failure running history query: " + historyQuery;
+            throw severe(log, fx, errMsg, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);

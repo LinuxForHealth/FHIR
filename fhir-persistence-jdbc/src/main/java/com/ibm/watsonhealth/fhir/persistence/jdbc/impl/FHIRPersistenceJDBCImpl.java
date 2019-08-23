@@ -175,8 +175,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         } 
         catch (Throwable e) {
             String msg = "An unexpected error occurred while examining transactional status.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException(msg);
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
         return isActive;
     }
@@ -257,9 +258,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a create operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a create operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -286,9 +287,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a read operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a read operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -322,9 +323,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw new FHIRPersistenceException("Invalid version id specified for vread operation: " + versionId);
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a version read operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a version read operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -356,7 +357,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             
             // If this FHIR Resource doesn't exist and updateCreateEnabled is turned off, throw an exception
             if (existingResourceDTO == null && !updateCreateEnabled) {
-                String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + " not found.";
+                String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' not found.";
                 log.log(Level.SEVERE, msg);
                 throw new FHIRPersistenceResourceNotFoundException(msg);
             }
@@ -420,9 +421,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing an update operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing an update operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;                        
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -480,9 +481,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a history operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a history operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -548,9 +549,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a search operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a search operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -828,9 +829,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
         }
         catch (Throwable e) {
-            String msg = "An unexpected error occurred while starting a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while starting a transaction.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -853,9 +854,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
         } 
         catch (Throwable e) {
-            String msg = "An unexpected error occurred while committing a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         }
         finally {
             if (sharedConnection != null) {
@@ -888,9 +889,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
         } 
         catch (Throwable e) {
-            String msg = "An unexpected error occurred while rolling back a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         } 
         finally {
             if (sharedConnection != null) {
@@ -907,11 +908,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     
     @Override
     public void setRollbackOnly() throws FHIRPersistenceException {
-        final String METHODNAME = "setRrollbackOnly";
+        final String METHODNAME = "setRollbackOnly";
         log.entering(CLASSNAME, METHODNAME);
+        String errorMessage = "Unexpected error while rolling a transaction.";
         
         try {
             if (userTransaction != null) {
+                errorMessage = "Unexpected error while marking a transaction for rollback.";
                 userTransaction.setRollbackOnly();
             } 
             else if (this.getManagedConnection() != null) {
@@ -919,9 +922,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
         } 
         catch (Throwable e) {
-            String msg = "An unexpected error occurred while rolling back a transaction.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         } 
         finally {
             if (sharedConnection != null) {
@@ -929,7 +932,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     sharedConnection.close();
                 } 
                 catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
+                    FHIRPersistenceException fx = new FHIRPersistenceException("Failure closing DB Conection");
+                    log.log(Level.SEVERE, fx.getMessage(), e);
+                    throw fx;            
                 }
                 sharedConnection = null;
             }
@@ -945,7 +950,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 return buildErrorOperationOutcome();
             }
         } catch (SQLException e) {
-            throw new FHIRPersistenceDataAccessException("Error while validating the database connection", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Error while validating the database connection");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
     }
 

@@ -92,9 +92,21 @@ public class FHIRException extends Exception {
         if (superMsg != null && !superMsg.isEmpty()) {
               myMsg.append(superMsg).append("  ");
         }
-         myMsg.append("[probeId=").append(this.getUniqueId()).append("]");
+        myMsg.append("[probeId=").append(this.getUniqueId()).append("]");
         
         return myMsg.toString();
     }
     
+    /**
+     * Add this exception's probeId value to the message
+     * @param msg
+     * @return
+     */
+    public String addProbeId(String msg) {
+        StringBuilder result = new StringBuilder();
+        result.append(msg);
+        result.append(" [probeId=").append(this.getUniqueId()).append("]");
+        
+        return result.toString();
+    }
 }

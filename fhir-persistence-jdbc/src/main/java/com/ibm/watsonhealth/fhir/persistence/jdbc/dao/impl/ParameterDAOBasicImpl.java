@@ -98,7 +98,9 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         }
         finally {
             this.cleanup(stmt, connection);
@@ -134,7 +136,9 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
             throw e;
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure deleting Paramaters for Resource id=" + resourceId, e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure deleting Paramaters for Resource id=" + resourceId);
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;            
         }
         finally {
             this.cleanup(stmt, connection);

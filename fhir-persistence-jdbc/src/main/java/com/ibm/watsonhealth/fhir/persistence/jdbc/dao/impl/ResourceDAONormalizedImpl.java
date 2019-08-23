@@ -193,7 +193,8 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             resource.setDeleted(resultSet.getString("IS_DELETED").equals("Y") ? true : false);
         }
         catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure creating Resource DTO.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure creating Resource DTO.");
+            throw severe(log, fx, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -236,7 +237,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             }
         } 
         catch (SQLException e) {
-            throw new FHIRPersistenceDataAccessException("Failure running history query: " + stmtString, e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure running history query");
+            String errMsg = "Failure running history query: " + stmtString;
+            throw severe(log, fx, errMsg, e);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] {resources}));
@@ -401,7 +404,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         Map<String, Integer> result = new HashMap<>();
-        String errMsg = "Failure retrieving all Resource type names.";
         long dbCallStartTime;
         double dbCallDuration;
                 
@@ -423,7 +425,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             }
         }
         catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            final String errMsg = "Failure retrieving all Resource type names.";
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
+            throw severe(log, fx, e);
         }
         finally {
             this.cleanup(stmt, connection);
@@ -444,7 +448,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         Integer parameterNameId = null;
         String currentSchema;
         String stmtString;
-        String errMsg = "Failure storing Resource type name id: name=" + resourceType;
         long dbCallStartTime;
         double dbCallDuration;
                 
@@ -467,7 +470,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             throw e;
         }
         catch (Throwable e) {
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            final String errMsg = "Failure storing Resource type name id: name=" + resourceType;
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
+            throw severe(log, fx, e);
         } 
         finally {
             this.cleanup(stmt, connection);
@@ -496,7 +501,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
-        String errMsg;
         long dbCallStartTime;
         double dbCallDuration;
         
@@ -521,8 +525,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             throw e;
         }
         catch (Throwable e) {
-            errMsg = "Failure retrieving FHIR Resource Ids. SqlQueryData=" + queryData;
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids");
+            final String errMsg = "Failure retrieving FHIR Resource Ids. SqlQueryData=" + queryData;
+            throw severe(log, fx, errMsg, e);
         } 
         finally {
             this.cleanup(resultSet, stmt, connection);
@@ -572,8 +577,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             throw e;
         }
         catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources");
             errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
-            throw new FHIRPersistenceDataAccessException(errMsg,e);
+            throw severe(log, fx, errMsg, e);
         } 
         finally {
             this.cleanup(resultSet, stmt, connection);
@@ -740,18 +746,22 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             throw e;
         }
         catch(SQLIntegrityConstraintViolationException e) {
-            throw new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.", e);
+            FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
+            throw severe(log, fx, e);
         }
         catch(SQLException e) {
             if ("99001".equals(e.getSQLState())) {
-                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource", e );
+                // this is just a concurrency update, so there's no need to log the SQLException here
+                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
             }
             else {
-                throw new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.", e);
+                FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("SQLException encountered while inserting Resource.");
+                throw severe(log, fx, e);
             }
         }
         catch(Throwable e) {
-            throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
+            throw severe(log, fx, e);
         }
         finally {
             this.cleanup(stmt, connection);
@@ -846,23 +856,22 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             throw e;
         }
         catch(SQLIntegrityConstraintViolationException e) {
-            throw new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.", e);
+            FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
+            throw severe(log, fx, e);
         }
         catch(SQLException e) {
             if ("99001".equals(e.getSQLState())) {
-                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource", e );
+                // this is just a concurrency update, so there's no need to log the SQLException here
+                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
             }
             else {
-                throw new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.", e);
+                FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("SQLException encountered while inserting Resource.");
+                throw severe(log, fx, e);
             }
         }
-        catch(Exception e) {
-            log.log(Level.SEVERE, "failure inserting resource", e);
-            throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
-        }
         catch(Throwable e) {
-            log.log(Level.SEVERE, "failure inserting resource", e);
-            throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
+            throw severe(log, fx, e);
         }
         finally {
             this.cleanup(null, connection);
