@@ -7,11 +7,11 @@
 package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -39,23 +40,23 @@ import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
+import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
-import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
-
+import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
 import com.ibm.watsonhealth.fhir.model.type.HumanName;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
-
-import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.type.RestfulCapabilityMode;
 import com.ibm.watsonhealth.fhir.model.type.SystemRestfulInteraction;
 import com.ibm.watsonhealth.fhir.model.type.TypeRestfulInteraction;
+import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
-import com.ibm.watsonhealth.fhir.server.test.FHIRNotificationServiceClientEndpoint;
-import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
  * Base class for fhir-server unit tests.
@@ -210,7 +211,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         try {
             return client.getWebTarget();
         } catch (Throwable t) {
-            fail("Unexpected exception while retrieving WebTarget: " + t);
+            fail("Unexpected exception while retrieving WebTarget: ",t);
 
             // This is here to appease the java compiler so we don't need to declare a
             // throws clause.
@@ -559,5 +560,44 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         
         patient = patient.toBuilder().name(nameList).build();
         return patient;
+    }
+
+    public void checkForIssuesWithValidation(Resource resource, boolean failOnValidationException, boolean failOnWarning) {
+        
+        List<Issue> issues = Collections.emptyList();
+        try {
+            issues = FHIRValidator.validator(resource).validate();
+        } catch(Exception e) {
+            if(failOnValidationException) {
+                fail("Unable to validate the resource", e);
+            }
+        }
+        
+        if (!issues.isEmpty()) {
+            System.out.println("Printing Issue with Validation");
+            int nonWarning = 0;
+            int allOtherIssues = 0;
+            for (Issue issue : issues) {
+                if(IssueSeverity.ERROR.getValue().compareTo(issue.getSeverity().getValue()) == 0 
+                        || IssueSeverity.FATAL.getValue().compareTo(issue.getSeverity().getValue()) == 0 ) {
+                    nonWarning++;
+                } else {
+                    allOtherIssues++;
+                }
+                System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
+                
+            }
+            
+            System.out.println("count = [" + issues.size() + "]");
+            assertEquals(nonWarning,0);
+            
+            if(failOnWarning) {
+                assertEquals(allOtherIssues,0);
+            }
+        } 
+        else {
+            assertTrue("Passed with no issues in validation", true);
+        }
+        
     }
 }
