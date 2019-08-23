@@ -101,7 +101,6 @@ public class BundleTest extends FHIRServerTestBase {
 
     private static final String ORG_EXTENSION_URL = "http://my.url.domain.com/acme-healthcare/lab-collection-org";
     private static final String PATIENT_EXTENSION_URL = "http://my.url.domain.com/acme-healthcare/related-patient";
-    private static final String HEADER_EXTENSION_URL = "http://www.ibm.com/watsonhealth/fhir/extensions/http-request-header";
 
     /**
      * Retrieve the server's conformance statement to determine the status of
@@ -124,6 +123,38 @@ public class BundleTest extends FHIRServerTestBase {
         System.out.println("Delete operation supported?: " + deleteSupported.toString());
     }
 
+    /**
+     * wraps very common pattern read, print, check the basics into one method. 
+     * @param response
+     * @param method
+     * @return
+     * @throws Exception
+     */
+    public Bundle getEntityWithExtraWork(FHIRResponse response, String method) throws Exception {
+        Bundle responseBundle = response.getResource(Bundle.class);
+        commonWork(responseBundle,method);
+        return responseBundle;
+    }
+    
+    /**
+     * wraps very common pattern read, print, check the basics into one method. 
+     * @param response
+     * @param method
+     * @return
+     * @throws Exception
+     */
+    public Bundle getEntityWithExtraWork(Response response, String method) throws Exception {
+        Bundle responseBundle = response.readEntity(Bundle.class);
+        commonWork(responseBundle,method);
+        return responseBundle;
+    }
+    
+    public void commonWork(Bundle responseBundle, String method) throws Exception{
+        assertNotNull(responseBundle);
+        printBundle(method, "response", responseBundle);
+        checkForIssuesWithValidation(responseBundle, true, false);
+    }
+        
     @Test(groups = { "batch" })
     public void testEmptyBundle() throws Exception {
         WebTarget target = getWebTarget();
@@ -180,7 +211,6 @@ public class BundleTest extends FHIRServerTestBase {
 
     @Test(groups = { "batch" })
     public void testMissingRequestField() throws Exception {
-        String method = "testMissingRequestField";
         WebTarget target = getWebTarget();
 
         Entity<JsonObject> entity = Entity.entity(getEmptyBundleJsonObjectBuilder().build(), MediaType.APPLICATION_FHIR_JSON);
@@ -191,9 +221,7 @@ public class BundleTest extends FHIRServerTestBase {
 
     @Test(groups = { "batch" })
     public void testMissingMethod() throws Exception {
-        String method = "testMissingMethod";
         WebTarget target = getWebTarget();
-        
         
         JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();        
         JsonObject PatientJsonObject = readJsonObjectFromFile("Patient_JohnDoe.json");
@@ -237,9 +265,7 @@ public class BundleTest extends FHIRServerTestBase {
 
     @Test(groups = { "batch" })
     public void testMissingResource() throws Exception {
-        String method = "testMissingResource";
         WebTarget target = getWebTarget();
-        
         
         JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();        
         JsonObject requestJsonObject = getRequestJsonObject("POST", "Patient");
@@ -276,7 +302,6 @@ public class BundleTest extends FHIRServerTestBase {
 
     @Test(groups = { "batch" })
     public void testMissingRequestURL() throws Exception {
-        String method = "testMissingRequestURL";
         WebTarget target = getWebTarget();
 
         JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();        
@@ -316,7 +341,6 @@ public class BundleTest extends FHIRServerTestBase {
 
     @Test(groups = { "batch" })
     public void testInvalidResource() throws Exception {
-        String method = "testInvalidResource";
         WebTarget target = getWebTarget();
         
         JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();        
@@ -367,7 +391,6 @@ public class BundleTest extends FHIRServerTestBase {
 
     @Test(groups = { "batch" })
     public void testInvalidSecondResource() throws Exception {
-        String method = "testInvalidSecondResource";
         WebTarget target = getWebTarget();
         
         
@@ -413,8 +436,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 3);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
@@ -442,8 +465,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
@@ -473,8 +496,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -506,8 +530,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -548,8 +573,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
@@ -592,8 +618,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
                 "If-Match version '1' does not match current latest version of resource: 3");
@@ -636,8 +663,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
                 "If-Match version '2' does not match current latest version of resource: 3");
@@ -668,10 +696,9 @@ public class BundleTest extends FHIRServerTestBase {
         FHIRResponse response = getFHIRClient().batch(bundle);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.getResource(Bundle.class);
-        assertNotNull(responseBundle);
-
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
@@ -702,8 +729,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -724,8 +752,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
@@ -759,8 +788,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
@@ -787,8 +817,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
 
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
@@ -834,8 +865,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
@@ -860,8 +892,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
@@ -895,8 +928,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
@@ -934,8 +968,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 6);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -991,8 +1026,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
@@ -1036,8 +1072,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
@@ -1075,8 +1112,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -1115,8 +1153,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -1145,14 +1184,16 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
-
+        checkForIssuesWithValidation(patientVA2, true, false);
+                
         assertNotNull(patientTVA1);
         Response res2 = target.path("Patient/" + patientTVA1.getId().getValue())
                 .request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
         assertNotNull(patientVA1);
-
+        checkForIssuesWithValidation(patientVA1, true, false);
+        
         // Retrieve the family names of the resources to be updated.
         String family1 = patientVA1.getName().get(0).getFamily().getValue();
         String family2 = patientVA2.getName().get(0).getFamily().getValue();
@@ -1166,14 +1207,13 @@ public class BundleTest extends FHIRServerTestBase {
                 patientVA1);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"",
                 patientVA2);
-
         printBundle(method, "request", bundle);
 
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
                 "If-Match version '1' does not match current latest version of resource: 2");
@@ -1211,8 +1251,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
                 "If-Match version '1' does not match current latest version of resource: 2");
@@ -1250,8 +1290,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         boolean foundError = assertOptionalBadResponse(responseBundle.getEntry().get(0),
                 Status.CONFLICT.getStatusCode(),
@@ -1298,6 +1338,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         assertNotNull(responseBundle);
+        checkForIssuesWithValidation(responseBundle, true, false);
 
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
@@ -1340,8 +1381,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 3);
 
         assertSearchResults(target, uniqueFamily1, 0);
@@ -1376,8 +1417,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 3);
         assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(),
                 "Bundle.Entry.resource must contain an id field for a PUT operation");
@@ -1421,8 +1462,7 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 4);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -1482,10 +1522,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-
-        printBundle(method, "response", responseBundle);
-
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         // Verify that each resource was created as expected.
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 6);
         for (int i = 0; i < 6; i++) {
@@ -1540,9 +1578,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         // Verify that each resource was created as expected.
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
@@ -1617,9 +1654,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         // Verify that each of the Observations was updated,
         // and that each of the Patients was created.
@@ -1688,9 +1724,10 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
+        
         Bundle responseBundle = response.readEntity(Bundle.class);
-
         printBundle(method, "response", responseBundle);
+        checkForIssuesWithValidation(responseBundle, true, false);
 
         // Verify that the first patient was created, and the second was not.
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
@@ -1723,9 +1760,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         // Verify that the observation request failed, and the patient request succeeded
         assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
@@ -1782,9 +1818,7 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         // Verify that each resource was created as expected.
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 5);
@@ -1853,9 +1887,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         // Verify that response bundle.
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
@@ -1889,8 +1922,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
@@ -1920,8 +1954,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 3);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.NO_CONTENT.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
@@ -1952,8 +1987,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.GONE.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -1977,8 +2013,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
@@ -2007,8 +2044,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.NO_CONTENT.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode());
@@ -2037,8 +2075,9 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.GONE.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 4);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.GONE.getStatusCode());
     }
@@ -2065,9 +2104,11 @@ public class BundleTest extends FHIRServerTestBase {
         FHIRResponse response = client.batch(bundle);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        
         Bundle responseBundle = response.getResource(Bundle.class);
-
         printBundle(method, "response", responseBundle);
+        checkForIssuesWithValidation(responseBundle, true, false);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -2094,8 +2135,11 @@ public class BundleTest extends FHIRServerTestBase {
         FHIRResponse response = client.transaction(bundle);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
+        checkForIssuesWithValidation(responseBundle, true, false);
+        
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
@@ -2256,8 +2300,6 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchSearchAll";
         WebTarget target = getWebTarget();
 
-        String message = "Hello, World!";
-
         Bundle bundle = buildBundle(BundleType.BATCH);
 
         // Commented out because $hello operation isn't installed by default
@@ -2288,8 +2330,8 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.readEntity(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         // Commented out because $hello operation isn't installed by default
 //        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
@@ -2319,8 +2361,7 @@ public class BundleTest extends FHIRServerTestBase {
         FHIRResponse response = client.transaction(bundle);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        Bundle responseBundle = response.getResource(Bundle.class);
-        printBundle(method, "response", responseBundle);
+        Bundle responseBundle = getEntityWithExtraWork(response,method);
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
