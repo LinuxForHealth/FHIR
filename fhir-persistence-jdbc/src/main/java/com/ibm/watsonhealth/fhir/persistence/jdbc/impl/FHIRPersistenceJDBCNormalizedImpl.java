@@ -234,9 +234,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a create operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a create operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
         finally {
            log.exiting(CLASSNAME, METHODNAME);
@@ -291,7 +291,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             // If this logical resource didn't exist and the "updateCreate" feature is not enabled,
             // then this is an error.
             if (existingVersion == 0 && !updateCreateEnabled) {
-                String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + " not found.";
+                String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' not found.";
                 log.log(Level.SEVERE, msg);
                 throw new FHIRPersistenceResourceNotFoundException(msg);
             }
@@ -349,9 +349,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing an update operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            // don't chain the exception to avoid leaking secrets
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing an update operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -423,9 +424,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a search operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a search operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -531,9 +532,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a delete operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a delete operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -563,9 +564,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a read operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a read operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -627,9 +629,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             throw e;
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a history operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a history operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -666,9 +668,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             throw new FHIRPersistenceException("Invalid version id specified for vread operation: " + versionId);
         }
         catch(Throwable e) {
-            String msg = "Unexpected error while performing a version read operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a version read operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -755,7 +757,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 this.trxSynchRegistry = (TransactionSynchronizationRegistry) ctxt.lookup(TRX_SYNCH_REG_JNDI_NAME);
             }
             catch(Throwable e) {
-                throw new FHIRPersistenceException("Failed to acquire TrxSynchRegistry service", e);
+                FHIRPersistenceException fx = new FHIRPersistenceException("Failed to acquire TrxSynchRegistry service");
+                log.log(Level.SEVERE, fx.getMessage(), e);
+                throw fx;
             }
         }
         
