@@ -53,7 +53,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
-        assertEquals(4, conf.getFormat().size());
+        assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
     }
@@ -71,7 +71,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
-        assertEquals(4, conf.getFormat().size());
+        assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
     }

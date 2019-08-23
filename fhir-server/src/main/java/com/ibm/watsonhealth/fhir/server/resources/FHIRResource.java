@@ -3421,6 +3421,8 @@ public class FHIRResource implements FHIRResourceHelpers {
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion() + " build id " + buildInfo.getBuildId() + "";
 
         List<Code> format = new ArrayList<Code>();
+        format.add(Code.of(Format.JSON.toString().toLowerCase()));
+        format.add(Code.of(Format.XML.toString().toLowerCase()));
         format.add(Code.of(MediaType.APPLICATION_JSON));
         format.add(Code.of(MediaType.APPLICATION_FHIR_JSON));
         format.add(Code.of(MediaType.APPLICATION_XML));

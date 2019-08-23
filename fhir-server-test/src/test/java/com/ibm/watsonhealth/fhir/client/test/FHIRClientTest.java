@@ -97,7 +97,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
-        assertEquals(4, conf.getFormat().size());
+        assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
     }
@@ -114,7 +114,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         CapabilityStatement conf = response.getResource(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
-        assertEquals(4, conf.getFormat().size());
+        assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
     }
