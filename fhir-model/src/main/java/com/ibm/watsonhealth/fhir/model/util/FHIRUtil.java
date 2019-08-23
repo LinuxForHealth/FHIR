@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
+import static com.ibm.watsonhealth.fhir.model.FHIRModel.*;
+import static com.ibm.watsonhealth.fhir.model.FHIRModel.getToStringIndentAmountOrDefault;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static java.util.Objects.nonNull;
 
@@ -40,6 +42,7 @@ import javax.json.JsonValue;
 
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
+import com.ibm.watsonhealth.fhir.model.FHIRModel;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
@@ -105,13 +108,14 @@ import com.ibm.watsonhealth.fhir.model.type.Url;
 import com.ibm.watsonhealth.fhir.model.type.UsageContext;
 import com.ibm.watsonhealth.fhir.model.type.Uuid;
 import com.ibm.watsonhealth.fhir.model.type.Xhtml;
+import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 /**
  * Utility methods for working with the FHIR object model. 
  */
 public class FHIRUtil {
-    private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
+    private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
         Base64Binary.class,
@@ -165,11 +169,9 @@ public class FHIRUtil {
         TriggerDefinition.class,
         UsageContext.class,
         Dosage.class));
-    
     private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
 
-    private FHIRUtil() {
-    }
+    private FHIRUtil() { }
 
     /**
      * Loads the class in the classloader in order to initialize static members.
@@ -178,7 +180,33 @@ public class FHIRUtil {
     public static void init() {
         // allows us to initialize this class during startup
     }
+    
+    /**
+     * Converts a Visitable (Element or Resource) instance to a string using a FHIRGenerator.
+     * 
+     * <p>The toString format (JSON or XML) can be specified through {@link FHIRModel#setToStringFormat(Format)}.
+     * 
+     * @param visitable
+     *     the Element or Resource instance to be converted
+     * @return
+     *     the String version of the element or resource
+     */
+    public static String toString(Visitable visitable) {
+        try {
+            FHIRGenerator generator = FHIRGenerator.generator(getToStringFormatOrDefault(Format.JSON), getToStringPrettyPrintingOrDefault(true));
+            if (generator.isPropertySupported(FHIRGenerator.PROPERTY_INDENT_AMOUNT)) {
+                // indent amount is only supported by the XML generator and is only applicable if prettyPrinting is turned on
+                generator.setProperty(FHIRGenerator.PROPERTY_INDENT_AMOUNT, getToStringIndentAmountOrDefault(2));
+            }
+            StringWriter writer = new StringWriter();
+            generator.generate(visitable, writer);
+            return writer.toString();
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
+    }
 
+    @Deprecated
     private static Map<String, String> buildConcreteTypeNameMap() {
         Map<String, String> concreteTypeNameMap = new HashMap<>();
         concreteTypeNameMap.put("SimpleQuantity", "Quantity");
@@ -193,7 +221,9 @@ public class FHIRUtil {
      *            the type name
      * @return the name of the concrete type (if one exists) (e.g. Quantity for SimpleQuantity) otherwise, return input
      *         parameter
+     * @deprecated use {@link ModelSupport#getConcreteType(Class)}
      */
+    @Deprecated
     public static String getConcreteTypeName(String typeName) {
         if (isProfiledType(typeName)) {
             return CONCRETE_TYPE_NAME_MAP.get(typeName);
@@ -201,6 +231,10 @@ public class FHIRUtil {
         return typeName;
     }
 
+    /**
+     * @deprecated use {@link ModelSupport#isProfiledType(Class)}
+     */
+    @Deprecated
     public static boolean isProfiledType(String typeName) {
         return CONCRETE_TYPE_NAME_MAP.containsKey(typeName);
     }
@@ -215,14 +249,23 @@ public class FHIRUtil {
         return Pattern.compile(sb.toString());
     }
 
+    /**
+     * @deprecated use {@link ModelSupport#isResourceType(String)}
+     */
+    @Deprecated
     public static boolean isStandardResourceType(String name) {
         return RESOURCE_TYPE_MAP.containsKey(name);
     }
 
+    /**
+     * @deprecated use {@link ModelSupport#getResourceType(String)}
+     */
+    @Deprecated
     public static Class<?> getResourceType(String name) {
         return RESOURCE_TYPE_MAP.get(name);
     }
 
+    @Deprecated
     private static Map<String, Class<?>> buildResourceTypeMap() {
         Map<String, Class<?>> resourceTypeMap = new LinkedHashMap<>();
         for (ResourceType.ValueSet value : ResourceType.ValueSet.values()) {
@@ -237,6 +280,10 @@ public class FHIRUtil {
         return resourceTypeMap;
     }
 
+    /**
+     * @deprecated use {@link ModelSupport#getTypeName(Class)}
+     */
+    @Deprecated
     public static String getTypeName(Class<?> type) {
         String typeName = type.getSimpleName();
         if (Code.class.isAssignableFrom(type)) {
@@ -247,6 +294,10 @@ public class FHIRUtil {
         return typeName;
     }
 
+    /**
+     * @deprecated use {@link ModelSupport#isPrimitiveType(Class)}
+     */
+    @Deprecated
     public static boolean isPrimitiveType(Class<?> type) {
         return Base64Binary.class.equals(type) ||
             com.ibm.watsonhealth.fhir.model.type.Boolean.class.equals(type) ||
@@ -261,6 +312,10 @@ public class FHIRUtil {
             Xhtml.class.equals(type);
     }
 
+    /**
+     * @deprecated use {@link ModelSupport#isChoiceElementType(Class)}
+     */
+    @Deprecated
     public static boolean isChoiceElementType(Class<?> type) {
         return CHOICE_ELEMENT_TYPES.contains(type);
     }

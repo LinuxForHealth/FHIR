@@ -26,8 +26,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.lang.model.SourceVersion;
-
 import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.annotation.Required;
@@ -321,16 +319,6 @@ public final class ModelSupport {
             return elementInfo.getType();
         }
         return null;
-    }
-    
-    public static String getFieldName(String elementName) {
-        if ("class".equals(elementName)) {
-            return "clazz";
-        }
-        if (SourceVersion.isKeyword(elementName)) {
-            return "_" + elementName;
-        }
-        return elementName;
     }
     
     private static Class<?> getFieldType(Field field) {

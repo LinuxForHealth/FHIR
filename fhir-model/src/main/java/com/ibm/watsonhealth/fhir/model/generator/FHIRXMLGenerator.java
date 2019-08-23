@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.generator;
 
 import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
+import static com.ibm.watsonhealth.fhir.model.util.ModelSupport.isPrimitiveType;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS_URI;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.createStreamWriterDelegate;
 
@@ -52,9 +52,11 @@ import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.Xhtml;
 import com.ibm.watsonhealth.fhir.model.util.XMLSupport.StreamWriterDelegate;
+import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
-
-public class FHIRXMLGenerator implements FHIRGenerator {
+public class FHIRXMLGenerator extends FHIRAbstractGenerator {
+    private static final int DEFAULT_INDENT_AMOUNT = 2;
+    
     private final boolean prettyPrinting;
     
     protected FHIRXMLGenerator() {
@@ -66,12 +68,13 @@ public class FHIRXMLGenerator implements FHIRGenerator {
     }
 
     @Override
-    public void generate(Resource resource, OutputStream out) throws FHIRGeneratorException {
+    public void generate(Visitable visitable, OutputStream out) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
         try (StreamWriterDelegate delegate = createStreamWriterDelegate(out)) {
-            visitor = new XMLGeneratingVisitor(delegate, prettyPrinting);
+            int indentAmount = getPropertyOrDefault(FHIRGenerator.PROPERTY_INDENT_AMOUNT, DEFAULT_INDENT_AMOUNT, java.lang.Integer.class);
+            visitor = new XMLGeneratingVisitor(delegate, prettyPrinting, indentAmount);
             delegate.setDefaultNamespace(FHIR_NS_URI);
-            resource.accept(visitor);
+            visitable.accept(visitor);
             delegate.flush();
         } catch (Exception e) {
             throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
@@ -79,12 +82,13 @@ public class FHIRXMLGenerator implements FHIRGenerator {
     }
 
     @Override
-    public void generate(Resource resource, Writer writer) throws FHIRGeneratorException {
+    public void generate(Visitable visitable, Writer writer) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
         try (StreamWriterDelegate delegate = createStreamWriterDelegate(writer)) {
-            visitor = new XMLGeneratingVisitor(delegate, prettyPrinting);
+            int indentAmount = getPropertyOrDefault(FHIRGenerator.PROPERTY_INDENT_AMOUNT, DEFAULT_INDENT_AMOUNT, java.lang.Integer.class);
+            visitor = new XMLGeneratingVisitor(delegate, prettyPrinting, indentAmount);
             delegate.setDefaultNamespace(FHIR_NS_URI);
-            resource.accept(visitor);
+            visitable.accept(visitor);
             delegate.flush();
         } catch (Exception e) {
             throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
@@ -101,9 +105,18 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         // do nothing
     }
     
+    @Override
+    public boolean isPropertySupported(java.lang.String name) {
+        if (FHIRGenerator.PROPERTY_INDENT_AMOUNT.equals(name)) {
+            return true;
+        }
+        return false;
+    }
+
     private static class XMLGeneratingVisitor extends GeneratingVisitor {
         private final XMLStreamWriter writer;
         private final boolean prettyPrinting;
+        private final int indentAmount;
         
         private static final TransformerFactory TRANSFORMER_FACTORY = createTransformerFactory();
         private static final ThreadLocal<Transformer> THREAD_LOCAL_TRANSFORMER = new ThreadLocal<Transformer>() {
@@ -114,9 +127,13 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         
         private int indentLevel = 0;
                 
-        private XMLGeneratingVisitor(XMLStreamWriter writer, boolean prettyPrinting) {
+        private XMLGeneratingVisitor(XMLStreamWriter writer, boolean prettyPrinting, int indentAmount) {
             this.writer = writer;
             this.prettyPrinting = prettyPrinting;
+            this.indentAmount = indentAmount;
+            if (this.indentAmount < 0) {
+                throw new IllegalStateException("Indent amount must be a non-negative number");
+            }
         }
         
         private static Transformer createTransformer() {
@@ -141,7 +158,9 @@ public class FHIRXMLGenerator implements FHIRGenerator {
             if (prettyPrinting) {
                 for (int i = 0; i < indentLevel; i++) {
                     try {
-                        writer.writeCharacters("  ");
+                        for (int j = 0; j < indentAmount; j++) {
+                            writer.writeCharacters(" ");
+                        }
                     } catch (XMLStreamException e) {
                         throw new RuntimeException(e);
                     }
@@ -377,6 +396,16 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 .birthDate(Date.of(LocalDate.now()))
                 .build();
     
-        FHIRGenerator.generator(Format.XML, true).generate(patient, System.out);
+        FHIRGenerator generator = FHIRGenerator.generator(Format.XML, true);
+        generator.generate(patient, System.out);
+
+        System.out.println("");
+        
+        generator.setProperty(PROPERTY_INDENT_AMOUNT, 4);
+        generator.generate(patient, System.out);
+        
+        System.out.println("");
+        
+        System.out.println(patient.getMultipleBirth());
     }
 }

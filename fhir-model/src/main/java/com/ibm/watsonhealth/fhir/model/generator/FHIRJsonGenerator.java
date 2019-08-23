@@ -6,9 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.generator;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
 import static com.ibm.watsonhealth.fhir.model.util.JsonSupport.nonClosingOutputStream;
 import static com.ibm.watsonhealth.fhir.model.util.JsonSupport.nonClosingWriter;
+import static com.ibm.watsonhealth.fhir.model.util.ModelSupport.isPrimitiveType;
 
 import java.io.FilterOutputStream;
 import java.io.FilterWriter;
@@ -51,7 +51,7 @@ import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.Xhtml;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
-public class FHIRJsonGenerator implements FHIRGenerator {
+public class FHIRJsonGenerator extends FHIRAbstractGenerator {
     private static final JsonGeneratorFactory GENERATOR_FACTORY = Json.createGeneratorFactory(null);
     private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY = createPrettyPrintingGeneratorFactory();
         
@@ -66,11 +66,11 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     }
     
     @Override
-    public void generate(Resource resource, OutputStream out) throws FHIRGeneratorException {
+    public void generate(Visitable visitable, OutputStream out) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
         try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(out) : nonClosingOutputStream(out), StandardCharsets.UTF_8)) {
             visitor = new JsonGeneratingVisitor(generator);
-            resource.accept(visitor);
+            visitable.accept(visitor);
             generator.flush();
         } catch (Exception e) {
             throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
@@ -78,17 +78,17 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     }
 
     @Override
-    public void generate(Resource resource, Writer writer) throws FHIRGeneratorException {
+    public void generate(Visitable visitable, Writer writer) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
         try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(writer) : nonClosingWriter(writer))) {
             visitor = new JsonGeneratingVisitor(generator);
-            resource.accept(visitor);
+            visitable.accept(visitor);
             generator.flush();
         } catch (Exception e) {
             throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
         }
     }
-    
+
     @Override
     public boolean isPrettyPrinting() {
         return prettyPrinting;
@@ -335,6 +335,9 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                     generate(element);
                     generator.writeEnd();
                 }
+                if (getDepth() == 1) {
+                    generator.writeEnd();
+                }
             } else {
                 generator.writeEnd();
             }
@@ -371,6 +374,8 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                     elementName = getChoiceElementName(elementName, element.getClass());
                 }
                 writeStartObject(elementName, elementIndex);
+            } else if (getDepth() == 1) {
+                generator.writeStartObject();
             }
         }
         
@@ -492,6 +497,8 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 .birthDate(Date.of(LocalDate.now()))
                 .build();
     
-        FHIRGenerator.generator(Format.JSON, true).generate(patient, System.out);
+        FHIRGenerator generator = FHIRGenerator.generator(Format.JSON, true);
+        generator.setProperty(PROPERTY_INDENT_AMOUNT, 4);
+        generator.generate(patient, System.out);
     }
 }

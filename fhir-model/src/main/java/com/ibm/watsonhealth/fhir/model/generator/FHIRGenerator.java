@@ -11,16 +11,26 @@ import java.io.Writer;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public interface FHIRGenerator {
-    void generate(Resource resource, OutputStream out) throws FHIRGeneratorException;
-    void generate(Resource resource, Writer writer) throws FHIRGeneratorException;
+    public static final java.lang.String PROPERTY_INDENT_AMOUNT = "com.ibm.watsonhealth.fhir.model.generator.indentAmount";
+    
+    void generate(Visitable visitable, OutputStream out) throws FHIRGeneratorException;
+    void generate(Visitable visitable, Writer writer) throws FHIRGeneratorException;
+
     boolean isPrettyPrinting();
     void reset();
-    default <T extends FHIRGenerator> T as(Class<T> generatorClass) {
-        return generatorClass.cast(this);
-    }
+    
+    void setProperty(String name, Object value);
+    Object getProperty(String name);
+    Object getPropertyOrDefault(String name, Object defaultValue);
+    <T> T getProperty(String name, Class<T> type);
+    <T> T getPropertyOrDefault(String name, T defaultValue, Class<T> type);
+    boolean isPropertySupported(String name);
+    
+    <T extends FHIRGenerator> T as(Class<T> generatorClass);
+    
     static FHIRGenerator generator(Format format, boolean prettyPrinting) {
         switch (format) {
         case JSON:
@@ -29,9 +39,10 @@ public interface FHIRGenerator {
             return new FHIRXMLGenerator(prettyPrinting);
         case RDF:
         default:
-            throw new UnsupportedOperationException(String.format("Unsupported format: %s", format));
+            throw new IllegalArgumentException("Unsupported format: " + format);
         }
     }
+    
     static FHIRGenerator generator(Format format) {
         return generator(format, false);
     }

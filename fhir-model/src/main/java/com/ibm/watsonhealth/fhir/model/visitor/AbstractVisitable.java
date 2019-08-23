@@ -15,6 +15,8 @@ import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.List;
 
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+
 public abstract class AbstractVisitable implements Visitable {
     @Override
     public abstract void accept(String elementName, int elementIndex, Visitor visitor);
@@ -109,5 +111,10 @@ public abstract class AbstractVisitable implements Visitable {
         } else if (temporal instanceof Year) {
             visitor.visit(elementName, (Year) temporal);
         }
+    }
+    
+    @Override
+    public String toString() {
+        return FHIRUtil.toString(this);
     }
 }
