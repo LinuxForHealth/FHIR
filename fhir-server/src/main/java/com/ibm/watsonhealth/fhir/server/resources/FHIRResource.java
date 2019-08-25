@@ -3369,6 +3369,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     .conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
                     .updateCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
                     .conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE))
+                    .searchParam(conformanceSearchParams)
                     .build();
 
             resources.add(cr);
