@@ -100,11 +100,11 @@ if errorlevel 1 (
 echo The FHIR Server has been successfully deployed to the
 echo Websphere Liberty runtime located at: %WLP_ROOT%
 echo The following manual steps must be completed before the server can be started:
-echo 1. Make sure that your selected database (e.g. Derby, DB2) is active and 
+echo 1. Make sure that your selected database (e.g. Derby, DB2) is active and
 echo    ready to accept requests.
-echo 2. Modify the server.xml and fhir-server-config.json files located at %WLP_ROOT%\usr\servers\fhir-server 
+echo 2. Modify the server.xml and fhir-server-config.json files located at %WLP_ROOT%\usr\servers\fhir-server
 echo    to properly configure the server according to your requirements.
-echo    This includes the definition of the server listener ports, as well as the selection 
+echo    This includes the definition of the server listener ports, as well as the selection
 echo    of the datastore and other associated configuration.
 echo 3. The fhir-server application requires Java 8.
 echo    Be sure to set the JAVA_HOME environment variable to point to your Java 8 installation
