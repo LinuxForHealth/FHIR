@@ -53,60 +53,10 @@ import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
  * @author markd
  *
  */
-
-package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
-
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.transaction.TransactionSynchronizationRegistry;
-
-import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
-import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.derby.DerbyResourceDAO;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
-import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
-
-
-/**
- * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
- * relational schema.
- * @author markd
- *
- */
 public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements ResourceNormalizedDAO {
     private static final Logger log = Logger.getLogger(ResourceDAONormalizedImpl.class.getName());
-    private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName(); 
-    
+    private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName();
+
     // Read the current version of the resource
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                             "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
@@ -116,38 +66,38 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     private static final String SQL_VERSION_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                       "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
-    
-    
+
+
     //                                                                                 0                 1                   2
     //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
     private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    
+
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                  "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                  "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
                                               "ORDER BY R.VERSION_ID DESC ";
-    
+
     // Count the number of versions we have for the resource identified by its logical-id
     private static final String SQL_HISTORY_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
                                                     "R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
-    
+
     private static final String SQL_HISTORY_FROM_DATETIME = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                               "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                               "LR.LOGICAL_ID = ? AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
                                                               "ORDER BY R.VERSION_ID DESC ";
-    
+
     private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
                                                                   "R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
-    
+
     private static final String SQL_READ_ALL_RESOURCE_TYPE_NAMES = "SELECT RESOURCE_TYPE_ID, RESOURCE_TYPE FROM RESOURCE_TYPES";
-    
+
     private static final String SQL_READ_RESOURCE_TYPE = "CALL %s.add_resource_type(?, ?)";
-    
+
     private static final String SQL_SEARCH_BY_IDS = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
-                                                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " + 
+                                                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
                                                     "R.RESOURCE_ID IN ";
-    
+
     private FHIRPersistenceContext context;
     private ReplicationInfo replicationInfo;
     private boolean isRepInfoRequired;
@@ -155,7 +105,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     private boolean runningInTrx = false;
     private ResourceTypesCacheUpdater rtCacheUpdater = null;
     private TransactionSynchronizationRegistry trxSynchRegistry;
-    
+
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
@@ -164,7 +114,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
     }
-    
+
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
@@ -179,11 +129,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "read";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         Resource resource = null;
         List<Resource> resources;
         String stmtString = null;
-                        
+
         try {
             stmtString = String.format(SQL_READ, resourceType, resourceType);
             resources = this.runQuery(stmtString, logicalId);
@@ -202,11 +152,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "versionRead";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         Resource resource = null;
         List<Resource> resources;
         String stmtString = null;
-        
+
         try {
             stmtString = String.format(SQL_VERSION_READ, resourceType, resourceType);
             resources = this.runQuery(stmtString, logicalId, versionId);
@@ -218,7 +168,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             log.exiting(CLASSNAME, METHODNAME);
         }
         return resource;
-                
+
     }
 
 
@@ -231,9 +181,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     protected Resource createDTO(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "createDTO";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         Resource resource = new Resource();
-        
+
         try {
             resource.setData(resultSet.getBytes("DATA"));
             resource.setId(resultSet.getLong("RESOURCE_ID"));
@@ -249,19 +199,19 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-        
+
         return resource;
     }
 
     @Override
-    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults) 
+    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults)
                                     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "history";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         List<Resource> resources = null;
         String stmtString = null;
-                
+
         try {
             if (fromDateTime != null) {
                 stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType, resourceType);
@@ -285,7 +235,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                     resources = this.runQuery(stmtString, logicalId, offset, maxResults);
                 }
             }
-        } 
+        }
         catch (SQLException e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure running history query");
             String errMsg = "Failure running history query: " + stmtString;
@@ -301,10 +251,10 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     public int historyCount(String resourceType, String logicalId, Timestamp fromDateTime) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "historyCount";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         int count;
         String stmtString;
-                
+
         try {
             if (fromDateTime != null) {
                 stmtString = String.format(SQL_HISTORY_FROM_DATETIME_COUNT, resourceType, resourceType);
@@ -325,18 +275,18 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     public List<Resource> search(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "search(SqlQueryData)";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         List<Resource> resources;
         String sqlSelect = queryData.getQueryString();
         Object[] bindVariables = queryData.getBindVariables().toArray();
-        
+
         try {
             resources = this.runQuery(sqlSelect, bindVariables);
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-                
+
         return resources;
     }
 
@@ -344,11 +294,11 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     public int searchCount(SqlQueryData queryData)     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchCount(SqlQueryData)";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         int count;
         String sqlSelectCount = queryData.getQueryString();
         Object[] bindVariables = queryData.getBindVariables().toArray();
-                
+
         try {
             count = this.runCountQuery(sqlSelectCount, bindVariables);
         }
@@ -362,14 +312,14 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     public void setPersistenceContext(FHIRPersistenceContext context) {
         this.context = context;
     }
-    
+
     private ReplicationInfo getReplicationInfo(boolean isLogicalDelete) throws FHIRPersistenceDataAccessException {
         ReplicationInfo repInfo = null;
-        
+
         // If a ReplicationInfo is found in the persistence event, use it. Otherwise, create a dummy ReplicationInfo.
         if (this.replicationInfo == null) {
             if (nonNull(this.context) &&
-                nonNull(this.context.getPersistenceEvent()) && 
+                nonNull(this.context.getPersistenceEvent()) &&
                 nonNull(this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO))) {
                 repInfo = (ReplicationInfo)this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
             }
@@ -379,7 +329,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             else {
                 repInfo = new ReplicationInfo();
             }
-            // Ensure that all ReplilcationInfo attributes that are required to be non-null in the fhir_replication_log table 
+            // Ensure that all ReplilcationInfo attributes that are required to be non-null in the fhir_replication_log table
             // do indeed have non-null values.
             if (isNull(repInfo.getTxCorrelationId())) {
                 repInfo.setTxCorrelationId("");
@@ -402,25 +352,25 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             if (isNull(repInfo.getServiceId())) {
                 repInfo.setServiceId("");
             }
-            
+
             this.replicationInfo = repInfo;
         }
         return this.replicationInfo;
     }
-    
+
     private FHIRReplicationContext getReplicationContext() {
         FHIRReplicationContext replicationContext = null;
-        
+
         if (nonNull(this.context) && nonNull(this.context.getPersistenceEvent())) {
                 replicationContext = this.context.getPersistenceEvent().getReplicationContext();
         }
-        
+
         return replicationContext;
     }
-    
+
     private Integer getReplicationVersionId() {
         Integer repVersionId = null;
-        
+
         FHIRReplicationContext repContext = this.getReplicationContext();
         if (nonNull(repContext) && nonNull(repContext.getVersionId())) {
             repVersionId = Integer.valueOf(repContext.getVersionId());
@@ -434,41 +384,41 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
      */
     private Timestamp getReplicationLastUpdated() {
         Timestamp repLastUpdated = null;
-                
+
         FHIRReplicationContext repContext = this.getReplicationContext();
         if (nonNull(repContext) && nonNull(repContext.getLastUpdated())) {
             repLastUpdated = Timestamp.from(repContext.getLastUpdated());
         }
-        
+
         return repLastUpdated;
     }
-    
-    
+
+
     @Override
     public Map<String, Integer> readAllResourceTypeNames()
                                          throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
         final String METHODNAME = "readAllResourceTypeNames";
         log.entering(CLASSNAME, METHODNAME);
-                
+
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         Map<String, Integer> result = new HashMap<>();
         long dbCallStartTime;
         double dbCallDuration;
-                
+
         try {
             connection = this.getConnection();
             stmt = connection.prepareStatement(SQL_READ_ALL_RESOURCE_TYPE_NAMES);
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
-            
+
             while (resultSet.next()) {
                 final int resourceTypeId = resultSet.getInt(1);
                 final String resourceType = resultSet.getString(2);
                 result.put(resourceType, resourceTypeId);
             }
-            
+
             if (log.isLoggable(Level.FINE)) {
                 dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
                 log.fine("DB read all resource type complete. executionTime=" + dbCallDuration + "ms");
@@ -483,16 +433,16 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             this.cleanup(stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-                
+
         return result;
     }
 
-    
+
     @Override
     public Integer readResourceTypeId(String resourceType) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
         final String METHODNAME = "readResourceTypeId";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         Connection connection = null;
         CallableStatement stmt = null;
         Integer parameterNameId = null;
@@ -500,12 +450,12 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         String stmtString;
         long dbCallStartTime;
         double dbCallDuration;
-                
+
         try {
             connection = this.getConnection();
             currentSchema = connection.getSchema().trim();
             stmtString = String.format(SQL_READ_RESOURCE_TYPE, currentSchema);
-            stmt = connection.prepareCall(stmtString); 
+            stmt = connection.prepareCall(stmtString);
             stmt.setString(1, resourceType);
             stmt.registerOutParameter(2, Types.INTEGER);
             dbCallStartTime = System.nanoTime();
@@ -523,7 +473,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             final String errMsg = "Failure storing Resource type name id: name=" + resourceType;
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
             throw severe(log, fx, e);
-        } 
+        }
         finally {
             this.cleanup(stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
@@ -534,7 +484,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     @Override
     public void setRepInfoRequired(boolean isRepInfoRequired) {
         this.isRepInfoRequired = isRepInfoRequired;
-        
+
     }
 
     @Override
@@ -546,14 +496,14 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     public List<Long> searchForIds(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchForIds";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         List<Long> resourceIds = new ArrayList<>();
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         long dbCallStartTime;
         double dbCallDuration;
-        
+
         try {
             connection = this.getConnection();
             stmt = connection.prepareStatement(queryData.getQueryString());
@@ -578,7 +528,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids");
             final String errMsg = "Failure retrieving FHIR Resource Ids. SqlQueryData=" + queryData;
             throw severe(log, fx, errMsg, e);
-        } 
+        }
         finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
@@ -590,7 +540,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     public List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchByIds";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
@@ -600,7 +550,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         String stmtString = null;
         long dbCallStartTime;
         double dbCallDuration;
-        
+
         try {
             stmtString = String.format(this.getSearchByIdsSql(resourceType));
             idQuery.append(stmtString);
@@ -612,7 +562,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                 idQuery.append(resourceIds.get(i));
             }
             idQuery.append(")");
-                        
+
             connection = this.getConnection();
             stmt = connection.prepareStatement(idQuery.toString());
             dbCallStartTime = System.nanoTime();
@@ -630,7 +580,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources");
             errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
             throw severe(log, fx, errMsg, e);
-        } 
+        }
         finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
@@ -639,14 +589,14 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     }
 
     protected String getSearchByIdsSql(String resourceType) {
-        
+
         String stmtString;
         stmtString = String.format(SQL_SEARCH_BY_IDS, resourceType, resourceType);
         return stmtString;
-    }    
-    
+    }
+
      /**
-     * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache. 
+     * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache.
      * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
      * @param resourceType A valid FHIR resource type.
      * @param resourceTypeId The corresponding id for the resource type.
@@ -656,7 +606,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     public void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException {
         final String METHODNAME = "addResourceTypeCacheCandidate";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         if (this.runningInTrx && ResourceTypesCache.isEnabled()) {
             if (this.rtCacheUpdater == null) {
                 // Register a new ResourceTypeCacheUpdater for this thread/trx, if one hasn't been already registered.
@@ -671,18 +621,18 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             }
             this.newResourceTypeIds.put(resourceType, resourceTypeId);
         }
-        
-            
+
+
         log.exiting(CLASSNAME, METHODNAME);
-        
+
     }
-    
+
     @Override
     public Resource insert(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
             final String METHODNAME = "insert(Resource, List<Parameter>";
-            log.entering(CLASSNAME, METHODNAME); 
-            
+            log.entering(CLASSNAME, METHODNAME);
+
             try {
                 if (this.isDb2Database()) {
                     resource = this.insertToDb2(resource, parameters, parameterDao);
@@ -694,13 +644,13 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             catch(SQLException e) {
                 throw new FHIRPersistenceDataAccessException("Failure determining database type.",e);
             }
-            
+
             return resource;
     }
 
     /**
      * Inserts the passed FHIR Resource and associated search parameters to a DB2 FHIR database.
-     * This method will call the DB2 stored procedure defined in the SQL_INSERT_WITH_PARAMETERS constant. 
+     * This method will call the DB2 stored procedure defined in the SQL_INSERT_WITH_PARAMETERS constant.
      * Both the Resource and its search parameters are stored at the same time by the stored procedure.
      * @param resource The FHIR Resource to be inserted.
      * @param parameters The Resource's search parameters to be inserted.
@@ -708,13 +658,13 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
      * @return The Resource DTO
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceVersionIdMismatchException 
+     * @throws FHIRPersistenceVersionIdMismatchException
      */
     private Resource insertToDb2(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
                     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDb2";
         log.entering(CLASSNAME, METHODNAME);
-         
+
         Connection connection = null;
         CallableStatement stmt = null;
         String currentSchema;
@@ -724,10 +674,10 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
-                
+
         try {
             connection = this.getConnection();
-                        
+
             resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
@@ -738,7 +688,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                 acquiredFromCache = true;
             }
             if (log.isLoggable(Level.FINE)) {
-                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId + 
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
                          "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
             }
 
@@ -766,16 +716,16 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getServiceId());
             stmt.setString(16, this.getReplicationInfo(resource.isDeleted()).getPatientId());
             stmt.setObject(17, this.getReplicationVersionId(), Types.INTEGER);
-            stmt.setInt(18, resource.getVersionId());            
+            stmt.setInt(18, resource.getVersionId());
             stmt.setString(19, this.isRepInfoRequired() ? "Y": "N");
             stmt.registerOutParameter(20, Types.BIGINT);
-            
+
             dbCallStartTime = System.nanoTime();
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            
+
             resource.setId(stmt.getLong(20));
-            
+
             // Parameter time - enable multitenncy on the DAO.
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
             if (parameters != null) {
@@ -786,8 +736,8 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                     }
                 }
             }
-            
-            
+
+
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
             }
@@ -817,13 +767,13 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             this.cleanup(stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-        
+
         return resource;
     }
-    
+
     /**
      * Inserts the passed FHIR Resource and associated search parameters to a Derby FHIR database.
-     * This method will call the Derby stored procedure defined in the SQL_INSERT constant. 
+     * This method will call the Derby stored procedure defined in the SQL_INSERT constant.
      * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
      * by invoking the stored procedure.
      * @param resource The FHIR Resource to be inserted.
@@ -832,23 +782,23 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
      * @return The Resource DTO
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceVersionIdMismatchException 
+     * @throws FHIRPersistenceVersionIdMismatchException
      */
     private Resource insertToDerby(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDerby";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         Connection connection = null;
         Integer resourceTypeId;
         Timestamp lastUpdated, replicationLastUpdated;
         boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
-                
+
         try {
             connection = this.getConnection();
             DerbyResourceDAO derbyResourceDAO = new DerbyResourceDAO(connection);
-            
+
             resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
@@ -858,45 +808,45 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             else {
                 acquiredFromCache = true;
             }
-            
+
             if (log.isLoggable(Level.FINE)) {
-                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId + 
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
                          "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
             }
-                        
+
             replicationLastUpdated = this.getReplicationLastUpdated();
             lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
-            
-            
+
+
             dbCallStartTime = System.nanoTime();
 
-            
+
             final String sourceKey = UUID.randomUUID().toString();
 
-            long resourceId = derbyResourceDAO.storeResource(resource.getResourceType(), 
-                parameters, 
-                resource.getLogicalId(), 
-                resource.getData(), 
-                lastUpdated, 
-                resource.isDeleted(), 
-                sourceKey, 
-                this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId(), 
-                this.getReplicationInfo(resource.isDeleted()).getChangedBy(), 
-                this.getReplicationInfo(resource.isDeleted()).getCorrelationToken(), 
-                this.getReplicationInfo(resource.isDeleted()).getTenantId(), 
-                this.getReplicationInfo(resource.isDeleted()).getReason(), 
-                this.getReplicationInfo(resource.isDeleted()).getEvent(), 
-                this.getReplicationInfo(resource.isDeleted()).getSiteId(), 
-                this.getReplicationInfo(resource.isDeleted()).getStudyId(), 
-                this.getReplicationInfo(resource.isDeleted()).getServiceId(), 
-                this.getReplicationInfo(resource.isDeleted()).getPatientId(), 
-                getReplicationVersionId(), 
-                resource.getVersionId(), 
+            long resourceId = derbyResourceDAO.storeResource(resource.getResourceType(),
+                parameters,
+                resource.getLogicalId(),
+                resource.getData(),
+                lastUpdated,
+                resource.isDeleted(),
+                sourceKey,
+                this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId(),
+                this.getReplicationInfo(resource.isDeleted()).getChangedBy(),
+                this.getReplicationInfo(resource.isDeleted()).getCorrelationToken(),
+                this.getReplicationInfo(resource.isDeleted()).getTenantId(),
+                this.getReplicationInfo(resource.isDeleted()).getReason(),
+                this.getReplicationInfo(resource.isDeleted()).getEvent(),
+                this.getReplicationInfo(resource.isDeleted()).getSiteId(),
+                this.getReplicationInfo(resource.isDeleted()).getStudyId(),
+                this.getReplicationInfo(resource.isDeleted()).getServiceId(),
+                this.getReplicationInfo(resource.isDeleted()).getPatientId(),
+                getReplicationVersionId(),
+                resource.getVersionId(),
                 this.isRepInfoRequired());
-            
-            
+
+
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            
+
             resource.setId(resourceId);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
@@ -927,9 +877,9 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-        
+
         return resource;
-        
+
     }
 
 }
