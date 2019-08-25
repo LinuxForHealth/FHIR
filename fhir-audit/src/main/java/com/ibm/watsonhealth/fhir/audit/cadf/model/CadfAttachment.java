@@ -26,7 +26,7 @@ public class CadfAttachment {
 
     /**
      * Create an attachment object with a user-friendly name.
-     * 
+     *
      * @param contentType URI that identifies the data type of the content property.
      *                    Required. For example, an attachment that includes a
      *                    standard MIME types (such as "application/pdf") can be
@@ -44,7 +44,7 @@ public class CadfAttachment {
 
     /**
      * Create an attachment object.
-     * 
+     *
      * @param contentType URI that identifies the data type of the content property.
      *                    Required. For example, an attachment that includes a
      *                    standard MIME types (such as "application/pdf") can be

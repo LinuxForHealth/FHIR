@@ -15,6 +15,18 @@ import java.util.logging.Logger;
 /**
  * Common FHIR Server exception base class.
  */
+
+package com.ibm.watsonhealth.fhir.exception;
+
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Common FHIR Server exception base class.
+ */
 public class FHIRException extends Exception {
     private static final long serialVersionUID = 1L;
     private static final String CLASSNAME = FHIRException.class.getName();

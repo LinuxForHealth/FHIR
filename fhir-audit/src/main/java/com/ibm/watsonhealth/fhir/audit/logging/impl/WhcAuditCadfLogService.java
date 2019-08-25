@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.audit.logging.impl;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

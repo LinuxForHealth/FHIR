@@ -53,6 +53,56 @@ import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
  * @author markd
  *
  */
+
+package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.transaction.TransactionSynchronizationRegistry;
+
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.derby.DerbyResourceDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCache;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.watsonhealth.fhir.replication.api.model.ReplicationInfo;
+
+
+/**
+ * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
+ * relational schema.
+ * @author markd
+ *
+ */
 public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements ResourceNormalizedDAO {
     private static final Logger log = Logger.getLogger(ResourceDAONormalizedImpl.class.getName());
     private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName(); 
