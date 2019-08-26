@@ -60,7 +60,7 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
-                <include>com.ibm.websphere.appserver.runtime:wlp-base-embeddable:*</include>
+                <include>io.openliberty:openliberty-runtime:*</include>
             </includes>
         </dependencySet>
         <dependencySet>
@@ -93,16 +93,7 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
-                <include>com.ibm.db2:db2jcc4:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>java</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.java:ibm-java-sdk:*</include>
+                <include>com.ibm.db2:jcc:*</include>
             </includes>
         </dependencySet>
     </dependencySets>

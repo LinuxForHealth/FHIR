@@ -10,10 +10,9 @@
     <name>IBM Watson Platform for Health FHIR Server</name>
 
     <properties>
-        <was.liberty.version>19.0.0.4</was.liberty.version>
-        <java.sdk.version>8.0-5.35-linux-x86_64</java.sdk.version>
+        <liberty.version>19.0.0.8</liberty.version>
         <derby.version>10.12.1.1</derby.version>
-        <db2.version>4.25.1301</db2.version>
+        <db2.version>11.5.0.0</db2.version>
         <cxf.version>3.1.15</cxf.version>
         <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
@@ -61,34 +60,26 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>net.wasdev.maven.tools.targets</groupId>
-                <artifactId>liberty-target</artifactId>
-                <version>${was.liberty.version}</version>
-                <type>pom</type>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>4.0.2</version>
                 <scope>provided</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.openjpa</groupId>
-                        <artifactId>openjpa</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
-            <dependency>
-                <groupId>com.ibm.websphere.appserver.runtime</groupId>
-                <artifactId>wlp-base-embeddable</artifactId>
-                <version>${was.liberty.version}</version>
-                <type>zip</type>
             </dependency>
             <dependency>
-                <groupId>com.ibm.java</groupId>
-                <artifactId>ibm-java-sdk</artifactId>
-                <version>${java.sdk.version}</version>
+                <groupId>jakarta.websocket</groupId>
+                <artifactId>jakarta.websocket-api</artifactId>
+                <version>1.1.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.openliberty</groupId>
+                <artifactId>openliberty-runtime</artifactId>
+                <version>${liberty.version}</version>
                 <type>zip</type>
             </dependency>
             <dependency>
                 <groupId>com.ibm.db2</groupId>
-                <artifactId>db2jcc4</artifactId>
+                <artifactId>jcc</artifactId>
                 <version>${db2.version}</version>
             </dependency>
             <dependency>

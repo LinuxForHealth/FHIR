@@ -38,9 +38,8 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.wasdev.maven.tools.targets</groupId>
-            <artifactId>liberty-target</artifactId>
-            <type>pom</type>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

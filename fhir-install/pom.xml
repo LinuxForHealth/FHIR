@@ -34,18 +34,13 @@
             <artifactId>derby</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ibm.websphere.appserver.runtime</groupId>
-            <artifactId>wlp-base-embeddable</artifactId>
+            <groupId>io.openliberty</groupId>
+            <artifactId>openliberty-runtime</artifactId>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>com.ibm.db2</groupId>
-            <artifactId>db2jcc4</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.java</groupId>
-            <artifactId>ibm-java-sdk</artifactId>
-            <type>zip</type>
+            <artifactId>jcc</artifactId>
         </dependency>
     </dependencies>
 
@@ -72,40 +67,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <phase>none</phase>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>tag</goal>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server</repository>
-                            <tag>${project.version}</tag>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>latest</id>
-                        <phase>none</phase>
-                        <goals>
-                            <goal>tag</goal>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <repository>wh-fhir-server-snapshots-docker-local.artifactory.swg-devops.com/fhir-server</repository>
-                            <tag>latest</tag>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
-                </configuration>
             </plugin>
         </plugins>
     </build>

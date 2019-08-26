@@ -14,13 +14,13 @@
 
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-set WLP_VERSION=19.0.0.4
+set LIBERTY_VERSION=19.0.0.8
 
 echo Executing %0 to deploy the fhir-server web application...
 
 @REM Make sure that JAVA_HOME is set
 if "-%JAVA_HOME%-"=="--" (
-    echo Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 8 JVM and then re-try.
+    echo Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 8 JVM (or above) and then re-try.
     set rc=1
     goto :exit
 ) else (
@@ -69,7 +69,7 @@ if not exist %WLP_INSTALL_DIR% (
 
 @REM Unzip liberty runtime zip
 echo Extracting WebSphere Liberty runtime.
-call :UnZip  %BASEDIR%\server-runtime\wlp-base-embeddable-%WLP_VERSION%.zip\  %WLP_INSTALL_DIR%
+call :UnZip  %BASEDIR%\server-runtime\openliberty-runtime-%LIBERTY_VERSION%.zip\  %WLP_INSTALL_DIR%
 if %rc% neq 0 (
     echo Error extracting liberty runtime: %rc%
     goto :exit
@@ -112,7 +112,6 @@ echo    before starting the server.
 echo 4. You can start and stop the server with these commands:
 echo    %WLP_ROOT%\bin\server start fhir-server
 echo    %WLP_ROOT%\bin\server stop fhir-server
-CODE_REMOVED
 set rc=0
 goto :exit
 
