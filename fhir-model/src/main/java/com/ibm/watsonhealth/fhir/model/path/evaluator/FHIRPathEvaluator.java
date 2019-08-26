@@ -72,7 +72,7 @@ public class FHIRPathEvaluator {
     
     private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = new ConcurrentHashMap<>();
     
-    private final Environment environment;
+    private final EvaluationContext evaluationContext;
     private final EvaluatingVisitor visitor;
     
     private FHIRPathEvaluator() {
@@ -80,12 +80,12 @@ public class FHIRPathEvaluator {
     }
     
     private FHIRPathEvaluator(FHIRPathTree tree) {
-        environment = new Environment(tree);
-        visitor = new EvaluatingVisitor(environment);
+        evaluationContext = new EvaluationContext(tree);
+        visitor = new EvaluatingVisitor(evaluationContext);
     }
     
-    public Environment getEnvironment() {
-        return environment;
+CODE_REMOVED
+        return evaluationContext;
     }
     
     public Collection<FHIRPathNode> evaluate(String expr) throws FHIRPathException {
@@ -99,8 +99,8 @@ public class FHIRPathEvaluator {
     public Collection<FHIRPathNode> evaluate(String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
         Objects.requireNonNull(initialContext);
         
-        try {            
-            environment.setExternalConstant("context", initialContext);
+        try {
+            evaluationContext.setExternalConstant("context", initialContext);
             
             visitor.reset();
             
@@ -142,13 +142,13 @@ public class FHIRPathEvaluator {
         private static final String SYSTEM_NAMESPACE = "System";
         private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = new ConcurrentHashMap<>();
         
-        private final Environment environment;
+        private final EvaluationContext evaluationContext;
         
         private final Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();
         private int indentLevel = 0;
         
-        private EvaluatingVisitor(Environment environment) {
-            this.environment = environment;
+        private EvaluatingVisitor(EvaluationContext evaluationContext) {
+            this.evaluationContext = evaluationContext;
         }
         
         private void reset() {
@@ -1047,7 +1047,7 @@ public class FHIRPathEvaluator {
             indentLevel++;
             String identifier = getString(visit(ctx.identifier()));
             indentLevel--;
-            return environment.getExternalConstant(identifier);
+            return evaluationContext.getExternalConstant(identifier);
         }
     
         /**
@@ -1179,7 +1179,7 @@ public class FHIRPathEvaluator {
                 if (arguments.size() < function.getMinArity() || arguments.size() > function.getMaxArity()) {
                     throw unexpectedNumberOfArguments(arguments.size(), functionName);
                 }
-                result = function.apply(environment, currentContext, arguments.stream()
+                result = function.apply(evaluationContext, currentContext, arguments.stream()
                     // evaluate arguments: ExpressionContext -> Collection<FHIRPathNode>
                     .map(expressionContext -> visit(expressionContext))
                     .collect(Collectors.toList()));
@@ -1283,11 +1283,11 @@ public class FHIRPathEvaluator {
         }
     }
     
-    public static class Environment {
+    public static class EvaluationContext {
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
         
-        private Environment(FHIRPathTree tree) {
+        private EvaluationContext(FHIRPathTree tree) {
             this.tree = tree;
             externalConstantMap.put("ucum", UCUM_SYSTEM_SINGLETON);
         }

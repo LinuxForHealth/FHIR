@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class IsDistinctFunction extends FHIRPathAbstractFunction {
     @Override
@@ -32,7 +32,7 @@ public class IsDistinctFunction extends FHIRPathAbstractFunction {
     }
     
     @Override
-    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (context.size() == context.stream().distinct().count()) {
             return SINGLETON_TRUE;
         }

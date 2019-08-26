@@ -17,7 +17,7 @@ import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class MatchesFunction extends FHIRPathAbstractFunction {
     @Override
@@ -36,7 +36,7 @@ public class MatchesFunction extends FHIRPathAbstractFunction {
     }
     
     @Override
-    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!hasStringValue(context)) {
             return empty();
         }

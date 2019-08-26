@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class CombineFunction extends FHIRPathAbstractFunction {
     @Override
@@ -30,7 +30,7 @@ public class CombineFunction extends FHIRPathAbstractFunction {
     }
     
     @Override
-    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         Collection<FHIRPathNode> combined = new ArrayList<>(context);
         combined.addAll(arguments.get(0));
         return combined;

@@ -22,7 +22,7 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -66,14 +66,14 @@ public class FHIRValidator {
     public static class ValidatingVisitor extends PathAwareVisitorAdapter {
         private final FHIRPathTree tree;
         private final FHIRPathEvaluator evaluator;
-        private final Environment environment;
+        private final EvaluationContext evaluationContext;
         
         private List<Issue> issues = new ArrayList<>(); 
         
         private ValidatingVisitor(FHIRPathTree tree) {
             this.tree = tree;
             evaluator = FHIRPathEvaluator.evaluator(tree);
-            environment = evaluator.getEnvironment();
+CODE_REMOVED
         }
         
         @Override
@@ -144,7 +144,7 @@ public class FHIRValidator {
                 IssueSeverity severity = Constraint.LEVEL_WARNING.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
                 
                 for (FHIRPathNode node : initialContext) {
-                    environment.setExternalConstant("resource", getResource(type, node));
+                    evaluationContext.setExternalConstant("resource", getResource(type, node));
                     
                     Collection<FHIRPathNode> result = evaluator.evaluate(constraint.expression(), singleton(node));
                     

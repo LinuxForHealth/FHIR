@@ -32,7 +32,7 @@ public class FHIRPathEvaluatorProfileTest {
 
     private static void profile(FHIRPathEvaluator evaluator) throws Exception {
         for (int i = 0; i < NUM_ITERATIONS; i++) {
-            evaluator.evaluate("Bundle.entry.resource.where(birthDate > @1950)", evaluator.getEnvironment().getTree().getRoot());
+CODE_REMOVED
         }        
     }
 }

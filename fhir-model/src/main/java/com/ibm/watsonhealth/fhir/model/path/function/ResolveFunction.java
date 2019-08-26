@@ -17,7 +17,7 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathType;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
@@ -66,7 +66,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * @return
      *     the result of the function applied to the context and arguments
      */
-    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         Collection<FHIRPathNode> result = new ArrayList<>();
         for (FHIRPathNode node : context) {
             if (node.isElementNode() && node.asElementNode().element().is(Reference.class)) {
@@ -84,7 +84,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
-                        resourceType = resolveInternalFragmentReference(environment.getTree(), referenceReference);
+                        resourceType = resolveInternalFragmentReference(evaluationContext.getTree(), referenceReference);
                     } else {
                         Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
                         if (matcher.matches()) {

@@ -17,7 +17,7 @@ import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class ToIntegerFunction extends FHIRPathAbstractFunction {
     @Override
@@ -36,7 +36,7 @@ public class ToIntegerFunction extends FHIRPathAbstractFunction {
     }
 
     @Override
-    public Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!hasPrimitiveValue(context)) {
             return empty();
         }

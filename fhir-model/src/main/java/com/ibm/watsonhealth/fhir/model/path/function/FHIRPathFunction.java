@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.Environment;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watsonhealth.fhir.model.path.function.registry.FHIRPathFunctionRegistry;
 
 public interface FHIRPathFunction {
@@ -18,7 +18,7 @@ public interface FHIRPathFunction {
     int getMinArity();
     int getMaxArity();
     
-    Collection<FHIRPathNode> apply(Environment environment, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments);
+    Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments);
     
     static FHIRPathFunctionRegistry registry() {
         return FHIRPathFunctionRegistry.getInstance();
