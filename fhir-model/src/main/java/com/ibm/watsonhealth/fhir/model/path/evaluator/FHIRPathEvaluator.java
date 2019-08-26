@@ -31,12 +31,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -70,8 +70,8 @@ public class FHIRPathEvaluator {
     public static final Collection<FHIRPathNode> SINGLETON_TRUE = singleton(FHIRPathBooleanValue.TRUE);
     public static final Collection<FHIRPathNode> SINGLETON_FALSE = singleton(FHIRPathBooleanValue.FALSE);
     
-    private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = new ConcurrentHashMap<>();
-    
+    private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = createLRUCache(2048);
+
     private final EvaluationContext evaluationContext;
     private final EvaluatingVisitor visitor;
     
@@ -140,8 +140,9 @@ CODE_REMOVED
     
     private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {        
         private static final String SYSTEM_NAMESPACE = "System";
-        private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = new ConcurrentHashMap<>();
-        
+        private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = createLRUCache(1024);
+        private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createLRUCache(4096);
+
         private final EvaluationContext evaluationContext;
         
         private final Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();
@@ -919,10 +920,7 @@ CODE_REMOVED
         public Collection<FHIRPathNode> visitLiteralTerm(FHIRPathParser.LiteralTermContext ctx) {
             debug(ctx);
             indentLevel++;
-            Collection<FHIRPathNode> result = LITERAL_CACHE.get(ctx.getText());
-            if (result == null) {
-                result = LITERAL_CACHE.computeIfAbsent(ctx.getText(), t -> visitChildren(ctx));
-            }
+            Collection<FHIRPathNode> result = LITERAL_CACHE.computeIfAbsent(ctx.getText(), t -> visitChildren(ctx));
             indentLevel--;
             return result;
         }
@@ -1261,11 +1259,9 @@ CODE_REMOVED
         @Override
         public Collection<FHIRPathNode> visitIdentifier(FHIRPathParser.IdentifierContext ctx) {
             debug(ctx);
-            String identifier = ctx.getChild(0).getText();
-            if (identifier.startsWith("`")) {
-                identifier = identifier.substring(1, identifier.length() - 1);
-            }
-            return singleton(stringValue(identifier));
+            String text = ctx.getText();
+            Collection<FHIRPathNode> result = IDENTIFIER_CACHE.computeIfAbsent(text, t -> singleton(stringValue(text.startsWith("`") ? text.substring(1, text.length() - 1) : text)));
+            return result;
         }
     
         private String indent() {
@@ -1316,10 +1312,21 @@ CODE_REMOVED
             return externalConstantMap.containsKey(name);
         }
     }
+    
+    private static <K, V> Map<K, V> createLRUCache(int maxEntries) {
+        return Collections.synchronizedMap(new LinkedHashMap<K, V>(maxEntries, 0.75f, true) {
+            private static final long serialVersionUID = 1L;
+            
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+                return size() > maxEntries;
+            }
+        });
+    }
 
     public static void main(String[] args) throws Exception {
         FHIRPathEvaluator.DEBUG = true;
         Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate("@2016-12-31 < @2017-01-01");
-        System.out.println(result);        
+        System.out.println(result);
     }
 }
