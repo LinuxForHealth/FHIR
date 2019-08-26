@@ -140,6 +140,7 @@ public class FHIRPathEvaluator {
     
     private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {        
         private static final String SYSTEM_NAMESPACE = "System";
+        private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = new ConcurrentHashMap<>();
         
         private final Environment environment;
         
@@ -918,7 +919,10 @@ public class FHIRPathEvaluator {
         public Collection<FHIRPathNode> visitLiteralTerm(FHIRPathParser.LiteralTermContext ctx) {
             debug(ctx);
             indentLevel++;
-            Collection<FHIRPathNode> result = visitChildren(ctx);
+            Collection<FHIRPathNode> result = LITERAL_CACHE.get(ctx.getText());
+            if (result == null) {
+                result = LITERAL_CACHE.computeIfAbsent(ctx.getText(), t -> visitChildren(ctx));
+            }
             indentLevel--;
             return result;
         }
