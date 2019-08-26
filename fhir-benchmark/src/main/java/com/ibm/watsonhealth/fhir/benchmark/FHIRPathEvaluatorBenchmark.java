@@ -11,7 +11,6 @@ import static com.ibm.watsonhealth.fhir.benchmark.runner.FHIRBenchmarkRunner.PRO
 import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.io.StringReader;
-import java.util.Collection;
 
 import org.hl7.fhir.instance.model.api.IBase;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -24,7 +23,6 @@ import com.ibm.watsonhealth.fhir.benchmark.runner.FHIRBenchmarkRunner;
 import com.ibm.watsonhealth.fhir.benchmark.util.BenchmarkUtil;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
@@ -62,8 +60,7 @@ public class FHIRPathEvaluatorBenchmark {
     
     @Benchmark
     public void benchmarkEvaluator(FHIRPathEvaluatorState state) throws Exception {
-        Collection<FHIRPathNode> initialContext = singleton(state.tree.getRoot());
-        state.evaluator.evaluate(FHIRPathEvaluatorState.EXPRESSION, initialContext);
+        state.evaluator.evaluate(FHIRPathEvaluatorState.EXPRESSION, singleton(state.tree.getRoot()));
     }
     
     @Benchmark
