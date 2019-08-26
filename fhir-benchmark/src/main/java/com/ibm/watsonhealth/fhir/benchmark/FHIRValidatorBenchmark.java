@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.benchmark;
 
+import static com.ibm.watsonhealth.fhir.benchmark.runner.FHIRBenchmarkRunner.PROPERTY_EXAMPLE_NAME;
+
 import java.io.StringReader;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -28,7 +30,7 @@ import ca.uhn.fhir.validation.FhirValidator;
 public class FHIRValidatorBenchmark {
     @State(Scope.Benchmark)
     public static class FHIRValidatorState {
-        public static final String SPEC_EXAMPLE_NAME = System.getProperty("com.ibm.watsonhealth.fhir.benchmark.exampleName");
+        public static final String SPEC_EXAMPLE_NAME = System.getProperty(PROPERTY_EXAMPLE_NAME);
         public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
         
         public FhirContext context;
@@ -58,6 +60,8 @@ public class FHIRValidatorBenchmark {
     }
     
     public static void main(String[] args) throws Exception {
-        new FHIRBenchmarkRunner(FHIRValidatorBenchmark.class, BenchmarkUtil.getRandomSpecExampleName()).run();
+        new FHIRBenchmarkRunner(FHIRValidatorBenchmark.class)
+                .property(PROPERTY_EXAMPLE_NAME, BenchmarkUtil.getRandomSpecExampleName())
+                .run();
     }
 }

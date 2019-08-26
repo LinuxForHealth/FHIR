@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.benchmark;
 
+import static com.ibm.watsonhealth.fhir.benchmark.runner.FHIRBenchmarkRunner.PROPERTY_EXAMPLE_NAME;
+
 import java.io.StringReader;
 import java.io.Writer;
 
@@ -28,7 +30,7 @@ public class FHIRGeneratorBenchmark {
     @State(Scope.Benchmark)
     public static class FHIRGeneratorState {
         public static final Writer NOP_WRITER = BenchmarkUtil.createNOPWriter();
-        public static final String SPEC_EXAMPLE_NAME = System.getProperty("com.ibm.watsonhealth.fhir.benchmark.exampleName");
+        public static final String SPEC_EXAMPLE_NAME = System.getProperty(PROPERTY_EXAMPLE_NAME);
         public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
         public static final String XML_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.XML, SPEC_EXAMPLE_NAME);
         
@@ -69,6 +71,8 @@ public class FHIRGeneratorBenchmark {
     }
     
     public static void main(String[] args) throws Exception {
-        new FHIRBenchmarkRunner(FHIRGeneratorBenchmark.class, BenchmarkUtil.getRandomSpecExampleName()).run();
+        new FHIRBenchmarkRunner(FHIRGeneratorBenchmark.class)
+                .property(PROPERTY_EXAMPLE_NAME, BenchmarkUtil.getRandomSpecExampleName())
+                .run();
     }
 }

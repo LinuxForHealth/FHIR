@@ -6,7 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.benchmark.runner;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
@@ -16,33 +18,35 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 import org.openjdk.jmh.runner.options.VerboseMode;
 
-import com.ibm.watsonhealth.fhir.benchmark.util.BenchmarkUtil;
-import com.ibm.watsonhealth.fhir.model.format.Format;
-
 public class FHIRBenchmarkRunner {
+    public static final String PROPERTY_EXAMPLE_NAME = "com.ibm.watsonhealth.fhir.benchmark.exampleName";
+    public static final String PROPERTY_EXPRESSION = "com.ibm.watsonhealth.fhir.benchmark.expression";
+
     private final Class<?> benchmarkClass;
-    private final String exampleName;
+    private final List<String> properties = new ArrayList<>();
     
-    public FHIRBenchmarkRunner(Class<?> benchmarkClass, String exampleName) {
+    public FHIRBenchmarkRunner(Class<?> benchmarkClass) {
         this.benchmarkClass = benchmarkClass;
-        this.exampleName = exampleName;
+    }
+    
+    public FHIRBenchmarkRunner property(String key, String value) {
+        properties.add(String.format("-D%s=%s", key, value));
+        return this;
     }
     
     public Collection<RunResult> run() throws RunnerException {
         Options opt = new OptionsBuilder()
                 .include(".*" + benchmarkClass.getSimpleName() + ".*")
-                .jvmArgsAppend("-Xms2g", "-Xmx2g", "-Dcom.ibm.watsonhealth.fhir.benchmark.exampleName=" + exampleName)
+                .jvmArgsPrepend("-Xms2g", "-Xmx2g")
+                .jvmArgsAppend(properties.toArray(new String[properties.size()]))
                 .verbosity(VerboseMode.NORMAL)
                 .warmupIterations(5)
                 .warmupTime(TimeValue.seconds(10))
-                .measurementTime(TimeValue.seconds(10))
                 .measurementIterations(5)
+                .measurementTime(TimeValue.seconds(10))
                 .shouldDoGC(true)
                 .forks(1)
                 .build();
-        Collection<RunResult> result = new Runner(opt).run();
-        System.out.println("");
-        System.out.println("# Spec example used: " + exampleName + ", JSON file size (bytes): " + BenchmarkUtil.getSpecExampleSize(Format.JSON, exampleName) + ", XML file size (bytes): " + BenchmarkUtil.getSpecExampleSize(Format.XML, exampleName));
-        return result;
+        return new Runner(opt).run();
     }
 }
