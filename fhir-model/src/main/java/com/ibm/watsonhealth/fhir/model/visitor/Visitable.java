@@ -6,7 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.visitor;
 
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getTypeName;
+import static com.ibm.watsonhealth.fhir.model.util.ModelSupport.getTypeName;
 
 public interface Visitable {
     void accept(java.lang.String elementName, int elementIndex, Visitor visitor);
