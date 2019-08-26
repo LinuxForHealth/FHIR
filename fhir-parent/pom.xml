@@ -506,52 +506,9 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>na-artifactory-3rdparty</id>
-CODE_REMOVED
-        </repository>
-        <repository>
-            <id>na-artifactory-snapshots</id>
-CODE_REMOVED
-        </repository>
-        <repository>
-            <id>na-artifactory-releases</id>
-CODE_REMOVED
-        </repository>
-        <repository>
-            <id>na-artifactory-iam</id>
-CODE_REMOVED
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>na-artifactory-releases</id>
-CODE_REMOVED
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <scm>
-        <connection>scm:git:git@github.ibm.com:watson-health-fhir-server/fhir.git</connection>
+        <connection>scm:git:https://github.com/ibm/fhir.git</connection>
     </scm>
-
-    <distributionManagement>
-        <repository>
-            <id>fhir-releases</id>
-CODE_REMOVED
-        </repository>
-        <snapshotRepository>
-            <id>fhir-snapshots</id>
-CODE_REMOVED
-        </snapshotRepository>
-    </distributionManagement>
 
     <profiles>
         <profile>
