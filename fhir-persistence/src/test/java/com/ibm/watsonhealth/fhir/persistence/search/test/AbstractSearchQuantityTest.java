@@ -167,7 +167,7 @@ CODE_REMOVED
         assertSearchDoesntReturnSavedResource("Quantity-noCodeOrUnit", "1||eq");
     }
     
-    /*********************************************************************************
+    /***
      * FHIR Server does not yet use quantity comparator to calculate search results. *
      *********************************************************************************/
     // Quantity search is of the form <prefix><number>|<unit_system>|<unit>.
