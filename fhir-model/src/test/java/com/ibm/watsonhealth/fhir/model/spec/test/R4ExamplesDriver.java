@@ -188,6 +188,9 @@ public class R4ExamplesDriver {
             if (testCount > 0) {
                 long elapsed = (System.nanoTime() - start) / 1000000;
 
+                // Just for formatting
+                System.out.println();
+
                 // We count overall success if we successfully process the resource,
                 // or if we got an expected exception earlier on
                 logger.info("Overall success rate = " + successCount + "/" + testCount + " = " 
@@ -210,7 +213,11 @@ public class R4ExamplesDriver {
      * @param jsonFile
      */
     public void processExample(String file, Format format, Expectation expectation) throws ExampleProcessorException {
-        logger.fine("Processing: " + file);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Processing: " + file);
+        } else {
+            System.out.print("."); // So we know its not stalled
+        }
         Expectation actual;
 
         try {
