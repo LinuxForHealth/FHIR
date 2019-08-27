@@ -86,10 +86,6 @@ public class R4ExamplesDriver {
         processExamples(tt, format);
     }
     
-    public void processExamples(TestType testType) throws Exception {
-        processExamples(testType, Format.JSON);
-    }
-    
     /**
      * Process each of the examples we find in the SPEC_EXAMPLES path
      * @param testType select between all or minimal file sets for the test

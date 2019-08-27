@@ -9,7 +9,6 @@ package com.ibm.watsonhealth.fhir.search.test;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
-import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver.TestType;
 import com.ibm.watsonhealth.fhir.model.spec.test.ValidationProcessor;
 
 public class ExamplesDriverTest {
@@ -26,8 +25,7 @@ public class ExamplesDriverTest {
         driver.setValidator(new ValidationProcessor());
         driver.setProcessor(new ExtractorRequestProcessor());
         
-        // TODO switch to ALL one the generated examples can be validated cleanly
-        driver.processExamples(TestType.ALL);
+        driver.processAllExamples();
      }
     
 }

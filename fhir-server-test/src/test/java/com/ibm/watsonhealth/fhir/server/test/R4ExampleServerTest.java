@@ -9,7 +9,6 @@ package com.ibm.watsonhealth.fhir.server.test;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver;
-import com.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver.TestType;
 import com.ibm.watsonhealth.fhir.model.spec.test.ValidationProcessor;
 
 /**
@@ -29,7 +28,6 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
         driver.setValidator(new ValidationProcessor());
         driver.setProcessor(new ExampleRequestProcessor(this));
         
-        // TODO switch to ALL one the generated examples can be validated cleanly
-        driver.processExamples(TestType.MINIMAL);
+        driver.processAllExamples();
      }
 }
