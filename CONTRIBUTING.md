@@ -39,12 +39,11 @@ Software License 2.0. Using the SPDX format is the simplest approach.
 e.g.
 
 ```
-/*******************************************************************************
+/*
  * (C) Copyright <holder> <year of first update>[, <year of last update>]
  *
  * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
-/*
+ */
 ```
 
 We have tried to make it as easy as possible to make contributions. This
