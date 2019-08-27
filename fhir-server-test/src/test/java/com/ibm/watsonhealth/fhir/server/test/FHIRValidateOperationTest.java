@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 
@@ -25,7 +25,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
     @Test(groups = { "validate-operation" })
     public void testValidatePatient() {        
         JsonObject patient = buildPatient();
-        Entity<JsonObject> entity = Entity.entity(patient, MediaType.APPLICATION_JSON);
+        Entity<JsonObject> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_JSON);
         
         WebTarget target = getWebTarget();
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
@@ -40,7 +40,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
     @Test(groups = { "validate-operation" })
     public void testValidateInvalidPatient() {
         JsonObject patient = buildInvalidPatient();
-        Entity<JsonObject> entity = Entity.entity(patient, MediaType.APPLICATION_JSON);
+        Entity<JsonObject> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_JSON);
 
         WebTarget target = getWebTarget();
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);

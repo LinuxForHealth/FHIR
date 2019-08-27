@@ -14,7 +14,7 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_VIRTUAL_RESOURCES_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
-import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.getResourceType;
+import static com.ibm.watsonhealth.fhir.model.util.ModelSupport.getResourceType;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_GONE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
@@ -54,6 +54,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -67,7 +68,7 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
@@ -105,6 +106,7 @@ import com.ibm.watsonhealth.fhir.model.type.TypeRestfulInteraction;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.Url;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport;
 import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 import com.ibm.watsonhealth.fhir.model.validation.exception.FHIRValidationException;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
@@ -146,8 +148,8 @@ import com.ibm.watsonhealth.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 
 @Path("/")
-@Consumes({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
-@Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 public class FHIRResource implements FHIRResourceHelpers {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
@@ -354,8 +356,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @PATCH
-    @Consumes({ MediaType.APPLICATION_JSON_PATCH })
-    @Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
+    @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
+    @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
     @Path("{type}/{id}")
     public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
         Response.Status status;
@@ -389,8 +391,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
     
     @PATCH
-    @Consumes({ MediaType.APPLICATION_JSON_PATCH })
-    @Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
+    @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
+    @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, FHIRMediaType.APPLICATION_JSON })
     @Path("{type}")
     public Response conditionalPatch(@PathParam("type") String type, JsonArray array) {
         Date startTime = new Date();
@@ -1355,7 +1357,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         try {
             String resourceTypeName = type;
-            if (!FHIRUtil.isStandardResourceType(type)) {
+            if (!ModelSupport.isResourceType(type)) {
                 if (!isVirtualResourceTypesFeatureEnabled()) {
                     String msg = "The virtual resource types feature is not enabled for this server";
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
@@ -1518,7 +1520,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         try {
             String resourceTypeName = type;
-            if (!FHIRUtil.isStandardResourceType(type)) {
+            if (!ModelSupport.isResourceType(type)) {
                 if (!isVirtualResourceTypesFeatureEnabled()) {
                     String msg = "The virtual resource types feature is not enabled for this server";
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
@@ -1628,7 +1630,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         try {
             String resourceTypeName = type;
-            if (!FHIRUtil.isStandardResourceType(type)) {
+            if (!ModelSupport.isResourceType(type)) {
                 if (!isVirtualResourceTypesFeatureEnabled()) {
                     String msg = "The virtual resource types feature is not enabled for this server";
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
@@ -1740,7 +1742,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         try {
             String resourceTypeName = type;
-            if (!FHIRUtil.isStandardResourceType(type)) {
+            if (!ModelSupport.isResourceType(type)) {
                 if (!isVirtualResourceTypesFeatureEnabled()) {
                     String msg = "The virtual resource types feature is not enabled for this server";
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
@@ -1841,7 +1843,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             Parameter implicitSearchParameter = null;
-            if (!FHIRUtil.isStandardResourceType(type)) {
+            if (!ModelSupport.isResourceType(type)) {
                 if (!isVirtualResourceTypesFeatureEnabled()) {
                     String msg = "The virtual resource types feature is not enabled for this server";
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
@@ -3424,10 +3426,10 @@ public class FHIRResource implements FHIRResourceHelpers {
         List<Code> format = new ArrayList<Code>();
         format.add(Code.of(Format.JSON.toString().toLowerCase()));
         format.add(Code.of(Format.XML.toString().toLowerCase()));
-        format.add(Code.of(MediaType.APPLICATION_JSON));
-        format.add(Code.of(MediaType.APPLICATION_FHIR_JSON));
-        format.add(Code.of(MediaType.APPLICATION_XML));
-        format.add(Code.of(MediaType.APPLICATION_FHIR_XML));
+        format.add(Code.of(FHIRMediaType.APPLICATION_JSON));
+        format.add(Code.of(FHIRMediaType.APPLICATION_FHIR_JSON));
+        format.add(Code.of(FHIRMediaType.APPLICATION_XML));
+        format.add(Code.of(FHIRMediaType.APPLICATION_FHIR_XML));
 
         // Finally, create the Conformance resource itself.
         CapabilityStatement conformance = CapabilityStatement.builder()
@@ -3436,7 +3438,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                                           .kind(CapabilityStatementKind.of(CapabilityStatementKind.ValueSet.CAPABILITY))
                                           .fhirVersion(FHIRVersion.VERSION_4_0_0)
                                           .format(format)
-                                          .patchFormat(Code.of(MediaType.APPLICATION_JSON_PATCH))
+                                          .patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH))
                                           .version(string(buildInfo.getBuildVersion()))
                                           .name(string(FHIR_SERVER_NAME))
                                           .description(com.ibm.watsonhealth.fhir.model.type.Markdown.of(buildDescription))

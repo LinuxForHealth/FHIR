@@ -45,7 +45,7 @@ import com.ibm.watsonhealth.fhir.cli.invoker.UpdateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.ValidateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.VreadInvoker;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
@@ -77,7 +77,7 @@ public class FHIRCLI {
     private static final String header = "\nProvides access to the FHIR Client API via the command line.\n\nOptions:\n";
     private static final String syntax = "fhir-cli [options]";
     private static final String CONTENT_LENGTH_HEADER = "Content-Length";
-    private static final String DEFAULT_MIMETYPE = MediaType.APPLICATION_FHIR_JSON;
+    private static final String DEFAULT_MIMETYPE = FHIRMediaType.APPLICATION_FHIR_JSON;
     
     private static PrintStream console = System.err;
     

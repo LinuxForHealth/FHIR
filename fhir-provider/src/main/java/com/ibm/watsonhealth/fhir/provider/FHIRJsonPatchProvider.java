@@ -25,14 +25,15 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.RuntimeType;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 
-@Consumes({ MediaType.APPLICATION_JSON_PATCH })
-@Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
+@Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
+@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, MessageBodyWriter<JsonArray> {
     private static final Logger log = Logger.getLogger(FHIRJsonPatchProvider.class.getName());
 
@@ -46,12 +47,12 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
     }
 
     @Override
-    public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType) {
+    public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return JsonArray.class.isAssignableFrom(type) && RuntimeType.SERVER.equals(runtimeType);
     }
 
     @Override
-    public JsonArray readFrom(Class<JsonArray> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType,
+    public JsonArray readFrom(Class<JsonArray> type, Type genericType, Annotation[] annotations, MediaType mediaType,
         MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
@@ -64,12 +65,12 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
     }
     
     @Override
-    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType) {
+    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return JsonArray.class.isAssignableFrom(type) && RuntimeType.CLIENT.equals(runtimeType);
     }
 
     @Override
-    public void writeTo(JsonArray t, Class<?> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType,
+    public void writeTo(JsonArray t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try {
@@ -82,7 +83,7 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
     }
 
     @Override
-    public long getSize(JsonArray t, Class<?> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType) {
+    public long getSize(JsonArray t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
 }

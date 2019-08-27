@@ -23,8 +23,6 @@ import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.client.test.FHIRClientTestBase;
-
 /**
  * OAuth 2.0 tests used to register a client and generate an access token
  */

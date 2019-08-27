@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.resource.AllergyIntolerance;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Composition;
@@ -57,7 +57,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
         // Build a new Practitioner and then call the 'create' API.
         Practitioner practitioner = readResource(Practitioner.class, "Practitioner.json");
-        Entity<Practitioner> entity = Entity.entity(practitioner, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Practitioner> entity = Entity.entity(practitioner, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Practitioner").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -65,7 +65,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String practitionerId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new practitioner and verify it.
-        response = target.path("Practitioner/" + practitionerId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Practitioner/" + practitionerId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Practitioner reponsePractitioner = response.readEntity(Practitioner.class);
         savedCreatedPractitioner = reponsePractitioner;
@@ -84,7 +84,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
                 .generalPractitioner(Reference.builder().reference(string("Practitioner/" + practitionerId)).build())
                 .build();
 
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -92,7 +92,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatient = responsePatient;
@@ -107,7 +107,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         // Next, create an Observation belonging to the new patient.
         String patientId = savedCreatedPatient.getId().getValue();
         Observation observation = buildObservation(patientId, "Observation1.json");
-        Entity<Observation> obs = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -115,7 +115,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String observationId = getLocationLogicalId(response);
 
         // Next, retrieve the new Observation with a read operation and verify it.
-        response = target.path("Observation/" + observationId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Observation/" + observationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Observation responseObs = response.readEntity(Observation.class);
         savedCreatedObservation = responseObs;
@@ -130,7 +130,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         // Next, create a Condition belonging to the new patient.
         String patientId = savedCreatedPatient.getId().getValue();
         Condition condition = buildCondition(patientId, "Condition.json");
-        Entity<Condition> obs = Entity.entity(condition, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Condition> obs = Entity.entity(condition, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Condition").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -138,7 +138,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String conditionId = getLocationLogicalId(response);
 
         // Next, retrieve the new Condition with a read operation and verify it.
-        response = target.path("Condition/" + conditionId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Condition/" + conditionId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Condition responseCondition = response.readEntity(Condition.class);
         savedCreatedCondition = responseCondition;
@@ -153,7 +153,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         // Next, create a AllergyIntolerance belonging to the new patient.
         String patientId = savedCreatedPatient.getId().getValue();
         AllergyIntolerance allergyIntolerance = buildAllergyIntolerance(patientId, "AllergyIntolerance.json");
-        Entity<AllergyIntolerance> obs = Entity.entity(allergyIntolerance, MediaType.APPLICATION_FHIR_JSON);
+        Entity<AllergyIntolerance> obs = Entity.entity(allergyIntolerance, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("AllergyIntolerance").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -162,7 +162,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
         // Next, retrieve the new AllergyIntolerance with a read operation and verify
         // it.
-        response = target.path("AllergyIntolerance/" + allergyIntoleranceId).request(MediaType.APPLICATION_FHIR_JSON)
+        response = target.path("AllergyIntolerance/" + allergyIntoleranceId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         AllergyIntolerance responseAllergyIntolerance = response.readEntity(AllergyIntolerance.class);
@@ -184,7 +184,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         // Build a new Composition and then call the 'create' API.
         Composition composition = buildComposition(practitionerId, patientId, observationId, conditionId,
                 allergyIntoleranceId);
-        Entity<Composition> entity = Entity.entity(composition, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Composition> entity = Entity.entity(composition, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Composition").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -192,7 +192,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String compositionId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new composition and verify it.
-        response = target.path("Composition/" + compositionId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Composition/" + compositionId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Composition responseComposition = response.readEntity(Composition.class);
         savedCreatedComposition = responseComposition;

@@ -6,12 +6,11 @@
 
 package com.ibm.watsonhealth.fhir.client.test;
 
-import com.ibm.watsonhealth.fhir.model.type.ContactPoint;
 import static com.ibm.watsonhealth.fhir.client.FHIRRequestHeader.header;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.util.Properties;
 
@@ -28,30 +27,28 @@ import com.ibm.watsonhealth.fhir.client.FHIRParameters.Modifier;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters.ValuePrefix;
 import com.ibm.watsonhealth.fhir.client.FHIRRequestHeader;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.client.test.FHIRClientTestBase;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
-import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
-import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry.Request;
-import com.ibm.watsonhealth.fhir.model.type.BundleType;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
-import com.ibm.watsonhealth.fhir.model.type.ContactPointSystem;
-import com.ibm.watsonhealth.fhir.model.type.ContactPointUse;
-import com.ibm.watsonhealth.fhir.model.type.HTTPVerb;
-import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 //import com.ibm.watsonhealth.fhir.model.resource.Organization.Contact;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.Patient.Contact;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.type.BundleType;
+import com.ibm.watsonhealth.fhir.model.type.ContactPoint;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointSystem;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointUse;
+import com.ibm.watsonhealth.fhir.model.type.HTTPVerb;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
  * Basic tests related to the FHIR Client API.
  */
 public class FHIRClientTest extends FHIRClientTestBase {
-    private static final String MIMETYPE_JSON = MediaType.APPLICATION_FHIR_JSON;
-    private static final String MIMETYPE_XML = MediaType.APPLICATION_FHIR_XML;
+    private static final String MIMETYPE_JSON = FHIRMediaType.APPLICATION_FHIR_JSON;
+    private static final String MIMETYPE_XML = FHIRMediaType.APPLICATION_FHIR_XML;
     
     private Patient createdPatient = null;
     private Patient updatedPatient = null;

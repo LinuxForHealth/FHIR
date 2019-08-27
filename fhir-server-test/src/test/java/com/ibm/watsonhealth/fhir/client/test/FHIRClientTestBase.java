@@ -20,10 +20,10 @@ import org.testng.annotations.BeforeMethod;
 
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
-import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
-import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**

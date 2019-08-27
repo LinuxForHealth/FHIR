@@ -33,7 +33,7 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import javax.xml.bind.annotation.XmlElement;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
@@ -290,7 +290,7 @@ public class FHIRSwaggerGenerator {
         post.add("operationId", "create" + modelClass.getSimpleName());
 
         JsonArrayBuilder consumes = factory.createArrayBuilder();
-        consumes.add(MediaType.APPLICATION_FHIR_JSON);
+        consumes.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         post.add("consumes", consumes);
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -328,7 +328,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "read" + modelClass.getSimpleName());
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add(MediaType.APPLICATION_FHIR_JSON);
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -365,7 +365,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "vread" + modelClass.getSimpleName());
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add(MediaType.APPLICATION_FHIR_JSON);
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -405,7 +405,7 @@ public class FHIRSwaggerGenerator {
         put.add("operationId", "update" + modelClass.getSimpleName());
 
         JsonArrayBuilder consumes = factory.createArrayBuilder();
-        consumes.add(MediaType.APPLICATION_FHIR_JSON);
+        consumes.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         put.add("consumes", consumes);
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -482,7 +482,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "search" + modelClass.getSimpleName());
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add(MediaType.APPLICATION_FHIR_JSON);
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -538,7 +538,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "history" + modelClass.getSimpleName());
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add(MediaType.APPLICATION_FHIR_JSON);
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -574,7 +574,7 @@ public class FHIRSwaggerGenerator {
         get.add("operationId", "metadata");
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add(MediaType.APPLICATION_FHIR_JSON);
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
 
         JsonObjectBuilder responses = factory.createObjectBuilder();
@@ -603,7 +603,7 @@ public class FHIRSwaggerGenerator {
         post.add("operationId", "batch");
 
         JsonArrayBuilder consumes = factory.createArrayBuilder();
-        consumes.add(MediaType.APPLICATION_FHIR_JSON);
+        consumes.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         post.add("consumes", consumes);
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
@@ -621,7 +621,7 @@ public class FHIRSwaggerGenerator {
         post.add("parameters", parameters);
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add(MediaType.APPLICATION_FHIR_JSON);
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         post.add("produces", produces);
 
         JsonObjectBuilder responses = factory.createObjectBuilder();

@@ -29,7 +29,7 @@ import javax.ws.rs.core.HttpHeaders;
 
 import org.owasp.encoder.Encode;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 
 /**
  * This class is used to wrap a HttpServletRequest instance. The main purpose is to implement common behaviors for the
@@ -43,7 +43,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     public final static String UTF8 = "utf-8";
     public final static String UTF16 = "utf-16";
-    public final static String DEFAULT_ACCEPT_HEADER_VALUE = MediaType.APPLICATION_FHIR_JSON;
+    public final static String DEFAULT_ACCEPT_HEADER_VALUE = FHIRMediaType.APPLICATION_FHIR_JSON;
     public static final String HEADER_X_METHOD_OVERRIDE = "X-Method-Override";
 
     // The real HttpServletRequest instance that we'll delegate to.
@@ -88,9 +88,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         // If parameters are contained in a form, then be sure to pull them out and add them to our
         // set of query parameters.
-        if (contentType != null && contentType.contains(MediaType.APPLICATION_FORM_URLENCODED)) {
+        if (contentType != null && contentType.contains(FHIRMediaType.APPLICATION_FORM_URLENCODED)) {
             if (log.isLoggable(Level.FINER)) {
-                log.finer("Detected " + MediaType.APPLICATION_FORM_URLENCODED);
+                log.finer("Detected " + FHIRMediaType.APPLICATION_FORM_URLENCODED);
             }
             formParameters(req);
         }
@@ -102,11 +102,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     private static void initFormatShortcuts() {
         _formatShortcuts = new HashMap<>();
-        _formatShortcuts.put("xml", MediaType.APPLICATION_FHIR_XML);
-        _formatShortcuts.put("application/xml", MediaType.APPLICATION_FHIR_XML);
-        _formatShortcuts.put("text/xml", MediaType.APPLICATION_FHIR_XML);
-        _formatShortcuts.put("json", MediaType.APPLICATION_FHIR_JSON);
-        _formatShortcuts.put("application/json", MediaType.APPLICATION_FHIR_JSON);
+        _formatShortcuts.put("xml", FHIRMediaType.APPLICATION_FHIR_XML);
+        _formatShortcuts.put("application/xml", FHIRMediaType.APPLICATION_FHIR_XML);
+        _formatShortcuts.put("text/xml", FHIRMediaType.APPLICATION_FHIR_XML);
+        _formatShortcuts.put("json", FHIRMediaType.APPLICATION_FHIR_JSON);
+        _formatShortcuts.put("application/json", FHIRMediaType.APPLICATION_FHIR_JSON);
     }
 
     /**

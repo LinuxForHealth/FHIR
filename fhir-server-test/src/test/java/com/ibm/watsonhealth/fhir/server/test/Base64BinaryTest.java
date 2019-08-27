@@ -6,9 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -22,45 +22,26 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
-import com.ibm.watsonhealth.fhir.model.type.Attachment;
-import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.resource.AuditEvent;
 import com.ibm.watsonhealth.fhir.model.resource.Binary;
-import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
-import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
-import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
-import com.ibm.watsonhealth.fhir.model.type.CapabilityStatementKind;
+import com.ibm.watsonhealth.fhir.model.resource.DocumentReference;
+import com.ibm.watsonhealth.fhir.model.resource.Parameters;
+import com.ibm.watsonhealth.fhir.model.resource.Person;
+import com.ibm.watsonhealth.fhir.model.type.Attachment;
+import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
-import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.DocumentReferenceStatus;
-import com.ibm.watsonhealth.fhir.model.type.ElementDefinition;
-import com.ibm.watsonhealth.fhir.model.type.ElementDefinition.Base;
-import com.ibm.watsonhealth.fhir.model.type.ElementDefinition.Example;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
-import com.ibm.watsonhealth.fhir.model.type.FHIRVersion;
 import com.ibm.watsonhealth.fhir.model.type.Identifier;
-import com.ibm.watsonhealth.fhir.model.resource.DocumentReference;
-import com.ibm.watsonhealth.fhir.model.resource.Parameters;
-import com.ibm.watsonhealth.fhir.model.type.RestfulCapabilityMode;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.Signature;
-import com.ibm.watsonhealth.fhir.model.resource.StructureDefinition;
-import com.ibm.watsonhealth.fhir.model.resource.StructureDefinition.Snapshot;
-import com.ibm.watsonhealth.fhir.model.resource.Person;
-import com.ibm.watsonhealth.fhir.model.type.StructureDefinitionKind;
-import com.ibm.watsonhealth.fhir.model.type.TypeRestfulInteraction;
-import com.ibm.watsonhealth.fhir.model.type.UnsignedInt;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.format.Format;
-import com.ibm.watsonhealth.fhir.model.type.Instant;
-import com.ibm.watsonhealth.fhir.model.type.Markdown;
-import com.ibm.watsonhealth.fhir.model.type.PublicationStatus;
-import com.ibm.watsonhealth.fhir.model.type.Reference;
-import com.ibm.watsonhealth.fhir.model.type.ResourceType;
-import com.ibm.watsonhealth.fhir.core.MediaType;
 
 /**
  * This class contains tests for deserializing Base64 encoded binary data. This
@@ -79,7 +60,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         Binary binary = Binary.builder()
                 .contentType(Code.of("text/plain")).data(Base64Binary.builder().value(value).build()).build();
 
-        Entity<Binary> entity = Entity.entity(binary, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Binary> entity = Entity.entity(binary, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Binary").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -89,7 +70,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         String binaryId = getLocationLogicalId(response);
 
-        response = target.path("Binary/" + binaryId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Binary/" + binaryId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Binary responseBinary = response.readEntity(Binary.class);
 
@@ -127,7 +108,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                 .date(Instant.of(ZonedDateTime.now())).build();
 
         // Persist the DocumentReference
-        Entity<DocumentReference> entity = Entity.entity(docRef, MediaType.APPLICATION_FHIR_JSON);
+        Entity<DocumentReference> entity = Entity.entity(docRef, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("DocumentReference").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -137,7 +118,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         // Retrieve the DocumentReference
         String docRefId = getLocationLogicalId(response);
-        response = target.path("DocumentReference/" + docRefId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("DocumentReference/" + docRefId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         DocumentReference responseDocRef = response.readEntity(DocumentReference.class);
 
@@ -178,7 +159,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                 .build();
 
         // Persist the AuditEvent
-        Entity<AuditEvent> entity = Entity.entity(auditEvent, MediaType.APPLICATION_FHIR_JSON);
+        Entity<AuditEvent> entity = Entity.entity(auditEvent, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("AuditEvent").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -188,7 +169,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         // Retrieve the AuditEvent
         String auditEventId = getLocationLogicalId(response);
-        response = target.path("AuditEvent/" + auditEventId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("AuditEvent/" + auditEventId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         AuditEvent responseAuditEvent = response.readEntity(AuditEvent.class);
 
@@ -214,7 +195,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         // Create a Parameters resource containing a Base64 encoded value and signature.
         List<Coding> listCoding = new ArrayList<Coding>();
-        listCoding.add(Coding.builder().code(Code.of(MediaType.APPLICATION_FHIR_JSON)).build());
+        listCoding.add(Coding.builder().code(Code.of(FHIRMediaType.APPLICATION_FHIR_JSON)).build());
         Parameters parameters = Parameters.builder()
                 .parameter(Parameters.Parameter.builder()
                         .name(string("base64BinaryParameterTest"))
@@ -240,13 +221,13 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         }
 
         // Persist the Parameters resource
-        Entity<Parameters> entity = Entity.entity(parameters, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Parameters").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Retrieve the Parameters
         String parametersId = getLocationLogicalId(response);
-        response = target.path("Parameters/" + parametersId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Parameters/" + parametersId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Parameters responseParameters = response.readEntity(Parameters.class);
 
@@ -291,7 +272,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                 .build();
 
         // Persist the AuditEvent
-        Entity<AuditEvent> entity = Entity.entity(auditEvent, MediaType.APPLICATION_FHIR_JSON);
+        Entity<AuditEvent> entity = Entity.entity(auditEvent, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("AuditEvent").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -301,7 +282,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         // Retrieve the AuditEvent
         String auditEventId = getLocationLogicalId(response);
-        response = target.path("AuditEvent/" + auditEventId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("AuditEvent/" + auditEventId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         AuditEvent responseAuditEvent = response.readEntity(AuditEvent.class);
 

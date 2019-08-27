@@ -33,7 +33,7 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import javax.xml.bind.annotation.XmlElement;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
@@ -373,7 +373,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/" + modelClass.getSimpleName());
         contentType.add("schema", schema);
-        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
 
         response.add("content", content);
         responses.add("200", response);
@@ -418,7 +418,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/" + modelClass.getSimpleName());
         contentType.add("schema", schema);
-        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
 
         response.add("content", content);
         responses.add("200", response);
@@ -527,7 +527,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Bundle");
         contentType.add("schema", schema);
-        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
 
         response.add("content", content);
         responses.add("200", response);
@@ -594,7 +594,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Bundle");
         contentType.add("schema", schema);
-        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
 
         response.add("content", content);
         responses.add("200", response);
@@ -627,7 +627,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/CapabilityStatement");
         contentType.add("schema", schema);
-        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
 
         response.add("content", content);
         responses.add("200", response);
@@ -660,7 +660,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Bundle");
         contentType.add("schema", schema);
-        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
 
         response.add("content", content);
         responses.add("200", response);
@@ -676,7 +676,7 @@ public class FHIROpenApiGenerator {
         schema = factory.createObjectBuilder();
         schema.add("$ref", "#/components/schemas/Bundle");
         contentType.add("schema", schema);
-        content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
 
         requestBody.add("content", content.build());
         requestBody.add("required", true);
@@ -704,7 +704,7 @@ public class FHIROpenApiGenerator {
             JsonObjectBuilder schema = factory.createObjectBuilder();
             schema.add("$ref", "#/components/schemas/" + modelClass.getSimpleName());
             contentType.add("schema", schema);
-            content.add(MediaType.APPLICATION_FHIR_JSON, contentType);
+            content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
 
             requestBody.add("content", content);
             requestBody.add("required", true);

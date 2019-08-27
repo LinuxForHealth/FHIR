@@ -39,8 +39,8 @@ import org.testng.annotations.BeforeClass;
 import com.ibm.watsonhealth.fhir.client.FHIRClient;
 import com.ibm.watsonhealth.fhir.client.FHIRClientFactory;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
@@ -99,10 +99,10 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String ksLocation = null;
     private String ksPassword = null;
 
-    protected static final String MEDIATYPE_JSON = MediaType.APPLICATION_JSON;
-    protected static final String MEDIATYPE_JSON_FHIR = MediaType.APPLICATION_FHIR_JSON;
-    protected static final String MEDIATYPE_XML = MediaType.APPLICATION_XML;
-    protected static final String MEDIATYPE_XML_FHIR = MediaType.APPLICATION_FHIR_XML;
+    protected static final String MEDIATYPE_JSON = FHIRMediaType.APPLICATION_JSON;
+    protected static final String MEDIATYPE_JSON_FHIR = FHIRMediaType.APPLICATION_FHIR_JSON;
+    protected static final String MEDIATYPE_XML = FHIRMediaType.APPLICATION_XML;
+    protected static final String MEDIATYPE_XML_FHIR = FHIRMediaType.APPLICATION_FHIR_XML;
 
     private CapabilityStatement conformanceStmt = null;
 

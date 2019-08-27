@@ -120,11 +120,11 @@ public class FHIRRestServletFilter implements Filter {
                 Format format = chooseResponseFormat(httpRequest.getHeader("Accept"));
                 switch (format) {
                 case XML:
-                    httpResponse.setContentType(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML);
+                    httpResponse.setContentType(com.ibm.watsonhealth.fhir.core.FHIRMediaType.APPLICATION_FHIR_XML);
                     break;
                 case JSON:
                 default:
-                    httpResponse.setContentType(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON);
+                    httpResponse.setContentType(com.ibm.watsonhealth.fhir.core.FHIRMediaType.APPLICATION_FHIR_JSON);
                     break;
                 }
                 
@@ -164,10 +164,10 @@ public class FHIRRestServletFilter implements Filter {
     }
 
     private Format chooseResponseFormat(String acceptableContentTypes) {
-        if (acceptableContentTypes.contains(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON) ||
+        if (acceptableContentTypes.contains(com.ibm.watsonhealth.fhir.core.FHIRMediaType.APPLICATION_FHIR_JSON) ||
                 acceptableContentTypes.contains(MediaType.APPLICATION_JSON)) {
             return Format.JSON;
-        } else if (acceptableContentTypes.contains(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML) ||
+        } else if (acceptableContentTypes.contains(com.ibm.watsonhealth.fhir.core.FHIRMediaType.APPLICATION_FHIR_XML) ||
                 acceptableContentTypes.contains(MediaType.APPLICATION_XML)) {
             return Format.XML;
         } else {

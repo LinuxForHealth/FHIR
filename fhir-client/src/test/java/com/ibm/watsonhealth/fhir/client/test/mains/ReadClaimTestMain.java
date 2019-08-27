@@ -11,7 +11,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.Claim;
@@ -23,7 +23,7 @@ public class ReadClaimTestMain {
                 .register(new FHIRProvider())
                 .build();
         WebTarget target = client.target("http://fhirtest.uhn.ca/baseDstu2");
-        Response response = target.path("Claim/14105").request(MediaType.APPLICATION_FHIR_JSON).get();
+        Response response = target.path("Claim/14105").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         Claim claim = response.readEntity(Claim.class);
         FHIRGenerator.generator( Format.JSON, false).generate(claim, System.out);
         System.out.println("");

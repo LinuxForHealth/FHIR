@@ -23,6 +23,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -31,7 +32,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
@@ -42,8 +43,8 @@ import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 
-@Consumes({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
-@Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWriter<Resource> {
     private static final Logger log = Logger.getLogger(FHIRProvider.class.getName());
 
@@ -53,12 +54,12 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     private HttpHeaders requestHeaders;
     
     @Override
-    public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType) {
+    public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return Resource.class.isAssignableFrom(type);
     }
 
     @Override
-    public Resource readFrom(Class<Resource> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType, MultivaluedMap<String, String> httpHeaders,
+    public Resource readFrom(Class<Resource> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders,
         InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
@@ -76,12 +77,12 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     }
 
     @Override
-    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType) {
+    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return Resource.class.isAssignableFrom(type);
     }
 
     @Override
-    public void writeTo(Resource t, Class<?> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
+    public void writeTo(Resource t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
         OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try {
@@ -115,46 +116,46 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     }
 
     @Override
-    public long getSize(Resource t, Class<?> type, Type genericType, Annotation[] annotations, javax.ws.rs.core.MediaType mediaType) {
+    public long getSize(Resource t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
 
-    private Format getFormat(javax.ws.rs.core.MediaType mediaType) {
+    private Format getFormat(MediaType mediaType) {
         if (mediaType != null) {
-            if (mediaType.isCompatible(MediaType.APPLICATION_FHIR_JSON_TYPE) || 
-                    mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
+            if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_JSON_TYPE) || 
+                    mediaType.isCompatible(FHIRMediaType.APPLICATION_JSON_TYPE)) {
                 return Format.JSON;
-            } else if (mediaType.isCompatible(MediaType.APPLICATION_FHIR_XML_TYPE) || 
-                    mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_XML_TYPE) || 
+                    mediaType.isCompatible(FHIRMediaType.APPLICATION_XML_TYPE)) {
                 return Format.XML;
             }
         }
         return null;
     }
     
-    private javax.ws.rs.core.MediaType getMediaType(String acceptHeader) {
-        javax.ws.rs.core.MediaType mediaType = null;
+    private MediaType getMediaType(String acceptHeader) {
+        MediaType mediaType = null;
         try {
-            mediaType = MediaType.valueOf(acceptHeader);
+            mediaType = FHIRMediaType.valueOf(acceptHeader);
         } catch (IllegalArgumentException e) {
             // ignore
         }
         if (mediaType != null) {
-            if (mediaType.isCompatible(MediaType.APPLICATION_FHIR_JSON_TYPE)) {
-                return MediaType.APPLICATION_FHIR_JSON_TYPE;
-            } else if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
+            if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_JSON_TYPE)) {
+                return FHIRMediaType.APPLICATION_FHIR_JSON_TYPE;
+            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_JSON_TYPE)) {
                 return MediaType.APPLICATION_JSON_TYPE;
-            } else if (mediaType.isCompatible(MediaType.APPLICATION_FHIR_XML_TYPE)) {
-                return MediaType.APPLICATION_FHIR_XML_TYPE;
-            } else if (mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_XML_TYPE)) {
+                return FHIRMediaType.APPLICATION_FHIR_XML_TYPE;
+            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_XML_TYPE)) {
                 return MediaType.APPLICATION_XML_TYPE;
             }
         }
         // default
-        return MediaType.APPLICATION_FHIR_JSON_TYPE;
+        return FHIRMediaType.APPLICATION_FHIR_JSON_TYPE;
     }
 
-    private Response buildResponse(OperationOutcome operationOutcome, javax.ws.rs.core.MediaType mediaType) {
+    private Response buildResponse(OperationOutcome operationOutcome, MediaType mediaType) {
         Response response = Response.status(Response.Status.BAD_REQUEST)
                 .header(HttpHeaders.CONTENT_TYPE, mediaType)
                 .entity(operationOutcome)

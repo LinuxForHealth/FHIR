@@ -12,9 +12,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.core.MediaType;
-import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.spec.test.IExampleProcessor;
 import com.ibm.watsonhealth.fhir.model.spec.test.ResourceComparatorVisitor;
@@ -52,7 +50,7 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
 
         // Build a new Patient and then call the 'create' API.
-        Entity<Resource> entity = Entity.entity(resource, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path(resourceTypeName).request().post(entity, Response.class);
         base.assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -60,7 +58,7 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         String logicalId = base.getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path(resourceTypeName + "/" + logicalId).request(MediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path(resourceTypeName + "/" + logicalId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         base.assertResponse(response, Response.Status.OK.getStatusCode());
 
         // Now...do we need some reflection here?

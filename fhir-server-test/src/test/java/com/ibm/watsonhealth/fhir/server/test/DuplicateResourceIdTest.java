@@ -6,8 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;

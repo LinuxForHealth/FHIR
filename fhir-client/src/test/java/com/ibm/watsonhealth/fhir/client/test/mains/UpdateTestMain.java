@@ -17,7 +17,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
@@ -33,7 +33,7 @@ public class UpdateTestMain {
                 .build();
         
         WebTarget target = client.target("http://localhost:9080/fhir-server/api/v4");
-        Response response = target.path("Observation/14").request(MediaType.APPLICATION_FHIR_JSON).get();
+        Response response = target.path("Observation/14").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         
         Observation observation = response.readEntity(Observation.class);
         
@@ -54,7 +54,7 @@ public class UpdateTestMain {
         
         observation = observation.toBuilder().component(newCompList).build();
         
-        Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Observation> observationEntity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Observation/14").request().put(observationEntity);
         System.out.println(response.getStatusInfo().getReasonPhrase());
         System.out.println("location: " + response.getLocation());

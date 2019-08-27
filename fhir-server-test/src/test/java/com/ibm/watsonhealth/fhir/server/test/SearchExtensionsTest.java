@@ -17,20 +17,20 @@ import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.Date;
 import com.ibm.watsonhealth.fhir.model.type.Decimal;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
-import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
-import com.ibm.watsonhealth.fhir.model.type.Code;
-import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
-import com.ibm.watsonhealth.fhir.model.type.Integer;
 
 public class SearchExtensionsTest extends FHIRServerTestBase {
     private static final String EXTENSION_BASE_URL =
@@ -53,7 +53,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
                                                 + "favorite-quantity").value(Quantity.builder().unit(string("lbs")).value(Decimal.of(180)).build()).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
                                                         + "favorite-date").value(Date.of("2018-10-25")).build()).build();
 
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
                 target.path("Patient").request().header("X-FHIR-TENANT-ID", "tenant1").post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -63,7 +63,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response =
-                target.path("Patient/" + patientId).request(MediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatientWithExtensions = responsePatient;
@@ -77,7 +77,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         String favoriteColor =
                 ((com.ibm.watsonhealth.fhir.model.type.String) savedCreatedPatientWithExtensions.getExtension().get(0).getValue()).getValue();
         Response response =
-                target.path("Patient").queryParam("favorite-color", favoriteColor).request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+                target.path("Patient").queryParam("favorite-color", favoriteColor).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -94,7 +94,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         // "red"
         Response response =
-                target.path("Patient").queryParam("favorite-color", "red").request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+                target.path("Patient").queryParam("favorite-color", "red").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
 
@@ -111,42 +111,42 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         // in lenient mode, an unknown parameter should be ignored
         Response response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(MediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=lenient").get();
+                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=lenient").get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
 
         // lenient is the default, so leaving out the Prefer header should be equivalent
         response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(MediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
 
         // lenient is the default, so a bogus value should be ignored
         response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(MediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=other;strict").get();
+                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=other;strict").get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
 
         // in strict mode, an unknown parameter should result in a 400 Bad Request
         response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(MediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=strict").get();
+                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=strict").get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
 
         // multiple headers should be handled appropriately
         response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(MediaType.APPLICATION_FHIR_JSON).header("Prefer", "fakeName=fakeValue").header("Prefer", "handling=strict").header("Prefer", "fakeName2=fakeValue2").get();
+                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "fakeName=fakeValue").header("Prefer", "handling=strict").header("Prefer", "fakeName2=fakeValue2").get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
 
         // multiple parts to the Prefer header should be handled
         response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(MediaType.APPLICATION_FHIR_JSON).header("Prefer", "fakeName=fakeValue;handling=strict;fakeName2=fakeValue2").get();
+                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "fakeName=fakeValue;handling=strict;fakeName2=fakeValue2").get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
@@ -176,7 +176,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient").queryParam("family", family).queryParam("favorite-color", favoriteColor).queryParam("favorite-number", favoriteNumber.getValue()).queryParam("favorite-code", favoriteCode.getCode().getValue()).queryParam("favorite-uri", favoriteUri.getValue()).queryParam("favorite-quantity", favoriteQuantity.getValue().getValue().toString()
                         + "||"
-                        + favoriteQuantity.getUnit().getValue()).queryParam("favorite-date", favoriteDate.getValue()).request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+                        + favoriteQuantity.getUnit().getValue()).queryParam("favorite-date", favoriteDate.getValue()).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);

@@ -14,7 +14,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.core.FHIRMediaType;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
@@ -51,7 +51,7 @@ public class JaxrsClientTestMain {
                 .build();
         
         WebTarget target = client.target("http://localhost:9080/fhir-server/api/v4");
-        Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_XML);
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_XML);
         Response response = target.path("Patient").request().post(entity, Response.class);
         
         if (Response.Status.CREATED.getStatusCode() == response.getStatus()) {
@@ -62,7 +62,7 @@ public class JaxrsClientTestMain {
             System.out.println("location: " + location);
             
             String id = location.substring(location.lastIndexOf("/") + 1);
-            response = target.path("Patient/" + id).request(MediaType.APPLICATION_FHIR_JSON).get();
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
             patient = response.readEntity(Patient.class);
             System.out.println("\nJSON:");
             FHIRGenerator.generator( Format.JSON, false).generate(patient, System.out);
@@ -75,7 +75,7 @@ public class JaxrsClientTestMain {
             System.out.println("\nXML:");
             FHIRGenerator.generator( Format.XML, false).generate(observation, System.out);
             
-            Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
+            Entity<Observation> observationEntity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
             response = target.path("Observation").request().post(observationEntity, Response.class);
             
             if (Response.Status.CREATED.getStatusCode() == response.getStatus()) {
@@ -85,7 +85,7 @@ public class JaxrsClientTestMain {
                 location = response.getLocation().toString();
                 System.out.println("location: " + location);
                 
-                response = target.path("Observation").queryParam("subject", "Patient/" + id).request(MediaType.APPLICATION_FHIR_JSON).get();
+                response = target.path("Observation").queryParam("subject", "Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
                 Bundle bundle = response.readEntity(Bundle.class);
                 System.out.println("\nJSON:");
                 FHIRGenerator.generator( Format.JSON, false).generate(bundle, System.out);
