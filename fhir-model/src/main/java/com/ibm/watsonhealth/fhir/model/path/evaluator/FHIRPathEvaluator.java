@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.model.path.evaluator;
 
-
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue.decimalValue;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue.integerValue;
 import static com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue.EMPTY_STRING;
@@ -64,13 +63,15 @@ import com.ibm.watsonhealth.fhir.model.type.Quantity;
 public class FHIRPathEvaluator {
     public static boolean DEBUG = false;
     
+    private static final int EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES = 512;
+    
     private static final String UCUM_SYSTEM = "http://unitsofmeasure.org";
     private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
     
     public static final Collection<FHIRPathNode> SINGLETON_TRUE = singleton(FHIRPathBooleanValue.TRUE);
     public static final Collection<FHIRPathNode> SINGLETON_FALSE = singleton(FHIRPathBooleanValue.FALSE);
     
-    private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = createLRUCache(2048);
+    private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = createLRUCache(EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES);
 
     private final EvaluationContext evaluationContext;
     private final EvaluatingVisitor visitor;
@@ -138,11 +139,14 @@ CODE_REMOVED
         return parser.expression();
     }
     
-    private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {        
+    private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {
+        private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
+        private static final int LITERAL_CACHE_MAX_ENTRIES = 128;
+        
         private static final String SYSTEM_NAMESPACE = "System";
-        private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = createLRUCache(1024);
-        private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createLRUCache(4096);
-
+        private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createLRUCache(IDENTIFIER_CACHE_MAX_ENTRIES);
+        private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = createLRUCache(LITERAL_CACHE_MAX_ENTRIES);
+        
         private final EvaluationContext evaluationContext;
         
         private final Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();

@@ -6,7 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.path.function.registry;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ibm.watsonhealth.fhir.model.path.function.AllFalseFunction;
@@ -92,6 +94,10 @@ public class FHIRPathFunctionRegistry {
     
     public FHIRPathFunction getFunction(String functionName) {
         return functionMap.get(functionName);
+    }
+    
+    public Set<String> getFunctionNames() {
+        return Collections.unmodifiableSet(functionMap.keySet());
     }
     
     private void registerFunctions() {
