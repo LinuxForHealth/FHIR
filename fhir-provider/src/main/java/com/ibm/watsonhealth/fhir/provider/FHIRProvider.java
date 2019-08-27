@@ -42,12 +42,13 @@ import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 
-@Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
-        com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
-@Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
-        com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWriter<Resource> {
     private static final Logger log = Logger.getLogger(FHIRProvider.class.getName());
+    
+    private static final MediaType APPLICATION_FHIR_JSON_TYPE = com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON_TYPE;
+    private static final MediaType APPLICATION_FHIR_XML_TYPE = com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML_TYPE;
 
     @Context
     private UriInfo uriInfo;
@@ -67,9 +68,10 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             return FHIRParser.parser(getFormat(mediaType)).parse(entityStream);
         } catch (FHIRParserException e) {
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
+            String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))));
+                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: an error occurred during resource deserialization", e.getPath()))), getMediaType(acceptHeader));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");
@@ -91,7 +93,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), e.getPath()))));
+                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: an error occurred during resource serialization", e.getPath()))), mediaType);
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");
@@ -122,20 +124,42 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
 
     private Format getFormat(MediaType mediaType) {
         if (mediaType != null) {
-            if (mediaType.isCompatible(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_FHIR_TYPE)
-                    || mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
+            if (mediaType.isCompatible(APPLICATION_FHIR_JSON_TYPE) || 
+                    mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
                 return Format.JSON;
-            } else if (mediaType.isCompatible(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_XML_TYPE)
-                    || mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+            } else if (mediaType.isCompatible(APPLICATION_FHIR_XML_TYPE) || 
+                    mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
                 return Format.XML;
             }
         }
         return null;
     }
     
-    private Response buildResponse(OperationOutcome operationOutcome) {
+    private MediaType getMediaType(String acceptHeader) {
+        MediaType mediaType = null;
+        try {
+            mediaType = MediaType.valueOf(acceptHeader);
+        } catch (IllegalArgumentException e) {
+            // ignore
+        }
+        if (mediaType != null) {
+            if (mediaType.isCompatible(APPLICATION_FHIR_JSON_TYPE)) {
+                return APPLICATION_FHIR_JSON_TYPE;
+            } else if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
+                return MediaType.APPLICATION_JSON_TYPE;
+            } else if (mediaType.isCompatible(APPLICATION_FHIR_XML_TYPE)) {
+                return APPLICATION_FHIR_XML_TYPE;
+            } else if (mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+                return MediaType.APPLICATION_XML_TYPE;
+            }
+        }
+        // default
+        return APPLICATION_FHIR_JSON_TYPE;
+    }
+
+    private Response buildResponse(OperationOutcome operationOutcome, MediaType mediaType) {
         Response response = Response.status(Response.Status.BAD_REQUEST)
-                .header(HttpHeaders.CONTENT_TYPE, com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON)
+                .header(HttpHeaders.CONTENT_TYPE, mediaType)
                 .entity(operationOutcome)
                 .build();
         return response;

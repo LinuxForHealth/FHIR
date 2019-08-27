@@ -146,8 +146,8 @@ import com.ibm.watsonhealth.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
 
 @Path("/")
-@Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Consumes({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 public class FHIRResource implements FHIRResourceHelpers {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
@@ -354,8 +354,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @PATCH
+    @Consumes({ MediaType.APPLICATION_JSON_PATCH })
     @Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
-    @Consumes(MediaType.APPLICATION_JSON_PATCH)
     @Path("{type}/{id}")
     public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
         Response.Status status;
@@ -389,8 +389,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
     
     @PATCH
+    @Consumes({ MediaType.APPLICATION_JSON_PATCH })
     @Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
-    @Consumes(MediaType.APPLICATION_JSON_PATCH)
     @Path("{type}")
     public Response conditionalPatch(@PathParam("type") String type, JsonArray array) {
         Date startTime = new Date();
