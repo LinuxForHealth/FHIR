@@ -63,14 +63,10 @@ import com.ibm.watsonhealth.fhir.model.type.Quantity;
 public class FHIRPathEvaluator {
     public static boolean DEBUG = false;
     
-    private static final int EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES = 512;
-    
-    private static final String UCUM_SYSTEM = "http://unitsofmeasure.org";
-    private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
-    
     public static final Collection<FHIRPathNode> SINGLETON_TRUE = singleton(FHIRPathBooleanValue.TRUE);
     public static final Collection<FHIRPathNode> SINGLETON_FALSE = singleton(FHIRPathBooleanValue.FALSE);
-    
+
+    private static final int EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES = 512;
     private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = createLRUCache(EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES);
 
     private final EvaluationContext evaluationContext;
@@ -99,16 +95,12 @@ CODE_REMOVED
     
     public Collection<FHIRPathNode> evaluate(String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
         Objects.requireNonNull(initialContext);
-        
         try {
             evaluationContext.setExternalConstant("context", initialContext);
-            
             visitor.reset();
-            
             visitor.pushContext(initialContext);
-            Collection<FHIRPathNode> result = visitor.visit(getExpressionContext(expr));
+            Collection<FHIRPathNode> result = getExpressionContext(expr).accept(visitor);
             visitor.popContext();
-            
             return Collections.unmodifiableCollection(result);
         } catch (Exception e) {
             throw new FHIRPathException("An error occurred while evaluating expression: " + expr, e);
@@ -116,12 +108,7 @@ CODE_REMOVED
     }
 
     private static ExpressionContext getExpressionContext(String expr) {
-        Objects.requireNonNull(expr);
-        ExpressionContext expressionContext = EXPRESSION_CONTEXT_CACHE.get(expr);
-        if (expressionContext == null) {
-            expressionContext = EXPRESSION_CONTEXT_CACHE.computeIfAbsent(expr, FHIRPathEvaluator::compile);
-        }
-        return expressionContext;
+        return EXPRESSION_CONTEXT_CACHE.computeIfAbsent(Objects.requireNonNull(expr), FHIRPathEvaluator::compile);
     }
     
     public static FHIRPathEvaluator evaluator() {
@@ -140,16 +127,15 @@ CODE_REMOVED
     }
     
     private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {
-        private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
-        private static final int LITERAL_CACHE_MAX_ENTRIES = 128;
-        
         private static final String SYSTEM_NAMESPACE = "System";
+        private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
         private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createLRUCache(IDENTIFIER_CACHE_MAX_ENTRIES);
+        private static final int LITERAL_CACHE_MAX_ENTRIES = 128;
         private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = createLRUCache(LITERAL_CACHE_MAX_ENTRIES);
         
         private final EvaluationContext evaluationContext;
-        
         private final Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();
+
         private int indentLevel = 0;
         
         private EvaluatingVisitor(EvaluationContext evaluationContext) {
@@ -1284,6 +1270,9 @@ CODE_REMOVED
     }
     
     public static class EvaluationContext {
+        private static final String UCUM_SYSTEM = "http://unitsofmeasure.org";
+        private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
+        
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
         

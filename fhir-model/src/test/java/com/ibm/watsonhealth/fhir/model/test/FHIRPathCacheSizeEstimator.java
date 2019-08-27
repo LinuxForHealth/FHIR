@@ -63,7 +63,6 @@ public class FHIRPathCacheSizeEstimator {
                     expressions.add(constraint.location());
                 }
                 expressions.add(constraint.expression());
-                
                 ExpressionContext expressionContext = compile(constraint.expression());
                 expressionContext.accept(visitor);
             }
