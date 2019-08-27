@@ -24,7 +24,7 @@ public class UpdateOperation extends BaseOperation {
 
         final String logicalId = resource.getId().getValue();
         
-        logger.info("Updating: " + logicalId);
+        logger.fine("Updating: " + logicalId);
 
         Resource newResource = tc.getPersistence().update(context, logicalId, resource);
         check(tc, resource, newResource, this.getClass().getSimpleName());

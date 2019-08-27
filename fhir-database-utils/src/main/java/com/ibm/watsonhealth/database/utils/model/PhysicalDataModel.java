@@ -113,7 +113,7 @@ public class PhysicalDataModel implements IDataModel {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
-            logger.info(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
+            logger.fine(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
             obj.apply(target);
         }
     }
@@ -128,7 +128,7 @@ public class PhysicalDataModel implements IDataModel {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
-            logger.info(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
+            logger.fine(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
             obj.applyVersion(target, vhs);
         }
     }
@@ -141,7 +141,7 @@ public class PhysicalDataModel implements IDataModel {
         int total = procedures.size();
         int count = 1;
         for (IDatabaseObject obj: procedures) {
-            logger.info(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
+            logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
             obj.apply(target);
         }
     }
@@ -163,11 +163,11 @@ public class PhysicalDataModel implements IDataModel {
             IDatabaseObject obj = copy.get(i);            
             
             if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
-                logger.info(String.format("Dropping [%d/%d] %s", count++, total, obj.toString()));
+                logger.fine(String.format("Dropping [%d/%d] %s", count++, total, obj.toString()));
                 obj.drop(target);
             }
             else {
-                logger.info(String.format("Skipping [%d/%d] %s", count++, total, obj.toString()));                
+                logger.fine(String.format("Skipping [%d/%d] %s", count++, total, obj.toString()));                
             }
         }
         
@@ -365,7 +365,7 @@ public class PhysicalDataModel implements IDataModel {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
-            logger.info(String.format("Granting privileges [%d/%d] %s", count++, total, obj.toString()));
+            logger.fine(String.format("Granting privileges [%d/%d] %s", count++, total, obj.toString()));
             obj.grant(target, groupName, username);
         }
     }

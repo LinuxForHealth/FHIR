@@ -28,7 +28,7 @@ public class ReadOperation extends BaseOperation {
 		
 		final String logicalId = resource.getId().getValue();
 		
-		logger.info("Reading: " + logicalId);
+		logger.fine("Reading: " + logicalId);
 		
 		Resource newResource = tc.getPersistence().read(context, resource.getClass(), logicalId);
 		

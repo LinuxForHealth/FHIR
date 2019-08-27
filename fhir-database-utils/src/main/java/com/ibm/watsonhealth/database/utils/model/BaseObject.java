@@ -242,7 +242,7 @@ public abstract class BaseObject implements IDatabaseObject {
      */
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
         if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)) {
-            logger.info("Applying change [v" + version + "]: " + this.getTypeAndName());
+            logger.fine("Applying change [v" + version + "]: " + this.getTypeAndName());
             
             // Apply this change to the target database
             apply(target);
