@@ -214,7 +214,7 @@ public class R4ExamplesDriver {
      * @param jsonFile
      */
     public void processExample(String file, Format format, Expectation expectation) throws ExampleProcessorException {
-        System.out.println("Processing: " + file);
+        logger.fine("Processing: " + file);
         Expectation actual;
 
         try {
@@ -271,7 +271,7 @@ public class R4ExamplesDriver {
             throw error;
         }
 
-        System.out.println(String.format("Processed: wanted:%11s got:%11s %s ", expectation.name(), actual.name(), file));
+        logger.fine(String.format("Processed: wanted:%11s got:%11s %s ", expectation.name(), actual.name(), file));
 
     }
 

@@ -30,6 +30,6 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
         driver.setProcessor(new ExampleRequestProcessor(this));
         
         // TODO switch to ALL one the generated examples can be validated cleanly
-        driver.processExamples(TestType.SPEC);
+        driver.processExamples(TestType.MINIMAL);
      }
 }

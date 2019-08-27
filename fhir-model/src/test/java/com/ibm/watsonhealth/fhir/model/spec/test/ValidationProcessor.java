@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.spec.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,7 +24,8 @@ import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
  *
  */
 public class ValidationProcessor implements IExampleProcessor {
-
+    private static final Logger logger = Logger.getLogger(ValidationProcessor.class.getName());
+    
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.model.spec.test.IExampleProcessor#process(java.lang.String, com.ibm.watsonhealth.fhir.model.resource.Resource)
      */
@@ -56,7 +58,7 @@ public class ValidationProcessor implements IExampleProcessor {
                 throw new Exception("Input resource failed validation: \n\t" + String.join("\n\t", issueStrings));
             }
             else {
-                System.out.println("Validation issues [INFO]: \n\t" + String.join("\n\t", issueStrings));
+                logger.fine("Validation issues on '" + jsonFile + "' [INFO]: \n\t" + String.join("\n\t", issueStrings));
             }
         }
     }
