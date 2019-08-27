@@ -101,7 +101,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .remove("/active")
                 .build().toJsonArray();
         
-        Entity<JsonArray> patchEntity = Entity.entity(array, "application/json-patch+json");
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId().getValue())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
@@ -140,7 +140,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .replace("/active", false)
                 .build().toJsonArray();
         
-        Entity<JsonArray> patchEntity = Entity.entity(array, "application/json-patch+json");
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId().getValue())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
@@ -183,7 +183,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .copy("/name/0/family", "/name/0/given/0")
                 .build().toJsonArray();
         
-        Entity<JsonArray> patchEntity = Entity.entity(array, "application/json-patch+json");
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId().getValue())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
@@ -227,7 +227,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .move("/name/0/family", "/name/0/given/0")
                 .build().toJsonArray();
         
-        Entity<JsonArray> patchEntity = Entity.entity(array, "application/json-patch+json");
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId().getValue())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);

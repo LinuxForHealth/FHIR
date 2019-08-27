@@ -392,7 +392,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     
     @PATCH
     @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
-    @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, FHIRMediaType.APPLICATION_JSON })
+    @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
     @Path("{type}")
     public Response conditionalPatch(@PathParam("type") String type, JsonArray array) {
         Date startTime = new Date();

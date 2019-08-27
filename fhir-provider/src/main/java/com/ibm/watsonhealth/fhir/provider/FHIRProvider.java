@@ -8,6 +8,8 @@ package com.ibm.watsonhealth.fhir.provider;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.buildOperationOutcome;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.buildOperationOutcomeIssue;
+import static com.ibm.watsonhealth.fhir.provider.util.FHIRProviderUtil.buildResponse;
+import static com.ibm.watsonhealth.fhir.provider.util.FHIRProviderUtil.getMediaType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +40,6 @@ import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.parser.exception.FHIRParserException;
-import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
@@ -131,35 +132,5 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             }
         }
         return null;
-    }
-    
-    private MediaType getMediaType(String acceptHeader) {
-        MediaType mediaType = null;
-        try {
-            mediaType = FHIRMediaType.valueOf(acceptHeader);
-        } catch (IllegalArgumentException e) {
-            // ignore
-        }
-        if (mediaType != null) {
-            if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_JSON_TYPE)) {
-                return FHIRMediaType.APPLICATION_FHIR_JSON_TYPE;
-            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_JSON_TYPE)) {
-                return MediaType.APPLICATION_JSON_TYPE;
-            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_XML_TYPE)) {
-                return FHIRMediaType.APPLICATION_FHIR_XML_TYPE;
-            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_XML_TYPE)) {
-                return MediaType.APPLICATION_XML_TYPE;
-            }
-        }
-        // default
-        return FHIRMediaType.APPLICATION_FHIR_JSON_TYPE;
-    }
-
-    private Response buildResponse(OperationOutcome operationOutcome, MediaType mediaType) {
-        Response response = Response.status(Response.Status.BAD_REQUEST)
-                .header(HttpHeaders.CONTENT_TYPE, mediaType)
-                .entity(operationOutcome)
-                .build();
-        return response;
     }
 }
