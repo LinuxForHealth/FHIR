@@ -1,8 +1,2 @@
-/.apt_generated/
-/.settings/*
+# TODO: do we still need this?  If so, does it work with `.settings/` at the top level?
 !.settings/org.eclipse.wst.validation.prefs
-/target/
-/test-output/
-.factorypath
-*.log
-/.apt_generated_tests/

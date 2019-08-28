@@ -1,11 +1,28 @@
-.DS_Store
-/.metadata/
-metadata.json
-/integration-test-results/
-integration-test-results.zip
-/pre-it-logs/
-pre-it-logs.zip
-/server-logs/
-/SIT/
+# Eclipse
+.project
+.settings/
+.classpath
+
+## Annotation processing
+.apt_generated/
+.apt_generated_tests/
+.factorypath
+
+# IntelliJ IDEA
 *.iml
-**/.idea/**
+.idea/
+
+# Mac OS X
+.DS_Store
+
+# Output folders
+target/
+test-output/
+
+# Integration tests
+/SIT/
+/pre-it-logs/
+/pre-it-logs.zip
+/server-logs/
+/integration-test-results/
+/integration-test-results.zip
