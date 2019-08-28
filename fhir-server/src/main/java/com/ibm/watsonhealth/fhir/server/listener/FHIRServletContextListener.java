@@ -45,7 +45,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.SchemaType;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.DerbyBootstrapper;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 
-@WebListener("IBM Watson Health Cloud FHIR Server Servlet Context Listener")
+@WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
     
