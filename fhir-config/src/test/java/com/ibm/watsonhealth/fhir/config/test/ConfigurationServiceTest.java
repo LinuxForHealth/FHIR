@@ -43,10 +43,10 @@ public class ConfigurationServiceTest {
         assertEquals("resources/security/fhirkeys.jceks", ksLoc);
         String ksPassword = encryptionProps.getStringProperty("keystorePassword");
         assertNotNull(ksPassword);
-        assertEquals("password", ksPassword);
+        assertEquals("change-password", ksPassword);
         String keyPassword = encryptionProps.getStringProperty("keyPassword");
         assertNotNull(keyPassword);
-        assertEquals("password", keyPassword);
+        assertEquals("change-password", keyPassword);
         
         // Validate retrieval of an array of strings.
         Object[] allowableCustomTypes = pg.getArrayProperty("fhirServer/virtualResources/allowableResourceTypes");

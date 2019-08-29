@@ -47,7 +47,7 @@ public class PropertyGroupTest {
                 .add("fhir-server", Json.createObjectBuilder()
                     .add("server-core", Json.createObjectBuilder()
                         .add("truststoreLocation", "XYZ")
-                        .add("truststorePassword", "password"))
+                        .add("truststorePassword", "change-password"))
                     .add("notifications", Json.createObjectBuilder()
                         .add("common", Json.createObjectBuilder()
                             .add("includeResourceTypes", Json.createArrayBuilder()
@@ -58,7 +58,7 @@ public class PropertyGroupTest {
                             .add("connectionProperties", Json.createObjectBuilder()
                                 .add("groupId", "group1")
                                 .add("bootstrap.servers", "localhost:1234")
-                                .add("password", "change-password"))
+                                .add("change-password", "change-password"))
                             )
                         )
                     .add("object-array", Json.createArrayBuilder()
@@ -223,8 +223,8 @@ public class PropertyGroupTest {
         
         propEntry = properties.get(2);
         assertNotNull(propEntry);
-        assertEquals("password", propEntry.getName());
-        assertEquals("password", (String) propEntry.getValue());
+        assertEquals("change-password", propEntry.getName());
+        assertEquals("change-password", (String) propEntry.getValue());
     }
     
     @Test
