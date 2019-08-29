@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -73,6 +73,7 @@ import com.ibm.watsonhealth.fhir.model.path.function.ToIntegerFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.ToQuantityFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.ToStringFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.TodayFunction;
+import com.ibm.watsonhealth.fhir.model.path.function.TypeFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.UnionFunction;
 import com.ibm.watsonhealth.fhir.model.path.function.UpperFunction;
 
@@ -162,6 +163,7 @@ public class FHIRPathFunctionRegistry {
         register(new ToQuantityFunction());
         register(new ToStringFunction());
         register(new TodayFunction());
+        register(new TypeFunction());
         register(new UnionFunction());
         register(new UpperFunction());
     }

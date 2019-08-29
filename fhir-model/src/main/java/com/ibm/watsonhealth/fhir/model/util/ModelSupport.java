@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -83,7 +83,8 @@ import com.ibm.watsonhealth.fhir.model.type.Uuid;
 import com.ibm.watsonhealth.fhir.model.type.Xhtml;
 
 public final class ModelSupport {
-    public static boolean DEBUG = false;    
+    public static boolean DEBUG = false;
+    
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
@@ -141,22 +142,31 @@ public final class ModelSupport {
         UsageContext.class, 
         Dosage.class));
 
-    private ModelSupport() {
-    }
+    private ModelSupport() { }
 
     /**
      * Calling this method allows us to load/initialize this class during startup.
      */
     public static void init() { }
 
-    private static final class ElementInfo {
+    public static final class ElementInfo {
+        private final String name;
         private final Class<?> type;
+        private final Class<?> declaringType;
         private final boolean required;
         private final boolean repeating;
         private final boolean choice;
         private final Set<Class<?>> choiceTypes;
         
-        public ElementInfo(Class<?> type, boolean required, boolean repeating, boolean choice, Set<Class<?>> choiceTypes) {
+        ElementInfo(String name,
+                Class<?> type, 
+                Class<?> declaringType, 
+                boolean required, 
+                boolean repeating, 
+                boolean choice, 
+                Set<Class<?>> choiceTypes) {
+            this.name = name;
+            this.declaringType = declaringType;
             this.type = type;
             this.required = required;
             this.repeating = repeating;
@@ -164,24 +174,36 @@ public final class ModelSupport {
             this.choiceTypes = choiceTypes;
         }
         
-        public Set<Class<?>> getChoiceTypes() {
-            return choiceTypes;
+        public String getName() {
+            return name;
         }
         
         public Class<?> getType() {
             return type;
         }
         
-        public boolean isChoice() {
-            return choice;
+        public Class<?> getDeclaringType() {
+            return declaringType;
         }
-    
-        public boolean isRepeating() {
-            return repeating;
+        
+        public boolean isDeclaredBy(Class<?> type) {
+            return declaringType.equals(type);
         }
         
         public boolean isRequired() {
             return required;
+        }
+        
+        public boolean isRepeating() {
+            return repeating;
+        }
+        
+        public boolean isChoice() {
+            return choice;
+        }
+        
+        public Set<Class<?>> getChoiceTypes() {
+            return choiceTypes;
         }
     }
 
@@ -216,15 +238,16 @@ public final class ModelSupport {
                 for (Field field : getAllFields(modelClass)) {
                     String elementName = getElementName(field);
                     Class<?> type = getFieldType(field);
+                    Class<?> declaringType = field.getDeclaringClass();
                     boolean required = isRequired(field);
                     boolean repeating = isRepeating(field);
                     boolean choice = isChoice(field);
                     Set<Class<?>> choiceTypes = choice ? Collections.unmodifiableSet(getChoiceTypes(field)) : Collections.emptySet();
-                    elementInfoMap.put(elementName, new ElementInfo(type, required, repeating, choice, choiceTypes));
+                    elementInfoMap.put(elementName, new ElementInfo(elementName, type, declaringType, required, repeating, choice, choiceTypes));
                 }
                 modelClassElementInfoMap.put(modelClass, Collections.unmodifiableMap(elementInfoMap));
             }
-            return modelClassElementInfoMap;
+            return Collections.unmodifiableMap(modelClassElementInfoMap);
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -295,6 +318,10 @@ public final class ModelSupport {
         return MODEL_CLASS_ELEMENT_INFO_MAP.getOrDefault(modelClass, Collections.emptyMap()).get(elementName);
     }
     
+    public static Collection<ElementInfo> getElementInfo(Class<?> modelClass) {
+        return MODEL_CLASS_ELEMENT_INFO_MAP.getOrDefault(modelClass, Collections.emptyMap()).values();
+    }
+    
     private static String getElementName(Field field) {
         return getElementName(field.getName());
     }
@@ -319,6 +346,22 @@ public final class ModelSupport {
             return elementInfo.getType();
         }
         return null;
+    }
+    
+    public static Class<?> getElementDeclaringType(Class<?> modelClass, String elementName) {
+        ElementInfo elementInfo = getElementInfo(modelClass, elementName);
+        if (elementInfo != null) {
+            return elementInfo.getDeclaringType();
+        }
+        return null;
+    }
+    
+    public static boolean isElementDeclaredBy(Class<?> modelClass, String elementName, Class<?> type) {
+        ElementInfo elementInfo = getElementInfo(modelClass, elementName);
+        if (elementInfo != null) {
+            return elementInfo.isDeclaredBy(type);
+        }
+        return false;
     }
     
     private static Class<?> getFieldType(Field field) {

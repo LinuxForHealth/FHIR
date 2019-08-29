@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -16,6 +16,7 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTimeValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathTypeInfoNode;
 
 public abstract class FHIRPathAbstractNodeVisitor<T> implements FHIRPathNodeVisitor<T> {
     // called by template methods
@@ -28,6 +29,7 @@ public abstract class FHIRPathAbstractNodeVisitor<T> implements FHIRPathNodeVisi
     protected abstract void doVisit(T param, FHIRPathResourceNode node);
     protected abstract void doVisit(T param, FHIRPathStringValue value);
     protected abstract void doVisit(T param, FHIRPathTimeValue value);
+    protected abstract void doVisit(T param, FHIRPathTypeInfoNode node);
     
     @Override
     public final void visit(T param, FHIRPathBooleanValue value) {
@@ -75,6 +77,11 @@ public abstract class FHIRPathAbstractNodeVisitor<T> implements FHIRPathNodeVisi
     @Override
     public final void visit(T param, FHIRPathTimeValue value) {
         doVisit(param, value);
+    }
+    
+    @Override
+    public final void visit(T param, FHIRPathTypeInfoNode node) {
+        doVisit(param, node);
     }
 
     private void visitChildren(T param, FHIRPathNode node) {

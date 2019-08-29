@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,7 +23,7 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
     protected FHIRPathAbstractNode(Builder builder) {
         name = builder.name;
         path = builder.path;
-        type = builder.type;
+        type = Objects.requireNonNull(builder.type);
         value = builder.value;
         children = Collections.unmodifiableCollection(builder.children);
     }

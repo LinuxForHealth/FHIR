@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -15,6 +15,7 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTimeValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathTypeInfoNode;
 
 public interface FHIRPathNodeVisitor<T> {
     void visit(T param, FHIRPathBooleanValue value);
@@ -26,4 +27,5 @@ public interface FHIRPathNodeVisitor<T> {
     void visit(T param, FHIRPathResourceNode node);
     void visit(T param, FHIRPathStringValue value);
     void visit(T param, FHIRPathTimeValue value);
+    void visit(T param, FHIRPathTypeInfoNode node);
 }
