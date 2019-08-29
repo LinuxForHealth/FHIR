@@ -48,16 +48,9 @@
 ### Added
 * Packaging for use on IBM Cloud, including
   * $healthcheck operation for testing the db connection
-  * support for obtaining the tenantId from a multi-part header (e.g. X-Watson-Userinfo)
-  * fhir-iam interceptor for use with IBM Cloud Identity and Access Management (IAM)
   * fhir-server is now built into a docker image that is available from Artifactory (see fhir-server README)
-CODE_REMOVED
-CODE_REMOVED
-* "To CDA" operation for converting FHIR document bundles into CDA documents
-  * not packaged with the FHIR Server by default
 
 ## [2.2.0] - 2018-10-15
-
 Release 2.2.0 is the first <q>common service</q> release from the Watson Health FHIR Server codebase.
 
 ### Security
@@ -80,7 +73,7 @@ Release 2.2.0 is the first <q>common service</q> release from the Watson Health 
 * upgrade to Liberty 18.0.0.2 and update features
 * !BREAKING! - use FHIROperationException as base exception and add severity and issueType
 * avoid duplicate read operations during update operation
-CODE_REMOVED
+* moved user guide to docs
 
 ### Added
 * high-performance FHIRJsonGenerator for serializing FHIR
@@ -89,16 +82,4 @@ CODE_REMOVED
 * support the `_elements` search parameter
 * $healthcheck operation which tests connection to the db
 
-### Removed
-CODE_REMOVED
-* Removed unused "km" Crypto client library from audit project
 * Update to OpenAPI 3.0 and remove fhir-swagger-ui project
-
-## [2.1.x]
-
-CODE_REMOVED
-
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED

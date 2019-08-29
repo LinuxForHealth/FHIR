@@ -54,7 +54,7 @@ View information about recent changes that were made to this document. For more 
 * Updated [Section 3.5 Search parameters](#35-search-parameters) and [Section 4.10.3 Search parameters](#4103-search-parameters) to describe fallback to the "default" tenant
 
 ### Release 2.2
-CODE_REMOVED
+* Moved User Guide to this repo converted to Markdown
 * Split large table in [Section 5.1](#51-configuration-properties-reference) into three separate tables to improve display on GitHub Enterprise
 * Replaced references to Jenkins with links to Artifactory
 * Deleted the <q>Historical Information</q> section
@@ -63,7 +63,7 @@ CODE_REMOVED
 * Added section on upgrading from one version to the next
 
 ###	Release 2.1
-CODE_REMOVED
+Watson Health FHIR Server version 2.1 was developed under the Watson Health. 
 
 ###	Release 1.2
 *	Added information about the update/create feature.
@@ -85,7 +85,7 @@ CODE_REMOVED
 
 ## 2.1 Installing a new server
 1.	To install the FHIR server, first obtain the installation package `fhir-install-<version>.zip`.
-CODE_REMOVED
+You can download the package from the FHIR server team's [Artifactory server](https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/watsonhealth/fhir/fhir-install).
 
 2.	Decompress the `.zip` file into a clean directory (referred to as `/fhir-installer` here):
 ```
@@ -144,7 +144,7 @@ The preceding command should produce output similar to the following:
         "name" : "IBM Watson Health Cloud FHIR server",
         "version" : "1.0.0"
     },
-    "fhirVersion" : "1.0.2 - DSTU2",
+    "fhirVersion" : "1.0.2 - r4",
     "format" : [ "application/json", "application/json+fhir", "application/xml", "application/xml+fhir" ]
     ...
 }
@@ -171,7 +171,7 @@ The FHIR 2.2.0 release contains a few database updates, which makes it difficult
 
 FHIR 2.2.0 upgrades WebSphere Liberty from version 17.0.0.1 to version 18.0.0.2. There are also updates to several Liberty features and a few of the FHIR server dependencies. If you modified your `server.xml`, you might want to merge your changes with the new `server.xml` that was created by the installer.
 
-Due to issue #220, any existing `extension-search-parameters.xml` XPath expressions for extension elements should be checked to ensure that the expression points to the value of the extension to be indexed. See [Section 3.5 Search parameters](#35-search-parameters) for more information.
+Due to issue #220, any existing `extension-search-parameters.json` XPath expressions for extension elements should be checked to ensure that the expression points to the value of the extension to be indexed. See [Section 3.5 Search parameters](#35-search-parameters) for more information.
 
 Finally, for users who extended the FHIR server (via custom operations or custom persistence options), Release 2.2.0 contains a few breaking changes to the Java libraries. The keys changes to be aware of are:
 1. Issue #63 - refactored FHIRException class hierarchy and improved error handling; and
@@ -191,7 +191,7 @@ To encode a string value, run the following command:
 
 and the following output is generated:
 
-`{xor}LCstNjE4CzAaMTwwOzo=`
+`{xor}abc-change-me=`
 
 This output can then be copied and pasted into your server.xml or `fhir-server-config.json` file as needed.
 
@@ -204,14 +204,14 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
      "fhirServer":{
         "core":{
             "truststoreLocation":"resources/security/fhirTruststore.jks",
-CODE_REMOVED
+            "truststorePassword":"{xor}change-me=",
             "userDefinedSchematronEnabled":true
         },
         "encryption":{
             "enabled":false,
             "keystoreLocation":"resources/security/fhirkeys.jceks",
-CODE_REMOVED
-CODE_REMOVED
+            "keystorePassword":"{xor}change-me=",
+            "keyPassword":"{xor}change-me="
         },
     …
     }
@@ -224,7 +224,7 @@ Throughout this document, we use a path notation to refer to property names. For
 
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
-In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id. The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` file. Similarly, tenant-specific search parameters are found at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.xml` whereas the global/default extension search parameters are at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/extension-search-parameters.xml`. Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters.
+In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id. The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` file. Similarly, tenant-specific search parameters are found at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json` whereas the global/default extension search parameters are at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/extension-search-parameters.json`. Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters.
 
 More information about multi-tenant support can be found in [Section 4.10 Multi-tenancy](#410-multi-tenancy).
 
@@ -415,7 +415,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
                         "serverName": "dbserver1",
                         "portNumber": "50000",
                         "user": "db2inst1",
-CODE_REMOVED
+                        "password": "{xor}change-me=",
                         "database": "ACMESTUDY1",
                         "currentSchema": "DB2INST1"
                     }
@@ -426,7 +426,7 @@ CODE_REMOVED
                         "serverName": "dbserver1",
                         "portNumber": "50000",
                         "user": "db2inst1",
-CODE_REMOVED
+                        "password": "{xor}change-me=",
                         "database": "ACMESTUDY2",
                         "currentSchema": "DB2INST1"
                     }
@@ -481,7 +481,7 @@ Additionally, the Watson Health FHIR Server supports searching on additional fie
 
 Users provide a set of `SearchParameter` resources that define the additional search parameters. For example, if you extend the `Patient` resource type by adding the `favorite-color` attribute, enable searching on `favorite-color` by defining a SearchParameter entry for `favorite-color` and configuring the FHIR server with this definition.
 
-To configure the FHIR server with one or more custom search parameters, create a file called `extension-search-parameters.xml` and populate the contents with a Bundle of `SearchParameter` resources as in the following example:
+To configure the FHIR server with one or more custom search parameters, create a file called `extension-search-parameters.json` and populate the contents with a Bundle of `SearchParameter` resources as in the following example:
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <Bundle xmlns="http://hl7.org/fhir">
@@ -506,7 +506,7 @@ To configure the FHIR server with one or more custom search parameters, create a
 </Bundle>
 ```
 
-CODE_REMOVED
+Note 1:  According to the [FHIR specification](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code), it is the `code` field (and not the `name` field) which is supposed to be used for the name of the search parameter in search requests. Because earlier versions of the Watson Health FHIR Server used the `name` field for this purpose, we have decided not to change that at this time. However, users of the the server are strongly encouraged to include their desired name in both the `name` **and** `code` fields for improved backwards/forwards compatibility. Use of the `name` field, without a matching `code`, is considered deprecated and the FHIR server will likely change to exclusively use the `code` field in a [future release](https://github.ibm.com/watson-health-fhir-server/fhir/issues/202).
 
 Note 2:  In previous versions of the FHIR server, the XPath expression could point to either the `extension` element or to the `value[x]` element within that extension (for example, `valueString`). However, for complex extensions and parameters of type `date`, the expression must always point to the specific element to be indexed. Therefor, matching to the specific element to be indexed is best and matching to the parent element instead is considered deprecated.
 
@@ -845,10 +845,10 @@ The Kafka implementation of the notification service will publish notification e
                     "bootstrap.servers":"localhost:9093",
                     "security.protocol":"SSL",
                     "ssl.truststore.location":"resources/security/kafka.client.truststore.jks",
-CODE_REMOVED
+                    "ssl.truststore.password":"{xor}change-me=",
                     "ssl.keystore.location":"resources/security/kafka.client.keystore.jks",
-CODE_REMOVED
-CODE_REMOVED
+                    "ssl.keystore.password":"{xor}change-me=",
+                    "ssl.key.password":"{xor}change-me=",
                     "ssl.truststore.type":"JKS",
                     "ssl.keystore.type":"JKS"
                 }
@@ -981,7 +981,7 @@ The FHIR specification provides a number of different validation resources inclu
 2.	ISO XML Schematron rules
 3.	Structure Definitions / Profiles for standard resource types, data types and built-in value sets
 
-CODE_REMOVED
+The FHIR server validates incoming resources for create and update interactions using numbers 1 and 2 in the preceding list. Additionally, the WHC FHIR server provides the following `validate` interaction that API consumers can use to POST resources and get validation feedback:
  `POST <base>/Resource/$validate`
 
 ### 4.4.2 User-defined validation support
@@ -1238,8 +1238,8 @@ In addition to generating the encryption key and storing it within the keystore 
         "encryption":{
             "enabled":true,
             "keystoreLocation":"resources/security/fhirkeys.jceks",
-CODE_REMOVED
-CODE_REMOVED
+            "keystorePassword":"{xor}change-me=",
+            "keyPassword":"{xor}change-me="
         }
         …
     }
@@ -1277,7 +1277,7 @@ Along with the FHIR server, we also offer a high-level Java API that can be used
 *	Supports encryption of REST API payloads, working in concert with the FHIR server.
 
 ### 4.7.2 Maven coordinates
-CODE_REMOVED
+The FHIR Client API can be found on the WHC Nexus artifact server. In order to use the FHIR Client API within your own application, you'll need to specify the `fhir-client` artifact as a dependency within your `pom.xml` file, as in the following example:
 
 ```
         <dependency>
@@ -1297,7 +1297,7 @@ Within the master branch of the FHIR Git repository, you can find the “fhir-cl
 
 ## 4.8 FHIR command-line interface (fhir-cli)
 The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [our Artifactory server](
-CODE_REMOVED
+https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/watsonhealth/fhir/fhir-cli/).
 
 ### 4.8.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
@@ -1666,8 +1666,8 @@ This section contains an example of the FHIR server's global configuration, alon
         "encryption":{
             "enabled":false,
             "keystoreLocation":"resources/security/fhirkeys.jceks",
-CODE_REMOVED
-CODE_REMOVED
+            "keystorePassword":"{xor}change-me=",
+            "keyPassword":"{xor}change-me="
         },
         "virtualResources":{
             "enabled":false,
@@ -1728,12 +1728,7 @@ CODE_REMOVED
         "core":{
             "userDefinedSchematronEnabled":true
         },
-        "virtualResources":{
-            "enabled":true,
-            "allowableResourceTypes":[
-                "WeatherLocation", “WeatherObservation”
-            ]
-        }
+       
     }
 }
 ```
@@ -1744,33 +1739,28 @@ CODE_REMOVED
 {
     "__comment":"FHIR server configuration for tenant: Quality Pharmaceuticals, Inc.",
     "fhirServer":{
-        "virtualResources":{
-            "enabled":true,
-            "allowableResourceTypes":[
-                "*"
-            ]
-        }
+        
     }
 }
 ```
 
-In the preceding examples, you can see that in the global configuration, the user-defined validation and virtual resources features have both been disabled by default. For the `Acme Healthcare, Inc.` tenant, we've enabled both these options, and we've configured the set of allowable virtual resource types to be just `WeatherLocation` and `WeatherObservation`.
+In the preceding examples, you can see that in the global configuration, the user-defined validation feature has both been disabled by default.
 
 For the `Quality Pharmaceuticals, Inc.` tenant, the user-defined validation feature is disabled, and the virtual resources feature is enabled (with any virtual resource type allowed). Note that because the user-defined validation feature is disabled by default within the global configuration, we didn't need to explicitly set that configuration parameter in the `Quality Pharmaceuticals` configuration file.
 
 ### 4.10.3 Search parameters
 The FHIR server allows deployers to define search parameters on a tenant-specific basis. This allows each tenant that shares an instance of the FHIR server while maintaining the ability to have their own set of search parameters.
 
-To configure tenant-specific search parameters, create a file called `extension-search-parameters.xml` and place it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.xml` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.xml` would contain search parameters to be used by the `qpharma` tenant.
+To configure tenant-specific search parameters, create a file called `extension-search-parameters.json` and place it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters to be used by the `qpharma` tenant.
 
-When the FHIR server processes a request associated with the `acme` tenant, the server is only aware of the set of built-in search parameters (defined by the HL7 FHIR specification) plus the user-defined search parameters defined in the `acme` tenant's extension-search-parameters.xml file. Likewise, when processing a request associated with the `qpharma` tenant, the server is only aware of the built-in search parameters plus the user-defined search parameters defined in the `qpharma` tenant's `extension-search-parameters.xml` file.
+When the FHIR server processes a request associated with the `acme` tenant, the server is only aware of the set of built-in search parameters (defined by the HL7 FHIR specification) plus the user-defined search parameters defined in the `acme` tenant's extension-search-parameters.json file. Likewise, when processing a request associated with the `qpharma` tenant, the server is only aware of the built-in search parameters plus the user-defined search parameters defined in the `qpharma` tenant's `extension-search-parameters.json` file.
 
-If a tenant-specific extension-search-parameters.xml does not exist, the server will fall back to the global `extension-search-parameters.xml` file found at `${server.config.dir}/config/default/extension-search-parameters.xml`.
+If a tenant-specific extension-search-parameters.json does not exist, the server will fall back to the global `extension-search-parameters.json` file found at `${server.config.dir}/config/default/extension-search-parameters.json`.
 
-The FHIR server caches search parameters in memory (organized first by tenant id, then by resource type and search parameter name). Any updates to a tenant's `extension-search-parameters.xml` file will cause the FHIR server to re-load the tenant's search parameters and refresh the information stored in the cache, without requiring a server re-start. This allows the deployer to deploy a new tenant's `extension-search-parameters.xml` or update an existing file without re-starting the FHIR server and any subsequent requests processed by the FHIR server after the updates have been made will use the updated search parameters. However, it is important to note that this process will not re-index already-created resources that are stored on the FHIR Server. One technique for updating the indices for a given resource type is to `read` and `update` each resource instance with itself, triggering search parameter extraction (and creating a new version of each resource).
+The FHIR server caches search parameters in memory (organized first by tenant id, then by resource type and search parameter name). Any updates to a tenant's `extension-search-parameters.json` file will cause the FHIR server to re-load the tenant's search parameters and refresh the information stored in the cache, without requiring a server re-start. This allows the deployer to deploy a new tenant's `extension-search-parameters.json` or update an existing file without re-starting the FHIR server and any subsequent requests processed by the FHIR server after the updates have been made will use the updated search parameters. However, it is important to note that this process will not re-index already-created resources that are stored on the FHIR Server. One technique for updating the indices for a given resource type is to `read` and `update` each resource instance with itself, triggering search parameter extraction (and creating a new version of each resource).
 
 #### 4.10.3.1 Filtering of search parameters
-The FHIR server supports the filtering of built-in search parameters (that is, search parameters defined by the HL7 FHIR specification for each resource type). The default behavior of the FHIR server is to consider all built-in search parameters when storing resources or performing search results, but you can configure inclusion filters to restrict the FHIR server's view to specific search parameters on a resource type basis. This filtering feature does not apply to user-defined search parameters in the extension-search-parameters.xml file. User-defined search parameters are always included in the FHIR server's view regardless of the configured inclusion filters.
+The FHIR server supports the filtering of built-in search parameters (that is, search parameters defined by the HL7 FHIR specification for each resource type). The default behavior of the FHIR server is to consider all built-in search parameters when storing resources or performing search results, but you can configure inclusion filters to restrict the FHIR server's view to specific search parameters on a resource type basis. This filtering feature does not apply to user-defined search parameters in the extension-search-parameters.json file. User-defined search parameters are always included in the FHIR server's view regardless of the configured inclusion filters.
 
 Why would you want to filter built-in search parameters? The answer lies in how search parameters are used by the FHIR server. When the FHIR server processes a _create_ or _update_ operation, it stores the resource contents in the datastore, along with search index information that is used by the FHIR server when performing search operations. The search index information stored for a particular resource instance is driven by the search parameters defined for that resource type. Therefore if you are storing a resource whose type has a lot of built-in search parameters defined for it (e.g. `Patient`), then you could potentially be storing a lot of search index information for each resource.
 
@@ -1847,7 +1837,7 @@ This is how the filtering algorithm works:
 3.	Using the search parameter names associated with the rule retrieved in Step 1, the FHIR server will apply the rule to each built-in search parameter defined for that resource type.If the search parameter's name is found within the inclusion rule's list of search parameter names or the inclusion rule's list of names includes the wildcard (`“*”`), then the search parameter will be included in the FHIR server's view of search parameters for that resource type.
 
 ## 4.11 Extended operations
-In addition to the standard REST API (create, update, search, and so forth), the Watson Health FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/DSTU2/operations.html).
+In addition to the standard REST API (create, update, search, and so forth), the Watson Health FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
 
 ### 4.11.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate` and `$document` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
@@ -1857,12 +1847,12 @@ No other extended operations are packaged with the server at this time, but you 
 #### 4.11.1.1 $validate
 The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type.
 
-https://www.hl7.org/fhir/DSTU2/resource-operations.html#validate
+https://www.hl7.org/fhir/r4/resource-operations.html#validate
 
 #### 4.11.1.2 $document
 The `$document` operation generates a fully bundled document from a composition resource.
 
-https://www.hl7.org/fhir/DSTU2/composition-operations.html#document
+https://www.hl7.org/fhir/r4/composition-operations.html#document
 
 #### 4.11.1.3 $healthcheck
 The `$healthcheck` operation returns the health of the FHIR server and its datastore. In the default JDBC persistence layer, this operation creates a connection to the configured database and return its status. The operations returns `200 OK` when healthy. Otherwise, it returns an HTTP error code and an `OperationOutcome` with one or more issues.
@@ -1877,7 +1867,7 @@ To contribute an operation:
 3. Include your jar file under the `<WLP_HOME>/wlp/usr/servers/fhir-server/userlib/` directory of your installation.
 4. Restart the FHIR server. Changes to custom operations require a server restart, because the server discovers and instantiates operations during server startup only.
 
-After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/DSTU2/operationdefinition-definitions.html#OperationDefinition.code).
+After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
 
 ## 4.12 CADF audit logging service 
 The CADF audit logging service pushs FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)]( https://www.dmtf.org/standards/cadf) standard format to IBM Cloud Event Streams service, these FHIR operations include create, read, update, delete, version read, history, search, validate, custom operation, meta and bundle, these operations are mapped to CADF actions as following: 
@@ -1903,12 +1893,12 @@ The CADF audit logging service gets event streams service credential from env va
   "apikey": "xxxxxxxxxxxxxxxx_xxxxx_xxxxxxxxxxxxxxxxxxx",
    ...
   "kafka_brokers_sasl": [
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
+    "broker-1-0server:9093",
+    "broker-2-0server:9093",
+    "broker-5-0server:9093",
+    "broker-4-0server:9093",
+    "broker-3-0server:9093",
+    "broker-0-0server:9093"
   ],
    ...
 }
@@ -1927,10 +1917,10 @@ And then in the YAML file for your Kubernetes deployment, specify the environmen
 	                  key: binding
 	                  name: binding-<event_streams_service_instance_name>
 ```			  
-CODE_REMOVED
+please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-binding for detailed instruction if need.
 
 ### 4.12.3 Query CADF events in COS
-CODE_REMOVED
+[Waston studio stream flow]( https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-big-data-log-analytics#create-a-streams-flow-source ) can be created to push those FHIR Audit CADF events from Event Streams service to COS bucket(e.g fhir-audit-dev0) in CSV format; Another option is to configure Event Streams(Kafka) S3 connect to push those CADF events to COS bucket(e.g, fhir-audit-dev0) but in raw CADF json format.
 A service instance of the [IBM Cloud SQL Query]( https://www.ibm.com/cloud/blog/analyzing-data-with-ibm-cloud-sql-query ) service can be created to allow you to query those CADF audit events in COS with SQL queries, before you run sql query, you'd better create a COS bucket to store your query results, otherwise, the query results will be stored in a bucket which is automatically created by the SQL query service.
 
 Samples queries for CSV records expaned from the JSON CADF events:
@@ -1970,8 +1960,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/dataSourceIdHeaderName`|string|The name of the request header that will be used to specify the datastore-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/jsonParserLenient`|boolean|A boolean flag which indicates whether the FHIRJsonParser will be lenient with respect to element cardinality (singleton vs array) and string values for numbers/booleans.|
 |`fhirServer/core/jsonParserValidating`|boolean|A boolean flag which indicates whether the FHIRJsonParser will do limited validation during the parse including checking for missing required fields and unrecognized fields.|
-|`fhirServer/virtualResources/enabled`|boolean|A boolean flag which indicates whether or not the use of virtual resource types is allowed.|
-|`fhirServer/virtualResources/allowableResourceTypes`|string list|A comma-separated list of virtual resource types to be allowed.|
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [Section 4.10.3.1 Filtering of search parameters](#41031-filtering-of-search-parameters) for more information.|
 |`fhirServer/encryption/enabled`|boolean|A boolean flag which indicates whether or not the encryption feature is enabled. See [Section 4.5 Encryption/decryption of requests and responses](#45-encryption-and-decryption-of-requests-and-responses) for more information.|
 |`fhirServer/encryption/keystoreLocation`|string|The name of the keystore file that contains the FHIR server's encryption key.|
@@ -1991,10 +1979,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
-|`fhirServer/iam/identityUrl`|string|The IBM Cloud Identity and Access Management identity URL.|
-|`fhirServer/iam/jwksUrl`|string|The IBM Cloud Identity and Access Management JSON Web Key Set URL.|
-|`fhirServer/iam/pdpUrl`|string|The IBM Cloud Identity and Access Management Policy Decision Point URL.|
-|`fhirServer/iam/serviceName`|string|The IBM Cloud Identity and Access Management client name for the service offering.|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.watsonhealth.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.watsonhealth.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
@@ -2011,8 +1995,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/dataSourceIdHeaderName`|`X-FHIR-DSID`|
 |`fhirServer/core/jsonParserLenient`|false|
 |`fhirServer/core/jsonParserValidating`|true|
-|`fhirServer/virtualResources/enabled`|false|
-|`fhirServer/virtualResources/allowableResourceTypes`|`[“*”]`|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
 |`fhirServer/encryption/enabled`|false|
 |`fhirServer/encryption/keystoreLocation`|`resources/security/fhirkeys.jceks`|
@@ -2032,11 +2014,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/oauth/regUrl`|""|
 |`fhirServer/oauth/authUrl`|""|
 |`fhirServer/oauth/tokenUrl`|""|
-|`fhirServer/iam/identityUrl`|null|
-|`fhirServer/iam/jwksUrl`|null|
-|`fhirServer/iam/pdpUrl`|null|
-|`fhirServer/iam/serviceName`|null|
-|`fhirServer/audit/serviceClassName`|com.ibm.watsonhealth.fhir.audit.logging.impl.DisabledAuditLogService|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|Dallas|
 |`fhirServer/audit/serviceProperties/geoState`|TX|
@@ -2052,8 +2029,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
 |`fhirServer/core/jsonParserLenient`|Y|Y|
 |`fhirServer/core/jsonParserValidating`|Y|Y|
-|`fhirServer/virtualResources/enabled`|Y|Y|
-|`fhirServer/virtualResources/allowableResourceTypes`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/encryption/enabled`|N|N|
 |`fhirServer/encryption/keystoreLocation`|N|N|
@@ -2073,10 +2048,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/oauth/regUrl`|N|N|
 |`fhirServer/oauth/authUrl`|N|N|
 |`fhirServer/oauth/tokenUrl`|N|N|
-|`fhirServer/iam/identityUrl`|Y|N|
-|`fhirServer/iam/jwksUrl`|Y|N|
-|`fhirServer/iam/pdpUrl`|Y|N|
-|`fhirServer/iam/serviceName`|Y|N|
 |`fhirServer/audit/serviceClassName`|N|N|
 |`fhirServer/audit/serviceProperties/auditTopic`|N|N|
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|
@@ -2166,7 +2137,7 @@ In the default configuration, the FHIR server acts as an authorization server as
       "security": {
         "extension": [
           {
-            "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris",
+            "url": "http://<SERVER>",
             "extension": [
               {
                 "url": "token",
@@ -2231,7 +2202,7 @@ By default, a Derby database is used to persist the OAuth-related configuration.
 
     <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
             <jdbcDriver libraryRef="db2Lib"/>
-CODE_REMOVED
+            <properties.db2.jcc user="db2inst1" password="change-password" databaseName="OAUTH2DB" currentSchema="OAUTHDBSCHEMA" driverType="4"/>
     </dataSource>
     ```
 
@@ -2263,11 +2234,11 @@ GET /Patient/<id> HTTP/1.1
 If you would like to configure a different authorization server, uncomment the following lines in `server.xml`:
 
 ```
-<openidConnectClient authorizationEndpointUrl="https://authorize-dstu2.smarthealthit.org/authorize"
-					clientId="c6c17d9e-8633-440f-a220-4d077acce0d1"
-					clientSecret="{xor}HhQLGx0vBW84aQYmaGgqKWooKW8+JgwtMhBpZmYUHiUOMRkcaxhtajcaPSw3MQw2LzErNzkeMTBvDy9uJwkwJToabw5nHWwNJm8dbR1qNwoLNzQ6Ey0S"
+<openidConnectClient authorizationEndpointUrl="https://<SERVER>/authorize"
+					clientId="<id>"
+					clientSecret=""
 					id="client01"
-					tokenEndpointUrl="https://authorize-dstu2.smarthealthit.org/token"> 	
+					tokenEndpointUrl="https://<SERVER>/token"> 	
 </openidConnectClient>
 ```
 

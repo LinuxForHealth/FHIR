@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -73,7 +73,7 @@ public class FHIRValidator {
         private ValidatingVisitor(FHIRPathTree tree) {
             this.tree = tree;
             evaluator = FHIRPathEvaluator.evaluator(tree);
-CODE_REMOVED
+            evaluationContext = evaluator.getEvaluationContext();
         }
         
         @Override
