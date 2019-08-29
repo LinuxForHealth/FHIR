@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.path.function;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
+import static com.ibm.watsonhealth.fhir.model.util.ModelSupport.isResourceType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,16 +47,14 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * and nothing is added to the output collection. The items in the collection may also represent a Reference, in which 
      * case the Reference.reference is resolved.
      * 
-     * <p>This method creates a "proxy" resource node that is a placeholder for the actual resource, thus allowing for the 
-     * FHIRPath evaluator to perform type checking on the result of the resolve function. For example:
+     * <p>This method creates a resource node that is a placeholder for the actual resource, thus allowing for the FHIRPath 
+     * evaluator to perform type checking on the result of the resolve function. For example:
      * 
-     * <pre>
-     *     Observation.subject.where(resolve() is Patient)
-     * </pre>
+     * <pre>Observation.subject.where(resolve() is Patient)</pre>
      * 
-     * <p>If the resource type cannot be inferred from the reference URL or type, then FHIR_UNKNOWN_RESOURCE_TYPE is used.
+     * <p>If the resource type cannot be inferred from the reference URL or type, then {@code FHIR_ANY} is used.
      * 
-     * <p>Type checking on {@code FHIR_UNKNOWN_RESOURCE_TYPE} will always return 'true'.
+     * <p>Type checking on {@code FHIR_ANY} will always return 'true'.
      * 
      * @param environment
      *     the evaluation environment
@@ -100,9 +99,9 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                     resourceType = referenceType;
                 }
                 
-                FHIRPathType type = (resourceType != null) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE;
+                FHIRPathType type = isResourceType(resourceType) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_ANY;
                                 
-                result.add(FHIRPathResourceNode.proxy(type));
+                result.add(FHIRPathResourceNode.resourceNode(type));
             }
         }
         return result;

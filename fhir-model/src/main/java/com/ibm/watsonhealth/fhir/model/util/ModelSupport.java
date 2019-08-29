@@ -291,7 +291,7 @@ public final class ModelSupport {
         return MODEL_CLASS_CONSTRAINT_MAP.getOrDefault(modelClass, Collections.emptySet());
     }
 
-    private static ElementInfo getElementInfo(Class<?> modelClass, String elementName) {
+    public static ElementInfo getElementInfo(Class<?> modelClass, String elementName) {
         return MODEL_CLASS_ELEMENT_INFO_MAP.getOrDefault(modelClass, Collections.emptyMap()).get(elementName);
     }
     

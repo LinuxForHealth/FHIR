@@ -194,7 +194,7 @@ CODE_REMOVED
             Set<String> closure = new HashSet<>();
             while (!FHIRPathType.FHIR_ANY.equals(type)) {
                 closure.add(type.getName());
-                type = type.superType();
+                type = type.baseType();
             }
             return closure;
         }

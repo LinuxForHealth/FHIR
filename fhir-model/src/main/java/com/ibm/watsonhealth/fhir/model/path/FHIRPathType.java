@@ -48,7 +48,6 @@ import com.ibm.watsonhealth.fhir.model.type.Markdown;
 import com.ibm.watsonhealth.fhir.model.type.MarketingStatus;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Money;
-import com.ibm.watsonhealth.fhir.model.type.MoneyQuantity;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Oid;
 import com.ibm.watsonhealth.fhir.model.type.ParameterDefinition;
@@ -64,7 +63,6 @@ import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.RelatedArtifact;
 import com.ibm.watsonhealth.fhir.model.type.SampledData;
 import com.ibm.watsonhealth.fhir.model.type.Signature;
-import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.SubstanceAmount;
 import com.ibm.watsonhealth.fhir.model.type.Time;
@@ -75,6 +73,8 @@ import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.Url;
 import com.ibm.watsonhealth.fhir.model.type.UsageContext;
 import com.ibm.watsonhealth.fhir.model.type.Uuid;
+import com.ibm.watsonhealth.fhir.model.type.Xhtml;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport;
 
 public enum FHIRPathType {
     // FHIR base types
@@ -84,7 +84,6 @@ public enum FHIRPathType {
     FHIR_ELEMENT("FHIR", "Element", FHIR_ANY, Element.class),
     FHIR_BACKBONE_ELEMENT("FHIR", "BackboneElement", FHIR_ELEMENT, BackboneElement.class),
     FHIR_TYPE("FHIR", "Type"),
-    FHIR_UNKNOWN_RESOURCE_TYPE("FHIR", "UnknownResourceType"),
     
     // FHIR complex data types
     FHIR_ADDRESS("FHIR", "Address", FHIR_ELEMENT, Address.class),
@@ -109,7 +108,6 @@ public enum FHIRPathType {
     FHIR_MARKETING_STATUS("FHIR", "MarketingStatus", FHIR_BACKBONE_ELEMENT, MarketingStatus.class),
     FHIR_META("FHIR", "Meta", FHIR_ELEMENT, Meta.class),
     FHIR_MONEY("FHIR", "Money", FHIR_ELEMENT, Money.class),
-    FHIR_MONEY_QUANTITY("FHIR", "MoneyQuantity", FHIR_ELEMENT, MoneyQuantity.class),
     FHIR_NARRATIVE("FHIR", "Narrative", FHIR_ELEMENT, Narrative.class),
     FHIR_PARAMETER_DEFINITION("FHIR", "ParameterDefinition", FHIR_ELEMENT, ParameterDefinition.class),
     FHIR_PERIOD("FHIR", "Period", FHIR_ELEMENT, Period.class),
@@ -123,7 +121,6 @@ public enum FHIRPathType {
     FHIR_RELATED_ARTIFACT("FHIR", "RelatedArtifact", FHIR_ELEMENT, RelatedArtifact.class),
     FHIR_SAMPLED_DATA("FHIR", "SampledData", FHIR_ELEMENT, SampledData.class),
     FHIR_SIGNATURE("FHIR", "Signature", FHIR_ELEMENT, Signature.class),
-    FHIR_SIMPLE_QUANTITY("FHIR", "SimpleQuantity", FHIR_ELEMENT, SimpleQuantity.class),
     FHIR_SUBSTANCE_AMOUNT("FHIR", "SubstanceAmount", FHIR_BACKBONE_ELEMENT, SubstanceAmount.class),
     FHIR_TIMING("FHIR", "Timing", FHIR_BACKBONE_ELEMENT, Timing.class),
     FHIR_TRIGGER_DEFINITION("FHIR", "TriggerDefinition", FHIR_ELEMENT, TriggerDefinition.class),
@@ -149,7 +146,7 @@ public enum FHIRPathType {
     FHIR_URI("FHIR", "uri", FHIR_ELEMENT, Uri.class),
     FHIR_URL("FHIR", "url", FHIR_ELEMENT, Url.class),
     FHIR_UUID("FHIR", "uuid", FHIR_ELEMENT, Uuid.class),
-    FHIR_XHTML("FHIR", "xhtml"),
+    FHIR_XHTML("FHIR", "xhtml", FHIR_ELEMENT, Xhtml.class),
     
     // FHIR resource types
     FHIR_ACCOUNT("FHIR", "Account", FHIR_DOMAIN_RESOURCE, Account.class),
@@ -310,7 +307,7 @@ public enum FHIRPathType {
     
     private final java.lang.String namespace;
     private final java.lang.String name;
-    private final FHIRPathType superType;
+    private final FHIRPathType baseType;
     private final Class<?> modelClass;
     
     private static final Map<java.lang.String, FHIRPathType> TYPE_NAME_MAP = new HashMap<>();
@@ -322,7 +319,9 @@ public enum FHIRPathType {
     private static final Map<Class<?>, FHIRPathType> TYPE_MAP = new HashMap<>();
     static {
         for (FHIRPathType type : FHIRPathType.values()) {
-            TYPE_MAP.put(type.modelClass, type);
+            if (type.modelClass != null) {
+                TYPE_MAP.put(type.modelClass, type);
+            }
         }
     }
     
@@ -330,10 +329,10 @@ public enum FHIRPathType {
         this(namespace, name, null, null);
     }
     
-    FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType superType, Class<?> modelClass) {
+    FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType baseType, Class<?> modelClass) {
         this.namespace = namespace;
         this.name = name;
-        this.superType = superType;
+        this.baseType = baseType;
         this.modelClass = modelClass;
     }
     
@@ -345,8 +344,8 @@ public enum FHIRPathType {
         return name;
     }
     
-    public FHIRPathType superType() {
-        return superType;
+    public FHIRPathType baseType() {
+        return baseType;
     }
     
     public Class<?> modelClass() {
@@ -354,22 +353,23 @@ public enum FHIRPathType {
     }
     
     public boolean isAssignableFrom(FHIRPathType type) {
-        if (type == FHIR_UNKNOWN_RESOURCE_TYPE) {
+        if (type == null) {
+            // every type is assignable from null
             return true;
         }
-        if (type == null) {
-            return false;
-        }
         if (this == type) {
+            // every type is assignable from itself
             return true;
         }
         if (this == SYSTEM_ANY && "System".equals(type.namespace)) {
+            // System.Any is assignable from any System type
             return true;
         }
         if (this == FHIR_ANY && "FHIR".equals(type.namespace)) {
+            // FHIR.Any is assignable from any FHIR type
             return true;
         }
-        return isAssignableFrom(type.superType);
+        return isAssignableFrom(type.baseType);
     }
     
     public static FHIRPathType from(java.lang.String name) {
@@ -388,7 +388,7 @@ public enum FHIRPathType {
     }
     
     public static FHIRPathType from(Class<?> modelClass) {
-        FHIRPathType type = TYPE_MAP.get(modelClass);
+        FHIRPathType type = TYPE_MAP.get(ModelSupport.getConcreteType(modelClass));
         if (type == null) {
             if (BackboneElement.class.isAssignableFrom(modelClass)) {
                 type = FHIR_BACKBONE_ELEMENT;
