@@ -59,7 +59,6 @@ public class AuditCadfTest {
             + "  \"instance_id\": \"BLANK\",\r\n"
             + "  \"kafka_admin_url\": \"https://HOSTNAME\",\r\n"
             + "  \"kafka_brokers_sasl\": [\r\n"
-            + "  \"kafka_brokers_sasl\": [\r\n"
             + "    \"broker-1:9093\",\r\n"
             + "    \"broker-2:9093\"\r\n" + "  ],\r\n"
             + "  \"kafka_http_url\": \"https://hostname\",\r\n"
