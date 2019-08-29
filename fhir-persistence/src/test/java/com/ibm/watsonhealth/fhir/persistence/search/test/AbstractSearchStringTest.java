@@ -52,12 +52,11 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         assertSearchReturnsComposition("subject:Basic.string", "testString");
         assertSearchReturnsComposition("subject:Basic.string", "test");
         
-CODE_REMOVED
         assertSearchReturnsComposition("subject:Basic.string:contains", "String");
         assertSearchReturnsComposition("subject:Basic.string:contains", "string");
         
         assertSearchDoesntReturnComposition("subject:Basic.string", "String");
-CODE_REMOVED
+
         assertSearchDoesntReturnComposition("subject:Basic.string:exact", "test");
         assertSearchDoesntReturnComposition("subject:Basic.string:exact", "teststring");
         
@@ -91,7 +90,6 @@ CODE_REMOVED
         runQueryTest(Basic.class, persistence, "string", "\\", Integer.MAX_VALUE);
     }
     
-CODE_REMOVED
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchString_string_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.string:missing", "false");

@@ -95,7 +95,6 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Reference:missing", "false");
     }
     
-CODE_REMOVED
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchReference_Reference_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Reference:missing", "false");
@@ -124,7 +123,6 @@ CODE_REMOVED
         assertSearchDoesntReturnSavedResource("missing-uri:missing", "false");
     }
     
-CODE_REMOVED
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchReference_uri_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.uri:missing", "false");

@@ -159,7 +159,6 @@ public abstract class AbstractQueryObservationTest extends AbstractPersistenceTe
     
     /**
      * Test create of Observation with "partial" valueQuantity (system but no value).
-CODE_REMOVED
      * @throws Exception
      */
     @Test(groups = { "jdbc-normalized" })

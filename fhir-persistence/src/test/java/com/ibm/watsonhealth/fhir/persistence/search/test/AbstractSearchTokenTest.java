@@ -72,7 +72,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-boolean:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-boolean:missing", "false");
     }
-CODE_REMOVED
+
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchToken_boolean_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.boolean:missing", "false");
@@ -102,7 +102,7 @@ CODE_REMOVED
         assertSearchReturnsSavedResource("extension-missing-code:missing", "true");
         assertSearchDoesntReturnSavedResource("extension-missing-code:missing", "false");
     }
-CODE_REMOVED
+
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchToken_code_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.extension-code:missing", "false");
@@ -165,7 +165,7 @@ CODE_REMOVED
         assertSearchReturnsSavedResource("missing-Coding:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Coding:missing", "false");
     }
-CODE_REMOVED
+
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchToken_Coding_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Coding:missing", "false");
@@ -215,7 +215,7 @@ CODE_REMOVED
         assertSearchReturnsSavedResource("missing-Identifier:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Identifier:missing", "false");
     }
-CODE_REMOVED
+
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchToken_Identifier_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Identifier:missing", "false");
@@ -232,7 +232,7 @@ CODE_REMOVED
 //        assertSearchReturnsSavedResource("ContactPoint", "phone|");
         
         // ContactPoint should search on use instead of system
-CODE_REMOVED
+
 //        assertSearchReturnsSavedResource("ContactPoint", "home|(555) 675 5745");
 //        assertSearchReturnsSavedResource("ContactPoint", "home|");
         
@@ -246,7 +246,7 @@ CODE_REMOVED
 //        assertSearchReturnsComposition("subject:Basic.ContactPoint", "phone|");
         
         // ContactPoint should search on use instead of system
-CODE_REMOVED
+
 //        assertSearchReturnsComposition("subject:Basic.ContactPoint", "home|(555) 675 5745");
 //        assertSearchReturnsComposition("subject:Basic.ContactPoint", "home|");
         
@@ -269,7 +269,7 @@ CODE_REMOVED
 //        assertSearchReturnsSavedResource("ContactPoint-homeFax", "fax|");
         
         // ContactPoint should search on use instead of system
-CODE_REMOVED
+
 //        assertSearchReturnsSavedResource("ContactPoint-homeFax", "home|(555) 675 5745");
 //        assertSearchReturnsSavedResource("ContactPoint-homeFax", "home|");
         
@@ -280,7 +280,7 @@ CODE_REMOVED
     public void testSearchDate_ContactPoint_NoUse() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-noUse", "test@example.com");
         // ContactPoint should search on use instead of system
-CODE_REMOVED
+
 //        assertSearchReturnsSavedResource("ContactPoint-noUse", "|test@example.com");
     }
     @Test(dependsOnMethods = { "testCreateBasicResource" })
@@ -293,7 +293,7 @@ CODE_REMOVED
 //        assertSearchReturnsSavedResource("ContactPoint-noValue", "phone|");
         
         // ContactPoint should search on use instead of system
-CODE_REMOVED
+
 //        assertSearchReturnsSavedResource("ContactPoint-noValue", "home|");
     }
 }

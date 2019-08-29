@@ -115,7 +115,6 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnComposition("subject:Basic.date", "2025-10-29");
     }
 
-CODE_REMOVED
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchDate_date_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.date:missing", "false");
@@ -207,7 +206,6 @@ CODE_REMOVED
         assertSearchDoesntReturnSavedResource("missing-dateTime:missing", "false");
     }
     
-CODE_REMOVED
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchDate_dateTime_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.dateTime:missing", "false");
@@ -236,7 +234,6 @@ CODE_REMOVED
         assertSearchDoesntReturnSavedResource("missing-instant:missing", "false");
     }
     
-CODE_REMOVED
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchDate_instant_chained_missing() throws Exception {
 //        assertSearchReturnsSavedResource("subject:Basic.instant:missing", "false");
@@ -485,7 +482,7 @@ CODE_REMOVED
         assertSearchReturnsSavedResource("missing-Period:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Period:missing", "false");
     }
-CODE_REMOVED
+
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchDate_Period_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Period:missing", "false");

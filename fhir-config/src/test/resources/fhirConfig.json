@@ -4,13 +4,13 @@
         "server-core":{
             "__comment":"Configuration properties for the core server",
             "truststoreLocation":"resources/security/fhirTruststore.jks",
-CODE_REMOVED
+            "truststorePassword":"change-password"
         },
         "encryption":{
             "enabled":false,
             "keystoreLocation":"resources/security/fhirkeys.jceks",
-CODE_REMOVED
-CODE_REMOVED
+            "keystorePassword":"change-password",
+            "keyPassword":"change-password"
         },
         "validation":{
             "userDefinedSchematronEnabled":true
@@ -46,10 +46,10 @@ CODE_REMOVED
                     "bootstrap.servers":"localhost:9093",
                     "security.protocol":"SSL",
                     "ssl.truststore.location":"resources/security/kafka.client.truststore.jks",
-CODE_REMOVED
+                    "ssl.truststore.password":"change-password",
                     "ssl.keystore.location":"resources/security/kafka.client.keystore.jks",
-CODE_REMOVED
-CODE_REMOVED
+                    "ssl.keystore.password":"change-password",
+                    "ssl.key.password":"change-password",
                     "ssl.truststore.type":"JKS",
                     "ssl.keystore.type":"JKS"
                 }
@@ -71,9 +71,10 @@ CODE_REMOVED
                 "schemaName":"FHIRNext"
             },
             "cloudant":{
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
+                "url":"<hostname>",
+                "username":"change-password",
+                "password":"change-password",
+                "database":"change-password"
                 "dbName":"fhirdb"
             },
             "whclsf-router":{
@@ -96,23 +97,23 @@ CODE_REMOVED
                     "com.ibm.watsonhealth.fhir.model.Observation"
                 ],
                 "consentManager":{
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
+                    "baseURL":"<hostname>",
+                    "organizationId":"change-password",
+                    "organizationPassword":"change-password"
                 },
                 "clinical":{
                     "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory",
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
+                    "url":"<hostname>",
+                    "username":"change-password",
+                    "password":"change-password",
+                    "database":"change-password"
                 },
                 "profile":{
                     "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.cloudant.FHIRPersistenceCloudantFactory",
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
+                    "url":"<hostname>",
+                    "username":"change-password",
+                    "password":"change-password",
+                    "database":"change-password"
                 },
                 "routingRules":[
                     {
@@ -351,126 +352,7 @@ CODE_REMOVED
                     }
                 ],
                 "siteLocators":{
-                    "com.ibm.watsonhealth.fhir.model.Contract":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.QuestionnaireResponse":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.Group":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.CarePlan":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.MedicationAdministration":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.Device":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.DeviceComponent":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.DeviceMetric":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.MedicationOrder":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.Observation":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    }
-                },
-                "studyIdLocators":{
-                    "com.ibm.watsonhealth.fhir.model.Contract":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.QuestionnaireResponse":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.Group":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.CarePlan":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.MedicationAdministration":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.Device":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.DeviceComponent":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.DeviceMetric":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.MedicationOrder":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.Observation":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    }
-                },
-                "subjectLocators":{
-                    "com.ibm.watsonhealth.fhir.model.Contract":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.QuestionnaireResponse":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.CarePlan":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.MedicationAdministration":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.Device":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.DeviceComponent":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.DeviceMetric":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.MedicationOrder":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    },
-                    "com.ibm.watsonhealth.fhir.model.Observation":{
-                        "type":"com.ibm.watsonhealth.fhir.persistence.whclsf.config.locators.impl.ValueStringByURLLocator",
-CODE_REMOVED
-                    }
+                    
                 }
             }
         }

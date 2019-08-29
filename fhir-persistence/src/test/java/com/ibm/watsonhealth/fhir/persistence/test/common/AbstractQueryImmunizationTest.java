@@ -18,7 +18,6 @@ import com.ibm.watsonhealth.fhir.model.resource.Immunization;
  *  each of the various persistence layer implementations.
  *  There will be a subclass in each persistence project.
  *  
-CODE_REMOVED
  *  
  */
 public abstract class AbstractQueryImmunizationTest extends AbstractPersistenceTest {

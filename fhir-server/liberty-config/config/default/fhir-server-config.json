@@ -3,7 +3,7 @@
 	"fhirServer": {
 		"core": {
 			"truststoreLocation": "resources/security/fhirTruststore.jks",
-CODE_REMOVED
+			"truststorePassword": "change-password",
 			"userDefinedSchematronEnabled": false,
 			"tenantIdHeaderName": "X-FHIR-TENANT-ID",
 			"datastoreIdHeaderName": "X-FHIR-DSID",
@@ -23,8 +23,8 @@ CODE_REMOVED
 		"encryption": {
 			"enabled": false,
 			"keystoreLocation": "resources/security/fhirkeys.jceks",
-CODE_REMOVED
-CODE_REMOVED
+			"keystorePassword": "change-password",
+			"keyPassword": "change-password"
 		},
 		"virtualResources": {
 			"enabled": false,
@@ -56,10 +56,10 @@ CODE_REMOVED
 					"bootstrap.servers": "localhost:9093",
 					"security.protocol": "SSL",
 					"ssl.truststore.location": "resources/security/kafka.client.truststore.jks",
-CODE_REMOVED
+					"ssl.truststore.password": "change-password",
 					"ssl.keystore.location": "resources/security/kafka.client.keystore.jks",
-CODE_REMOVED
-CODE_REMOVED
+					"ssl.keystore.password": "change-password",
+					"ssl.key.password": "change-password",
 					"ssl.truststore.type": "JKS",
 					"ssl.keystore.type": "JKS",
 					"acks": "all",
@@ -95,13 +95,13 @@ CODE_REMOVED
 						"serverName": "localhost",
 						"portNumber": 50001,
 						"user": "db2inst1",
-						"password": "********",
+						"password": "change-password",
 						"databaseName": "FHIRDB",
 						"currentSchema": "FHIR1",
 						"driverType": 4,
 						"sslConnection": true,
 						"sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
-CODE_REMOVED
+						"sslTrustStorePassword": "change-password"
 					}
 				},
 				"audit": {
@@ -117,13 +117,13 @@ CODE_REMOVED
 						"serverName": "localhost",
 						"portNumber": 50001,
 						"user": "db2inst1",
-						"password": "********",
+						"password": "change-password",
 						"databaseName": "AUDITDB",
 						"currentSchema": "AUDIT1",
 						"driverType": 4,
 						"sslConnection": true,
 						"sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
-CODE_REMOVED
+						"sslTrustStorePassword": "change-password"
 					}
 				}
 			},

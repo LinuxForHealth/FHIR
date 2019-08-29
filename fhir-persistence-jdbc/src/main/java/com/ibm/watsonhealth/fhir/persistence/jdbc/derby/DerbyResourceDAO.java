@@ -22,7 +22,6 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatch
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 
 /**
-CODE_REMOVED
  * to pass the parameter list into the stored procedure, but this approach
  * exposed some query optimizer issues in DB2 resulting in significant 
  * concurrency problems (related to dynamic statistics collection and

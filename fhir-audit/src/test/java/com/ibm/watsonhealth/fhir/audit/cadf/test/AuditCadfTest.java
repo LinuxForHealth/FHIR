@@ -35,13 +35,13 @@ public class AuditCadfTest {
     private static final String timestamp = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis()));
     private static final String timestamp2 = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis() + 5000));
     private static final String componentIp = "192.168.12.28";
-    private static final String tenantId = "WHC";
-CODE_REMOVED
+    private static final String tenantId = "DummyTenant";
+    private static final String clientCertCn = "";
     private static final String clientCertIssuerOu = "Watson Health";
     private static final String correlationId = "8c909d89-e7d9-4acb-8ffd-0205432a592a";
     private static final String eventType = "fhir-create";
     private static final String userName = "8c909d89-e7d9-4acb-8ffd-0205432a592a";
-CODE_REMOVED
+    private static final String request = "hostname";
     private static final int status = 201;
     private static final String resourceType = "Observation";
     private static final String resourceId = "0e837440-64eb-4f16-878e-12879a4cfe2d";
@@ -52,17 +52,18 @@ CODE_REMOVED
     private static final String testAPIKey = "eM1QRXSDl3IsblND_8y1Si_Ll5UW03KvuTPMxYYYYYY";
     private static final String eventStreamBinding = "{\r\n" + "  \"api_key\": \"" + testAPIKey + "\",\r\n"
             + "  \"apikey\": \"" + testAPIKey + "\",\r\n"
-            + "  \"iam_apikey_description\": \"Auto-generated for key ce662154-b2bb-4394-a1ed-54c328630b41\",\r\n"
+            + "  \"iam_apikey_description\": \"Auto-generated for key BLANK\",\r\n"
             + "  \"iam_apikey_name\": \"Service credentials-1\",\r\n"
             + "  \"iam_role_crn\": \"crn:v1:bluemix:public:iam::::serviceRole:Writer\",\r\n"
-CODE_REMOVED
-            + "  \"instance_id\": \"4e38da67-227f-4666-9ca2-56913029c1d2\",\r\n"
-CODE_REMOVED
+            + "  \"iam_serviceid_crn\": \"crn:v1:bluemix:public:iam-identity::a/BLANK::serviceid:BLANK\",\r\n"
+            + "  \"instance_id\": \"BLANK\",\r\n"
+            + "  \"kafka_admin_url\": \"https://HOSTNAME\",\r\n"
             + "  \"kafka_brokers_sasl\": [\r\n"
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
-CODE_REMOVED
+            + "  \"kafka_brokers_sasl\": [\r\n"
+            + "    \"broker-1:9093\",\r\n"
+            + "    \"broker-2:9093\"\r\n" + "  ],\r\n"
+            + "  \"kafka_http_url\": \"https://hostname\",\r\n"
+            + "  \"password\": \"invalid\",\r\n" + "  \"user\": \"token\"\r\n"
             + "}\r\n";
     private static final String operationName = "UnitTest";
 

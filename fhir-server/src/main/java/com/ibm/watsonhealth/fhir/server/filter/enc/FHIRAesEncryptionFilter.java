@@ -79,9 +79,8 @@ public class FHIRAesEncryptionFilter implements Filter {
     // <jndiEntry id="encryptionKeystoreLocation" jndiName="com.ibm.watsonhealth.fhir.encryption.keystore.location"
     // value="resources/security/fhirkeys.jceks"/>
     // <jndiEntry id="encryptionKeystorePassword" jndiName="com.ibm.watsonhealth.fhir.encryption.keystore.password"
-CODE_REMOVED
     // <jndiEntry id="encryptionKeystorePassword" jndiName="com.ibm.watsonhealth.fhir.encryption.key.password"
-CODE_REMOVED
+
     private static final String HEADERNAME_IVSTRING = "AES-Salt";
     private static final String ENCODING_ENCRYPTION_VALUE = "aescbc256";
     private static final String ENCRYPTION_KEY_ALIAS = "fhirEncryptionKey";

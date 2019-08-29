@@ -83,7 +83,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-integer:missing", "false");
     }
     
-CODE_REMOVED
+
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchNumber_integer_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.integer:missing", "false");
@@ -97,22 +97,21 @@ CODE_REMOVED
     public void testSearchNumber_decimal() throws Exception {
         assertSearchDoesntReturnSavedResource("decimal", "99");
         assertSearchDoesntReturnSavedResource("decimal", "99.98499");
-CODE_REMOVED
+
 //        assertSearchReturnsSavedResource("decimal", "99.985");
         assertSearchReturnsSavedResource("decimal", "99.99");
         assertSearchReturnsSavedResource("decimal", "9999e-2");
-CODE_REMOVED
+
 //        assertSearchReturnsSavedResource("decimal", "99.99499");
         assertSearchDoesntReturnSavedResource("decimal", "99.995");
         assertSearchDoesntReturnSavedResource("decimal", "100");
         
         assertSearchReturnsSavedResource("decimal", "ne99");
         assertSearchReturnsSavedResource("decimal", "ne99.98499");
-CODE_REMOVED
 //        assertSearchDoesntReturnSavedResource("decimal", "ne99.985");
         assertSearchDoesntReturnSavedResource("decimal", "ne99.99");
         assertSearchDoesntReturnSavedResource("decimal", "ne9999e-2");
-CODE_REMOVED
+
 //        assertSearchDoesntReturnSavedResource("decimal", "ne99.99499");
         assertSearchReturnsSavedResource("decimal", "ne99.995");
         assertSearchReturnsSavedResource("decimal", "ne100");
@@ -216,7 +215,6 @@ CODE_REMOVED
         assertSearchDoesntReturnSavedResource("missing-decimal:missing", "false");
     }
     
-CODE_REMOVED
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchNumber_decimal_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.decimal:missing", "false");

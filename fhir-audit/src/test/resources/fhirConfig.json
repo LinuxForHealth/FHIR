@@ -4,10 +4,10 @@
         "audit":{
             "enabled":true,
             "logPath":"${server.config.dir}/logs/",
-CODE_REMOVED
+            "tenantId": "blank",
             "serviceProperties":{
-CODE_REMOVED
-            	"kafkaApiKey":"wkYsfHt5pMpaMSVqyDZDQ5K235oGMKN5jit5656iwuYYYYYY",
+                "kafkaServers":"blank",
+            	"kafkaApiKey":"blank",
             	"auditTopic":"fhir"
             }
         }

@@ -157,7 +157,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
         if (this.producer == null) {
             throw new FHIRException("Failed to init kafka producer!");
         } else {
-CODE_REMOVED
+            logger.info("Initialized Audit logger.");
             this.isEnabled = true;
         }
 

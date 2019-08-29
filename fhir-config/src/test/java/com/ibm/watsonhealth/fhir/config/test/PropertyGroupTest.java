@@ -58,7 +58,7 @@ public class PropertyGroupTest {
                             .add("connectionProperties", Json.createObjectBuilder()
                                 .add("groupId", "group1")
                                 .add("bootstrap.servers", "localhost:1234")
-CODE_REMOVED
+                                .add("password", "change-password"))
                             )
                         )
                     .add("object-array", Json.createArrayBuilder()

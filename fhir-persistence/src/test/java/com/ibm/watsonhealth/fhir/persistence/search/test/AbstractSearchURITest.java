@@ -70,7 +70,7 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-uri:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-uri:missing", "false");
     }
-CODE_REMOVED
+
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchURI_uri_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.uri:missing", "false");

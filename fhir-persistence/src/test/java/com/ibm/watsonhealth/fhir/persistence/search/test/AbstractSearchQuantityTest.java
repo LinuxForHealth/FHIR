@@ -41,7 +41,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 //        assertSearchReturnsSavedResource("Quantity", "25||sec");
         
         assertSearchDoesntReturnSavedResource("Quantity", "24.4999||s");
-CODE_REMOVED
+
 //        assertSearchReturnsSavedResource("Quantity", "24.5||s");
 //        assertSearchReturnsSavedResource("Quantity", "25.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "25.5||s");
@@ -244,7 +244,7 @@ CODE_REMOVED
         assertSearchDoesntReturnSavedResource("missing-Quantity:missing", "false");
     }
     
-CODE_REMOVED
+
 //    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
 //    public void testSearchQuantity_Quantity_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Quantity:missing", "false");
