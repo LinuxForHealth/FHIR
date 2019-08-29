@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -32,7 +32,7 @@ public class FHIRPathEvaluatorProfileTest {
 
     private static void profile(FHIRPathEvaluator evaluator) throws Exception {
         for (int i = 0; i < NUM_ITERATIONS; i++) {
-CODE_REMOVED
+            evaluator.evaluate("Bundle.entry.resource.where(birthDate > @1950)", evaluator.getEvaluationContext().getTree().getRoot());
         }        
     }
 }

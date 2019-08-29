@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -81,7 +81,7 @@ public class FHIRPathEvaluator {
         visitor = new EvaluatingVisitor(evaluationContext);
     }
     
-CODE_REMOVED
+    public EvaluationContext getEvaluationContext() {
         return evaluationContext;
     }
     
