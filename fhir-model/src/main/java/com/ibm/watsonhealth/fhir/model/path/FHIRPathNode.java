@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -34,6 +34,9 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     default boolean isPrimitiveValue() {
         return false;
     }
+    default boolean isTypeInfoNode() {
+        return false;
+    }
     default FHIRPathElementNode asElementNode() {
         return as(FHIRPathElementNode.class);
     }
@@ -42,6 +45,9 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     }
     default FHIRPathPrimitiveValue asPrimitiveValue() {
         return as(FHIRPathPrimitiveValue.class);
+    }
+    default FHIRPathTypeInfoNode asTypeInfoNode() {
+        return as(FHIRPathTypeInfoNode.class);
     }
     interface Builder { 
         Builder name(String name);

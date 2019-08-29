@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -21,12 +21,15 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAmount;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.ibm.watsonhealth.fhir.model.path.ClassInfo;
+import com.ibm.watsonhealth.fhir.model.path.ClassInfoElement;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
@@ -34,6 +37,12 @@ import com.ibm.watsonhealth.fhir.model.path.FHIRPathNumberValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathType;
+import com.ibm.watsonhealth.fhir.model.path.SimpleTypeInfo;
+import com.ibm.watsonhealth.fhir.model.path.TupleTypeInfo;
+import com.ibm.watsonhealth.fhir.model.path.TupleTypeInfoElement;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport;
+import com.ibm.watsonhealth.fhir.model.util.ModelSupport.ElementInfo;
 
 public final class FHIRPathUtil {
     private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
@@ -262,5 +271,55 @@ public final class FHIRPathUtil {
         default:
             throw new IllegalArgumentException();
         }
+    }
+
+    public static SimpleTypeInfo buildSimpleTypeInfo(FHIRPathType type) {
+        return new SimpleTypeInfo(type.namespace(), type.getName(), "System.Any");
+    }
+
+    public static TupleTypeInfo buildTupleTypeInfo(Class<?> modelClass) {
+        List<TupleTypeInfoElement> element = new ArrayList<>();
+        for (ElementInfo elementInfo : ModelSupport.getElementInfo(modelClass)) {
+            if (elementInfo.isDeclaredBy(modelClass)) {
+                element.add(buildTupleTypeInfoElement(elementInfo));
+            }
+        }
+        return new TupleTypeInfo(element);
+    }
+
+    public static TupleTypeInfoElement buildTupleTypeInfoElement(ElementInfo elementInfo) {
+        FHIRPathType type = FHIRPathType.from(elementInfo.getType());
+        if (elementInfo.isRepeating()) {
+            return new TupleTypeInfoElement(elementInfo.getName(), "List<" + type.namespace() + "." + type.getName() + ">", false);
+        }
+        return new TupleTypeInfoElement(elementInfo.getName(), type.namespace() + "." + type.getName());
+    }
+
+    public static ClassInfo buildClassInfo(FHIRPathType type) {
+        List<ClassInfoElement> element = new ArrayList<>();
+        Class<?> modelClass = type.modelClass();
+        for (ElementInfo elementInfo : ModelSupport.getElementInfo(modelClass)) {
+            if (elementInfo.isDeclaredBy(modelClass)) {
+                element.add(buildClassInfoElement(elementInfo));
+            }
+        }
+        return new ClassInfo(type.namespace(), type.getName(), type.baseType().namespace() + "." + type.baseType().getName(), element);
+    }
+
+    public static ClassInfoElement buildClassInfoElement(ElementInfo elementInfo) {
+        FHIRPathType type = FHIRPathType.from(elementInfo.getType());
+        String typeName;
+        if (FHIRPathType.isSystemType(type) || 
+                FHIRPathType.getSystemTypes().stream()
+                    .map(t -> t.getName())
+                    .anyMatch(name -> name.equalsIgnoreCase(type.getName()))) {
+            typeName = type.namespace() + "." + type.getName();
+        } else {
+            typeName = type.getName();
+        }
+        if (elementInfo.isRepeating()) {
+            return new ClassInfoElement(elementInfo.getName(), "List<" + typeName + ">", false);
+        }
+        return new ClassInfoElement(elementInfo.getName(), typeName);
     }
 }

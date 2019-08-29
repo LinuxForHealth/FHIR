@@ -1,6 +1,6 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
- *
+ * 
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,8 +9,11 @@ package com.ibm.watsonhealth.fhir.model.path;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAccessor;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.ibm.watsonhealth.fhir.model.resource.*;
 import com.ibm.watsonhealth.fhir.model.type.Address;
@@ -303,32 +306,46 @@ public enum FHIRPathType {
     SYSTEM_INTEGER("System", "Integer", SYSTEM_ANY, java.lang.Integer.class),
     SYSTEM_DECIMAL("System", "Decimal", SYSTEM_ANY, BigDecimal.class),
     SYSTEM_DATE_TIME("System", "DateTime", SYSTEM_ANY, TemporalAccessor.class),
-    SYSTEM_TIME("System", "Time", SYSTEM_ANY, LocalTime.class);
+    SYSTEM_TIME("System", "Time", SYSTEM_ANY, LocalTime.class),
+    
+    // FHIRPath metamodel types
+    SYSTEM_TYPE_INFO("System", "TypeInfo", SYSTEM_ANY, TypeInfo.class),
+    SYSTEM_CLASS_INFO("System", "ClassInfo", SYSTEM_TYPE_INFO, ClassInfo.class),
+    SYSTEM_TUPLE_TYPE_INFO("System", "TupleTypeInfo", SYSTEM_TYPE_INFO, TupleTypeInfo.class),
+    SYSTEM_LIST_TYPE_INFO("System", "ListTypeInfo", SYSTEM_TYPE_INFO, ListTypeInfo.class),
+    SYSTEM_SIMPLE_TYPE_INFO("System", "SystemTypeInfo", SYSTEM_TYPE_INFO, SimpleTypeInfo.class);
     
     private final java.lang.String namespace;
     private final java.lang.String name;
     private final FHIRPathType baseType;
     private final Class<?> modelClass;
     
-    private static final Map<java.lang.String, FHIRPathType> TYPE_NAME_MAP = new HashMap<>();
-    static {
+    private static final Map<java.lang.String, FHIRPathType> TYPE_NAME_MAP = createTypeNameMap();
+    private static final Map<Class<?>, FHIRPathType> TYPE_MAP = createTypeMap();
+    private static final Set<FHIRPathType> SYSTEM_TYPES = new HashSet<>(Arrays.asList(SYSTEM_BOOLEAN, SYSTEM_STRING, SYSTEM_INTEGER, SYSTEM_DECIMAL, SYSTEM_DATE_TIME, SYSTEM_TIME));
+    
+    private static Map<java.lang.String, FHIRPathType> createTypeNameMap() {
+        Map<java.lang.String, FHIRPathType> typeNameMap = new HashMap<>();
         for (FHIRPathType type : FHIRPathType.values()) {
-            TYPE_NAME_MAP.put(type.namespace + "." + type.name, type);
+            typeNameMap.put(type.namespace + "." + type.name, type);
         }
+        return typeNameMap;
     }
-    private static final Map<Class<?>, FHIRPathType> TYPE_MAP = new HashMap<>();
-    static {
+
+    private static Map<Class<?>, FHIRPathType> createTypeMap() {
+        Map<Class<?>, FHIRPathType> typeMap = new HashMap<>();
         for (FHIRPathType type : FHIRPathType.values()) {
             if (type.modelClass != null) {
-                TYPE_MAP.put(type.modelClass, type);
+              typeMap.put(type.modelClass, type);
             }
         }
+        return typeMap;
     }
-    
+
     FHIRPathType(java.lang.String namespace, java.lang.String name) {
         this(namespace, name, null, null);
     }
-    
+  
     FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType baseType, Class<?> modelClass) {
         this.namespace = namespace;
         this.name = name;
@@ -397,5 +414,13 @@ public enum FHIRPathType {
             }
         }
         return type;
+    }
+    
+    public static Set<FHIRPathType> getSystemTypes() {
+        return SYSTEM_TYPES;
+    }
+    
+    public static boolean isSystemType(FHIRPathType type) {
+        return SYSTEM_TYPES.contains(type);
     }
 }
