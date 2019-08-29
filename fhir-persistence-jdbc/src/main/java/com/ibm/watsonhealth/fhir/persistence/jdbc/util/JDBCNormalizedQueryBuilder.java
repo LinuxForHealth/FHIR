@@ -1072,7 +1072,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             // like this:
             // pX.value_number_low <= {search-attribute-value} AND pX.value_number_high >= {search-attribute-value}
             if (isRangeSearch(resourceType, queryParm)) {
-CODE_REMOVED
+
                 if (value.getPrefix() == null) {
                     handleQuantityRangeComparison(tableAlias, whereClauseSegment, value.getValueNumber(), value.getValueNumber(), bindVariables, Prefix.EQ);
                 } else {
