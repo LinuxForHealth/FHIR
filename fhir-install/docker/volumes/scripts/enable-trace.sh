@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
-
 ###############################################################################
-# (C) Copyright IBM Corp. 2017,2019
+
+# (C) Copyright IBM Corp. 2016, 2017
 #
-#SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+# We'll use sed to add the appropriate "logging" element after the "httpEndpoint" element
+# within the server.xml file.
+
+server_xml="/opt/ibm/fhir-server/wlp/usr/servers/fhir-server/server.xml"
+
+sed -i -e '/<httpEndpoint.*>/a <logging traceSpecification="*=info:com.ibm.watson.health.fhir.*=finer" traceFormat="BASIC"/>' $server_xml 
