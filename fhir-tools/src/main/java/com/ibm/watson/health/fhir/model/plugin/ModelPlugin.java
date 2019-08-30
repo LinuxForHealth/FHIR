@@ -33,8 +33,8 @@ import com.ibm.watson.health.fhir.model.plugin.generator.ModelGenerator;
  * mvn clean package install -f fhir-tools/pom.xml
  * </code>
  * 
- * Run the following to setup the classes in the fhir-model: <code> 
- * mvn com.ibm.watsonhealth.fhir:fhir-tools:generate-model -f ./fhir-model/pom.xml
+ * Run the following to create/update the classes in the fhir-model project: <code> 
+ * mvn com.ibm.watson.health:fhir-tools:generate-model -f ./fhir-model/pom.xml
  * </code>
  * 
  * @author PBastide

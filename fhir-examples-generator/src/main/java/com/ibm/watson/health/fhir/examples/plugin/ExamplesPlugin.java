@@ -31,8 +31,8 @@ import com.ibm.watson.health.fhir.examples.ExamplesGenerator;
  * mvn clean package install -f fhir-examples-generator/pom.xml
  * </code>
  * 
- * Run the following to setup the classes in the fhir-model: <code> 
- * mvn com.ibm.watsonhealth.fhir:fhir-sample-generator:generate-examples -f ./fhir-parent/pom.xml
+ * Run the following to create/update the classes in the fhir-model project: <code> 
+ * mvn com.ibm.watson.health:fhir-examples-generator:generate-examples -f ./fhir-parent/pom.xml
  * </code>
  * 
  * @author PBastide
