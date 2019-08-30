@@ -1,0 +1,122 @@
+/**
+ * (C) Copyright IBM Corp. 2019
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.ibm.watson.health.database.utils.model;
+
+import java.util.Collection;
+import java.util.Map;
+
+import com.ibm.watson.health.database.utils.api.IDatabaseAdapter;
+import com.ibm.watson.health.database.utils.api.ITransactionProvider;
+import com.ibm.watson.health.database.utils.api.IVersionHistoryService;
+import com.ibm.watson.health.task.api.ITaskCollector;
+import com.ibm.watson.health.task.api.ITaskGroup;
+
+/**
+ * @author rarnold
+ *
+ */
+public interface IDatabaseObject {
+
+    /**
+     * Getter for the schema version number this object applies to
+     * @return
+     */
+    public int getVersion();
+    
+    /**
+     * Apply the DDL for this object to the target database
+     * @param target the database target
+     * @param vhs the service interface for adding this object to the version history table
+     */
+    public void apply(IDatabaseAdapter target);
+    
+    /**
+     * Apply the DDL, but within its own transaction
+     * @param target the target database we apply to
+     * @param provider of thread-specific transactions
+     * @param vhs the service interface for adding this object to the version history table
+     */
+    public void applyTx(IDatabaseAdapter target, ITransactionProvider cp, IVersionHistoryService vhs);
+    
+    /**
+     * Apply the change, but only if it has a newer version than we already have
+     * recorded in the database
+     * @param target
+     * @param vhs the service used to manage the version history table
+     */
+    public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs);
+
+    /**
+     * DROP this object from the target database
+     * @param target
+     */
+    public void drop(IDatabaseAdapter target);
+    
+    /**
+     * Grant the given privileges to the user
+     * @param target
+     * @param groupName
+     * @param toUser
+     */
+    public void grant(IDatabaseAdapter target, String groupName, String toUser);
+
+    /**
+     * Collect the tasks into a dependency tree so that they can be
+     * executed concurrently (but in the right order)
+     * @param tc
+     * @param target
+     * @param access to thread-based transactions
+     */
+    public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs);
+    
+    /**
+     * Return the qualified name for this object (e.g. schema.name).
+     * @return
+     */
+    public String getName();
+    
+    /**
+     * Get the qualified name for this object prefixed with the object type
+     * which acts as a namespace
+     * @return
+     */
+    public String getTypeAndName();
+    
+    /**
+     * Get the map of tags associated with this object. Used to find
+     * things in the PhysicalDataModel
+     * @return
+     */
+    public Map<String,String> getTags();
+    
+    /**
+     * Add the tag name/value to the tag map for this object
+     * @param tagName
+     * @param tagValue
+     */
+    public void addTag(String tagName, String tagValue);
+
+
+    /**
+     * The type enum of this object
+     * @return
+     */
+    public DatabaseObjectType getObjectType();
+    
+    /**
+     * Add the collection of dependencies to this object
+     * @param obj
+     */
+    public void addDependencies(Collection<IDatabaseObject> deps);
+    
+    /**
+     * Fetch dependencies from this into the given out list
+     * @param out
+     */
+    public void fetchDependenciesTo(Collection<IDatabaseObject> out);
+    
+}

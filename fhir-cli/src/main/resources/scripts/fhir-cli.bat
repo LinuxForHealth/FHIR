@@ -34,4 +34,4 @@ IF NOT DEFINED JAVA_OPTS set JAVA_OPTS=
 @REM echo classpath: %CP%
 @REM echo arguments: %CMD_LINE_ARGS%
 
-java -cp "%CP%" %JAVA_OPTS% com.ibm.watsonhealth.fhir.cli.FHIRCLI %CMD_LINE_ARGS%
+java -cp "%CP%" %JAVA_OPTS% com.ibm.watson.health.fhir.cli.FHIRCLI %CMD_LINE_ARGS%

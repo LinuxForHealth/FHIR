@@ -110,7 +110,7 @@
           </executions>
           <configuration>
             <excludes>
-              <exclude>com/ibm/watsonhealth/fhir/model/*.class</exclude>
+              <exclude>com/ibm/watson/health/fhir/model/*.class</exclude>
               <exclude>**/*Exception.*</exclude>
               <exclude>**/exception/*</exclude>
             </excludes>

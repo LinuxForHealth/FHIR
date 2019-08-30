@@ -1,0 +1,2901 @@
+/**
+ * (C) Copyright IBM Corp. 2019
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.ibm.watson.health.fhir.model.resource;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+import javax.annotation.Generated;
+
+import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.Code;
+import com.ibm.watson.health.fhir.model.type.CodeableConcept;
+import com.ibm.watson.health.fhir.model.type.Extension;
+import com.ibm.watson.health.fhir.model.type.Id;
+import com.ibm.watson.health.fhir.model.type.Identifier;
+import com.ibm.watson.health.fhir.model.type.Meta;
+import com.ibm.watson.health.fhir.model.type.Narrative;
+import com.ibm.watson.health.fhir.model.type.String;
+import com.ibm.watson.health.fhir.model.type.Uri;
+import com.ibm.watson.health.fhir.model.util.ValidationSupport;
+import com.ibm.watson.health.fhir.model.visitor.Visitor;
+
+/**
+ * Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a 
+ * material that can result in or can be modified to form a substance. This set of data elements shall be used to define 
+ * polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a 
+ * controlled vocabulary as required. This information is captured for naturally derived polymers ( . starch) and 
+ * structurally diverse substances. For Organisms belonging to the Kingdom Plantae the Substance level defines the fresh 
+ * material of a single species or infraspecies, the Herbal Drug and the Herbal preparation. For Herbal preparations, the 
+ * fraction information will be captured at the Substance information level and additional information for herbal 
+ * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the 
+ * Substance Class: Structurally Diverse and the herbal annex.
+ */
+@Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
+public class SubstanceSourceMaterial extends DomainResource {
+    private final CodeableConcept sourceMaterialClass;
+    private final CodeableConcept sourceMaterialType;
+    private final CodeableConcept sourceMaterialState;
+    private final Identifier organismId;
+    private final String organismName;
+    private final List<Identifier> parentSubstanceId;
+    private final List<String> parentSubstanceName;
+    private final List<CodeableConcept> countryOfOrigin;
+    private final List<String> geographicalLocation;
+    private final CodeableConcept developmentStage;
+    private final List<FractionDescription> fractionDescription;
+    private final Organism organism;
+    private final List<PartDescription> partDescription;
+
+    private volatile int hashCode;
+
+    private SubstanceSourceMaterial(Builder builder) {
+        super(builder);
+        sourceMaterialClass = builder.sourceMaterialClass;
+        sourceMaterialType = builder.sourceMaterialType;
+        sourceMaterialState = builder.sourceMaterialState;
+        organismId = builder.organismId;
+        organismName = builder.organismName;
+        parentSubstanceId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parentSubstanceId, "parentSubstanceId"));
+        parentSubstanceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parentSubstanceName, "parentSubstanceName"));
+        countryOfOrigin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.countryOfOrigin, "countryOfOrigin"));
+        geographicalLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.geographicalLocation, "geographicalLocation"));
+        developmentStage = builder.developmentStage;
+        fractionDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fractionDescription, "fractionDescription"));
+        organism = builder.organism;
+        partDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partDescription, "partDescription"));
+        ValidationSupport.requireChildren(this);
+    }
+
+    /**
+     * General high level classification of the source material specific to the origin of the material.
+     * 
+     * @return
+     *     An immutable object of type {@link CodeableConcept}.
+     */
+    public CodeableConcept getSourceMaterialClass() {
+        return sourceMaterialClass;
+    }
+
+    /**
+     * The type of the source material shall be specified based on a controlled vocabulary. For vaccines, this subclause 
+     * refers to the class of infectious agent.
+     * 
+     * @return
+     *     An immutable object of type {@link CodeableConcept}.
+     */
+    public CodeableConcept getSourceMaterialType() {
+        return sourceMaterialType;
+    }
+
+    /**
+     * The state of the source material when extracted.
+     * 
+     * @return
+     *     An immutable object of type {@link CodeableConcept}.
+     */
+    public CodeableConcept getSourceMaterialState() {
+        return sourceMaterialState;
+    }
+
+    /**
+     * The unique identifier associated with the source material parent organism shall be specified.
+     * 
+     * @return
+     *     An immutable object of type {@link Identifier}.
+     */
+    public Identifier getOrganismId() {
+        return organismId;
+    }
+
+    /**
+     * The organism accepted Scientific name shall be provided based on the organism taxonomy.
+     * 
+     * @return
+     *     An immutable object of type {@link String}.
+     */
+    public String getOrganismName() {
+        return organismName;
+    }
+
+    /**
+     * The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
+     * Ginkgo biloba L. (Whole plant).
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     */
+    public List<Identifier> getParentSubstanceId() {
+        return parentSubstanceId;
+    }
+
+    /**
+     * The parent substance of the Herbal Drug, or Herbal preparation.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link String}.
+     */
+    public List<String> getParentSubstanceName() {
+        return parentSubstanceName;
+    }
+
+    /**
+     * The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
+     * accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
+     * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     */
+    public List<CodeableConcept> getCountryOfOrigin() {
+        return countryOfOrigin;
+    }
+
+    /**
+     * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link String}.
+     */
+    public List<String> getGeographicalLocation() {
+        return geographicalLocation;
+    }
+
+    /**
+     * Stage of life for animals, plants, insects and microorganisms. This information shall be provided only when the 
+     * substance is significantly different in these stages (e.g. foetal bovine serum).
+     * 
+     * @return
+     *     An immutable object of type {@link CodeableConcept}.
+     */
+    public CodeableConcept getDevelopmentStage() {
+        return developmentStage;
+    }
+
+    /**
+     * Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
+     * to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
+     * will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
+     * Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
+     * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
+     * Group 1 levels.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link FractionDescription}.
+     */
+    public List<FractionDescription> getFractionDescription() {
+        return fractionDescription;
+    }
+
+    /**
+     * This subclause describes the organism which the substance is derived from. For vaccines, the parent organism shall be 
+     * specified based on these subclause elements. As an example, full taxonomy will be described for the Substance Name: ., 
+     * Leaf.
+     * 
+     * @return
+     *     An immutable object of type {@link Organism}.
+     */
+    public Organism getOrganism() {
+        return organism;
+    }
+
+    /**
+     * To do.
+     * 
+     * @return
+     *     An unmodifiable list containing immutable objects of type {@link PartDescription}.
+     */
+    public List<PartDescription> getPartDescription() {
+        return partDescription;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (sourceMaterialClass != null) || 
+            (sourceMaterialType != null) || 
+            (sourceMaterialState != null) || 
+            (organismId != null) || 
+            (organismName != null) || 
+            !parentSubstanceId.isEmpty() || 
+            !parentSubstanceName.isEmpty() || 
+            !countryOfOrigin.isEmpty() || 
+            !geographicalLocation.isEmpty() || 
+            (developmentStage != null) || 
+            !fractionDescription.isEmpty() || 
+            (organism != null) || 
+            !partDescription.isEmpty();
+    }
+
+    @Override
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+        if (visitor.preVisit(this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
+                // visit children
+                accept(id, "id", visitor);
+                accept(meta, "meta", visitor);
+                accept(implicitRules, "implicitRules", visitor);
+                accept(language, "language", visitor);
+                accept(text, "text", visitor);
+                accept(contained, "contained", visitor, Resource.class);
+                accept(extension, "extension", visitor, Extension.class);
+                accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                accept(sourceMaterialClass, "sourceMaterialClass", visitor);
+                accept(sourceMaterialType, "sourceMaterialType", visitor);
+                accept(sourceMaterialState, "sourceMaterialState", visitor);
+                accept(organismId, "organismId", visitor);
+                accept(organismName, "organismName", visitor);
+                accept(parentSubstanceId, "parentSubstanceId", visitor, Identifier.class);
+                accept(parentSubstanceName, "parentSubstanceName", visitor, String.class);
+                accept(countryOfOrigin, "countryOfOrigin", visitor, CodeableConcept.class);
+                accept(geographicalLocation, "geographicalLocation", visitor, String.class);
+                accept(developmentStage, "developmentStage", visitor);
+                accept(fractionDescription, "fractionDescription", visitor, FractionDescription.class);
+                accept(organism, "organism", visitor);
+                accept(partDescription, "partDescription", visitor, PartDescription.class);
+            }
+            visitor.visitEnd(elementName, elementIndex, this);
+            visitor.postVisit(this);
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SubstanceSourceMaterial other = (SubstanceSourceMaterial) obj;
+        return Objects.equals(id, other.id) && 
+            Objects.equals(meta, other.meta) && 
+            Objects.equals(implicitRules, other.implicitRules) && 
+            Objects.equals(language, other.language) && 
+            Objects.equals(text, other.text) && 
+            Objects.equals(contained, other.contained) && 
+            Objects.equals(extension, other.extension) && 
+            Objects.equals(modifierExtension, other.modifierExtension) && 
+            Objects.equals(sourceMaterialClass, other.sourceMaterialClass) && 
+            Objects.equals(sourceMaterialType, other.sourceMaterialType) && 
+            Objects.equals(sourceMaterialState, other.sourceMaterialState) && 
+            Objects.equals(organismId, other.organismId) && 
+            Objects.equals(organismName, other.organismName) && 
+            Objects.equals(parentSubstanceId, other.parentSubstanceId) && 
+            Objects.equals(parentSubstanceName, other.parentSubstanceName) && 
+            Objects.equals(countryOfOrigin, other.countryOfOrigin) && 
+            Objects.equals(geographicalLocation, other.geographicalLocation) && 
+            Objects.equals(developmentStage, other.developmentStage) && 
+            Objects.equals(fractionDescription, other.fractionDescription) && 
+            Objects.equals(organism, other.organism) && 
+            Objects.equals(partDescription, other.partDescription);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hashCode;
+        if (result == 0) {
+            result = Objects.hash(id, 
+                meta, 
+                implicitRules, 
+                language, 
+                text, 
+                contained, 
+                extension, 
+                modifierExtension, 
+                sourceMaterialClass, 
+                sourceMaterialType, 
+                sourceMaterialState, 
+                organismId, 
+                organismName, 
+                parentSubstanceId, 
+                parentSubstanceName, 
+                countryOfOrigin, 
+                geographicalLocation, 
+                developmentStage, 
+                fractionDescription, 
+                organism, 
+                partDescription);
+            hashCode = result;
+        }
+        return result;
+    }
+
+    @Override
+    public Builder toBuilder() {
+        return new Builder().from(this);
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder extends DomainResource.Builder {
+        private CodeableConcept sourceMaterialClass;
+        private CodeableConcept sourceMaterialType;
+        private CodeableConcept sourceMaterialState;
+        private Identifier organismId;
+        private String organismName;
+        private List<Identifier> parentSubstanceId = new ArrayList<>();
+        private List<String> parentSubstanceName = new ArrayList<>();
+        private List<CodeableConcept> countryOfOrigin = new ArrayList<>();
+        private List<String> geographicalLocation = new ArrayList<>();
+        private CodeableConcept developmentStage;
+        private List<FractionDescription> fractionDescription = new ArrayList<>();
+        private Organism organism;
+        private List<PartDescription> partDescription = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
+
+        /**
+         * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
+         * 
+         * @param id
+         *     Logical id of this artifact
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder id(Id id) {
+            return (Builder) super.id(id);
+        }
+
+        /**
+         * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
+         * might not always be associated with version changes to the resource.
+         * 
+         * @param meta
+         *     Metadata about the resource
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder meta(Meta meta) {
+            return (Builder) super.meta(meta);
+        }
+
+        /**
+         * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
+         * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
+         * with other profiles etc.
+         * 
+         * @param implicitRules
+         *     A set of rules under which this content was created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder implicitRules(Uri implicitRules) {
+            return (Builder) super.implicitRules(implicitRules);
+        }
+
+        /**
+         * The base language in which the resource is written.
+         * 
+         * @param language
+         *     Language of the resource content
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder language(Code language) {
+            return (Builder) super.language(language);
+        }
+
+        /**
+         * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
+         * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
+         * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
+         * content should be represented in the narrative to ensure clinical safety.
+         * 
+         * @param text
+         *     Text summary of the resource, for human interpretation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder text(Narrative text) {
+            return (Builder) super.text(text);
+        }
+
+        /**
+         * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
+         * identified independently, and nor can they have their own independent transaction scope.
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param contained
+         *     Contained, inline Resources
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder contained(Resource... contained) {
+            return (Builder) super.contained(contained);
+        }
+
+        /**
+         * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
+         * identified independently, and nor can they have their own independent transaction scope.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param contained
+         *     Contained, inline Resources
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder contained(Collection<Resource> contained) {
+            return (Builder) super.contained(contained);
+        }
+
+        /**
+         * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
+         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+         * of the definition of the extension.
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param extension
+         *     Additional content defined by implementations
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder extension(Extension... extension) {
+            return (Builder) super.extension(extension);
+        }
+
+        /**
+         * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
+         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+         * of the definition of the extension.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param extension
+         *     Additional content defined by implementations
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder extension(Collection<Extension> extension) {
+            return (Builder) super.extension(extension);
+        }
+
+        /**
+         * May be used to represent additional information that is not part of the basic definition of the resource and that 
+         * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
+         * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
+         * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+         * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
+         * definition of the extension. Applications processing a resource are required to check for modifier extensions.
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * change the meaning of modifierExtension itself).
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param modifierExtension
+         *     Extensions that cannot be ignored
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder modifierExtension(Extension... modifierExtension) {
+            return (Builder) super.modifierExtension(modifierExtension);
+        }
+
+        /**
+         * May be used to represent additional information that is not part of the basic definition of the resource and that 
+         * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
+         * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
+         * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+         * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
+         * definition of the extension. Applications processing a resource are required to check for modifier extensions.
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * change the meaning of modifierExtension itself).
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param modifierExtension
+         *     Extensions that cannot be ignored
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder modifierExtension(Collection<Extension> modifierExtension) {
+            return (Builder) super.modifierExtension(modifierExtension);
+        }
+
+        /**
+         * General high level classification of the source material specific to the origin of the material.
+         * 
+         * @param sourceMaterialClass
+         *     General high level classification of the source material specific to the origin of the material
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder sourceMaterialClass(CodeableConcept sourceMaterialClass) {
+            this.sourceMaterialClass = sourceMaterialClass;
+            return this;
+        }
+
+        /**
+         * The type of the source material shall be specified based on a controlled vocabulary. For vaccines, this subclause 
+         * refers to the class of infectious agent.
+         * 
+         * @param sourceMaterialType
+         *     The type of the source material shall be specified based on a controlled vocabulary. For vaccines, this subclause 
+         *     refers to the class of infectious agent
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder sourceMaterialType(CodeableConcept sourceMaterialType) {
+            this.sourceMaterialType = sourceMaterialType;
+            return this;
+        }
+
+        /**
+         * The state of the source material when extracted.
+         * 
+         * @param sourceMaterialState
+         *     The state of the source material when extracted
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder sourceMaterialState(CodeableConcept sourceMaterialState) {
+            this.sourceMaterialState = sourceMaterialState;
+            return this;
+        }
+
+        /**
+         * The unique identifier associated with the source material parent organism shall be specified.
+         * 
+         * @param organismId
+         *     The unique identifier associated with the source material parent organism shall be specified
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder organismId(Identifier organismId) {
+            this.organismId = organismId;
+            return this;
+        }
+
+        /**
+         * The organism accepted Scientific name shall be provided based on the organism taxonomy.
+         * 
+         * @param organismName
+         *     The organism accepted Scientific name shall be provided based on the organism taxonomy
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder organismName(String organismName) {
+            this.organismName = organismName;
+            return this;
+        }
+
+        /**
+         * The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
+         * Ginkgo biloba L. (Whole plant).
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param parentSubstanceId
+         *     The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
+         *     Ginkgo biloba L. (Whole plant)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder parentSubstanceId(Identifier... parentSubstanceId) {
+            for (Identifier value : parentSubstanceId) {
+                this.parentSubstanceId.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
+         * Ginkgo biloba L. (Whole plant).
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param parentSubstanceId
+         *     The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
+         *     Ginkgo biloba L. (Whole plant)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder parentSubstanceId(Collection<Identifier> parentSubstanceId) {
+            this.parentSubstanceId = new ArrayList<>(parentSubstanceId);
+            return this;
+        }
+
+        /**
+         * The parent substance of the Herbal Drug, or Herbal preparation.
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param parentSubstanceName
+         *     The parent substance of the Herbal Drug, or Herbal preparation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder parentSubstanceName(String... parentSubstanceName) {
+            for (String value : parentSubstanceName) {
+                this.parentSubstanceName.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The parent substance of the Herbal Drug, or Herbal preparation.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param parentSubstanceName
+         *     The parent substance of the Herbal Drug, or Herbal preparation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder parentSubstanceName(Collection<String> parentSubstanceName) {
+            this.parentSubstanceName = new ArrayList<>(parentSubstanceName);
+            return this;
+        }
+
+        /**
+         * The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
+         * accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
+         * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param countryOfOrigin
+         *     The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
+         *     accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
+         *     information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder countryOfOrigin(CodeableConcept... countryOfOrigin) {
+            for (CodeableConcept value : countryOfOrigin) {
+                this.countryOfOrigin.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
+         * accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
+         * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param countryOfOrigin
+         *     The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
+         *     accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
+         *     information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder countryOfOrigin(Collection<CodeableConcept> countryOfOrigin) {
+            this.countryOfOrigin = new ArrayList<>(countryOfOrigin);
+            return this;
+        }
+
+        /**
+         * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param geographicalLocation
+         *     The place/region where the plant is harvested or the places/regions where the animal source material has its habitat
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder geographicalLocation(String... geographicalLocation) {
+            for (String value : geographicalLocation) {
+                this.geographicalLocation.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param geographicalLocation
+         *     The place/region where the plant is harvested or the places/regions where the animal source material has its habitat
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder geographicalLocation(Collection<String> geographicalLocation) {
+            this.geographicalLocation = new ArrayList<>(geographicalLocation);
+            return this;
+        }
+
+        /**
+         * Stage of life for animals, plants, insects and microorganisms. This information shall be provided only when the 
+         * substance is significantly different in these stages (e.g. foetal bovine serum).
+         * 
+         * @param developmentStage
+         *     Stage of life for animals, plants, insects and microorganisms. This information shall be provided only when the 
+         *     substance is significantly different in these stages (e.g. foetal bovine serum)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder developmentStage(CodeableConcept developmentStage) {
+            this.developmentStage = developmentStage;
+            return this;
+        }
+
+        /**
+         * Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
+         * to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
+         * will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
+         * Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
+         * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
+         * Group 1 levels.
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param fractionDescription
+         *     Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
+         *     to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
+         *     will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
+         *     Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
+         *     level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
+         *     Group 1 levels
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder fractionDescription(FractionDescription... fractionDescription) {
+            for (FractionDescription value : fractionDescription) {
+                this.fractionDescription.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
+         * to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
+         * will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
+         * Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
+         * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
+         * Group 1 levels.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param fractionDescription
+         *     Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
+         *     to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
+         *     will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
+         *     Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
+         *     level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
+         *     Group 1 levels
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder fractionDescription(Collection<FractionDescription> fractionDescription) {
+            this.fractionDescription = new ArrayList<>(fractionDescription);
+            return this;
+        }
+
+        /**
+         * This subclause describes the organism which the substance is derived from. For vaccines, the parent organism shall be 
+         * specified based on these subclause elements. As an example, full taxonomy will be described for the Substance Name: ., 
+         * Leaf.
+         * 
+         * @param organism
+         *     This subclause describes the organism which the substance is derived from. For vaccines, the parent organism shall be 
+         *     specified based on these subclause elements. As an example, full taxonomy will be described for the Substance Name: ., 
+         *     Leaf
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder organism(Organism organism) {
+            this.organism = organism;
+            return this;
+        }
+
+        /**
+         * To do.
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param partDescription
+         *     To do
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder partDescription(PartDescription... partDescription) {
+            for (PartDescription value : partDescription) {
+                this.partDescription.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * To do.
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * @param partDescription
+         *     To do
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder partDescription(Collection<PartDescription> partDescription) {
+            this.partDescription = new ArrayList<>(partDescription);
+            return this;
+        }
+
+        /**
+         * Build the {@link SubstanceSourceMaterial}
+         * 
+         * @return
+         *     An immutable object of type {@link SubstanceSourceMaterial}
+         */
+        @Override
+        public SubstanceSourceMaterial build() {
+            return new SubstanceSourceMaterial(this);
+        }
+
+        protected Builder from(SubstanceSourceMaterial substanceSourceMaterial) {
+            super.from(substanceSourceMaterial);
+            sourceMaterialClass = substanceSourceMaterial.sourceMaterialClass;
+            sourceMaterialType = substanceSourceMaterial.sourceMaterialType;
+            sourceMaterialState = substanceSourceMaterial.sourceMaterialState;
+            organismId = substanceSourceMaterial.organismId;
+            organismName = substanceSourceMaterial.organismName;
+            parentSubstanceId.addAll(substanceSourceMaterial.parentSubstanceId);
+            parentSubstanceName.addAll(substanceSourceMaterial.parentSubstanceName);
+            countryOfOrigin.addAll(substanceSourceMaterial.countryOfOrigin);
+            geographicalLocation.addAll(substanceSourceMaterial.geographicalLocation);
+            developmentStage = substanceSourceMaterial.developmentStage;
+            fractionDescription.addAll(substanceSourceMaterial.fractionDescription);
+            organism = substanceSourceMaterial.organism;
+            partDescription.addAll(substanceSourceMaterial.partDescription);
+            return this;
+        }
+    }
+
+    /**
+     * Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
+     * to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
+     * will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
+     * Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
+     * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
+     * Group 1 levels.
+     */
+    public static class FractionDescription extends BackboneElement {
+        private final String fraction;
+        private final CodeableConcept materialType;
+
+        private volatile int hashCode;
+
+        private FractionDescription(Builder builder) {
+            super(builder);
+            fraction = builder.fraction;
+            materialType = builder.materialType;
+            ValidationSupport.requireValueOrChildren(this);
+        }
+
+        /**
+         * This element is capturing information about the fraction of a plant part, or human plasma for fractionation.
+         * 
+         * @return
+         *     An immutable object of type {@link String}.
+         */
+        public String getFraction() {
+            return fraction;
+        }
+
+        /**
+         * The specific type of the material constituting the component. For Herbal preparations the particulars of the extracts 
+         * (liquid/dry) is described in Specified Substance Group 1.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}.
+         */
+        public CodeableConcept getMaterialType() {
+            return materialType;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (fraction != null) || 
+                (materialType != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(fraction, "fraction", visitor);
+                    accept(materialType, "materialType", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            FractionDescription other = (FractionDescription) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(fraction, other.fraction) && 
+                Objects.equals(materialType, other.materialType);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    fraction, 
+                    materialType);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private String fraction;
+            private CodeableConcept materialType;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * This element is capturing information about the fraction of a plant part, or human plasma for fractionation.
+             * 
+             * @param fraction
+             *     This element is capturing information about the fraction of a plant part, or human plasma for fractionation
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder fraction(String fraction) {
+                this.fraction = fraction;
+                return this;
+            }
+
+            /**
+             * The specific type of the material constituting the component. For Herbal preparations the particulars of the extracts 
+             * (liquid/dry) is described in Specified Substance Group 1.
+             * 
+             * @param materialType
+             *     The specific type of the material constituting the component. For Herbal preparations the particulars of the extracts 
+             *     (liquid/dry) is described in Specified Substance Group 1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder materialType(CodeableConcept materialType) {
+                this.materialType = materialType;
+                return this;
+            }
+
+            /**
+             * Build the {@link FractionDescription}
+             * 
+             * @return
+             *     An immutable object of type {@link FractionDescription}
+             */
+            @Override
+            public FractionDescription build() {
+                return new FractionDescription(this);
+            }
+
+            protected Builder from(FractionDescription fractionDescription) {
+                super.from(fractionDescription);
+                fraction = fractionDescription.fraction;
+                materialType = fractionDescription.materialType;
+                return this;
+            }
+        }
+    }
+
+    /**
+     * This subclause describes the organism which the substance is derived from. For vaccines, the parent organism shall be 
+     * specified based on these subclause elements. As an example, full taxonomy will be described for the Substance Name: ., 
+     * Leaf.
+     */
+    public static class Organism extends BackboneElement {
+        private final CodeableConcept family;
+        private final CodeableConcept genus;
+        private final CodeableConcept species;
+        private final CodeableConcept intraspecificType;
+        private final String intraspecificDescription;
+        private final List<Author> author;
+        private final Hybrid hybrid;
+        private final OrganismGeneral organismGeneral;
+
+        private volatile int hashCode;
+
+        private Organism(Builder builder) {
+            super(builder);
+            family = builder.family;
+            genus = builder.genus;
+            species = builder.species;
+            intraspecificType = builder.intraspecificType;
+            intraspecificDescription = builder.intraspecificDescription;
+            author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+            hybrid = builder.hybrid;
+            organismGeneral = builder.organismGeneral;
+            ValidationSupport.requireValueOrChildren(this);
+        }
+
+        /**
+         * The family of an organism shall be specified.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}.
+         */
+        public CodeableConcept getFamily() {
+            return family;
+        }
+
+        /**
+         * The genus of an organism shall be specified; refers to the Latin epithet of the genus element of the plant/animal 
+         * scientific name; it is present in names for genera, species and infraspecies.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}.
+         */
+        public CodeableConcept getGenus() {
+            return genus;
+        }
+
+        /**
+         * The species of an organism shall be specified; refers to the Latin epithet of the species of the plant/animal; it is 
+         * present in names for species and infraspecies.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}.
+         */
+        public CodeableConcept getSpecies() {
+            return species;
+        }
+
+        /**
+         * The Intraspecific type of an organism shall be specified.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}.
+         */
+        public CodeableConcept getIntraspecificType() {
+            return intraspecificType;
+        }
+
+        /**
+         * The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
+         * Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention.
+         * 
+         * @return
+         *     An immutable object of type {@link String}.
+         */
+        public String getIntraspecificDescription() {
+            return intraspecificDescription;
+        }
+
+        /**
+         * 4.9.13.6.1 Author type (Conditional).
+         * 
+         * @return
+         *     An unmodifiable list containing immutable objects of type {@link Author}.
+         */
+        public List<Author> getAuthor() {
+            return author;
+        }
+
+        /**
+         * 4.9.13.8.1 Hybrid species maternal organism ID (Optional).
+         * 
+         * @return
+         *     An immutable object of type {@link Hybrid}.
+         */
+        public Hybrid getHybrid() {
+            return hybrid;
+        }
+
+        /**
+         * 4.9.13.7.1 Kingdom (Conditional).
+         * 
+         * @return
+         *     An immutable object of type {@link OrganismGeneral}.
+         */
+        public OrganismGeneral getOrganismGeneral() {
+            return organismGeneral;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (family != null) || 
+                (genus != null) || 
+                (species != null) || 
+                (intraspecificType != null) || 
+                (intraspecificDescription != null) || 
+                !author.isEmpty() || 
+                (hybrid != null) || 
+                (organismGeneral != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(family, "family", visitor);
+                    accept(genus, "genus", visitor);
+                    accept(species, "species", visitor);
+                    accept(intraspecificType, "intraspecificType", visitor);
+                    accept(intraspecificDescription, "intraspecificDescription", visitor);
+                    accept(author, "author", visitor, Author.class);
+                    accept(hybrid, "hybrid", visitor);
+                    accept(organismGeneral, "organismGeneral", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Organism other = (Organism) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(family, other.family) && 
+                Objects.equals(genus, other.genus) && 
+                Objects.equals(species, other.species) && 
+                Objects.equals(intraspecificType, other.intraspecificType) && 
+                Objects.equals(intraspecificDescription, other.intraspecificDescription) && 
+                Objects.equals(author, other.author) && 
+                Objects.equals(hybrid, other.hybrid) && 
+                Objects.equals(organismGeneral, other.organismGeneral);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    family, 
+                    genus, 
+                    species, 
+                    intraspecificType, 
+                    intraspecificDescription, 
+                    author, 
+                    hybrid, 
+                    organismGeneral);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private CodeableConcept family;
+            private CodeableConcept genus;
+            private CodeableConcept species;
+            private CodeableConcept intraspecificType;
+            private String intraspecificDescription;
+            private List<Author> author = new ArrayList<>();
+            private Hybrid hybrid;
+            private OrganismGeneral organismGeneral;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * The family of an organism shall be specified.
+             * 
+             * @param family
+             *     The family of an organism shall be specified
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder family(CodeableConcept family) {
+                this.family = family;
+                return this;
+            }
+
+            /**
+             * The genus of an organism shall be specified; refers to the Latin epithet of the genus element of the plant/animal 
+             * scientific name; it is present in names for genera, species and infraspecies.
+             * 
+             * @param genus
+             *     The genus of an organism shall be specified; refers to the Latin epithet of the genus element of the plant/animal 
+             *     scientific name; it is present in names for genera, species and infraspecies
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder genus(CodeableConcept genus) {
+                this.genus = genus;
+                return this;
+            }
+
+            /**
+             * The species of an organism shall be specified; refers to the Latin epithet of the species of the plant/animal; it is 
+             * present in names for species and infraspecies.
+             * 
+             * @param species
+             *     The species of an organism shall be specified; refers to the Latin epithet of the species of the plant/animal; it is 
+             *     present in names for species and infraspecies
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder species(CodeableConcept species) {
+                this.species = species;
+                return this;
+            }
+
+            /**
+             * The Intraspecific type of an organism shall be specified.
+             * 
+             * @param intraspecificType
+             *     The Intraspecific type of an organism shall be specified
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder intraspecificType(CodeableConcept intraspecificType) {
+                this.intraspecificType = intraspecificType;
+                return this;
+            }
+
+            /**
+             * The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
+             * Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention.
+             * 
+             * @param intraspecificDescription
+             *     The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
+             *     Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder intraspecificDescription(String intraspecificDescription) {
+                this.intraspecificDescription = intraspecificDescription;
+                return this;
+            }
+
+            /**
+             * 4.9.13.6.1 Author type (Conditional).
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param author
+             *     4.9.13.6.1 Author type (Conditional)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder author(Author... author) {
+                for (Author value : author) {
+                    this.author.add(value);
+                }
+                return this;
+            }
+
+            /**
+             * 4.9.13.6.1 Author type (Conditional).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * @param author
+             *     4.9.13.6.1 Author type (Conditional)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder author(Collection<Author> author) {
+                this.author = new ArrayList<>(author);
+                return this;
+            }
+
+            /**
+             * 4.9.13.8.1 Hybrid species maternal organism ID (Optional).
+             * 
+             * @param hybrid
+             *     4.9.13.8.1 Hybrid species maternal organism ID (Optional)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder hybrid(Hybrid hybrid) {
+                this.hybrid = hybrid;
+                return this;
+            }
+
+            /**
+             * 4.9.13.7.1 Kingdom (Conditional).
+             * 
+             * @param organismGeneral
+             *     4.9.13.7.1 Kingdom (Conditional)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder organismGeneral(OrganismGeneral organismGeneral) {
+                this.organismGeneral = organismGeneral;
+                return this;
+            }
+
+            /**
+             * Build the {@link Organism}
+             * 
+             * @return
+             *     An immutable object of type {@link Organism}
+             */
+            @Override
+            public Organism build() {
+                return new Organism(this);
+            }
+
+            protected Builder from(Organism organism) {
+                super.from(organism);
+                family = organism.family;
+                genus = organism.genus;
+                species = organism.species;
+                intraspecificType = organism.intraspecificType;
+                intraspecificDescription = organism.intraspecificDescription;
+                author.addAll(organism.author);
+                hybrid = organism.hybrid;
+                organismGeneral = organism.organismGeneral;
+                return this;
+            }
+        }
+
+        /**
+         * 4.9.13.6.1 Author type (Conditional).
+         */
+        public static class Author extends BackboneElement {
+            private final CodeableConcept authorType;
+            private final String authorDescription;
+
+            private volatile int hashCode;
+
+            private Author(Builder builder) {
+                super(builder);
+                authorType = builder.authorType;
+                authorDescription = builder.authorDescription;
+                ValidationSupport.requireValueOrChildren(this);
+            }
+
+            /**
+             * The type of author of an organism species shall be specified. The parenthetical author of an organism species refers 
+             * to the first author who published the plant/animal name (of any rank). The primary author of an organism species 
+             * refers to the first author(s), who validly published the plant/animal name.
+             * 
+             * @return
+             *     An immutable object of type {@link CodeableConcept}.
+             */
+            public CodeableConcept getAuthorType() {
+                return authorType;
+            }
+
+            /**
+             * The author of an organism species shall be specified. The author year of an organism shall also be specified when 
+             * applicable; refers to the year in which the first author(s) published the infraspecific plant/animal name (of any 
+             * rank).
+             * 
+             * @return
+             *     An immutable object of type {@link String}.
+             */
+            public String getAuthorDescription() {
+                return authorDescription;
+            }
+
+            @Override
+            public boolean hasChildren() {
+                return super.hasChildren() || 
+                    (authorType != null) || 
+                    (authorDescription != null);
+            }
+
+            @Override
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+                if (visitor.preVisit(this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
+                        // visit children
+                        accept(id, "id", visitor);
+                        accept(extension, "extension", visitor, Extension.class);
+                        accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                        accept(authorType, "authorType", visitor);
+                        accept(authorDescription, "authorDescription", visitor);
+                    }
+                    visitor.visitEnd(elementName, elementIndex, this);
+                    visitor.postVisit(this);
+                }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Author other = (Author) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(authorType, other.authorType) && 
+                    Objects.equals(authorDescription, other.authorDescription);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        authorType, 
+                        authorDescription);
+                    hashCode = result;
+                }
+                return result;
+            }
+
+            @Override
+            public Builder toBuilder() {
+                return new Builder().from(this);
+            }
+
+            public static Builder builder() {
+                return new Builder();
+            }
+
+            public static class Builder extends BackboneElement.Builder {
+                private CodeableConcept authorType;
+                private String authorDescription;
+
+                private Builder() {
+                    super();
+                }
+
+                /**
+                 * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+                 * contain spaces.
+                 * 
+                 * @param id
+                 *     Unique id for inter-element referencing
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder id(java.lang.String id) {
+                    return (Builder) super.id(id);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+                 * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+                 * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+                 * of the definition of the extension.
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param extension
+                 *     Additional content defined by implementations
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder extension(Extension... extension) {
+                    return (Builder) super.extension(extension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+                 * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+                 * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+                 * of the definition of the extension.
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * @param extension
+                 *     Additional content defined by implementations
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder extension(Collection<Extension> extension) {
+                    return (Builder) super.extension(extension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element and that 
+                 * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+                 * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+                 * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+                 * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+                 * extension. Applications processing a resource are required to check for modifier extensions.
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * change the meaning of modifierExtension itself).
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param modifierExtension
+                 *     Extensions that cannot be ignored even if unrecognized
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder modifierExtension(Extension... modifierExtension) {
+                    return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element and that 
+                 * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+                 * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+                 * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+                 * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+                 * extension. Applications processing a resource are required to check for modifier extensions.
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * change the meaning of modifierExtension itself).
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * @param modifierExtension
+                 *     Extensions that cannot be ignored even if unrecognized
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                    return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * The type of author of an organism species shall be specified. The parenthetical author of an organism species refers 
+                 * to the first author who published the plant/animal name (of any rank). The primary author of an organism species 
+                 * refers to the first author(s), who validly published the plant/animal name.
+                 * 
+                 * @param authorType
+                 *     The type of author of an organism species shall be specified. The parenthetical author of an organism species refers 
+                 *     to the first author who published the plant/animal name (of any rank). The primary author of an organism species 
+                 *     refers to the first author(s), who validly published the plant/animal name
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder authorType(CodeableConcept authorType) {
+                    this.authorType = authorType;
+                    return this;
+                }
+
+                /**
+                 * The author of an organism species shall be specified. The author year of an organism shall also be specified when 
+                 * applicable; refers to the year in which the first author(s) published the infraspecific plant/animal name (of any 
+                 * rank).
+                 * 
+                 * @param authorDescription
+                 *     The author of an organism species shall be specified. The author year of an organism shall also be specified when 
+                 *     applicable; refers to the year in which the first author(s) published the infraspecific plant/animal name (of any rank)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder authorDescription(String authorDescription) {
+                    this.authorDescription = authorDescription;
+                    return this;
+                }
+
+                /**
+                 * Build the {@link Author}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Author}
+                 */
+                @Override
+                public Author build() {
+                    return new Author(this);
+                }
+
+                protected Builder from(Author author) {
+                    super.from(author);
+                    authorType = author.authorType;
+                    authorDescription = author.authorDescription;
+                    return this;
+                }
+            }
+        }
+
+        /**
+         * 4.9.13.8.1 Hybrid species maternal organism ID (Optional).
+         */
+        public static class Hybrid extends BackboneElement {
+            private final String maternalOrganismId;
+            private final String maternalOrganismName;
+            private final String paternalOrganismId;
+            private final String paternalOrganismName;
+            private final CodeableConcept hybridType;
+
+            private volatile int hashCode;
+
+            private Hybrid(Builder builder) {
+                super(builder);
+                maternalOrganismId = builder.maternalOrganismId;
+                maternalOrganismName = builder.maternalOrganismName;
+                paternalOrganismId = builder.paternalOrganismId;
+                paternalOrganismName = builder.paternalOrganismName;
+                hybridType = builder.hybridType;
+                ValidationSupport.requireValueOrChildren(this);
+            }
+
+            /**
+             * The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
+             * vocabulary. For plants, the parents aren’t always known, and it is unlikely that it will be known which is maternal 
+             * and which is paternal.
+             * 
+             * @return
+             *     An immutable object of type {@link String}.
+             */
+            public String getMaternalOrganismId() {
+                return maternalOrganismId;
+            }
+
+            /**
+             * The name of the maternal species constituting the hybrid organism shall be specified. For plants, the parents aren’t 
+             * always known, and it is unlikely that it will be known which is maternal and which is paternal.
+             * 
+             * @return
+             *     An immutable object of type {@link String}.
+             */
+            public String getMaternalOrganismName() {
+                return maternalOrganismName;
+            }
+
+            /**
+             * The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
+             * vocabulary.
+             * 
+             * @return
+             *     An immutable object of type {@link String}.
+             */
+            public String getPaternalOrganismId() {
+                return paternalOrganismId;
+            }
+
+            /**
+             * The name of the paternal species constituting the hybrid organism shall be specified.
+             * 
+             * @return
+             *     An immutable object of type {@link String}.
+             */
+            public String getPaternalOrganismName() {
+                return paternalOrganismName;
+            }
+
+            /**
+             * The hybrid type of an organism shall be specified.
+             * 
+             * @return
+             *     An immutable object of type {@link CodeableConcept}.
+             */
+            public CodeableConcept getHybridType() {
+                return hybridType;
+            }
+
+            @Override
+            public boolean hasChildren() {
+                return super.hasChildren() || 
+                    (maternalOrganismId != null) || 
+                    (maternalOrganismName != null) || 
+                    (paternalOrganismId != null) || 
+                    (paternalOrganismName != null) || 
+                    (hybridType != null);
+            }
+
+            @Override
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+                if (visitor.preVisit(this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
+                        // visit children
+                        accept(id, "id", visitor);
+                        accept(extension, "extension", visitor, Extension.class);
+                        accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                        accept(maternalOrganismId, "maternalOrganismId", visitor);
+                        accept(maternalOrganismName, "maternalOrganismName", visitor);
+                        accept(paternalOrganismId, "paternalOrganismId", visitor);
+                        accept(paternalOrganismName, "paternalOrganismName", visitor);
+                        accept(hybridType, "hybridType", visitor);
+                    }
+                    visitor.visitEnd(elementName, elementIndex, this);
+                    visitor.postVisit(this);
+                }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Hybrid other = (Hybrid) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(maternalOrganismId, other.maternalOrganismId) && 
+                    Objects.equals(maternalOrganismName, other.maternalOrganismName) && 
+                    Objects.equals(paternalOrganismId, other.paternalOrganismId) && 
+                    Objects.equals(paternalOrganismName, other.paternalOrganismName) && 
+                    Objects.equals(hybridType, other.hybridType);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        maternalOrganismId, 
+                        maternalOrganismName, 
+                        paternalOrganismId, 
+                        paternalOrganismName, 
+                        hybridType);
+                    hashCode = result;
+                }
+                return result;
+            }
+
+            @Override
+            public Builder toBuilder() {
+                return new Builder().from(this);
+            }
+
+            public static Builder builder() {
+                return new Builder();
+            }
+
+            public static class Builder extends BackboneElement.Builder {
+                private String maternalOrganismId;
+                private String maternalOrganismName;
+                private String paternalOrganismId;
+                private String paternalOrganismName;
+                private CodeableConcept hybridType;
+
+                private Builder() {
+                    super();
+                }
+
+                /**
+                 * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+                 * contain spaces.
+                 * 
+                 * @param id
+                 *     Unique id for inter-element referencing
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder id(java.lang.String id) {
+                    return (Builder) super.id(id);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+                 * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+                 * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+                 * of the definition of the extension.
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param extension
+                 *     Additional content defined by implementations
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder extension(Extension... extension) {
+                    return (Builder) super.extension(extension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+                 * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+                 * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+                 * of the definition of the extension.
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * @param extension
+                 *     Additional content defined by implementations
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder extension(Collection<Extension> extension) {
+                    return (Builder) super.extension(extension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element and that 
+                 * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+                 * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+                 * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+                 * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+                 * extension. Applications processing a resource are required to check for modifier extensions.
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * change the meaning of modifierExtension itself).
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param modifierExtension
+                 *     Extensions that cannot be ignored even if unrecognized
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder modifierExtension(Extension... modifierExtension) {
+                    return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element and that 
+                 * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+                 * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+                 * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+                 * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+                 * extension. Applications processing a resource are required to check for modifier extensions.
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * change the meaning of modifierExtension itself).
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * @param modifierExtension
+                 *     Extensions that cannot be ignored even if unrecognized
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                    return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
+                 * vocabulary. For plants, the parents aren’t always known, and it is unlikely that it will be known which is maternal 
+                 * and which is paternal.
+                 * 
+                 * @param maternalOrganismId
+                 *     The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
+                 *     vocabulary. For plants, the parents aren’t always known, and it is unlikely that it will be known which is maternal 
+                 *     and which is paternal
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder maternalOrganismId(String maternalOrganismId) {
+                    this.maternalOrganismId = maternalOrganismId;
+                    return this;
+                }
+
+                /**
+                 * The name of the maternal species constituting the hybrid organism shall be specified. For plants, the parents aren’t 
+                 * always known, and it is unlikely that it will be known which is maternal and which is paternal.
+                 * 
+                 * @param maternalOrganismName
+                 *     The name of the maternal species constituting the hybrid organism shall be specified. For plants, the parents aren’t 
+                 *     always known, and it is unlikely that it will be known which is maternal and which is paternal
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder maternalOrganismName(String maternalOrganismName) {
+                    this.maternalOrganismName = maternalOrganismName;
+                    return this;
+                }
+
+                /**
+                 * The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
+                 * vocabulary.
+                 * 
+                 * @param paternalOrganismId
+                 *     The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
+                 *     vocabulary
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder paternalOrganismId(String paternalOrganismId) {
+                    this.paternalOrganismId = paternalOrganismId;
+                    return this;
+                }
+
+                /**
+                 * The name of the paternal species constituting the hybrid organism shall be specified.
+                 * 
+                 * @param paternalOrganismName
+                 *     The name of the paternal species constituting the hybrid organism shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder paternalOrganismName(String paternalOrganismName) {
+                    this.paternalOrganismName = paternalOrganismName;
+                    return this;
+                }
+
+                /**
+                 * The hybrid type of an organism shall be specified.
+                 * 
+                 * @param hybridType
+                 *     The hybrid type of an organism shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder hybridType(CodeableConcept hybridType) {
+                    this.hybridType = hybridType;
+                    return this;
+                }
+
+                /**
+                 * Build the {@link Hybrid}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Hybrid}
+                 */
+                @Override
+                public Hybrid build() {
+                    return new Hybrid(this);
+                }
+
+                protected Builder from(Hybrid hybrid) {
+                    super.from(hybrid);
+                    maternalOrganismId = hybrid.maternalOrganismId;
+                    maternalOrganismName = hybrid.maternalOrganismName;
+                    paternalOrganismId = hybrid.paternalOrganismId;
+                    paternalOrganismName = hybrid.paternalOrganismName;
+                    hybridType = hybrid.hybridType;
+                    return this;
+                }
+            }
+        }
+
+        /**
+         * 4.9.13.7.1 Kingdom (Conditional).
+         */
+        public static class OrganismGeneral extends BackboneElement {
+            private final CodeableConcept kingdom;
+            private final CodeableConcept phylum;
+            private final CodeableConcept clazz;
+            private final CodeableConcept order;
+
+            private volatile int hashCode;
+
+            private OrganismGeneral(Builder builder) {
+                super(builder);
+                kingdom = builder.kingdom;
+                phylum = builder.phylum;
+                clazz = builder.clazz;
+                order = builder.order;
+                ValidationSupport.requireValueOrChildren(this);
+            }
+
+            /**
+             * The kingdom of an organism shall be specified.
+             * 
+             * @return
+             *     An immutable object of type {@link CodeableConcept}.
+             */
+            public CodeableConcept getKingdom() {
+                return kingdom;
+            }
+
+            /**
+             * The phylum of an organism shall be specified.
+             * 
+             * @return
+             *     An immutable object of type {@link CodeableConcept}.
+             */
+            public CodeableConcept getPhylum() {
+                return phylum;
+            }
+
+            /**
+             * The class of an organism shall be specified.
+             * 
+             * @return
+             *     An immutable object of type {@link CodeableConcept}.
+             */
+            public CodeableConcept getClazz() {
+                return clazz;
+            }
+
+            /**
+             * The order of an organism shall be specified,.
+             * 
+             * @return
+             *     An immutable object of type {@link CodeableConcept}.
+             */
+            public CodeableConcept getOrder() {
+                return order;
+            }
+
+            @Override
+            public boolean hasChildren() {
+                return super.hasChildren() || 
+                    (kingdom != null) || 
+                    (phylum != null) || 
+                    (clazz != null) || 
+                    (order != null);
+            }
+
+            @Override
+            public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+                if (visitor.preVisit(this)) {
+                    visitor.visitStart(elementName, elementIndex, this);
+                    if (visitor.visit(elementName, elementIndex, this)) {
+                        // visit children
+                        accept(id, "id", visitor);
+                        accept(extension, "extension", visitor, Extension.class);
+                        accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                        accept(kingdom, "kingdom", visitor);
+                        accept(phylum, "phylum", visitor);
+                        accept(clazz, "class", visitor);
+                        accept(order, "order", visitor);
+                    }
+                    visitor.visitEnd(elementName, elementIndex, this);
+                    visitor.postVisit(this);
+                }
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                OrganismGeneral other = (OrganismGeneral) obj;
+                return Objects.equals(id, other.id) && 
+                    Objects.equals(extension, other.extension) && 
+                    Objects.equals(modifierExtension, other.modifierExtension) && 
+                    Objects.equals(kingdom, other.kingdom) && 
+                    Objects.equals(phylum, other.phylum) && 
+                    Objects.equals(clazz, other.clazz) && 
+                    Objects.equals(order, other.order);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = hashCode;
+                if (result == 0) {
+                    result = Objects.hash(id, 
+                        extension, 
+                        modifierExtension, 
+                        kingdom, 
+                        phylum, 
+                        clazz, 
+                        order);
+                    hashCode = result;
+                }
+                return result;
+            }
+
+            @Override
+            public Builder toBuilder() {
+                return new Builder().from(this);
+            }
+
+            public static Builder builder() {
+                return new Builder();
+            }
+
+            public static class Builder extends BackboneElement.Builder {
+                private CodeableConcept kingdom;
+                private CodeableConcept phylum;
+                private CodeableConcept clazz;
+                private CodeableConcept order;
+
+                private Builder() {
+                    super();
+                }
+
+                /**
+                 * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+                 * contain spaces.
+                 * 
+                 * @param id
+                 *     Unique id for inter-element referencing
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder id(java.lang.String id) {
+                    return (Builder) super.id(id);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+                 * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+                 * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+                 * of the definition of the extension.
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param extension
+                 *     Additional content defined by implementations
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder extension(Extension... extension) {
+                    return (Builder) super.extension(extension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+                 * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+                 * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+                 * of the definition of the extension.
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * @param extension
+                 *     Additional content defined by implementations
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder extension(Collection<Extension> extension) {
+                    return (Builder) super.extension(extension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element and that 
+                 * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+                 * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+                 * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+                 * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+                 * extension. Applications processing a resource are required to check for modifier extensions.
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * change the meaning of modifierExtension itself).
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param modifierExtension
+                 *     Extensions that cannot be ignored even if unrecognized
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder modifierExtension(Extension... modifierExtension) {
+                    return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * May be used to represent additional information that is not part of the basic definition of the element and that 
+                 * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+                 * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+                 * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+                 * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+                 * extension. Applications processing a resource are required to check for modifier extensions.
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * change the meaning of modifierExtension itself).
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * @param modifierExtension
+                 *     Extensions that cannot be ignored even if unrecognized
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                @Override
+                public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                    return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * The kingdom of an organism shall be specified.
+                 * 
+                 * @param kingdom
+                 *     The kingdom of an organism shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder kingdom(CodeableConcept kingdom) {
+                    this.kingdom = kingdom;
+                    return this;
+                }
+
+                /**
+                 * The phylum of an organism shall be specified.
+                 * 
+                 * @param phylum
+                 *     The phylum of an organism shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder phylum(CodeableConcept phylum) {
+                    this.phylum = phylum;
+                    return this;
+                }
+
+                /**
+                 * The class of an organism shall be specified.
+                 * 
+                 * @param clazz
+                 *     The class of an organism shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder clazz(CodeableConcept clazz) {
+                    this.clazz = clazz;
+                    return this;
+                }
+
+                /**
+                 * The order of an organism shall be specified,.
+                 * 
+                 * @param order
+                 *     The order of an organism shall be specified,
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder order(CodeableConcept order) {
+                    this.order = order;
+                    return this;
+                }
+
+                /**
+                 * Build the {@link OrganismGeneral}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link OrganismGeneral}
+                 */
+                @Override
+                public OrganismGeneral build() {
+                    return new OrganismGeneral(this);
+                }
+
+                protected Builder from(OrganismGeneral organismGeneral) {
+                    super.from(organismGeneral);
+                    kingdom = organismGeneral.kingdom;
+                    phylum = organismGeneral.phylum;
+                    clazz = organismGeneral.clazz;
+                    order = organismGeneral.order;
+                    return this;
+                }
+            }
+        }
+    }
+
+    /**
+     * To do.
+     */
+    public static class PartDescription extends BackboneElement {
+        private final CodeableConcept part;
+        private final CodeableConcept partLocation;
+
+        private volatile int hashCode;
+
+        private PartDescription(Builder builder) {
+            super(builder);
+            part = builder.part;
+            partLocation = builder.partLocation;
+            ValidationSupport.requireValueOrChildren(this);
+        }
+
+        /**
+         * Entity of anatomical origin of source material within an organism.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}.
+         */
+        public CodeableConcept getPart() {
+            return part;
+        }
+
+        /**
+         * The detailed anatomic location when the part can be extracted from different anatomical locations of the organism. 
+         * Multiple alternative locations may apply.
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}.
+         */
+        public CodeableConcept getPartLocation() {
+            return partLocation;
+        }
+
+        @Override
+        public boolean hasChildren() {
+            return super.hasChildren() || 
+                (part != null) || 
+                (partLocation != null);
+        }
+
+        @Override
+        public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+            if (visitor.preVisit(this)) {
+                visitor.visitStart(elementName, elementIndex, this);
+                if (visitor.visit(elementName, elementIndex, this)) {
+                    // visit children
+                    accept(id, "id", visitor);
+                    accept(extension, "extension", visitor, Extension.class);
+                    accept(modifierExtension, "modifierExtension", visitor, Extension.class);
+                    accept(part, "part", visitor);
+                    accept(partLocation, "partLocation", visitor);
+                }
+                visitor.visitEnd(elementName, elementIndex, this);
+                visitor.postVisit(this);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            PartDescription other = (PartDescription) obj;
+            return Objects.equals(id, other.id) && 
+                Objects.equals(extension, other.extension) && 
+                Objects.equals(modifierExtension, other.modifierExtension) && 
+                Objects.equals(part, other.part) && 
+                Objects.equals(partLocation, other.partLocation);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = hashCode;
+            if (result == 0) {
+                result = Objects.hash(id, 
+                    extension, 
+                    modifierExtension, 
+                    part, 
+                    partLocation);
+                hashCode = result;
+            }
+            return result;
+        }
+
+        @Override
+        public Builder toBuilder() {
+            return new Builder().from(this);
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public static class Builder extends BackboneElement.Builder {
+            private CodeableConcept part;
+            private CodeableConcept partLocation;
+
+            private Builder() {
+                super();
+            }
+
+            /**
+             * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+             * contain spaces.
+             * 
+             * @param id
+             *     Unique id for inter-element referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder id(java.lang.String id) {
+                return (Builder) super.id(id);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Extension... extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+             * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
+             * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+             * of the definition of the extension.
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * @param extension
+             *     Additional content defined by implementations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder extension(Collection<Extension> extension) {
+                return (Builder) super.extension(extension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Extension... modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * May be used to represent additional information that is not part of the basic definition of the element and that 
+             * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
+             * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
+             * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
+             * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
+             * extension. Applications processing a resource are required to check for modifier extensions.
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * change the meaning of modifierExtension itself).
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * @param modifierExtension
+             *     Extensions that cannot be ignored even if unrecognized
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            @Override
+            public Builder modifierExtension(Collection<Extension> modifierExtension) {
+                return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Entity of anatomical origin of source material within an organism.
+             * 
+             * @param part
+             *     Entity of anatomical origin of source material within an organism
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder part(CodeableConcept part) {
+                this.part = part;
+                return this;
+            }
+
+            /**
+             * The detailed anatomic location when the part can be extracted from different anatomical locations of the organism. 
+             * Multiple alternative locations may apply.
+             * 
+             * @param partLocation
+             *     The detailed anatomic location when the part can be extracted from different anatomical locations of the organism. 
+             *     Multiple alternative locations may apply
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder partLocation(CodeableConcept partLocation) {
+                this.partLocation = partLocation;
+                return this;
+            }
+
+            /**
+             * Build the {@link PartDescription}
+             * 
+             * @return
+             *     An immutable object of type {@link PartDescription}
+             */
+            @Override
+            public PartDescription build() {
+                return new PartDescription(this);
+            }
+
+            protected Builder from(PartDescription partDescription) {
+                super.from(partDescription);
+                part = partDescription.part;
+                partLocation = partDescription.partLocation;
+                return this;
+            }
+        }
+    }
+}
