@@ -1,149 +1,149 @@
 {
-	"__comment": "FHIR Server configuration",
-	"fhirServer": {
-		"core": {
-			"truststoreLocation": "resources/security/fhirTruststore.jks",
-			"truststorePassword": "change-password",
-			"userDefinedSchematronEnabled": false,
-			"tenantIdHeaderName": "X-FHIR-TENANT-ID",
-			"datastoreIdHeaderName": "X-FHIR-DSID",
-			"jsonParserLenient": false,
-			"jsonParserValidating": true
-		},
-		"authFilter": {
-			"enabled": false,
-			"authorizedClientCertClientCN": "",
-			"authorizedClientCertIssuerOU": ""
-		},
-		"oauth": {
-			"regUrl": "https://<host>:9443/oidc/endpoint/oidc-provider/registration",
-			"authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
-			"tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
-		},
-		"encryption": {
-			"enabled": false,
-			"keystoreLocation": "resources/security/fhirkeys.jceks",
-			"keystorePassword": "change-password",
-			"keyPassword": "change-password"
-		},
-		"virtualResources": {
-			"enabled": false,
-			"allowableResourceTypes": [
-				"*"
-			]
-		},
-		"notifications": {
-			"common": {
-				"__comment_includeResourceTypes": [
-					"QuestionnaireResponse",
-					"CarePlan",
-					"MedicationAdministration",
-					"Device",
-					"DeviceComponent",
-					"DeviceMetric",
-					"MedicationOrder",
-					"Observation"
-				]
-			},
-			"websocket": {
-				"enabled": true
-			},
-			"kafka": {
-				"enabled": false,
-				"topicName": "fhirNotifications",
-				"connectionProperties": {
-					"group.id": "securing-kafka-group",
-					"bootstrap.servers": "localhost:9093",
-					"security.protocol": "SSL",
-					"ssl.truststore.location": "resources/security/kafka.client.truststore.jks",
-					"ssl.truststore.password": "change-password",
-					"ssl.keystore.location": "resources/security/kafka.client.keystore.jks",
-					"ssl.keystore.password": "change-password",
-					"ssl.key.password": "change-password",
-					"ssl.truststore.type": "JKS",
-					"ssl.keystore.type": "JKS",
-					"acks": "all",
-					"retries": "60",
-					"request.timeout.ms": "10000",
-					"max.block.ms": "60000",
-					"max.in.flight.requests.per.connection": "5"
-				}
-			}
-		},
-		"audit": {
-		    "serviceClassName" : "com.ibm.watson.health.fhir.audit.logging.impl.DisabledAuditLogService",
-		    "serviceProperties" : {
-			}
-		},
-		"persistence": {
-			"factoryClassname": "com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
-			"common": {
-				"__comment": "Configuration properties common to all persistence layer implementations",
-				"updateCreateEnabled": true
-			},
-			"datasources": {
-				"default": {
-					"type": "derby",
-					"connectionProperties": {
-						"databaseName": "derby/fhirDB",
-						"createDatabase": "create"
-					}
-				},
-				"_db2_default": {
-					"type": "db2",
-					"connectionProperties": {
-						"serverName": "localhost",
-						"portNumber": 50001,
-						"user": "db2inst1",
-						"password": "change-password",
-						"databaseName": "FHIRDB",
-						"currentSchema": "FHIR1",
-						"driverType": 4,
-						"sslConnection": true,
-						"sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
-						"sslTrustStorePassword": "change-password"
-					}
-				},
-				"audit": {
-					"type": "derby",
-					"connectionProperties": {
-						"databaseName": "derby/auditDB",
-						"createDatabase": "create"
-					}
-				},
-				"_db2_audit": {
-					"type": "db2",
-					"connectionProperties": {
-						"serverName": "localhost",
-						"portNumber": 50001,
-						"user": "db2inst1",
-						"password": "change-password",
-						"databaseName": "AUDITDB",
-						"currentSchema": "AUDIT1",
-						"driverType": 4,
-						"sslConnection": true,
-						"sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
-						"sslTrustStorePassword": "change-password"
-					}
-				}
-			},
-			"jdbc": {
-				"__comment": "Configuration properties for the JDBC persistence implementation",
-				"bootstrapDb": true,
-				"__comment1": "schemaType allowed values are: basic or normalized",
-				"schemaType": "normalized",
-				"__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
-				"dataSourceJndiName": "jdbc/fhirProxyDataSource",
-				"enableCodeSystemsCache": true,
-				"enableParameterNamesCache": true,
-				"enableResourceTypesCache": true
-			},
-			"audit": {
-				"bootstrapDb": true
-			}
-		},
-		"whclsfRouter": {
+    "__comment": "FHIR Server configuration",
+    "fhirServer": {
+        "core": {
+            "truststoreLocation": "resources/security/fhirTruststore.jks",
+            "truststorePassword": "change-password",
+            "userDefinedSchematronEnabled": false,
+            "tenantIdHeaderName": "X-FHIR-TENANT-ID",
+            "datastoreIdHeaderName": "X-FHIR-DSID",
+            "jsonParserLenient": false,
+            "jsonParserValidating": true
+        },
+        "authFilter": {
+            "enabled": false,
+            "authorizedClientCertClientCN": "",
+            "authorizedClientCertIssuerOU": ""
+        },
+        "oauth": {
+            "regUrl": "https://<host>:9443/oidc/endpoint/oidc-provider/registration",
+            "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
+            "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
+        },
+        "encryption": {
+            "enabled": false,
+            "keystoreLocation": "resources/security/fhirkeys.jceks",
+            "keystorePassword": "change-password",
+            "keyPassword": "change-password"
+        },
+        "virtualResources": {
+            "enabled": false,
+            "allowableResourceTypes": [
+                "*"
+            ]
+        },
+        "notifications": {
+            "common": {
+                "__comment_includeResourceTypes": [
+                    "QuestionnaireResponse",
+                    "CarePlan",
+                    "MedicationAdministration",
+                    "Device",
+                    "DeviceComponent",
+                    "DeviceMetric",
+                    "MedicationOrder",
+                    "Observation"
+                ]
+            },
+            "websocket": {
+                "enabled": true
+            },
+            "kafka": {
+                "enabled": false,
+                "topicName": "fhirNotifications",
+                "connectionProperties": {
+                    "group.id": "securing-kafka-group",
+                    "bootstrap.servers": "localhost:9093",
+                    "security.protocol": "SSL",
+                    "ssl.truststore.location": "resources/security/kafka.client.truststore.jks",
+                    "ssl.truststore.password": "change-password",
+                    "ssl.keystore.location": "resources/security/kafka.client.keystore.jks",
+                    "ssl.keystore.password": "change-password",
+                    "ssl.key.password": "change-password",
+                    "ssl.truststore.type": "JKS",
+                    "ssl.keystore.type": "JKS",
+                    "acks": "all",
+                    "retries": "60",
+                    "request.timeout.ms": "10000",
+                    "max.block.ms": "60000",
+                    "max.in.flight.requests.per.connection": "5"
+                }
+            }
+        },
+        "audit": {
+            "serviceClassName" : "com.ibm.watson.health.fhir.audit.logging.impl.DisabledAuditLogService",
+            "serviceProperties" : {
+            }
+        },
+        "persistence": {
+            "factoryClassname": "com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "common": {
+                "__comment": "Configuration properties common to all persistence layer implementations",
+                "updateCreateEnabled": true
+            },
+            "datasources": {
+                "default": {
+                    "type": "derby",
+                    "connectionProperties": {
+                        "databaseName": "derby/fhirDB",
+                        "createDatabase": "create"
+                    }
+                },
+                "_db2_default": {
+                    "type": "db2",
+                    "connectionProperties": {
+                        "serverName": "localhost",
+                        "portNumber": 50001,
+                        "user": "db2inst1",
+                        "password": "change-password",
+                        "databaseName": "FHIRDB",
+                        "currentSchema": "FHIR1",
+                        "driverType": 4,
+                        "sslConnection": true,
+                        "sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
+                        "sslTrustStorePassword": "change-password"
+                    }
+                },
+                "audit": {
+                    "type": "derby",
+                    "connectionProperties": {
+                        "databaseName": "derby/auditDB",
+                        "createDatabase": "create"
+                    }
+                },
+                "_db2_audit": {
+                    "type": "db2",
+                    "connectionProperties": {
+                        "serverName": "localhost",
+                        "portNumber": 50001,
+                        "user": "db2inst1",
+                        "password": "change-password",
+                        "databaseName": "AUDITDB",
+                        "currentSchema": "AUDIT1",
+                        "driverType": 4,
+                        "sslConnection": true,
+                        "sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
+                        "sslTrustStorePassword": "change-password"
+                    }
+                }
+            },
+            "jdbc": {
+                "__comment": "Configuration properties for the JDBC persistence implementation",
+                "bootstrapDb": true,
+                "__comment1": "schemaType allowed values are: basic or normalized",
+                "schemaType": "normalized",
+                "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
+                "dataSourceJndiName": "jdbc/fhirProxyDataSource",
+                "enableCodeSystemsCache": true,
+                "enableParameterNamesCache": true,
+                "enableResourceTypesCache": true
+            },
+            "audit": {
+                "bootstrapDb": true
+            }
+        },
+        "whclsfRouter": {
             "replicationInterceptorEnabled": false
-		}
-	}
+        }
+    }
 }
