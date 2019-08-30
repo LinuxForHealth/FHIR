@@ -108,7 +108,7 @@ public class FHIRProxyXADataSourceTest {
         assertEquals("myDerbyDatabase3", derbyDS.getDatabaseName());
         assertEquals("create", derbyDS.getCreateDatabase());
         assertEquals("dbuser", derbyDS.getUser());
-        assertEquals("dbpassword", derbyDS.getPassword());
+        assertEquals("change-password", derbyDS.getPassword());
         assertEquals("myDataSource", derbyDS.getDataSourceName());
         assertEquals("shutdown", derbyDS.getShutdownDatabase());
         assertEquals(1000, derbyDS.getLoginTimeout());
@@ -129,7 +129,7 @@ public class FHIRProxyXADataSourceTest {
         assertEquals("myDerbyDatabase4", derbyDS.getDatabaseName());
         assertEquals("create", derbyDS.getCreateDatabase());
         assertEquals("dbuser", derbyDS.getUser());
-        assertEquals("dbpassword", derbyDS.getPassword());
+        assertEquals("change-password", derbyDS.getPassword());
         assertEquals("x.x.x.x", derbyDS.getServerName());
         assertEquals(1527, derbyDS.getPortNumber());
     }
@@ -179,7 +179,7 @@ public class FHIRProxyXADataSourceTest {
         assertEquals("db2inst1", derbyDS.getUser());
         assertEquals(true, derbyDS.getSslConnection());
         assertEquals("mytruststore", derbyDS.getSslTrustStoreLocation());
-        assertEquals("mytruststorepwd", derbyDS.getSslTrustStorePassword());
+        assertEquals("change-password", derbyDS.getSslTrustStorePassword());
         assertEquals("mysslcert", derbyDS.getSslCertLocation());
         assertEquals(1000, derbyDS.getLoginTimeout());
         assertEquals(1001, derbyDS.getCommandTimeout());
