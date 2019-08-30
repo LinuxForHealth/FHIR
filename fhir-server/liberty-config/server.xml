@@ -31,14 +31,14 @@
 
     <!-- FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
-    <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeystore.jks" password="{xor}change-me="/>
-    <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTruststore.jks" password="{xor}change-me="/>
+    <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeystore.jks" password="change-password"/>
+    <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTruststore.jks" password="change-password"/>
     <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
 
     <!-- Define a basic user registry with a few users. -->
     <basicRegistry id="basic" realm="BasicRealm"> 
-        <user name="fhiruser" password="{xor}change-me="/>
-        <user name="fhiradmin" password="{xor}change-me"/>
+        <user name="fhiruser" password="change-password"/>
+        <user name="fhiradmin" password="change-password"/>
         <group name="FHIRUsers">
             <member name="fhiruser"/>
         </group>
@@ -174,7 +174,7 @@
             serverName="dbserver1.mycompany.com" 
             portNumber="50000" 
             user="db2inst1" 
-            password="{xor}change-me=" 
+            password="change-password" 
             databaseName="OAUTH2DB" 
             currentSchema="OAUTHDBSCHEMA" 
             driverType="4"/>
