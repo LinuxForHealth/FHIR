@@ -71,12 +71,12 @@
 			}
 		},
 		"audit": {
-		    "serviceClassName" : "com.ibm.watsonhealth.fhir.audit.logging.impl.DisabledAuditLogService",
+		    "serviceClassName" : "com.ibm.watson.health.fhir.audit.logging.impl.DisabledAuditLogService",
 		    "serviceProperties" : {
 			}
 		},
 		"persistence": {
-			"factoryClassname": "com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+			"factoryClassname": "com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
 			"common": {
 				"__comment": "Configuration properties common to all persistence layer implementations",
 				"updateCreateEnabled": true

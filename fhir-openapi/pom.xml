@@ -3,9 +3,9 @@
     xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.ibm.watsonhealth.fhir</groupId>
+        <groupId>com.ibm.watson.health</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>99-SNAPSHOT</version>
+        <version>4.0.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 

@@ -95,7 +95,7 @@
     <!-- 
         Modify the trace string below as needed to enable/disable tracing. 
         <logging traceSpecification="*=info" traceFormat="BASIC"/>
-        <logging traceSpecification="*=info:com.ibm.watsonhealth.fhir.*=finer" traceFormat="BASIC"/>
+        <logging traceSpecification="*=info:com.ibm.watson.health.fhir.*=finer" traceFormat="BASIC"/>
     -->
     
     <!-- Automatically expand WAR files and EAR files -->
@@ -147,7 +147,7 @@
     <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource"
         type="javax.sql.XADataSource">
         <jdbcDriver libraryRef="fhirSharedLib"
-            javax.sql.XADataSource="com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource" />
+            javax.sql.XADataSource="com.ibm.watson.health.fhir.persistence.proxy.FHIRProxyXADataSource" />
         <connectionManager />
     </dataSource>
     
