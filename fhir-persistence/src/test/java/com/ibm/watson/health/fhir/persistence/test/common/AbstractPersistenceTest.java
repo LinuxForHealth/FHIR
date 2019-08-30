@@ -67,7 +67,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     public void setUp() throws Exception {
         bootstrapDatabase();
         persistence = getPersistenceImpl();
-        FHIRConfiguration.setConfigHome("target/test-classes");
+        FHIRConfiguration.setConfigHome("target/test-classes/config");
     }
 
     @BeforeMethod(alwaysRun = true)
