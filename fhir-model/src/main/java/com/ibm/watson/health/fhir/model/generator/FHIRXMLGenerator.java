@@ -9,6 +9,7 @@ package com.ibm.watson.health.fhir.model.generator;
 import static com.ibm.watson.health.fhir.model.type.Xhtml.xhtml;
 import static com.ibm.watson.health.fhir.model.util.ModelSupport.isPrimitiveType;
 import static com.ibm.watson.health.fhir.model.util.XMLSupport.FHIR_NS_URI;
+import static com.ibm.watson.health.fhir.model.util.XMLSupport.createNonClosingStreamWriterDelegate;
 import static com.ibm.watson.health.fhir.model.util.XMLSupport.createStreamWriterDelegate;
 
 import java.io.OutputStream;
@@ -259,7 +260,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
             try {
                 Transformer transformer = THREAD_LOCAL_TRANSFORMER.get();
                 transformer.reset();
-                transformer.transform(new StreamSource(new StringReader(xhtml.getValue())), new StAXResult(writer));
+                transformer.transform(new StreamSource(new StringReader(xhtml.getValue())), new StAXResult(createNonClosingStreamWriterDelegate(writer)));
             } catch (TransformerException e) {
                 throw new RuntimeException(e);
             }
