@@ -166,6 +166,15 @@ public final class XMLSupport {
             }
         };
     }
+    
+    public static XMLStreamWriter createNonClosingStreamWriterDelegate(XMLStreamWriter writer) {
+        return new StreamWriterDelegate(writer) {
+            @Override
+            public void close() throws XMLStreamException {
+                // do nothing
+            }
+        };
+    }
 
     private static XMLInputFactory createXMLInputFactory() {
         XMLInputFactory factory = XMLInputFactory.newInstance();
