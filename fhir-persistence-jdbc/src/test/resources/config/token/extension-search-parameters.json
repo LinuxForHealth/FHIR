@@ -3,11 +3,11 @@
     "type": "collection",
     "entry": [
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-boolean",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-boolean",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-boolean",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-boolean",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-boolean",
                 "name": "boolean",
                 "status": "active",
                 "description": "test param",
@@ -22,11 +22,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-integer",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-integer",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-integer",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-integer",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-integer",
                 "name": "integer",
                 "status": "active",
                 "description": "test param",
@@ -41,11 +41,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-string",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-string",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-string",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-string",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-string",
                 "name": "string",
                 "status": "active",
                 "description": "test param",
@@ -60,11 +60,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-code",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-code",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-code",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-code",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-code",
                 "name": "code",
                 "status": "active",
                 "description": "test param",
@@ -79,11 +79,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-decimal",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-decimal",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-decimal",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-decimal",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-decimal",
                 "name": "decimal",
                 "status": "active",
                 "description": "test param",
@@ -98,11 +98,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-uri",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-uri",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-uri",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-uri",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-uri",
                 "name": "uri",
                 "status": "active",
                 "description": "test param",
@@ -117,11 +117,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-instant",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-instant",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-instant",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-instant",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-instant",
                 "name": "instant",
                 "status": "active",
                 "description": "test param",
@@ -136,11 +136,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-date",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-date",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-date",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-date",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-date",
                 "name": "date",
                 "status": "active",
                 "description": "test param",
@@ -155,11 +155,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-dateTime",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-dateTime",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-dateTime",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-dateTime",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-dateTime",
                 "name": "dateTime",
                 "status": "active",
                 "description": "test param",
@@ -174,11 +174,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Period",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Period",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Period",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Period",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Period",
                 "name": "Period",
                 "status": "active",
                 "description": "test param",
@@ -193,11 +193,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Timing",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Timing",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Timing",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Timing",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Timing",
                 "name": "Timing",
                 "status": "active",
                 "description": "test param",
@@ -212,11 +212,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Quantity",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Quantity",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Quantity",
                 "name": "Quantity",
                 "status": "active",
                 "description": "test param",
@@ -231,11 +231,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Reference",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Reference",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Reference",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Reference",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Reference",
                 "name": "Reference",
                 "status": "active",
                 "description": "test param",
@@ -250,11 +250,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Coding",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Coding",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Coding",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Coding",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Coding",
                 "name": "Coding",
                 "status": "active",
                 "description": "test param",
@@ -269,11 +269,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-CodeableConcept",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-CodeableConcept",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-CodeableConcept",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-CodeableConcept",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-CodeableConcept",
                 "name": "CodeableConcept",
                 "status": "active",
                 "description": "test param",
@@ -288,11 +288,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Identifier",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Identifier",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Identifier",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Identifier",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Identifier",
                 "name": "Identifier",
                 "status": "active",
                 "description": "test param",
@@ -307,11 +307,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Period-noStart",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Period-noStart",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Period-noStart",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Period-noStart",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Period-noStart",
                 "name": "Period-noStart",
                 "status": "active",
                 "description": "test param",
@@ -326,11 +326,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Period-noEnd",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Period-noEnd",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Period-noEnd",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Period-noEnd",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Period-noEnd",
                 "name": "Period-noEnd",
                 "status": "active",
                 "description": "test param",
@@ -345,11 +345,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Period-noStartOrEnd",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Period-noStartOrEnd",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Period-noStartOrEnd",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Period-noStartOrEnd",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Period-noStartOrEnd",
                 "name": "Period-noStartOrEnd",
                 "status": "active",
                 "description": "test param",
@@ -364,11 +364,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Timing-eventsOnly",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Timing-eventsOnly",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Timing-eventsOnly",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Timing-eventsOnly",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Timing-eventsOnly",
                 "name": "Timing-eventsOnly",
                 "status": "active",
                 "description": "test param",
@@ -383,11 +383,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Timing-boundQuantity",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Timing-boundQuantity",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Timing-boundQuantity",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Timing-boundQuantity",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Timing-boundQuantity",
                 "name": "Timing-boundQuantity",
                 "status": "active",
                 "description": "test param",
@@ -402,11 +402,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Basic-Timing-boundRange",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Basic-Timing-boundRange",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Basic-Timing-boundRange",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Basic-Timing-boundRange",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Basic-Timing-boundRange",
                 "name": "Basic-Timing-boundRange",
                 "status": "active",
                 "description": "test param",
@@ -421,11 +421,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Basic-Timing-boundPeriod",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Basic-Timing-boundPeriod",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-Basic-Timing-boundPeriod",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Basic-Timing-boundPeriod",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-Basic-Timing-boundPeriod",
                 "name": "Basic-Timing-boundPeriod",
                 "status": "active",
                 "description": "test param",
@@ -440,11 +440,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-instant",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-missing-instant",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-missing-instant",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-instant",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-missing-instant",
                 "name": "missing-instant",
                 "status": "active",
                 "description": "test param",
@@ -459,11 +459,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-date",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-missing-date",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-missing-date",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-date",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-missing-date",
                 "name": "missing-date",
                 "status": "active",
                 "description": "test param",
@@ -478,11 +478,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-dateTime",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-missing-dateTime",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-missing-dateTime",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-dateTime",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-missing-dateTime",
                 "name": "missing-dateTime",
                 "status": "active",
                 "description": "test param",
@@ -497,11 +497,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-Period",
+            "fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-missing-Period",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "Basic-missing-Period",
-                "url": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-Period",
+                "url": "http://ibm.com/watson/health/fhir/SearchParameter/Basic-missing-Period",
                 "name": "missing-Period",
                 "status": "active",
                 "description": "test param",

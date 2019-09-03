@@ -85,7 +85,7 @@ Watson Health FHIR Server version 2.1 was developed under the Watson Health.
 
 ## 2.1 Installing a new server
 1.	To install the FHIR server, first obtain the installation package `fhir-install-<version>.zip`.
-You can download the package from the FHIR server team's [Artifactory server](https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/watsonhealth/fhir/fhir-install).
+You can download the package from the FHIR server team's [Artifactory server](https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/watson/health/fhir/fhir-install).
 
 2.	Decompress the `.zip` file into a clean directory (referred to as `/fhir-installer` here):
 ```
@@ -280,7 +280,7 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
     “fhirServer”: {
         ...
         “persistence”: {
-            "factoryClassname": "com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname": "com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             …
         }
 }
@@ -358,7 +358,7 @@ The FHIR server's proxy datasource allows us to configure a single statically-de
 ```
 <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource">
     <jdbcDriver libraryRef="fhirSharedLib"
-       javax.sql.XADataSource="com.ibm.watsonhealth.fhir.persistence.proxy.FHIRProxyXADataSource" />
+       javax.sql.XADataSource="com.ibm.watson.health.fhir.persistence.proxy.FHIRProxyXADataSource" />
 </dataSource>
 ```
 
@@ -375,7 +375,7 @@ Here is a simple example of a single (default) datastore:
 {
     "fhirServer":{
         "persistence":{
-            "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname":"com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "datasources": {
                 "default": {
                     "type": "derby",
@@ -406,7 +406,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
     "fhirServer":{
         ...
         "persistence":{
-            "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname":"com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             ...
             "datasources": {
                 "study1": {
@@ -444,7 +444,7 @@ Within each tenant's `fhir-server-config.json` file, the `fhirServer/persistence
 {
     "fhirServer":{
         "persistence":{
-            "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname":"com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "datasources": {
                 "study1": {
                     "type": "db2",
@@ -488,17 +488,17 @@ To configure the FHIR server with one or more custom search parameters, create a
   <id value="searchParams"/>
   <type value="collection"/>
   <entry>
-    <fullUrl value="http://ibm.com/watsonhealth/fhir/SearchParameter/Patient-favorite-color"/>
+    <fullUrl value="http://ibm.com/watson/health/fhir/SearchParameter/Patient-favorite-color"/>
     <resource>
       <SearchParameter>
         <id value="Patient-favorite-color"/>
-        <url value="http://ibm.com/watsonhealth/fhir/SearchParameter/Patient-favorite-color"/>
+        <url value="http://ibm.com/watson/health/fhir/SearchParameter/Patient-favorite-color"/>
         <name value="favorite-color"/>
         <code value="favorite-color"/>
         <base value="Patient"/>
         <type value="string"/>
         <description value="the patient's favorite color"/>
-        <xpath value="f:Patient/f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/Patient/favorite-color']/f:valueString"/>
+        <xpath value="f:Patient/f:extension[@url='http://ibm.com/watson/health/fhir/extension/Patient/favorite-color']/f:valueString"/>
         <xpathUsage value="normal"/>
       </SearchParameter>
     </resource>
@@ -512,7 +512,7 @@ Note 2:  In previous versions of the FHIR server, the XPath expression could poi
 
 Each time a resource is created or updated, the FHIR server will evaluate the XPath applicable to the resource type and index the values of the matching elements, making these available to search via a parameter name that matches the `name` element on the `SearchParameter` definition.
 
-In the preceding example, extension elements (on a Patient resource) with a url of `http://ibm.com/watsonhealth/fhir/extension/Patient/favorite-color` will be indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/api/v1/Patient?favorite-color:exact=pink`.
+In the preceding example, extension elements (on a Patient resource) with a url of `http://ibm.com/watson/health/fhir/extension/Patient/favorite-color` will be indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/api/v1/Patient?favorite-color:exact=pink`.
 
 For more information on search parameters, see the HL7 FHIR specification and [Section 4.10.3 Search parameters](#4103-search-parameters) of this document.
 
@@ -563,36 +563,36 @@ The FHIR server converts the preceding `WeatherDetail` virtual resource into a B
   "resourceType": "Basic",
   "extension": [
     {
-      "url": "http://ibm.com/watsonhealth/fhir/extension/geolocation",
+      "url": "http://ibm.com/watson/health/fhir/extension/geolocation",
       "extension": [
         {
-          "url": "http://ibm.com/watsonhealth/fhir/extension/latitude",
+          "url": "http://ibm.com/watson/health/fhir/extension/latitude",
           "valueDecimal": 35.732652
         },
         {
-          "url": "http://ibm.com/watsonhealth/fhir/extension/longitude",
+          "url": "http://ibm.com/watson/health/fhir/extension/longitude",
           "valueDecimal": -78.850286
         }
       ]
     },
     {
-      "url": "http://ibm.com/watsonhealth/fhir/extension/references",
+      "url": "http://ibm.com/watson/health/fhir/extension/references",
       "valueReference": {
         "reference": "Patient/1234"
       }
     },
     {
-      "url": "http://ibm.com/watsonhealth/fhir/extension/measurements",
+      "url": "http://ibm.com/watson/health/fhir/extension/measurements",
       "extension": [
         {
           "url": "_item",
           "extension": [
             {
-              "url": "http://ibm.com/watsonhealth/fhir/extension/type",
+              "url": "http://ibm.com/watson/health/fhir/extension/type",
               "valueString": "humidity"
             },
             {
-              "url": "http://ibm.com/watsonhealth/fhir/extension/value",
+              "url": "http://ibm.com/watson/health/fhir/extension/value",
               "valueInteger": 35
             }
           ]
@@ -601,11 +601,11 @@ The FHIR server converts the preceding `WeatherDetail` virtual resource into a B
           "url": "_item",
           "extension": [
             {
-              "url": "http://ibm.com/watsonhealth/fhir/extension/type",
+              "url": "http://ibm.com/watson/health/fhir/extension/type",
               "valueString": "chanceOfRain"
             },
             {
-              "url": "http://ibm.com/watsonhealth/fhir/extension/value",
+              "url": "http://ibm.com/watson/health/fhir/extension/value",
               "valueInteger": 0
             }
           ]
@@ -613,14 +613,14 @@ The FHIR server converts the preceding `WeatherDetail` virtual resource into a B
       ]
     },
     {
-      "url": "http://ibm.com/watsonhealth/fhir/extension/description",
+      "url": "http://ibm.com/watson/health/fhir/extension/description",
       "valueString": "70 degrees farenheit and sunny"
     }
   ],
   "code": {
     "coding": [
       {
-        "system": "http://ibm.com/watsonhealth/fhir/basic-resource-type",
+        "system": "http://ibm.com/watson/health/fhir/basic-resource-type",
         "code": "WeatherDetail"
       }
     ]
@@ -896,11 +896,11 @@ With the `includeResourceTypes`property set as in the preceding example, the FHI
 The FHIR server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This could be used to enforce application-specific business rules associated with resources. Interceptor methods can be called immediately before or after _create_ and _update_ persistence operations.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
-A persistence interceptor implementation must implement the following `com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
+A persistence interceptor implementation must implement the following `com.ibm.watson.health.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
 interface:
 
 ```
-package com.ibm.watsonhealth.fhir.persistence.interceptor;
+package com.ibm.watson.health.fhir.persistence.interceptor;
 
 /**
  * This interface describes a persistence interceptor.
@@ -908,7 +908,7 @@ package com.ibm.watsonhealth.fhir.persistence.interceptor;
  * users to inject business logic into the REST API processing flow.
  * To make use of this interceptor, develop a class that implements this interface,
  * then store your implementation class name in a file called
- * META-INF/services/com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceInterceptor within
+ * META-INF/services/com.ibm.watson.health.fhir.persistence.FHIRPersistenceInterceptor within
  * your jar file.
  */
 public interface FHIRPersistenceInterceptor {
@@ -963,7 +963,7 @@ To implement a persistence interceptor, complete the following steps:
 1.	Develop a Java class which implements the `FHIRPersistenceInterceptor` interface.
 2.	Store the fully-qualified classname of your interceptor implementation class in a file called :
 
-      `META-INF/services/com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
+      `META-INF/services/com.ibm.watson.health.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
 
     Here's an example of the file contents:
 
@@ -1063,7 +1063,7 @@ Now, let's say that we want to add an extension to this `Patient` resource as in
     } ],
     "birthDate" : "1950-08-15",
     "extension": [{
-        "url": "http://ibm.com/watsonhealth/fhir/extension/partner/study_ID",
+        "url": "http://ibm.com/watson/health/fhir/extension/partner/study_ID",
         "valueString": "abc-1234"
     }]
 }
@@ -1078,7 +1078,7 @@ We could validate this extension by providing the following schematron rule:
   <sch:ns prefix="h" uri="http://www.w3.org/1999/xhtml"/>
   <sch:pattern>
     <sch:rule context="//f:Patient">
-      <sch:assert test="exists(f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
+      <sch:assert test="exists(f:extension[@url='http://ibm.com/watson/health/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
     </sch:rule>
   </sch:pattern>
 </sch:schema>
@@ -1135,7 +1135,7 @@ You might want to organize your user-defined schematron rules so that they only 
 {
     "resourceType" : "Patient",
     "meta": {
-        "profile": [ "http://ibm.com/watsonhealth/fhir/profile/partner" ]
+        "profile": [ "http://ibm.com/watson/health/fhir/profile/partner" ]
     },
     "name" : [ {
         "family" : [ "Doe" ],
@@ -1158,14 +1158,14 @@ and then we could modify the user-defined schematron rule as follows:
   <sch:ns prefix="f" uri="http://hl7.org/fhir"/>
   <sch:ns prefix="h" uri="http://www.w3.org/1999/xhtml"/>
   <sch:pattern>
-    <sch:rule context="//f:Patient[./f:meta/f:profile/@value='http://ibm.com/watsonhealth/fhir/profile/partner']">
-      <sch:assert test="exists(f:extension[@url='http://ibm.com/watsonhealth/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
+    <sch:rule context="//f:Patient[./f:meta/f:profile/@value='http://ibm.com/watson/health/fhir/profile/partner']">
+      <sch:assert test="exists(f:extension[@url='http://ibm.com/watson/health/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
     </sch:rule>
   </sch:pattern>
 </sch:schema>
 ```
 
-By doing this, we have a much more flexible user-defined validation mechanism that allows us to apply rules only when 'http://ibm.com/watsonhealth/fhir/profile/partner' is present in the instance.
+By doing this, we have a much more flexible user-defined validation mechanism that allows us to apply rules only when 'http://ibm.com/watson/health/fhir/profile/partner' is present in the instance.
 
 ## 4.5 Encryption and decryption of requests and responses
 The FHIR server is equipped with a servlet filter that can be configured to perform encryption and decryption of REST API requests and responses. This provides an extra level of security beyond the use of the HTTPS transport layer alone.
@@ -1281,7 +1281,7 @@ The FHIR Client API can be found on the WHC Nexus artifact server. In order to u
 
 ```
         <dependency>
-            <groupId>com.ibm.watsonhealth.fhir</groupId>
+            <groupId>com.ibm.watson.health.fhir</groupId>
             <artifactId>fhir-client</artifactId>
             <version>${fhir.server.version}</version>
         </dependency>
@@ -1297,7 +1297,7 @@ Within the master branch of the FHIR Git repository, you can find the “fhir-cl
 
 ## 4.8 FHIR command-line interface (fhir-cli)
 The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [our Artifactory server](
-https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/watsonhealth/fhir/fhir-cli/).
+https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/watson/health/fhir/fhir-cli/).
 
 ### 4.8.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
@@ -1703,7 +1703,7 @@ This section contains an example of the FHIR server's global configuration, alon
             "logMaxSize": 20
         },
         "persistence":{
-            "factoryClassname":"com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname":"com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "common":{
                 "__comment":"Configuration properties common to all persistence layer implementations",
                 "updateCreateEnabled":true
@@ -1862,8 +1862,8 @@ In addition to the provided operations, the FHIR server supports user-provided c
 
 To contribute an operation:
 
-1. Implement each operation as a Java class that extends `com.ibm.watsonhealth.fhir.operation.AbstractOperation` from `fhir-operation.jar`. Ensure that your implementation returns an appropriate `OperationDefinition` in its `getDefinition()` method, because the framework validates both the request and response payloads to ensure that they conform to the definition.
-2. Create a file named `com.ibm.watsonhealth.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
+1. Implement each operation as a Java class that extends `com.ibm.watson.health.fhir.operation.AbstractOperation` from `fhir-operation.jar`. Ensure that your implementation returns an appropriate `OperationDefinition` in its `getDefinition()` method, because the framework validates both the request and response payloads to ensure that they conform to the definition.
+2. Create a file named `com.ibm.watson.health.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
 3. Include your jar file under the `<WLP_HOME>/wlp/usr/servers/fhir-server/userlib/` directory of your installation.
 4. Restart the FHIR server. Changes to custom operations require a server restart, because the server discovers and instantiates operations during server startup only.
 
@@ -1979,7 +1979,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
-|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.watsonhealth.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.watsonhealth.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
+|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.watson.health.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.watson.health.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
@@ -2005,7 +2005,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/kafka/enabled`|false|
 |`fhirServer/notifications/kafka/topicName`|`fhirNotifications`|
 |`fhirServer/notifications/kafka/connectionProperties`|`{}`|
-|`fhirServer/persistence/factoryClassname`|com.ibm.watsonhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
+|`fhirServer/persistence/factoryClassname`|com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|

@@ -48,9 +48,9 @@ public class PatientTrackTest extends FHIRModelTestBase {
     private static final String PATIENT_TESTDATA = "patient.json";
 //     private static final String PATIENT_TESTDATA = "patientNoDiv.json";
 
-    private static final String EXTURI_FAVORITE_MLB = "http://com.ibm.watsonhealth.fhir.sample/favorite-mlb";
-    private static final String EXTURI_FAVORITE_NFL = "http://com.ibm.watsonhealth.fhir.sample/favorite-nfl";
-    private static final String EXTURI_FAVORITE_NBA = "http://com.ibm.watsonhealth.fhir.sample/favorite-nba";
+    private static final String EXTURI_FAVORITE_MLB = "http://com.ibm.watson.health.fhir.sample/favorite-mlb";
+    private static final String EXTURI_FAVORITE_NFL = "http://com.ibm.watson.health.fhir.sample/favorite-nfl";
+    private static final String EXTURI_FAVORITE_NBA = "http://com.ibm.watson.health.fhir.sample/favorite-nba";
 
     private FHIRClient client = null;
     private Patient patient = null;

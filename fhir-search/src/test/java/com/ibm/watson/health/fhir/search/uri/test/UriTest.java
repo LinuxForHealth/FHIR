@@ -33,11 +33,11 @@ public class UriTest {
     @Test
     public void testUriBadSecurity() throws URISyntaxException {
         String incoming =
-                "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://ibm.com/watsonhealth/fhir/security&_fudge=tag&_page=1";
+                "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://ibm.com/watson/health/fhir/security&_fudge=tag&_page=1";
         String requestUriString = incoming.split("\\?")[0];
 
         ParameterValue value = new ParameterValue();
-        value.setValueString("http://ibm.com/watsonhealth/fhir/security");
+        value.setValueString("http://ibm.com/watson/health/fhir/security");
         List<ParameterValue> values = Arrays.asList(value);
         Parameter parameter = new Parameter(Type.TOKEN, "_security", null, null, values);
 

@@ -267,7 +267,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                                 .identifier(Identifier.builder().value(string("Device/1")).build()).build())
                                 .build())
                 .extension(Extension.builder()
-                        .url("http://ibm.com/watsonhealth/fhir/AuditEvent/testExtension")
+                        .url("http://ibm.com/watson/health/fhir/AuditEvent/testExtension")
                         .value(Base64Binary.builder().value(value).build()).build())
                 .build();
 
