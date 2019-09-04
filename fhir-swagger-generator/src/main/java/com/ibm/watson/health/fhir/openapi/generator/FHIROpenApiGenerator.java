@@ -539,8 +539,7 @@ public class FHIROpenApiGenerator {
     @SuppressWarnings("unchecked")
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getSearchParameters(Resource.class));
-        searchParameters.addAll(SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
+                SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
         for (SearchParameter searchParameter : searchParameters) {
             JsonObjectBuilder parameter = factory.createObjectBuilder();
             String name = searchParameter.getName().getValue();
