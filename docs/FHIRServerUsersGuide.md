@@ -85,7 +85,7 @@ Watson Health FHIR Server version 2.1 was developed under the Watson Health.
 
 ## 2.1 Installing a new server
 1.	To install the FHIR server, first obtain the installation package `fhir-install-<version>.zip`.
-You can download the package from the FHIR server team's [Artifactory server](https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/watson/health/fhir/fhir-install).
+The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
 2.	Decompress the `.zip` file into a clean directory (referred to as `/fhir-installer` here):
 ```
