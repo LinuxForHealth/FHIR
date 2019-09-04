@@ -11,6 +11,6 @@ mvn clean package install -f ../fhir-tools/pom.xml
 
 if [[ $? -eq 0 ]]
 then 
-    mvn com.ibm.watsonhealth.fhir:fhir-tools:generate-model -f ../fhir-model/pom.xml
+    mvn com.ibm.watson.health.fhir:fhir-tools:generate-model -f ../fhir-model/pom.xml
 fi
 

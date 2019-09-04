@@ -782,7 +782,7 @@ public class FHIRUtil {
     }
 
     // add for FHIRResource.java
-    private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
+    private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watson/health/fhir/basic-resource-type";
 
     /**
      * Returns the resource type (as a String) of the specified resource. For a virtual resource, this will be the

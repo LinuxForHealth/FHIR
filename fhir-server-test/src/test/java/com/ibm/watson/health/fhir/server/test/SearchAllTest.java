@@ -49,11 +49,11 @@ public class SearchAllTest extends FHIRServerTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
-        Coding security = Coding.builder().system(uri("http://ibm.com/watsonhealth/fhir/security")).code(code("security")).build();
-        Coding tag = Coding.builder().system(uri("http://ibm.com/watsonhealth/fhir/tag")).code(code("tag")).build();
+        Coding security = Coding.builder().system(uri("http://ibm.com/watson/health/fhir/security")).code(code("security")).build();
+        Coding tag = Coding.builder().system(uri("http://ibm.com/watson/health/fhir/tag")).code(code("tag")).build();
 
         patient =
-                patient.toBuilder().meta(Meta.builder().security(security).tag(tag).profile(Canonical.of("http://ibm.com/watsonhealth/fhir/profile/Profile")).build()).build();
+                patient.toBuilder().meta(Meta.builder().security(security).tag(tag).profile(Canonical.of("http://ibm.com/watson/health/fhir/profile/Profile")).build()).build();
 
         if (DEBUG_SEARCH) {
             generateOutput(patient);
@@ -120,7 +120,7 @@ public class SearchAllTest extends FHIRServerTestBase {
 
         FHIRParameters parameters = new FHIRParameters();
 
-        // Original - "http://ibm.com/watsonhealth/fhir/security|security"
+        // Original - "http://ibm.com/watson/health/fhir/security|security"
         parameters.searchParam("_security", "security");
         FHIRResponse response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
@@ -138,7 +138,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingProfile() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("_profile", "http://ibm.com/watsonhealth/fhir/profile/Profile");
+        parameters.searchParam("_profile", "http://ibm.com/watson/health/fhir/profile/Profile");
         FHIRResponse response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);

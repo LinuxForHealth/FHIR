@@ -34,7 +34,7 @@ import com.ibm.watson.health.fhir.model.type.Uri;
 
 public class SearchExtensionsTest extends FHIRServerTestBase {
     private static final String EXTENSION_BASE_URL =
-            "http://ibm.com/watsonhealth/fhir/extension/Patient/";
+            "http://ibm.com/watson/health/fhir/extension/Patient/";
 
     private static final boolean DEBUG_SEARCH = false;
 

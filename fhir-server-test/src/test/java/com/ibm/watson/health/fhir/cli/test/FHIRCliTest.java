@@ -70,13 +70,13 @@ public class FHIRCliTest extends FHIRServerTestBase {
     @Test
     public void testMetadataToConsole() throws Exception {
         runTest("testMetadataToConsole", "-p", propsFile(), "--operation", "metadata");
-        verifyConsoleOutput("IBM Watson Health Cloud FHIR Server", "(c) Copyright IBM Corporation 2018, 2019", "4.0.0");
+        verifyConsoleOutput("IBM Watson Health FHIR Server", "(c) Copyright IBM Corporation 2018, 2019", "4.0.0");
     }
     
     @Test
     public void testMetadataToFile() throws Exception {
         runTest("testMetadataToFile", "-p", propsFile(), "--operation", "metadata", "--output", dirPrefix("metadata.json"));
-        verifyFileContents("metadata.json", "IBM Watson Health Cloud FHIR Server", "(c) Copyright IBM Corporation 2018, 2019", "4.0.0");
+        verifyFileContents("metadata.json", "IBM Watson Health FHIR Server", "(c) Copyright IBM Corporation 2018, 2019", "4.0.0");
     }
     
     @Test

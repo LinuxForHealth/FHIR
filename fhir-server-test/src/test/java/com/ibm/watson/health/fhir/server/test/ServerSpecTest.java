@@ -522,7 +522,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("NotAResourceType").queryParam("notasearchparameter", "foo").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The resource type 'NotAResourceType' is not allowed.");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
