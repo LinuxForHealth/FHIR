@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
@@ -36,11 +35,11 @@ import javax.xml.bind.annotation.XmlElement;
 import com.ibm.watson.health.fhir.core.FHIRMediaType;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.resource.Bundle;
+import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
 import com.ibm.watson.health.fhir.model.resource.DomainResource;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.resource.SearchParameter;
 import com.ibm.watson.health.fhir.model.resource.StructureDefinition;
-import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Date;
@@ -509,8 +508,7 @@ public class FHIRSwaggerGenerator {
     @SuppressWarnings("unchecked")
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getSearchParameters(Resource.class));
-        searchParameters.addAll(SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
+                SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
         for (SearchParameter searchParameter : searchParameters) {
             JsonObjectBuilder parameter = factory.createObjectBuilder();
             String name = searchParameter.getName().getValue();
@@ -646,11 +644,11 @@ public class FHIRSwaggerGenerator {
             JsonArrayBuilder required = factory.createArrayBuilder();
 
             StructureDefinition structureDefinition = getStructureDefinition(modelClass);
-            
+
             if (structureDefinition == null) {
                 System.out.println("Failed generateDefinition for: " + modelClass.getName());
-               return;
-           }
+                return;
+            }
             
             /*
              * if (!BackboneElement.class.isAssignableFrom(modelClass)) { String description
