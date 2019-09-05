@@ -13,8 +13,6 @@ import static com.ibm.watson.health.fhir.config.FHIRConfiguration.PROPERTY_KAFKA
 import static com.ibm.watson.health.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.watson.health.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
-import java.io.File;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -27,8 +25,6 @@ import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.owasp.encoder.Encode;
 
 import com.ibm.watson.health.fhir.config.FHIRConfigHelper;
@@ -148,19 +144,10 @@ public class FHIRServletContextListener implements ServletContextListener {
             InitialContext ctxt = new InitialContext();
             DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
 
-            String derbySprocJarDir = "userlib";
-            Collection<File> derbyJarFiles = FileUtils.listFiles(new File(derbySprocJarDir), new WildcardFileFilter("fhir-derby-sproc*.jar"), null);
-            
-            String derbySProcJarLocation = null;
-            if(!derbyJarFiles.isEmpty() && schemaType == SchemaType.NORMALIZED) {
-                derbySProcJarLocation = derbySprocJarDir + "/" + derbyJarFiles.iterator().next().getName();
-            } else {
-                derbySProcJarLocation = "";    //The JAR file is not used while bootstrapping Derby for BASIC schema type
-            }
-            bootstrapDb("default", "default", ds, schemaType, derbySProcJarLocation);
-            bootstrapDb("tenant1", "profile", ds, schemaType, derbySProcJarLocation);
-            bootstrapDb("tenant1", "reference", ds, schemaType, derbySProcJarLocation);
-            bootstrapDb("tenant1", "study1", ds, schemaType, derbySProcJarLocation);
+            bootstrapDb("default", "default", ds, schemaType);
+            bootstrapDb("tenant1", "profile", ds, schemaType);
+            bootstrapDb("tenant1", "reference", ds, schemaType);
+            bootstrapDb("tenant1", "study1", ds, schemaType);
             log.info("Finished Derby database bootstrapping...");
         } else {
             log.info("Derby database bootstrapping is disabled.");
@@ -171,7 +158,7 @@ public class FHIRServletContextListener implements ServletContextListener {
      * Bootstraps the database specified by tenantId and dsId, assuming the specified datastore definition can be
      * retrieved from the configuration.
      */
-    private void bootstrapDb(String tenantId, String dsId, DataSource ds, SchemaType schemaType, String derbyJar) throws Exception {
+    private void bootstrapDb(String tenantId, String dsId, DataSource ds, SchemaType schemaType) throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
         PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
         if (pg != null) {
