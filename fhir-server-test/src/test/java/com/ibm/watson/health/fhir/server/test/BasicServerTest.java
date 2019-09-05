@@ -125,6 +125,31 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         assertResourceEquals(patient, responsePatient);
     }
+    
+    /**
+     * Create a minimal Patient, then make sure we can retrieve it with varying format
+     */
+    @Test(groups = { "server-basic" })
+    public void testCreatePatientMinimalWithFormat() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("_format", "application/fhir+json").get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+
+        assertResourceEquals(patient, responsePatient);
+    }
 
     /**
      * Create a minimal Patient, then make sure we can retrieve it.
