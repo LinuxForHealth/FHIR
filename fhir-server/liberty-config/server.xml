@@ -27,7 +27,8 @@
          for nonsensical queries like requests for a JSP page that doesn't exist.
     -->
     <webContainer disableXPoweredBy="true" 
-        displaytextwhennoerrorpagedefined="Unexpected request/response. Please check the URL and try again." />
+        displaytextwhennoerrorpagedefined="Unexpected request/response. Please check the URL and try again."
+        deferServletLoad="false" />
 
     <!-- FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
@@ -102,8 +103,6 @@
     <applicationManager autoExpand="true"/>
 
     <applicationMonitor updateTrigger="mbean"/>   
-
-    <webContainer deferServletLoad="false"/>   
 
     <!-- This is the main FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
