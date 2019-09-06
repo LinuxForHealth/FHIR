@@ -322,11 +322,19 @@ public final class ModelSupport {
         return MODEL_CLASS_ELEMENT_INFO_MAP.getOrDefault(modelClass, Collections.emptyMap()).values();
     }
     
-    private static String getElementName(Field field) {
+    /**
+     * Get the actual element name from a Java field.
+     */
+    public static String getElementName(Field field) {
         return getElementName(field.getName());
     }
     
-    private static String getElementName(String fieldName) {
+    /**
+     * Get the actual element name from a Java field name.
+     * This method reverses any encoding that was required to represent the FHIR element name in Java,
+     * such as converting class -> clazz.
+     */
+    public static String getElementName(String fieldName) {
         if ("clazz".equals(fieldName)) {
             return "class";
         }
