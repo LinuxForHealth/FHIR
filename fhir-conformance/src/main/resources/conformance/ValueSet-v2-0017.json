@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0017",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Transaction Type</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AJ<a name=\"AJ\"> </a></td><td>Adjustment</td><td/><td>added v2.3</td></tr><tr><td>CD<a name=\"CD\"> </a></td><td>Credit</td><td/><td>added v2.3</td></tr><tr><td>CG<a name=\"CG\"> </a></td><td>Charge</td><td/><td>added v2.3</td></tr><tr><td>CO<a name=\"CO\"> </a></td><td>Co-payment</td><td/><td>added v2.4</td></tr><tr><td>PY<a name=\"PY\"> </a></td><td>Payment</td><td/><td>added v2.3</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0017",
+    "version": "2.9",
+    "name": "v2.0017",
+    "title": "v2 Transaction Type",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0017 ( Transaction Type)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0017"
+            }
+        ]
+    }
+}

@@ -1,0 +1,176 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-2.4-0391",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Segment group</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Version</b></td></tr><tr><td>OBRG<a name=\"OBRG\"> </a></td><td>OBR group</td><td>from v2.4</td></tr><tr><td>ORCG<a name=\"ORCG\"> </a></td><td>ORC group</td><td>from v2.4</td></tr><tr><td>PIDG<a name=\"PIDG\"> </a></td><td>PID group</td><td>from v2.4</td></tr><tr><td>RXAG<a name=\"RXAG\"> </a></td><td>RXA group</td><td>from v2.4</td></tr><tr><td>RXDG<a name=\"RXDG\"> </a></td><td>RXD group</td><td>from v2.4</td></tr><tr><td>RXEG<a name=\"RXEG\"> </a></td><td>RXE group</td><td>from v2.4</td></tr><tr><td>RXOG<a name=\"RXOG\"> </a></td><td>RXO group</td><td>from v2.4</td></tr><tr><td>etc<a name=\"etc\"> </a></td><td/><td>from v2.4, removed after v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0391|2.4",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.241"
+        }
+    ],
+    "version": "0391",
+    "name": "v2.0391.2.4",
+    "title": "v2 table 0391, Version 2.4",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "v2 table definition for v2.0391.2.4",
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "A property that indicates the status of the concept. One of active, experimental, deprecated, retired",
+            "type": "code"
+        },
+        {
+            "code": "deprecationDate",
+            "uri": "http://hl7.org/fhir/concept-properties#deprecationDate",
+            "description": "The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but their use is discouraged",
+            "type": "dateTime"
+        }
+    ],
+    "concept": [
+        {
+            "code": "OBRG",
+            "display": "OBR group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-04"
+                }
+            ]
+        },
+        {
+            "code": "ORCG",
+            "display": "ORC group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-04"
+                }
+            ]
+        },
+        {
+            "code": "PIDG",
+            "display": "PID group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-04"
+                }
+            ]
+        },
+        {
+            "code": "RXAG",
+            "display": "RXA group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-04"
+                }
+            ]
+        },
+        {
+            "code": "RXDG",
+            "display": "RXD group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-04"
+                }
+            ]
+        },
+        {
+            "code": "RXEG",
+            "display": "RXE group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-04"
+                }
+            ]
+        },
+        {
+            "code": "RXOG",
+            "display": "RXO group",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-04"
+                }
+            ]
+        },
+        {
+            "code": "etc",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2000-11"
+                }
+            ]
+        }
+    ]
+}
