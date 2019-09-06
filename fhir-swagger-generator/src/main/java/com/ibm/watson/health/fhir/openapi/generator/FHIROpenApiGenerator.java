@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -31,16 +32,16 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
-import javax.xml.bind.annotation.XmlElement;
 
 import com.ibm.watson.health.fhir.core.FHIRMediaType;
+import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.resource.Bundle;
+import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
 import com.ibm.watson.health.fhir.model.resource.DomainResource;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.resource.SearchParameter;
 import com.ibm.watson.health.fhir.model.resource.StructureDefinition;
-import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Date;
@@ -48,6 +49,7 @@ import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.ElementDefinition;
 import com.ibm.watson.health.fhir.model.type.Quantity;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
+import com.ibm.watson.health.fhir.model.util.ModelSupport;
 import com.ibm.watson.health.fhir.search.util.SearchUtil;
 
 public class FHIROpenApiGenerator {
@@ -85,7 +87,7 @@ public class FHIROpenApiGenerator {
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
-        info.add("description", "IBM Watson Health Cloud FHIR Server API");
+        info.add("description", "IBM Watson Health FHIR Server API");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
@@ -313,6 +315,8 @@ public class FHIROpenApiGenerator {
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName() + "/{id}/_history", pathObject);
         }
+        
+        // TODO: add patch
     }
 
     private static void generateCreatePathItem(Class<?> modelClass, JsonObjectBuilder path) {
@@ -730,26 +734,16 @@ public class FHIROpenApiGenerator {
              * getValue(); definition.add("description", description); }
              */
             for (Field field : modelClass.getDeclaredFields()) {
-                if (field.getName().equalsIgnoreCase("hashCode") 
-                        || field.getName().equalsIgnoreCase("PATTERN")
-                        || field.getName().equalsIgnoreCase("PARSER")) {
-                    continue;
-                }
-                XmlElement xmlElement = field.getAnnotation(XmlElement.class);
-                if (xmlElement != null) {
-                    if (xmlElement.required()) {
-                        if (!"##default".equals(xmlElement.name())) {
-                            required.add(xmlElement.name());
-                        } else {
-                            required.add(field.getName());
-                        }
+                if (!Modifier.isStatic(field.getModifiers()) && !Modifier.isVolatile(field.getModifiers())) {
+                    if (field.isAnnotationPresent(Required.class)) {
+                        required.add(ModelSupport.getElementName(field));
                     }
+                    generateProperty(structureDefinition, modelClass, field, properties);
                 }
-                generateProperty(structureDefinition, modelClass, field, properties);
             }
 
             Class<?> superClass = modelClass.getSuperclass();
-            if (superClass != null && superClass.getPackage().getName().contains("com.ibm.watson.health.fhir.model")) {
+            if (superClass != null && superClass.getPackage().getName().startsWith("com.ibm.watson.health.fhir.model")) {
                 JsonArrayBuilder allOf = factory.createArrayBuilder();
 
                 JsonObjectBuilder ref = factory.createObjectBuilder();
@@ -824,13 +818,7 @@ public class FHIROpenApiGenerator {
 
         boolean many = false;
 
-        String fieldName = field.getName();
-        XmlElement xmlElement = field.getAnnotation(XmlElement.class);
-        if (xmlElement != null) {
-            if (!"##default".equals(xmlElement.name())) {
-                fieldName = xmlElement.name();
-            }
-        }
+        String fieldName = ModelSupport.getElementName(field);
 
         Type fieldType = field.getType();
         Type genericType = field.getGenericType();
@@ -851,7 +839,7 @@ public class FHIROpenApiGenerator {
         if (isEnumerationWrapperClass(fieldClass)) {
             property.add("type", "string");
             JsonArrayBuilder constants = factory.createArrayBuilder();
-            Class<?> enumClass = Class.forName(fieldClass.getName() + ".ValueSet");
+            Class<?> enumClass = Class.forName(fieldClass.getName() + "$ValueSet");
             for (Object constant : enumClass.getEnumConstants()) {
                 Method method = constant.getClass().getMethod("value");
                 String value = (String) method.invoke(constant);
@@ -862,6 +850,8 @@ public class FHIROpenApiGenerator {
         // Otherwise, the generated document will fail the openapi validation.    
         } else if (String.class.equals(fieldClass)) {
             property.add("type", "string");
+        } else if (Boolean.class.equals(fieldClass)) {
+            property.add("type", "boolean");
         } else if (ZonedDateTime.class.equals(fieldClass)) {
             property.add("type", "string");
             property.add("pattern", "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)-(0[1-9]"
@@ -961,7 +951,7 @@ public class FHIROpenApiGenerator {
 
     private static boolean isEnumerationWrapperClass(Class<?> type) {
         try {
-            Class.forName(type.getName() + ".ValueSet");
+            Class.forName(type.getName() + "$ValueSet");
             return true;
         } catch (Exception e) {
         }
@@ -1028,6 +1018,7 @@ public class FHIROpenApiGenerator {
             Class<?> modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
             if (DomainResource.class.isAssignableFrom(modelClass)) {
                 String resourceType = className;
+                // TODO: add patch
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search",
                         "history", "batch", "transaction");
                 filterMap.put(resourceType, operationList);

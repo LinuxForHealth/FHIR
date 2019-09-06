@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.watson.health.fhir.swagger.generator;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -30,9 +31,9 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
-import javax.xml.bind.annotation.XmlElement;
 
 import com.ibm.watson.health.fhir.core.FHIRMediaType;
+import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.resource.Bundle;
 import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
@@ -47,6 +48,7 @@ import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.ElementDefinition;
 import com.ibm.watson.health.fhir.model.type.Quantity;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
+import com.ibm.watson.health.fhir.model.util.ModelSupport;
 import com.ibm.watson.health.fhir.openapi.generator.FHIROpenApiGenerator;
 import com.ibm.watson.health.fhir.search.util.SearchUtil;
 
@@ -79,7 +81,7 @@ public class FHIRSwaggerGenerator {
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
-        info.add("description", "IBM Watson Health Cloud FHIR Server API");
+        info.add("description", "IBM Watson Health FHIR Server API");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
@@ -276,6 +278,8 @@ public class FHIRSwaggerGenerator {
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName() + "/{id}/_history", pathObject);
         }
+        
+        // TODO: add patch
     }
 
     private static void generateCreatePathItem(Class<?> modelClass, JsonObjectBuilder path) {
@@ -656,22 +660,17 @@ public class FHIRSwaggerGenerator {
              * getValue(); definition.add("description", description); }
              */
             for (Field field : modelClass.getDeclaredFields()) {
-                XmlElement xmlElement = field.getAnnotation(XmlElement.class);
-                if (xmlElement != null) {
-                    if (xmlElement.required()) {
-                        if (!"##default".equals(xmlElement.name())) {
-                            required.add(xmlElement.name());
-                        } else {
-                            required.add(field.getName());
-                        }
+                if (!Modifier.isStatic(field.getModifiers()) && !Modifier.isVolatile(field.getModifiers())) {
+                    if (field.isAnnotationPresent(Required.class)) {
+                        required.add(ModelSupport.getElementName(field));
                     }
+                    generateProperty(structureDefinition, modelClass, field, properties);
                 }
-                generateProperty(structureDefinition, modelClass, field, properties);
             }
 
             Class<?> superClass = modelClass.getSuperclass();
             if (superClass != null
-                    && "com.ibm.watson.health.fhir.model.resource".equals(superClass.getPackage().getName())) {
+                    && superClass.getPackage().getName().startsWith("com.ibm.watson.health.fhir.model")) {
                 JsonArrayBuilder allOf = factory.createArrayBuilder();
 
                 JsonObjectBuilder ref = factory.createObjectBuilder();
@@ -746,13 +745,7 @@ public class FHIRSwaggerGenerator {
 
         boolean many = false;
 
-        String fieldName = field.getName();
-        XmlElement xmlElement = field.getAnnotation(XmlElement.class);
-        if (xmlElement != null) {
-            if (!"##default".equals(xmlElement.name())) {
-                fieldName = xmlElement.name();
-            }
-        }
+        String fieldName = ModelSupport.getElementName(field);
 
         Type fieldType = field.getType();
         Type genericType = field.getGenericType();
@@ -773,7 +766,7 @@ public class FHIRSwaggerGenerator {
         if (isEnumerationWrapperClass(fieldClass)) {
             property.add("type", "string");
             JsonArrayBuilder constants = factory.createArrayBuilder();
-            Class<?> enumClass = Class.forName(fieldClass.getName() + ".ValueSet");
+            Class<?> enumClass = Class.forName(fieldClass.getName() + "$ValueSet");
             for (Object constant : enumClass.getEnumConstants()) {
                 Method method = constant.getClass().getMethod("value");
                 String value = (String) method.invoke(constant);
@@ -783,6 +776,8 @@ public class FHIRSwaggerGenerator {
         // Convert all the java types to according json types based on FHIR spec.
         } else if (String.class.equals(fieldClass)) {
             property.add("type", "string");
+        } else if (Boolean.class.equals(fieldClass)) {
+            property.add("type", "boolean");
         } else if (ZonedDateTime.class.equals(fieldClass)) {
             property.add("type", "string");
             property.add("pattern", "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)-(0[1-9]"
@@ -810,7 +805,7 @@ public class FHIRSwaggerGenerator {
         } else if (fieldClass.getSimpleName().equalsIgnoreCase("int")) {
             property.add("type", "integer");
             property.add("pattern","[0]|[-+]?[1-9][0-9]*");
-        }else {
+        } else {
             property.add("$ref", "#/definitions/" + fieldClass.getSimpleName());
         }
 
@@ -872,7 +867,7 @@ public class FHIRSwaggerGenerator {
 
     private static boolean isEnumerationWrapperClass(Class<?> type) {
         try {
-            Class.forName(type.getName() + ".ValueSet");
+            Class.forName(type.getName() + "$ValueSet");
             return true;
         } catch (Exception e) {
         }
@@ -939,6 +934,7 @@ public class FHIRSwaggerGenerator {
             Class<?> modelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + className);
             if (DomainResource.class.isAssignableFrom(modelClass)) {
                 String resourceType = className;
+                // TODO: add patch
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search",
                         "history", "batch", "transaction");
                 filterMap.put(resourceType, operationList);
