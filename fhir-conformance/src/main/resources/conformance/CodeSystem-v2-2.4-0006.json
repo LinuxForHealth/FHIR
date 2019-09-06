@@ -1,0 +1,419 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-2.4-0006",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Religion</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Version</b></td></tr><tr><td>ABC<a name=\"ABC\"> </a></td><td>Christian: American Baptist Church</td><td>from v2.4</td></tr><tr><td>AGN<a name=\"AGN\"> </a></td><td>Agnostic</td><td>from v2.4</td></tr><tr><td>AME<a name=\"AME\"> </a></td><td>Christian: African Methodist Episcopal Zion</td><td>from v2.4</td></tr><tr><td>AMT<a name=\"AMT\"> </a></td><td>Christian: African Methodist Episcopal</td><td>from v2.4</td></tr><tr><td>ANG<a name=\"ANG\"> </a></td><td>Christian: Anglican</td><td>from v2.4</td></tr><tr><td>AOG<a name=\"AOG\"> </a></td><td>Christian: Assembly of God</td><td>from v2.4</td></tr><tr><td>ATH<a name=\"ATH\"> </a></td><td>Atheist</td><td>from v2.4</td></tr><tr><td>BAH<a name=\"BAH\"> </a></td><td>Baha'i</td><td>from v2.4</td></tr><tr><td>BAP<a name=\"BAP\"> </a></td><td>Christian: Baptist</td><td>from v2.4</td></tr><tr><td>BMA<a name=\"BMA\"> </a></td><td>Buddhist: Mahayana</td><td>from v2.4</td></tr><tr><td>BOT<a name=\"BOT\"> </a></td><td>Buddhist: Other</td><td>from v2.4</td></tr><tr><td>BRE<a name=\"BRE\"> </a></td><td>Brethren</td><td>added v2.6</td></tr><tr><td>BTA<a name=\"BTA\"> </a></td><td>Buddhist: Tantrayana</td><td>from v2.4</td></tr><tr><td>BTH<a name=\"BTH\"> </a></td><td>Buddhist: Theravada</td><td>from v2.4</td></tr><tr><td>BUD<a name=\"BUD\"> </a></td><td>Buddhist</td><td>from v2.4</td></tr><tr><td>CAT<a name=\"CAT\"> </a></td><td>Christian: Roman Catholic</td><td>from v2.4</td></tr><tr><td>CFR<a name=\"CFR\"> </a></td><td>Chinese Folk Religionist</td><td>from v2.4</td></tr><tr><td>CHR<a name=\"CHR\"> </a></td><td>Christian</td><td>from v2.4</td></tr><tr><td>CHS<a name=\"CHS\"> </a></td><td>Christian: Christian Science</td><td>from v2.4</td></tr><tr><td>CMA<a name=\"CMA\"> </a></td><td>Christian: Christian Missionary Alliance</td><td>from v2.4</td></tr><tr><td>CNF<a name=\"CNF\"> </a></td><td>Confucian</td><td>from v2.4</td></tr><tr><td>COC<a name=\"COC\"> </a></td><td>Christian: Church of Christ</td><td>from v2.4</td></tr><tr><td>COG<a name=\"COG\"> </a></td><td>Christian: Church of God</td><td>from v2.4</td></tr><tr><td>COI<a name=\"COI\"> </a></td><td>Christian: Church of God in Christ</td><td>from v2.4</td></tr><tr><td>COL<a name=\"COL\"> </a></td><td>Christian: Congregational</td><td>from v2.4</td></tr><tr><td>COM<a name=\"COM\"> </a></td><td>Christian: Community</td><td>from v2.4</td></tr><tr><td>COP<a name=\"COP\"> </a></td><td>Christian: Other Pentecostal</td><td>from v2.4</td></tr><tr><td>COT<a name=\"COT\"> </a></td><td>Christian: Other</td><td>from v2.4</td></tr><tr><td>CRR<a name=\"CRR\"> </a></td><td>Christian: Christian Reformed</td><td>from v2.4</td></tr><tr><td>DOC<a name=\"DOC\"> </a></td><td>Disciples of Christ</td><td>added v2.6</td></tr><tr><td>EOT<a name=\"EOT\"> </a></td><td>Christian: Eastern Orthodox</td><td>from v2.4</td></tr><tr><td>EPI<a name=\"EPI\"> </a></td><td>Christian: Episcopalian</td><td>from v2.4</td></tr><tr><td>ERL<a name=\"ERL\"> </a></td><td>Ethnic Religionist</td><td>from v2.4</td></tr><tr><td>EVC<a name=\"EVC\"> </a></td><td>Christian: Evangelical Church</td><td>from v2.4</td></tr><tr><td>FRQ<a name=\"FRQ\"> </a></td><td>Christian: Friends</td><td>from v2.4</td></tr><tr><td>FUL<a name=\"FUL\"> </a></td><td>Christian: Full Gospel</td><td>added v2.6</td></tr><tr><td>FWB<a name=\"FWB\"> </a></td><td>Christian: Free Will Baptist</td><td>from v2.4</td></tr><tr><td>GRE<a name=\"GRE\"> </a></td><td>Christian: Greek Orthodox</td><td>from v2.4</td></tr><tr><td>HIN<a name=\"HIN\"> </a></td><td>Hindu</td><td>from v2.4</td></tr><tr><td>HOT<a name=\"HOT\"> </a></td><td>Hindu: Other</td><td>from v2.4</td></tr><tr><td>HSH<a name=\"HSH\"> </a></td><td>Hindu: Shaivites</td><td>from v2.4</td></tr><tr><td>HVA<a name=\"HVA\"> </a></td><td>Hindu: Vaishnavites</td><td>from v2.4</td></tr><tr><td>JAI<a name=\"JAI\"> </a></td><td>Jain</td><td>from v2.4</td></tr><tr><td>JCO<a name=\"JCO\"> </a></td><td>Jewish: Conservative</td><td>from v2.4</td></tr><tr><td>JEW<a name=\"JEW\"> </a></td><td>Jewish</td><td>from v2.4</td></tr><tr><td>JOR<a name=\"JOR\"> </a></td><td>Jewish: Orthodox</td><td>from v2.4</td></tr><tr><td>JOT<a name=\"JOT\"> </a></td><td>Jewish: Other</td><td>from v2.4</td></tr><tr><td>JRC<a name=\"JRC\"> </a></td><td>Jewish: Reconstructionist</td><td>from v2.4</td></tr><tr><td>JRF<a name=\"JRF\"> </a></td><td>Jewish: Reform</td><td>from v2.4</td></tr><tr><td>JRN<a name=\"JRN\"> </a></td><td>Jewish: Renewal</td><td>from v2.4</td></tr><tr><td>JWN<a name=\"JWN\"> </a></td><td>Christian: Jehovah's Witness</td><td>from v2.4</td></tr><tr><td>LMS<a name=\"LMS\"> </a></td><td>Christian: Lutheran Missouri Synod</td><td>from v2.4</td></tr><tr><td>LUT<a name=\"LUT\"> </a></td><td>Christian: Lutheran</td><td>from v2.4</td></tr><tr><td>MEN<a name=\"MEN\"> </a></td><td>Christian: Mennonite</td><td>from v2.4</td></tr><tr><td>MET<a name=\"MET\"> </a></td><td>Christian: Methodist</td><td>from v2.4</td></tr><tr><td>MOM<a name=\"MOM\"> </a></td><td>Christian: Latter-day Saints</td><td>from v2.4</td></tr><tr><td>MOS<a name=\"MOS\"> </a></td><td>Muslim</td><td>from v2.4</td></tr><tr><td>MOT<a name=\"MOT\"> </a></td><td>Muslim: Other</td><td>from v2.4</td></tr><tr><td>MSH<a name=\"MSH\"> </a></td><td>Muslim: Shiite</td><td>from v2.4</td></tr><tr><td>MSU<a name=\"MSU\"> </a></td><td>Muslim: Sunni</td><td>from v2.4</td></tr><tr><td>NAM<a name=\"NAM\"> </a></td><td>Native American</td><td>from v2.4</td></tr><tr><td>NAZ<a name=\"NAZ\"> </a></td><td>Christian: Church of the Nazarene</td><td>from v2.4</td></tr><tr><td>NOE<a name=\"NOE\"> </a></td><td>Nonreligious</td><td>from v2.4</td></tr><tr><td>NRL<a name=\"NRL\"> </a></td><td>New Religionist</td><td>from v2.4</td></tr><tr><td>ORT<a name=\"ORT\"> </a></td><td>Christian: Orthodox</td><td>from v2.4</td></tr><tr><td>OTH<a name=\"OTH\"> </a></td><td>Other</td><td>from v2.4</td></tr><tr><td>PEN<a name=\"PEN\"> </a></td><td>Christian: Pentecostal</td><td>from v2.4</td></tr><tr><td>PRC<a name=\"PRC\"> </a></td><td>Christian: Other Protestant</td><td>from v2.4</td></tr><tr><td>PRE<a name=\"PRE\"> </a></td><td>Christian: Presbyterian</td><td>from v2.4</td></tr><tr><td>PRO<a name=\"PRO\"> </a></td><td>Christian: Protestant</td><td>from v2.4</td></tr><tr><td>QUA<a name=\"QUA\"> </a></td><td>Christian: Friends</td><td>from v2.4, removed after v2.5.1</td></tr><tr><td>REC<a name=\"REC\"> </a></td><td>Christian: Reformed Church</td><td>from v2.4</td></tr><tr><td>REO<a name=\"REO\"> </a></td><td>Christian: Reorganized Church of Jesus Christ-LDS</td><td>from v2.4</td></tr><tr><td>SAA<a name=\"SAA\"> </a></td><td>Christian: Salvation Army</td><td>from v2.4</td></tr><tr><td>SEV<a name=\"SEV\"> </a></td><td>Christian: Seventh Day Adventist</td><td>from v2.4</td></tr><tr><td>SHN<a name=\"SHN\"> </a></td><td>Shintoist</td><td>from v2.4</td></tr><tr><td>SIK<a name=\"SIK\"> </a></td><td>Sikh</td><td>from v2.4</td></tr><tr><td>SOU<a name=\"SOU\"> </a></td><td>Christian: Southern Baptist</td><td>from v2.4</td></tr><tr><td>SPI<a name=\"SPI\"> </a></td><td>Spiritist</td><td>from v2.4</td></tr><tr><td>UCC<a name=\"UCC\"> </a></td><td>Christian: United Church of Christ</td><td>from v2.4</td></tr><tr><td>UMD<a name=\"UMD\"> </a></td><td>Christian: United Methodist</td><td>from v2.4</td></tr><tr><td>UNI<a name=\"UNI\"> </a></td><td>Christian: Unitarian</td><td>from v2.4</td></tr><tr><td>UNU<a name=\"UNU\"> </a></td><td>Christian: Unitarian Universalist</td><td>from v2.4</td></tr><tr><td>VAR<a name=\"VAR\"> </a></td><td>Unknown</td><td>from v2.4</td></tr><tr><td>WES<a name=\"WES\"> </a></td><td>Christian: Wesleyan</td><td>from v2.4</td></tr><tr><td>WMC<a name=\"WMC\"> </a></td><td>Christian: Wesleyan Methodist</td><td>from v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0006|2.4",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.8"
+        }
+    ],
+    "version": "0006",
+    "name": "v2.0006.2.4",
+    "title": "v2 table 0006, Version 2.4",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "v2 table definition for v2.0006.2.4",
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "A property that indicates the status of the concept. One of active, experimental, deprecated, retired",
+            "type": "code"
+        },
+        {
+            "code": "deprecationDate",
+            "uri": "http://hl7.org/fhir/concept-properties#deprecationDate",
+            "description": "The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but their use is discouraged",
+            "type": "dateTime"
+        }
+    ],
+    "concept": [
+        {
+            "code": "ABC",
+            "display": "Christian: American Baptist Church"
+        },
+        {
+            "code": "AGN",
+            "display": "Agnostic"
+        },
+        {
+            "code": "AME",
+            "display": "Christian: African Methodist Episcopal Zion"
+        },
+        {
+            "code": "AMT",
+            "display": "Christian: African Methodist Episcopal"
+        },
+        {
+            "code": "ANG",
+            "display": "Christian: Anglican"
+        },
+        {
+            "code": "AOG",
+            "display": "Christian: Assembly of God"
+        },
+        {
+            "code": "ATH",
+            "display": "Atheist"
+        },
+        {
+            "code": "BAH",
+            "display": "Baha'i"
+        },
+        {
+            "code": "BAP",
+            "display": "Christian: Baptist"
+        },
+        {
+            "code": "BMA",
+            "display": "Buddhist: Mahayana"
+        },
+        {
+            "code": "BOT",
+            "display": "Buddhist: Other"
+        },
+        {
+            "code": "BRE",
+            "display": "Brethren"
+        },
+        {
+            "code": "BTA",
+            "display": "Buddhist: Tantrayana"
+        },
+        {
+            "code": "BTH",
+            "display": "Buddhist: Theravada"
+        },
+        {
+            "code": "BUD",
+            "display": "Buddhist"
+        },
+        {
+            "code": "CAT",
+            "display": "Christian: Roman Catholic"
+        },
+        {
+            "code": "CFR",
+            "display": "Chinese Folk Religionist"
+        },
+        {
+            "code": "CHR",
+            "display": "Christian"
+        },
+        {
+            "code": "CHS",
+            "display": "Christian: Christian Science"
+        },
+        {
+            "code": "CMA",
+            "display": "Christian: Christian Missionary Alliance"
+        },
+        {
+            "code": "CNF",
+            "display": "Confucian"
+        },
+        {
+            "code": "COC",
+            "display": "Christian: Church of Christ"
+        },
+        {
+            "code": "COG",
+            "display": "Christian: Church of God"
+        },
+        {
+            "code": "COI",
+            "display": "Christian: Church of God in Christ"
+        },
+        {
+            "code": "COL",
+            "display": "Christian: Congregational"
+        },
+        {
+            "code": "COM",
+            "display": "Christian: Community"
+        },
+        {
+            "code": "COP",
+            "display": "Christian: Other Pentecostal"
+        },
+        {
+            "code": "COT",
+            "display": "Christian: Other"
+        },
+        {
+            "code": "CRR",
+            "display": "Christian: Christian Reformed"
+        },
+        {
+            "code": "DOC",
+            "display": "Disciples of Christ"
+        },
+        {
+            "code": "EOT",
+            "display": "Christian: Eastern Orthodox"
+        },
+        {
+            "code": "EPI",
+            "display": "Christian: Episcopalian"
+        },
+        {
+            "code": "ERL",
+            "display": "Ethnic Religionist"
+        },
+        {
+            "code": "EVC",
+            "display": "Christian: Evangelical Church"
+        },
+        {
+            "code": "FRQ",
+            "display": "Christian: Friends"
+        },
+        {
+            "code": "FUL",
+            "display": "Christian: Full Gospel"
+        },
+        {
+            "code": "FWB",
+            "display": "Christian: Free Will Baptist"
+        },
+        {
+            "code": "GRE",
+            "display": "Christian: Greek Orthodox"
+        },
+        {
+            "code": "HIN",
+            "display": "Hindu"
+        },
+        {
+            "code": "HOT",
+            "display": "Hindu: Other"
+        },
+        {
+            "code": "HSH",
+            "display": "Hindu: Shaivites"
+        },
+        {
+            "code": "HVA",
+            "display": "Hindu: Vaishnavites"
+        },
+        {
+            "code": "JAI",
+            "display": "Jain"
+        },
+        {
+            "code": "JCO",
+            "display": "Jewish: Conservative"
+        },
+        {
+            "code": "JEW",
+            "display": "Jewish"
+        },
+        {
+            "code": "JOR",
+            "display": "Jewish: Orthodox"
+        },
+        {
+            "code": "JOT",
+            "display": "Jewish: Other"
+        },
+        {
+            "code": "JRC",
+            "display": "Jewish: Reconstructionist"
+        },
+        {
+            "code": "JRF",
+            "display": "Jewish: Reform"
+        },
+        {
+            "code": "JRN",
+            "display": "Jewish: Renewal"
+        },
+        {
+            "code": "JWN",
+            "display": "Christian: Jehovah's Witness"
+        },
+        {
+            "code": "LMS",
+            "display": "Christian: Lutheran Missouri Synod"
+        },
+        {
+            "code": "LUT",
+            "display": "Christian: Lutheran"
+        },
+        {
+            "code": "MEN",
+            "display": "Christian: Mennonite"
+        },
+        {
+            "code": "MET",
+            "display": "Christian: Methodist"
+        },
+        {
+            "code": "MOM",
+            "display": "Christian: Latter-day Saints"
+        },
+        {
+            "code": "MOS",
+            "display": "Muslim"
+        },
+        {
+            "code": "MOT",
+            "display": "Muslim: Other"
+        },
+        {
+            "code": "MSH",
+            "display": "Muslim: Shiite"
+        },
+        {
+            "code": "MSU",
+            "display": "Muslim: Sunni"
+        },
+        {
+            "code": "NAM",
+            "display": "Native American"
+        },
+        {
+            "code": "NAZ",
+            "display": "Christian: Church of the Nazarene"
+        },
+        {
+            "code": "NOE",
+            "display": "Nonreligious"
+        },
+        {
+            "code": "NRL",
+            "display": "New Religionist"
+        },
+        {
+            "code": "ORT",
+            "display": "Christian: Orthodox"
+        },
+        {
+            "code": "OTH",
+            "display": "Other"
+        },
+        {
+            "code": "PEN",
+            "display": "Christian: Pentecostal"
+        },
+        {
+            "code": "PRC",
+            "display": "Christian: Other Protestant"
+        },
+        {
+            "code": "PRE",
+            "display": "Christian: Presbyterian"
+        },
+        {
+            "code": "PRO",
+            "display": "Christian: Protestant"
+        },
+        {
+            "code": "QUA",
+            "display": "Christian: Friends",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-04"
+                }
+            ]
+        },
+        {
+            "code": "REC",
+            "display": "Christian: Reformed Church"
+        },
+        {
+            "code": "REO",
+            "display": "Christian: Reorganized Church of Jesus Christ-LDS"
+        },
+        {
+            "code": "SAA",
+            "display": "Christian: Salvation Army"
+        },
+        {
+            "code": "SEV",
+            "display": "Christian: Seventh Day Adventist"
+        },
+        {
+            "code": "SHN",
+            "display": "Shintoist"
+        },
+        {
+            "code": "SIK",
+            "display": "Sikh"
+        },
+        {
+            "code": "SOU",
+            "display": "Christian: Southern Baptist"
+        },
+        {
+            "code": "SPI",
+            "display": "Spiritist"
+        },
+        {
+            "code": "UCC",
+            "display": "Christian: United Church of Christ"
+        },
+        {
+            "code": "UMD",
+            "display": "Christian: United Methodist"
+        },
+        {
+            "code": "UNI",
+            "display": "Christian: Unitarian"
+        },
+        {
+            "code": "UNU",
+            "display": "Christian: Unitarian Universalist"
+        },
+        {
+            "code": "VAR",
+            "display": "Unknown"
+        },
+        {
+            "code": "WES",
+            "display": "Christian: Wesleyan"
+        },
+        {
+            "code": "WMC",
+            "display": "Christian: Wesleyan Methodist"
+        }
+    ]
+}

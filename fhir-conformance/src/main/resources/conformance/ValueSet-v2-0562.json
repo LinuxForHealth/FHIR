@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0562",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Processing Consideration Codes</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>DFADJ<a name=\"DFADJ\"> </a></td><td>Deferred Adjudication Processing</td><td>If permitted by Payer</td><td>added v2.6</td></tr><tr><td>EFORM<a name=\"EFORM\"> </a></td><td>Electronic form to follow</td><td>E30 transaction to follow</td><td>added v2.6</td></tr><tr><td>FAX<a name=\"FAX\"> </a></td><td>Fax to follow</td><td/><td>added v2.6</td></tr><tr><td>PAPER<a name=\"PAPER\"> </a></td><td>Paper documentation to follow</td><td/><td>added v2.6</td></tr><tr><td>PYRDELAY<a name=\"PYRDELAY\"> </a></td><td>Delayed by a Previous Payer</td><td>Allows Provider to explain lateness of Invoice to a subsequent Payer</td><td>added v2.6</td></tr><tr><td>RTADJ<a name=\"RTADJ\"> </a></td><td>Real Time Adjudication Processing</td><td>If permitted by Payer</td><td>added v2.6</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0562",
+    "version": "2.9",
+    "name": "v2.0562",
+    "title": "v2 Processing Consideration Codes",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0562 ( Processing Consideration Codes)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0562"
+            }
+        ]
+    }
+}

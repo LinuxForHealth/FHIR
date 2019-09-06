@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0907",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Confidentiality</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>B<a name=\"B\"> </a></td><td>Business - Since the service class can represent knowledge structures that may be considered a trade or business secret, there is sometimes (though rarely) the need to flag those items as of business level confidentiality.  However, no patient related inf</td><td/><td>added v2.7</td></tr><tr><td>C<a name=\"C\"> </a></td><td>Celebrity - Celebrities are people of public interest (VIP) including employees, whose information require special protection.</td><td/><td>added v2.7</td></tr><tr><td>D<a name=\"D\"> </a></td><td>Clinician - Only clinicians may see this item, billing and administration persons can not access this item without special permission.</td><td/><td>added v2.7</td></tr><tr><td>ETH<a name=\"ETH\"> </a></td><td>Substance abuse related - Alcohol/drug-abuse related item</td><td/><td>added v2.7</td></tr><tr><td>HIV<a name=\"HIV\"> </a></td><td>HIV Related - HIV and AIDS related item</td><td/><td>added v2.7</td></tr><tr><td>I<a name=\"I\"> </a></td><td>Individual - Access only to individual persons who are mentioned explicitly as actors of this service and whose actor type warrants that access (cf. to actor typed code).</td><td/><td>added v2.7</td></tr><tr><td>L<a name=\"L\"> </a></td><td>Low - No patient record item can be of low confidentiality.  However, some service objects are not patient related and therefore may have low confidentiality.</td><td/><td>added v2.7</td></tr><tr><td>N<a name=\"N\"> </a></td><td>Normal - Normal confidentiality rules (according to good health care practice) apply, that is, only authorized individuals with a legitimate medical or business need may access this item.</td><td/><td>added v2.7</td></tr><tr><td>PSY<a name=\"PSY\"> </a></td><td>Psychiatry related - Psychiatry related item</td><td/><td>added v2.7</td></tr><tr><td>R<a name=\"R\"> </a></td><td>Restricted - Restricted access, e.g. only to providers having a current care relationship to the patient.</td><td/><td>added v2.7</td></tr><tr><td>S<a name=\"S\"> </a></td><td>Sensitive - Information for which the patient seeks heightened confidentiality.  Sensitive information is not to be shared with family members.  Information reported by the patient about family members is sensitive by default.  Flag can be set or cleared </td><td/><td>added v2.7</td></tr><tr><td>SDV<a name=\"SDV\"> </a></td><td>Sexual and domestic violence related - Sexual assault / domestic violence related item</td><td/><td>added v2.7</td></tr><tr><td>T<a name=\"T\"> </a></td><td>Taboo - Information not to be disclosed or discussed with patient except through physician assigned to patient in this case.  This is usually a temporary constraint only; example use is a new fatal diagnosis or finding, such as malignancy or HIV.</td><td/><td>added v2.7</td></tr><tr><td>V<a name=\"V\"> </a></td><td>Very restricted - Very restricted access as declared by the Privacy Officer of the record holder.</td><td/><td>added v2.7</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0907",
+    "version": "2.9",
+    "name": "v2.0907",
+    "title": "v2 Confidentiality",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0907 ( Confidentiality)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0907"
+            }
+        ]
+    }
+}

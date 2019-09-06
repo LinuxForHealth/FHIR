@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0702",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Cycle Type</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>2RS<a name=\"2RS\"> </a></td><td>Second Rinse</td><td/><td>added v2.6</td></tr><tr><td>ANR<a name=\"ANR\"> </a></td><td>Anesthesia/Respiratory</td><td>Special Wash cycle</td><td>added v2.6</td></tr><tr><td>BDP<a name=\"BDP\"> </a></td><td>Bedpans</td><td/><td>added v2.6</td></tr><tr><td>BWD<a name=\"BWD\"> </a></td><td>Bowie-Dick Test</td><td>A Bowie-Dick test cycle is a special cycle used to test the integrity of the sterilizer chamber to hold a vacuum.</td><td>added v2.6</td></tr><tr><td>CMW<a name=\"CMW\"> </a></td><td>Chemical Wash</td><td>A chemical wash cycle.</td><td>added v2.6</td></tr><tr><td>COD<a name=\"COD\"> </a></td><td>Code</td><td/><td>added v2.6</td></tr><tr><td>CRT<a name=\"CRT\"> </a></td><td>Cart Wash</td><td/><td>added v2.6</td></tr><tr><td>DEC<a name=\"DEC\"> </a></td><td>Decontamination</td><td/><td>added v2.6</td></tr><tr><td>DRT<a name=\"DRT\"> </a></td><td>Dart</td><td>A dart cycle is a special cycle used to test the integrity of the sterilizer chamber to hold a vacuum.</td><td>added v2.6</td></tr><tr><td>DRW<a name=\"DRW\"> </a></td><td>Dart Warm-up Cycle</td><td>A dart warm-up cycle is used to bring the sterilizer chamber up to operating temperature in order to run a dart test cycle.</td><td>added v2.6</td></tr><tr><td>EOH<a name=\"EOH\"> </a></td><td>EO High Temperature</td><td/><td>added v2.6</td></tr><tr><td>EOL<a name=\"EOL\"> </a></td><td>EO Low Temperature</td><td/><td>added v2.6</td></tr><tr><td>EXP<a name=\"EXP\"> </a></td><td>Express</td><td>An express cycle is similar to a flash cycle but the supply item is wrapped.</td><td>added v2.6</td></tr><tr><td>FLS<a name=\"FLS\"> </a></td><td>Flash</td><td>Used to quickly sterilize instruments that were dropped during surgery.</td><td>added v2.6</td></tr><tr><td>GLS<a name=\"GLS\"> </a></td><td>Glassware</td><td/><td>added v2.6</td></tr><tr><td>GNP<a name=\"GNP\"> </a></td><td>Gen. Purpose</td><td/><td>added v2.6</td></tr><tr><td>GRV<a name=\"GRV\"> </a></td><td>Gravity</td><td>A gravity cycle is executed at atmospheric pressure.</td><td>added v2.6</td></tr><tr><td>GTL<a name=\"GTL\"> </a></td><td>Gentle</td><td/><td>added v2.6</td></tr><tr><td>ISO<a name=\"ISO\"> </a></td><td>Isothermal</td><td/><td>added v2.6</td></tr><tr><td>IST<a name=\"IST\"> </a></td><td>Instrument Wash</td><td/><td>added v2.6</td></tr><tr><td>LKT<a name=\"LKT\"> </a></td><td>Leak Test</td><td>A leak test cycle tests the integrity of the sterilizer chamber to hold a vacuum over a specific period of time.</td><td>added v2.6</td></tr><tr><td>LQD<a name=\"LQD\"> </a></td><td>Liquid</td><td>A cycle specific to sterilizing liquids.</td><td>added v2.6</td></tr><tr><td>OPW<a name=\"OPW\"> </a></td><td>Optional Wash</td><td>Any Optional Wash cycle</td><td>added v2.6</td></tr><tr><td>PEA<a name=\"PEA\"> </a></td><td>Peracetic Acid</td><td>A peracetic acid cycle.</td><td>added v2.6</td></tr><tr><td>PLA<a name=\"PLA\"> </a></td><td>Plastic Goods Wash</td><td/><td>added v2.6</td></tr><tr><td>PRV<a name=\"PRV\"> </a></td><td>Prevac</td><td>A prevac cycle is vacuum assisted.</td><td>added v2.6</td></tr><tr><td>RNS<a name=\"RNS\"> </a></td><td>Rinse</td><td/><td>added v2.6</td></tr><tr><td>SFP<a name=\"SFP\"> </a></td><td>Steam Flush Pressure Pulse</td><td>An SFPP cycle uses steam pulses instead of a vacuum during the conditioning phase of the cycle when the supply item is wrapped.</td><td>added v2.6</td></tr><tr><td>THR<a name=\"THR\"> </a></td><td>Thermal</td><td/><td>added v2.6</td></tr><tr><td>TRB<a name=\"TRB\"> </a></td><td>Tray/Basin</td><td/><td>added v2.6</td></tr><tr><td>UTL<a name=\"UTL\"> </a></td><td>Utensil Wash</td><td/><td>added v2.6</td></tr><tr><td>WFP<a name=\"WFP\"> </a></td><td>Wrap/Steam Flush Pressure Pulse (Wrap/SFPP)</td><td>A Wrap/SFPP cycle uses steam pulses instead of a vacuum during the conditioning phase of the cycle when the supply item is unwrapped.</td><td>added v2.6</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0702",
+    "version": "2.9",
+    "name": "v2.0702",
+    "title": "v2 Cycle Type",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0702 ( Cycle Type)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0702"
+            }
+        ]
+    }
+}

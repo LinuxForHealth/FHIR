@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0009",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Ambulatory Status</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>A0<a name=\"A0\"> </a></td><td>No functional limitations</td><td/><td>from v2.1</td></tr><tr><td>A1<a name=\"A1\"> </a></td><td>Ambulates with assistive device</td><td/><td>from v2.1</td></tr><tr><td>A2<a name=\"A2\"> </a></td><td>Wheelchair/stretcher bound</td><td/><td>from v2.1</td></tr><tr><td>A3<a name=\"A3\"> </a></td><td>Comatose; non-responsive</td><td/><td>from v2.1</td></tr><tr><td>A4<a name=\"A4\"> </a></td><td>Disoriented</td><td/><td>from v2.1</td></tr><tr><td>A5<a name=\"A5\"> </a></td><td>Vision impaired</td><td/><td>from v2.1</td></tr><tr><td>A6<a name=\"A6\"> </a></td><td>Hearing impaired</td><td/><td>from v2.1</td></tr><tr><td>A7<a name=\"A7\"> </a></td><td>Speech impaired</td><td/><td>from v2.1</td></tr><tr><td>A8<a name=\"A8\"> </a></td><td>Non-English speaking</td><td/><td>from v2.1</td></tr><tr><td>A9<a name=\"A9\"> </a></td><td>Functional level unknown</td><td/><td>from v2.1</td></tr><tr><td>B1<a name=\"B1\"> </a></td><td>Oxygen therapy</td><td/><td>from v2.1</td></tr><tr><td>B2<a name=\"B2\"> </a></td><td>Special equipment (tubes, IVs, catheters)</td><td/><td>from v2.1</td></tr><tr><td>B3<a name=\"B3\"> </a></td><td>Amputee</td><td/><td>from v2.1</td></tr><tr><td>B4<a name=\"B4\"> </a></td><td>Mastectomy</td><td/><td>from v2.1</td></tr><tr><td>B5<a name=\"B5\"> </a></td><td>Paraplegic</td><td/><td>from v2.1</td></tr><tr><td>B6<a name=\"B6\"> </a></td><td>Pregnant</td><td/><td>from v2.1</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0009",
+    "version": "2.9",
+    "name": "v2.0009",
+    "title": "v2 AMBULATORY STATUS",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0009 ( AMBULATORY STATUS)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0009"
+            }
+        ]
+    }
+}

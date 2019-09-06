@@ -1,0 +1,111 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0906",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>ActPriority</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>A<a name=\"A\"> </a></td><td>ASAP - As soon as possible, next highest priority after stat</td><td/><td>added v2.7</td></tr><tr><td>CR<a name=\"CR\"> </a></td><td>Callback results - filler should contact the placer as soon as results are available, even for preliminary results</td><td/><td>added v2.7</td></tr><tr><td>CS<a name=\"CS\"> </a></td><td>Callback for scheduling - Filler should contact the placer (or target) to schedule the service.</td><td/><td>added v2.7</td></tr><tr><td>CSP<a name=\"CSP\"> </a></td><td>Callback placer for scheduling - filler should contact the placer to schedule the service</td><td/><td>added v2.7</td></tr><tr><td>CSR<a name=\"CSR\"> </a></td><td>Contact recipient for scheduling - Filler should contact the service recipient (target) to schedule the service</td><td/><td>added v2.7</td></tr><tr><td>EL<a name=\"EL\"> </a></td><td>Elective - Beneficial to the patient but not essential for survival.</td><td/><td>added v2.7</td></tr><tr><td>EM<a name=\"EM\"> </a></td><td>Emergency - An unforeseen combination of circumstances or the resulting state that calls for immediate action</td><td/><td>added v2.7</td></tr><tr><td>P<a name=\"P\"> </a></td><td>Preop - Used to indicate that a service is to be performed prior to a scheduled surgery.  When ordering a service and using the pre-op priority, a check is done to see the amount of time that must be allowed for performance of the service.  When the order</td><td/><td>added v2.7</td></tr><tr><td>PRN<a name=\"PRN\"> </a></td><td>As needed - An &quot;as needed&quot; order should be accompanied by a description of what constitutes a need.  This description is represented by an observation service predicate as a precondition.</td><td/><td>added v2.7</td></tr><tr><td>R<a name=\"R\"> </a></td><td>Routine - Routine service, do at usual work hours</td><td/><td>added v2.7</td></tr><tr><td>RR<a name=\"RR\"> </a></td><td>Rush reporting - A report should be prepared and sent as quickly as possible</td><td/><td>added v2.7</td></tr><tr><td>S<a name=\"S\"> </a></td><td>Stat - With highest priority (e.g. emergency).</td><td/><td>added v2.7</td></tr><tr><td>T<a name=\"T\"> </a></td><td>Timing critical - It is critical to come as close as possible to the requested time (e.g. for a through antimicrobial level).</td><td/><td>added v2.7</td></tr><tr><td>UD<a name=\"UD\"> </a></td><td>Use as directed - Drug is to be used as directed by the prescriber.</td><td/><td>added v2.7</td></tr><tr><td>UR<a name=\"UR\"> </a></td><td>Urgent - Calls for prompt action</td><td/><td>added v2.7</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0906",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.417"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0906",
+    "title": "v2 ActPriority",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0906 ( ActPriority)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "A",
+            "display": "ASAP - As soon as possible, next highest priority after stat"
+        },
+        {
+            "code": "CR",
+            "display": "Callback results - filler should contact the placer as soon as results are available, even for preliminary results"
+        },
+        {
+            "code": "CS",
+            "display": "Callback for scheduling - Filler should contact the placer (or target) to schedule the service."
+        },
+        {
+            "code": "CSP",
+            "display": "Callback placer for scheduling - filler should contact the placer to schedule the service"
+        },
+        {
+            "code": "CSR",
+            "display": "Contact recipient for scheduling - Filler should contact the service recipient (target) to schedule the service"
+        },
+        {
+            "code": "EL",
+            "display": "Elective - Beneficial to the patient but not essential for survival."
+        },
+        {
+            "code": "EM",
+            "display": "Emergency - An unforeseen combination of circumstances or the resulting state that calls for immediate action"
+        },
+        {
+            "code": "P",
+            "display": "Preop - Used to indicate that a service is to be performed prior to a scheduled surgery.  When ordering a service and using the pre-op priority, a check is done to see the amount of time that must be allowed for performance of the service.  When the order"
+        },
+        {
+            "code": "PRN",
+            "display": "As needed - An \"as needed\" order should be accompanied by a description of what constitutes a need.  This description is represented by an observation service predicate as a precondition."
+        },
+        {
+            "code": "R",
+            "display": "Routine - Routine service, do at usual work hours"
+        },
+        {
+            "code": "RR",
+            "display": "Rush reporting - A report should be prepared and sent as quickly as possible"
+        },
+        {
+            "code": "S",
+            "display": "Stat - With highest priority (e.g. emergency)."
+        },
+        {
+            "code": "T",
+            "display": "Timing critical - It is critical to come as close as possible to the requested time (e.g. for a through antimicrobial level)."
+        },
+        {
+            "code": "UD",
+            "display": "Use as directed - Drug is to be used as directed by the prescriber."
+        },
+        {
+            "code": "UR",
+            "display": "Urgent - Calls for prompt action"
+        }
+    ]
+}

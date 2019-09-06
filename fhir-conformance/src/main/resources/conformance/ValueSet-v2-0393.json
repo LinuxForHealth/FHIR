@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0393",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Match Algorithms</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>LINKSOFT_2.01<a name=\"LINKSOFT_2.4601\"> </a></td><td>Proprietary algorithm for LinkSoft v2.01</td><td/><td>added v2.4</td></tr><tr><td>MATCHWARE_1.2<a name=\"MATCHWARE_1.462\"> </a></td><td>Proprietary algorithm for MatchWare v1.2</td><td/><td>added v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0393",
+    "version": "2.9",
+    "name": "v2.0393",
+    "title": "v2 Match algorithms",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0393 ( Match algorithms)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0393"
+            }
+        ]
+    }
+}
