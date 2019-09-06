@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="BulkImportJob" restartable="true" version="1.0">
+    <properties>
+        <property name="chunkSize" value="#{jobParameters['chunkSize']}?:1;" />
+    </properties>
+    <step id="step1">
+        <chunk checkpoint-policy="item" item-count="#{jobProperties['chunkSize']}">
+            <reader ref="com.ibm.watson.health.fhir.bulkimport.ChunkReader">
+                <properties>
+                    <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
+                    <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
+                    <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>
+                    <property name="cos.location" value="#{jobParameters['cos.location']}"/>
+                    <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
+                    <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
+                </properties>
+            </reader>
+            <writer ref="com.ibm.watson.health.fhir.bulkimport.ChunkWriter" />
+        </chunk>
+    </step>
+</job>
