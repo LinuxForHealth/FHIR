@@ -89,7 +89,7 @@ public final class ConformanceUtil {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(loader.getResourceAsStream(name), StandardCharsets.UTF_8))) {
             return FHIRParser.parser(format).parse(reader);
         } catch (Exception e) {
-            log.warning("Unable to load: " + name + " due to the following exception: " + e);
+            log.warning("Unable to load resource: " + name + " due to the following exception: " + e.getClass().getName() + " with message: " + e.getMessage());
         }
         return null;
     }
