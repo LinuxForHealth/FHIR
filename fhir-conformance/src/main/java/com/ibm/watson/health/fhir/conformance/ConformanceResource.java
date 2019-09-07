@@ -33,8 +33,8 @@ public class ConformanceResource {
     public Resource getResource() {
         Resource resource = this.resource;
         if (resource == null) {
-            resource = this.resource;
             synchronized (this) {
+                resource = this.resource;
                 if (resource == null) {
                     resource = loadResource(name, format, loader);
                     this.resource = resource;
