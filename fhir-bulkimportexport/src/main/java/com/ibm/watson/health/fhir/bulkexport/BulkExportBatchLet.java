@@ -57,7 +57,6 @@ public class BulkExportBatchLet implements Batchlet {
     /**
      * The IBM COS API key or S3 access key.
      */
-    // eg "W00YiRnLW4a3fTjMB-oiB-2ySfTrFBIQQWanc--xxxxx"
     @Inject
     @BatchProperty(name = "cos.api.key")
     String cosApiKeyProperty;
@@ -65,8 +64,6 @@ public class BulkExportBatchLet implements Batchlet {
     /**
      * The IBM COS service instance id or s3 secret key.
      */
-    // eg
-    // "crn:v1:bluemix:public:cloud-object-storage:global:a/3bf0d9003abfb5d29761c3e97696b71c:d6f04d83-xxxx-xxxx-xxxx-xxxxxxxxxxxx::"
     @Inject
     @BatchProperty(name = "cos.srvinst.id")
     String cosSrvinstId;
