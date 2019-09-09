@@ -763,15 +763,15 @@ public class FHIROpenApiGenerator {
                 definition.add("required", requiredArray);
             }
 
-            definitions.add(getFullyQualifiedSimpleName(modelClass), definition);
+            definitions.add(getSimpleNameWithEnclosingNames(modelClass), definition);
         }
     }
 
-    private static String getFullyQualifiedSimpleName(Class<?> modelClass) {
+    private static String getSimpleNameWithEnclosingNames(Class<?> modelClass) {
         StringBuilder fullName = new StringBuilder(modelClass.getSimpleName());
         while (modelClass.isMemberClass()) {
             modelClass = modelClass.getEnclosingClass();
-            fullName.insert(0, modelClass.getSimpleName());
+            fullName.insert(0, modelClass.getSimpleName() + "_");
         }
         return fullName.toString();
     }
@@ -893,7 +893,7 @@ public class FHIROpenApiGenerator {
             property.add("type", "integer");
             property.add("pattern","[0]|[-+]?[1-9][0-9]*");
         } else {
-            property.add("$ref", "#/components/schemas/" + getFullyQualifiedSimpleName(fieldClass));
+            property.add("$ref", "#/components/schemas/" + getSimpleNameWithEnclosingNames(fieldClass));
         }
 
         if (description != null) {
