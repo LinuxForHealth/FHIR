@@ -9,7 +9,9 @@ package com.ibm.watson.health.fhir.openapi.generator;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -21,6 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -31,23 +34,23 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
-import javax.xml.bind.annotation.XmlElement;
 
 import com.ibm.watson.health.fhir.core.FHIRMediaType;
+import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.resource.Bundle;
+import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
 import com.ibm.watson.health.fhir.model.resource.DomainResource;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.resource.SearchParameter;
 import com.ibm.watson.health.fhir.model.resource.StructureDefinition;
-import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Date;
 import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.ElementDefinition;
-import com.ibm.watson.health.fhir.model.type.Quantity;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
+import com.ibm.watson.health.fhir.model.util.ModelSupport;
 import com.ibm.watson.health.fhir.search.util.SearchUtil;
 
 public class FHIROpenApiGenerator {
@@ -57,10 +60,6 @@ public class FHIROpenApiGenerator {
     public static final String TYPEPACKAGENAME = "com.ibm.watson.health.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.watson.health.fhir.model.resource";
 
-    /**
-     * @param args
-     * @throws Exception
-     */
     public static void main(String[] args) throws Exception {
         /*
          * for (Class<?> key : structureDefinitionMap.keySet()) { StructureDefinition
@@ -85,7 +84,7 @@ public class FHIROpenApiGenerator {
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
-        info.add("description", "IBM Watson Health Cloud FHIR Server API");
+        info.add("description", "IBM Watson Health FHIR Server API");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
@@ -313,6 +312,8 @@ public class FHIROpenApiGenerator {
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName() + "/{id}/_history", pathObject);
         }
+        
+        // TODO: add patch
     }
 
     private static void generateCreatePathItem(Class<?> modelClass, JsonObjectBuilder path) {
@@ -724,32 +725,17 @@ public class FHIROpenApiGenerator {
                 return;
             }
             
-            /*
-             * if (!BackboneElement.class.isAssignableFrom(modelClass)) { String description
-             * = structureDefinition.getDifferential().getElement().get(0).getDefinition().
-             * getValue(); definition.add("description", description); }
-             */
             for (Field field : modelClass.getDeclaredFields()) {
-                if (field.getName().equalsIgnoreCase("hashCode") 
-                        || field.getName().equalsIgnoreCase("PATTERN")
-                        || field.getName().equalsIgnoreCase("PARSER")) {
-                    continue;
-                }
-                XmlElement xmlElement = field.getAnnotation(XmlElement.class);
-                if (xmlElement != null) {
-                    if (xmlElement.required()) {
-                        if (!"##default".equals(xmlElement.name())) {
-                            required.add(xmlElement.name());
-                        } else {
-                            required.add(field.getName());
-                        }
+                if (!Modifier.isStatic(field.getModifiers()) && !Modifier.isVolatile(field.getModifiers())) {
+                    if (!ModelSupport.isChoiceElement(modelClass, ModelSupport.getElementName(field)) && field.isAnnotationPresent(Required.class)) {
+                        required.add(ModelSupport.getElementName(field));
                     }
+                    generateProperties(structureDefinition, modelClass, field, properties);
                 }
-                generateProperty(structureDefinition, modelClass, field, properties);
             }
 
             Class<?> superClass = modelClass.getSuperclass();
-            if (superClass != null && superClass.getPackage().getName().contains("com.ibm.watson.health.fhir.model")) {
+            if (superClass != null && superClass.getPackage().getName().startsWith("com.ibm.watson.health.fhir.model")) {
                 JsonArrayBuilder allOf = factory.createArrayBuilder();
 
                 JsonObjectBuilder ref = factory.createObjectBuilder();
@@ -818,19 +804,10 @@ public class FHIROpenApiGenerator {
         return structureDefinition;
     }
 
-    private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field,
-            JsonObjectBuilder properties) throws Exception {
-        JsonObjectBuilder property = factory.createObjectBuilder();
+    private static void generateProperties(StructureDefinition structureDefinition, Class<?> modelClass, Field field,
+        JsonObjectBuilder properties) throws Exception {
 
         boolean many = false;
-
-        String fieldName = field.getName();
-        XmlElement xmlElement = field.getAnnotation(XmlElement.class);
-        if (xmlElement != null) {
-            if (!"##default".equals(xmlElement.name())) {
-                fieldName = xmlElement.name();
-            }
-        }
 
         Type fieldType = field.getType();
         Type genericType = field.getGenericType();
@@ -840,18 +817,32 @@ public class FHIROpenApiGenerator {
             many = true;
         }
 
-        Class<?> fieldClass = (Class<?>) fieldType;
-        ElementDefinition elementDefinition = getElementDefinition(structureDefinition, modelClass, fieldName,
-                fieldClass);
-        String description = null;
-        if (elementDefinition != null) {
-            description = elementDefinition.getDefinition().getValue();
+        String elementName = ModelSupport.getElementName(field);
+
+        if (ModelSupport.isChoiceElement(modelClass, elementName)) {
+            Set<Class<?>> choiceElementTypes = ModelSupport.getChoiceElementTypes(modelClass, elementName);
+            ElementDefinition elementDefinition = getElementDefinition(structureDefinition, modelClass, elementName + "[x]");
+            String description = elementDefinition.getDefinition().getValue();
+            for (Class<?> choiceType : choiceElementTypes) {
+                String choiceElementName = ModelSupport.getChoiceElementName(elementName, choiceType);
+                generateProperty(structureDefinition, modelClass, field, properties, choiceElementName, choiceType, many, description);
+            }
+        } else {
+            ElementDefinition elementDefinition = getElementDefinition(structureDefinition, modelClass, elementName);
+            String description = elementDefinition.getDefinition().getValue();
+            generateProperty(structureDefinition, modelClass, field, properties, elementName, (Class<?>)fieldType, many, description);
         }
+    }
+
+    private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field, JsonObjectBuilder properties,
+        String elementName, Class<?> fieldClass, boolean many, String description) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+
+        JsonObjectBuilder property = factory.createObjectBuilder();
 
         if (isEnumerationWrapperClass(fieldClass)) {
             property.add("type", "string");
             JsonArrayBuilder constants = factory.createArrayBuilder();
-            Class<?> enumClass = Class.forName(fieldClass.getName() + ".ValueSet");
+            Class<?> enumClass = Class.forName(fieldClass.getName() + "$ValueSet");
             for (Object constant : enumClass.getEnumConstants()) {
                 Method method = constant.getClass().getMethod("value");
                 String value = (String) method.invoke(constant);
@@ -859,9 +850,10 @@ public class FHIROpenApiGenerator {
             }
             property.add("enum", constants);
         // Convert all the java types to according json types based on FHIR spec.
-        // Otherwise, the generated document will fail the openapi validation.    
         } else if (String.class.equals(fieldClass)) {
             property.add("type", "string");
+        } else if (Boolean.class.equals(fieldClass)) {
+            property.add("type", "boolean");
         } else if (ZonedDateTime.class.equals(fieldClass)) {
             property.add("type", "string");
             property.add("pattern", "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)-(0[1-9]"
@@ -889,7 +881,7 @@ public class FHIROpenApiGenerator {
         } else if (fieldClass.getSimpleName().equalsIgnoreCase("int")) {
             property.add("type", "integer");
             property.add("pattern","[0]|[-+]?[1-9][0-9]*");
-        }else {
+        } else {
             property.add("$ref", "#/components/schemas/" + fieldClass.getSimpleName());
         }
 
@@ -901,58 +893,43 @@ public class FHIROpenApiGenerator {
             JsonObjectBuilder wrapper = factory.createObjectBuilder();
             wrapper.add("type", "array");
             wrapper.add("items", property);
-            properties.add(fieldName, wrapper);
+            properties.add(elementName, wrapper);
         } else {
-            properties.add(fieldName, property);
+            properties.add(elementName, property);
         }
     }
 
-    private static ElementDefinition getElementDefinition(StructureDefinition structureDefinition, Class<?> modelClass,
-            String fieldName, Class<?> fieldClass) {
+    /**
+     * Returns the ElementDefinition for the given elementName in the Type represented by modelClass 
+     */
+    private static ElementDefinition getElementDefinition(StructureDefinition structureDefinition, Class<?> modelClass, String elementName) {
         String structureDefinitionName = structureDefinition.getName().getValue();
         String path = structureDefinitionName;
 
-        // System.out.println("modelClass ====" + modelClass.getName());
-        
-        String pathEnding = fieldName;
-        if (BackboneElement.class.isAssignableFrom(modelClass) && !BackboneElement.class.equals(modelClass)) {
+        String pathEnding = elementName;
+        if (BackboneElement.class.isAssignableFrom(modelClass) && !BackboneElement.class.equals(modelClass) && modelClass.isMemberClass()) {
             String modelClassName = modelClass.getSimpleName();
-            // System.out.println("structureDefinitionName: " + structureDefinitionName);
-            // System.out.println("modelClassName: " + modelClassName);
             modelClassName = modelClassName.substring(0, 1).toLowerCase() + modelClassName.substring(1);
-            // System.out.println("modelClassNameSubUp : " + modelClassName);
 
             if (Character.isDigit(modelClassName.charAt(modelClassName.length() - 1))) {
                 modelClassName = modelClassName.substring(0, modelClassName.length() - 1);
             }
 
             path += "." + modelClassName;
-            pathEnding = modelClassName + "." + fieldName;
+            pathEnding = modelClassName + "." + elementName;
         }
 
-        path += "." + fieldName;
-        
-        // System.out.println("Path ====: " + path);
+        path += "." + elementName;
 
         for (ElementDefinition elementDefinition : structureDefinition.getDifferential().getElement()) {
             String elementDefinitionPath = elementDefinition.getPath().getValue();
-            if (elementDefinitionPath.endsWith("[x]")) {
-                if (Quantity.class.isAssignableFrom(fieldClass)) {
-                    elementDefinitionPath = elementDefinitionPath.replace("[x]", "Quantity");
-                } else {
-                    elementDefinitionPath = elementDefinitionPath.replace("[x]", fieldClass.getSimpleName());
-                }
-            }
-            
-            // System.out.println("elementDefinitionPath === " + elementDefinitionPath);
-            
-            if (elementDefinitionPath.equals(path) || (elementDefinitionPath.startsWith(structureDefinitionName)
+            if (elementDefinitionPath.equals(path) || (elementDefinitionPath.startsWith(structureDefinitionName) 
                     && elementDefinitionPath.endsWith(pathEnding))) {
                 return elementDefinition;
             }
         }
 
-        return null;
+        throw new RuntimeException("Unable to retrieve element definition for " + elementName + " in " + modelClass.getName());
     }
 
     private static List<String> getClassNames() {
@@ -961,9 +938,10 @@ public class FHIROpenApiGenerator {
 
     private static boolean isEnumerationWrapperClass(Class<?> type) {
         try {
-            Class.forName(type.getName() + ".ValueSet");
+            Class.forName(type.getName() + "$ValueSet");
             return true;
         } catch (Exception e) {
+            // do nothing
         }
         return false;
     }
@@ -1028,6 +1006,7 @@ public class FHIROpenApiGenerator {
             Class<?> modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
             if (DomainResource.class.isAssignableFrom(modelClass)) {
                 String resourceType = className;
+                // TODO: add patch
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search",
                         "history", "batch", "transaction");
                 filterMap.put(resourceType, operationList);
