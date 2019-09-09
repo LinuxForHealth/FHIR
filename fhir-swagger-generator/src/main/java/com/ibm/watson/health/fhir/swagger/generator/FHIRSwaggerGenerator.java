@@ -50,6 +50,7 @@ import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.ElementDefinition;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
 import com.ibm.watson.health.fhir.model.util.ModelSupport;
+import com.ibm.watson.health.fhir.model.visitor.AbstractVisitable;
 import com.ibm.watson.health.fhir.openapi.generator.FHIROpenApiGenerator;
 import com.ibm.watson.health.fhir.search.util.SearchUtil;
 
@@ -668,7 +669,8 @@ public class FHIRSwaggerGenerator {
 
             Class<?> superClass = modelClass.getSuperclass();
             if (superClass != null
-                    && superClass.getPackage().getName().startsWith("com.ibm.watson.health.fhir.model")) {
+                    && superClass.getPackage().getName().startsWith("com.ibm.watson.health.fhir.model")
+                    && !superClass.equals(AbstractVisitable.class)) {
                 JsonArrayBuilder allOf = factory.createArrayBuilder();
 
                 JsonObjectBuilder ref = factory.createObjectBuilder();
@@ -694,8 +696,17 @@ public class FHIRSwaggerGenerator {
                 definition.add("required", requiredArray);
             }
 
-            definitions.add(modelClass.getSimpleName(), definition);
+            definitions.add(getFullyQualifiedSimpleName(modelClass), definition);
         }
+    }
+
+    private static String getFullyQualifiedSimpleName(Class<?> modelClass) {
+        StringBuilder fullName = new StringBuilder(modelClass.getSimpleName());
+        while (modelClass.isMemberClass()) {
+            modelClass = modelClass.getEnclosingClass();
+            fullName.insert(0, modelClass.getSimpleName());
+        }
+        return fullName.toString();
     }
 
     private static StructureDefinition getStructureDefinition(Class<?> modelClass) {
@@ -815,7 +826,7 @@ public class FHIRSwaggerGenerator {
             property.add("type", "integer");
             property.add("pattern","[0]|[-+]?[1-9][0-9]*");
         } else {
-            property.add("$ref", "#/definitions/" + fieldClass.getSimpleName());
+            property.add("$ref", "#/definitions/" + getFullyQualifiedSimpleName(fieldClass));
         }
 
         if (description != null) {
