@@ -51,6 +51,7 @@ import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.ElementDefinition;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
 import com.ibm.watson.health.fhir.model.util.ModelSupport;
+import com.ibm.watson.health.fhir.model.visitor.AbstractVisitable;
 import com.ibm.watson.health.fhir.search.util.SearchUtil;
 
 public class FHIROpenApiGenerator {
@@ -735,7 +736,8 @@ public class FHIROpenApiGenerator {
             }
 
             Class<?> superClass = modelClass.getSuperclass();
-            if (superClass != null && superClass.getPackage().getName().startsWith("com.ibm.watson.health.fhir.model")) {
+            if (superClass != null && superClass.getPackage().getName().startsWith("com.ibm.watson.health.fhir.model")
+                    && !superClass.equals(AbstractVisitable.class)) {
                 JsonArrayBuilder allOf = factory.createArrayBuilder();
 
                 JsonObjectBuilder ref = factory.createObjectBuilder();
@@ -761,8 +763,17 @@ public class FHIROpenApiGenerator {
                 definition.add("required", requiredArray);
             }
 
-            definitions.add(modelClass.getSimpleName(), definition);
+            definitions.add(getSimpleNameWithEnclosingNames(modelClass), definition);
         }
+    }
+
+    private static String getSimpleNameWithEnclosingNames(Class<?> modelClass) {
+        StringBuilder fullName = new StringBuilder(modelClass.getSimpleName());
+        while (modelClass.isMemberClass()) {
+            modelClass = modelClass.getEnclosingClass();
+            fullName.insert(0, modelClass.getSimpleName() + "_");
+        }
+        return fullName.toString();
     }
 
     private static StructureDefinition getStructureDefinition(Class<?> modelClass) {
@@ -882,7 +893,7 @@ public class FHIROpenApiGenerator {
             property.add("type", "integer");
             property.add("pattern","[0]|[-+]?[1-9][0-9]*");
         } else {
-            property.add("$ref", "#/components/schemas/" + fieldClass.getSimpleName());
+            property.add("$ref", "#/components/schemas/" + getSimpleNameWithEnclosingNames(fieldClass));
         }
 
         if (description != null) {
