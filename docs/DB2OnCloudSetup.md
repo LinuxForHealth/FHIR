@@ -1,3 +1,16 @@
+<!--
+  
+---
+
+Copyright:
+
+  years: 2019
+lastupdated: "2019-09-10"
+
+---
+
+-->
+
 ## Using DB2 For Persistence
 
 ### Create a DB2 Instance
@@ -106,20 +119,27 @@ Notes:
 
 ### Configuring a Liberty Datasource with API Key
 
+The FHIR export feature utilizes Java Batch (JSR-352) provided by the batch-1.0 feature in Liberty Profile. The JPA persistence layer can be configured to use DB2 as follows:
+
+Create a DB2 user (e.g. FHIRBATCH) and associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges). Using a valid API-KEY for the given ServiceId, configure a new datasource and the Java Batch persistence layer as follows:
 
 ```
-    <dataSource id="myDatasource" jndiName="jdbc/myDB">
-        <jdbcDriver libraryRef="db2Lib"/>
+
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
+        <jdbcDriver libraryRef="fhirSharedLib"/>
         <properties.db2.jcc
-            serverName="<DB2-HOSTNAME>"
+            serverName="dashdb-txn-flex-************.services.dal.bluemix.net"
             portNumber="50001"
             apiKey="<API-KEY>"
-            securityMechanism=15
+            securityMechanism="15"
             pluginName="IBMIAMauth"
             databaseName="BLUDB"
-            currentSchema="MYSCHEMA"
-            driverType="4"/>
+            currentSchema="JBATCH"
+            driverType="4" sslConnection="true" sslTrustStoreLocation="resources/security/dbTruststore.jks" sslTrustStorePassword="<TRUSTSTORE-PASSWORD>"/>
     </dataSource>
+    
+    <batchPersistence jobStoreRef="BatchDatabaseStore" />
+    <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="JBATCH" tablePrefix="" />
 ```
 
 
@@ -161,7 +181,9 @@ Note that no username properties are given, because the authentication module on
 The DB2 certificate should be added to the Liberty Profile truststore. *Be sure to use the same Java runtime that Liberty Profile uses when manipulating any keystores.*
 
 
+### Encrypt Secrets
 
+All passwords including apiKey values should be encrypted using the Liberty Profile securityUtility.
 
 
 
