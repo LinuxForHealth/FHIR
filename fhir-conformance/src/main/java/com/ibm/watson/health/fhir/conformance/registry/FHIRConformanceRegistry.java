@@ -6,9 +6,9 @@
 
 package com.ibm.watson.health.fhir.conformance.registry;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.ibm.watson.health.fhir.conformance.ConformanceResource;
 import com.ibm.watson.health.fhir.conformance.spi.ConformanceResourceProvider;
@@ -17,7 +17,7 @@ import com.ibm.watson.health.fhir.model.resource.Resource;
 public final class FHIRConformanceRegistry {    
     private static final FHIRConformanceRegistry INSTANCE = new FHIRConformanceRegistry();
     
-    private final Map<String, ConformanceResource> conformanceResourceMap = new ConcurrentHashMap<>();
+    private final Map<String, ConformanceResource> conformanceResourceMap = new HashMap<>();
 
     public static FHIRConformanceRegistry getInstance() {
         return INSTANCE;
@@ -35,7 +35,7 @@ public final class FHIRConformanceRegistry {
         return null;
     }
 
-    public void register(ConformanceResource conformanceResource) {
+    private void register(ConformanceResource conformanceResource) {
         conformanceResourceMap.put(conformanceResource.getUrl(), conformanceResource);
     }
 
@@ -45,9 +45,5 @@ public final class FHIRConformanceRegistry {
                 register(conformanceResource);
             }
         }
-    }
-
-    public static void main(String args[]) {
-        FHIRConformanceRegistry.getInstance();
     }
 }
