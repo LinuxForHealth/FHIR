@@ -488,11 +488,4 @@ public final class ModelSupport {
     public static boolean isResourceType(String name) {
         return RESOURCE_TYPE_MAP.containsKey(name);
     }
-    
-    public static void main(String[] args) throws Exception {
-        long start = System.nanoTime();
-        ModelSupport.init();
-        double elapsed = (System.nanoTime() - start) / 1000.0;
-        System.out.println("Initialization time: " + elapsed + " microseconds");
-    }
 }
