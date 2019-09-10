@@ -6,11 +6,13 @@
 
 package com.ibm.watson.health.fhir.bulkexport;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import javax.batch.api.chunk.ItemProcessor;
+import javax.batch.runtime.context.JobContext;
+import javax.inject.Inject;
 
 import com.ibm.watson.health.fhir.model.resource.Resource;
 
@@ -19,9 +21,12 @@ import com.ibm.watson.health.fhir.model.resource.Resource;
  * 
  * @author Albert Wang
  */
-public class ChunkProcessor implements ItemProcessor {
+public class ChunkProcessor implements ItemProcessor {    
+    @Inject
+    JobContext jobContext;
+    
     private final static Logger logger = Logger.getLogger(ChunkProcessor.class.getName());
-    int cosBatchSize = 20;
+    int cosBatchSize = 100;
 
     /**
      * Default constructor.
@@ -47,16 +52,20 @@ public class ChunkProcessor implements ItemProcessor {
         List<Resource> resources = (List<Resource>) arg0;
         int count = 0;
         String combinedJsons = null;
+        int dataSize = 0;
+                        
         for (Resource res : resources) {
             count++;
+                        
+            String ndJsonLine = res.toString().replace("\r", "").replace("\n", "");
             if (combinedJsons == null) {
-                combinedJsons = "[" + res.toString();
+                combinedJsons = ndJsonLine;
             } else {
-                combinedJsons = combinedJsons + "," + res.toString();
+                combinedJsons = combinedJsons + "," + "\r\n" + ndJsonLine;
             }
 
             if (count == cosBatchSize) {
-                combinedJsons = combinedJsons + "]";
+                dataSize += combinedJsons.getBytes(StandardCharsets.UTF_8).length; 
                 resStrings.add(combinedJsons);
                 count = 0;
                 combinedJsons = null;
@@ -65,11 +74,19 @@ public class ChunkProcessor implements ItemProcessor {
         }
 
         if (combinedJsons != null) {
-            combinedJsons = combinedJsons + "]";
             resStrings.add(combinedJsons);
+            dataSize += combinedJsons.getBytes(StandardCharsets.UTF_8).length; 
+        }
+        
+        TransientUserData chunkData = (TransientUserData)jobContext.getTransientUserData();
+        if (chunkData != null) {
+            chunkData.setCurrentPartSize(chunkData.getCurrentPartSize() + dataSize);
+            log("processItem", "processed resources: " + resources.size() + " current part size: " + chunkData.getCurrentPartSize());
+        } else {
+            log("processItem", "processed resources: " + resources.size() + " created cos batches: " + resStrings.size());
         }
 
-        log("processItem", "processed resources: " + resources.size() + " created cos batches: " + resStrings.size());
+        
         return resStrings;
     }
 

@@ -7,17 +7,20 @@
 package com.ibm.watson.health.fhir.bulkexport;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
+import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
+import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.waston.health.fhir.bulkcommon.Constants;
 import com.ibm.watson.health.fhir.config.FHIRConfiguration;
 import com.ibm.watson.health.fhir.config.FHIRRequestContext;
 import com.ibm.watson.health.fhir.model.resource.Resource;
@@ -37,6 +40,8 @@ import com.ibm.watson.health.fhir.search.util.SearchUtil;
  */
 public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
+    boolean isSingleCosObject = false;
+    
     /**
      * Fhir tenant id.
      */
@@ -64,20 +69,28 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = "fhir.search.todate")
     String fhirSearchToDate;
+    
+    /**
+     * The Cos object name.
+     */
+    @Inject
+    @BatchProperty(name = "cos.bucket.objectname")
+    String cosBucketObjectName;
+    
 
     int pageNum = 1;
     // Control the number of records to read in each "item".
     int pageSize = 100;
+    
+    
+    @Inject
+    JobContext jobContext;
 
     /**
      * @see AbstractItemReader#AbstractItemReader()
      */
     public ChunkReader() {
         super();
-        if (fhirTenant == null) {
-            fhirTenant = "default";
-            log("readItem", "Set tenant to default!");
-        }
     }
 
     /**
@@ -95,6 +108,16 @@ public class ChunkReader extends AbstractItemReader {
         // no more page to read, so return null to end the reading.
         if (pageNum == -1) {
             return null;
+        }
+        
+        if (fhirTenant == null) {
+            fhirTenant = Constants.DEFAULT_FHIR_TENANT;
+            log("readItem", "Set tenant to default!");
+        }
+        
+        if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) {
+            isSingleCosObject = true;
+            log("readItem", "Use single COS object for uploading!");
         }
 
         FHIRConfiguration.setConfigHome("./");
@@ -137,7 +160,19 @@ public class ChunkReader extends AbstractItemReader {
         } else {
             log("readItem", "End of reading!");
         }
-
+        
+        if (isSingleCosObject) {
+            TransientUserData chunkData = (TransientUserData)jobContext.getTransientUserData();
+            if (chunkData == null) {
+                chunkData = new TransientUserData(pageNum, 0, null, new ArrayList<PartETag>(), 1);
+                jobContext.setTransientUserData(chunkData);
+            } else {
+                chunkData = (TransientUserData)jobContext.getTransientUserData();
+                chunkData.setPageNum(pageNum);
+            }
+        }
+        
+        
         return resources;
     }
 
