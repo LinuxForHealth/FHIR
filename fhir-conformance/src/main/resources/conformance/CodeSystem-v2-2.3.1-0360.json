@@ -1,0 +1,877 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-2.3.1-0360",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Degree/license/certificate</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Version</b></td></tr><tr><td>AA<a name=\"AA\"> </a></td><td>Associate of Arts</td><td>from v2.3.1</td></tr><tr><td>AAS<a name=\"AAS\"> </a></td><td>Associate of Applied Science</td><td>from v2.3.1</td></tr><tr><td>ABA<a name=\"ABA\"> </a></td><td>Associate of Business Administration</td><td>from v2.3.1</td></tr><tr><td>AE<a name=\"AE\"> </a></td><td>Associate of Engineering</td><td>from v2.3.1</td></tr><tr><td>AS<a name=\"AS\"> </a></td><td>Associate of Science</td><td>from v2.3.1</td></tr><tr><td>BA<a name=\"BA\"> </a></td><td>Bachelor of Arts</td><td>from v2.3.1</td></tr><tr><td>BBA<a name=\"BBA\"> </a></td><td>Bachelor of Business Administration</td><td>from v2.3.1</td></tr><tr><td>BE<a name=\"BE\"> </a></td><td>Bachelor or Engineering</td><td>from v2.3.1</td></tr><tr><td>BFA<a name=\"BFA\"> </a></td><td>Bachelor of Fine Arts</td><td>from v2.3.1</td></tr><tr><td>BN<a name=\"BN\"> </a></td><td>Bachelor of Nursing</td><td>from v2.3.1</td></tr><tr><td>BS<a name=\"BS\"> </a></td><td>Bachelor of Science</td><td>from v2.3.1</td></tr><tr><td>BSL<a name=\"BSL\"> </a></td><td>Bachelor of Science - Law</td><td>from v2.3.1</td></tr><tr><td>BSN<a name=\"BSN\"> </a></td><td>Bachelor on Science - Nursing</td><td>added v2.5</td></tr><tr><td>BT<a name=\"BT\"> </a></td><td>Bachelor of Theology</td><td>from v2.3.1</td></tr><tr><td>CANP<a name=\"CANP\"> </a></td><td>Certified Adult Nurse Practitioner</td><td>added v2.5</td></tr><tr><td>CER<a name=\"CER\"> </a></td><td>Certificate</td><td>from v2.3.1</td></tr><tr><td>CMA<a name=\"CMA\"> </a></td><td>Certified Medical Assistant</td><td>added v2.5</td></tr><tr><td>CNM<a name=\"CNM\"> </a></td><td>Certified Nurse Midwife</td><td>added v2.5</td></tr><tr><td>CNP<a name=\"CNP\"> </a></td><td>Certified Nurse Practitioner</td><td>added v2.5</td></tr><tr><td>CNS<a name=\"CNS\"> </a></td><td>Certified Nurse Specialist</td><td>added v2.5</td></tr><tr><td>CPNP<a name=\"CPNP\"> </a></td><td>Certified Pediatric Nurse Practitioner</td><td>added v2.5</td></tr><tr><td>CRN<a name=\"CRN\"> </a></td><td>Certified Registered Nurse</td><td>added v2.5</td></tr><tr><td>DBA<a name=\"DBA\"> </a></td><td>Doctor of Business Administration</td><td>from v2.3.1</td></tr><tr><td>DED<a name=\"DED\"> </a></td><td>Doctor of Education</td><td>from v2.3.1</td></tr><tr><td>DIP<a name=\"DIP\"> </a></td><td>Diploma</td><td>from v2.3.1</td></tr><tr><td>DO<a name=\"DO\"> </a></td><td>Doctor of Osteopathy</td><td>from v2.3.1</td></tr><tr><td>EMT<a name=\"EMT\"> </a></td><td>Emergency Medical Technician</td><td>added v2.5</td></tr><tr><td>EMTP<a name=\"EMTP\"> </a></td><td>Emergency Medical Technician - Paramedic</td><td>added v2.5</td></tr><tr><td>FPNP<a name=\"FPNP\"> </a></td><td>Family Practice Nurse Practitioner</td><td>added v2.5</td></tr><tr><td>HS<a name=\"HS\"> </a></td><td>High School Graduate</td><td>from v2.3.1</td></tr><tr><td>JD<a name=\"JD\"> </a></td><td>Juris Doctor</td><td>from v2.3.1</td></tr><tr><td>MA<a name=\"MA\"> </a></td><td>Master of Arts</td><td>from v2.3.1</td></tr><tr><td>MBA<a name=\"MBA\"> </a></td><td>Master of Business Administration</td><td>from v2.3.1</td></tr><tr><td>MCE<a name=\"MCE\"> </a></td><td>Master of Civil Engineering</td><td>from v2.3.1</td></tr><tr><td>MD<a name=\"MD\"> </a></td><td>Doctor of Medicine</td><td>from v2.3.1</td></tr><tr><td>MDA<a name=\"MDA\"> </a></td><td>Medical Assistant</td><td>added v2.5</td></tr><tr><td>MDI<a name=\"MDI\"> </a></td><td>Master of Divinity</td><td>from v2.3.1</td></tr><tr><td>ME<a name=\"ME\"> </a></td><td>Master of Engineering</td><td>from v2.3.1</td></tr><tr><td>MED<a name=\"MED\"> </a></td><td>Master of Education</td><td>from v2.3.1</td></tr><tr><td>MEE<a name=\"MEE\"> </a></td><td>Master of Electrical Engineering</td><td>from v2.3.1</td></tr><tr><td>MFA<a name=\"MFA\"> </a></td><td>Master of Fine Arts</td><td>from v2.3.1</td></tr><tr><td>MME<a name=\"MME\"> </a></td><td>Master of Mechanical Engineering</td><td>from v2.3.1</td></tr><tr><td>MS<a name=\"MS\"> </a></td><td>Master of Science</td><td>from v2.3.1</td></tr><tr><td>MSL<a name=\"MSL\"> </a></td><td>Master of Science - Law</td><td>from v2.3.1</td></tr><tr><td>MSN<a name=\"MSN\"> </a></td><td>Master of Science - Nursing</td><td>added v2.5</td></tr><tr><td>MT<a name=\"MT\"> </a></td><td>Master of Theology</td><td>from v2.3.1</td></tr><tr><td>NG<a name=\"NG\"> </a></td><td>Non-Graduate</td><td>from v2.3.1</td></tr><tr><td>NP<a name=\"NP\"> </a></td><td>Nurse Practitioner</td><td>added v2.5</td></tr><tr><td>PA<a name=\"PA\"> </a></td><td>Physician Assistant</td><td>added v2.5</td></tr><tr><td>PHD<a name=\"PHD\"> </a></td><td>Doctor of Philosophy</td><td>from v2.3.1</td></tr><tr><td>PHE<a name=\"PHE\"> </a></td><td>Doctor of Engineering</td><td>from v2.3.1</td></tr><tr><td>PHS<a name=\"PHS\"> </a></td><td>Doctor of Science</td><td>from v2.3.1</td></tr><tr><td>PN<a name=\"PN\"> </a></td><td>Advanced Practice Nurse</td><td>added v2.5</td></tr><tr><td>PharmD<a name=\"PharmD\"> </a></td><td>Doctor of Pharmacy</td><td>added v2.4</td></tr><tr><td>RMA<a name=\"RMA\"> </a></td><td>Registered Medical Assistant</td><td>added v2.5</td></tr><tr><td>RPH<a name=\"RPH\"> </a></td><td>Registered Pharmacist</td><td>added v2.5</td></tr><tr><td>SEC<a name=\"SEC\"> </a></td><td>Secretarial Certificate</td><td>from v2.3.1</td></tr><tr><td>TS<a name=\"TS\"> </a></td><td>Trade School Graduate</td><td>from v2.3.1</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0360|2.3.1",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.219"
+        }
+    ],
+    "version": "0360",
+    "name": "v2.0360.2.3.1",
+    "title": "v2 table 0360, Version 2.3.1",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "v2 table definition for v2.0360.2.3.1",
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "A property that indicates the status of the concept. One of active, experimental, deprecated, retired",
+            "type": "code"
+        },
+        {
+            "code": "deprecationDate",
+            "uri": "http://hl7.org/fhir/concept-properties#deprecationDate",
+            "description": "The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but their use is discouraged",
+            "type": "dateTime"
+        }
+    ],
+    "concept": [
+        {
+            "code": "AA",
+            "display": "Associate of Arts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "AAS",
+            "display": "Associate of Applied Science",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "ABA",
+            "display": "Associate of Business Administration",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "AE",
+            "display": "Associate of Engineering",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "AS",
+            "display": "Associate of Science",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BA",
+            "display": "Bachelor of Arts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BBA",
+            "display": "Bachelor of Business Administration",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BE",
+            "display": "Bachelor or Engineering",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BFA",
+            "display": "Bachelor of Fine Arts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BN",
+            "display": "Bachelor of Nursing",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BS",
+            "display": "Bachelor of Science",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BSL",
+            "display": "Bachelor of Science - Law",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BSN",
+            "display": "Bachelor on Science - Nursing",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "BT",
+            "display": "Bachelor of Theology",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "CANP",
+            "display": "Certified Adult Nurse Practitioner",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "CER",
+            "display": "Certificate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "CMA",
+            "display": "Certified Medical Assistant",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "CNM",
+            "display": "Certified Nurse Midwife",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "CNP",
+            "display": "Certified Nurse Practitioner",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "CNS",
+            "display": "Certified Nurse Specialist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "CPNP",
+            "display": "Certified Pediatric Nurse Practitioner",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "CRN",
+            "display": "Certified Registered Nurse",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "DBA",
+            "display": "Doctor of Business Administration",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "DED",
+            "display": "Doctor of Education",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "DIP",
+            "display": "Diploma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "DO",
+            "display": "Doctor of Osteopathy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "EMT",
+            "display": "Emergency Medical Technician",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "EMTP",
+            "display": "Emergency Medical Technician - Paramedic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "FPNP",
+            "display": "Family Practice Nurse Practitioner",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "HS",
+            "display": "High School Graduate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "JD",
+            "display": "Juris Doctor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MA",
+            "display": "Master of Arts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MBA",
+            "display": "Master of Business Administration",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MCE",
+            "display": "Master of Civil Engineering",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MD",
+            "display": "Doctor of Medicine",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MDA",
+            "display": "Medical Assistant",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MDI",
+            "display": "Master of Divinity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "ME",
+            "display": "Master of Engineering",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MED",
+            "display": "Master of Education",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MEE",
+            "display": "Master of Electrical Engineering",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MFA",
+            "display": "Master of Fine Arts",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MME",
+            "display": "Master of Mechanical Engineering",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MS",
+            "display": "Master of Science",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MSL",
+            "display": "Master of Science - Law",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MSN",
+            "display": "Master of Science - Nursing",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "MT",
+            "display": "Master of Theology",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "NG",
+            "display": "Non-Graduate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "NP",
+            "display": "Nurse Practitioner",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "PA",
+            "display": "Physician Assistant",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "PHD",
+            "display": "Doctor of Philosophy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "PHE",
+            "display": "Doctor of Engineering",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "PHS",
+            "display": "Doctor of Science",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "PN",
+            "display": "Advanced Practice Nurse",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "PharmD",
+            "display": "Doctor of Pharmacy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "RMA",
+            "display": "Registered Medical Assistant",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "RPH",
+            "display": "Registered Pharmacist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "SEC",
+            "display": "Secretarial Certificate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        },
+        {
+            "code": "TS",
+            "display": "Trade School Graduate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2007-10"
+                }
+            ]
+        }
+    ]
+}

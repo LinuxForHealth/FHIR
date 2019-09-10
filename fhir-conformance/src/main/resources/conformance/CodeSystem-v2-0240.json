@@ -1,0 +1,177 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0240",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Event Consequence</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>C<a name=\"C\"> </a></td><td>Congenital anomaly/birth defect</td><td/><td>added v2.3</td></tr><tr><td>D<a name=\"D\"> </a></td><td>Death</td><td/><td>added v2.3</td></tr><tr><td>H<a name=\"H\"> </a></td><td>Caused hospitalized</td><td/><td>added v2.3</td></tr><tr><td>I<a name=\"I\"> </a></td><td>Incapacity which is significant, persistent or permanent</td><td/><td>added v2.3</td></tr><tr><td>J<a name=\"J\"> </a></td><td>Disability which is significant, persistent or permanent</td><td/><td>added v2.3</td></tr><tr><td>L<a name=\"L\"> </a></td><td>Life threatening</td><td/><td>added v2.3</td></tr><tr><td>O<a name=\"O\"> </a></td><td>Other</td><td/><td>added v2.3</td></tr><tr><td>P<a name=\"P\"> </a></td><td>Prolonged hospitalization</td><td/><td>added v2.3</td></tr><tr><td>R<a name=\"R\"> </a></td><td>Required intervention to prevent permanent impairment/damage</td><td/><td>added v2.3</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0240",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.139"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0240",
+    "title": "v2 Event Consequence",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0240 ( Event Consequence)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "C",
+            "display": "Congenital anomaly/birth defect",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Congenitale anomalie/geboorteafwijking"
+                }
+            ]
+        },
+        {
+            "code": "D",
+            "display": "Death",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Dood"
+                }
+            ]
+        },
+        {
+            "code": "H",
+            "display": "Caused hospitalized",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Veroorzaakte hospitalisatie"
+                }
+            ]
+        },
+        {
+            "code": "I",
+            "display": "Incapacity which is significant, persistent or permanent",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Significante beperking, langdurig of permanent"
+                }
+            ]
+        },
+        {
+            "code": "J",
+            "display": "Disability which is significant, persistent or permanent",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Significante handicap, langdurig of permanent"
+                }
+            ]
+        },
+        {
+            "code": "L",
+            "display": "Life threatening",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Levensbedreigend"
+                }
+            ]
+        },
+        {
+            "code": "O",
+            "display": "Other",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Anders"
+                }
+            ]
+        },
+        {
+            "code": "P",
+            "display": "Prolonged hospitalization",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Verlenging hospitalisatie"
+                }
+            ]
+        },
+        {
+            "code": "R",
+            "display": "Required intervention to prevent permanent impairment/damage",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Vereiste interventie ter preventie van permanente handicap/schade"
+                }
+            ]
+        }
+    ]
+}

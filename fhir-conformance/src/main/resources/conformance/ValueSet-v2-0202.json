@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0202",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Telecommunication Equipment Type</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>BP<a name=\"BP\"> </a></td><td>Beeper</td><td/><td>added v2.3</td></tr><tr><td>CP<a name=\"CP\"> </a></td><td>Cellular or Mobile Phone</td><td/><td>added v2.3</td></tr><tr><td>FX<a name=\"FX\"> </a></td><td>Fax</td><td/><td>added v2.3</td></tr><tr><td>Internet<a name=\"Internet\"> </a></td><td>Internet Address</td><td/><td>added v2.3</td></tr><tr><td>MD<a name=\"MD\"> </a></td><td>Modem</td><td/><td>added v2.3</td></tr><tr><td>PH<a name=\"PH\"> </a></td><td>Telephone</td><td/><td>added v2.3</td></tr><tr><td>SAT<a name=\"SAT\"> </a></td><td>Satellite Phone</td><td/><td>added v2.6</td></tr><tr><td>TDD<a name=\"TDD\"> </a></td><td>Telecommunications Device for the Deaf</td><td/><td>added v2.5</td></tr><tr><td>TTY<a name=\"TTY\"> </a></td><td>Teletypewriter</td><td/><td>added v2.5</td></tr><tr><td>X.400<a name=\"X.46400\"> </a></td><td>X.400 email address</td><td/><td>added v2.3</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0202",
+    "version": "2.9",
+    "name": "v2.0202",
+    "title": "v2 Telecommunication Equipment Type",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0202 ( Telecommunication Equipment Type)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0202"
+            }
+        ]
+    }
+}

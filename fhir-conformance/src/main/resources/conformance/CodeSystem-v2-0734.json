@@ -1,0 +1,91 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0734",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Grouper Status</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>0<a name=\"0\"> </a></td><td>Normal grouping</td><td/><td>added v2.6</td></tr><tr><td>1<a name=\"1\"> </a></td><td>Invalid or missing primary diagnosis</td><td/><td>added v2.6</td></tr><tr><td>2<a name=\"2\"> </a></td><td>Diagnosis is not allowed to be primary</td><td/><td>added v2.6</td></tr><tr><td>3<a name=\"3\"> </a></td><td>Data does not fulfill DRG criteria</td><td/><td>added v2.6</td></tr><tr><td>4<a name=\"4\"> </a></td><td>Invalid age, admission date, date of birth or discharge date</td><td/><td>added v2.6</td></tr><tr><td>5<a name=\"5\"> </a></td><td>Invalid gender</td><td/><td>added v2.6</td></tr><tr><td>6<a name=\"6\"> </a></td><td>Invalid discharge status</td><td/><td>added v2.6</td></tr><tr><td>7<a name=\"7\"> </a></td><td>Invalid weight ad admission</td><td/><td>added v2.6</td></tr><tr><td>8<a name=\"8\"> </a></td><td>Invalid length of stay</td><td/><td>added v2.6</td></tr><tr><td>9<a name=\"9\"> </a></td><td>Invalid field &quot;same day&quot;</td><td/><td>added v2.6</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0734",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.393"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0734",
+    "title": "v2 Grouper Status",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0734 ( Grouper Status)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "0",
+            "display": "Normal grouping"
+        },
+        {
+            "code": "1",
+            "display": "Invalid or missing primary diagnosis"
+        },
+        {
+            "code": "2",
+            "display": "Diagnosis is not allowed to be primary"
+        },
+        {
+            "code": "3",
+            "display": "Data does not fulfill DRG criteria"
+        },
+        {
+            "code": "4",
+            "display": "Invalid age, admission date, date of birth or discharge date"
+        },
+        {
+            "code": "5",
+            "display": "Invalid gender"
+        },
+        {
+            "code": "6",
+            "display": "Invalid discharge status"
+        },
+        {
+            "code": "7",
+            "display": "Invalid weight ad admission"
+        },
+        {
+            "code": "8",
+            "display": "Invalid length of stay"
+        },
+        {
+            "code": "9",
+            "display": "Invalid field \"same day\""
+        }
+    ]
+}

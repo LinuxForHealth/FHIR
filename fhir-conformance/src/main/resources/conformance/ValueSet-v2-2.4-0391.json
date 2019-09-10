@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-2.4-0391",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Segment group</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Version</b></td></tr><tr><td>OBRG<a name=\"OBRG\"> </a></td><td>OBR group</td><td>from v2.4</td></tr><tr><td>ORCG<a name=\"ORCG\"> </a></td><td>ORC group</td><td>from v2.4</td></tr><tr><td>PIDG<a name=\"PIDG\"> </a></td><td>PID group</td><td>from v2.4</td></tr><tr><td>RXAG<a name=\"RXAG\"> </a></td><td>RXA group</td><td>from v2.4</td></tr><tr><td>RXDG<a name=\"RXDG\"> </a></td><td>RXD group</td><td>from v2.4</td></tr><tr><td>RXEG<a name=\"RXEG\"> </a></td><td>RXE group</td><td>from v2.4</td></tr><tr><td>RXOG<a name=\"RXOG\"> </a></td><td>RXO group</td><td>from v2.4</td></tr><tr><td>etc<a name=\"etc\"> </a></td><td/><td>from v2.4, removed after v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-2.4-0391",
+    "version": "0391",
+    "name": "v2.0391.2.4",
+    "title": "v2 table 0391, Version 2.4",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0391 ver 2.5.1 ( Segment group)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0391|2.4"
+            }
+        ]
+    }
+}

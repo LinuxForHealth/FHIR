@@ -1,0 +1,221 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0376",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Special Handling Code</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AMB<a name=\"AMB\"> </a></td><td>Ambient temperature</td><td>Keep at ambient (room) temperature, approximately 22 ( 2 degrees C. Accidental refrigeration or freezing is of little consequence</td><td>added v2.5</td></tr><tr><td>C37<a name=\"C37\"> </a></td><td>Body temperature</td><td>Critical to keep at body temperature: 36 - 38( C.</td><td>added v2.4</td></tr><tr><td>CAMB<a name=\"CAMB\"> </a></td><td>Critical ambient temperature</td><td>Critical ambient - must not be refrigerated or frozen.</td><td>added v2.4</td></tr><tr><td>CATM<a name=\"CATM\"> </a></td><td>Protect from air</td><td>Critical. Do not expose to atmosphere. Do not uncap.</td><td>added v2.4</td></tr><tr><td>CFRZ<a name=\"CFRZ\"> </a></td><td>Critical frozen temperature</td><td>Critical frozen - must not be allowed to thaw until immediately prior to testing</td><td>added v2.4</td></tr><tr><td>CREF<a name=\"CREF\"> </a></td><td>Critical refrigerated temperature</td><td>Critical refrigerated -  must not be allowed to freeze or warm until immediately prior to testing</td><td>added v2.4</td></tr><tr><td>DFRZ<a name=\"DFRZ\"> </a></td><td>Deep frozen</td><td>Deep frozen: -16 to -20( C.</td><td>added v2.5</td></tr><tr><td>DRY<a name=\"DRY\"> </a></td><td>Dry</td><td>Keep in a dry environment.</td><td>added v2.5</td></tr><tr><td>FRZ<a name=\"FRZ\"> </a></td><td>Frozen temperature</td><td>Keep at frozen temperature: -4( C. Accidental thawing is of little consequence</td><td>added v2.5</td></tr><tr><td>MTLF<a name=\"MTLF\"> </a></td><td>Metal Free</td><td>Container is free of heavy metals including lead.</td><td>added v2.5</td></tr><tr><td>NTR<a name=\"NTR\"> </a></td><td>Liquid nitrogen</td><td>Keep in liquid nitrogen.</td><td>added v2.5</td></tr><tr><td>PRTL<a name=\"PRTL\"> </a></td><td>Protect from light</td><td>Protect from light (e.g., wrap in aluminum foil).</td><td>added v2.4</td></tr><tr><td>PSA<a name=\"PSA\"> </a></td><td>Do not shake</td><td>Do not shake.</td><td>added v2.5</td></tr><tr><td>PSO<a name=\"PSO\"> </a></td><td>No shock</td><td>Protect from shock.</td><td>added v2.5</td></tr><tr><td>REF<a name=\"REF\"> </a></td><td>Refrigerated temperature</td><td>Keep at refrigerated temperature: 4-8( C. Accidental warming or freezing is of little consequence</td><td>added v2.5</td></tr><tr><td>UFRZ<a name=\"UFRZ\"> </a></td><td>Ultra frozen</td><td>Ultra cold frozen: ~ -75 to -85( C. (ultra cold freezer is typically at temperature of dry ice).</td><td>added v2.5</td></tr><tr><td>UPR<a name=\"UPR\"> </a></td><td>Upright</td><td>Keep upright. Do not turn upside down.</td><td>added v2.5</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0376",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.234"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0376",
+    "title": "v2 Special handling considerations",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0376 ( Special handling considerations)",
+    "content": "complete",
+    "concept": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Keep at ambient (room) temperature, approximately 22 ( 2 degrees C. Accidental refrigeration or freezing is of little consequence"
+                }
+            ],
+            "code": "AMB",
+            "display": "Ambient temperature"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Critical to keep at body temperature: 36 - 38( C."
+                }
+            ],
+            "code": "C37",
+            "display": "Body temperature"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Critical ambient - must not be refrigerated or frozen."
+                }
+            ],
+            "code": "CAMB",
+            "display": "Critical ambient temperature"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Critical. Do not expose to atmosphere. Do not uncap."
+                }
+            ],
+            "code": "CATM",
+            "display": "Protect from air"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Critical frozen - must not be allowed to thaw until immediately prior to testing"
+                }
+            ],
+            "code": "CFRZ",
+            "display": "Critical frozen temperature"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Critical refrigerated -  must not be allowed to freeze or warm until immediately prior to testing"
+                }
+            ],
+            "code": "CREF",
+            "display": "Critical refrigerated temperature"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Deep frozen: -16 to -20( C."
+                }
+            ],
+            "code": "DFRZ",
+            "display": "Deep frozen"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Keep in a dry environment."
+                }
+            ],
+            "code": "DRY",
+            "display": "Dry"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Keep at frozen temperature: -4( C. Accidental thawing is of little consequence"
+                }
+            ],
+            "code": "FRZ",
+            "display": "Frozen temperature"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Container is free of heavy metals including lead."
+                }
+            ],
+            "code": "MTLF",
+            "display": "Metal Free"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Keep in liquid nitrogen."
+                }
+            ],
+            "code": "NTR",
+            "display": "Liquid nitrogen"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Protect from light (e.g., wrap in aluminum foil)."
+                }
+            ],
+            "code": "PRTL",
+            "display": "Protect from light"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Do not shake."
+                }
+            ],
+            "code": "PSA",
+            "display": "Do not shake"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Protect from shock."
+                }
+            ],
+            "code": "PSO",
+            "display": "No shock"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Keep at refrigerated temperature: 4-8( C. Accidental warming or freezing is of little consequence"
+                }
+            ],
+            "code": "REF",
+            "display": "Refrigerated temperature"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Ultra cold frozen: ~ -75 to -85( C. (ultra cold freezer is typically at temperature of dry ice)."
+                }
+            ],
+            "code": "UFRZ",
+            "display": "Ultra frozen"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "Keep upright. Do not turn upside down."
+                }
+            ],
+            "code": "UPR",
+            "display": "Upright"
+        }
+    ]
+}

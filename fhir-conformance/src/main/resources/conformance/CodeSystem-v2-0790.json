@@ -1,0 +1,59 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0790",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Approving Regulatory Agency</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AMA<a name=\"AMA\"> </a></td><td>American Medical Association</td><td/><td>added v2.6</td></tr><tr><td>FDA<a name=\"FDA\"> </a></td><td>Food and Drug Administration</td><td/><td>added v2.6</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0790",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.404"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0790",
+    "title": "v2 Approving Regulatory Agency",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0790 ( Approving Regulatory Agency)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "AMA",
+            "display": "American Medical Association"
+        },
+        {
+            "code": "FDA",
+            "display": "Food and Drug Administration"
+        }
+    ]
+}

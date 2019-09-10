@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0470",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Reimbursement Type Code</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>Crnl<a name=\"Crnl\"> </a></td><td>Corneal Tissue APC</td><td/><td>added v2.4</td></tr><tr><td>DME<a name=\"DME\"> </a></td><td>Durable Medical Equipment</td><td/><td>added v2.4</td></tr><tr><td>EPO<a name=\"EPO\"> </a></td><td>Epotein</td><td/><td>added v2.4</td></tr><tr><td>Lab<a name=\"Lab\"> </a></td><td>Clinical Laboratory APC</td><td/><td>added v2.4</td></tr><tr><td>Mamm<a name=\"Mamm\"> </a></td><td>Screening Mammography APC</td><td/><td>added v2.4</td></tr><tr><td>NoPay<a name=\"NoPay\"> </a></td><td>This APC is not paid</td><td/><td>added v2.4</td></tr><tr><td>OPPS<a name=\"OPPS\"> </a></td><td>Outpatient Prospective Payment System</td><td/><td>added v2.4</td></tr><tr><td>PartH<a name=\"PartH\"> </a></td><td>Partial Hospitalization APC</td><td/><td>added v2.4</td></tr><tr><td>Pckg<a name=\"Pckg\"> </a></td><td>Packaged APC</td><td/><td>added v2.4</td></tr><tr><td>Thrpy<a name=\"Thrpy\"> </a></td><td>Therapy APC</td><td/><td>added v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0470",
+    "version": "2.9",
+    "name": "v2.0470",
+    "title": "v2 Reimbursement type code",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0470 ( Reimbursement type code)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0470"
+            }
+        ]
+    }
+}

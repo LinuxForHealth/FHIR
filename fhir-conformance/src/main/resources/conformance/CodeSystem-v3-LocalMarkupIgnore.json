@@ -1,0 +1,62 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-LocalMarkupIgnore",
+    "meta": {
+        "lastUpdated": "2018-08-12T00:00:00+10:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>all<a name=\"v3-LocalMarkupIgnore-all\"> </a></td><td>all</td><td/></tr>\r\n <tr><td>1</td><td>markup<a name=\"v3-LocalMarkupIgnore-markup\"> </a></td><td>markup</td><td/></tr>\r\n</table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v3-LocalMarkupIgnore",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.65"
+        }
+    ],
+    "version": "2018-08-12",
+    "name": "v3.LocalMarkupIgnore",
+    "title": "v3 Code System LocalMarkupIgnore",
+    "status": "active",
+    "experimental": false,
+    "date": "2018-08-12T00:00:00+10:00",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": " Tells a receiver to ignore just the local markup tags (local_markup, local_header, local_attr) when value=\"markup\", or to ignore the local markup tags and all contained content when value=\"all\"",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v3-LocalMarkupIgnore",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "all",
+            "display": "all",
+            "definition": "all"
+        },
+        {
+            "code": "markup",
+            "display": "markup",
+            "definition": "markup"
+        }
+    ]
+}

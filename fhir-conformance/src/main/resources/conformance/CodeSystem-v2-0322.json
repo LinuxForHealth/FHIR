@@ -1,0 +1,107 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0322",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Completion Status</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>CP<a name=\"CP\"> </a></td><td>Complete</td><td/><td>added v2.3</td></tr><tr><td>NA<a name=\"NA\"> </a></td><td>Not Administered</td><td/><td>added v2.3</td></tr><tr><td>PA<a name=\"PA\"> </a></td><td>Partially Administered</td><td/><td>added v2.3</td></tr><tr><td>RE<a name=\"RE\"> </a></td><td>Refused</td><td/><td>added v2.3</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0322",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.195"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0322",
+    "title": "v2 Completion Status",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0322 ( Completion Status)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "CP",
+            "display": "Complete",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Voltooid"
+                }
+            ]
+        },
+        {
+            "code": "NA",
+            "display": "Not Administered",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Niet toegediend"
+                }
+            ]
+        },
+        {
+            "code": "PA",
+            "display": "Partially Administered",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Gedeeltelijk toegediend"
+                }
+            ]
+        },
+        {
+            "code": "RE",
+            "display": "Refused",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Geweigerd"
+                }
+            ]
+        }
+    ]
+}

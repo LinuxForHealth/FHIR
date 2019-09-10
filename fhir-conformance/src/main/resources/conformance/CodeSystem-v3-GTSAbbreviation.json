@@ -1,0 +1,294 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-GTSAbbreviation",
+    "meta": {
+        "lastUpdated": "2018-08-12T00:00:00+10:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>AM<a name=\"v3-GTSAbbreviation-AM\"> </a></td><td>AM</td><td>\n                        Every morning at institution specified times.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>BED<a name=\"v3-GTSAbbreviation-BED\"> </a></td><td>at bedtime</td><td>\n                        At bedtime (institution specified time).<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>BID<a name=\"v3-GTSAbbreviation-BID\"> </a></td><td>BID</td><td>\n                        Two times a day at institution specified time<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>JB<a name=\"v3-GTSAbbreviation-JB\"> </a></td><td>JB</td><td>\n                        Regular business days (Monday to Friday excluding holidays)<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>JE<a name=\"v3-GTSAbbreviation-JE\"> </a></td><td>JE</td><td>\n                        Regular weekends (Saturday and Sunday excluding holidays)<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>JH<a name=\"v3-GTSAbbreviation-JH\"> </a></td><td>GTSAbbreviationHolidays</td><td>\n                        Holidays<br/>\r\n\n                     </td></tr>\r\n <tr><td>2</td><td>  <span style=\"color: grey\"><i>(_GTSAbbreviationHolidaysChristianRoman)</i></span> <b><i>Abstract</i></b></td><td><a name=\"v3-GTSAbbreviation-_GTSAbbreviationHolidaysChristianRoman\"> </a></td><td>\n                        Christian Holidays (Roman/Gregorian [Western] Tradition.)<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHCHREAS<a name=\"v3-GTSAbbreviation-JHCHREAS\"> </a></td><td>JHCHREAS</td><td>\n                        Easter Sunday.  The Easter date is a rather complex calculation based on Astronomical tables describing full moon dates.  Details can be found at [http://www.assa.org.au/edm.html, and http://aa.usno.navy.mil/AA/faq/docs/easter.html].  Note that the Christian Orthodox Holidays are based on the Julian calendar.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHCHRGFR<a name=\"v3-GTSAbbreviation-JHCHRGFR\"> </a></td><td>JHCHRGFR</td><td>\n                        Good Friday, is the Friday right before Easter Sunday.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHCHRNEW<a name=\"v3-GTSAbbreviation-JHCHRNEW\"> </a></td><td>JHCHRNEW</td><td>\n                        New Year's Day (January 1)<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHCHRPEN<a name=\"v3-GTSAbbreviation-JHCHRPEN\"> </a></td><td>JHCHRPEN</td><td>\n                        Pentecost Sunday, is seven weeks after Easter (the 50th day of Easter).<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHCHRXME<a name=\"v3-GTSAbbreviation-JHCHRXME\"> </a></td><td>JHCHRXME</td><td>\n                        Christmas Eve (December 24)<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHCHRXMS<a name=\"v3-GTSAbbreviation-JHCHRXMS\"> </a></td><td>JHCHRXMS</td><td>\n                        Christmas Day (December 25)<br/>\r\n\n                     </td></tr>\r\n <tr><td>2</td><td>  JHNNL<a name=\"v3-GTSAbbreviation-JHNNL\"> </a></td><td>The Netherlands National Holidays</td><td>\n                        \n                           Description:The Netherlands National Holidays.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNNLLD<a name=\"v3-GTSAbbreviation-JHNNLLD\"> </a></td><td>Liberation day (May 5 every five years)</td><td>\n                        \n                           Description:Liberation day  (May 5 every five years)<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNNLQD<a name=\"v3-GTSAbbreviation-JHNNLQD\"> </a></td><td>Queen's day (April 30)</td><td>\n                        \n                           Description:Queen's day (April 30)<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNNLSK<a name=\"v3-GTSAbbreviation-JHNNLSK\"> </a></td><td>Sinterklaas (December 5)</td><td>\n                        \n                           Description:Sinterklaas (December 5)<br/>\r\n\n                     </td></tr>\r\n <tr><td>2</td><td>  JHNUS<a name=\"v3-GTSAbbreviation-JHNUS\"> </a></td><td>GTSAbbreviationHolidaysUSNational</td><td>\n                        United States National Holidays (public holidays for federal employees established by U.S. Federal law 5 U.S.C. 6103).<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSCLM<a name=\"v3-GTSAbbreviation-JHNUSCLM\"> </a></td><td>JHNUSCLM</td><td>\n                        Columbus Day, the second Monday in October.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSIND<a name=\"v3-GTSAbbreviation-JHNUSIND\"> </a></td><td>JHNUSIND</td><td>\n                        Independence Day (4th of July)<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSIND1<a name=\"v3-GTSAbbreviation-JHNUSIND1\"> </a></td><td>JHNUSIND1</td><td>\n                        Alternative Monday after 4th of July Weekend [5 U.S.C. 6103(b)].<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSIND5<a name=\"v3-GTSAbbreviation-JHNUSIND5\"> </a></td><td>JHNUSIND5</td><td>\n                        Alternative Friday before 4th of July Weekend [5 U.S.C. 6103(b)].<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSLBR<a name=\"v3-GTSAbbreviation-JHNUSLBR\"> </a></td><td>JHNUSLBR</td><td>\n                        Labor Day, the first Monday in September.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSMEM<a name=\"v3-GTSAbbreviation-JHNUSMEM\"> </a></td><td>JHNUSMEM</td><td>\n                        Memorial Day, the last Monday in May.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSMEM5<a name=\"v3-GTSAbbreviation-JHNUSMEM5\"> </a></td><td>JHNUSMEM5</td><td>\n                        Friday before Memorial Day Weekend<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSMEM6<a name=\"v3-GTSAbbreviation-JHNUSMEM6\"> </a></td><td>JHNUSMEM6</td><td>\n                        Saturday of Memorial Day Weekend<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSMLK<a name=\"v3-GTSAbbreviation-JHNUSMLK\"> </a></td><td>JHNUSMLK</td><td>\n                        Dr. Martin Luther King, Jr. Day, the third Monday in January.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSPRE<a name=\"v3-GTSAbbreviation-JHNUSPRE\"> </a></td><td>JHNUSPRE</td><td>\n                        Washington's Birthday (Presidential Day) the third Monday in February.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSTKS<a name=\"v3-GTSAbbreviation-JHNUSTKS\"> </a></td><td>JHNUSTKS</td><td>\n                        Thanksgiving Day, the fourth Thursday in November.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSTKS5<a name=\"v3-GTSAbbreviation-JHNUSTKS5\"> </a></td><td>JHNUSTKS5</td><td>\n                        Friday after Thanksgiving.<br/>\r\n\n                     </td></tr>\r\n <tr><td>3</td><td>    JHNUSVET<a name=\"v3-GTSAbbreviation-JHNUSVET\"> </a></td><td>JHNUSVET</td><td>\n                        Veteran's Day, November 11.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>MO<a name=\"v3-GTSAbbreviation-MO\"> </a></td><td>monthly</td><td>\n                        Monthly at institution specified time.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>PM<a name=\"v3-GTSAbbreviation-PM\"> </a></td><td>PM</td><td>\n                        Every afternoon at institution specified times.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>Q1H<a name=\"v3-GTSAbbreviation-Q1H\"> </a></td><td>every hour</td><td>\n                        Every hour at institution specified times.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>Q2H<a name=\"v3-GTSAbbreviation-Q2H\"> </a></td><td>every 2 hours</td><td>\n                        Every 2 hours at institution specified times.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>Q3H<a name=\"v3-GTSAbbreviation-Q3H\"> </a></td><td>every 3 hours</td><td>\n                        Every 3 hours at institution specified times.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>Q4H<a name=\"v3-GTSAbbreviation-Q4H\"> </a></td><td>Q4H</td><td>\n                        Every 4 hours at institution specified time <br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>Q6H<a name=\"v3-GTSAbbreviation-Q6H\"> </a></td><td>Q6H</td><td>\n                        Every 6 hours at institution specified time <br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>Q8H<a name=\"v3-GTSAbbreviation-Q8H\"> </a></td><td>every 8 hours</td><td>\n                        Every 8 hours at institution specified times.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>QD<a name=\"v3-GTSAbbreviation-QD\"> </a></td><td>QD</td><td>\n                        Every day at institution specified times. <br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>QID<a name=\"v3-GTSAbbreviation-QID\"> </a></td><td>QID</td><td>\n                        Four times a day at institution specified time<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>QOD<a name=\"v3-GTSAbbreviation-QOD\"> </a></td><td>QOD</td><td>\n                        Every other day at institution specified times. <br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>TID<a name=\"v3-GTSAbbreviation-TID\"> </a></td><td>TID</td><td>\n                        Three times a day at institution specified time<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>WK<a name=\"v3-GTSAbbreviation-WK\"> </a></td><td>weekly</td><td>\n                        Weekly at institution specified time.<br/>\r\n\n                     </td></tr>\r\n</table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1022"
+        }
+    ],
+    "version": "2018-08-12",
+    "name": "v3.GTSAbbreviation",
+    "title": "v3 Code System GTSAbbreviation",
+    "status": "active",
+    "experimental": false,
+    "date": "2018-08-12T00:00:00+10:00",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "  Open Issue:\r\nIt appears that the printnames are suboptimal and should be improved for many of the existing codes.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v3-GTSAbbreviation",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        }
+    ],
+    "concept": [
+        {
+            "code": "AM",
+            "display": "AM",
+            "definition": "Every morning at institution specified times."
+        },
+        {
+            "code": "BED",
+            "display": "at bedtime",
+            "definition": "At bedtime (institution specified time)."
+        },
+        {
+            "code": "BID",
+            "display": "BID",
+            "definition": "Two times a day at institution specified time"
+        },
+        {
+            "code": "JB",
+            "display": "JB",
+            "definition": "Regular business days (Monday to Friday excluding holidays)"
+        },
+        {
+            "code": "JE",
+            "display": "JE",
+            "definition": "Regular weekends (Saturday and Sunday excluding holidays)"
+        },
+        {
+            "code": "JH",
+            "display": "GTSAbbreviationHolidays",
+            "definition": "Holidays",
+            "concept": [
+                {
+                    "code": "_GTSAbbreviationHolidaysChristianRoman",
+                    "display": "GTSAbbreviationHolidaysChristianRoman",
+                    "definition": "Christian Holidays (Roman/Gregorian [Western] Tradition.)",
+                    "property": [
+                        {
+                            "code": "notSelectable",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "JHCHREAS",
+                            "display": "JHCHREAS",
+                            "definition": "Easter Sunday.  The Easter date is a rather complex calculation based on Astronomical tables describing full moon dates.  Details can be found at [http://www.assa.org.au/edm.html, and http://aa.usno.navy.mil/AA/faq/docs/easter.html].  Note that the Christian Orthodox Holidays are based on the Julian calendar."
+                        },
+                        {
+                            "code": "JHCHRGFR",
+                            "display": "JHCHRGFR",
+                            "definition": "Good Friday, is the Friday right before Easter Sunday."
+                        },
+                        {
+                            "code": "JHCHRNEW",
+                            "display": "JHCHRNEW",
+                            "definition": "New Year's Day (January 1)"
+                        },
+                        {
+                            "code": "JHCHRPEN",
+                            "display": "JHCHRPEN",
+                            "definition": "Pentecost Sunday, is seven weeks after Easter (the 50th day of Easter)."
+                        },
+                        {
+                            "code": "JHCHRXME",
+                            "display": "JHCHRXME",
+                            "definition": "Christmas Eve (December 24)"
+                        },
+                        {
+                            "code": "JHCHRXMS",
+                            "display": "JHCHRXMS",
+                            "definition": "Christmas Day (December 25)"
+                        }
+                    ]
+                },
+                {
+                    "code": "JHNNL",
+                    "display": "The Netherlands National Holidays",
+                    "definition": "Description:The Netherlands National Holidays.",
+                    "concept": [
+                        {
+                            "code": "JHNNLLD",
+                            "display": "Liberation day (May 5 every five years)",
+                            "definition": "Description:Liberation day  (May 5 every five years)"
+                        },
+                        {
+                            "code": "JHNNLQD",
+                            "display": "Queen's day (April 30)",
+                            "definition": "Description:Queen's day (April 30)"
+                        },
+                        {
+                            "code": "JHNNLSK",
+                            "display": "Sinterklaas (December 5)",
+                            "definition": "Description:Sinterklaas (December 5)"
+                        }
+                    ]
+                },
+                {
+                    "code": "JHNUS",
+                    "display": "GTSAbbreviationHolidaysUSNational",
+                    "definition": "United States National Holidays (public holidays for federal employees established by U.S. Federal law 5 U.S.C. 6103).",
+                    "concept": [
+                        {
+                            "code": "JHNUSCLM",
+                            "display": "JHNUSCLM",
+                            "definition": "Columbus Day, the second Monday in October."
+                        },
+                        {
+                            "code": "JHNUSIND",
+                            "display": "JHNUSIND",
+                            "definition": "Independence Day (4th of July)"
+                        },
+                        {
+                            "code": "JHNUSIND1",
+                            "display": "JHNUSIND1",
+                            "definition": "Alternative Monday after 4th of July Weekend [5 U.S.C. 6103(b)]."
+                        },
+                        {
+                            "code": "JHNUSIND5",
+                            "display": "JHNUSIND5",
+                            "definition": "Alternative Friday before 4th of July Weekend [5 U.S.C. 6103(b)]."
+                        },
+                        {
+                            "code": "JHNUSLBR",
+                            "display": "JHNUSLBR",
+                            "definition": "Labor Day, the first Monday in September."
+                        },
+                        {
+                            "code": "JHNUSMEM",
+                            "display": "JHNUSMEM",
+                            "definition": "Memorial Day, the last Monday in May."
+                        },
+                        {
+                            "code": "JHNUSMEM5",
+                            "display": "JHNUSMEM5",
+                            "definition": "Friday before Memorial Day Weekend"
+                        },
+                        {
+                            "code": "JHNUSMEM6",
+                            "display": "JHNUSMEM6",
+                            "definition": "Saturday of Memorial Day Weekend"
+                        },
+                        {
+                            "code": "JHNUSMLK",
+                            "display": "JHNUSMLK",
+                            "definition": "Dr. Martin Luther King, Jr. Day, the third Monday in January."
+                        },
+                        {
+                            "code": "JHNUSPRE",
+                            "display": "JHNUSPRE",
+                            "definition": "Washington's Birthday (Presidential Day) the third Monday in February."
+                        },
+                        {
+                            "code": "JHNUSTKS",
+                            "display": "JHNUSTKS",
+                            "definition": "Thanksgiving Day, the fourth Thursday in November."
+                        },
+                        {
+                            "code": "JHNUSTKS5",
+                            "display": "JHNUSTKS5",
+                            "definition": "Friday after Thanksgiving."
+                        },
+                        {
+                            "code": "JHNUSVET",
+                            "display": "JHNUSVET",
+                            "definition": "Veteran's Day, November 11."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "MO",
+            "display": "monthly",
+            "definition": "Monthly at institution specified time."
+        },
+        {
+            "code": "PM",
+            "display": "PM",
+            "definition": "Every afternoon at institution specified times."
+        },
+        {
+            "code": "Q1H",
+            "display": "every hour",
+            "definition": "Every hour at institution specified times."
+        },
+        {
+            "code": "Q2H",
+            "display": "every 2 hours",
+            "definition": "Every 2 hours at institution specified times."
+        },
+        {
+            "code": "Q3H",
+            "display": "every 3 hours",
+            "definition": "Every 3 hours at institution specified times."
+        },
+        {
+            "code": "Q4H",
+            "display": "Q4H",
+            "definition": "Every 4 hours at institution specified time"
+        },
+        {
+            "code": "Q6H",
+            "display": "Q6H",
+            "definition": "Every 6 hours at institution specified time"
+        },
+        {
+            "code": "Q8H",
+            "display": "every 8 hours",
+            "definition": "Every 8 hours at institution specified times."
+        },
+        {
+            "code": "QD",
+            "display": "QD",
+            "definition": "Every day at institution specified times."
+        },
+        {
+            "code": "QID",
+            "display": "QID",
+            "definition": "Four times a day at institution specified time"
+        },
+        {
+            "code": "QOD",
+            "display": "QOD",
+            "definition": "Every other day at institution specified times."
+        },
+        {
+            "code": "TID",
+            "display": "TID",
+            "definition": "Three times a day at institution specified time"
+        },
+        {
+            "code": "WK",
+            "display": "weekly",
+            "definition": "Weekly at institution specified time."
+        }
+    ]
+}

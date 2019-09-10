@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0190",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Address Type</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>B<a name=\"B\"> </a></td><td>Firm/Business</td><td>Refers to an address specific to an organization, such as an insurance company or employer, versus an individual’s work location or place of employment. It would be specific to a firm or organization that has some sort of business relationship with the subject</td><td>added v2.2</td></tr><tr><td>BA<a name=\"BA\"> </a></td><td>Bad address</td><td>Retained for backward compatibility only as of v2.6. Refer to XAD.17</td><td>added v2.3.1</td></tr><tr><td>BDL<a name=\"BDL\"> </a></td><td>Birth delivery location  (address where birth occurred)</td><td>Refers to the address where birth occurred.</td><td>added v2.3.1</td></tr><tr><td>BI<a name=\"BI\"> </a></td><td>Billing Address</td><td>May also be used for the validation/authorization of credit cards</td><td>added v2.6</td></tr><tr><td>BR<a name=\"BR\"> </a></td><td>Residence at birth (home address at time of birth)</td><td>Refers to the home address at time of birth.</td><td>added v2.3.1</td></tr><tr><td>C<a name=\"C\"> </a></td><td>Current Or Temporary</td><td>Retained for backward compatibility only as of v2.6. Refer to XAD.16</td><td>added v2.2</td></tr><tr><td>F<a name=\"F\"> </a></td><td>Country Of Origin</td><td/><td>added v2.3</td></tr><tr><td>H<a name=\"H\"> </a></td><td>Home</td><td>Refers to a residence or domicile, literally the place where the subject resides the majority of the time. Generally speaking most people will have a home address and it will represent their primary address. Home address is mutually exclusive of permanent address.</td><td>added v2.2</td></tr><tr><td>L<a name=\"L\"> </a></td><td>Legal Address</td><td>Refers to a special case address specific to the status of a subject or legal action involving the subject. For example, prisoners being treated at a healthcare facility may have home addresses, but their status mandates an address specific to their place of incarceration. Statutes may require the health information specific to a ward of the state be sent to a legal guardian, the courts, or a state or municipal agency regardless of the ward’s physical location. In cases involving civil or criminal proceedings, a record may be flagged such that all correspondence is sent to any variety of legal entities.</td><td>added v2.3.1</td></tr><tr><td>M<a name=\"M\"> </a></td><td>Mailing</td><td>Retained for backward compatibility only as of v2.6. Refer to XAD.18</td><td>added v2.2</td></tr><tr><td>N<a name=\"N\"> </a></td><td>Birth (nee)  (birth address, not otherwise specified)</td><td>Refers to the birth address, not otherwise specified</td><td>added v2.3.1</td></tr><tr><td>O<a name=\"O\"> </a></td><td>Office/Business</td><td>Refers to a work address specific to the subject.</td><td>added v2.2</td></tr><tr><td>P<a name=\"P\"> </a></td><td>Permanent</td><td>Refers to a place where the residents know the subject and where correspondence addressed to the subject will eventually reach the subject regardless of their physical location. A permanent address generally reflects a tax jurisdiction.  Members of the military, flight attendants, and executives on rotational assignments are examples of those who typically maintain a permanent address. Although mutually exclusive of home address, in some instances, such as the executives mentioned above, it may be synonymous.  In such cases upon return from assignment this address would revert to the home address.</td><td>added v2.2</td></tr><tr><td>RH<a name=\"RH\"> </a></td><td>Registry home. Refers to the information system, typically managed by a public health agency, that stores patient information such as immunization histories or cancer data, regardless of where the patient obtains services.</td><td>Refers to the information system, typically managed by a public health agency that stores patient information such as immunization histories or cancer data, regardless of where the patient obtains services</td><td>added v2.3.1</td></tr><tr><td>S<a name=\"S\"> </a></td><td>Service Location</td><td>Refers to the location in which service is rendered. This would be used if reimbursement is based on the location of the service (to take into account the cost of those services).</td><td>added v2.6</td></tr><tr><td>SH<a name=\"SH\"> </a></td><td>Shipping Address</td><td/><td>added v2.6</td></tr><tr><td>TM<a name=\"TM\"> </a></td><td>Tube Address</td><td>Pneumatic tube address (to which letters may be sent). A special transport system to transport small samples/containers and/or normal mail in small carriages on rail or in a tube.  (German Rohrpost)</td><td>added v2.7</td></tr><tr><td>V<a name=\"V\"> </a></td><td>Vacation</td><td/><td>added v2.6</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0190",
+    "version": "2.9",
+    "name": "v2.0190",
+    "title": "v2 Adress Type",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0190 ( Adress Type)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0190"
+            }
+        ]
+    }
+}

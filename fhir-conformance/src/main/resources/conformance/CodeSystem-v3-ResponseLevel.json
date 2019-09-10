@@ -1,0 +1,87 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-ResponseLevel",
+    "meta": {
+        "lastUpdated": "2018-08-12T00:00:00+10:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>C<a name=\"v3-ResponseLevel-C\"> </a></td><td>completion</td><td>\n                        Respond with exceptions and a notification of completion<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>D<a name=\"v3-ResponseLevel-D\"> </a></td><td>detail</td><td>\n                        Respond with exceptions, completion, modifications and include more detail information (if applicable)<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>E<a name=\"v3-ResponseLevel-E\"> </a></td><td>exception</td><td>\n                        Respond with exceptions only<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>F<a name=\"v3-ResponseLevel-F\"> </a></td><td>confirmation</td><td>\n                        Respond with exceptions, completion, and modification with detail (as above), and send positive confirmations even if no modifications are being made.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>N<a name=\"v3-ResponseLevel-N\"> </a></td><td>message-control</td><td>\n                        Respond only with message level acknowledgements, i.e., only notify acceptance or rejection of the message, do not include any application-level detail<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>R<a name=\"v3-ResponseLevel-R\"> </a></td><td>modification</td><td>\n                        Respond with exceptions, completions and modifications or revisions done before completion<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>X<a name=\"v3-ResponseLevel-X\"> </a></td><td>none</td><td>\n                        Do not send any kind of response<br/>\r\n\n                     </td></tr>\r\n</table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v3-ResponseLevel",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.108"
+        }
+    ],
+    "version": "2018-08-12",
+    "name": "v3.ResponseLevel",
+    "title": "v3 Code System ResponseLevel",
+    "status": "active",
+    "experimental": false,
+    "date": "2018-08-12T00:00:00+10:00",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": " Specifies whether a response is expected from the addressee of this interaction and what level of detail that response should include",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v3-ResponseLevel",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "C",
+            "display": "completion",
+            "definition": "Respond with exceptions and a notification of completion"
+        },
+        {
+            "code": "D",
+            "display": "detail",
+            "definition": "Respond with exceptions, completion, modifications and include more detail information (if applicable)"
+        },
+        {
+            "code": "E",
+            "display": "exception",
+            "definition": "Respond with exceptions only"
+        },
+        {
+            "code": "F",
+            "display": "confirmation",
+            "definition": "Respond with exceptions, completion, and modification with detail (as above), and send positive confirmations even if no modifications are being made."
+        },
+        {
+            "code": "N",
+            "display": "message-control",
+            "definition": "Respond only with message level acknowledgements, i.e., only notify acceptance or rejection of the message, do not include any application-level detail"
+        },
+        {
+            "code": "R",
+            "display": "modification",
+            "definition": "Respond with exceptions, completions and modifications or revisions done before completion"
+        },
+        {
+            "code": "X",
+            "display": "none",
+            "definition": "Do not send any kind of response"
+        }
+    ]
+}

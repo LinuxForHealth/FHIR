@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0477",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Controlled Substance Schedule</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>I<a name=\"I\"> </a></td><td>Schedule I</td><td>Includes drugs that have a high potential for abuse, no currently accepted medical use in the United States and a lack of accepted safety for use under medical supervision.</td><td>added v2.5</td></tr><tr><td>II<a name=\"II\"> </a></td><td>Schedule II</td><td>Includes drugs having currently accepted medical use in the United States and a high abuse potential, with severe psychological or physical dependence liability.</td><td>added v2.5</td></tr><tr><td>III<a name=\"III\"> </a></td><td>Schedule III</td><td>Includes drugs having an abuse potential less than that of drugs listed in Schedules I and II. All CS III drugs have a currently accepted medical use in the United States.</td><td>added v2.5</td></tr><tr><td>IV<a name=\"IV\"> </a></td><td>Schedule IV</td><td>Includes drugs having a lesser potential for abuse than those listed in Schedule III. CS IV drugs have a currently accepted medical use in the United States.</td><td>added v2.5</td></tr><tr><td>V<a name=\"V\"> </a></td><td>Schedule V</td><td>Includes drugs having low abuse potential and limited physical or psychological dependence relative to those listed in IV and have an accepted medical use in the United States.</td><td>added v2.5</td></tr><tr><td>VI<a name=\"VI\"> </a></td><td>Schedule VI</td><td>State defined</td><td>added v2.5</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0477",
+    "version": "2.9",
+    "name": "v2.0477",
+    "title": "v2 Controlled Substance Schedule",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0477 ( Controlled Substance Schedule)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0477"
+            }
+        ]
+    }
+}
