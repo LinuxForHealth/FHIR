@@ -49,17 +49,17 @@
     </basicRegistry>
     
     <authorization-roles id="com.ibm.ws.batch">
-	<security-role name="batchAdmin">	
-		<user name="fhiradmin"/>	
-	</security-role>
-	<security-role name="batchSubmitter">
-		<user name="fhiruser"/>
-	</security-role>
-	<security-role name="batchMonitor">
-		<user name="fhiradmin"/>
-		<user name="fhiruser"/>
-	</security-role>
-</authorization-roles>
+        <security-role name="batchAdmin">
+            <user name="fhiradmin"/>
+        </security-role>
+        <security-role name="batchSubmitter">
+            <user name="fhiruser"/>
+        </security-role>
+        <security-role name="batchMonitor">
+            <user name="fhiradmin"/>
+            <user name="fhiruser"/>
+        </security-role>
+    </authorization-roles>
 
     <!--    
     <openidConnectProvider id="oidc-provider" oauthProviderRef="oauth2-provider"/> 
