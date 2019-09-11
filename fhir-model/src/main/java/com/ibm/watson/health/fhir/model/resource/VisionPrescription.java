@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -44,6 +46,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class VisionPrescription extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "VisionStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "A code specifying the state of the resource instance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
+    )
     private final VisionStatus status;
     @Required
     private final DateTime created;
@@ -679,8 +687,20 @@ public class VisionPrescription extends DomainResource {
      */
     public static class LensSpecification extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "VisionProduct",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "A coded concept describing the vision products.",
+            valueSet = "http://hl7.org/fhir/ValueSet/vision-product"
+        )
         private final CodeableConcept product;
         @Required
+        @Binding(
+            bindingName = "VisionEyes",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "A coded concept listing the eye codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.0.0"
+        )
         private final VisionEyes eye;
         private final Decimal sphere;
         private final Decimal cylinder;
@@ -1375,6 +1395,12 @@ public class VisionPrescription extends DomainResource {
             @Required
             private final Decimal amount;
             @Required
+            @Binding(
+                bindingName = "VisionBase",
+                strength = BindingStrength.ValueSet.REQUIRED,
+                description = "A coded concept listing the base codes.",
+                valueSet = "http://hl7.org/fhir/ValueSet/vision-base-codes|4.0.0"
+            )
             private final VisionBase base;
 
             private volatile int hashCode;

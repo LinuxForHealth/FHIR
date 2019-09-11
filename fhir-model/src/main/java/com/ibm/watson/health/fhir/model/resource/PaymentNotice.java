@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Date;
@@ -39,6 +41,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class PaymentNotice extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "PaymentNoticeStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "A code specifying the state of the resource instance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
+    )
     private final PaymentNoticeStatus status;
     private final Reference request;
     private final Reference response;
@@ -53,6 +61,12 @@ public class PaymentNotice extends DomainResource {
     private final Reference recipient;
     @Required
     private final Money amount;
+    @Binding(
+        bindingName = "PaymentStatus",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "The payment conveyance status codes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/payment-status"
+    )
     private final CodeableConcept paymentStatus;
 
     private volatile int hashCode;

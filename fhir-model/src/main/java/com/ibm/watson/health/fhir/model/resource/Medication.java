@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -42,9 +44,27 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Medication extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "MedicationFormalRepresentation",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A coded concept that defines the type of a medication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
+    )
     private final CodeableConcept code;
+    @Binding(
+        bindingName = "MedicationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "A coded concept defining if the medication is in active use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-status|4.0.0"
+    )
     private final MedicationStatus status;
     private final Reference manufacturer;
+    @Binding(
+        bindingName = "MedicationForm",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A coded concept defining the form of a medication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-form-codes"
+    )
     private final CodeableConcept form;
     private final Ratio amount;
     private final List<Ingredient> ingredient;

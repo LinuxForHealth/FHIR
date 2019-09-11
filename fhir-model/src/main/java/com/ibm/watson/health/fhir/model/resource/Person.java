@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.AdministrativeGender;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.ContactPoint;
@@ -43,6 +45,12 @@ public class Person extends DomainResource {
     private final List<Identifier> identifier;
     private final List<HumanName> name;
     private final List<ContactPoint> telecom;
+    @Binding(
+        bindingName = "AdministrativeGender",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The gender of a person used for administrative purposes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+    )
     private final AdministrativeGender gender;
     private final Date birthDate;
     private final List<Address> address;
@@ -766,6 +774,12 @@ public class Person extends DomainResource {
     public static class Link extends BackboneElement {
         @Required
         private final Reference target;
+        @Binding(
+            bindingName = "IdentityAssuranceLevel",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The level of confidence that this link represents the same actual person, based on NIST Authentication Levels.",
+            valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.0.0"
+        )
         private final IdentityAssuranceLevel assurance;
 
         private volatile int hashCode;

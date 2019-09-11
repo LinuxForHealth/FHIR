@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -162,20 +164,44 @@ public class Questionnaire extends DomainResource {
     private final String title;
     private final List<Canonical> derivedFrom;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
+    @Binding(
+        bindingName = "ResourceType",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "One of the resource types defined as part of this version of FHIR.",
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+    )
     private final List<ResourceType> subjectType;
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
     private final Period effectivePeriod;
+    @Binding(
+        bindingName = "QuestionnaireConcept",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes for questionnaires, groups and individual questions.",
+        valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-questions"
+    )
     private final List<Coding> code;
     private final List<Item> item;
 
@@ -1369,12 +1395,30 @@ public class Questionnaire extends DomainResource {
         @Required
         private final String linkId;
         private final Uri definition;
+        @Binding(
+            bindingName = "QuestionnaireConcept",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Codes for questionnaires, groups and individual questions.",
+            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-questions"
+        )
         private final List<Coding> code;
         private final String prefix;
         private final String text;
         @Required
+        @Binding(
+            bindingName = "QuestionnaireItemType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Distinguishes groups from questions and display text and indicates data type for questions.",
+            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.0.0"
+        )
         private final QuestionnaireItemType type;
         private final List<EnableWhen> enableWhen;
+        @Binding(
+            bindingName = "EnableWhenBehavior",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
+            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.0.0"
+        )
         private final EnableWhenBehavior enableBehavior;
         private final Boolean required;
         private final Boolean repeats;
@@ -2233,9 +2277,21 @@ public class Questionnaire extends DomainResource {
             @Required
             private final String question;
             @Required
+            @Binding(
+                bindingName = "QuestionnaireItemOperator",
+                strength = BindingStrength.ValueSet.REQUIRED,
+                description = "The criteria by which a question is enabled.",
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.0.0"
+            )
             private final QuestionnaireItemOperator operator;
             @Required
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class })
+            @Binding(
+                bindingName = "QuestionnaireQuestionOption3",
+                strength = BindingStrength.ValueSet.EXAMPLE,
+                description = "Allowed values to answer questions.",
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
+            )
             private final Element answer;
 
             private volatile int hashCode;
@@ -2554,6 +2610,12 @@ public class Questionnaire extends DomainResource {
         public static class AnswerOption extends BackboneElement {
             @Required
             @Choice({ Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class })
+            @Binding(
+                bindingName = "QuestionnaireQuestionOption",
+                strength = BindingStrength.ValueSet.EXAMPLE,
+                description = "Allowed values to answer questions.",
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
+            )
             private final Element value;
             private final Boolean initialSelected;
 
@@ -2833,6 +2895,12 @@ public class Questionnaire extends DomainResource {
         public static class Initial extends BackboneElement {
             @Required
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
+            @Binding(
+                bindingName = "QuestionnaireQuestionOption2",
+                strength = BindingStrength.ValueSet.EXAMPLE,
+                description = "Allowed values to answer questions.",
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
+            )
             private final Element value;
 
             private volatile int hashCode;

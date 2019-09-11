@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.ContactDetail;
@@ -60,6 +62,12 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final DateTime date;
     private final String publisher;
@@ -67,18 +75,42 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private final Markdown description;
     private final List<Annotation> note;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
     private final Period effectivePeriod;
+    @Binding(
+        bindingName = "DefinitionTopic",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
+        valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
+    )
     private final List<CodeableConcept> topic;
     private final List<ContactDetail> author;
     private final List<ContactDetail> editor;
     private final List<ContactDetail> reviewer;
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
+    @Binding(
+        bindingName = "SynthesisType",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Types of combining results from a body of evidence (eg. summary data meta-analysis).",
+        valueSet = "http://hl7.org/fhir/ValueSet/synthesis-type"
+    )
     private final CodeableConcept synthesisType;
+    @Binding(
+        bindingName = "StudyType",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Types of research studies (types of research methods).",
+        valueSet = "http://hl7.org/fhir/ValueSet/study-type"
+    )
     private final CodeableConcept studyType;
     @Required
     private final Reference population;
@@ -1936,8 +1968,20 @@ public class RiskEvidenceSynthesis extends DomainResource {
      */
     public static class RiskEstimate extends BackboneElement {
         private final String description;
+        @Binding(
+            bindingName = "RiskEstimateType",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "Whether the risk estimate is dichotomous, continuous or qualitative and the specific type of risk estimate (eg proportion or median).",
+            valueSet = "http://hl7.org/fhir/ValueSet/risk-estimate-type"
+        )
         private final CodeableConcept type;
         private final Decimal value;
+        @Binding(
+            bindingName = "UCUMUnits",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Unified Code for Units of Measure (UCUM).",
+            valueSet = "http://hl7.org/fhir/ValueSet/ucum-units|4.0.0"
+        )
         private final CodeableConcept unitOfMeasure;
         private final Integer denominatorCount;
         private final Integer numeratorCount;
@@ -2373,6 +2417,12 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A description of the precision of the estimate for the effect.
          */
         public static class PrecisionEstimate extends BackboneElement {
+            @Binding(
+                bindingName = "PrecisionEstimateType",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                description = "Method of reporting variability of estimates, such as confidence intervals, interquartile range or standard deviation.",
+                valueSet = "http://hl7.org/fhir/ValueSet/precision-estimate-type"
+            )
             private final CodeableConcept type;
             private final Decimal level;
             private final Decimal from;
@@ -2697,6 +2747,12 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A description of the certainty of the risk estimate.
      */
     public static class Certainty extends BackboneElement {
+        @Binding(
+            bindingName = "QualityOfEvidenceRating",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "The quality of the evidence described. The code system used specifies the quality scale used to grade this evidence source while the code specifies the actual quality score (represented as a coded value) associated with the evidence.",
+            valueSet = "http://hl7.org/fhir/ValueSet/evidence-quality"
+        )
         private final List<CodeableConcept> rating;
         private final List<Annotation> note;
         private final List<CertaintySubcomponent> certaintySubcomponent;
@@ -3047,7 +3103,19 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A description of a component of the overall certainty.
          */
         public static class CertaintySubcomponent extends BackboneElement {
+            @Binding(
+                bindingName = "CertaintySubcomponentType",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                description = "The subcomponent classification of quality of evidence rating systems.",
+                valueSet = "http://hl7.org/fhir/ValueSet/certainty-subcomponent-type"
+            )
             private final CodeableConcept type;
+            @Binding(
+                bindingName = "CertaintySubcomponentRating",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                description = "The quality rating of the subcomponent of a quality of evidence rating.",
+                valueSet = "http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating"
+            )
             private final List<CodeableConcept> rating;
             private final List<Annotation> note;
 

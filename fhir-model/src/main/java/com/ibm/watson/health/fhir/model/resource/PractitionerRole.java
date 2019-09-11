@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,8 +14,10 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -45,7 +47,19 @@ public class PractitionerRole extends DomainResource {
     private final Period period;
     private final Reference practitioner;
     private final Reference organization;
+    @Binding(
+        bindingName = "PractitionerRole",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "The role a person plays representing an organization.",
+        valueSet = "http://hl7.org/fhir/ValueSet/practitioner-role"
+    )
     private final List<CodeableConcept> code;
+    @Binding(
+        bindingName = "PractitionerSpecialty",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "Specific specialty associated with the agency.",
+        valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
+    )
     private final List<CodeableConcept> specialty;
     private final List<Reference> location;
     private final List<Reference> healthcareService;
@@ -974,6 +988,12 @@ public class PractitionerRole extends DomainResource {
      * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
      */
     public static class AvailableTime extends BackboneElement {
+        @Binding(
+            bindingName = "DaysOfWeek",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The days of the week.",
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
+        )
         private final List<DaysOfWeek> daysOfWeek;
         private final Boolean allDay;
         private final Time availableStartTime;

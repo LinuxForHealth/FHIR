@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -60,6 +62,12 @@ public class QuestionnaireResponse extends DomainResource {
     private final List<Reference> partOf;
     private final Canonical questionnaire;
     @Required
+    @Binding(
+        bindingName = "QuestionnaireResponseStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Lifecycle status of the questionnaire response.",
+        valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.0"
+    )
     private final QuestionnaireResponseStatus status;
     private final Reference subject;
     private final Reference encounter;
@@ -1192,6 +1200,12 @@ public class QuestionnaireResponse extends DomainResource {
          */
         public static class Answer extends BackboneElement {
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
+            @Binding(
+                bindingName = "QuestionnaireAnswer",
+                strength = BindingStrength.ValueSet.EXAMPLE,
+                description = "Code indicating the response provided for a question.",
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
+            )
             private final Element value;
             private final List<QuestionnaireResponse.Item> item;
 

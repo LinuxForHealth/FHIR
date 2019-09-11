@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.AccountStatus;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -41,7 +43,19 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Account extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "AccountStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Indicates whether the account is available to be used.",
+        valueSet = "http://hl7.org/fhir/ValueSet/account-status|4.0.0"
+    )
     private final AccountStatus status;
+    @Binding(
+        bindingName = "AccountType",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "The usage type of this account, permits categorization of accounts.",
+        valueSet = "http://hl7.org/fhir/ValueSet/account-type"
+    )
     private final CodeableConcept type;
     private final String name;
     private final List<Reference> subject;

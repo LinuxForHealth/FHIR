@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -70,6 +72,12 @@ public class EvidenceVariable extends DomainResource {
     private final String shortTitle;
     private final String subtitle;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final DateTime date;
     private final String publisher;
@@ -77,17 +85,35 @@ public class EvidenceVariable extends DomainResource {
     private final Markdown description;
     private final List<Annotation> note;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
     private final Period effectivePeriod;
+    @Binding(
+        bindingName = "DefinitionTopic",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
+        valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
+    )
     private final List<CodeableConcept> topic;
     private final List<ContactDetail> author;
     private final List<ContactDetail> editor;
     private final List<ContactDetail> reviewer;
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
+    @Binding(
+        bindingName = "EvidenceVariableType",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
+        valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.0"
+    )
     private final EvidenceVariableType type;
     @Required
     private final List<Characteristic> characteristic;
@@ -1543,6 +1569,12 @@ public class EvidenceVariable extends DomainResource {
         @Choice({ DateTime.class, Period.class, Duration.class, Timing.class })
         private final Element participantEffective;
         private final Duration timeFromStart;
+        @Binding(
+            bindingName = "GroupMeasure",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Possible group measure aggregates (E.g. Mean, Median).",
+            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.0"
+        )
         private final GroupMeasure groupMeasure;
 
         private volatile int hashCode;

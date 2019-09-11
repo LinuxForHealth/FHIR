@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -27,6 +28,7 @@ import com.ibm.watson.health.fhir.model.type.ActionSelectionBehavior;
 import com.ibm.watson.health.fhir.model.type.Age;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -72,9 +74,27 @@ public class RequestGroup extends DomainResource {
     private final List<Reference> replaces;
     private final Identifier groupIdentifier;
     @Required
+    @Binding(
+        bindingName = "RequestStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Codes identifying the lifecycle stage of a request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
+    )
     private final RequestStatus status;
     @Required
+    @Binding(
+        bindingName = "RequestIntent",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Codes indicating the degree of authority/intentionality associated with a request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
+    )
     private final RequestIntent intent;
+    @Binding(
+        bindingName = "RequestPriority",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Identifies the level of importance to be assigned to actioning the request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+    )
     private final RequestPriority priority;
     private final CodeableConcept code;
     private final Reference subject;
@@ -1151,6 +1171,12 @@ public class RequestGroup extends DomainResource {
         private final String title;
         private final String description;
         private final String textEquivalent;
+        @Binding(
+            bindingName = "RequestPriority",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Identifies the level of importance to be assigned to actioning the request.",
+            valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+        )
         private final RequestPriority priority;
         private final List<CodeableConcept> code;
         private final List<RelatedArtifact> documentation;
@@ -1159,11 +1185,47 @@ public class RequestGroup extends DomainResource {
         @Choice({ DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class })
         private final Element timing;
         private final List<Reference> participant;
+        @Binding(
+            bindingName = "ActionType",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "The type of action to be performed.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-type"
+        )
         private final CodeableConcept type;
+        @Binding(
+            bindingName = "ActionGroupingBehavior",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Defines organization behavior of a group.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.0.0"
+        )
         private final ActionGroupingBehavior groupingBehavior;
+        @Binding(
+            bindingName = "ActionSelectionBehavior",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Defines selection behavior of a group.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.0.0"
+        )
         private final ActionSelectionBehavior selectionBehavior;
+        @Binding(
+            bindingName = "ActionRequiredBehavior",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Defines expectations around whether an action or action group is required.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-required-behavior|4.0.0"
+        )
         private final ActionRequiredBehavior requiredBehavior;
+        @Binding(
+            bindingName = "ActionPrecheckBehavior",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Defines selection frequency behavior for an action or group.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.0.0"
+        )
         private final ActionPrecheckBehavior precheckBehavior;
+        @Binding(
+            bindingName = "ActionCardinalityBehavior",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Defines behavior for an action or a group for how many times that item may be repeated.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.0.0"
+        )
         private final ActionCardinalityBehavior cardinalityBehavior;
         private final Reference resource;
         private final List<RequestGroup.Action> action;
@@ -2089,6 +2151,12 @@ public class RequestGroup extends DomainResource {
          */
         public static class Condition extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "ActionConditionKind",
+                strength = BindingStrength.ValueSet.REQUIRED,
+                description = "The kind of condition for the action.",
+                valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.0"
+            )
             private final ActionConditionKind kind;
             private final Expression expression;
 
@@ -2358,6 +2426,12 @@ public class RequestGroup extends DomainResource {
             @Required
             private final Id actionId;
             @Required
+            @Binding(
+                bindingName = "ActionRelationshipType",
+                strength = BindingStrength.ValueSet.REQUIRED,
+                description = "Defines the types of relationships between actions.",
+                valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.0"
+            )
             private final ActionRelationshipType relationship;
             @Choice({ Duration.class, Range.class })
             private final Element offset;

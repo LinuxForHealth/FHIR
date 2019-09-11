@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
 
@@ -20,6 +21,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Money extends Element {
     private final Decimal value;
+    @Binding(
+        bindingName = "CurrencyCode",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "A code indicating the currency, taken from ISO 4217.",
+        valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.0.0"
+    )
     private final Code currency;
 
     private volatile int hashCode;

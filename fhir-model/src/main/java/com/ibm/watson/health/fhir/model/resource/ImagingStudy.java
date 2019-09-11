@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Coding;
@@ -44,7 +46,19 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class ImagingStudy extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "ImagingStudyStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The status of the ImagingStudy.",
+        valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.0"
+    )
     private final ImagingStudyStatus status;
+    @Binding(
+        bindingName = "ImagingModality",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Type of acquired data in the instance.",
+        valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
+    )
     private final List<Coding> modality;
     @Required
     private final Reference subject;
@@ -57,8 +71,20 @@ public class ImagingStudy extends DomainResource {
     private final UnsignedInt numberOfSeries;
     private final UnsignedInt numberOfInstances;
     private final Reference procedureReference;
+    @Binding(
+        bindingName = "ImagingProcedureCode",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The performed procedure type.",
+        valueSet = "http://www.rsna.org/RadLex_Playbook.aspx"
+    )
     private final List<CodeableConcept> procedureCode;
     private final Reference location;
+    @Binding(
+        bindingName = "ImagingReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "The reason for the study.",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
@@ -1227,11 +1253,29 @@ public class ImagingStudy extends DomainResource {
         private final Id uid;
         private final UnsignedInt number;
         @Required
+        @Binding(
+            bindingName = "ImagingModality",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "Type of acquired data in the instance.",
+            valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
+        )
         private final Coding modality;
         private final String description;
         private final UnsignedInt numberOfInstances;
         private final List<Reference> endpoint;
+        @Binding(
+            bindingName = "BodySite",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Codes describing anatomical locations. May include laterality.",
+            valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+        )
         private final Coding bodySite;
+        @Binding(
+            bindingName = "Laterality",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Codes describing body site laterality (left, right, etc.).",
+            valueSet = "http://hl7.org/fhir/ValueSet/bodysite-laterality"
+        )
         private final Coding laterality;
         private final List<Reference> specimen;
         private final DateTime started;
@@ -1911,6 +1955,12 @@ public class ImagingStudy extends DomainResource {
          * Indicates who or what performed the series and how they were involved.
          */
         public static class Performer extends BackboneElement {
+            @Binding(
+                bindingName = "EventPerformerFunction",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                description = "The type of involvement of the performer.",
+                valueSet = "http://hl7.org/fhir/ValueSet/series-performer-function"
+            )
             private final CodeableConcept function;
             @Required
             private final Reference actor;
@@ -2181,6 +2231,12 @@ public class ImagingStudy extends DomainResource {
             @Required
             private final Id uid;
             @Required
+            @Binding(
+                bindingName = "sopClass",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                description = "The sopClass for the instance.",
+                valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1"
+            )
             private final Coding sopClass;
             private final UnsignedInt number;
             private final String title;

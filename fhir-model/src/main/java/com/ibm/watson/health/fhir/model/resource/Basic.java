@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Date;
@@ -36,6 +38,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Basic extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "BasicResourceType",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes for identifying types of resources not yet defined by FHIR.",
+        valueSet = "http://hl7.org/fhir/ValueSet/basic-resource-type"
+    )
     private final CodeableConcept code;
     private final Reference subject;
     private final Date created;

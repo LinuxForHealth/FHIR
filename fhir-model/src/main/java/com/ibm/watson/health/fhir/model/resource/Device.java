@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Base64Binary;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.ContactPoint;
@@ -46,7 +48,19 @@ public class Device extends DomainResource {
     private final List<Identifier> identifier;
     private final Reference definition;
     private final List<UdiCarrier> udiCarrier;
+    @Binding(
+        bindingName = "FHIRDeviceStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The availability status of the device.",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-status|4.0.0"
+    )
     private final FHIRDeviceStatus status;
+    @Binding(
+        bindingName = "FHIRDeviceStatusReason",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The availability status reason of the device.",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-status-reason"
+    )
     private final List<CodeableConcept> statusReason;
     private final String distinctIdentifier;
     private final String manufacturer;
@@ -57,6 +71,12 @@ public class Device extends DomainResource {
     private final List<DeviceName> deviceName;
     private final String modelNumber;
     private final String partNumber;
+    @Binding(
+        bindingName = "DeviceType",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes to identify medical devices.",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-type"
+    )
     private final CodeableConcept type;
     private final List<Specialization> specialization;
     private final List<Version> version;
@@ -1405,6 +1425,12 @@ public class Device extends DomainResource {
         private final Uri jurisdiction;
         private final Base64Binary carrierAIDC;
         private final String carrierHRF;
+        @Binding(
+            bindingName = "UDIEntryType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Codes to identify how UDI data was entered.",
+            valueSet = "http://hl7.org/fhir/ValueSet/udi-entry-type|4.0.0"
+        )
         private final UDIEntryType entryType;
 
         private volatile int hashCode;
@@ -1820,6 +1846,12 @@ public class Device extends DomainResource {
         @Required
         private final String name;
         @Required
+        @Binding(
+            bindingName = "DeviceNameType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The type of name the device is referred by.",
+            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
+        )
         private final DeviceNameType type;
 
         private volatile int hashCode;

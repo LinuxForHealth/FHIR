@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,8 +14,10 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Extension;
@@ -48,9 +50,21 @@ public class AppointmentResponse extends DomainResource {
     private final Reference appointment;
     private final Instant start;
     private final Instant end;
+    @Binding(
+        bindingName = "ParticipantType",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Role of participant in encounter.",
+        valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
+    )
     private final List<CodeableConcept> participantType;
     private final Reference actor;
     @Required
+    @Binding(
+        bindingName = "ParticipantStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The Participation status of an appointment.",
+        valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.0"
+    )
     private final ParticipantStatus participantStatus;
     private final String comment;
 

@@ -825,6 +825,7 @@ public class CodeGenerator {
 
             if (!nested) {
                 generateConstraintAnnotations(structureDefinition, cb);
+                generateBindingAnnotation(structureDefinition, cb, className, structureDefinition.getJsonObject("snapshot").getJsonArray("element").getJsonObject(0));
                 cb.annotation("Generated", quote("com.ibm.watson.health.fhir.tools.CodeGenerator"));
             }
             cb._class(mods, className, _super);
@@ -887,6 +888,7 @@ public class CodeGenerator {
                         String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                         cb.annotation("Choice", "{ " + types + " }");
                     }
+                    generateBindingAnnotation(structureDefinition, cb, className, elementDefinition);
                     cb.field(mods(visibility, "final"), fieldType, fieldName);
                     if (isBackboneElement(elementDefinition)) {
                         nestedPaths.add(elementDefinition.getString("path"));
@@ -1060,6 +1062,55 @@ public class CodeGenerator {
             cb._end();
             if (!isLast(paths, path)) {
                 cb.newLine();
+            }
+        }
+    }
+
+    private void generateBindingAnnotation(JsonObject structureDefinition, CodeBuilder cb, String className, JsonObject elementDefinition) {
+        JsonObject binding = getBinding(elementDefinition);
+        if (binding != null) {
+            String bindingName = getBindingName(binding);
+            String strength = binding.getString("strength", null);
+            String description = binding.getString("description", null);
+            String valueSet = binding.getString("valueSet", null);
+            String inheritedExtensibleValueSet = getInheritedExtensibleValueSet(binding);
+            String minValueSet = getMinValueSet(binding);
+            String maxValueSet = getMaxValueSet(binding);
+            
+            Map<String, String> valueMap = new LinkedHashMap<>();
+            if (bindingName != null) {
+                valueMap.put("bindingName", "\"" + bindingName + "\"");
+            }
+            if (strength != null) {
+                valueMap.put("strength", "BindingStrength.ValueSet." + strength.toUpperCase());
+            }
+            if (description != null) {
+                valueMap.put("description", "\"" + description.replace("\"", "\\\"") + "\"");
+            }
+            if (valueSet != null) {
+                valueMap.put("valueSet", "\"" + valueSet + "\"");
+            }
+            if (inheritedExtensibleValueSet != null) {
+                valueMap.put("inheritedExtensibleValueSet", "\"" + inheritedExtensibleValueSet + "\"");
+            }
+            if (minValueSet != null) {
+                valueMap.put("minValueSet", "\"" + minValueSet + "\"");
+            }
+            if (maxValueSet != null) {
+                valueMap.put("maxValueSet", "\"" + maxValueSet + "\"");
+            }
+            
+            if (!valueMap.isEmpty()) {
+                String name = structureDefinition.getString("name");
+                
+                String prefix = "";
+                if ("ElementDefinition".equals(name) || 
+                        ("OperationDefinition".equals(name) && 
+                                ("Parameter".equals(className) || "Binding".equals(className)))) {
+                    prefix = "com.ibm.watson.health.fhir.model.annotation.";
+                }
+                                            
+                cb.annotation(prefix + "Binding", valueMap);
             }
         }
     }
@@ -1392,7 +1443,7 @@ public class CodeGenerator {
         for (JsonObject elementDefinition : getElementDefinitions(structureDefinition, true)) {
             String path = elementDefinition.getString("path");
             String basePath = elementDefinition.getJsonObject("base").getString("path");
-            
+                        
             if (isBackboneElement(elementDefinition)) {
                 imports.add("com.ibm.watson.health.fhir.model.type.BackboneElement");
                 imports.add("com.ibm.watson.health.fhir.model.util.ValidationSupport");
@@ -1427,6 +1478,17 @@ public class CodeGenerator {
                     }
                 }
                 imports.add("com.ibm.watson.health.fhir.model.annotation.Choice");
+            }
+            
+            JsonObject binding = getBinding(elementDefinition);
+            if (binding != null && 
+                    path.equals(basePath) && 
+                    !"ElementDefinition".equals(name) && 
+                    !isProfiledType(name)) {
+                if (isResource(structureDefinition)) {
+                    imports.add("com.ibm.watson.health.fhir.model.type.BindingStrength");
+                }
+                imports.add("com.ibm.watson.health.fhir.model.annotation.Binding");
             }
             
             if (isBackboneElement(elementDefinition) || "Element.id".equals(basePath)) {
@@ -2806,6 +2868,51 @@ public class CodeGenerator {
         for (JsonValue extension : binding.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
             if (extension.asJsonObject().getString("url").endsWith("bindingName")) {
                 return extension.asJsonObject().getString("valueString");
+            }
+        }        
+        return null;
+    }
+    
+    private String getInheritedExtensibleValueSet(JsonObject binding) {
+        for (JsonValue extension : binding.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("inheritedExtensibleValueSet")) {
+                String valueUri = extension.asJsonObject().getString("valueUri", null);
+                String valueCanonical = extension.asJsonObject().getString("valueCanonical", null);
+                if (valueUri != null) {
+                    return valueUri;
+                } else if (valueCanonical != null) {
+                    return valueCanonical;
+                }
+            }
+        }        
+        return null;
+    }
+    
+    private String getMinValueSet(JsonObject binding) {
+        for (JsonValue extension : binding.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("minValueSet")) {
+                String valueUri = extension.asJsonObject().getString("valueUri", null);
+                String valueCanonical = extension.asJsonObject().getString("valueCanonical", null);
+                if (valueUri != null) {
+                    return valueUri;
+                } else if (valueCanonical != null) {
+                    return valueCanonical;
+                }
+            }
+        }        
+        return null;
+    }
+
+    private String getMaxValueSet(JsonObject binding) {
+        for (JsonValue extension : binding.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("maxValueSet")) {
+                String valueUri = extension.asJsonObject().getString("valueUri", null);
+                String valueCanonical = extension.asJsonObject().getString("valueCanonical", null);
+                if (valueUri != null) {
+                    return valueUri;
+                } else if (valueCanonical != null) {
+                    return valueCanonical;
+                }
             }
         }        
         return null;

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,8 +14,10 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.EpisodeOfCareStatus;
@@ -39,8 +41,20 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class EpisodeOfCare extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "EpisodeOfCareStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The status of the episode of care.",
+        valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.0"
+    )
     private final EpisodeOfCareStatus status;
     private final List<StatusHistory> statusHistory;
+    @Binding(
+        bindingName = "EpisodeOfCareType",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "The type of the episode of care.",
+        valueSet = "http://hl7.org/fhir/ValueSet/episodeofcare-type"
+    )
     private final List<CodeableConcept> type;
     private final List<Diagnosis> diagnosis;
     @Required
@@ -885,6 +899,12 @@ public class EpisodeOfCare extends DomainResource {
      */
     public static class StatusHistory extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "EpisodeOfCareStatus",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The status of the episode of care.",
+            valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.0"
+        )
         private final EpisodeOfCareStatus status;
         @Required
         private final Period period;
@@ -1157,6 +1177,12 @@ public class EpisodeOfCare extends DomainResource {
     public static class Diagnosis extends BackboneElement {
         @Required
         private final Reference condition;
+        @Binding(
+            bindingName = "DiagnosisRole",
+            strength = BindingStrength.ValueSet.PREFERRED,
+            description = "The type of diagnosis this condition represents.",
+            valueSet = "http://hl7.org/fhir/ValueSet/diagnosis-role"
+        )
         private final CodeableConcept role;
         private final PositiveInt rank;
 

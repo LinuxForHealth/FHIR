@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.ClinicalImpressionStatus;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -46,8 +48,24 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class ClinicalImpression extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "ClinicalImpressionStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The workflow state of a clinical impression.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.0.0"
+    )
     private final ClinicalImpressionStatus status;
+    @Binding(
+        bindingName = "ClinicalImpressionStatusReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes identifying the reason for the current state of a clinical impression."
+    )
     private final CodeableConcept statusReason;
+    @Binding(
+        bindingName = "ClinicalImpressionCode",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Identifies categories of clinical impressions.  This is a place-holder only.  It may be removed."
+    )
     private final CodeableConcept code;
     private final String description;
     @Required
@@ -63,6 +81,12 @@ public class ClinicalImpression extends DomainResource {
     private final List<Uri> protocol;
     private final String summary;
     private final List<Finding> finding;
+    @Binding(
+        bindingName = "ClinicalImpressionPrognosis",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Prognosis or outlook findings.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-prognosis"
+    )
     private final List<CodeableConcept> prognosisCodeableConcept;
     private final List<Reference> prognosisReference;
     private final List<Reference> supportingInfo;
@@ -1213,6 +1237,12 @@ public class ClinicalImpression extends DomainResource {
      */
     public static class Investigation extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "InvestigationGroupType",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "A name/code for a set of investigations.",
+            valueSet = "http://hl7.org/fhir/ValueSet/investigation-sets"
+        )
         private final CodeableConcept code;
         private final List<Reference> item;
 
@@ -1503,6 +1533,12 @@ public class ClinicalImpression extends DomainResource {
      * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
      */
     public static class Finding extends BackboneElement {
+        @Binding(
+            bindingName = "ConditionKind",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Identification of the Condition or diagnosis.",
+            valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
+        )
         private final CodeableConcept itemCodeableConcept;
         private final Reference itemReference;
         private final String basis;

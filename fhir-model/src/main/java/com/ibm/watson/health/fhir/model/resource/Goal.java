@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -56,15 +58,51 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Goal extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "GoalLifecycleStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
+        valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.0.0"
+    )
     private final GoalLifecycleStatus lifecycleStatus;
+    @Binding(
+        bindingName = "GoalAchievementStatus",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "Indicates the progression, or lack thereof, towards the goal against the target.",
+        valueSet = "http://hl7.org/fhir/ValueSet/goal-achievement"
+    )
     private final CodeableConcept achievementStatus;
+    @Binding(
+        bindingName = "GoalCategory",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes for grouping and sorting goals.",
+        valueSet = "http://hl7.org/fhir/ValueSet/goal-category"
+    )
     private final List<CodeableConcept> category;
+    @Binding(
+        bindingName = "GoalPriority",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "The level of importance associated with a goal.",
+        valueSet = "http://hl7.org/fhir/ValueSet/goal-priority"
+    )
     private final CodeableConcept priority;
     @Required
+    @Binding(
+        bindingName = "GoalDescription",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes providing the details of a particular goal.  This will generally be system or implementation guide-specific.  In many systems, only the text element will be used.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
+    )
     private final CodeableConcept description;
     @Required
     private final Reference subject;
     @Choice({ Date.class, CodeableConcept.class })
+    @Binding(
+        bindingName = "GoalStartEvent",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes describing events that can trigger the initiation of a goal.",
+        valueSet = "http://hl7.org/fhir/ValueSet/goal-start-event"
+    )
     private final Element start;
     private final List<Target> target;
     private final Date statusDate;
@@ -72,6 +110,12 @@ public class Goal extends DomainResource {
     private final Reference expressedBy;
     private final List<Reference> addresses;
     private final List<Annotation> note;
+    @Binding(
+        bindingName = "GoalOutcome",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "The result of the goal; e.g. \"25% increase in shoulder mobility\", \"Anxiety reduced to moderate levels\".  \"15 kg weight loss sustained over 6 months\".",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
+    )
     private final List<CodeableConcept> outcomeCode;
     private final List<Reference> outcomeReference;
 
@@ -1038,8 +1082,19 @@ public class Goal extends DomainResource {
      * Indicates what should be done by when.
      */
     public static class Target extends BackboneElement {
+        @Binding(
+            bindingName = "GoalTargetMeasure",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Codes to identify the value being tracked, e.g. body weight, blood pressure, or hemoglobin A1c level.",
+            valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
+        )
         private final CodeableConcept measure;
         @Choice({ Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class })
+        @Binding(
+            bindingName = "GoalTargetDetail",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Codes to identify the target value of the focus to be achieved to signify the fulfillment of the goal."
+        )
         private final Element detail;
         @Choice({ Date.class, Duration.class })
         private final Element due;

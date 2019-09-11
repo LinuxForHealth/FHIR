@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.NarrativeStatus;
@@ -37,6 +38,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Narrative extends Element {
     @Required
+    @Binding(
+        bindingName = "NarrativeStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The status of a resource narrative.",
+        valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.0.0"
+    )
     private final NarrativeStatus status;
     @Required
     private final Xhtml div;

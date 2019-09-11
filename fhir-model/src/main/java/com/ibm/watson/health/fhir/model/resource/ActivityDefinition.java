@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -21,6 +22,7 @@ import com.ibm.watson.health.fhir.model.type.ActivityDefinitionKind;
 import com.ibm.watson.health.fhir.model.type.ActivityParticipantType;
 import com.ibm.watson.health.fhir.model.type.Age;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -73,15 +75,33 @@ public class ActivityDefinition extends DomainResource {
     private final String title;
     private final String subtitle;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "SubjectType",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The possible types of subjects for an activity (E.g. Patient, Practitioner, Organization, Location, etc.).",
+        valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
+    )
     private final Element subject;
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final String usage;
@@ -89,6 +109,12 @@ public class ActivityDefinition extends DomainResource {
     private final Date approvalDate;
     private final Date lastReviewDate;
     private final Period effectivePeriod;
+    @Binding(
+        bindingName = "DefinitionTopic",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
+        valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
+    )
     private final List<CodeableConcept> topic;
     private final List<ContactDetail> author;
     private final List<ContactDetail> editor;
@@ -96,10 +122,34 @@ public class ActivityDefinition extends DomainResource {
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
     private final List<Canonical> library;
+    @Binding(
+        bindingName = "ActivityDefinitionKind",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The kind of activity the definition is describing.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.0.0"
+    )
     private final ActivityDefinitionKind kind;
     private final Canonical profile;
+    @Binding(
+        bindingName = "ActivityDefinitionType",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Detailed type of the activity; e.g. CBC.",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
+    )
     private final CodeableConcept code;
+    @Binding(
+        bindingName = "RequestIntent",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Codes indicating the degree of authority/intentionality associated with a request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
+    )
     private final RequestIntent intent;
+    @Binding(
+        bindingName = "RequestPriority",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Identifies the level of importance to be assigned to actioning the request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+    )
     private final RequestPriority priority;
     private final Boolean doNotPerform;
     @Choice({ Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class })
@@ -107,9 +157,21 @@ public class ActivityDefinition extends DomainResource {
     private final Reference location;
     private final List<Participant> participant;
     @Choice({ Reference.class, CodeableConcept.class })
+    @Binding(
+        bindingName = "ActivityProduct",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Code describing the type of substance or medication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
+    )
     private final Element product;
     private final SimpleQuantity quantity;
     private final List<Dosage> dosage;
+    @Binding(
+        bindingName = "BodySite",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A code that identifies the anatomical location.",
+        valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+    )
     private final List<CodeableConcept> bodySite;
     private final List<Reference> specimenRequirement;
     private final List<Reference> observationRequirement;
@@ -2298,7 +2360,19 @@ public class ActivityDefinition extends DomainResource {
      */
     public static class Participant extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "ActivityParticipantType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The type of participant in the activity.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.0"
+        )
         private final ActivityParticipantType type;
+        @Binding(
+            bindingName = "ActivityParticipantRole",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Defines roles played by participants for the action.",
+            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-role"
+        )
         private final CodeableConcept role;
 
         private volatile int hashCode;

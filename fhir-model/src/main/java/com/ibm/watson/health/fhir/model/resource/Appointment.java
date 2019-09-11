@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.AppointmentStatus;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -74,12 +76,49 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Appointment extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "AppointmentStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The free/busy status of an appointment.",
+        valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.0.0"
+    )
     private final AppointmentStatus status;
+    @Binding(
+        bindingName = "cancelation-reason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        valueSet = "http://hl7.org/fhir/ValueSet/appointment-cancellation-reason"
+    )
     private final CodeableConcept cancelationReason;
+    @Binding(
+        bindingName = "service-category",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        valueSet = "http://hl7.org/fhir/ValueSet/service-category"
+    )
     private final List<CodeableConcept> serviceCategory;
+    @Binding(
+        bindingName = "service-type",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        valueSet = "http://hl7.org/fhir/ValueSet/service-type"
+    )
     private final List<CodeableConcept> serviceType;
+    @Binding(
+        bindingName = "specialty",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
+    )
     private final List<CodeableConcept> specialty;
+    @Binding(
+        bindingName = "appointment-type",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        valueSet = "http://terminology.hl7.org/ValueSet/v2-0276"
+    )
     private final CodeableConcept appointmentType;
+    @Binding(
+        bindingName = "ApptReason",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "The Reason for the appointment to take place.",
+        valueSet = "http://hl7.org/fhir/ValueSet/encounter-reason"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final UnsignedInt priority;
@@ -1358,10 +1397,28 @@ public class Appointment extends DomainResource {
      * List of participants involved in the appointment.
      */
     public static class Participant extends BackboneElement {
+        @Binding(
+            bindingName = "ParticipantType",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "Role of participant in encounter.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
+        )
         private final List<CodeableConcept> type;
         private final Reference actor;
+        @Binding(
+            bindingName = "ParticipantRequired",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Is the Participant required to attend the appointment.",
+            valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.0.0"
+        )
         private final ParticipantRequired required;
         @Required
+        @Binding(
+            bindingName = "ParticipationStatus",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The Participation status of an appointment.",
+            valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.0"
+        )
         private final ParticipationStatus status;
         private final Period period;
 

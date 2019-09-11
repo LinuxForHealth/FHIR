@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -66,6 +68,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class MolecularSequence extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "sequenceType",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Type if a sequence -- DNA, RNA, or amino acid sequence.",
+        valueSet = "http://hl7.org/fhir/ValueSet/sequence-type|4.0.0"
+    )
     private final SequenceType type;
     @Required
     private final Integer coordinateSystem;
@@ -1031,12 +1039,36 @@ public class MolecularSequence extends DomainResource {
      * A sequence that is used as a reference to describe variants that are present in a sequence analyzed.
      */
     public static class ReferenceSeq extends BackboneElement {
+        @Binding(
+            bindingName = "chromosome-human",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Chromosome number for human.",
+            valueSet = "http://hl7.org/fhir/ValueSet/chromosome-human"
+        )
         private final CodeableConcept chromosome;
         private final String genomeBuild;
+        @Binding(
+            bindingName = "orientationType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Type for orientation.",
+            valueSet = "http://hl7.org/fhir/ValueSet/orientation-type|4.0.0"
+        )
         private final OrientationType orientation;
+        @Binding(
+            bindingName = "sequenceReference",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Reference identifier.",
+            valueSet = "http://hl7.org/fhir/ValueSet/sequence-referenceSeq"
+        )
         private final CodeableConcept referenceSeqId;
         private final Reference referenceSeqPointer;
         private final String referenceSeqString;
+        @Binding(
+            bindingName = "strandType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Type for strand.",
+            valueSet = "http://hl7.org/fhir/ValueSet/strand-type|4.0.0"
+        )
         private final StrandType strand;
         private final Integer windowStart;
         private final Integer windowEnd;
@@ -1950,11 +1982,29 @@ public class MolecularSequence extends DomainResource {
      */
     public static class Quality extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "qualityType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Type for quality report.",
+            valueSet = "http://hl7.org/fhir/ValueSet/quality-type|4.0.0"
+        )
         private final QualityType type;
+        @Binding(
+            bindingName = "qualityStandardSequence",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Reference identifier of the sequence that used to mark the quality of tested samples.",
+            valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-standardSequence"
+        )
         private final CodeableConcept standardSequence;
         private final Integer start;
         private final Integer end;
         private final Quantity score;
+        @Binding(
+            bindingName = "qualityMethod",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "The method used to evaluate the numerical quality of the observed sequence.",
+            valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-method"
+        )
         private final CodeableConcept method;
         private final Decimal truthTP;
         private final Decimal queryTP;
@@ -3215,6 +3265,12 @@ public class MolecularSequence extends DomainResource {
      */
     public static class Repository extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "repositoryType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Type for access of external URI.",
+            valueSet = "http://hl7.org/fhir/ValueSet/repository-type|4.0.0"
+        )
         private final RepositoryType type;
         private final Uri url;
         private final String name;
@@ -3613,6 +3669,12 @@ public class MolecularSequence extends DomainResource {
      * Information about chromosome structure variation.
      */
     public static class StructureVariant extends BackboneElement {
+        @Binding(
+            bindingName = "LOINC LL379-9 answerlist",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "DNA change type.",
+            valueSet = "http://loinc.org/vs/LL379-9|4.0.0"
+        )
         private final CodeableConcept variantType;
         private final Boolean exact;
         private final Integer length;

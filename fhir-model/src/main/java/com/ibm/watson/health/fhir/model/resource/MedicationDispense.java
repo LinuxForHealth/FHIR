@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -54,12 +56,36 @@ public class MedicationDispense extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> partOf;
     @Required
+    @Binding(
+        bindingName = "MedicationDispenseStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "A coded concept specifying the state of the dispense event.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.0.0"
+    )
     private final MedicationDispenseStatus status;
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "MedicationDispenseStatusReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A code describing why a dispense was not performed.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status-reason"
+    )
     private final Element statusReason;
+    @Binding(
+        bindingName = "MedicationDispenseCategory",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "A code describing where the dispensed medication is expected to be consumed or administered.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-category"
+    )
     private final CodeableConcept category;
     @Required
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "MedicationCode",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A coded concept identifying which substance or product can be dispensed.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
+    )
     private final Element medication;
     private final Reference subject;
     private final Reference context;
@@ -67,6 +93,12 @@ public class MedicationDispense extends DomainResource {
     private final List<Performer> performer;
     private final Reference location;
     private final List<Reference> authorizingPrescription;
+    @Binding(
+        bindingName = "MedicationDispenseType",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Indicates the type of dispensing event that is performed. For example, Trial Fill, Completion of Trial, Partial Fill, Emergency Fill, Samples, etc.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-ActPharmacySupplyType"
+    )
     private final CodeableConcept type;
     private final SimpleQuantity quantity;
     private final SimpleQuantity daysSupply;
@@ -1374,6 +1406,12 @@ public class MedicationDispense extends DomainResource {
      * Indicates who or what performed the event.
      */
     public static class Performer extends BackboneElement {
+        @Binding(
+            bindingName = "MedicationDispensePerformerFunction",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "A code describing the role an individual played in dispensing a medication.",
+            valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-performer-function"
+        )
         private final CodeableConcept function;
         @Required
         private final Reference actor;
@@ -1647,7 +1685,19 @@ public class MedicationDispense extends DomainResource {
     public static class Substitution extends BackboneElement {
         @Required
         private final Boolean wasSubstituted;
+        @Binding(
+            bindingName = "MedicationIntendedSubstitutionType",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "A coded concept describing whether a different medicinal product may be dispensed other than the product as specified exactly in the prescription.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode"
+        )
         private final CodeableConcept type;
+        @Binding(
+            bindingName = "MedicationIntendedSubstitutionReason",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "A coded concept describing the reason that a different medication should (or should not) be substituted from what was prescribed.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v3-SubstanceAdminSubstitutionReason"
+        )
         private final List<CodeableConcept> reason;
         private final List<Reference> responsibleParty;
 

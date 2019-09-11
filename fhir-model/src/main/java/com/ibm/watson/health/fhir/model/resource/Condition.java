@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,12 +14,14 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Age;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -79,11 +81,47 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Condition extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "ConditionClinicalStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The clinical status of the condition or diagnosis.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.0.0"
+    )
     private final CodeableConcept clinicalStatus;
+    @Binding(
+        bindingName = "ConditionVerificationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The verification status to support or decline the clinical status of the condition or diagnosis.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.0.0"
+    )
     private final CodeableConcept verificationStatus;
+    @Binding(
+        bindingName = "ConditionCategory",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "A category assigned to the condition.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-category"
+    )
     private final List<CodeableConcept> category;
+    @Binding(
+        bindingName = "ConditionSeverity",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "A subjective assessment of the severity of the condition as evaluated by the clinician.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-severity"
+    )
     private final CodeableConcept severity;
+    @Binding(
+        bindingName = "ConditionKind",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Identification of the condition or diagnosis.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
+    )
     private final CodeableConcept code;
+    @Binding(
+        bindingName = "BodySite",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes describing anatomical locations. May include laterality.",
+        valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+    )
     private final List<CodeableConcept> bodySite;
     @Required
     private final Reference subject;
@@ -1089,8 +1127,20 @@ public class Condition extends DomainResource {
      * Clinical stage or grade of a condition. May include formal severity assessments.
      */
     public static class Stage extends BackboneElement {
+        @Binding(
+            bindingName = "ConditionStage",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Codes describing condition stages (e.g. Cancer stages).",
+            valueSet = "http://hl7.org/fhir/ValueSet/condition-stage"
+        )
         private final CodeableConcept summary;
         private final List<Reference> assessment;
+        @Binding(
+            bindingName = "ConditionStageType",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Codes describing the kind of condition staging (e.g. clinical or pathological).",
+            valueSet = "http://hl7.org/fhir/ValueSet/condition-stage-type"
+        )
         private final CodeableConcept type;
 
         private volatile int hashCode;
@@ -1401,6 +1451,12 @@ public class Condition extends DomainResource {
      * confirmed or refuted the condition.
      */
     public static class Evidence extends BackboneElement {
+        @Binding(
+            bindingName = "ManifestationOrSymptom",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Codes that describe the manifestation or symptoms of a condition.",
+            valueSet = "http://hl7.org/fhir/ValueSet/manifestation-or-symptom"
+        )
         private final List<CodeableConcept> code;
         private final List<Reference> detail;
 

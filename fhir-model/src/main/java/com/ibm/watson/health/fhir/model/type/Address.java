@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.type.AddressType;
 import com.ibm.watson.health.fhir.model.type.AddressUse;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
@@ -26,7 +27,19 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Address extends Element {
+    @Binding(
+        bindingName = "AddressUse",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The use of an address.",
+        valueSet = "http://hl7.org/fhir/ValueSet/address-use|4.0.0"
+    )
     private final AddressUse use;
+    @Binding(
+        bindingName = "AddressType",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The type of an address (physical / postal).",
+        valueSet = "http://hl7.org/fhir/ValueSet/address-type|4.0.0"
+    )
     private final AddressType type;
     private final String text;
     private final List<String> line;

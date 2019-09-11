@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,8 +13,10 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.BiologicallyDerivedProductCategory;
 import com.ibm.watson.health.fhir.model.type.BiologicallyDerivedProductStatus;
 import com.ibm.watson.health.fhir.model.type.BiologicallyDerivedProductStorageScale;
@@ -43,8 +45,25 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class BiologicallyDerivedProduct extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "BiologicallyDerivedProductCategory",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Biologically Derived Product Category.",
+        valueSet = "http://hl7.org/fhir/ValueSet/product-category|4.0.0"
+    )
     private final BiologicallyDerivedProductCategory productCategory;
+    @Binding(
+        bindingName = "BiologicallyDerivedProductCode",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Biologically Derived Product Code."
+    )
     private final CodeableConcept productCode;
+    @Binding(
+        bindingName = "BiologicallyDerivedProductStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Biologically Derived Product Status.",
+        valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.0.0"
+    )
     private final BiologicallyDerivedProductStatus status;
     private final List<Reference> request;
     private final Integer quantity;
@@ -1111,6 +1130,12 @@ public class BiologicallyDerivedProduct extends DomainResource {
      */
     public static class Processing extends BackboneElement {
         private final String description;
+        @Binding(
+            bindingName = "BiologicallyDerivedProductProcedure",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Biologically Derived Product Procedure.",
+            valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
+        )
         private final CodeableConcept procedure;
         private final Reference additive;
         @Choice({ DateTime.class, Period.class })
@@ -1709,6 +1734,12 @@ public class BiologicallyDerivedProduct extends DomainResource {
     public static class Storage extends BackboneElement {
         private final String description;
         private final Decimal temperature;
+        @Binding(
+            bindingName = "BiologicallyDerivedProductStorageScale",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "BiologicallyDerived Product Storage Scale.",
+            valueSet = "http://hl7.org/fhir/ValueSet/product-storage-scale|4.0.0"
+        )
         private final BiologicallyDerivedProductStorageScale scale;
         private final Period duration;
 

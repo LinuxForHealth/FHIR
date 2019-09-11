@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,8 +14,10 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.ContactPoint;
 import com.ibm.watson.health.fhir.model.type.Extension;
@@ -40,6 +42,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Subscription extends DomainResource {
     @Required
+    @Binding(
+        bindingName = "SubscriptionStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The status of a subscription.",
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.0"
+    )
     private final SubscriptionStatus status;
     private final List<ContactPoint> contact;
     private final Instant end;
@@ -611,8 +619,20 @@ public class Subscription extends DomainResource {
      */
     public static class Channel extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "SubscriptionChannelType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The type of method used to execute a subscription.",
+            valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.0"
+        )
         private final SubscriptionChannelType type;
         private final Url endpoint;
+        @Binding(
+            bindingName = "MimeType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The mime type of an attachment. Any valid mime type is allowed.",
+            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+        )
         private final Code payload;
         private final List<String> header;
 

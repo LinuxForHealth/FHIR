@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -21,6 +22,7 @@ import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.AdministrativeGender;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -59,11 +61,23 @@ public class Patient extends DomainResource {
     private final Boolean active;
     private final List<HumanName> name;
     private final List<ContactPoint> telecom;
+    @Binding(
+        bindingName = "AdministrativeGender",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The gender of a person used for administrative purposes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+    )
     private final AdministrativeGender gender;
     private final Date birthDate;
     @Choice({ Boolean.class, DateTime.class })
     private final Element deceased;
     private final List<Address> address;
+    @Binding(
+        bindingName = "MaritalStatus",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The domestic partnership status of a person.",
+        valueSet = "http://hl7.org/fhir/ValueSet/marital-status"
+    )
     private final CodeableConcept maritalStatus;
     @Choice({ Boolean.class, Integer.class })
     private final Element multipleBirth;
@@ -1079,10 +1093,22 @@ public class Patient extends DomainResource {
      * A contact party (e.g. guardian, partner, friend) for the patient.
      */
     public static class Contact extends BackboneElement {
+        @Binding(
+            bindingName = "ContactRelationship",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "The nature of the relationship between a patient and a contact person for that patient.",
+            valueSet = "http://hl7.org/fhir/ValueSet/patient-contactrelationship"
+        )
         private final List<CodeableConcept> relationship;
         private final HumanName name;
         private final List<ContactPoint> telecom;
         private final Address address;
+        @Binding(
+            bindingName = "AdministrativeGender",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The gender of a person used for administrative purposes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+        )
         private final AdministrativeGender gender;
         private final Reference organization;
         private final Period period;
@@ -1541,6 +1567,13 @@ public class Patient extends DomainResource {
      */
     public static class Communication extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "Language",
+            strength = BindingStrength.ValueSet.PREFERRED,
+            description = "A human language.",
+            valueSet = "http://hl7.org/fhir/ValueSet/languages",
+            maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+        )
         private final CodeableConcept language;
         private final Boolean preferred;
 
@@ -1814,6 +1847,12 @@ public class Patient extends DomainResource {
         @Required
         private final Reference other;
         @Required
+        @Binding(
+            bindingName = "LinkType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The type of link between this patient resource and another patient resource.",
+            valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.0.0"
+        )
         private final LinkType type;
 
         private volatile int hashCode;
