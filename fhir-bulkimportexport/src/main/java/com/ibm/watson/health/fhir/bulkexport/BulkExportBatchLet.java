@@ -48,7 +48,8 @@ import com.ibm.watson.health.fhir.search.util.SearchUtil;
 public class BulkExportBatchLet implements Batchlet {
     private AmazonS3 cosClient = null;
     // Please make sure pageSize is greater or equal to cosBatchSize.
-    int pageSize = 100, cosBatchSize = 100;
+    // cosBatchSize is used in batchlet job only.
+    int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE, cosBatchSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
     boolean isSingleCosObject = false;
     String uploadId;
     List<PartETag> cosDataPacks = new ArrayList<PartETag>();
