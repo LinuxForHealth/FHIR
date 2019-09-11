@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="BulkImportJob" restartable="true" version="1.0">
     <properties>
-        <property name="chunkSize" value="#{jobParameters['chunkSize']}?:10;" />
+        <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}?:10;" />
     </properties>
     <step id="step1">
-        <chunk checkpoint-policy="custom" item-count="#{jobProperties['chunkSize']}">
+        <chunk checkpoint-policy="custom" item-count="#{jobProperties['cos.pagesperobject']}">
             <reader ref="com.ibm.watson.health.fhir.bulkexport.ChunkReader">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
@@ -13,7 +13,6 @@
                     <property name="fhir.search.todate" value="#{jobParameters['fhir.search.todate']}"/>
                     <property name="fhir.search.pagesize" value="#{jobParameters['fhir.search.pagesize']}"/>
                     <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
-                    <property name="chunkSize" value="#{jobParameters['chunkSize']}"/>
                 </properties>
             </reader>
             <processor ref="com.ibm.watson.health.fhir.bulkexport.ChunkProcessor" />
@@ -28,12 +27,12 @@
                     <property name="cos.bucket.pathprefix" value="#{jobParameters['cos.bucket.pathprefix']}"/>
                     <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
                     <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
-                    <property name="chunkSize" value="#{jobParameters['chunkSize']}"/>
+                    <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}"/>
                 </properties>
             </writer>
             <checkpoint-algorithm ref="com.ibm.watson.health.fhir.bulkexport.CheckPointAlgorithm">
                 <properties>
-                    <property name="chunkSize" value="#{jobParameters['chunkSize']}"/>
+                    <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}"/>
                 </properties>
             </checkpoint-algorithm>
         </chunk>
