@@ -15,20 +15,15 @@ import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
+import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
-import com.ibm.cloud.objectstorage.ClientConfiguration;
-import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
-import com.ibm.cloud.objectstorage.auth.AWSCredentials;
-import com.ibm.cloud.objectstorage.auth.AWSStaticCredentialsProvider;
-import com.ibm.cloud.objectstorage.auth.BasicAWSCredentials;
-import com.ibm.cloud.objectstorage.client.builder.AwsClientBuilder.EndpointConfiguration;
-import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
 import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
+import com.ibm.waston.health.fhir.bulkcommon.COSUtils;
+import com.ibm.waston.health.fhir.bulkcommon.Constants;
 
 /**
  * Bulk export Chunk implementation - the Writer.
@@ -86,29 +81,36 @@ public class ChunkWriter extends AbstractItemWriter {
     @Inject
     @BatchProperty(name = "cos.credential.ibm")
     String cosCredentialIbm;
+    
+    /**
+     * The Cos object name.
+     */
+    @Inject
+    @BatchProperty(name = "cos.bucket.objectname")
+    String cosBucketObjectName;
+    
+    /**
+     * Fhir ResourceType.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.resourcetype")
+    String fhirResourceType;
+    
+    /**
+     * The cos.pagesperobject.
+     */
+    @Inject
+    @BatchProperty(name = "cos.pagesperobject")
+    String pagesPerCosObject;
+    
+    @Inject
+    JobContext jobContext;
 
     /**
      * Logging helper.
      */
     private void log(String method, Object msg) {
         logger.info(method + ": " + String.valueOf(msg));
-    }
-
-    private void getCosClient() {
-        SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
-        AWSCredentials credentials;
-        if (cosCredentialIbm.equalsIgnoreCase("Y")) {
-            credentials = new BasicIBMOAuthCredentials(cosApiKeyProperty, cosSrvinstId);
-        } else {
-            credentials = new BasicAWSCredentials(cosApiKeyProperty, cosSrvinstId);
-        }
-
-        ClientConfiguration clientConfig = new ClientConfiguration().withRequestTimeout(8000);
-        clientConfig.setUseTcpKeepAlive(true);
-
-        cosClient = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withEndpointConfiguration(new EndpointConfiguration(cosEndpintUrl, cosLocation))
-                .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
     }
 
     /**
@@ -120,20 +122,59 @@ public class ChunkWriter extends AbstractItemWriter {
 
     private void pushFhirJsons2Cos(String combinedJsons) throws Exception {
 
-        if (cosClient == null)
+        if (cosClient == null) {
             return;
+        }
+        
+        TransientUserData chunkData = (TransientUserData)jobContext.getTransientUserData();
+        if (chunkData != null && chunkData.isSingleCosObject()) {
+            if (chunkData.getUploadId() == null) {
+                chunkData.setUploadId(COSUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName));
+                combinedJsons = "[\r\n" + combinedJsons;
+            }
 
-        InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(combinedJsons.getBytes(StandardCharsets.UTF_8).length);
+            
+            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
+                combinedJsons = combinedJsons + "\r\n]";
+            } else {
+                combinedJsons = combinedJsons + ",";
+            }
+            InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
+            chunkData.getCosDataPacks().add(COSUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName, 
+                    chunkData.getUploadId(), newStream, combinedJsons.getBytes(StandardCharsets.UTF_8).length, chunkData.getPartNum()));
+            chunkData.setPartNum(chunkData.getPartNum()+1);
+            chunkData.setCurrentPartSize(0);
+            
+            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
+                COSUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(), chunkData.getCosDataPacks());
+            }
+            
+        } else {
+            int numofPagePerCosObject;
+            try {
+                numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);           
+            } catch (Exception e) {
+                numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
+            }
+            combinedJsons = "[\r\n" + combinedJsons + "\r\n]";
+            InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(combinedJsons.getBytes(StandardCharsets.UTF_8).length);
+            
+            String itemName;
+            if (chunkData != null) {
+                    itemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType 
+                            + "_" + (int) Math.ceil((chunkData.getPageNum()-1)/numofPagePerCosObject) + ".ndjson";
+            } else {
+                itemName = cosBucketPathPrefix + "/" + UUID.randomUUID().toString();
+            }
 
-        String itemName = cosBucketPathPrefix + "/" + UUID.randomUUID().toString();
+            PutObjectRequest req = new PutObjectRequest(cosBucketName, itemName, newStream, metadata);
+            cosClient.putObject(req);
 
-        PutObjectRequest req = new PutObjectRequest(cosBucketName, itemName, newStream, metadata);
-        cosClient.putObject(req);
-
-        log("pushFhirJsons2Cos", itemName + " was successfully written to COS");
-
+            log("pushFhirJsons2Cos", itemName + " was successfully written to COS");            
+        }
+        
     }
 
     /**
@@ -141,16 +182,17 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     @SuppressWarnings("unchecked")
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
-        getCosClient();
+        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
 
         if (cosClient == null) {
-            log("BulkImportBatchLet", "Failed to get CosClient!");
+            log("writeItems", "Failed to get CosClient!");
+            return;
         } else {
-            log("process", "Succeed get CosClient!");
+            log("writeItems", "Succeed get CosClient!");
         }
 
         if (cosBucketName == null) {
-            cosBucketName = "fhir-bulkImExport-Connectathon";
+            cosBucketName = Constants.DEFAULT_COS_BUCKETNAME;
         }
 
         cosBucketName = cosBucketName.toLowerCase();
@@ -163,15 +205,21 @@ public class ChunkWriter extends AbstractItemWriter {
             CreateBucketRequest req = new CreateBucketRequest(cosBucketName);
             cosClient.createBucket(req);
         }
-
+        
+        String combinedJsons = null;
         for (Object resListObject : arg0) {
             List<String> resList = ((List<String>) resListObject);
             for (String resJsons : resList) {
-                pushFhirJsons2Cos(resJsons);
+                if (combinedJsons == null) {
+                    combinedJsons = resJsons;
+                } else {
+                    combinedJsons = combinedJsons + "," + "\r\n" + resJsons; 
+                }
             }
-
+        }
+        if (combinedJsons.length() > 0 ) {
+            pushFhirJsons2Cos(combinedJsons);
         }
 
     }
-
 }

@@ -7,17 +7,20 @@
 package com.ibm.watson.health.fhir.bulkexport;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
+import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
+import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.waston.health.fhir.bulkcommon.Constants;
 import com.ibm.watson.health.fhir.config.FHIRConfiguration;
 import com.ibm.watson.health.fhir.config.FHIRRequestContext;
 import com.ibm.watson.health.fhir.model.resource.Resource;
@@ -37,6 +40,8 @@ import com.ibm.watson.health.fhir.search.util.SearchUtil;
  */
 public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
+    boolean isSingleCosObject = false;
+    
     /**
      * Fhir tenant id.
      */
@@ -64,20 +69,37 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = "fhir.search.todate")
     String fhirSearchToDate;
+    
+
+    /**
+     * Fhir search page size.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.search.pagesize")
+    String fhirSearchPageSize;
+
+
+    /**
+     * The Cos object name.
+     */
+    @Inject
+    @BatchProperty(name = "cos.bucket.objectname")
+    String cosBucketObjectName;
+
 
     int pageNum = 1;
     // Control the number of records to read in each "item".
-    int pageSize = 100;
+    int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
+    
+    
+    @Inject
+    JobContext jobContext;
 
     /**
      * @see AbstractItemReader#AbstractItemReader()
      */
     public ChunkReader() {
         super();
-        if (fhirTenant == null) {
-            fhirTenant = "default";
-            log("readItem", "Set tenant to default!");
-        }
     }
 
     /**
@@ -93,8 +115,28 @@ public class ChunkReader extends AbstractItemReader {
     @SuppressWarnings("unchecked")
     public Object readItem() throws Exception {
         // no more page to read, so return null to end the reading.
-        if (pageNum == -1) {
+        TransientUserData chunkData = (TransientUserData)jobContext.getTransientUserData();
+        if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
             return null;
+        }
+        
+        if (fhirTenant == null) {
+            fhirTenant = Constants.DEFAULT_FHIR_TENANT;
+            log("readItem", "Set tenant to default!");
+        }
+        
+        if (fhirSearchPageSize != null) {
+            try {
+                pageSize = Integer.parseInt(fhirSearchPageSize);
+                log("readItem", "Set page size to " + pageSize + ".");
+            } catch (Exception e) {
+                log("readItem", "Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
+            }
+        }
+        
+        if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) {
+            isSingleCosObject = true;
+            log("readItem", "Use single COS object for uploading!");
         }
 
         FHIRConfiguration.setConfigHome("./");
@@ -108,12 +150,18 @@ public class ChunkReader extends AbstractItemReader {
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String queryString;
+        String queryString = "&_sort=_lastUpdated";
 
-        queryString = "&_lastUpdated=ge" + fhirSearchFromDate + "&_lastUpdated=lt" + fhirSearchToDate
-                + "&_sort=_lastUpdated";
-        queryParameters.put("_lastUpdated", Collections.singletonList("ge" + fhirSearchFromDate));
-        queryParameters.put("_lastUpdated", Collections.singletonList("lt" + fhirSearchToDate));
+        if (fhirSearchFromDate != null) {
+            queryString += ("&_lastUpdated=ge" + fhirSearchFromDate);
+            queryParameters.put("_lastUpdated", Collections.singletonList("ge" + fhirSearchFromDate));
+        }
+
+        if (fhirSearchToDate != null) {
+            queryString += ("&_lastUpdated=lt" + fhirSearchToDate);
+            queryParameters.put("_lastUpdated", Collections.singletonList("lt" + fhirSearchToDate));
+        }
+
         queryParameters.put("_sort", Arrays.asList(new String[] { "_lastUpdated" }));
 
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
@@ -126,25 +174,36 @@ public class ChunkReader extends AbstractItemReader {
         resources = fhirPersistence.search(persistenceContext, resourceType);
         txn.commit();
         pageNum++;
-        
-        if (pageNum > searchContext.getLastPageNumber()) {
-            // Use -1 as pageNum to tell the end of the reading.
-            pageNum = -1;
-        }
 
         if (resources != null) {
             log("readItem", "loaded resources number: " + resources.size());
         } else {
             log("readItem", "End of reading!");
         }
+        
 
+        if (chunkData == null) {
+            chunkData = new TransientUserData(pageNum, 0, null, new ArrayList<PartETag>(), 1);
+            chunkData.setLastPageNum(searchContext.getLastPageNumber());
+            if (isSingleCosObject) {
+                chunkData.setSingleCosObject(true);
+            }
+            jobContext.setTransientUserData(chunkData);
+        } else {
+            chunkData = (TransientUserData)jobContext.getTransientUserData();
+            chunkData.setPageNum(pageNum);
+            chunkData.setLastPageNum(searchContext.getLastPageNumber());
+        }
+       
         return resources;
     }
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
         if (checkpoint != null) {
+            TransientUserData chunkData = (TransientUserData) checkpoint;
             pageNum = (Integer) checkpoint;
+            jobContext.setTransientUserData(chunkData);
         }
     }
 
@@ -155,7 +214,7 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Serializable checkpointInfo() throws Exception {
-        return pageNum;
+        return (TransientUserData)jobContext.getTransientUserData();
     }
 
 }
