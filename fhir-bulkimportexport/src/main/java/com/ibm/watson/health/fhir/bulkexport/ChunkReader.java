@@ -85,14 +85,7 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = "cos.bucket.objectname")
     String cosBucketObjectName;
-    
-    /**
-     * The chunkSize.
-     */
-    @Inject
-    @BatchProperty(name = "chunkSize")
-    String chunkSize;
-        
+
 
     int pageNum = 1;
     // Control the number of records to read in each "item".

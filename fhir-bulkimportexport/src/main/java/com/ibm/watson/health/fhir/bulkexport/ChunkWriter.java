@@ -97,11 +97,11 @@ public class ChunkWriter extends AbstractItemWriter {
     String fhirResourceType;
     
     /**
-     * The chunkSize.
+     * The cos.pagesperobject.
      */
     @Inject
-    @BatchProperty(name = "chunkSize")
-    String chunkSize;
+    @BatchProperty(name = "cos.pagesperobject")
+    String pagesPerCosObject;
     
     @Inject
     JobContext jobContext;
@@ -152,7 +152,7 @@ public class ChunkWriter extends AbstractItemWriter {
         } else {
             int numofPagePerCosObject;
             try {
-                numofPagePerCosObject = Integer.parseInt(chunkSize);           
+                numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);           
             } catch (Exception e) {
                 numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
             }

@@ -27,11 +27,11 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
     JobContext jobContext;
     
     /**
-     * The chunkSize.
+     * The cos.pagesperobject.
      */
     @Inject
-    @BatchProperty(name = "chunkSize")
-    String chunkSize;
+    @BatchProperty(name = "cos.pagesperobject")
+    String pagesPerCosObject;
     
     /**
      * Logging helper.
@@ -75,7 +75,7 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
     public boolean isReadyToCheckpoint() {
         int numofPagePerCosObject;
         try {
-            numofPagePerCosObject = Integer.parseInt(chunkSize);           
+            numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);           
         } catch (Exception e) {
             numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
         }
