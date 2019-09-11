@@ -47,6 +47,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -754,6 +755,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createSystemOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
+            
             Resource result =
                     doInvoke(operationContext, null, null, null, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -777,6 +780,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createSystemOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
+            
             Resource result =
                     doInvoke(operationContext, null, null, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -801,6 +806,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createResourceTypeOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
+            
             Resource result =
                     doInvoke(operationContext, resourceTypeName, null, null, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -825,6 +832,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createResourceTypeOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
+            
             Resource result =
                     doInvoke(operationContext, resourceTypeName, null, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -862,6 +871,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
+            
             Resource result =
                     doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -887,6 +898,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
+            
             Resource result =
                     doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -913,6 +926,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
+            
             Resource result =
                     doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -939,6 +954,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
+            
             Resource result =
                     doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -3997,11 +4014,29 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private Response buildResponse(FHIROperationContext operationContext, Resource resource)
         throws URISyntaxException {
+        
+        // The following code allows the downstream application to change the response code
+        // This enables the 202 accepted to be sent back 
+        Response.Status status = Response.Status.OK;
+        Object o = operationContext.getProperty(FHIROperationContext.PROPNAME_STATUS_TYPE);
+        if(o != null) {
+            status = (Response.Status) o;
+            
+            
+            if (Response.Status.ACCEPTED.compareTo(status)==0) {
+                // This change is for BulkData operations which manipulate the response code. 
+                // Operations that return Accepted need to implement their own approach. 
+                Object ox = operationContext.getProperty(FHIROperationContext.PROPNAME_RESPONSE);
+                return (Response) ox;
+            }
+            
+        }        
+        
         URI locationURI =
                 (URI) operationContext.getProperty(FHIROperationContext.PROPNAME_LOCATION_URI);
         if (locationURI != null) {
-            return Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString()))).entity(resource).build();
+            return Response.status(status).location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString()))).entity(resource).build();
         }
-        return Response.ok().entity(resource).build();
+        return Response.status(status).entity(resource).build();
     }
 }
