@@ -26,7 +26,6 @@ public class ChunkProcessor implements ItemProcessor {
     JobContext jobContext;
     
     private final static Logger logger = Logger.getLogger(ChunkProcessor.class.getName());
-    int cosBatchSize = 100;
 
     /**
      * Default constructor.
@@ -50,26 +49,15 @@ public class ChunkProcessor implements ItemProcessor {
 
         List<String> resStrings = new ArrayList<String>();
         List<Resource> resources = (List<Resource>) arg0;
-        int count = 0;
         String combinedJsons = null;
         int dataSize = 0;
                         
         for (Resource res : resources) {
-            count++;
-                        
             String ndJsonLine = res.toString().replace("\r", "").replace("\n", "");
             if (combinedJsons == null) {
                 combinedJsons = ndJsonLine;
             } else {
                 combinedJsons = combinedJsons + "," + "\r\n" + ndJsonLine;
-            }
-
-            if (count == cosBatchSize) {
-                dataSize += combinedJsons.getBytes(StandardCharsets.UTF_8).length; 
-                resStrings.add(combinedJsons);
-                count = 0;
-                combinedJsons = null;
-
             }
         }
 
@@ -79,11 +67,11 @@ public class ChunkProcessor implements ItemProcessor {
         }
         
         TransientUserData chunkData = (TransientUserData)jobContext.getTransientUserData();
-        if (chunkData != null) {
+        if (chunkData != null && chunkData.isSingleCosObject()) {
             chunkData.setCurrentPartSize(chunkData.getCurrentPartSize() + dataSize);
             log("processItem", "processed resources: " + resources.size() + " current part size: " + chunkData.getCurrentPartSize());
         } else {
-            log("processItem", "processed resources: " + resources.size() + " created cos batches: " + resStrings.size());
+            log("processItem", "processed resources: " + resources.size());
         }
 
         

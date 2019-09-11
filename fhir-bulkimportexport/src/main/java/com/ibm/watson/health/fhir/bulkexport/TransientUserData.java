@@ -15,20 +15,15 @@ import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
  * 
  * @author Albert Wang
  */
-public class TransientUserData {   
-    int pageNum;
-    int currentPartSize;
-    int partNum;
-    public int getPartNum() {
-        return partNum;
-    }
-
-    public void setPartNum(int partNum) {
-        this.partNum = partNum;
-    }
-
-    String uploadId;
-    List<PartETag> cosDataPacks;
+public class TransientUserData implements java.io.Serializable{   
+    private static final long serialVersionUID = 5722923276076940517L;
+    private int pageNum;
+    private int lastPageNum;
+    private int currentPartSize;
+    private int partNum;
+    private String uploadId;
+    private boolean isSingleCosObject = false;    
+    private List<PartETag> cosDataPacks;
     
     public TransientUserData(int pageNum, int currentPartSize, String uploadId, List<PartETag> cosDataPacks, int partNum) {
         super();
@@ -69,7 +64,30 @@ public class TransientUserData {
 
     public void setCosDataPacks(List<PartETag> cosDataPacks) {
         this.cosDataPacks = cosDataPacks;
+    }
+
+    public boolean isSingleCosObject() {
+        return isSingleCosObject;
+    }
+
+    public void setSingleCosObject(boolean isSingleCosObject) {
+        this.isSingleCosObject = isSingleCosObject;
     } 
     
-    
+    public int getPartNum() {
+        return partNum;
+    }
+
+    public void setPartNum(int partNum) {
+        this.partNum = partNum;
+    }
+
+    public int getLastPageNum() {
+        return lastPageNum;
+    }
+
+    public void setLastPageNum(int lastPageNum) {
+        this.lastPageNum = lastPageNum;
+    }
+     
 }

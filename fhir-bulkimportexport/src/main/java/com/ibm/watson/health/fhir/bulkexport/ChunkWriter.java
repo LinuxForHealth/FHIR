@@ -89,6 +89,20 @@ public class ChunkWriter extends AbstractItemWriter {
     @BatchProperty(name = "cos.bucket.objectname")
     String cosBucketObjectName;
     
+    /**
+     * Fhir ResourceType.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.resourcetype")
+    String fhirResourceType;
+    
+    /**
+     * The chunkSize.
+     */
+    @Inject
+    @BatchProperty(name = "chunkSize")
+    String chunkSize;
+    
     @Inject
     JobContext jobContext;
 
@@ -113,14 +127,14 @@ public class ChunkWriter extends AbstractItemWriter {
         }
         
         TransientUserData chunkData = (TransientUserData)jobContext.getTransientUserData();
-        if (chunkData != null) {
+        if (chunkData != null && chunkData.isSingleCosObject()) {
             if (chunkData.getUploadId() == null) {
                 chunkData.setUploadId(COSUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName));
                 combinedJsons = "[\r\n" + combinedJsons;
             }
 
             
-            if (chunkData.pageNum == -1) {
+            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
                 combinedJsons = combinedJsons + "\r\n]";
             } else {
                 combinedJsons = combinedJsons + ",";
@@ -131,17 +145,29 @@ public class ChunkWriter extends AbstractItemWriter {
             chunkData.setPartNum(chunkData.getPartNum()+1);
             chunkData.setCurrentPartSize(0);
             
-            if (chunkData.pageNum == -1) {
+            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
                 COSUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(), chunkData.getCosDataPacks());
             }
             
         } else {
+            int numofPagePerCosObject;
+            try {
+                numofPagePerCosObject = Integer.parseInt(chunkSize);           
+            } catch (Exception e) {
+                numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
+            }
             combinedJsons = "[\r\n" + combinedJsons + "\r\n]";
             InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(combinedJsons.getBytes(StandardCharsets.UTF_8).length);
-
-            String itemName = cosBucketPathPrefix + "/" + UUID.randomUUID().toString();
+            
+            String itemName;
+            if (chunkData != null) {
+                    itemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType 
+                            + "_" + (int) Math.ceil((chunkData.getPageNum()-1)/numofPagePerCosObject) + ".ndjson";
+            } else {
+                itemName = cosBucketPathPrefix + "/" + UUID.randomUUID().toString();
+            }
 
             PutObjectRequest req = new PutObjectRequest(cosBucketName, itemName, newStream, metadata);
             cosClient.putObject(req);
@@ -180,34 +206,20 @@ public class ChunkWriter extends AbstractItemWriter {
             cosClient.createBucket(req);
         }
         
-        TransientUserData chunkData = (TransientUserData)jobContext.getTransientUserData();
-        if (chunkData != null) {
-            String combinedJsons = null;
-            for (Object resListObject : arg0) {
-                List<String> resList = ((List<String>) resListObject);
-                for (String resJsons : resList) {
-                    if (combinedJsons == null) {
-                        combinedJsons = resJsons;
-                    } else {
-                        combinedJsons = combinedJsons + "," + "\r\n" + resJsons; 
-                    }
+        String combinedJsons = null;
+        for (Object resListObject : arg0) {
+            List<String> resList = ((List<String>) resListObject);
+            for (String resJsons : resList) {
+                if (combinedJsons == null) {
+                    combinedJsons = resJsons;
+                } else {
+                    combinedJsons = combinedJsons + "," + "\r\n" + resJsons; 
                 }
-
             }
-            if (combinedJsons.length() > 0 ) {
-                pushFhirJsons2Cos(combinedJsons);
-            }
-
-        } else {
-            for (Object resListObject : arg0) {
-                List<String> resList = ((List<String>) resListObject);
-                for (String resJsons : resList) {
-                    pushFhirJsons2Cos(resJsons);
-                }
-
-            }
+        }
+        if (combinedJsons.length() > 0 ) {
+            pushFhirJsons2Cos(combinedJsons);
         }
 
     }
-
 }
