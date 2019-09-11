@@ -15,7 +15,6 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.watson.health.fhir.model.resource.Parameters.Parameter;
 import com.ibm.watson.health.fhir.model.resource.Parameters;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.type.Instant;
@@ -23,7 +22,6 @@ import com.ibm.watson.health.fhir.model.type.IssueSeverity;
 import com.ibm.watson.health.fhir.model.type.IssueType;
 import com.ibm.watson.health.fhir.model.util.ModelSupport;
 import com.ibm.watson.health.fhir.operation.bullkdata.BulkDataConstants;
-import com.ibm.watson.health.fhir.operation.bullkdata.model.PollingLocationResponse;
 import com.ibm.watson.health.fhir.operation.context.FHIROperationContext;
 
 /**
@@ -168,7 +166,7 @@ public class BulkDataUtil {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (parameter.getName() != null
-                        && parameter.getName().getValue().compareTo("_typeFilters") == 0) {
+                        && parameter.getName().getValue().compareTo("_type") == 0) {
                     String typeFilters =
                             parameter.getValue().as(com.ibm.watson.health.fhir.model.type.String.class).getValue();
                     if (!typeFilters.isEmpty()) {
@@ -182,11 +180,4 @@ public class BulkDataUtil {
         return null;
     }
 
-
-    public static Parameters getOutputParametersWithJson(PollingLocationResponse resource)
-        throws Exception {
-        Parameters.Builder parametersBuilder = Parameters.builder();
-        parametersBuilder.parameter(Parameter.builder().name(string("return")).value(string(resource.toJsonString())).build());
-        return parametersBuilder.build();
-    }
 }

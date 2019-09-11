@@ -9,7 +9,6 @@ import static com.ibm.watson.health.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,18 +39,18 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     public static final String FORMAT = "application/fhir+ndjson";
 
-    @Test(groups = { TEST_GROUP_NAME }, enabled = false)
-    public void testBaseExport() {
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testSubjectPatient() {
         Response response =
-                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
+                doGet(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.now(), null, null);
         assertEquals(response.getStatus(), 202);
         
         String contentLocation = response.getHeaderString("Content-Location");
-        assertEquals(contentLocation, "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/job1_Patient_0.ndjson");
+        assertEquals(contentLocation, "Go-over-there");
         
     }
 
-    public Response doPost(String path, String mimeType, String outputFormat, Instant since,
+    public Response doGet(String path, String mimeType, String outputFormat, Instant since,
         List<String> types, List<String> typeFilters) {
 
         WebTarget target = getWebTarget();
@@ -91,7 +90,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         if (types != null) {
-            parameters.add(Parameter.builder().name(string("_type")).value(string(types.stream().collect(Collectors.joining(",")))).build());
+            parameters.add(Parameter.builder().name(string("_types")).value(string(types.stream().collect(Collectors.joining(",")))).build());
         }
         
         if (typeFilters != null) {

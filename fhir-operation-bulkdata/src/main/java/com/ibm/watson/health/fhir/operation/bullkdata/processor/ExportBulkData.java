@@ -13,7 +13,7 @@ import com.ibm.watson.health.fhir.config.FHIRRequestContext;
 import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.resource.Parameters;
 import com.ibm.watson.health.fhir.model.type.Instant;
-import com.ibm.watson.health.fhir.operation.bullkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.watson.health.fhir.operation.bullkdata.config.BulkDataTenantSpecificCache;
 import com.ibm.watson.health.fhir.operation.context.FHIROperationContext;
 import com.ibm.watson.health.fhir.rest.FHIRResourceHelpers;
 

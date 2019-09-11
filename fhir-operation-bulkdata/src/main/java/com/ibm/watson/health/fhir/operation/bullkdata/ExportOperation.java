@@ -21,7 +21,7 @@ import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.type.Instant;
 import com.ibm.watson.health.fhir.model.type.IssueType;
 import com.ibm.watson.health.fhir.operation.AbstractOperation;
-import com.ibm.watson.health.fhir.operation.bullkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.watson.health.fhir.operation.bullkdata.config.BulkDataTenantSpecificCache;
 import com.ibm.watson.health.fhir.operation.bullkdata.processor.BulkDataFactory;
 import com.ibm.watson.health.fhir.operation.bullkdata.util.BulkDataUtil;
 import com.ibm.watson.health.fhir.operation.context.FHIROperationContext;
@@ -81,15 +81,15 @@ public class ExportOperation extends AbstractOperation {
         Parameters response = null;
         if (BulkDataUtil.checkType(resourceType, "Patient")) {
             response =
-                    BulkDataFactory.getExport(cache).exportPatient(logicalId, outputFormat, since, types, typeFilters, ctx, resourceHelper);
+                    BulkDataFactory.getExport().exportPatient(logicalId, outputFormat, since, types, typeFilters, ctx, resourceHelper);
         } else if (BulkDataUtil.checkType(resourceType, "Group")) {
             // If Group, Export and Patient Members Filter Resources
             response =
-                    BulkDataFactory.getExport(cache).exportGroup(logicalId, outputFormat, since, types, typeFilters, ctx, resourceHelper);
+                    BulkDataFactory.getExport().exportGroup(logicalId, outputFormat, since, types, typeFilters, ctx, resourceHelper);
         } else if (resourceType == null) {
             // If Base, Export (Else Invalid)
             response =
-                    BulkDataFactory.getExport(cache).exportBase(outputFormat, since, types, typeFilters, ctx, resourceHelper, operationContext, cache);
+                    BulkDataFactory.getExport().exportBase(outputFormat, since, types, typeFilters, ctx, resourceHelper, operationContext, cache);
         } else {
             // Unsupported on Resource Type
             throw buildExceptionWithIssue("Invalid call $export operation call to '"
