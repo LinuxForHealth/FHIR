@@ -17,8 +17,6 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBException;
-
 import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watson.health.fhir.model.type.IssueSeverity;
@@ -49,7 +47,7 @@ public class FHIROperationRegistry {
                     continue;
                 }
                 operationMap.put(operation.getName(), operation);
-            } catch (ServiceConfigurationError | FHIRValidationException | JAXBException e) {
+            } catch (ServiceConfigurationError | FHIRValidationException e) {
                 log.log(Level.SEVERE, "Unable to validate operation $" + operationName + ". This operation will be skipped.", e);
             }
         }
@@ -60,7 +58,7 @@ public class FHIROperationRegistry {
         }
     }
 
-    private boolean isValid(FHIROperation operation) throws FHIRValidationException, JAXBException, FHIRValidationException {
+    private boolean isValid(FHIROperation operation) throws FHIRValidationException, FHIRValidationException {
         List<Issue> issues = FHIRValidator.validator(operation.getDefinition()).validate();
         if (!issues.isEmpty()) {
             for (Issue issue : issues) {
