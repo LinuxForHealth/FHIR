@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
@@ -47,6 +48,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Invoice extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "InvoiceStatus",
+        strength = "required",
+        description = "Codes identifying the lifecycle stage of an Invoice.",
+        valueSet = "http://hl7.org/fhir/ValueSet/invoice-status|4.0.0"
+    )
     private final InvoiceStatus status;
     private final String cancelledReason;
     private final CodeableConcept type;
@@ -1588,6 +1595,12 @@ public class Invoice extends DomainResource {
          */
         public static class PriceComponent extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "InvoicePriceComponentType",
+                strength = "required",
+                description = "Codes indicating the kind of the price component.",
+                valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.0"
+            )
             private final InvoicePriceComponentType type;
             private final CodeableConcept code;
             private final Decimal factor;

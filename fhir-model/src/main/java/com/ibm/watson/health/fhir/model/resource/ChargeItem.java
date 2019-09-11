@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
@@ -52,9 +53,21 @@ public class ChargeItem extends DomainResource {
     private final List<Uri> definitionUri;
     private final List<Canonical> definitionCanonical;
     @Required
+    @Binding(
+        bindingName = "ChargeItemStatus",
+        strength = "required",
+        description = "Codes identifying the lifecycle stage of a ChargeItem.",
+        valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-status|4.0.0"
+    )
     private final ChargeItemStatus status;
     private final List<Reference> partOf;
     @Required
+    @Binding(
+        bindingName = "ChargeItemCode",
+        strength = "example",
+        description = "Example set of codes that can be used for billing purposes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
+    )
     private final CodeableConcept code;
     @Required
     private final Reference subject;
@@ -66,15 +79,33 @@ public class ChargeItem extends DomainResource {
     private final Reference requestingOrganization;
     private final Reference costCenter;
     private final Quantity quantity;
+    @Binding(
+        bindingName = "BodySite",
+        strength = "example",
+        description = "Codes describing anatomical locations. May include laterality.",
+        valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+    )
     private final List<CodeableConcept> bodysite;
     private final Decimal factorOverride;
     private final Money priceOverride;
     private final String overrideReason;
     private final Reference enterer;
     private final DateTime enteredDate;
+    @Binding(
+        bindingName = "ChargeItemReason",
+        strength = "example",
+        description = "Example binding for reason.",
+        valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
+    )
     private final List<CodeableConcept> reason;
     private final List<Reference> service;
     @Choice({ Reference.class, CodeableConcept.class })
+    @Binding(
+        bindingName = "ChargeItemProduct",
+        strength = "example",
+        description = "Example binding for product type.",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
+    )
     private final Element product;
     private final List<Reference> account;
     private final List<Annotation> note;
@@ -1437,6 +1468,12 @@ public class ChargeItem extends DomainResource {
      * Indicates who or what performed or participated in the charged service.
      */
     public static class Performer extends BackboneElement {
+        @Binding(
+            bindingName = "ChargeItemPerformerFunction",
+            strength = "example",
+            description = "Codes describing the types of functional roles performers can take on when performing events.",
+            valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
+        )
         private final CodeableConcept function;
         @Required
         private final Reference actor;

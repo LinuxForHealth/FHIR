@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -41,15 +42,37 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Endpoint extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "EndpointStatus",
+        strength = "required",
+        description = "The status of the endpoint.",
+        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.0.0"
+    )
     private final EndpointStatus status;
     @Required
+    @Binding(
+        bindingName = "endpoint-contype",
+        strength = "extensible",
+        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-connection-type"
+    )
     private final Coding connectionType;
     private final String name;
     private final Reference managingOrganization;
     private final List<ContactPoint> contact;
     private final Period period;
     @Required
+    @Binding(
+        bindingName = "PayloadType",
+        strength = "example",
+        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-payload-type"
+    )
     private final List<CodeableConcept> payloadType;
+    @Binding(
+        bindingName = "MimeType",
+        strength = "required",
+        description = "The mime type of an attachment. Any valid mime type is allowed.",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+    )
     private final List<Code> payloadMimeType;
     @Required
     private final Url address;

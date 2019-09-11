@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -80,6 +81,12 @@ public class ConceptMap extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -87,6 +94,12 @@ public class ConceptMap extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
@@ -1821,6 +1834,12 @@ public class ConceptMap extends DomainResource {
                 private final Code code;
                 private final String display;
                 @Required
+                @Binding(
+                    bindingName = "ConceptMapEquivalence",
+                    strength = "required",
+                    description = "The degree of equivalence between concepts.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.0.0"
+                )
                 private final ConceptMapEquivalence equivalence;
                 private final String comment;
                 private final List<DependsOn> dependsOn;
@@ -2607,6 +2626,12 @@ public class ConceptMap extends DomainResource {
          */
         public static class Unmapped extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "ConceptMapGroupUnmappedMode",
+                strength = "required",
+                description = "Defines which action to take if there is no match in the group.",
+                valueSet = "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.0.0"
+            )
             private final ConceptMapGroupUnmappedMode mode;
             private final Code code;
             private final String display;

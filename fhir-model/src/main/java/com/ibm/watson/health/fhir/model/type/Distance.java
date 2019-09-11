@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.QuantityComparator;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
@@ -24,6 +25,13 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "There SHALL be a code if there is a value and it SHALL be an expression of length.  If system is present, it SHALL be UCUM.",
     expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum)"
+)
+@Binding(
+    bindingName = "DistanceUnits",
+    strength = "extensible",
+    description = "Appropriate units for Distance.",
+    valueSet = "http://hl7.org/fhir/ValueSet/distance-units",
+    maxValueSet = "http://hl7.org/fhir/ValueSet/all-distance-units"
 )
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Distance extends Quantity {

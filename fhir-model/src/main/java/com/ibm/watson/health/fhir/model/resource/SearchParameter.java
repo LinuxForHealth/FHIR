@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -73,6 +74,12 @@ public class SearchParameter extends DomainResource {
     private final String name;
     private final Canonical derivedFrom;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -81,21 +88,63 @@ public class SearchParameter extends DomainResource {
     @Required
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     @Required
     private final Code code;
     @Required
+    @Binding(
+        bindingName = "ResourceType",
+        strength = "required",
+        description = "One of the resource types defined as part of this version of FHIR.",
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+    )
     private final List<ResourceType> base;
     @Required
+    @Binding(
+        bindingName = "SearchParamType",
+        strength = "required",
+        description = "Data types allowed to be used for search parameters.",
+        valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.0"
+    )
     private final SearchParamType type;
     private final String expression;
     private final String xpath;
+    @Binding(
+        bindingName = "XPathUsageType",
+        strength = "required",
+        description = "How a search parameter relates to the set of elements returned by evaluating its xpath query.",
+        valueSet = "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.0.0"
+    )
     private final XPathUsageType xpathUsage;
+    @Binding(
+        bindingName = "ResourceType",
+        strength = "required",
+        description = "One of the resource types defined as part of this version of FHIR.",
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+    )
     private final List<ResourceType> target;
     private final Boolean multipleOr;
     private final Boolean multipleAnd;
+    @Binding(
+        bindingName = "SearchComparator",
+        strength = "required",
+        description = "What Search Comparator Codes are supported in search.",
+        valueSet = "http://hl7.org/fhir/ValueSet/search-comparator|4.0.0"
+    )
     private final List<SearchComparator> comparator;
+    @Binding(
+        bindingName = "SearchModifierCode",
+        strength = "required",
+        description = "A supported modifier for a search parameter.",
+        valueSet = "http://hl7.org/fhir/ValueSet/search-modifier-code|4.0.0"
+    )
     private final List<SearchModifierCode> modifier;
     private final List<String> chain;
     private final List<Component> component;

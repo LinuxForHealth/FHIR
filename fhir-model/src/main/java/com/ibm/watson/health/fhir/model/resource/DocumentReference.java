@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -46,9 +47,33 @@ public class DocumentReference extends DomainResource {
     private final Identifier masterIdentifier;
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "DocumentReferenceStatus",
+        strength = "required",
+        description = "The status of the document reference.",
+        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
+    )
     private final DocumentReferenceStatus status;
+    @Binding(
+        bindingName = "ReferredDocumentStatus",
+        strength = "required",
+        description = "Status of the underlying document.",
+        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.0"
+    )
     private final ReferredDocumentStatus docStatus;
+    @Binding(
+        bindingName = "DocumentC80Type",
+        strength = "preferred",
+        description = "Precise type of clinical document.",
+        valueSet = "http://hl7.org/fhir/ValueSet/c80-doc-typecodes"
+    )
     private final CodeableConcept type;
+    @Binding(
+        bindingName = "DocumentC80Class",
+        strength = "example",
+        description = "High-level kind of a clinical document at a macro level.",
+        valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
+    )
     private final List<CodeableConcept> category;
     private final Reference subject;
     private final Instant date;
@@ -57,6 +82,12 @@ public class DocumentReference extends DomainResource {
     private final Reference custodian;
     private final List<RelatesTo> relatesTo;
     private final String description;
+    @Binding(
+        bindingName = "SecurityLabels",
+        strength = "extensible",
+        description = "Security Labels from the Healthcare Privacy and Security Classification System.",
+        valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
+    )
     private final List<CodeableConcept> securityLabel;
     @Required
     private final List<Content> content;
@@ -1011,6 +1042,12 @@ public class DocumentReference extends DomainResource {
      */
     public static class RelatesTo extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "DocumentRelationshipType",
+            strength = "required",
+            description = "The type of relationship between documents.",
+            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
+        )
         private final DocumentRelationshipType code;
         @Required
         private final Reference target;
@@ -1283,6 +1320,12 @@ public class DocumentReference extends DomainResource {
     public static class Content extends BackboneElement {
         @Required
         private final Attachment attachment;
+        @Binding(
+            bindingName = "DocumentFormat",
+            strength = "preferred",
+            description = "Document Format Codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/formatcodes"
+        )
         private final Coding format;
 
         private volatile int hashCode;
@@ -1551,9 +1594,27 @@ public class DocumentReference extends DomainResource {
      */
     public static class Context extends BackboneElement {
         private final List<Reference> encounter;
+        @Binding(
+            bindingName = "DocumentEventType",
+            strength = "example",
+            description = "This list of codes represents the main clinical acts being documented.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
+        )
         private final List<CodeableConcept> event;
         private final Period period;
+        @Binding(
+            bindingName = "DocumentC80FacilityType",
+            strength = "example",
+            description = "XDS Facility Type.",
+            valueSet = "http://hl7.org/fhir/ValueSet/c80-facilitycodes"
+        )
         private final CodeableConcept facilityType;
+        @Binding(
+            bindingName = "DocumentC80PracticeSetting",
+            strength = "example",
+            description = "Additional details about where the content was created (e.g. clinical specialty).",
+            valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
+        )
         private final CodeableConcept practiceSetting;
         private final Reference sourcePatientInfo;
         private final List<Reference> related;

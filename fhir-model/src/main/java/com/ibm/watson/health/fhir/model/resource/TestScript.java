@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.AssertionDirectionType;
@@ -156,6 +157,12 @@ public class TestScript extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -163,6 +170,12 @@ public class TestScript extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
@@ -1449,6 +1462,12 @@ public class TestScript extends DomainResource {
         @Required
         private final Integer index;
         @Required
+        @Binding(
+            bindingName = "TestScriptProfileOriginType",
+            strength = "extensible",
+            description = "The type of origin profile the test system supports.",
+            valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-origin-types"
+        )
         private final Coding profile;
 
         private volatile int hashCode;
@@ -1720,6 +1739,12 @@ public class TestScript extends DomainResource {
         @Required
         private final Integer index;
         @Required
+        @Binding(
+            bindingName = "TestScriptProfileDestinationType",
+            strength = "extensible",
+            description = "The type of destination profile the test system supports.",
+            valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-destination-types"
+        )
         private final Coding profile;
 
         private volatile int hashCode;
@@ -4333,15 +4358,45 @@ public class TestScript extends DomainResource {
              * The operation to perform.
              */
             public static class Operation extends BackboneElement {
+                @Binding(
+                    bindingName = "TestScriptOperationCode",
+                    strength = "extensible",
+                    description = "The allowable operation code types.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/testscript-operation-codes"
+                )
                 private final Coding type;
+                @Binding(
+                    bindingName = "FHIRDefinedType",
+                    strength = "required",
+                    description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.0"
+                )
                 private final FHIRDefinedType resource;
                 private final String label;
                 private final String description;
+                @Binding(
+                    bindingName = "MimeType",
+                    strength = "required",
+                    description = "The mime type of an attachment. Any valid mime type is allowed.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+                )
                 private final Code accept;
+                @Binding(
+                    bindingName = "MimeType",
+                    strength = "required",
+                    description = "The mime type of an attachment. Any valid mime type is allowed.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+                )
                 private final Code contentType;
                 private final Integer destination;
                 @Required
                 private final Boolean encodeRequestUrl;
+                @Binding(
+                    bindingName = "TestScriptRequestMethodCode",
+                    strength = "required",
+                    description = "The allowable request method or HTTP operation codes.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.0"
+                )
                 private final TestScriptRequestMethodCode method;
                 private final Integer origin;
                 private final String params;
@@ -5379,20 +5434,56 @@ public class TestScript extends DomainResource {
             public static class Assert extends BackboneElement {
                 private final String label;
                 private final String description;
+                @Binding(
+                    bindingName = "AssertionDirectionType",
+                    strength = "required",
+                    description = "The type of direction to use for assertion.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.0.0"
+                )
                 private final AssertionDirectionType direction;
                 private final String compareToSourceId;
                 private final String compareToSourceExpression;
                 private final String compareToSourcePath;
+                @Binding(
+                    bindingName = "MimeType",
+                    strength = "required",
+                    description = "The mime type of an attachment. Any valid mime type is allowed.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+                )
                 private final Code contentType;
                 private final String expression;
                 private final String headerField;
                 private final String minimumId;
                 private final Boolean navigationLinks;
+                @Binding(
+                    bindingName = "AssertionOperatorType",
+                    strength = "required",
+                    description = "The type of operator to use for assertion.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.0.0"
+                )
                 private final AssertionOperatorType operator;
                 private final String path;
+                @Binding(
+                    bindingName = "TestScriptRequestMethodCode",
+                    strength = "required",
+                    description = "The allowable request method or HTTP operation codes.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.0"
+                )
                 private final TestScriptRequestMethodCode requestMethod;
                 private final String requestURL;
+                @Binding(
+                    bindingName = "FHIRDefinedType",
+                    strength = "required",
+                    description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.0"
+                )
                 private final FHIRDefinedType resource;
+                @Binding(
+                    bindingName = "AssertionResponseTypes",
+                    strength = "required",
+                    description = "The type of response code to use for assertion.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.0.0"
+                )
                 private final AssertionResponseTypes response;
                 private final String responseCode;
                 private final Id sourceId;

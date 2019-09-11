@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -58,10 +59,22 @@ public class TestReport extends DomainResource {
     private final Identifier identifier;
     private final String name;
     @Required
+    @Binding(
+        bindingName = "TestReportStatus",
+        strength = "required",
+        description = "The current status of the test report.",
+        valueSet = "http://hl7.org/fhir/ValueSet/report-status-codes|4.0.0"
+    )
     private final TestReportStatus status;
     @Required
     private final Reference testScript;
     @Required
+    @Binding(
+        bindingName = "TestReportResult",
+        strength = "required",
+        description = "The reported execution result.",
+        valueSet = "http://hl7.org/fhir/ValueSet/report-result-codes|4.0.0"
+    )
     private final TestReportResult result;
     private final Decimal score;
     private final String tester;
@@ -804,6 +817,12 @@ public class TestReport extends DomainResource {
      */
     public static class Participant extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "TestReportParticipantType",
+            strength = "required",
+            description = "The type of participant.",
+            valueSet = "http://hl7.org/fhir/ValueSet/report-participant-type|4.0.0"
+        )
         private final TestReportParticipantType type;
         @Required
         private final Uri uri;
@@ -1621,6 +1640,12 @@ public class TestReport extends DomainResource {
              */
             public static class Operation extends BackboneElement {
                 @Required
+                @Binding(
+                    bindingName = "TestReportActionResult",
+                    strength = "required",
+                    description = "The results of executing an action.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.0.0"
+                )
                 private final TestReportActionResult result;
                 private final Markdown message;
                 private final Uri detail;
@@ -1920,6 +1945,12 @@ public class TestReport extends DomainResource {
              */
             public static class Assert extends BackboneElement {
                 @Required
+                @Binding(
+                    bindingName = "TestReportActionResult",
+                    strength = "required",
+                    description = "The results of executing an action.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.0.0"
+                )
                 private final TestReportActionResult result;
                 private final Markdown message;
                 private final String detail;

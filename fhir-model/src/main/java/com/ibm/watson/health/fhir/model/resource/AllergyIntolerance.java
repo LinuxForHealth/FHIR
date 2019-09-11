@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -62,11 +63,47 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class AllergyIntolerance extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "AllergyIntoleranceClinicalStatus",
+        strength = "required",
+        description = "The clinical status of the allergy or intolerance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.0.0"
+    )
     private final CodeableConcept clinicalStatus;
+    @Binding(
+        bindingName = "AllergyIntoleranceVerificationStatus",
+        strength = "required",
+        description = "Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.0.0"
+    )
     private final CodeableConcept verificationStatus;
+    @Binding(
+        bindingName = "AllergyIntoleranceType",
+        strength = "required",
+        description = "Identification of the underlying physiological mechanism for a Reaction Risk.",
+        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.0.0"
+    )
     private final AllergyIntoleranceType type;
+    @Binding(
+        bindingName = "AllergyIntoleranceCategory",
+        strength = "required",
+        description = "Category of an identified substance associated with allergies or intolerances.",
+        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.0.0"
+    )
     private final List<AllergyIntoleranceCategory> category;
+    @Binding(
+        bindingName = "AllergyIntoleranceCriticality",
+        strength = "required",
+        description = "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.0.0"
+    )
     private final AllergyIntoleranceCriticality criticality;
+    @Binding(
+        bindingName = "AllergyIntoleranceCode",
+        strength = "example",
+        description = "Type of the substance/product, allergy or intolerance condition, or negation/exclusion codes for reporting no known allergies.",
+        valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-code"
+    )
     private final CodeableConcept code;
     @Required
     private final Reference patient;
@@ -1000,12 +1037,36 @@ public class AllergyIntolerance extends DomainResource {
      * Details about each adverse reaction event linked to exposure to the identified substance.
      */
     public static class Reaction extends BackboneElement {
+        @Binding(
+            bindingName = "SubstanceCode",
+            strength = "example",
+            description = "Codes defining the type of the substance (including pharmaceutical products).",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
+        )
         private final CodeableConcept substance;
         @Required
+        @Binding(
+            bindingName = "Manifestation",
+            strength = "example",
+            description = "Clinical symptoms and/or signs that are observed or associated with an Adverse Reaction Event.",
+            valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
+        )
         private final List<CodeableConcept> manifestation;
         private final String description;
         private final DateTime onset;
+        @Binding(
+            bindingName = "AllergyIntoleranceSeverity",
+            strength = "required",
+            description = "Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations.",
+            valueSet = "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.0.0"
+        )
         private final AllergyIntoleranceSeverity severity;
+        @Binding(
+            bindingName = "RouteOfAdministration",
+            strength = "example",
+            description = "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.",
+            valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
+        )
         private final CodeableConcept exposureRoute;
         private final List<Annotation> note;
 

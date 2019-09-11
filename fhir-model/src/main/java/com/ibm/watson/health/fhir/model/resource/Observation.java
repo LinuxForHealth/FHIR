@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -76,9 +77,27 @@ public class Observation extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Reference> partOf;
     @Required
+    @Binding(
+        bindingName = "ObservationStatus",
+        strength = "required",
+        description = "Codes providing the status of an observation.",
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
+    )
     private final ObservationStatus status;
+    @Binding(
+        bindingName = "ObservationCategory",
+        strength = "preferred",
+        description = "Codes for high level observation categories.",
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
+    )
     private final List<CodeableConcept> category;
     @Required
+    @Binding(
+        bindingName = "ObservationCode",
+        strength = "example",
+        description = "Codes identifying names of simple observations.",
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
+    )
     private final CodeableConcept code;
     private final Reference subject;
     private final List<Reference> focus;
@@ -89,10 +108,34 @@ public class Observation extends DomainResource {
     private final List<Reference> performer;
     @Choice({ Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class })
     private final Element value;
+    @Binding(
+        bindingName = "ObservationValueAbsentReason",
+        strength = "extensible",
+        description = "Codes specifying why the result (`Observation.value[x]`) is missing.",
+        valueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason"
+    )
     private final CodeableConcept dataAbsentReason;
+    @Binding(
+        bindingName = "ObservationInterpretation",
+        strength = "extensible",
+        description = "Codes identifying interpretations of observations.",
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-interpretation"
+    )
     private final List<CodeableConcept> interpretation;
     private final List<Annotation> note;
+    @Binding(
+        bindingName = "BodySite",
+        strength = "example",
+        description = "Codes describing anatomical locations. May include laterality.",
+        valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+    )
     private final CodeableConcept bodySite;
+    @Binding(
+        bindingName = "ObservationMethod",
+        strength = "example",
+        description = "Methods for simple observations.",
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-methods"
+    )
     private final CodeableConcept method;
     private final Reference specimen;
     private final Reference device;
@@ -1474,7 +1517,19 @@ public class Observation extends DomainResource {
     public static class ReferenceRange extends BackboneElement {
         private final SimpleQuantity low;
         private final SimpleQuantity high;
+        @Binding(
+            bindingName = "ObservationRangeMeaning",
+            strength = "preferred",
+            description = "Code for the meaning of a reference range.",
+            valueSet = "http://hl7.org/fhir/ValueSet/referencerange-meaning"
+        )
         private final CodeableConcept type;
+        @Binding(
+            bindingName = "ObservationRangeType",
+            strength = "example",
+            description = "Codes identifying the population the reference range applies to.",
+            valueSet = "http://hl7.org/fhir/ValueSet/referencerange-appliesto"
+        )
         private final List<CodeableConcept> appliesTo;
         private final Range age;
         private final String text;
@@ -1905,10 +1960,28 @@ public class Observation extends DomainResource {
      */
     public static class Component extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "ObservationCode",
+            strength = "example",
+            description = "Codes identifying names of simple observations.",
+            valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
+        )
         private final CodeableConcept code;
         @Choice({ Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class })
         private final Element value;
+        @Binding(
+            bindingName = "ObservationValueAbsentReason",
+            strength = "extensible",
+            description = "Codes specifying why the result (`Observation.value[x]`) is missing.",
+            valueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason"
+        )
         private final CodeableConcept dataAbsentReason;
+        @Binding(
+            bindingName = "ObservationInterpretation",
+            strength = "extensible",
+            description = "Codes identifying interpretations of observations.",
+            valueSet = "http://hl7.org/fhir/ValueSet/observation-interpretation"
+        )
         private final List<CodeableConcept> interpretation;
         private final List<Observation.ReferenceRange> referenceRange;
 

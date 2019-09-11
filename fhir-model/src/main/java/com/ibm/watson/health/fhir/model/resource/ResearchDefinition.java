@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -62,9 +63,21 @@ public class ResearchDefinition extends DomainResource {
     private final String shortTitle;
     private final String subtitle;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "SubjectType",
+        strength = "extensible",
+        description = "The possible types of subjects for the research (E.g. Patient, Practitioner, Organization, Location, etc.).",
+        valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
+    )
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -72,6 +85,12 @@ public class ResearchDefinition extends DomainResource {
     private final Markdown description;
     private final List<String> comment;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final String usage;
@@ -79,6 +98,12 @@ public class ResearchDefinition extends DomainResource {
     private final Date approvalDate;
     private final Date lastReviewDate;
     private final Period effectivePeriod;
+    @Binding(
+        bindingName = "DefinitionTopic",
+        strength = "example",
+        description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
+        valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
+    )
     private final List<CodeableConcept> topic;
     private final List<ContactDetail> author;
     private final List<ContactDetail> editor;

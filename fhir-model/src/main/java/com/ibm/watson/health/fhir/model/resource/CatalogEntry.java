@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Boolean;
@@ -46,6 +47,12 @@ public class CatalogEntry extends DomainResource {
     private final Reference referencedItem;
     private final List<Identifier> additionalIdentifier;
     private final List<CodeableConcept> classification;
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Period validityPeriod;
     private final DateTime validTo;
@@ -895,6 +902,12 @@ public class CatalogEntry extends DomainResource {
      */
     public static class RelatedEntry extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "CatalogEntryRelationType",
+            strength = "required",
+            description = "The type of relations between entries.",
+            valueSet = "http://hl7.org/fhir/ValueSet/relation-type|4.0.0"
+        )
         private final CatalogEntryRelationType relationtype;
         @Required
         private final Reference item;

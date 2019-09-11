@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.QuantityComparator;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
@@ -30,6 +31,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Quantity extends Element {
     protected final Decimal value;
+    @Binding(
+        bindingName = "QuantityComparator",
+        strength = "required",
+        description = "How the Quantity should be understood and represented.",
+        valueSet = "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.0"
+    )
     protected final QuantityComparator comparator;
     protected final String unit;
     protected final Uri system;

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -65,9 +66,27 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Composition extends DomainResource {
     private final Identifier identifier;
     @Required
+    @Binding(
+        bindingName = "CompositionStatus",
+        strength = "required",
+        description = "The workflow/clinical status of the composition.",
+        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.0"
+    )
     private final CompositionStatus status;
     @Required
+    @Binding(
+        bindingName = "DocumentType",
+        strength = "preferred",
+        description = "Type of a composition.",
+        valueSet = "http://hl7.org/fhir/ValueSet/doc-typecodes"
+    )
     private final CodeableConcept type;
+    @Binding(
+        bindingName = "DocumentCategory",
+        strength = "example",
+        description = "High-level kind of a clinical document at a macro level.",
+        valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
+    )
     private final List<CodeableConcept> category;
     private final Reference subject;
     private final Reference encounter;
@@ -77,6 +96,12 @@ public class Composition extends DomainResource {
     private final List<Reference> author;
     @Required
     private final String title;
+    @Binding(
+        bindingName = "DocumentConfidentiality",
+        strength = "required",
+        description = "Codes specifying the level of confidentiality of the composition.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-ConfidentialityClassification|4.0.0"
+    )
     private final DocumentConfidentiality confidentiality;
     private final List<Attester> attester;
     private final Reference custodian;
@@ -1007,6 +1032,12 @@ public class Composition extends DomainResource {
      */
     public static class Attester extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "CompositionAttestationMode",
+            strength = "required",
+            description = "The way in which a person authenticated a composition.",
+            valueSet = "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.0.0"
+        )
         private final CompositionAttestationMode mode;
         private final DateTime time;
         private final Reference party;
@@ -1306,6 +1337,12 @@ public class Composition extends DomainResource {
      */
     public static class RelatesTo extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "DocumentRelationshipType",
+            strength = "required",
+            description = "The type of relationship between documents.",
+            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
+        )
         private final DocumentRelationshipType code;
         @Required
         @Choice({ Identifier.class, Reference.class })
@@ -1583,6 +1620,12 @@ public class Composition extends DomainResource {
      * The clinical service, such as a colonoscopy or an appendectomy, being documented.
      */
     public static class Event extends BackboneElement {
+        @Binding(
+            bindingName = "DocumentEventType",
+            strength = "example",
+            description = "This list of codes represents the main clinical acts being documented.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
+        )
         private final List<CodeableConcept> code;
         private final Period period;
         private final List<Reference> detail;
@@ -1926,13 +1969,37 @@ public class Composition extends DomainResource {
      */
     public static class Section extends BackboneElement {
         private final String title;
+        @Binding(
+            bindingName = "CompositionSectionType",
+            strength = "example",
+            description = "Classification of a section of a composition/document.",
+            valueSet = "http://hl7.org/fhir/ValueSet/doc-section-codes"
+        )
         private final CodeableConcept code;
         private final List<Reference> author;
         private final Reference focus;
         private final Narrative text;
+        @Binding(
+            bindingName = "SectionMode",
+            strength = "required",
+            description = "The processing mode that applies to this section.",
+            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.0"
+        )
         private final SectionMode mode;
+        @Binding(
+            bindingName = "SectionEntryOrder",
+            strength = "preferred",
+            description = "What order applies to the items in the entry.",
+            valueSet = "http://hl7.org/fhir/ValueSet/list-order"
+        )
         private final CodeableConcept orderedBy;
         private final List<Reference> entry;
+        @Binding(
+            bindingName = "SectionEmptyReason",
+            strength = "preferred",
+            description = "If a section is empty, why it is empty.",
+            valueSet = "http://hl7.org/fhir/ValueSet/list-empty-reason"
+        )
         private final CodeableConcept emptyReason;
         private final List<Composition.Section> section;
 

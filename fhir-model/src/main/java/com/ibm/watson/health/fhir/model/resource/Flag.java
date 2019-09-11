@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -36,9 +37,27 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Flag extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "FlagStatus",
+        strength = "required",
+        description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
+        valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.0"
+    )
     private final FlagStatus status;
+    @Binding(
+        bindingName = "FlagCategory",
+        strength = "example",
+        description = "A general category for flags for filtering/display purposes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/flag-category"
+    )
     private final List<CodeableConcept> category;
     @Required
+    @Binding(
+        bindingName = "FlagCode",
+        strength = "example",
+        description = "Detail codes identifying specific flagged issues.",
+        valueSet = "http://hl7.org/fhir/ValueSet/flag-code"
+    )
     private final CodeableConcept code;
     @Required
     private final Reference subject;

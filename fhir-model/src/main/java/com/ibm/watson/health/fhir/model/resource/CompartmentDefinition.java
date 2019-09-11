@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -53,6 +54,12 @@ public class CompartmentDefinition extends DomainResource {
     @Required
     private final String name;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -62,6 +69,12 @@ public class CompartmentDefinition extends DomainResource {
     private final List<UsageContext> useContext;
     private final Markdown purpose;
     @Required
+    @Binding(
+        bindingName = "CompartmentType",
+        strength = "required",
+        description = "Which type a compartment definition describes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.0"
+    )
     private final CompartmentType code;
     @Required
     private final Boolean search;
@@ -912,6 +925,12 @@ public class CompartmentDefinition extends DomainResource {
      */
     public static class Resource extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "ResourceType",
+            strength = "required",
+            description = "One of the resource types defined as part of this version of FHIR.",
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+        )
         private final ResourceType code;
         private final List<String> param;
         private final String documentation;

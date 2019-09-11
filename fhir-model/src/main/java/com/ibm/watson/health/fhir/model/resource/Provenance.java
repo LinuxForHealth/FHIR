@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -53,7 +54,19 @@ public class Provenance extends DomainResource {
     private final Instant recorded;
     private final List<Uri> policy;
     private final Reference location;
+    @Binding(
+        bindingName = "ProvenanceReason",
+        strength = "extensible",
+        description = "The reason the activity took place.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
+    )
     private final List<CodeableConcept> reason;
+    @Binding(
+        bindingName = "ProvenanceActivity",
+        strength = "extensible",
+        description = "The activity that took place.",
+        valueSet = "http://hl7.org/fhir/ValueSet/provenance-activity-type"
+    )
     private final CodeableConcept activity;
     @Required
     private final List<Agent> agent;
@@ -831,7 +844,19 @@ public class Provenance extends DomainResource {
      * taking place.
      */
     public static class Agent extends BackboneElement {
+        @Binding(
+            bindingName = "ProvenanceAgentType",
+            strength = "extensible",
+            description = "The type of participation that a provenance agent played with respect to the activity.",
+            valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-type"
+        )
         private final CodeableConcept type;
+        @Binding(
+            bindingName = "ProvenanceAgentRole",
+            strength = "example",
+            description = "The role that a provenance agent played with respect to the activity.",
+            valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
+        )
         private final List<CodeableConcept> role;
         @Required
         private final Reference who;
@@ -1186,6 +1211,12 @@ public class Provenance extends DomainResource {
      */
     public static class Entity extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "ProvenanceEntityRole",
+            strength = "required",
+            description = "How an entity was used in an activity.",
+            valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.0.0"
+        )
         private final ProvenanceEntityRole role;
         @Required
         private final Reference what;

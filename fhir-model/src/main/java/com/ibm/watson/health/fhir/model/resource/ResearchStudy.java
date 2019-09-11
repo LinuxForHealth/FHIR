@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -48,15 +49,60 @@ public class ResearchStudy extends DomainResource {
     private final List<Reference> protocol;
     private final List<Reference> partOf;
     @Required
+    @Binding(
+        bindingName = "ResearchStudyStatus",
+        strength = "required",
+        description = "Codes that convey the current status of the research study.",
+        valueSet = "http://hl7.org/fhir/ValueSet/research-study-status|4.0.0"
+    )
     private final ResearchStudyStatus status;
+    @Binding(
+        bindingName = "ResearchStudyPrimaryPurposeType",
+        strength = "extensible",
+        description = "Codes for the main intent of the study.",
+        valueSet = "http://hl7.org/fhir/ValueSet/research-study-prim-purp-type"
+    )
     private final CodeableConcept primaryPurposeType;
+    @Binding(
+        bindingName = "ResearchStudyPhase",
+        strength = "example",
+        description = "Codes for the stage in the progression of a therapy from initial experimental use in humans in clinical trials to post-market evaluation.",
+        valueSet = "http://hl7.org/fhir/ValueSet/research-study-phase"
+    )
     private final CodeableConcept phase;
+    @Binding(
+        bindingName = "ResearchStudyCategory",
+        strength = "example",
+        description = "Codes that describe the type of research study.  E.g. Study phase, Interventional/Observational, blinding type, etc."
+    )
     private final List<CodeableConcept> category;
+    @Binding(
+        bindingName = "ResearchStudyFocus",
+        strength = "example",
+        description = "Codes for medications, devices and other interventions."
+    )
     private final List<CodeableConcept> focus;
+    @Binding(
+        bindingName = "ConditionCode",
+        strength = "example",
+        description = "Identification of the condition or diagnosis.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
+    )
     private final List<CodeableConcept> condition;
     private final List<ContactDetail> contact;
     private final List<RelatedArtifact> relatedArtifact;
+    @Binding(
+        bindingName = "ResearchStudyKeyword",
+        strength = "example",
+        description = "Words associated with the study that may be useful in discovery."
+    )
     private final List<CodeableConcept> keyword;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> location;
     private final Markdown description;
     private final List<Reference> enrollment;
@@ -64,6 +110,12 @@ public class ResearchStudy extends DomainResource {
     private final Reference sponsor;
     private final Reference principalInvestigator;
     private final List<Reference> site;
+    @Binding(
+        bindingName = "ResearchStudyReasonStopped",
+        strength = "example",
+        description = "Codes for why the study ended prematurely.",
+        valueSet = "http://hl7.org/fhir/ValueSet/research-study-reason-stopped"
+    )
     private final CodeableConcept reasonStopped;
     private final List<Annotation> note;
     private final List<Arm> arm;
@@ -1751,6 +1803,12 @@ public class ResearchStudy extends DomainResource {
      */
     public static class Objective extends BackboneElement {
         private final String name;
+        @Binding(
+            bindingName = "ResearchStudyObjectiveType",
+            strength = "preferred",
+            description = "Codes for the kind of study objective.",
+            valueSet = "http://hl7.org/fhir/ValueSet/research-study-objective-type"
+        )
         private final CodeableConcept type;
 
         private volatile int hashCode;

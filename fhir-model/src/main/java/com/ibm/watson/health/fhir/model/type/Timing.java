@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -96,6 +97,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Timing extends BackboneElement {
     private final List<DateTime> event;
     private final Repeat repeat;
+    @Binding(
+        bindingName = "TimingAbbreviation",
+        strength = "preferred",
+        description = "Code for a known / defined timing pattern.",
+        valueSet = "http://hl7.org/fhir/ValueSet/timing-abbreviation"
+    )
     private final CodeableConcept code;
 
     private volatile int hashCode;
@@ -418,14 +425,37 @@ public class Timing extends BackboneElement {
         private final PositiveInt countMax;
         private final Decimal duration;
         private final Decimal durationMax;
+        @Binding(
+            bindingName = "UnitsOfTime",
+            strength = "required",
+            description = "A unit of time (units from UCUM).",
+            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.0"
+        )
         private final UnitsOfTime durationUnit;
         private final PositiveInt frequency;
         private final PositiveInt frequencyMax;
         private final Decimal period;
         private final Decimal periodMax;
+        @Binding(
+            bindingName = "UnitsOfTime",
+            strength = "required",
+            description = "A unit of time (units from UCUM).",
+            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.0"
+        )
         private final UnitsOfTime periodUnit;
+        @Binding(
+            bindingName = "DayOfWeek",
+            strength = "required",
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
+        )
         private final List<DayOfWeek> dayOfWeek;
         private final List<Time> timeOfDay;
+        @Binding(
+            bindingName = "EventTiming",
+            strength = "required",
+            description = "Real world event relating to the schedule.",
+            valueSet = "http://hl7.org/fhir/ValueSet/event-timing|4.0.0"
+        )
         private final List<EventTiming> when;
         private final UnsignedInt offset;
 

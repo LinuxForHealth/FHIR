@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Address;
@@ -56,11 +57,35 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class ExplanationOfBenefit extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "ExplanationOfBenefitStatus",
+        strength = "required",
+        description = "A code specifying the state of the resource instance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.0"
+    )
     private final ExplanationOfBenefitStatus status;
     @Required
+    @Binding(
+        bindingName = "ClaimType",
+        strength = "extensible",
+        description = "The type or discipline-style of the claim.",
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-type"
+    )
     private final CodeableConcept type;
+    @Binding(
+        bindingName = "ClaimSubType",
+        strength = "example",
+        description = "A more granular claim typecode.",
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-subtype"
+    )
     private final CodeableConcept subType;
     @Required
+    @Binding(
+        bindingName = "Use",
+        strength = "required",
+        description = "Complete, proposed, exploratory, other.",
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.0"
+    )
     private final Use use;
     @Required
     private final Reference patient;
@@ -72,8 +97,26 @@ public class ExplanationOfBenefit extends DomainResource {
     private final Reference insurer;
     @Required
     private final Reference provider;
+    @Binding(
+        bindingName = "ProcessPriority",
+        strength = "example",
+        description = "The timeliness with which processing is required: stat, normal, deferred.",
+        valueSet = "http://terminology.hl7.org/CodeSystem/processpriority"
+    )
     private final CodeableConcept priority;
+    @Binding(
+        bindingName = "FundsReserve",
+        strength = "example",
+        description = "For whom funds are to be reserved: (Patient, Provider, None).",
+        valueSet = "http://hl7.org/fhir/ValueSet/fundsreserve"
+    )
     private final CodeableConcept fundsReserveRequested;
+    @Binding(
+        bindingName = "FundsReserve",
+        strength = "example",
+        description = "For whom funds are to be reserved: (Patient, Provider, None).",
+        valueSet = "http://hl7.org/fhir/ValueSet/fundsreserve"
+    )
     private final CodeableConcept fundsReserve;
     private final List<Related> related;
     private final Reference prescription;
@@ -84,6 +127,12 @@ public class ExplanationOfBenefit extends DomainResource {
     private final Reference claim;
     private final Reference claimResponse;
     @Required
+    @Binding(
+        bindingName = "RemittanceOutcome",
+        strength = "required",
+        description = "The result of the claim processing.",
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
+    )
     private final RemittanceOutcome outcome;
     private final String disposition;
     private final List<String> preAuthRef;
@@ -101,6 +150,12 @@ public class ExplanationOfBenefit extends DomainResource {
     private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
     private final List<Total> total;
     private final Payment payment;
+    @Binding(
+        bindingName = "Forms",
+        strength = "example",
+        description = "The forms codes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/forms"
+    )
     private final CodeableConcept formCode;
     private final Attachment form;
     private final List<ProcessNote> processNote;
@@ -2104,6 +2159,12 @@ public class ExplanationOfBenefit extends DomainResource {
      */
     public static class Related extends BackboneElement {
         private final Reference claim;
+        @Binding(
+            bindingName = "RelatedClaimRelationship",
+            strength = "example",
+            description = "Relationship of this claim to a related Claim.",
+            valueSet = "http://hl7.org/fhir/ValueSet/related-claim-relationship"
+        )
         private final CodeableConcept relationship;
         private final Identifier reference;
 
@@ -2394,6 +2455,12 @@ public class ExplanationOfBenefit extends DomainResource {
      * The party to be reimbursed for cost of the products and services according to the terms of the policy.
      */
     public static class Payee extends BackboneElement {
+        @Binding(
+            bindingName = "PayeeType",
+            strength = "example",
+            description = "A code for the party to be reimbursed.",
+            valueSet = "http://hl7.org/fhir/ValueSet/payeetype"
+        )
         private final CodeableConcept type;
         private final Reference party;
 
@@ -2658,7 +2725,19 @@ public class ExplanationOfBenefit extends DomainResource {
         @Required
         private final Reference provider;
         private final Boolean responsible;
+        @Binding(
+            bindingName = "CareTeamRole",
+            strength = "example",
+            description = "The role codes for the care team members.",
+            valueSet = "http://hl7.org/fhir/ValueSet/claim-careteamrole"
+        )
         private final CodeableConcept role;
+        @Binding(
+            bindingName = "ProviderQualification",
+            strength = "example",
+            description = "Provider professional qualifications.",
+            valueSet = "http://hl7.org/fhir/ValueSet/provider-qualification"
+        )
         private final CodeableConcept qualification;
 
         private volatile int hashCode;
@@ -3024,12 +3103,30 @@ public class ExplanationOfBenefit extends DomainResource {
         @Required
         private final PositiveInt sequence;
         @Required
+        @Binding(
+            bindingName = "InformationCategory",
+            strength = "example",
+            description = "The valuset used for additional information category codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/claim-informationcategory"
+        )
         private final CodeableConcept category;
+        @Binding(
+            bindingName = "InformationCode",
+            strength = "example",
+            description = "The valuset used for additional information codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/claim-exception"
+        )
         private final CodeableConcept code;
         @Choice({ Date.class, Period.class })
         private final Element timing;
         @Choice({ Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class })
         private final Element value;
+        @Binding(
+            bindingName = "MissingReason",
+            strength = "example",
+            description = "Reason codes for the missing teeth.",
+            valueSet = "http://hl7.org/fhir/ValueSet/missing-tooth-reason"
+        )
         private final Coding reason;
 
         private volatile int hashCode;
@@ -3445,9 +3542,33 @@ public class ExplanationOfBenefit extends DomainResource {
         private final PositiveInt sequence;
         @Required
         @Choice({ CodeableConcept.class, Reference.class })
+        @Binding(
+            bindingName = "ICD10",
+            strength = "example",
+            description = "ICD10 Diagnostic codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
+        )
         private final Element diagnosis;
+        @Binding(
+            bindingName = "DiagnosisType",
+            strength = "example",
+            description = "The type of the diagnosis: admitting, principal, discharge.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosistype"
+        )
         private final List<CodeableConcept> type;
+        @Binding(
+            bindingName = "DiagnosisOnAdmission",
+            strength = "example",
+            description = "Present on admission.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosis-on-admission"
+        )
         private final CodeableConcept onAdmission;
+        @Binding(
+            bindingName = "DiagnosisRelatedGroup",
+            strength = "example",
+            description = "The DRG codes associated with the diagnosis.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosisrelatedgroup"
+        )
         private final CodeableConcept packageCode;
 
         private volatile int hashCode;
@@ -3839,10 +3960,22 @@ public class ExplanationOfBenefit extends DomainResource {
     public static class Procedure extends BackboneElement {
         @Required
         private final PositiveInt sequence;
+        @Binding(
+            bindingName = "ProcedureType",
+            strength = "example",
+            description = "Example procedure type codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-procedure-type"
+        )
         private final List<CodeableConcept> type;
         private final DateTime date;
         @Required
         @Choice({ CodeableConcept.class, Reference.class })
+        @Binding(
+            bindingName = "ICD10_Procedures",
+            strength = "example",
+            description = "ICD10 Procedure codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/icd-10-procedures"
+        )
         private final Element procedure;
         private final List<Reference> udi;
 
@@ -4580,6 +4713,12 @@ public class ExplanationOfBenefit extends DomainResource {
      */
     public static class Accident extends BackboneElement {
         private final Date date;
+        @Binding(
+            bindingName = "AccidentType",
+            strength = "extensible",
+            description = "Type of accident: work place, auto, etc.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v3-ActIncidentCode"
+        )
         private final CodeableConcept type;
         @Choice({ Address.class, Reference.class })
         private final Element location;
@@ -4886,22 +5025,70 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<PositiveInt> diagnosisSequence;
         private final List<PositiveInt> procedureSequence;
         private final List<PositiveInt> informationSequence;
+        @Binding(
+            bindingName = "RevenueCenter",
+            strength = "example",
+            description = "Codes for the revenue or cost centers supplying the service and/or products.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
+        )
         private final CodeableConcept revenue;
+        @Binding(
+            bindingName = "BenefitCategory",
+            strength = "example",
+            description = "Benefit categories such as: oral, medical, vision, oral-basic etc.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
+        )
         private final CodeableConcept category;
         @Required
+        @Binding(
+            bindingName = "ServiceProduct",
+            strength = "example",
+            description = "Allowable service and product codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
+        )
         private final CodeableConcept productOrService;
+        @Binding(
+            bindingName = "Modifiers",
+            strength = "example",
+            description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
+            valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
+        )
         private final List<CodeableConcept> modifier;
+        @Binding(
+            bindingName = "ProgramCode",
+            strength = "example",
+            description = "Program specific reason codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
+        )
         private final List<CodeableConcept> programCode;
         @Choice({ Date.class, Period.class })
         private final Element serviced;
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
+        @Binding(
+            bindingName = "ServicePlace",
+            strength = "example",
+            description = "Place where the service is rendered.",
+            valueSet = "http://hl7.org/fhir/ValueSet/service-place"
+        )
         private final Element location;
         private final SimpleQuantity quantity;
         private final Money unitPrice;
         private final Decimal factor;
         private final Money net;
         private final List<Reference> udi;
+        @Binding(
+            bindingName = "OralSites",
+            strength = "example",
+            description = "The code for the teeth, quadrant, sextant and arch.",
+            valueSet = "http://hl7.org/fhir/ValueSet/tooth"
+        )
         private final CodeableConcept bodySite;
+        @Binding(
+            bindingName = "Surface",
+            strength = "example",
+            description = "The code for the tooth surface and surface combinations.",
+            valueSet = "http://hl7.org/fhir/ValueSet/surface"
+        )
         private final List<CodeableConcept> subSite;
         private final List<Reference> encounter;
         private final List<PositiveInt> noteNumber;
@@ -6088,7 +6275,19 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public static class Adjudication extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "Adjudication",
+                strength = "example",
+                description = "The adjudication codes.",
+                valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
+            )
             private final CodeableConcept category;
+            @Binding(
+                bindingName = "AdjudicationReason",
+                strength = "example",
+                description = "Adjudication reason codes.",
+                valueSet = "http://hl7.org/fhir/ValueSet/adjudication-reason"
+            )
             private final CodeableConcept reason;
             private final Money amount;
             private final Decimal value;
@@ -6424,11 +6623,41 @@ public class ExplanationOfBenefit extends DomainResource {
         public static class Detail extends BackboneElement {
             @Required
             private final PositiveInt sequence;
+            @Binding(
+                bindingName = "RevenueCenter",
+                strength = "example",
+                description = "Codes for the revenue or cost centers supplying the service and/or products.",
+                valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
+            )
             private final CodeableConcept revenue;
+            @Binding(
+                bindingName = "BenefitCategory",
+                strength = "example",
+                description = "Benefit categories such as: oral, medical, vision, oral-basic etc.",
+                valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
+            )
             private final CodeableConcept category;
             @Required
+            @Binding(
+                bindingName = "ServiceProduct",
+                strength = "example",
+                description = "Allowable service and product codes.",
+                valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
+            )
             private final CodeableConcept productOrService;
+            @Binding(
+                bindingName = "Modifiers",
+                strength = "example",
+                description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
+                valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
+            )
             private final List<CodeableConcept> modifier;
+            @Binding(
+                bindingName = "ProgramCode",
+                strength = "example",
+                description = "Program specific reason codes.",
+                valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
+            )
             private final List<CodeableConcept> programCode;
             private final SimpleQuantity quantity;
             private final Money unitPrice;
@@ -7204,11 +7433,41 @@ public class ExplanationOfBenefit extends DomainResource {
             public static class SubDetail extends BackboneElement {
                 @Required
                 private final PositiveInt sequence;
+                @Binding(
+                    bindingName = "RevenueCenter",
+                    strength = "example",
+                    description = "Codes for the revenue or cost centers supplying the service and/or products.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
+                )
                 private final CodeableConcept revenue;
+                @Binding(
+                    bindingName = "BenefitCategory",
+                    strength = "example",
+                    description = "Benefit categories such as: oral, medical, vision, oral-basic etc.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
+                )
                 private final CodeableConcept category;
                 @Required
+                @Binding(
+                    bindingName = "ServiceProduct",
+                    strength = "example",
+                    description = "Allowable service and product codes.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
+                )
                 private final CodeableConcept productOrService;
+                @Binding(
+                    bindingName = "Modifiers",
+                    strength = "example",
+                    description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
+                )
                 private final List<CodeableConcept> modifier;
+                @Binding(
+                    bindingName = "ProgramCode",
+                    strength = "example",
+                    description = "Program specific reason codes.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
+                )
                 private final List<CodeableConcept> programCode;
                 private final SimpleQuantity quantity;
                 private final Money unitPrice;
@@ -7938,18 +8197,54 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<PositiveInt> subDetailSequence;
         private final List<Reference> provider;
         @Required
+        @Binding(
+            bindingName = "ServiceProduct",
+            strength = "example",
+            description = "Allowable service and product codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
+        )
         private final CodeableConcept productOrService;
+        @Binding(
+            bindingName = "Modifiers",
+            strength = "example",
+            description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
+            valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
+        )
         private final List<CodeableConcept> modifier;
+        @Binding(
+            bindingName = "ProgramCode",
+            strength = "example",
+            description = "Program specific reason codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
+        )
         private final List<CodeableConcept> programCode;
         @Choice({ Date.class, Period.class })
         private final Element serviced;
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
+        @Binding(
+            bindingName = "ServicePlace",
+            strength = "example",
+            description = "Place where the service is rendered.",
+            valueSet = "http://hl7.org/fhir/ValueSet/service-place"
+        )
         private final Element location;
         private final SimpleQuantity quantity;
         private final Money unitPrice;
         private final Decimal factor;
         private final Money net;
+        @Binding(
+            bindingName = "OralSites",
+            strength = "example",
+            description = "The code for the teeth, quadrant, sextant and arch.",
+            valueSet = "http://hl7.org/fhir/ValueSet/tooth"
+        )
         private final CodeableConcept bodySite;
+        @Binding(
+            bindingName = "Surface",
+            strength = "example",
+            description = "The code for the tooth surface and surface combinations.",
+            valueSet = "http://hl7.org/fhir/ValueSet/surface"
+        )
         private final List<CodeableConcept> subSite;
         private final List<PositiveInt> noteNumber;
         private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
@@ -8936,7 +9231,19 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public static class Detail extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "ServiceProduct",
+                strength = "example",
+                description = "Allowable service and product codes.",
+                valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
+            )
             private final CodeableConcept productOrService;
+            @Binding(
+                bindingName = "Modifiers",
+                strength = "example",
+                description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
+                valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
+            )
             private final List<CodeableConcept> modifier;
             private final SimpleQuantity quantity;
             private final Money unitPrice;
@@ -9512,7 +9819,19 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public static class SubDetail extends BackboneElement {
                 @Required
+                @Binding(
+                    bindingName = "ServiceProduct",
+                    strength = "example",
+                    description = "Allowable service and product codes.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
+                )
                 private final CodeableConcept productOrService;
+                @Binding(
+                    bindingName = "Modifiers",
+                    strength = "example",
+                    description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
+                )
                 private final List<CodeableConcept> modifier;
                 private final SimpleQuantity quantity;
                 private final Money unitPrice;
@@ -10039,6 +10358,12 @@ public class ExplanationOfBenefit extends DomainResource {
      */
     public static class Total extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "Adjudication",
+            strength = "example",
+            description = "The adjudication codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
+        )
         private final CodeableConcept category;
         @Required
         private final Money amount;
@@ -10313,8 +10638,20 @@ public class ExplanationOfBenefit extends DomainResource {
      * Payment details for the adjudication of the claim.
      */
     public static class Payment extends BackboneElement {
+        @Binding(
+            bindingName = "PaymentType",
+            strength = "example",
+            description = "The type (partial, complete) of the payment.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-paymenttype"
+        )
         private final CodeableConcept type;
         private final Money adjustment;
+        @Binding(
+            bindingName = "PaymentAdjustmentReason",
+            strength = "example",
+            description = "Payment Adjustment reason codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/payment-adjustment-reason"
+        )
         private final CodeableConcept adjustmentReason;
         private final Date date;
         private final Money amount;
@@ -10703,8 +11040,21 @@ public class ExplanationOfBenefit extends DomainResource {
      */
     public static class ProcessNote extends BackboneElement {
         private final PositiveInt number;
+        @Binding(
+            bindingName = "NoteType",
+            strength = "required",
+            description = "The presentation types of notes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.0"
+        )
         private final NoteType type;
         private final String text;
+        @Binding(
+            bindingName = "Language",
+            strength = "preferred",
+            description = "A human language.",
+            valueSet = "http://hl7.org/fhir/ValueSet/languages",
+            maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+        )
         private final CodeableConcept language;
 
         private volatile int hashCode;
@@ -11026,12 +11376,36 @@ public class ExplanationOfBenefit extends DomainResource {
      */
     public static class BenefitBalance extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "BenefitCategory",
+            strength = "example",
+            description = "Benefit categories such as: oral, medical, vision, oral-basic etc.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
+        )
         private final CodeableConcept category;
         private final Boolean excluded;
         private final String name;
         private final String description;
+        @Binding(
+            bindingName = "BenefitNetwork",
+            strength = "example",
+            description = "Code to classify in or out of network services.",
+            valueSet = "http://hl7.org/fhir/ValueSet/benefit-network"
+        )
         private final CodeableConcept network;
+        @Binding(
+            bindingName = "BenefitUnit",
+            strength = "example",
+            description = "Unit covered/serviced - individual or family.",
+            valueSet = "http://hl7.org/fhir/ValueSet/benefit-unit"
+        )
         private final CodeableConcept unit;
+        @Binding(
+            bindingName = "BenefitTerm",
+            strength = "example",
+            description = "Coverage unit - annual, lifetime.",
+            valueSet = "http://hl7.org/fhir/ValueSet/benefit-term"
+        )
         private final CodeableConcept term;
         private final List<Financial> financial;
 
@@ -11506,6 +11880,12 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public static class Financial extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "BenefitType",
+                strength = "example",
+                description = "Deductable, visits, co-pay, etc.",
+                valueSet = "http://hl7.org/fhir/ValueSet/benefit-type"
+            )
             private final CodeableConcept type;
             @Choice({ UnsignedInt.class, String.class, Money.class })
             private final Element allowed;

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -42,13 +43,43 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class DeviceMetric extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "MetricType",
+        strength = "preferred",
+        description = "Describes the metric type.",
+        valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
+    )
     private final CodeableConcept type;
+    @Binding(
+        bindingName = "MetricUnit",
+        strength = "preferred",
+        description = "Describes the unit of the metric.",
+        valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
+    )
     private final CodeableConcept unit;
     private final Reference source;
     private final Reference parent;
+    @Binding(
+        bindingName = "DeviceMetricOperationalStatus",
+        strength = "required",
+        description = "Describes the operational status of the DeviceMetric.",
+        valueSet = "http://hl7.org/fhir/ValueSet/metric-operational-status|4.0.0"
+    )
     private final DeviceMetricOperationalStatus operationalStatus;
+    @Binding(
+        bindingName = "DeviceMetricColor",
+        strength = "required",
+        description = "Describes the typical color of representation.",
+        valueSet = "http://hl7.org/fhir/ValueSet/metric-color|4.0.0"
+    )
     private final DeviceMetricColor color;
     @Required
+    @Binding(
+        bindingName = "DeviceMetricCategory",
+        strength = "required",
+        description = "Describes the category of the metric.",
+        valueSet = "http://hl7.org/fhir/ValueSet/metric-category|4.0.0"
+    )
     private final DeviceMetricCategory category;
     private final Timing measurementPeriod;
     private final List<Calibration> calibration;
@@ -741,7 +772,19 @@ public class DeviceMetric extends DomainResource {
      * Describes the calibrations that have been performed or that are required to be performed.
      */
     public static class Calibration extends BackboneElement {
+        @Binding(
+            bindingName = "DeviceMetricCalibrationType",
+            strength = "required",
+            description = "Describes the type of a metric calibration.",
+            valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.0.0"
+        )
         private final DeviceMetricCalibrationType type;
+        @Binding(
+            bindingName = "DeviceMetricCalibrationState",
+            strength = "required",
+            description = "Describes the state of a metric calibration.",
+            valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.0.0"
+        )
         private final DeviceMetricCalibrationState state;
         private final Instant time;
 

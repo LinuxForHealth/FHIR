@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -49,9 +50,27 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class CoverageEligibilityRequest extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "EligibilityRequestStatus",
+        strength = "required",
+        description = "A code specifying the state of the resource instance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
+    )
     private final EligibilityRequestStatus status;
+    @Binding(
+        bindingName = "ProcessPriority",
+        strength = "example",
+        description = "The timeliness with which processing is required: STAT, normal, Deferred.",
+        valueSet = "http://hl7.org/fhir/ValueSet/process-priority"
+    )
     private final CodeableConcept priority;
     @Required
+    @Binding(
+        bindingName = "EligibilityRequestPurpose",
+        strength = "required",
+        description = "A code specifying the types of information being requested.",
+        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.0.0"
+    )
     private final List<EligibilityRequestPurpose> purpose;
     @Required
     private final Reference patient;
@@ -1553,8 +1572,26 @@ public class CoverageEligibilityRequest extends DomainResource {
      */
     public static class Item extends BackboneElement {
         private final List<PositiveInt> supportingInfoSequence;
+        @Binding(
+            bindingName = "BenefitCategory",
+            strength = "example",
+            description = "Benefit categories such as: oral, medical, vision etc.",
+            valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
+        )
         private final CodeableConcept category;
+        @Binding(
+            bindingName = "ServiceProduct",
+            strength = "example",
+            description = "Allowable service and product codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
+        )
         private final CodeableConcept productOrService;
+        @Binding(
+            bindingName = "Modifiers",
+            strength = "example",
+            description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
+            valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
+        )
         private final List<CodeableConcept> modifier;
         private final Reference provider;
         private final SimpleQuantity quantity;
@@ -2147,6 +2184,12 @@ public class CoverageEligibilityRequest extends DomainResource {
          */
         public static class Diagnosis extends BackboneElement {
             @Choice({ CodeableConcept.class, Reference.class })
+            @Binding(
+                bindingName = "ICD10",
+                strength = "example",
+                description = "ICD10 Diagnostic codes.",
+                valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
+            )
             private final Element diagnosis;
 
             private volatile int hashCode;

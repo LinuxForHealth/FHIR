@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -65,6 +66,12 @@ public class ChargeItemDefinition extends DomainResource {
     private final List<Canonical> partOf;
     private final List<Canonical> replaces;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -72,11 +79,23 @@ public class ChargeItemDefinition extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
     private final Period effectivePeriod;
+    @Binding(
+        bindingName = "ChargeItemDefinitionCode",
+        strength = "example",
+        description = "Billing Code defined by this ChargeItemDefinition.",
+        valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
+    )
     private final CodeableConcept code;
     private final List<Reference> instance;
     private final List<Applicability> applicability;
@@ -1967,6 +1986,12 @@ public class ChargeItemDefinition extends DomainResource {
          */
         public static class PriceComponent extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "ChargeItemDefinitionPriceComponentType",
+                strength = "required",
+                description = "Codes indicating the kind of the price component.",
+                valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.0"
+            )
             private final ChargeItemDefinitionPriceComponentType type;
             private final CodeableConcept code;
             private final Decimal factor;

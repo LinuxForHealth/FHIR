@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -72,6 +73,12 @@ public class CodeSystem extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -79,15 +86,33 @@ public class CodeSystem extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
     private final Boolean caseSensitive;
     private final Canonical valueSet;
+    @Binding(
+        bindingName = "CodeSystemHierarchyMeaning",
+        strength = "required",
+        description = "The meaning of the hierarchy of concepts in a code system.",
+        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.0"
+    )
     private final CodeSystemHierarchyMeaning hierarchyMeaning;
     private final Boolean compositional;
     private final Boolean versionNeeded;
     @Required
+    @Binding(
+        bindingName = "CodeSystemContentMode",
+        strength = "required",
+        description = "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
+        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.0"
+    )
     private final CodeSystemContentMode content;
     private final Canonical supplements;
     private final UnsignedInt count;
@@ -1402,6 +1427,12 @@ public class CodeSystem extends DomainResource {
         private final Code code;
         private final String description;
         @Required
+        @Binding(
+            bindingName = "FilterOperator",
+            strength = "required",
+            description = "The kind of operation to perform as a part of a property based filter.",
+            valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
+        )
         private final List<FilterOperator> operator;
         @Required
         private final String value;
@@ -1764,6 +1795,12 @@ public class CodeSystem extends DomainResource {
         private final Uri uri;
         private final String description;
         @Required
+        @Binding(
+            bindingName = "PropertyType",
+            strength = "required",
+            description = "The type of a property value.",
+            valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.0.0"
+        )
         private final PropertyType type;
 
         private volatile int hashCode;
@@ -2566,7 +2603,20 @@ public class CodeSystem extends DomainResource {
          * purposes, etc.
          */
         public static class Designation extends BackboneElement {
+            @Binding(
+                bindingName = "Language",
+                strength = "preferred",
+                description = "A human language.",
+                valueSet = "http://hl7.org/fhir/ValueSet/languages",
+                maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+            )
             private final Code language;
+            @Binding(
+                bindingName = "ConceptDesignationUse",
+                strength = "extensible",
+                description = "Details of how a designation would be used.",
+                valueSet = "http://hl7.org/fhir/ValueSet/designation-use"
+            )
             private final Coding use;
             @Required
             private final String value;

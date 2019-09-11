@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -42,13 +43,43 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Encounter extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "EncounterStatus",
+        strength = "required",
+        description = "Current state of the encounter.",
+        valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.0"
+    )
     private final EncounterStatus status;
     private final List<StatusHistory> statusHistory;
     @Required
+    @Binding(
+        bindingName = "EncounterClass",
+        strength = "extensible",
+        description = "Classification of the encounter.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode"
+    )
     private final Coding clazz;
     private final List<ClassHistory> classHistory;
+    @Binding(
+        bindingName = "EncounterType",
+        strength = "example",
+        description = "The type of encounter.",
+        valueSet = "http://hl7.org/fhir/ValueSet/encounter-type"
+    )
     private final List<CodeableConcept> type;
+    @Binding(
+        bindingName = "EncounterServiceType",
+        strength = "example",
+        description = "Broad categorization of the service that is to be provided.",
+        valueSet = "http://hl7.org/fhir/ValueSet/service-type"
+    )
     private final CodeableConcept serviceType;
+    @Binding(
+        bindingName = "Priority",
+        strength = "example",
+        description = "Indicates the urgency of the encounter.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-ActPriority"
+    )
     private final CodeableConcept priority;
     private final Reference subject;
     private final List<Reference> episodeOfCare;
@@ -57,6 +88,12 @@ public class Encounter extends DomainResource {
     private final List<Reference> appointment;
     private final Period period;
     private final Duration length;
+    @Binding(
+        bindingName = "EncounterReason",
+        strength = "preferred",
+        description = "Reason why the encounter takes place.",
+        valueSet = "http://hl7.org/fhir/ValueSet/encounter-reason"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final List<Diagnosis> diagnosis;
@@ -1395,6 +1432,12 @@ public class Encounter extends DomainResource {
      */
     public static class StatusHistory extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "EncounterStatus",
+            strength = "required",
+            description = "Current state of the encounter.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.0"
+        )
         private final EncounterStatus status;
         @Required
         private final Period period;
@@ -1670,6 +1713,12 @@ public class Encounter extends DomainResource {
      */
     public static class ClassHistory extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "EncounterClass",
+            strength = "extensible",
+            description = "Classification of the encounter.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode"
+        )
         private final Coding clazz;
         @Required
         private final Period period;
@@ -1940,6 +1989,12 @@ public class Encounter extends DomainResource {
      * The list of people responsible for providing the service.
      */
     public static class Participant extends BackboneElement {
+        @Binding(
+            bindingName = "ParticipantType",
+            strength = "extensible",
+            description = "Role of participant in encounter.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
+        )
         private final List<CodeableConcept> type;
         private final Period period;
         private final Reference individual;
@@ -2255,6 +2310,12 @@ public class Encounter extends DomainResource {
     public static class Diagnosis extends BackboneElement {
         @Required
         private final Reference condition;
+        @Binding(
+            bindingName = "DiagnosisRole",
+            strength = "preferred",
+            description = "The type of diagnosis this condition represents.",
+            valueSet = "http://hl7.org/fhir/ValueSet/diagnosis-role"
+        )
         private final CodeableConcept use;
         private final PositiveInt rank;
 
@@ -2558,12 +2619,48 @@ public class Encounter extends DomainResource {
     public static class Hospitalization extends BackboneElement {
         private final Identifier preAdmissionIdentifier;
         private final Reference origin;
+        @Binding(
+            bindingName = "AdmitSource",
+            strength = "preferred",
+            description = "From where the patient was admitted.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-admit-source"
+        )
         private final CodeableConcept admitSource;
+        @Binding(
+            bindingName = "ReAdmissionType",
+            strength = "example",
+            description = "The reason for re-admission of this hospitalization encounter.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v2-0092"
+        )
         private final CodeableConcept reAdmission;
+        @Binding(
+            bindingName = "PatientDiet",
+            strength = "example",
+            description = "Medical, cultural or ethical food preferences to help with catering requirements.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-diet"
+        )
         private final List<CodeableConcept> dietPreference;
+        @Binding(
+            bindingName = "Courtesies",
+            strength = "preferred",
+            description = "Special courtesies.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-special-courtesy"
+        )
         private final List<CodeableConcept> specialCourtesy;
+        @Binding(
+            bindingName = "Arrangements",
+            strength = "preferred",
+            description = "Special arrangements.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-special-arrangements"
+        )
         private final List<CodeableConcept> specialArrangement;
         private final Reference destination;
+        @Binding(
+            bindingName = "DischargeDisp",
+            strength = "example",
+            description = "Discharge Disposition.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-discharge-disposition"
+        )
         private final CodeableConcept dischargeDisposition;
 
         private volatile int hashCode;
@@ -3105,7 +3202,19 @@ public class Encounter extends DomainResource {
     public static class Location extends BackboneElement {
         @Required
         private final Reference location;
+        @Binding(
+            bindingName = "EncounterLocationStatus",
+            strength = "required",
+            description = "The status of the location.",
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-location-status|4.0.0"
+        )
         private final EncounterLocationStatus status;
+        @Binding(
+            bindingName = "PhysicalType",
+            strength = "example",
+            description = "Physical form of the location.",
+            valueSet = "http://hl7.org/fhir/ValueSet/location-physical-type"
+        )
         private final CodeableConcept physicalType;
         private final Period period;
 

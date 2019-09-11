@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -105,6 +106,12 @@ public class ValueSet extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -112,6 +119,12 @@ public class ValueSet extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Boolean immutable;
     private final Markdown purpose;
@@ -2234,7 +2247,20 @@ public class ValueSet extends DomainResource {
                  * purposes, used for particular purposes, etc.
                  */
                 public static class Designation extends BackboneElement {
+                    @Binding(
+                        bindingName = "Language",
+                        strength = "preferred",
+                        description = "A human language.",
+                        valueSet = "http://hl7.org/fhir/ValueSet/languages",
+                        maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+                    )
                     private final Code language;
+                    @Binding(
+                        bindingName = "ConceptDesignationUse",
+                        strength = "extensible",
+                        description = "Details of how a designation would be used.",
+                        valueSet = "http://hl7.org/fhir/ValueSet/designation-use"
+                    )
                     private final Coding use;
                     @Required
                     private final String value;
@@ -2538,6 +2564,12 @@ public class ValueSet extends DomainResource {
                 @Required
                 private final Code property;
                 @Required
+                @Binding(
+                    bindingName = "FilterOperator",
+                    strength = "required",
+                    description = "The kind of operation to perform as a part of a property based filter.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
+                )
                 private final FilterOperator op;
                 @Required
                 private final String value;

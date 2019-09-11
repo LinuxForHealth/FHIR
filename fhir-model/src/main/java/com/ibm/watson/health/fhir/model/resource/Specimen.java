@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,6 +13,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -42,7 +43,19 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Specimen extends DomainResource {
     private final List<Identifier> identifier;
     private final Identifier accessionIdentifier;
+    @Binding(
+        bindingName = "SpecimenStatus",
+        strength = "required",
+        description = "Codes providing the status/availability of a specimen.",
+        valueSet = "http://hl7.org/fhir/ValueSet/specimen-status|4.0.0"
+    )
     private final SpecimenStatus status;
+    @Binding(
+        bindingName = "SpecimenType",
+        strength = "example",
+        description = "The type of the specimen.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
+    )
     private final CodeableConcept type;
     private final Reference subject;
     private final DateTime receivedTime;
@@ -51,6 +64,12 @@ public class Specimen extends DomainResource {
     private final Collection collection;
     private final List<Processing> processing;
     private final List<Container> container;
+    @Binding(
+        bindingName = "SpecimenCondition",
+        strength = "extensible",
+        description = "Codes describing the state of the specimen.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v2-0493"
+    )
     private final List<CodeableConcept> condition;
     private final List<Annotation> note;
 
@@ -919,9 +938,27 @@ public class Specimen extends DomainResource {
         private final Element collected;
         private final Duration duration;
         private final SimpleQuantity quantity;
+        @Binding(
+            bindingName = "SpecimenCollectionMethod",
+            strength = "example",
+            description = "The  technique that is used to perform the procedure.",
+            valueSet = "http://hl7.org/fhir/ValueSet/specimen-collection-method"
+        )
         private final CodeableConcept method;
+        @Binding(
+            bindingName = "BodySite",
+            strength = "example",
+            description = "Codes describing anatomical locations. May include laterality.",
+            valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+        )
         private final CodeableConcept bodySite;
         @Choice({ CodeableConcept.class, Duration.class })
+        @Binding(
+            bindingName = "FastingStatus",
+            strength = "extensible",
+            description = "Codes describing the fasting status of the patient.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v2-0916"
+        )
         private final Element fastingStatus;
 
         private volatile int hashCode;
@@ -1352,6 +1389,12 @@ public class Specimen extends DomainResource {
      */
     public static class Processing extends BackboneElement {
         private final String description;
+        @Binding(
+            bindingName = "SpecimenProcessingProcedure",
+            strength = "example",
+            description = "Type indicating the technique used to process the specimen.",
+            valueSet = "http://hl7.org/fhir/ValueSet/specimen-processing-procedure"
+        )
         private final CodeableConcept procedure;
         private final List<Reference> additive;
         @Choice({ DateTime.class, Period.class })
@@ -1706,10 +1749,22 @@ public class Specimen extends DomainResource {
     public static class Container extends BackboneElement {
         private final List<Identifier> identifier;
         private final String description;
+        @Binding(
+            bindingName = "SpecimenContainerType",
+            strength = "example",
+            description = "Type of specimen container.",
+            valueSet = "http://hl7.org/fhir/ValueSet/specimen-container-type"
+        )
         private final CodeableConcept type;
         private final SimpleQuantity capacity;
         private final SimpleQuantity specimenQuantity;
         @Choice({ CodeableConcept.class, Reference.class })
+        @Binding(
+            bindingName = "SpecimenContainerAdditive",
+            strength = "example",
+            description = "Substance added to specimen container.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v2-0371"
+        )
         private final Element additive;
 
         private volatile int hashCode;

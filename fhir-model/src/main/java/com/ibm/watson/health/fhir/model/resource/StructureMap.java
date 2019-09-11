@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -116,6 +117,12 @@ public class StructureMap extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -123,6 +130,12 @@ public class StructureMap extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
@@ -1188,6 +1201,12 @@ public class StructureMap extends DomainResource {
         @Required
         private final Canonical url;
         @Required
+        @Binding(
+            bindingName = "StructureMapModelMode",
+            strength = "required",
+            description = "How the referenced structure is used in this mapping.",
+            valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.0"
+        )
         private final StructureMapModelMode mode;
         private final String alias;
         private final String documentation;
@@ -1524,6 +1543,12 @@ public class StructureMap extends DomainResource {
         private final Id name;
         private final Id _extends;
         @Required
+        @Binding(
+            bindingName = "StructureMapGroupTypeMode",
+            strength = "required",
+            description = "If this is the default rule set to apply for the source type, or this combination of types.",
+            valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.0.0"
+        )
         private final StructureMapGroupTypeMode typeMode;
         private final String documentation;
         @Required
@@ -1974,6 +1999,12 @@ public class StructureMap extends DomainResource {
             private final Id name;
             private final String type;
             @Required
+            @Binding(
+                bindingName = "StructureMapInputMode",
+                strength = "required",
+                description = "Mode for this instance of data.",
+                valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.0.0"
+            )
             private final StructureMapInputMode mode;
             private final String documentation;
 
@@ -2793,6 +2824,12 @@ public class StructureMap extends DomainResource {
                 @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
                 private final Element defaultValue;
                 private final String element;
+                @Binding(
+                    bindingName = "StructureMapSourceListMode",
+                    strength = "required",
+                    description = "If field is a list, how to manage the source.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.0.0"
+                )
                 private final StructureMapSourceListMode listMode;
                 private final Id variable;
                 private final String condition;
@@ -3401,11 +3438,29 @@ public class StructureMap extends DomainResource {
              */
             public static class Target extends BackboneElement {
                 private final Id context;
+                @Binding(
+                    bindingName = "StructureMapContextType",
+                    strength = "required",
+                    description = "How to interpret the context.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.0.0"
+                )
                 private final StructureMapContextType contextType;
                 private final String element;
                 private final Id variable;
+                @Binding(
+                    bindingName = "StructureMapTargetListMode",
+                    strength = "required",
+                    description = "If field is a list, how to manage the production.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.0.0"
+                )
                 private final List<StructureMapTargetListMode> listMode;
                 private final Id listRuleId;
+                @Binding(
+                    bindingName = "StructureMapTransform",
+                    strength = "required",
+                    description = "How data is copied/created.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.0.0"
+                )
                 private final StructureMapTransform transform;
                 private final List<Parameter> parameter;
 

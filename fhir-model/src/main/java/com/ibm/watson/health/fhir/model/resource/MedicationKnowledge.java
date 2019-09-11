@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -43,9 +44,27 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class MedicationKnowledge extends DomainResource {
+    @Binding(
+        bindingName = "MedicationFormalRepresentation",
+        strength = "example",
+        description = "A coded concept that defines the type of a medication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
+    )
     private final CodeableConcept code;
+    @Binding(
+        bindingName = "MedicationKnowledgeStatus",
+        strength = "required",
+        description = "A coded concept defining if the medication is in active use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.0.0"
+    )
     private final MedicationKnowledgeStatus status;
     private final Reference manufacturer;
+    @Binding(
+        bindingName = "MedicationForm",
+        strength = "example",
+        description = "A coded concept defining the form of a medication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-form-codes"
+    )
     private final CodeableConcept doseForm;
     private final SimpleQuantity amount;
     private final List<String> synonym;
@@ -55,6 +74,12 @@ public class MedicationKnowledge extends DomainResource {
     private final List<Monograph> monograph;
     private final List<Ingredient> ingredient;
     private final Markdown preparationInstruction;
+    @Binding(
+        bindingName = "MedicationRoute",
+        strength = "example",
+        description = "A coded concept defining the intended route of administration.",
+        valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
+    )
     private final List<CodeableConcept> intendedRoute;
     private final List<Cost> cost;
     private final List<MonitoringProgram> monitoringProgram;
@@ -4018,6 +4043,12 @@ public class MedicationKnowledge extends DomainResource {
      * Information that only applies to packages (not products).
      */
     public static class Packaging extends BackboneElement {
+        @Binding(
+            bindingName = "MedicationPackageType",
+            strength = "example",
+            description = "A coded concept defining the type of packaging of a medication.",
+            valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-package-type"
+        )
         private final CodeableConcept type;
         private final SimpleQuantity quantity;
 
@@ -4279,6 +4310,12 @@ public class MedicationKnowledge extends DomainResource {
      * Specifies descriptive properties of the medicine, such as color, shape, imprints, etc.
      */
     public static class DrugCharacteristic extends BackboneElement {
+        @Binding(
+            bindingName = "MedicationCharacteristic",
+            strength = "example",
+            description = "A coded concept defining the characteristic types of a medication.",
+            valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-characteristic"
+        )
         private final CodeableConcept type;
         @Choice({ CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class })
         private final Element value;

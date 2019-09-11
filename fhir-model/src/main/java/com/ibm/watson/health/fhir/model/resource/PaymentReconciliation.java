@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -43,6 +44,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class PaymentReconciliation extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "PaymentReconciliationStatus",
+        strength = "required",
+        description = "A code specifying the state of the resource instance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
+    )
     private final PaymentReconciliationStatus status;
     private final Period period;
     @Required
@@ -50,6 +57,12 @@ public class PaymentReconciliation extends DomainResource {
     private final Reference paymentIssuer;
     private final Reference request;
     private final Reference requestor;
+    @Binding(
+        bindingName = "RemittanceOutcome",
+        strength = "required",
+        description = "The outcome of the processing.",
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
+    )
     private final RemittanceOutcome outcome;
     private final String disposition;
     @Required
@@ -58,6 +71,12 @@ public class PaymentReconciliation extends DomainResource {
     private final Money paymentAmount;
     private final Identifier paymentIdentifier;
     private final List<Detail> detail;
+    @Binding(
+        bindingName = "Forms",
+        strength = "example",
+        description = "The forms codes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/forms"
+    )
     private final CodeableConcept formCode;
     private final List<ProcessNote> processNote;
 
@@ -908,6 +927,12 @@ public class PaymentReconciliation extends DomainResource {
         private final Identifier identifier;
         private final Identifier predecessor;
         @Required
+        @Binding(
+            bindingName = "PaymentType",
+            strength = "example",
+            description = "The reason for the amount: payment, adjustment, advance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/payment-type"
+        )
         private final CodeableConcept type;
         private final Reference request;
         private final Reference submitter;
@@ -1428,6 +1453,12 @@ public class PaymentReconciliation extends DomainResource {
      * A note that describes or explains the processing in a human readable form.
      */
     public static class ProcessNote extends BackboneElement {
+        @Binding(
+            bindingName = "NoteType",
+            strength = "required",
+            description = "The presentation types of notes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.0"
+        )
         private final NoteType type;
         private final String text;
 

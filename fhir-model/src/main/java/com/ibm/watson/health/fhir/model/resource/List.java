@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,6 +13,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
@@ -62,18 +63,48 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class List extends DomainResource {
     private final java.util.List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "ListStatus",
+        strength = "required",
+        description = "The current state of the list.",
+        valueSet = "http://hl7.org/fhir/ValueSet/list-status|4.0.0"
+    )
     private final ListStatus status;
     @Required
+    @Binding(
+        bindingName = "ListMode",
+        strength = "required",
+        description = "The processing mode that applies to this list.",
+        valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.0"
+    )
     private final ListMode mode;
     private final String title;
+    @Binding(
+        bindingName = "ListPurpose",
+        strength = "example",
+        description = "What the purpose of a list is.",
+        valueSet = "http://hl7.org/fhir/ValueSet/list-example-codes"
+    )
     private final CodeableConcept code;
     private final Reference subject;
     private final Reference encounter;
     private final DateTime date;
     private final Reference source;
+    @Binding(
+        bindingName = "ListOrder",
+        strength = "preferred",
+        description = "What order applies to the items in a list.",
+        valueSet = "http://hl7.org/fhir/ValueSet/list-order"
+    )
     private final CodeableConcept orderedBy;
     private final java.util.List<Annotation> note;
     private final java.util.List<Entry> entry;
+    @Binding(
+        bindingName = "ListEmptyReason",
+        strength = "preferred",
+        description = "If a list is empty, why it is empty.",
+        valueSet = "http://hl7.org/fhir/ValueSet/list-empty-reason"
+    )
     private final CodeableConcept emptyReason;
 
     private volatile int hashCode;
@@ -858,6 +889,12 @@ public class List extends DomainResource {
      * Entries in this list.
      */
     public static class Entry extends BackboneElement {
+        @Binding(
+            bindingName = "ListItemFlag",
+            strength = "example",
+            description = "Codes that provide further information about the reason and meaning of the item in the list.",
+            valueSet = "http://hl7.org/fhir/ValueSet/list-item-flag"
+        )
         private final CodeableConcept flag;
         private final Boolean deleted;
         private final DateTime date;

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -82,8 +83,20 @@ public class OperationDefinition extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     @Required
+    @Binding(
+        bindingName = "OperationKind",
+        strength = "required",
+        description = "Whether an operation is a normal operation or a query.",
+        valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.0"
+    )
     private final OperationKind kind;
     private final Boolean experimental;
     private final DateTime date;
@@ -91,6 +104,12 @@ public class OperationDefinition extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Boolean affectsState;
@@ -98,6 +117,12 @@ public class OperationDefinition extends DomainResource {
     private final Code code;
     private final Markdown comment;
     private final Canonical base;
+    @Binding(
+        bindingName = "ResourceType",
+        strength = "required",
+        description = "One of the resource types defined as part of this version of FHIR.",
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+    )
     private final List<ResourceType> resource;
     @Required
     private final Boolean system;
@@ -1408,14 +1433,32 @@ public class OperationDefinition extends DomainResource {
         @Required
         private final Code name;
         @Required
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "OperationParameterUse",
+            strength = "required",
+            description = "Whether an operation parameter is an input or an output parameter.",
+            valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.0"
+        )
         private final OperationParameterUse use;
         @Required
         private final Integer min;
         @Required
         private final String max;
         private final String documentation;
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "FHIRAllTypes",
+            strength = "required",
+            description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
+            valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
+        )
         private final FHIRAllTypes type;
         private final List<Canonical> targetProfile;
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "SearchParamType",
+            strength = "required",
+            description = "Data types allowed to be used for search parameters.",
+            valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.0"
+        )
         private final SearchParamType searchType;
         private final Binding binding;
         private final List<ReferencedFrom> referencedFrom;
@@ -2044,6 +2087,12 @@ public class OperationDefinition extends DomainResource {
          */
         public static class Binding extends BackboneElement {
             @Required
+            @com.ibm.watson.health.fhir.model.annotation.Binding(
+                bindingName = "BindingStrength",
+                strength = "required",
+                description = "Indication of the degree of conformance expectations associated with a binding.",
+                valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.0"
+            )
             private final BindingStrength strength;
             @Required
             private final Canonical valueSet;

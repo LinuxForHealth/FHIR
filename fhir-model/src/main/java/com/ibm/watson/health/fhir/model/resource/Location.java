@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -45,15 +46,45 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Location extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "LocationStatus",
+        strength = "required",
+        description = "Indicates whether the location is still in use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/location-status|4.0.0"
+    )
     private final LocationStatus status;
+    @Binding(
+        bindingName = "OperationalStatus",
+        strength = "preferred",
+        description = "The operational status if the location (where typically a bed/room).",
+        valueSet = "http://terminology.hl7.org/ValueSet/v2-0116"
+    )
     private final Coding operationalStatus;
     private final String name;
     private final List<String> alias;
     private final String description;
+    @Binding(
+        bindingName = "LocationMode",
+        strength = "required",
+        description = "Indicates whether a resource instance represents a specific location or a class of locations.",
+        valueSet = "http://hl7.org/fhir/ValueSet/location-mode|4.0.0"
+    )
     private final LocationMode mode;
+    @Binding(
+        bindingName = "LocationType",
+        strength = "extensible",
+        description = "Indicates the type of function performed at the location.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType"
+    )
     private final List<CodeableConcept> type;
     private final List<ContactPoint> telecom;
     private final Address address;
+    @Binding(
+        bindingName = "PhysicalType",
+        strength = "example",
+        description = "Physical form of the location.",
+        valueSet = "http://hl7.org/fhir/ValueSet/location-physical-type"
+    )
     private final CodeableConcept physicalType;
     private final Position position;
     private final Reference managingOrganization;
@@ -1336,6 +1367,12 @@ public class Location extends DomainResource {
      * What days/times during a week is this location usually open.
      */
     public static class HoursOfOperation extends BackboneElement {
+        @Binding(
+            bindingName = "DaysOfWeek",
+            strength = "required",
+            description = "The days of the week.",
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
+        )
         private final List<DaysOfWeek> daysOfWeek;
         private final Boolean allDay;
         private final Time openingTime;

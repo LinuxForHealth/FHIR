@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.RelatedArtifactType;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
@@ -22,6 +23,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class RelatedArtifact extends Element {
     @Required
+    @Binding(
+        bindingName = "RelatedArtifactType",
+        strength = "required",
+        description = "The type of relationship to the related artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.0.0"
+    )
     private final RelatedArtifactType type;
     private final String label;
     private final String display;

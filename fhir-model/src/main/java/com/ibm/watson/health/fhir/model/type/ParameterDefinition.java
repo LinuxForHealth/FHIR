@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.FHIRAllTypes;
 import com.ibm.watson.health.fhir.model.type.ParameterUse;
@@ -25,11 +26,23 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class ParameterDefinition extends Element {
     private final Code name;
     @Required
+    @Binding(
+        bindingName = "ParameterUse",
+        strength = "required",
+        description = "Whether the parameter is input or output.",
+        valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.0"
+    )
     private final ParameterUse use;
     private final Integer min;
     private final String max;
     private final String documentation;
     @Required
+    @Binding(
+        bindingName = "FHIRAllTypes",
+        strength = "required",
+        description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
+        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
+    )
     private final FHIRAllTypes type;
     private final Canonical profile;
 

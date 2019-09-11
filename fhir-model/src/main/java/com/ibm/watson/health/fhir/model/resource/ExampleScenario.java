@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -55,12 +56,24 @@ public class ExampleScenario extends DomainResource {
     private final String version;
     private final String name;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown copyright;
     private final Markdown purpose;
@@ -1102,6 +1115,12 @@ public class ExampleScenario extends DomainResource {
         @Required
         private final String actorId;
         @Required
+        @Binding(
+            bindingName = "ExampleScenarioActorType",
+            strength = "required",
+            description = "The type of actor - system or human.",
+            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.0.0"
+        )
         private final ExampleScenarioActorType type;
         private final String name;
         private final Markdown description;
@@ -1437,6 +1456,12 @@ public class ExampleScenario extends DomainResource {
         @Required
         private final String resourceId;
         @Required
+        @Binding(
+            bindingName = "FHIRResourceType",
+            strength = "required",
+            description = "The type of resource.",
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+        )
         private final FHIRResourceType resourceType;
         private final String name;
         private final Markdown description;

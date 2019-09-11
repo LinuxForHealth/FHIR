@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -57,8 +58,20 @@ public class NutritionOrder extends DomainResource {
     private final List<Uri> instantiatesUri;
     private final List<Uri> instantiates;
     @Required
+    @Binding(
+        bindingName = "NutritionOrderStatus",
+        strength = "required",
+        description = "Codes identifying the lifecycle stage of the nutrition order.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
+    )
     private final NutritionOrderStatus status;
     @Required
+    @Binding(
+        bindingName = "NutritiionOrderIntent",
+        strength = "required",
+        description = "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
+    )
     private final NutritionOrderIntent intent;
     @Required
     private final Reference patient;
@@ -67,7 +80,19 @@ public class NutritionOrder extends DomainResource {
     private final DateTime dateTime;
     private final Reference orderer;
     private final List<Reference> allergyIntolerance;
+    @Binding(
+        bindingName = "PatientDiet",
+        strength = "example",
+        description = "Medical, cultural or ethical food preferences to help with catering requirements.",
+        valueSet = "http://hl7.org/fhir/ValueSet/encounter-diet"
+    )
     private final List<CodeableConcept> foodPreferenceModifier;
+    @Binding(
+        bindingName = "FoodType",
+        strength = "example",
+        description = "Codes used to indicate the type of food that should NOT be given to the patient.",
+        valueSet = "http://hl7.org/fhir/ValueSet/food-type"
+    )
     private final List<CodeableConcept> excludeFoodModifier;
     private final OralDiet oralDiet;
     private final List<Supplement> supplement;
@@ -1136,10 +1161,22 @@ public class NutritionOrder extends DomainResource {
      * Diet given orally in contrast to enteral (tube) feeding.
      */
     public static class OralDiet extends BackboneElement {
+        @Binding(
+            bindingName = "OralDiet",
+            strength = "example",
+            description = "Codes used to indicate the type of diet being ordered for a patient.",
+            valueSet = "http://hl7.org/fhir/ValueSet/diet-type"
+        )
         private final List<CodeableConcept> type;
         private final List<Timing> schedule;
         private final List<Nutrient> nutrient;
         private final List<Texture> texture;
+        @Binding(
+            bindingName = "FluidConsistencyType",
+            strength = "example",
+            description = "Codes used to represent the consistency of fluids and liquids provided to the patient.",
+            valueSet = "http://hl7.org/fhir/ValueSet/consistency-type"
+        )
         private final List<CodeableConcept> fluidConsistencyType;
         private final String instruction;
 
@@ -1629,6 +1666,12 @@ public class NutritionOrder extends DomainResource {
          * required for the oral diet.
          */
         public static class Nutrient extends BackboneElement {
+            @Binding(
+                bindingName = "NutrientModifier",
+                strength = "example",
+                description = "Codes for types of nutrients that are being modified such as carbohydrate or sodium.",
+                valueSet = "http://hl7.org/fhir/ValueSet/nutrient-code"
+            )
             private final CodeableConcept modifier;
             private final SimpleQuantity amount;
 
@@ -1888,7 +1931,19 @@ public class NutritionOrder extends DomainResource {
          * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
          */
         public static class Texture extends BackboneElement {
+            @Binding(
+                bindingName = "TextureModifier",
+                strength = "example",
+                description = "Codes for food consistency types or texture modifications to apply to foods.",
+                valueSet = "http://hl7.org/fhir/ValueSet/texture-code"
+            )
             private final CodeableConcept modifier;
+            @Binding(
+                bindingName = "TextureModifiedFoodType",
+                strength = "example",
+                description = "Codes for types of foods that are texture-modified.",
+                valueSet = "http://hl7.org/fhir/ValueSet/modified-foodtype"
+            )
             private final CodeableConcept foodType;
 
             private volatile int hashCode;
@@ -2148,6 +2203,12 @@ public class NutritionOrder extends DomainResource {
      * Oral nutritional products given in order to add further nutritional value to the patient's diet.
      */
     public static class Supplement extends BackboneElement {
+        @Binding(
+            bindingName = "SupplementType",
+            strength = "example",
+            description = "Codes for nutritional supplements to be provided to the patient.",
+            valueSet = "http://hl7.org/fhir/ValueSet/supplement-type"
+        )
         private final CodeableConcept type;
         private final String productName;
         private final List<Timing> schedule;
@@ -2527,11 +2588,29 @@ public class NutritionOrder extends DomainResource {
      * the oral cavity.
      */
     public static class EnteralFormula extends BackboneElement {
+        @Binding(
+            bindingName = "EnteralFormulaType",
+            strength = "example",
+            description = "Codes for type of enteral formula to be administered to patient.",
+            valueSet = "http://hl7.org/fhir/ValueSet/entformula-type"
+        )
         private final CodeableConcept baseFormulaType;
         private final String baseFormulaProductName;
+        @Binding(
+            bindingName = "EnteralFormulaAdditiveType",
+            strength = "example",
+            description = "Codes for the type of modular component such as protein, carbohydrate or fiber to be provided in addition to or mixed with the base formula.",
+            valueSet = "http://hl7.org/fhir/ValueSet/entformula-additive"
+        )
         private final CodeableConcept additiveType;
         private final String additiveProductName;
         private final SimpleQuantity caloricDensity;
+        @Binding(
+            bindingName = "EnteralRouteOfAdministration",
+            strength = "extensible",
+            description = "Codes specifying the route of administration of enteral formula.",
+            valueSet = "http://hl7.org/fhir/ValueSet/enteral-route"
+        )
         private final CodeableConcept routeofAdministration;
         private final List<Administration> administration;
         private final SimpleQuantity maxVolumeToDeliver;

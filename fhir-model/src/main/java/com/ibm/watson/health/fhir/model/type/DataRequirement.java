@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -44,9 +45,21 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class DataRequirement extends Element {
     @Required
+    @Binding(
+        bindingName = "FHIRAllTypes",
+        strength = "required",
+        description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
+        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
+    )
     private final FHIRAllTypes type;
     private final List<Canonical> profile;
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "SubjectType",
+        strength = "extensible",
+        description = "The possible types of subjects for a data requirement (E.g., Patient, Practitioner, Organization, Location, etc.).",
+        valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
+    )
     private final Element subject;
     private final List<String> mustSupport;
     private final List<CodeFilter> codeFilter;
@@ -1262,6 +1275,12 @@ public class DataRequirement extends Element {
         @Required
         private final String path;
         @Required
+        @Binding(
+            bindingName = "SortDirection",
+            strength = "required",
+            description = "The possible sort directions, ascending or descending.",
+            valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.0.0"
+        )
         private final SortDirection direction;
 
         private volatile int hashCode;

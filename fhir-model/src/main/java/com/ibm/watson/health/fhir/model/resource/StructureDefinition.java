@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -224,6 +225,12 @@ public class StructureDefinition extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -231,21 +238,57 @@ public class StructureDefinition extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Binding(
+        bindingName = "StructureDefinitionKeyword",
+        strength = "extensible",
+        description = "Codes for the meaning of the defined structure (SNOMED CT and LOINC codes, as an example).",
+        valueSet = "http://hl7.org/fhir/ValueSet/definition-use"
+    )
     private final List<Coding> keyword;
+    @Binding(
+        bindingName = "FHIRVersion",
+        strength = "required",
+        description = "All published FHIR Versions.",
+        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
+    )
     private final FHIRVersion fhirVersion;
     private final List<Mapping> mapping;
     @Required
+    @Binding(
+        bindingName = "StructureDefinitionKind",
+        strength = "required",
+        description = "Defines the type of structure that a definition is describing.",
+        valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.0"
+    )
     private final StructureDefinitionKind kind;
     @Required
     private final Boolean _abstract;
     private final List<Context> context;
     private final List<String> contextInvariant;
     @Required
+    @Binding(
+        bindingName = "FHIRDefinedTypeExt",
+        strength = "extensible",
+        description = "Either a resource or a data type, including logical model types.",
+        valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
+    )
     private final Uri type;
     private final Canonical baseDefinition;
+    @Binding(
+        bindingName = "TypeDerivationRule",
+        strength = "required",
+        description = "How a type relates to its baseDefinition.",
+        valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.0.0"
+    )
     private final TypeDerivationRule derivation;
     private final Snapshot snapshot;
     private final Differential differential;
@@ -1957,6 +2000,12 @@ public class StructureDefinition extends DomainResource {
      */
     public static class Context extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "ExtensionContextType",
+            strength = "required",
+            description = "How an extension context is interpreted.",
+            valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.0"
+        )
         private final ExtensionContextType type;
         @Required
         private final String expression;

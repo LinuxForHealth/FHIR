@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
@@ -50,12 +51,48 @@ public class Communication extends DomainResource {
     private final List<Reference> partOf;
     private final List<Reference> inResponseTo;
     @Required
+    @Binding(
+        bindingName = "CommunicationStatus",
+        strength = "required",
+        description = "The status of the communication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
+    )
     private final CommunicationStatus status;
+    @Binding(
+        bindingName = "CommunicationNotDoneReason",
+        strength = "example",
+        description = "Codes for the reason why a communication did not happen.",
+        valueSet = "http://hl7.org/fhir/ValueSet/communication-not-done-reason"
+    )
     private final CodeableConcept statusReason;
+    @Binding(
+        bindingName = "CommunicationCategory",
+        strength = "example",
+        description = "Codes for general categories of communications such as alerts, instructions, etc.",
+        valueSet = "http://hl7.org/fhir/ValueSet/communication-category"
+    )
     private final List<CodeableConcept> category;
+    @Binding(
+        bindingName = "CommunicationPriority",
+        strength = "required",
+        description = "Codes indicating the relative importance of a communication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+    )
     private final CommunicationPriority priority;
+    @Binding(
+        bindingName = "CommunicationMedium",
+        strength = "example",
+        description = "Codes for communication mediums such as phone, fax, email, in person, etc.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-ParticipationMode"
+    )
     private final List<CodeableConcept> medium;
     private final Reference subject;
+    @Binding(
+        bindingName = "CommunicationTopic",
+        strength = "example",
+        description = "Codes describing the purpose or content of the communication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/communication-topic"
+    )
     private final CodeableConcept topic;
     private final List<Reference> about;
     private final Reference encounter;
@@ -63,6 +100,12 @@ public class Communication extends DomainResource {
     private final DateTime received;
     private final List<Reference> recipient;
     private final Reference sender;
+    @Binding(
+        bindingName = "CommunicationReason",
+        strength = "example",
+        description = "Codes for describing reasons for the occurrence of a communication.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final List<Payload> payload;

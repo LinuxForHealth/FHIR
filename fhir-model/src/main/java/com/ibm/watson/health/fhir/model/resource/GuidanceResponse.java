@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
@@ -46,6 +47,12 @@ public class GuidanceResponse extends DomainResource {
     @Choice({ Uri.class, Canonical.class, CodeableConcept.class })
     private final Element module;
     @Required
+    @Binding(
+        bindingName = "GuidanceResponseStatus",
+        strength = "required",
+        description = "The status of a guidance response.",
+        valueSet = "http://hl7.org/fhir/ValueSet/guidance-response-status|4.0.0"
+    )
     private final GuidanceResponseStatus status;
     private final Reference subject;
     private final Reference encounter;

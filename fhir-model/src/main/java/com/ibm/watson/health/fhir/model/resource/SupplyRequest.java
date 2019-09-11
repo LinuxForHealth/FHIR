@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -44,11 +45,35 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class SupplyRequest extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "SupplyRequestStatus",
+        strength = "required",
+        description = "Status of the supply request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-status|4.0.0"
+    )
     private final SupplyRequestStatus status;
+    @Binding(
+        bindingName = "SupplyRequestKind",
+        strength = "example",
+        description = "Category of supply request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-kind"
+    )
     private final CodeableConcept category;
+    @Binding(
+        bindingName = "RequestPriority",
+        strength = "required",
+        description = "Identifies the level of importance to be assigned to actioning the request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+    )
     private final RequestPriority priority;
     @Required
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "SupplyRequestItem",
+        strength = "example",
+        description = "The item that was requested.",
+        valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
+    )
     private final Element item;
     @Required
     private final Quantity quantity;
@@ -58,6 +83,12 @@ public class SupplyRequest extends DomainResource {
     private final DateTime authoredOn;
     private final Reference requester;
     private final List<Reference> supplier;
+    @Binding(
+        bindingName = "SupplyRequestReason",
+        strength = "example",
+        description = "The reason why the supply item was requested.",
+        valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-reason"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final Reference deliverFrom;
@@ -961,6 +992,11 @@ public class SupplyRequest extends DomainResource {
      * Specific parameters for the ordered item. For example, the size of the indicated item.
      */
     public static class Parameter extends BackboneElement {
+        @Binding(
+            bindingName = "ParameterCode",
+            strength = "example",
+            description = "A code that identifies the device detail."
+        )
         private final CodeableConcept code;
         @Choice({ CodeableConcept.class, Quantity.class, Range.class, Boolean.class })
         private final Element value;

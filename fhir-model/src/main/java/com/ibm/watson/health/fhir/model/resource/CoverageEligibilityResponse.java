@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -55,8 +56,20 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class CoverageEligibilityResponse extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "EligibilityResponseStatus",
+        strength = "required",
+        description = "A code specifying the state of the resource instance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
+    )
     private final EligibilityResponseStatus status;
     @Required
+    @Binding(
+        bindingName = "EligibilityResponsePurpose",
+        strength = "required",
+        description = "A code specifying the types of information being requested.",
+        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.0.0"
+    )
     private final List<EligibilityResponsePurpose> purpose;
     @Required
     private final Reference patient;
@@ -68,12 +81,24 @@ public class CoverageEligibilityResponse extends DomainResource {
     @Required
     private final Reference request;
     @Required
+    @Binding(
+        bindingName = "RemittanceOutcome",
+        strength = "required",
+        description = "The outcome of the processing.",
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
+    )
     private final RemittanceOutcome outcome;
     private final String disposition;
     @Required
     private final Reference insurer;
     private final List<Insurance> insurance;
     private final String preAuthRef;
+    @Binding(
+        bindingName = "Forms",
+        strength = "example",
+        description = "The forms codes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/forms"
+    )
     private final CodeableConcept form;
     private final List<Error> error;
 
@@ -1320,18 +1345,60 @@ public class CoverageEligibilityResponse extends DomainResource {
          * Benefits and optionally current balances, and authorization details by category or service.
          */
         public static class Item extends BackboneElement {
+            @Binding(
+                bindingName = "BenefitCategory",
+                strength = "example",
+                description = "Benefit categories such as: oral, medical, vision etc.",
+                valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
+            )
             private final CodeableConcept category;
+            @Binding(
+                bindingName = "ServiceProduct",
+                strength = "example",
+                description = "Allowable service and product codes.",
+                valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
+            )
             private final CodeableConcept productOrService;
+            @Binding(
+                bindingName = "Modifiers",
+                strength = "example",
+                description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
+                valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
+            )
             private final List<CodeableConcept> modifier;
             private final Reference provider;
             private final Boolean excluded;
             private final String name;
             private final String description;
+            @Binding(
+                bindingName = "BenefitNetwork",
+                strength = "example",
+                description = "Code to classify in or out of network services.",
+                valueSet = "http://hl7.org/fhir/ValueSet/benefit-network"
+            )
             private final CodeableConcept network;
+            @Binding(
+                bindingName = "BenefitUnit",
+                strength = "example",
+                description = "Unit covered/serviced - individual or family.",
+                valueSet = "http://hl7.org/fhir/ValueSet/benefit-unit"
+            )
             private final CodeableConcept unit;
+            @Binding(
+                bindingName = "BenefitTerm",
+                strength = "example",
+                description = "Coverage unit - annual, lifetime.",
+                valueSet = "http://hl7.org/fhir/ValueSet/benefit-term"
+            )
             private final CodeableConcept term;
             private final List<Benefit> benefit;
             private final Boolean authorizationRequired;
+            @Binding(
+                bindingName = "AuthSupporting",
+                strength = "example",
+                description = "Type of supporting information to provide with a preauthorization.",
+                valueSet = "http://hl7.org/fhir/ValueSet/coverageeligibilityresponse-ex-auth-support"
+            )
             private final List<CodeableConcept> authorizationSupporting;
             private final Uri authorizationUrl;
 
@@ -2025,6 +2092,12 @@ public class CoverageEligibilityResponse extends DomainResource {
              */
             public static class Benefit extends BackboneElement {
                 @Required
+                @Binding(
+                    bindingName = "BenefitType",
+                    strength = "example",
+                    description = "Deductable, visits, co-pay, etc.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/benefit-type"
+                )
                 private final CodeableConcept type;
                 @Choice({ UnsignedInt.class, String.class, Money.class })
                 private final Element allowed;
@@ -2342,6 +2415,12 @@ public class CoverageEligibilityResponse extends DomainResource {
      */
     public static class Error extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "AdjudicationError",
+            strength = "example",
+            description = "The error codes for adjudication processing.",
+            valueSet = "http://hl7.org/fhir/ValueSet/adjudication-error"
+        )
         private final CodeableConcept code;
 
         private volatile int hashCode;

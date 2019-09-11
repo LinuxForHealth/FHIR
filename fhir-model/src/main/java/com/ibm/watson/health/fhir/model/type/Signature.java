@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
@@ -26,13 +27,31 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Signature extends Element {
     @Required
+    @Binding(
+        bindingName = "SignatureType",
+        strength = "preferred",
+        description = "An indication of the reason that an entity signed the object.",
+        valueSet = "http://hl7.org/fhir/ValueSet/signature-type"
+    )
     private final List<Coding> type;
     @Required
     private final Instant when;
     @Required
     private final Reference who;
     private final Reference onBehalfOf;
+    @Binding(
+        bindingName = "MimeType",
+        strength = "required",
+        description = "The mime type of an attachment. Any valid mime type is allowed.",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+    )
     private final Code targetFormat;
+    @Binding(
+        bindingName = "MimeType",
+        strength = "required",
+        description = "The mime type of an attachment. Any valid mime type is allowed.",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+    )
     private final Code sigFormat;
     private final Base64Binary data;
 

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -79,6 +80,12 @@ public class ImplementationGuide extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -86,12 +93,30 @@ public class ImplementationGuide extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown copyright;
     @Required
     private final Id packageId;
+    @Binding(
+        bindingName = "SPDXLicense",
+        strength = "required",
+        description = "The license that applies to an Implementation Guide (using an SPDX license Identifiers, or 'not-open-source'). The binding is required but new SPDX license Identifiers are allowed to be used (https://spdx.org/licenses/).",
+        valueSet = "http://hl7.org/fhir/ValueSet/spdx-license|4.0.0"
+    )
     private final SPDXLicense license;
     @Required
+    @Binding(
+        bindingName = "FHIRVersion",
+        strength = "required",
+        description = "All published FHIR Versions.",
+        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
+    )
     private final List<FHIRVersion> fhirVersion;
     private final List<DependsOn> dependsOn;
     private final List<Global> global;
@@ -1506,6 +1531,12 @@ public class ImplementationGuide extends DomainResource {
      */
     public static class Global extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "ResourceType",
+            strength = "required",
+            description = "One of the resource types defined as part of this version of FHIR.",
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+        )
         private final ResourceType type;
         @Required
         private final Canonical profile;
@@ -2497,6 +2528,12 @@ public class ImplementationGuide extends DomainResource {
         public static class Resource extends BackboneElement {
             @Required
             private final Reference reference;
+            @Binding(
+                bindingName = "FHIRVersion",
+                strength = "required",
+                description = "All published FHIR Versions.",
+                valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
+            )
             private final List<FHIRVersion> fhirVersion;
             private final String name;
             private final String description;
@@ -2930,6 +2967,12 @@ public class ImplementationGuide extends DomainResource {
             @Required
             private final String title;
             @Required
+            @Binding(
+                bindingName = "GuidePageGeneration",
+                strength = "required",
+                description = "A code that indicates how the page is generated.",
+                valueSet = "http://hl7.org/fhir/ValueSet/guide-page-generation|4.0.0"
+            )
             private final GuidePageGeneration generation;
             private final List<ImplementationGuide.Definition.Page> page;
 
@@ -3291,6 +3334,12 @@ public class ImplementationGuide extends DomainResource {
          */
         public static class Parameter extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "GuideParameterCode",
+                strength = "required",
+                description = "Code of parameter that is input to the guide.",
+                valueSet = "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.0.0"
+            )
             private final GuideParameterCode code;
             @Required
             private final String value;

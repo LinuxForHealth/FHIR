@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -39,7 +40,19 @@ public class DocumentManifest extends DomainResource {
     private final Identifier masterIdentifier;
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "DocumentReferenceStatus",
+        strength = "required",
+        description = "The status of the document reference.",
+        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
+    )
     private final DocumentReferenceStatus status;
+    @Binding(
+        bindingName = "v3Act",
+        strength = "example",
+        description = "The activity that caused the DocumentManifest to be created.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
+    )
     private final CodeableConcept type;
     private final Reference subject;
     private final DateTime created;

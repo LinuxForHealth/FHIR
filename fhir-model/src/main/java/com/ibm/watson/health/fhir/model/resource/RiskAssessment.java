@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -61,7 +62,18 @@ public class RiskAssessment extends DomainResource {
     private final Reference basedOn;
     private final Reference parent;
     @Required
+    @Binding(
+        bindingName = "RiskAssessmentStatus",
+        strength = "required",
+        description = "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
+    )
     private final RiskAssessmentStatus status;
+    @Binding(
+        bindingName = "RiskAssessmentMethod",
+        strength = "example",
+        description = "The mechanism or algorithm used to make the assessment; e.g. TIMI, PRISM, Cardiff Type 2 diabetes, etc."
+    )
     private final CodeableConcept method;
     private final CodeableConcept code;
     @Required
@@ -1047,9 +1059,20 @@ public class RiskAssessment extends DomainResource {
      * Describes the expected outcome for the subject.
      */
     public static class Prediction extends BackboneElement {
+        @Binding(
+            bindingName = "RiskAssessmentOutcome",
+            strength = "example",
+            description = "The condition or other outcome; e.g. death, remission, amputation, infection, etc."
+        )
         private final CodeableConcept outcome;
         @Choice({ Decimal.class, Range.class })
         private final Element probability;
+        @Binding(
+            bindingName = "RiskAssessmentProbability",
+            strength = "example",
+            description = "The likelihood of the occurrence of a specified outcome.",
+            valueSet = "http://hl7.org/fhir/ValueSet/risk-probability"
+        )
         private final CodeableConcept qualitativeRisk;
         private final Decimal relativeRisk;
         @Choice({ Period.class, Range.class })

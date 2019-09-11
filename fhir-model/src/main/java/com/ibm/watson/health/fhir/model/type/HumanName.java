@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.type.NameUse;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
@@ -23,6 +24,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class HumanName extends Element {
+    @Binding(
+        bindingName = "NameUse",
+        strength = "required",
+        description = "The use of a human name.",
+        valueSet = "http://hl7.org/fhir/ValueSet/name-use|4.0.0"
+    )
     private final NameUse use;
     private final String text;
     private final String family;

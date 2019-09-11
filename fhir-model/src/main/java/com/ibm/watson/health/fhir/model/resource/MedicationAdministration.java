@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -56,11 +57,35 @@ public class MedicationAdministration extends DomainResource {
     private final List<Uri> instantiates;
     private final List<Reference> partOf;
     @Required
+    @Binding(
+        bindingName = "MedicationAdministrationStatus",
+        strength = "required",
+        description = "A set of codes indicating the current status of a MedicationAdministration.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.0.0"
+    )
     private final MedicationAdministrationStatus status;
+    @Binding(
+        bindingName = "MedicationAdministrationNegationReason",
+        strength = "example",
+        description = "A set of codes indicating the reason why the MedicationAdministration is negated.",
+        valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-not-given-codes"
+    )
     private final List<CodeableConcept> statusReason;
+    @Binding(
+        bindingName = "MedicationAdministrationCategory",
+        strength = "preferred",
+        description = "A coded concept describing where the medication administered is expected to occur.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-category"
+    )
     private final CodeableConcept category;
     @Required
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "MedicationCode",
+        strength = "example",
+        description = "Codes identifying substance or product that can be administered.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
+    )
     private final Element medication;
     @Required
     private final Reference subject;
@@ -70,6 +95,12 @@ public class MedicationAdministration extends DomainResource {
     @Choice({ DateTime.class, Period.class })
     private final Element effective;
     private final List<Performer> performer;
+    @Binding(
+        bindingName = "MedicationAdministrationReason",
+        strength = "example",
+        description = "A set of codes indicating the reason why the MedicationAdministration was made.",
+        valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-given-codes"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final Reference request;
@@ -1239,6 +1270,12 @@ public class MedicationAdministration extends DomainResource {
      * Indicates who or what performed the medication administration and how they were involved.
      */
     public static class Performer extends BackboneElement {
+        @Binding(
+            bindingName = "MedicationAdministrationPerformerFunction",
+            strength = "example",
+            description = "A code describing the role an individual played in administering the medication.",
+            valueSet = "http://hl7.org/fhir/ValueSet/med-admin-perform-function"
+        )
         private final CodeableConcept function;
         @Required
         private final Reference actor;
@@ -1507,8 +1544,26 @@ public class MedicationAdministration extends DomainResource {
      */
     public static class Dosage extends BackboneElement {
         private final String text;
+        @Binding(
+            bindingName = "MedicationAdministrationSite",
+            strength = "example",
+            description = "A coded concept describing the site location the medicine enters into or onto the body.",
+            valueSet = "http://hl7.org/fhir/ValueSet/approach-site-codes"
+        )
         private final CodeableConcept site;
+        @Binding(
+            bindingName = "RouteOfAdministration",
+            strength = "example",
+            description = "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.",
+            valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
+        )
         private final CodeableConcept route;
+        @Binding(
+            bindingName = "MedicationAdministrationMethod",
+            strength = "example",
+            description = "A coded concept describing the technique by which the medicine is administered.",
+            valueSet = "http://hl7.org/fhir/ValueSet/administration-method-codes"
+        )
         private final CodeableConcept method;
         private final SimpleQuantity dose;
         @Choice({ Ratio.class, SimpleQuantity.class })
@@ -1529,9 +1584,7 @@ public class MedicationAdministration extends DomainResource {
 
         /**
          * Free text dosage can be used for cases where the dosage administered is too complex to code. When coded dosage is 
-         * present, the free text dosage may still be present for display to humans.
-
-The dosage instructions should reflect the 
+         * present, the free text dosage may still be present for display to humans.The dosage instructions should reflect the 
          * dosage of the medication that was administered.
          * 
          * @return
@@ -1794,9 +1847,7 @@ The dosage instructions should reflect the
 
             /**
              * Free text dosage can be used for cases where the dosage administered is too complex to code. When coded dosage is 
-             * present, the free text dosage may still be present for display to humans.
-
-The dosage instructions should reflect the 
+             * present, the free text dosage may still be present for display to humans.The dosage instructions should reflect the 
              * dosage of the medication that was administered.
              * 
              * @param text

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
@@ -49,9 +50,20 @@ public class DeviceDefinition extends DomainResource {
     private final Element manufacturer;
     private final List<DeviceName> deviceName;
     private final String modelNumber;
+    @Binding(
+        bindingName = "DeviceKind",
+        strength = "example",
+        description = "Type of device e.g. according to official classification.",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
+    )
     private final CodeableConcept type;
     private final List<Specialization> specialization;
     private final List<String> version;
+    @Binding(
+        bindingName = "Safety",
+        strength = "example",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-safety"
+    )
     private final List<CodeableConcept> safety;
     private final List<ProductShelfLife> shelfLifeStorage;
     private final ProdCharacteristic physicalCharacteristics;
@@ -1650,6 +1662,12 @@ public class DeviceDefinition extends DomainResource {
         @Required
         private final String name;
         @Required
+        @Binding(
+            bindingName = "DeviceNameType",
+            strength = "required",
+            description = "The type of name the device is referred by.",
+            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
+        )
         private final DeviceNameType type;
 
         private volatile int hashCode;

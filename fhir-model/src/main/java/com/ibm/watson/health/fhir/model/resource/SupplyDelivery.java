@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -42,8 +43,20 @@ public class SupplyDelivery extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> basedOn;
     private final List<Reference> partOf;
+    @Binding(
+        bindingName = "SupplyDeliveryStatus",
+        strength = "required",
+        description = "Status of the supply delivery.",
+        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.0.0"
+    )
     private final SupplyDeliveryStatus status;
     private final Reference patient;
+    @Binding(
+        bindingName = "SupplyDeliveryType",
+        strength = "required",
+        description = "The type of supply dispense.",
+        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-type|4.0.0"
+    )
     private final CodeableConcept type;
     private final SuppliedItem suppliedItem;
     @Choice({ DateTime.class, Period.class, Timing.class })
@@ -787,6 +800,12 @@ public class SupplyDelivery extends DomainResource {
     public static class SuppliedItem extends BackboneElement {
         private final SimpleQuantity quantity;
         @Choice({ CodeableConcept.class, Reference.class })
+        @Binding(
+            bindingName = "SupplyDeliveryItem",
+            strength = "example",
+            description = "The item that was delivered.",
+            valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
+        )
         private final Element item;
 
         private volatile int hashCode;

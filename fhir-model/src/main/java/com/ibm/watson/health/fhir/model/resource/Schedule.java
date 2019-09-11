@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -37,8 +38,24 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Schedule extends DomainResource {
     private final List<Identifier> identifier;
     private final Boolean active;
+    @Binding(
+        bindingName = "service-category",
+        strength = "example",
+        valueSet = "http://hl7.org/fhir/ValueSet/service-category"
+    )
     private final List<CodeableConcept> serviceCategory;
+    @Binding(
+        bindingName = "service-type",
+        strength = "example",
+        valueSet = "http://hl7.org/fhir/ValueSet/service-type"
+    )
     private final List<CodeableConcept> serviceType;
+    @Binding(
+        bindingName = "specialty",
+        strength = "preferred",
+        description = "Additional details about where the content was created (e.g. clinical specialty).",
+        valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
+    )
     private final List<CodeableConcept> specialty;
     @Required
     private final List<Reference> actor;

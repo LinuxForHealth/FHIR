@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -41,9 +42,27 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Substance extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "FHIRSubstanceStatus",
+        strength = "required",
+        description = "A code to indicate if the substance is actively used.",
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-status|4.0.0"
+    )
     private final FHIRSubstanceStatus status;
+    @Binding(
+        bindingName = "SubstanceCategory",
+        strength = "extensible",
+        description = "Category or classification of substance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-category"
+    )
     private final List<CodeableConcept> category;
     @Required
+    @Binding(
+        bindingName = "SubstanceCode",
+        strength = "example",
+        description = "Substance codes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
+    )
     private final CodeableConcept code;
     private final String description;
     private final List<Instance> instance;
@@ -950,6 +969,12 @@ public class Substance extends DomainResource {
         private final Ratio quantity;
         @Required
         @Choice({ CodeableConcept.class, Reference.class })
+        @Binding(
+            bindingName = "SubstanceIngredient",
+            strength = "example",
+            description = "Substance Ingredient codes.",
+            valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
+        )
         private final Element substance;
 
         private volatile int hashCode;

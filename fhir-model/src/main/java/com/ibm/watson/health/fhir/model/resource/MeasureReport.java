@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -58,8 +59,20 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class MeasureReport extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "MeasureReportStatus",
+        strength = "required",
+        description = "The status of the measure report.",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.0.0"
+    )
     private final MeasureReportStatus status;
     @Required
+    @Binding(
+        bindingName = "MeasureReportType",
+        strength = "required",
+        description = "The type of the measure report.",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.0.0"
+    )
     private final MeasureReportType type;
     @Required
     private final Canonical measure;
@@ -68,6 +81,12 @@ public class MeasureReport extends DomainResource {
     private final Reference reporter;
     @Required
     private final Period period;
+    @Binding(
+        bindingName = "MeasureImprovementNotation",
+        strength = "required",
+        description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.0"
+    )
     private final CodeableConcept improvementNotation;
     private final List<Group> group;
     private final List<Reference> evaluatedResource;
@@ -1170,6 +1189,12 @@ public class MeasureReport extends DomainResource {
          * The populations that make up the population group, one for each type of population appropriate for the measure.
          */
         public static class Population extends BackboneElement {
+            @Binding(
+                bindingName = "MeasurePopulation",
+                strength = "extensible",
+                description = "The type of population (e.g. initial, numerator, denominator, etc.).",
+                valueSet = "http://hl7.org/fhir/ValueSet/measure-population"
+            )
             private final CodeableConcept code;
             private final Integer count;
             private final Reference subjectResults;
@@ -2402,6 +2427,12 @@ public class MeasureReport extends DomainResource {
                  * The populations that make up the stratum, one for each type of population appropriate to the measure.
                  */
                 public static class Population extends BackboneElement {
+                    @Binding(
+                        bindingName = "MeasurePopulation",
+                        strength = "extensible",
+                        description = "The type of population (e.g. initial, numerator, denominator, etc.).",
+                        valueSet = "http://hl7.org/fhir/ValueSet/measure-population"
+                    )
                     private final CodeableConcept code;
                     private final Integer count;
                     private final Reference subjectResults;

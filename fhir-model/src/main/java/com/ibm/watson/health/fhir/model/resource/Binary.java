@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Base64Binary;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -27,6 +28,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Binary extends Resource {
     @Required
+    @Binding(
+        bindingName = "MimeType",
+        strength = "required",
+        description = "The mime type of an attachment. Any valid mime type is allowed.",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+    )
     private final Code contentType;
     private final Reference securityContext;
     private final Base64Binary data;

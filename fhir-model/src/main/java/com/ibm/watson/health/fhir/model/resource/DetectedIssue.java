@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -43,8 +44,26 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class DetectedIssue extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "DetectedIssueStatus",
+        strength = "required",
+        description = "Indicates the status of the identified issue.",
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
+    )
     private final DetectedIssueStatus status;
+    @Binding(
+        bindingName = "DetectedIssueCategory",
+        strength = "preferred",
+        description = "Codes identifying the general type of detected issue; e.g. Drug-drug interaction, Timing issue, Duplicate therapy, etc.",
+        valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-category"
+    )
     private final CodeableConcept code;
+    @Binding(
+        bindingName = "DetectedIssueSeverity",
+        strength = "required",
+        description = "Indicates the potential degree of impact of the identified issue on the patient.",
+        valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.0.0"
+    )
     private final DetectedIssueSeverity severity;
     private final Reference patient;
     @Choice({ DateTime.class, Period.class })
@@ -836,6 +855,12 @@ public class DetectedIssue extends DomainResource {
      * GuidanceResponse or MeasureReport.
      */
     public static class Evidence extends BackboneElement {
+        @Binding(
+            bindingName = "DetectedIssueEvidenceCode",
+            strength = "example",
+            description = "Codes that describes the types of evidence for a detected issue.",
+            valueSet = "http://hl7.org/fhir/ValueSet/manifestation-or-symptom"
+        )
         private final List<CodeableConcept> code;
         private final List<Reference> detail;
 
@@ -1138,6 +1163,12 @@ public class DetectedIssue extends DomainResource {
      */
     public static class Mitigation extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "DetectedIssueMitigationAction",
+            strength = "preferred",
+            description = "Codes describing steps taken to resolve the issue or other circumstances that mitigate the risk associated with the issue; e.g. 'added concurrent therapy', 'prior therapy documented', etc.",
+            valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action"
+        )
         private final CodeableConcept action;
         private final DateTime date;
         private final Reference author;

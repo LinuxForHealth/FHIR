@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -70,6 +71,12 @@ public class MessageDefinition extends DomainResource {
     private final String title;
     private final List<Canonical> replaces;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     @Required
@@ -78,6 +85,12 @@ public class MessageDefinition extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
@@ -85,9 +98,27 @@ public class MessageDefinition extends DomainResource {
     private final List<Canonical> parent;
     @Required
     @Choice({ Coding.class, Uri.class })
+    @Binding(
+        bindingName = "MessageEvent",
+        strength = "example",
+        description = "One of the message events defined as part of this version of FHIR.",
+        valueSet = "http://hl7.org/fhir/ValueSet/message-events"
+    )
     private final Element event;
+    @Binding(
+        bindingName = "MessageSignificanceCategory",
+        strength = "required",
+        description = "The impact of the content of a message.",
+        valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.0.0"
+    )
     private final MessageSignificanceCategory category;
     private final List<Focus> focus;
+    @Binding(
+        bindingName = "messageheader-response-request",
+        strength = "required",
+        description = "HL7-defined table of codes which identify conditions under which acknowledgments are required to be returned in response to a message.",
+        valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.0.0"
+    )
     private final MessageHeaderResponseRequest responseRequired;
     private final List<AllowedResponse> allowedResponse;
     private final List<Canonical> graph;
@@ -1376,6 +1407,12 @@ public class MessageDefinition extends DomainResource {
      */
     public static class Focus extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "ResourceType",
+            strength = "required",
+            description = "One of the resource types defined as part of this version of FHIR.",
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+        )
         private final ResourceType code;
         private final Canonical profile;
         @Required

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Age;
@@ -50,9 +51,33 @@ public class Procedure extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Reference> partOf;
     @Required
+    @Binding(
+        bindingName = "ProcedureStatus",
+        strength = "required",
+        description = "A code specifying the state of the procedure.",
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
+    )
     private final ProcedureStatus status;
+    @Binding(
+        bindingName = "ProcedureNegationReason",
+        strength = "example",
+        description = "A code that identifies the reason a procedure was not performed.",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-not-performed-reason"
+    )
     private final CodeableConcept statusReason;
+    @Binding(
+        bindingName = "ProcedureCategory",
+        strength = "example",
+        description = "A code that classifies a procedure for searching, sorting and display purposes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-category"
+    )
     private final CodeableConcept category;
+    @Binding(
+        bindingName = "ProcedureCode",
+        strength = "example",
+        description = "A code to identify a specific procedure .",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
+    )
     private final CodeableConcept code;
     @Required
     private final Reference subject;
@@ -63,17 +88,53 @@ public class Procedure extends DomainResource {
     private final Reference asserter;
     private final List<Performer> performer;
     private final Reference location;
+    @Binding(
+        bindingName = "ProcedureReason",
+        strength = "example",
+        description = "A code that identifies the reason a procedure is  required.",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
+    @Binding(
+        bindingName = "BodySite",
+        strength = "example",
+        description = "Codes describing anatomical locations. May include laterality.",
+        valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+    )
     private final List<CodeableConcept> bodySite;
+    @Binding(
+        bindingName = "ProcedureOutcome",
+        strength = "example",
+        description = "An outcome of a procedure - whether it was resolved or otherwise.",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-outcome"
+    )
     private final CodeableConcept outcome;
     private final List<Reference> report;
+    @Binding(
+        bindingName = "ProcedureComplication",
+        strength = "example",
+        description = "Codes describing complications that resulted from a procedure.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
+    )
     private final List<CodeableConcept> complication;
     private final List<Reference> complicationDetail;
+    @Binding(
+        bindingName = "ProcedureFollowUp",
+        strength = "example",
+        description = "Specific follow up required for a procedure e.g. removal of sutures.",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-followup"
+    )
     private final List<CodeableConcept> followUp;
     private final List<Annotation> note;
     private final List<FocalDevice> focalDevice;
     private final List<Reference> usedReference;
+    @Binding(
+        bindingName = "ProcedureUsed",
+        strength = "example",
+        description = "Codes describing items used during a procedure.",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
+    )
     private final List<CodeableConcept> usedCode;
 
     private volatile int hashCode;
@@ -1639,6 +1700,12 @@ public class Procedure extends DomainResource {
      * Limited to "real" people rather than equipment.
      */
     public static class Performer extends BackboneElement {
+        @Binding(
+            bindingName = "ProcedurePerformerRole",
+            strength = "example",
+            description = "A code that identifies the role of a performer of the procedure.",
+            valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
+        )
         private final CodeableConcept function;
         @Required
         private final Reference actor;
@@ -1941,6 +2008,12 @@ public class Procedure extends DomainResource {
      * attaching a wound-vac, etc.) as a focal portion of the Procedure.
      */
     public static class FocalDevice extends BackboneElement {
+        @Binding(
+            bindingName = "DeviceActionKind",
+            strength = "preferred",
+            description = "A kind of change that happened to the device during the procedure.",
+            valueSet = "http://hl7.org/fhir/ValueSet/device-action"
+        )
         private final CodeableConcept action;
         @Required
         private final Reference manipulated;

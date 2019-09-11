@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
@@ -57,11 +58,35 @@ public class MedicationStatement extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Reference> partOf;
     @Required
+    @Binding(
+        bindingName = "MedicationStatementStatus",
+        strength = "required",
+        description = "A coded concept indicating the current status of a MedicationStatement.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.0.0"
+    )
     private final MedicationStatementStatus status;
+    @Binding(
+        bindingName = "MedicationStatementStatusReason",
+        strength = "example",
+        description = "A coded concept indicating the reason for the status of the statement.",
+        valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-status-codes"
+    )
     private final List<CodeableConcept> statusReason;
+    @Binding(
+        bindingName = "MedicationStatementCategory",
+        strength = "preferred",
+        description = "A coded concept identifying where the medication included in the MedicationStatement is expected to be consumed or administered.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-category"
+    )
     private final CodeableConcept category;
     @Required
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "MedicationCode",
+        strength = "example",
+        description = "A coded concept identifying the substance or product being taken.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
+    )
     private final Element medication;
     @Required
     private final Reference subject;
@@ -71,6 +96,12 @@ public class MedicationStatement extends DomainResource {
     private final DateTime dateAsserted;
     private final Reference informationSource;
     private final List<Reference> derivedFrom;
+    @Binding(
+        bindingName = "MedicationReason",
+        strength = "example",
+        description = "A coded concept identifying why the medication is being taken.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final List<Annotation> note;

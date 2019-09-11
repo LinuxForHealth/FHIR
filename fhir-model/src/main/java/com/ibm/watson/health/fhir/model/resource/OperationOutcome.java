@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -401,9 +402,27 @@ public class OperationOutcome extends DomainResource {
      */
     public static class Issue extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "IssueSeverity",
+            strength = "required",
+            description = "How the issue affects the success of the action.",
+            valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.0"
+        )
         private final IssueSeverity severity;
         @Required
+        @Binding(
+            bindingName = "IssueType",
+            strength = "required",
+            description = "A code that describes the type of issue.",
+            valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.0"
+        )
         private final IssueType code;
+        @Binding(
+            bindingName = "IssueDetails",
+            strength = "example",
+            description = "A code that provides details as the exact issue.",
+            valueSet = "http://hl7.org/fhir/ValueSet/operation-outcome"
+        )
         private final CodeableConcept details;
         private final String diagnostics;
         private final List<String> location;

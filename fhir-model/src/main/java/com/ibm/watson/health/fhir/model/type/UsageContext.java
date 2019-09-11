@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
@@ -24,9 +25,21 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class UsageContext extends Element {
     @Required
+    @Binding(
+        bindingName = "UsageContextType",
+        strength = "extensible",
+        description = "A code that specifies a type of context being specified by a usage context.",
+        valueSet = "http://hl7.org/fhir/ValueSet/usage-context-type"
+    )
     private final Coding code;
     @Required
     @Choice({ CodeableConcept.class, Quantity.class, Range.class, Reference.class })
+    @Binding(
+        bindingName = "UsageContextValue",
+        strength = "example",
+        description = "A code that defines the specific value for the context being specified.",
+        valueSet = "http://hl7.org/fhir/ValueSet/use-context"
+    )
     private final Element value;
 
     private volatile int hashCode;

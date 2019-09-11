@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -41,17 +42,41 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class ImmunizationEvaluation extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "ImmunizationEvaluationStatus",
+        strength = "required",
+        description = "The status of the evaluation being done.",
+        valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.0.0"
+    )
     private final ImmunizationEvaluationStatus status;
     @Required
     private final Reference patient;
     private final DateTime date;
     private final Reference authority;
     @Required
+    @Binding(
+        bindingName = "EvaluationTargetDisease",
+        strength = "example",
+        description = "The vaccine preventable disease the dose is being evaluated against.",
+        valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-target-disease"
+    )
     private final CodeableConcept targetDisease;
     @Required
     private final Reference immunizationEvent;
     @Required
+    @Binding(
+        bindingName = "EvaluationDoseStatus",
+        strength = "example",
+        description = "The status of the administered dose relative to the published recommendations for the target disease.",
+        valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status"
+    )
     private final CodeableConcept doseStatus;
+    @Binding(
+        bindingName = "EvaluationDoseStatusReason",
+        strength = "example",
+        description = "The reason the dose status was assigned.",
+        valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status-reason"
+    )
     private final List<CodeableConcept> doseStatusReason;
     private final String description;
     private final String series;

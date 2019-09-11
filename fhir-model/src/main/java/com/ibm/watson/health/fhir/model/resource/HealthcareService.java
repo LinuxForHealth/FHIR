@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -44,8 +45,26 @@ public class HealthcareService extends DomainResource {
     private final List<Identifier> identifier;
     private final Boolean active;
     private final Reference providedBy;
+    @Binding(
+        bindingName = "service-category",
+        strength = "example",
+        description = "A category of the service(s) that could be provided.",
+        valueSet = "http://hl7.org/fhir/ValueSet/service-category"
+    )
     private final List<CodeableConcept> category;
+    @Binding(
+        bindingName = "service-type",
+        strength = "example",
+        description = "Additional details about where the content was created (e.g. clinical specialty).",
+        valueSet = "http://hl7.org/fhir/ValueSet/service-type"
+    )
     private final List<CodeableConcept> type;
+    @Binding(
+        bindingName = "service-specialty",
+        strength = "preferred",
+        description = "A specialty that a healthcare service may provide.",
+        valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
+    )
     private final List<CodeableConcept> specialty;
     private final List<Reference> location;
     private final String name;
@@ -54,11 +73,41 @@ public class HealthcareService extends DomainResource {
     private final Attachment photo;
     private final List<ContactPoint> telecom;
     private final List<Reference> coverageArea;
+    @Binding(
+        bindingName = "ServiceProvisionConditions",
+        strength = "example",
+        description = "The code(s) that detail the conditions under which the healthcare service is available/offered.",
+        valueSet = "http://hl7.org/fhir/ValueSet/service-provision-conditions"
+    )
     private final List<CodeableConcept> serviceProvisionCode;
     private final List<Eligibility> eligibility;
+    @Binding(
+        bindingName = "Program",
+        strength = "example",
+        description = "Government or local programs that this service applies to.",
+        valueSet = "http://hl7.org/fhir/ValueSet/program"
+    )
     private final List<CodeableConcept> program;
+    @Binding(
+        bindingName = "ServiceCharacteristic",
+        strength = "example",
+        description = "A custom attribute that could be provided at a service (e.g. Wheelchair accessibiliy)."
+    )
     private final List<CodeableConcept> characteristic;
+    @Binding(
+        bindingName = "Language",
+        strength = "preferred",
+        description = "A human language.",
+        valueSet = "http://hl7.org/fhir/ValueSet/languages",
+        maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+    )
     private final List<CodeableConcept> communication;
+    @Binding(
+        bindingName = "ReferralMethod",
+        strength = "example",
+        description = "The methods of referral can be used when referring to a specific HealthCareService resource.",
+        valueSet = "http://hl7.org/fhir/ValueSet/service-referral-method"
+    )
     private final List<CodeableConcept> referralMethod;
     private final Boolean appointmentRequired;
     private final List<AvailableTime> availableTime;
@@ -1452,6 +1501,11 @@ public class HealthcareService extends DomainResource {
      * Does this service have specific eligibility requirements that need to be met in order to use the service?
      */
     public static class Eligibility extends BackboneElement {
+        @Binding(
+            bindingName = "ServiceEligibility",
+            strength = "example",
+            description = "Coded values underwhich a specific service is made available."
+        )
         private final CodeableConcept code;
         private final Markdown comment;
 
@@ -1711,6 +1765,12 @@ public class HealthcareService extends DomainResource {
      * A collection of times that the Service Site is available.
      */
     public static class AvailableTime extends BackboneElement {
+        @Binding(
+            bindingName = "DaysOfWeek",
+            strength = "required",
+            description = "The days of the week.",
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
+        )
         private final List<DaysOfWeek> daysOfWeek;
         private final Boolean allDay;
         private final Time availableStartTime;

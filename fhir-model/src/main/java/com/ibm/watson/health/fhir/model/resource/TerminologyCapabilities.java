@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
@@ -91,6 +92,12 @@ public class TerminologyCapabilities extends DomainResource {
     private final String name;
     private final String title;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = "required",
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     @Required
@@ -99,16 +106,34 @@ public class TerminologyCapabilities extends DomainResource {
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = "extensible",
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
     @Required
+    @Binding(
+        bindingName = "CapabilityStatementKind",
+        strength = "required",
+        description = "How a capability statement is intended to be used.",
+        valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.0"
+    )
     private final CapabilityStatementKind kind;
     private final Software software;
     private final Implementation implementation;
     private final Boolean lockedDate;
     private final List<CodeSystem> codeSystem;
     private final Expansion expansion;
+    @Binding(
+        bindingName = "CodeSearchSupport",
+        strength = "required",
+        description = "The degree to which the server supports the code search parameter on ValueSet, if it is supported.",
+        valueSet = "http://hl7.org/fhir/ValueSet/code-search-support|4.0.0"
+    )
     private final CodeSearchSupport codeSearch;
     private final ValidateCode validateCode;
     private final Translation translation;

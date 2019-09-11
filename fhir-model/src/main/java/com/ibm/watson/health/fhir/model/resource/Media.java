@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
@@ -48,9 +49,33 @@ public class Media extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Reference> partOf;
     @Required
+    @Binding(
+        bindingName = "MediaStatus",
+        strength = "required",
+        description = "Codes identifying the lifecycle stage of an event.",
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
+    )
     private final MediaStatus status;
+    @Binding(
+        bindingName = "MediaType",
+        strength = "extensible",
+        description = "Codes for high level media categories.",
+        valueSet = "http://hl7.org/fhir/ValueSet/media-type"
+    )
     private final CodeableConcept type;
+    @Binding(
+        bindingName = "MediaModality",
+        strength = "example",
+        description = "Detailed information about the type of the image - its kind, purpose, or the kind of equipment used to generate it.",
+        valueSet = "http://hl7.org/fhir/ValueSet/media-modality"
+    )
     private final CodeableConcept modality;
+    @Binding(
+        bindingName = "MediaView",
+        strength = "example",
+        description = "Imaging view (projection) used when collecting an image.",
+        valueSet = "http://hl7.org/fhir/ValueSet/media-view"
+    )
     private final CodeableConcept view;
     private final Reference subject;
     private final Reference encounter;
@@ -58,7 +83,19 @@ public class Media extends DomainResource {
     private final Element created;
     private final Instant issued;
     private final Reference operator;
+    @Binding(
+        bindingName = "MediaReason",
+        strength = "example",
+        description = "The reason for the media.",
+        valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
+    )
     private final List<CodeableConcept> reasonCode;
+    @Binding(
+        bindingName = "BodySite",
+        strength = "example",
+        description = "Codes describing anatomical locations. May include laterality.",
+        valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+    )
     private final CodeableConcept bodySite;
     private final String deviceName;
     private final Reference device;

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.type.IdentifierUse;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
@@ -20,7 +21,19 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Identifier extends Element {
+    @Binding(
+        bindingName = "IdentifierUse",
+        strength = "required",
+        description = "Identifies the purpose for this identifier, if known .",
+        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.0.0"
+    )
     private final IdentifierUse use;
+    @Binding(
+        bindingName = "IdentifierType",
+        strength = "extensible",
+        description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
+        valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
+    )
     private final CodeableConcept type;
     private final Uri system;
     private final String value;
