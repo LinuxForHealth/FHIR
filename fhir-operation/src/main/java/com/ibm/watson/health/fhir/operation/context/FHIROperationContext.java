@@ -67,6 +67,20 @@ public class FHIROperationContext {
      */
     public static final String PROPNAME_SECURITY_CONTEXT = "SECURITY_CONTEXT";
     
+    /**
+     *This property is of type HttpMethod 
+     */
+    public static final String PROPNAME_METHOD_TYPE = "METHOD_TYPE";
+    
+    /**
+     * The property is of Response.Status. 
+     */
+    public static final String PROPNAME_STATUS_TYPE = "STATUS";
+    
+    /**
+     * The property is of the Response
+     */
+    public static final String PROPNAME_RESPONSE = "RESPONSE";
 
     private Type type = null;
     private Map<String, Object> properties = null;
