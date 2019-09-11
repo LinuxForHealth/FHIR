@@ -8,6 +8,7 @@ package com.ibm.watson.health.fhir.operation.util;
 
 import static com.ibm.watson.health.fhir.model.type.String.string;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,11 @@ import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.resource.OperationDefinition;
 import com.ibm.watson.health.fhir.model.resource.Parameters;
 import com.ibm.watson.health.fhir.model.resource.Resource;
+import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watson.health.fhir.model.resource.Parameters.Parameter;
 import com.ibm.watson.health.fhir.model.type.Id;
+import com.ibm.watson.health.fhir.model.type.IssueSeverity;
+import com.ibm.watson.health.fhir.model.type.IssueType;
 import com.ibm.watson.health.fhir.model.type.OperationParameterUse;
 
 public class FHIROperationUtil {
@@ -61,7 +65,21 @@ public class FHIROperationUtil {
         } catch (FHIROperationException e) {
             throw e;
         } catch (Exception e) {
-            throw new FHIROperationException("Unable to process query parameters", e);
+            // Originally returned 500 when it should be 400 (it's on the client). 
+            
+            FHIROperationException operationException =
+                    new FHIROperationException("Unable to process query parameters", e);
+
+            List<Issue> issues = new ArrayList<>();
+            Issue.Builder builder = Issue.builder();
+            builder.code(IssueType.INVALID);
+            builder.diagnostics(string("Unable to process query parameters"));
+            builder.severity(IssueSeverity.ERROR);
+            issues.add(builder.build());
+
+            operationException.setIssues(issues);
+            
+            throw operationException;
         }
     }
 
