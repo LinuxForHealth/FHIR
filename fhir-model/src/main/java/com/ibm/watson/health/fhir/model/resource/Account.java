@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.AccountStatus;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -44,14 +45,14 @@ public class Account extends DomainResource {
     @Required
     @Binding(
         bindingName = "AccountStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether the account is available to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/account-status|4.0.0"
     )
     private final AccountStatus status;
     @Binding(
         bindingName = "AccountType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The usage type of this account, permits categorization of accounts.",
         valueSet = "http://hl7.org/fhir/ValueSet/account-type"
     )

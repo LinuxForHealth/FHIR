@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -44,7 +45,7 @@ public class ImmunizationEvaluation extends DomainResource {
     @Required
     @Binding(
         bindingName = "ImmunizationEvaluationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the evaluation being done.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.0.0"
     )
@@ -56,7 +57,7 @@ public class ImmunizationEvaluation extends DomainResource {
     @Required
     @Binding(
         bindingName = "EvaluationTargetDisease",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The vaccine preventable disease the dose is being evaluated against.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-target-disease"
     )
@@ -66,14 +67,14 @@ public class ImmunizationEvaluation extends DomainResource {
     @Required
     @Binding(
         bindingName = "EvaluationDoseStatus",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The status of the administered dose relative to the published recommendations for the target disease.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status"
     )
     private final CodeableConcept doseStatus;
     @Binding(
         bindingName = "EvaluationDoseStatusReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The reason the dose status was assigned.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status-reason"
     )

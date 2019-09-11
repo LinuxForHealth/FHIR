@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Extension;
@@ -481,7 +482,7 @@ public class Linkage extends DomainResource {
         @Required
         @Binding(
             bindingName = "LinkageType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Used to distinguish different roles a resource can play within a set of linked resources.",
             valueSet = "http://hl7.org/fhir/ValueSet/linkage-type|4.0.0"
         )

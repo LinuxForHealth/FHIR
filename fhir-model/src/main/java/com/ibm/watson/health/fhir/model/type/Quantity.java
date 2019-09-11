@@ -33,7 +33,7 @@ public class Quantity extends Element {
     protected final Decimal value;
     @Binding(
         bindingName = "QuantityComparator",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "How the Quantity should be understood and represented.",
         valueSet = "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.0"
     )

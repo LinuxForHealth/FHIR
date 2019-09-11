@@ -1073,6 +1073,8 @@ public class CodeGenerator {
             String strength = binding.getString("strength", null);
             String description = binding.getString("description", null);
             String valueSet = binding.getString("valueSet", null);
+            String inheritedExtensibleValueSet = getInheritedExtensibleValueSet(binding);
+            String minValueSet = getMinValueSet(binding);
             String maxValueSet = getMaxValueSet(binding);
             
             Map<String, String> valueMap = new LinkedHashMap<>();
@@ -1080,13 +1082,19 @@ public class CodeGenerator {
                 valueMap.put("bindingName", "\"" + bindingName + "\"");
             }
             if (strength != null) {
-                valueMap.put("strength", "\"" + strength + "\"");
+                valueMap.put("strength", "BindingStrength.ValueSet." + strength.toUpperCase());
             }
             if (description != null) {
                 valueMap.put("description", "\"" + description.replace("\"", "\\\"") + "\"");
             }
             if (valueSet != null) {
                 valueMap.put("valueSet", "\"" + valueSet + "\"");
+            }
+            if (inheritedExtensibleValueSet != null) {
+                valueMap.put("inheritedExtensibleValueSet", "\"" + inheritedExtensibleValueSet + "\"");
+            }
+            if (minValueSet != null) {
+                valueMap.put("minValueSet", "\"" + minValueSet + "\"");
             }
             if (maxValueSet != null) {
                 valueMap.put("maxValueSet", "\"" + maxValueSet + "\"");
@@ -1477,6 +1485,9 @@ public class CodeGenerator {
                     path.equals(basePath) && 
                     !"ElementDefinition".equals(name) && 
                     !isProfiledType(name)) {
+                if (isResource(structureDefinition)) {
+                    imports.add("com.ibm.watson.health.fhir.model.type.BindingStrength");
+                }
                 imports.add("com.ibm.watson.health.fhir.model.annotation.Binding");
             }
             
@@ -2862,10 +2873,46 @@ public class CodeGenerator {
         return null;
     }
     
+    private String getInheritedExtensibleValueSet(JsonObject binding) {
+        for (JsonValue extension : binding.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("inheritedExtensibleValueSet")) {
+                String valueUri = extension.asJsonObject().getString("valueUri", null);
+                String valueCanonical = extension.asJsonObject().getString("valueCanonical", null);
+                if (valueUri != null) {
+                    return valueUri;
+                } else if (valueCanonical != null) {
+                    return valueCanonical;
+                }
+            }
+        }        
+        return null;
+    }
+    
+    private String getMinValueSet(JsonObject binding) {
+        for (JsonValue extension : binding.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("minValueSet")) {
+                String valueUri = extension.asJsonObject().getString("valueUri", null);
+                String valueCanonical = extension.asJsonObject().getString("valueCanonical", null);
+                if (valueUri != null) {
+                    return valueUri;
+                } else if (valueCanonical != null) {
+                    return valueCanonical;
+                }
+            }
+        }        
+        return null;
+    }
+
     private String getMaxValueSet(JsonObject binding) {
         for (JsonValue extension : binding.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
             if (extension.asJsonObject().getString("url").endsWith("maxValueSet")) {
-                return extension.asJsonObject().getString("valueCanonical");
+                String valueUri = extension.asJsonObject().getString("valueUri", null);
+                String valueCanonical = extension.asJsonObject().getString("valueCanonical", null);
+                if (valueUri != null) {
+                    return valueUri;
+                } else if (valueCanonical != null) {
+                    return valueCanonical;
+                }
             }
         }        
         return null;

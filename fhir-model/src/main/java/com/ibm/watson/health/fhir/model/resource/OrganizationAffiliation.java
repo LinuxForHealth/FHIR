@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watson.health.fhir.model.annotation.Binding;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -44,14 +45,14 @@ public class OrganizationAffiliation extends DomainResource {
     private final List<Reference> network;
     @Binding(
         bindingName = "OrganizationAffiliation",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The role the participating organization providing services to the primary organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/organization-role"
     )
     private final List<CodeableConcept> code;
     @Binding(
         bindingName = "OrganizationSpecialty",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Specific specialty associated with the participating organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )

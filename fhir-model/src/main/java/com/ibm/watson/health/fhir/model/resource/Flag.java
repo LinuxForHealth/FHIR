@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Extension;
@@ -39,14 +40,14 @@ public class Flag extends DomainResource {
     @Required
     @Binding(
         bindingName = "FlagStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.0"
     )
     private final FlagStatus status;
     @Binding(
         bindingName = "FlagCategory",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A general category for flags for filtering/display purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-category"
     )
@@ -54,7 +55,7 @@ public class Flag extends DomainResource {
     @Required
     @Binding(
         bindingName = "FlagCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Detail codes identifying specific flagged issues.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-code"
     )

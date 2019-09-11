@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watson.health.fhir.model.annotation.Binding;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.EnrollmentResponseStatus;
@@ -38,7 +39,7 @@ public class EnrollmentResponse extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "EnrollmentResponseStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
@@ -46,7 +47,7 @@ public class EnrollmentResponse extends DomainResource {
     private final Reference request;
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The outcome of the processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
     )

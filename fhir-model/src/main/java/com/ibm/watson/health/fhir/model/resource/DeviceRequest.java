@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -56,7 +57,7 @@ public class DeviceRequest extends DomainResource {
     private final Identifier groupIdentifier;
     @Binding(
         bindingName = "DeviceRequestStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes representing the status of the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
@@ -64,14 +65,14 @@ public class DeviceRequest extends DomainResource {
     @Required
     @Binding(
         bindingName = "RequestIntent",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of diagnostic request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
     private final RequestIntent intent;
     @Binding(
         bindingName = "RequestPriority",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
@@ -80,7 +81,7 @@ public class DeviceRequest extends DomainResource {
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "DeviceRequestCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes for devices that can be requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -95,7 +96,7 @@ public class DeviceRequest extends DomainResource {
     private final Reference requester;
     @Binding(
         bindingName = "DeviceRequestParticipantRole",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
     )
@@ -103,7 +104,7 @@ public class DeviceRequest extends DomainResource {
     private final Reference performer;
     @Binding(
         bindingName = "DeviceRequestReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Diagnosis or problem codes justifying the reason for requesting the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -1448,7 +1449,7 @@ public class DeviceRequest extends DomainResource {
     public static class Parameter extends BackboneElement {
         @Binding(
             bindingName = "ParameterCode",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A code that identifies the device detail."
         )
         private final CodeableConcept code;

@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Base64Binary;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -46,14 +47,14 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class MedicationKnowledge extends DomainResource {
     @Binding(
         bindingName = "MedicationFormalRepresentation",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept that defines the type of a medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
     private final CodeableConcept code;
     @Binding(
         bindingName = "MedicationKnowledgeStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept defining if the medication is in active use.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.0.0"
     )
@@ -61,7 +62,7 @@ public class MedicationKnowledge extends DomainResource {
     private final Reference manufacturer;
     @Binding(
         bindingName = "MedicationForm",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept defining the form of a medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-form-codes"
     )
@@ -76,7 +77,7 @@ public class MedicationKnowledge extends DomainResource {
     private final Markdown preparationInstruction;
     @Binding(
         bindingName = "MedicationRoute",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept defining the intended route of administration.",
         valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
     )
@@ -4045,7 +4046,7 @@ public class MedicationKnowledge extends DomainResource {
     public static class Packaging extends BackboneElement {
         @Binding(
             bindingName = "MedicationPackageType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A coded concept defining the type of packaging of a medication.",
             valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-package-type"
         )
@@ -4312,7 +4313,7 @@ public class MedicationKnowledge extends DomainResource {
     public static class DrugCharacteristic extends BackboneElement {
         @Binding(
             bindingName = "MedicationCharacteristic",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A coded concept defining the characteristic types of a medication.",
             valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-characteristic"
         )

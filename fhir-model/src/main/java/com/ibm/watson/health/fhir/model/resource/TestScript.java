@@ -21,6 +21,7 @@ import com.ibm.watson.health.fhir.model.type.AssertionDirectionType;
 import com.ibm.watson.health.fhir.model.type.AssertionOperatorType;
 import com.ibm.watson.health.fhir.model.type.AssertionResponseTypes;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -159,7 +160,7 @@ public class TestScript extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -172,7 +173,7 @@ public class TestScript extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -1464,7 +1465,7 @@ public class TestScript extends DomainResource {
         @Required
         @Binding(
             bindingName = "TestScriptProfileOriginType",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of origin profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-origin-types"
         )
@@ -1741,7 +1742,7 @@ public class TestScript extends DomainResource {
         @Required
         @Binding(
             bindingName = "TestScriptProfileDestinationType",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of destination profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-destination-types"
         )
@@ -4360,14 +4361,14 @@ public class TestScript extends DomainResource {
             public static class Operation extends BackboneElement {
                 @Binding(
                     bindingName = "TestScriptOperationCode",
-                    strength = "extensible",
+                    strength = BindingStrength.ValueSet.EXTENSIBLE,
                     description = "The allowable operation code types.",
                     valueSet = "http://hl7.org/fhir/ValueSet/testscript-operation-codes"
                 )
                 private final Coding type;
                 @Binding(
                     bindingName = "FHIRDefinedType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
                     valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.0"
                 )
@@ -4376,14 +4377,14 @@ public class TestScript extends DomainResource {
                 private final String description;
                 @Binding(
                     bindingName = "MimeType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
                     valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
                 )
                 private final Code accept;
                 @Binding(
                     bindingName = "MimeType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
                     valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
                 )
@@ -4393,7 +4394,7 @@ public class TestScript extends DomainResource {
                 private final Boolean encodeRequestUrl;
                 @Binding(
                     bindingName = "TestScriptRequestMethodCode",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The allowable request method or HTTP operation codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.0"
                 )
@@ -5436,7 +5437,7 @@ public class TestScript extends DomainResource {
                 private final String description;
                 @Binding(
                     bindingName = "AssertionDirectionType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The type of direction to use for assertion.",
                     valueSet = "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.0.0"
                 )
@@ -5446,7 +5447,7 @@ public class TestScript extends DomainResource {
                 private final String compareToSourcePath;
                 @Binding(
                     bindingName = "MimeType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
                     valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
                 )
@@ -5457,7 +5458,7 @@ public class TestScript extends DomainResource {
                 private final Boolean navigationLinks;
                 @Binding(
                     bindingName = "AssertionOperatorType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The type of operator to use for assertion.",
                     valueSet = "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.0.0"
                 )
@@ -5465,7 +5466,7 @@ public class TestScript extends DomainResource {
                 private final String path;
                 @Binding(
                     bindingName = "TestScriptRequestMethodCode",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The allowable request method or HTTP operation codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.0"
                 )
@@ -5473,14 +5474,14 @@ public class TestScript extends DomainResource {
                 private final String requestURL;
                 @Binding(
                     bindingName = "FHIRDefinedType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
                     valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.0"
                 )
                 private final FHIRDefinedType resource;
                 @Binding(
                     bindingName = "AssertionResponseTypes",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The type of response code to use for assertion.",
                     valueSet = "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.0.0"
                 )

@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.Attachment;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -51,28 +52,28 @@ public class Media extends DomainResource {
     @Required
     @Binding(
         bindingName = "MediaStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes identifying the lifecycle stage of an event.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
     )
     private final MediaStatus status;
     @Binding(
         bindingName = "MediaType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Codes for high level media categories.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-type"
     )
     private final CodeableConcept type;
     @Binding(
         bindingName = "MediaModality",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Detailed information about the type of the image - its kind, purpose, or the kind of equipment used to generate it.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-modality"
     )
     private final CodeableConcept modality;
     @Binding(
         bindingName = "MediaView",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Imaging view (projection) used when collecting an image.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-view"
     )
@@ -85,14 +86,14 @@ public class Media extends DomainResource {
     private final Reference operator;
     @Binding(
         bindingName = "MediaReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The reason for the media.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
     private final List<CodeableConcept> reasonCode;
     @Binding(
         bindingName = "BodySite",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )

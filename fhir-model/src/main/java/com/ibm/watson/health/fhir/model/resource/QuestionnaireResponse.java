@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -63,7 +64,7 @@ public class QuestionnaireResponse extends DomainResource {
     @Required
     @Binding(
         bindingName = "QuestionnaireResponseStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Lifecycle status of the questionnaire response.",
         valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.0"
     )
@@ -1201,7 +1202,7 @@ public class QuestionnaireResponse extends DomainResource {
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireAnswer",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Code indicating the response provided for a question.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )

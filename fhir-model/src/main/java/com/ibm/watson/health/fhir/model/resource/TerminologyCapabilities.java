@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.CapabilityStatementKind;
@@ -94,7 +95,7 @@ public class TerminologyCapabilities extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -108,7 +109,7 @@ public class TerminologyCapabilities extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -118,7 +119,7 @@ public class TerminologyCapabilities extends DomainResource {
     @Required
     @Binding(
         bindingName = "CapabilityStatementKind",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "How a capability statement is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.0"
     )
@@ -130,7 +131,7 @@ public class TerminologyCapabilities extends DomainResource {
     private final Expansion expansion;
     @Binding(
         bindingName = "CodeSearchSupport",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The degree to which the server supports the code search parameter on ValueSet, if it is supported.",
         valueSet = "http://hl7.org/fhir/ValueSet/code-search-support|4.0.0"
     )

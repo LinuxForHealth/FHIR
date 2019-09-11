@@ -17,6 +17,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -45,14 +46,14 @@ public class Specimen extends DomainResource {
     private final Identifier accessionIdentifier;
     @Binding(
         bindingName = "SpecimenStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes providing the status/availability of a specimen.",
         valueSet = "http://hl7.org/fhir/ValueSet/specimen-status|4.0.0"
     )
     private final SpecimenStatus status;
     @Binding(
         bindingName = "SpecimenType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The type of the specimen.",
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
     )
@@ -66,7 +67,7 @@ public class Specimen extends DomainResource {
     private final List<Container> container;
     @Binding(
         bindingName = "SpecimenCondition",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Codes describing the state of the specimen.",
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0493"
     )
@@ -940,14 +941,14 @@ public class Specimen extends DomainResource {
         private final SimpleQuantity quantity;
         @Binding(
             bindingName = "SpecimenCollectionMethod",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The  technique that is used to perform the procedure.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-collection-method"
         )
         private final CodeableConcept method;
         @Binding(
             bindingName = "BodySite",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes describing anatomical locations. May include laterality.",
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
@@ -955,7 +956,7 @@ public class Specimen extends DomainResource {
         @Choice({ CodeableConcept.class, Duration.class })
         @Binding(
             bindingName = "FastingStatus",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Codes describing the fasting status of the patient.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0916"
         )
@@ -1391,7 +1392,7 @@ public class Specimen extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "SpecimenProcessingProcedure",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Type indicating the technique used to process the specimen.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-processing-procedure"
         )
@@ -1751,7 +1752,7 @@ public class Specimen extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "SpecimenContainerType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Type of specimen container.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-container-type"
         )
@@ -1761,7 +1762,7 @@ public class Specimen extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SpecimenContainerAdditive",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Substance added to specimen container.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0371"
         )

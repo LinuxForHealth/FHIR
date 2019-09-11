@@ -99,7 +99,7 @@ public class Timing extends BackboneElement {
     private final Repeat repeat;
     @Binding(
         bindingName = "TimingAbbreviation",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Code for a known / defined timing pattern.",
         valueSet = "http://hl7.org/fhir/ValueSet/timing-abbreviation"
     )
@@ -427,7 +427,7 @@ public class Timing extends BackboneElement {
         private final Decimal durationMax;
         @Binding(
             bindingName = "UnitsOfTime",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "A unit of time (units from UCUM).",
             valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.0"
         )
@@ -438,21 +438,21 @@ public class Timing extends BackboneElement {
         private final Decimal periodMax;
         @Binding(
             bindingName = "UnitsOfTime",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "A unit of time (units from UCUM).",
             valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.0"
         )
         private final UnitsOfTime periodUnit;
         @Binding(
             bindingName = "DayOfWeek",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
         )
         private final List<DayOfWeek> dayOfWeek;
         private final List<Time> timeOfDay;
         @Binding(
             bindingName = "EventTiming",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Real world event relating to the schedule.",
             valueSet = "http://hl7.org/fhir/ValueSet/event-timing|4.0.0"
         )

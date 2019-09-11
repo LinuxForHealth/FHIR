@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -50,7 +51,7 @@ public class Invoice extends DomainResource {
     @Required
     @Binding(
         bindingName = "InvoiceStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes identifying the lifecycle stage of an Invoice.",
         valueSet = "http://hl7.org/fhir/ValueSet/invoice-status|4.0.0"
     )
@@ -1597,7 +1598,7 @@ public class Invoice extends DomainResource {
             @Required
             @Binding(
                 bindingName = "InvoicePriceComponentType",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
                 valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.0"
             )

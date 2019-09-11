@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Coding;
@@ -47,14 +48,14 @@ public class ImagingStudy extends DomainResource {
     @Required
     @Binding(
         bindingName = "ImagingStudyStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the ImagingStudy.",
         valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.0"
     )
     private final ImagingStudyStatus status;
     @Binding(
         bindingName = "ImagingModality",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Type of acquired data in the instance.",
         valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
     )
@@ -72,7 +73,7 @@ public class ImagingStudy extends DomainResource {
     private final Reference procedureReference;
     @Binding(
         bindingName = "ImagingProcedureCode",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The performed procedure type.",
         valueSet = "http://www.rsna.org/RadLex_Playbook.aspx"
     )
@@ -80,7 +81,7 @@ public class ImagingStudy extends DomainResource {
     private final Reference location;
     @Binding(
         bindingName = "ImagingReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The reason for the study.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
@@ -1254,7 +1255,7 @@ public class ImagingStudy extends DomainResource {
         @Required
         @Binding(
             bindingName = "ImagingModality",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Type of acquired data in the instance.",
             valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
         )
@@ -1264,14 +1265,14 @@ public class ImagingStudy extends DomainResource {
         private final List<Reference> endpoint;
         @Binding(
             bindingName = "BodySite",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes describing anatomical locations. May include laterality.",
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
         private final Coding bodySite;
         @Binding(
             bindingName = "Laterality",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes describing body site laterality (left, right, etc.).",
             valueSet = "http://hl7.org/fhir/ValueSet/bodysite-laterality"
         )
@@ -1956,7 +1957,7 @@ public class ImagingStudy extends DomainResource {
         public static class Performer extends BackboneElement {
             @Binding(
                 bindingName = "EventPerformerFunction",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "The type of involvement of the performer.",
                 valueSet = "http://hl7.org/fhir/ValueSet/series-performer-function"
             )
@@ -2232,7 +2233,7 @@ public class ImagingStudy extends DomainResource {
             @Required
             @Binding(
                 bindingName = "sopClass",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "The sopClass for the instance.",
                 valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1"
             )

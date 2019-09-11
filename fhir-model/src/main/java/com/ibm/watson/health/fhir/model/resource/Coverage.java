@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -48,14 +49,14 @@ public class Coverage extends DomainResource {
     @Required
     @Binding(
         bindingName = "CoverageStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
     private final CoverageStatus status;
     @Binding(
         bindingName = "CoverageType",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "The type of insurance: public health, worker compensation; private accident, auto, private health, etc.) or a direct payment by an individual or organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/coverage-type"
     )
@@ -68,7 +69,7 @@ public class Coverage extends DomainResource {
     private final String dependent;
     @Binding(
         bindingName = "Relationship",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The relationship between the Subscriber and the Beneficiary (insured/covered party/patient).",
         valueSet = "http://hl7.org/fhir/ValueSet/subscriber-relationship"
     )
@@ -1051,7 +1052,7 @@ public class Coverage extends DomainResource {
         @Required
         @Binding(
             bindingName = "CoverageClass",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The policy classifications, eg. Group, Plan, Class, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/coverage-class"
         )
@@ -1362,7 +1363,7 @@ public class Coverage extends DomainResource {
     public static class CostToBeneficiary extends BackboneElement {
         @Binding(
             bindingName = "CopayTypes",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The types of services to which patient copayments are specified.",
             valueSet = "http://hl7.org/fhir/ValueSet/coverage-copay-type"
         )
@@ -1694,7 +1695,7 @@ public class Coverage extends DomainResource {
             @Required
             @Binding(
                 bindingName = "CoverageFinancialException",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "The types of exceptions from the part or full value of financial obligations such as copays.",
                 valueSet = "http://hl7.org/fhir/ValueSet/coverage-financial-exception"
             )

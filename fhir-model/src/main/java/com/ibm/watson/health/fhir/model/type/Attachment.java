@@ -30,14 +30,14 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Attachment extends Element {
     @Binding(
         bindingName = "MimeType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
     private final Code contentType;
     @Binding(
         bindingName = "Language",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"

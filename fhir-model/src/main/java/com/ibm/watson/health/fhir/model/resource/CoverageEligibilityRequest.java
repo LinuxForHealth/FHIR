@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -52,14 +53,14 @@ public class CoverageEligibilityRequest extends DomainResource {
     @Required
     @Binding(
         bindingName = "EligibilityRequestStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
     private final EligibilityRequestStatus status;
     @Binding(
         bindingName = "ProcessPriority",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The timeliness with which processing is required: STAT, normal, Deferred.",
         valueSet = "http://hl7.org/fhir/ValueSet/process-priority"
     )
@@ -67,7 +68,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     @Required
     @Binding(
         bindingName = "EligibilityRequestPurpose",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the types of information being requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.0.0"
     )
@@ -1574,21 +1575,21 @@ public class CoverageEligibilityRequest extends DomainResource {
         private final List<PositiveInt> supportingInfoSequence;
         @Binding(
             bindingName = "BenefitCategory",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Benefit categories such as: oral, medical, vision etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
         )
         private final CodeableConcept category;
         @Binding(
             bindingName = "ServiceProduct",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Allowable service and product codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
         )
         private final CodeableConcept productOrService;
         @Binding(
             bindingName = "Modifiers",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
         )
@@ -2186,7 +2187,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             @Choice({ CodeableConcept.class, Reference.class })
             @Binding(
                 bindingName = "ICD10",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "ICD10 Diagnostic codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
             )

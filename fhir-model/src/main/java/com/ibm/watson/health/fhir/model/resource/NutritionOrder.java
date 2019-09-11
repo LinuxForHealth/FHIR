@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -60,7 +61,7 @@ public class NutritionOrder extends DomainResource {
     @Required
     @Binding(
         bindingName = "NutritionOrderStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes identifying the lifecycle stage of the nutrition order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
@@ -68,7 +69,7 @@ public class NutritionOrder extends DomainResource {
     @Required
     @Binding(
         bindingName = "NutritiionOrderIntent",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
@@ -82,14 +83,14 @@ public class NutritionOrder extends DomainResource {
     private final List<Reference> allergyIntolerance;
     @Binding(
         bindingName = "PatientDiet",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Medical, cultural or ethical food preferences to help with catering requirements.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-diet"
     )
     private final List<CodeableConcept> foodPreferenceModifier;
     @Binding(
         bindingName = "FoodType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes used to indicate the type of food that should NOT be given to the patient.",
         valueSet = "http://hl7.org/fhir/ValueSet/food-type"
     )
@@ -1163,7 +1164,7 @@ public class NutritionOrder extends DomainResource {
     public static class OralDiet extends BackboneElement {
         @Binding(
             bindingName = "OralDiet",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes used to indicate the type of diet being ordered for a patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/diet-type"
         )
@@ -1173,7 +1174,7 @@ public class NutritionOrder extends DomainResource {
         private final List<Texture> texture;
         @Binding(
             bindingName = "FluidConsistencyType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes used to represent the consistency of fluids and liquids provided to the patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/consistency-type"
         )
@@ -1668,7 +1669,7 @@ public class NutritionOrder extends DomainResource {
         public static class Nutrient extends BackboneElement {
             @Binding(
                 bindingName = "NutrientModifier",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Codes for types of nutrients that are being modified such as carbohydrate or sodium.",
                 valueSet = "http://hl7.org/fhir/ValueSet/nutrient-code"
             )
@@ -1933,14 +1934,14 @@ public class NutritionOrder extends DomainResource {
         public static class Texture extends BackboneElement {
             @Binding(
                 bindingName = "TextureModifier",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Codes for food consistency types or texture modifications to apply to foods.",
                 valueSet = "http://hl7.org/fhir/ValueSet/texture-code"
             )
             private final CodeableConcept modifier;
             @Binding(
                 bindingName = "TextureModifiedFoodType",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Codes for types of foods that are texture-modified.",
                 valueSet = "http://hl7.org/fhir/ValueSet/modified-foodtype"
             )
@@ -2205,7 +2206,7 @@ public class NutritionOrder extends DomainResource {
     public static class Supplement extends BackboneElement {
         @Binding(
             bindingName = "SupplementType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes for nutritional supplements to be provided to the patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/supplement-type"
         )
@@ -2590,7 +2591,7 @@ public class NutritionOrder extends DomainResource {
     public static class EnteralFormula extends BackboneElement {
         @Binding(
             bindingName = "EnteralFormulaType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes for type of enteral formula to be administered to patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/entformula-type"
         )
@@ -2598,7 +2599,7 @@ public class NutritionOrder extends DomainResource {
         private final String baseFormulaProductName;
         @Binding(
             bindingName = "EnteralFormulaAdditiveType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes for the type of modular component such as protein, carbohydrate or fiber to be provided in addition to or mixed with the base formula.",
             valueSet = "http://hl7.org/fhir/ValueSet/entformula-additive"
         )
@@ -2607,7 +2608,7 @@ public class NutritionOrder extends DomainResource {
         private final SimpleQuantity caloricDensity;
         @Binding(
             bindingName = "EnteralRouteOfAdministration",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Codes specifying the route of administration of enteral formula.",
             valueSet = "http://hl7.org/fhir/ValueSet/enteral-route"
         )

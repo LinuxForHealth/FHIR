@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -66,7 +67,7 @@ public class Organization extends DomainResource {
     private final Boolean active;
     @Binding(
         bindingName = "OrganizationType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Used to categorize the organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/organization-type"
     )
@@ -834,7 +835,7 @@ public class Organization extends DomainResource {
     public static class Contact extends BackboneElement {
         @Binding(
             bindingName = "ContactPartyType",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The purpose for which you would contact a contact party.",
             valueSet = "http://hl7.org/fhir/ValueSet/contactentity-type"
         )

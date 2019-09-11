@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -57,7 +58,7 @@ public class MedicationDispense extends DomainResource {
     @Required
     @Binding(
         bindingName = "MedicationDispenseStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept specifying the state of the dispense event.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.0.0"
     )
@@ -65,14 +66,14 @@ public class MedicationDispense extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationDispenseStatusReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A code describing why a dispense was not performed.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status-reason"
     )
     private final Element statusReason;
     @Binding(
         bindingName = "MedicationDispenseCategory",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "A code describing where the dispensed medication is expected to be consumed or administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-category"
     )
@@ -81,7 +82,7 @@ public class MedicationDispense extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept identifying which substance or product can be dispensed.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -94,7 +95,7 @@ public class MedicationDispense extends DomainResource {
     private final List<Reference> authorizingPrescription;
     @Binding(
         bindingName = "MedicationDispenseType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Indicates the type of dispensing event that is performed. For example, Trial Fill, Completion of Trial, Partial Fill, Emergency Fill, Samples, etc.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActPharmacySupplyType"
     )
@@ -1407,7 +1408,7 @@ public class MedicationDispense extends DomainResource {
     public static class Performer extends BackboneElement {
         @Binding(
             bindingName = "MedicationDispensePerformerFunction",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A code describing the role an individual played in dispensing a medication.",
             valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-performer-function"
         )
@@ -1686,14 +1687,14 @@ public class MedicationDispense extends DomainResource {
         private final Boolean wasSubstituted;
         @Binding(
             bindingName = "MedicationIntendedSubstitutionType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A coded concept describing whether a different medicinal product may be dispensed other than the product as specified exactly in the prescription.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "MedicationIntendedSubstitutionReason",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A coded concept describing the reason that a different medication should (or should not) be substituted from what was prescribed.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-SubstanceAdminSubstitutionReason"
         )

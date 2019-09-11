@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.CapabilityStatementKind;
@@ -137,7 +138,7 @@ public class CapabilityStatement extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -151,7 +152,7 @@ public class CapabilityStatement extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -161,7 +162,7 @@ public class CapabilityStatement extends DomainResource {
     @Required
     @Binding(
         bindingName = "CapabilityStatementKind",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "How a capability statement is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.0"
     )
@@ -173,7 +174,7 @@ public class CapabilityStatement extends DomainResource {
     @Required
     @Binding(
         bindingName = "FHIRVersion",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "All published FHIR Versions.",
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
     )
@@ -181,14 +182,14 @@ public class CapabilityStatement extends DomainResource {
     @Required
     @Binding(
         bindingName = "MimeType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
     private final List<Code> format;
     @Binding(
         bindingName = "MimeType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
@@ -2209,7 +2210,7 @@ public class CapabilityStatement extends DomainResource {
         @Required
         @Binding(
             bindingName = "RestfulCapabilityMode",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The mode of a RESTful capability statement.",
             valueSet = "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.0.0"
         )
@@ -2779,7 +2780,7 @@ public class CapabilityStatement extends DomainResource {
             private final Boolean cors;
             @Binding(
                 bindingName = "RestfulSecurityService",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "Types of security services used with FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/restful-security-service"
             )
@@ -3096,7 +3097,7 @@ public class CapabilityStatement extends DomainResource {
             @Required
             @Binding(
                 bindingName = "ResourceType",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
             )
@@ -3107,7 +3108,7 @@ public class CapabilityStatement extends DomainResource {
             private final List<Interaction> interaction;
             @Binding(
                 bindingName = "ResourceVersionPolicy",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "How the system supports versioning for a resource.",
                 valueSet = "http://hl7.org/fhir/ValueSet/versioning-policy|4.0.0"
             )
@@ -3117,7 +3118,7 @@ public class CapabilityStatement extends DomainResource {
             private final Boolean conditionalCreate;
             @Binding(
                 bindingName = "ConditionalReadStatus",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "A code that indicates how the server supports conditional read.",
                 valueSet = "http://hl7.org/fhir/ValueSet/conditional-read-status|4.0.0"
             )
@@ -3125,14 +3126,14 @@ public class CapabilityStatement extends DomainResource {
             private final Boolean conditionalUpdate;
             @Binding(
                 bindingName = "ConditionalDeleteStatus",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "A code that indicates how the server supports conditional delete.",
                 valueSet = "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.0.0"
             )
             private final ConditionalDeleteStatus conditionalDelete;
             @Binding(
                 bindingName = "ReferenceHandlingPolicy",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "A set of flags that defines how references are supported.",
                 valueSet = "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.0.0"
             )
@@ -4044,7 +4045,7 @@ public class CapabilityStatement extends DomainResource {
                 @Required
                 @Binding(
                     bindingName = "TypeRestfulInteraction",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Operations supported by REST at the type or instance level.",
                     valueSet = "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.0.0"
                 )
@@ -4323,7 +4324,7 @@ public class CapabilityStatement extends DomainResource {
                 @Required
                 @Binding(
                     bindingName = "SearchParamType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Data types allowed to be used for search parameters.",
                     valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.0"
                 )
@@ -4986,7 +4987,7 @@ public class CapabilityStatement extends DomainResource {
             @Required
             @Binding(
                 bindingName = "SystemRestfulInteraction",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Operations supported by REST at the system level.",
                 valueSet = "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.0.0"
             )
@@ -5628,7 +5629,7 @@ public class CapabilityStatement extends DomainResource {
             @Required
             @Binding(
                 bindingName = "MessageTransport",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "The protocol used for message transport.",
                 valueSet = "http://hl7.org/fhir/ValueSet/message-transport"
             )
@@ -5907,7 +5908,7 @@ public class CapabilityStatement extends DomainResource {
             @Required
             @Binding(
                 bindingName = "EventCapabilityMode",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The mode of a message capability statement.",
                 valueSet = "http://hl7.org/fhir/ValueSet/event-capability-mode|4.0.0"
             )
@@ -6185,7 +6186,7 @@ public class CapabilityStatement extends DomainResource {
         @Required
         @Binding(
             bindingName = "DocumentMode",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Whether the application produces or consumes documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-mode|4.0.0"
         )

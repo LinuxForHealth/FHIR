@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -59,28 +60,28 @@ public class Goal extends DomainResource {
     @Required
     @Binding(
         bindingName = "GoalLifecycleStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.0.0"
     )
     private final GoalLifecycleStatus lifecycleStatus;
     @Binding(
         bindingName = "GoalAchievementStatus",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Indicates the progression, or lack thereof, towards the goal against the target.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-achievement"
     )
     private final CodeableConcept achievementStatus;
     @Binding(
         bindingName = "GoalCategory",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes for grouping and sorting goals.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-category"
     )
     private final List<CodeableConcept> category;
     @Binding(
         bindingName = "GoalPriority",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "The level of importance associated with a goal.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-priority"
     )
@@ -88,7 +89,7 @@ public class Goal extends DomainResource {
     @Required
     @Binding(
         bindingName = "GoalDescription",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes providing the details of a particular goal.  This will generally be system or implementation guide-specific.  In many systems, only the text element will be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -98,7 +99,7 @@ public class Goal extends DomainResource {
     @Choice({ Date.class, CodeableConcept.class })
     @Binding(
         bindingName = "GoalStartEvent",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing events that can trigger the initiation of a goal.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-start-event"
     )
@@ -111,7 +112,7 @@ public class Goal extends DomainResource {
     private final List<Annotation> note;
     @Binding(
         bindingName = "GoalOutcome",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The result of the goal; e.g. \"25% increase in shoulder mobility\", \"Anxiety reduced to moderate levels\".  \"15 kg weight loss sustained over 6 months\".",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -1083,7 +1084,7 @@ public class Goal extends DomainResource {
     public static class Target extends BackboneElement {
         @Binding(
             bindingName = "GoalTargetMeasure",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes to identify the value being tracked, e.g. body weight, blood pressure, or hemoglobin A1c level.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
         )
@@ -1091,7 +1092,7 @@ public class Goal extends DomainResource {
         @Choice({ Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class })
         @Binding(
             bindingName = "GoalTargetDetail",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes to identify the target value of the focus to be achieved to signify the fulfillment of the goal."
         )
         private final Element detail;

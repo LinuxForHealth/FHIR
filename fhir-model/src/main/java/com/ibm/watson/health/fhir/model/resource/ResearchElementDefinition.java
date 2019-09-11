@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -73,7 +74,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -82,7 +83,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The possible types of subjects for a measure (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -95,7 +96,7 @@ public class ResearchElementDefinition extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -108,7 +109,7 @@ public class ResearchElementDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -122,14 +123,14 @@ public class ResearchElementDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "ResearchElementType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The possible types of research elements (E.g. Population, Exposure, Outcome).",
         valueSet = "http://hl7.org/fhir/ValueSet/research-element-type|4.0.0"
     )
     private final ResearchElementType type;
     @Binding(
         bindingName = "VariableType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.0"
     )
@@ -1805,7 +1806,7 @@ public class ResearchElementDefinition extends DomainResource {
         private final Boolean exclude;
         @Binding(
             bindingName = "UCUMUnits",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Unified Code for Units of Measure (UCUM).",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units|4.0.0"
         )
@@ -1816,7 +1817,7 @@ public class ResearchElementDefinition extends DomainResource {
         private final Duration studyEffectiveTimeFromStart;
         @Binding(
             bindingName = "GroupMeasure",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.0"
         )
@@ -1827,7 +1828,7 @@ public class ResearchElementDefinition extends DomainResource {
         private final Duration participantEffectiveTimeFromStart;
         @Binding(
             bindingName = "GroupMeasure",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.0"
         )

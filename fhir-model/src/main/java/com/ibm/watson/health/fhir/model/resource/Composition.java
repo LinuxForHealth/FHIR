@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.CompositionAttestationMode;
@@ -68,7 +69,7 @@ public class Composition extends DomainResource {
     @Required
     @Binding(
         bindingName = "CompositionStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The workflow/clinical status of the composition.",
         valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.0"
     )
@@ -76,14 +77,14 @@ public class Composition extends DomainResource {
     @Required
     @Binding(
         bindingName = "DocumentType",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Type of a composition.",
         valueSet = "http://hl7.org/fhir/ValueSet/doc-typecodes"
     )
     private final CodeableConcept type;
     @Binding(
         bindingName = "DocumentCategory",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "High-level kind of a clinical document at a macro level.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
     )
@@ -98,7 +99,7 @@ public class Composition extends DomainResource {
     private final String title;
     @Binding(
         bindingName = "DocumentConfidentiality",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes specifying the level of confidentiality of the composition.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ConfidentialityClassification|4.0.0"
     )
@@ -1034,7 +1035,7 @@ public class Composition extends DomainResource {
         @Required
         @Binding(
             bindingName = "CompositionAttestationMode",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The way in which a person authenticated a composition.",
             valueSet = "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.0.0"
         )
@@ -1339,7 +1340,7 @@ public class Composition extends DomainResource {
         @Required
         @Binding(
             bindingName = "DocumentRelationshipType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relationship between documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
         )
@@ -1622,7 +1623,7 @@ public class Composition extends DomainResource {
     public static class Event extends BackboneElement {
         @Binding(
             bindingName = "DocumentEventType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "This list of codes represents the main clinical acts being documented.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
         )
@@ -1971,7 +1972,7 @@ public class Composition extends DomainResource {
         private final String title;
         @Binding(
             bindingName = "CompositionSectionType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Classification of a section of a composition/document.",
             valueSet = "http://hl7.org/fhir/ValueSet/doc-section-codes"
         )
@@ -1981,14 +1982,14 @@ public class Composition extends DomainResource {
         private final Narrative text;
         @Binding(
             bindingName = "SectionMode",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The processing mode that applies to this section.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.0"
         )
         private final SectionMode mode;
         @Binding(
             bindingName = "SectionEntryOrder",
-            strength = "preferred",
+            strength = BindingStrength.ValueSet.PREFERRED,
             description = "What order applies to the items in the entry.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-order"
         )
@@ -1996,7 +1997,7 @@ public class Composition extends DomainResource {
         private final List<Reference> entry;
         @Binding(
             bindingName = "SectionEmptyReason",
-            strength = "preferred",
+            strength = BindingStrength.ValueSet.PREFERRED,
             description = "If a section is empty, why it is empty.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-empty-reason"
         )

@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.ChargeItemDefinitionPriceComponentType;
@@ -68,7 +69,7 @@ public class ChargeItemDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -81,7 +82,7 @@ public class ChargeItemDefinition extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -92,7 +93,7 @@ public class ChargeItemDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "ChargeItemDefinitionCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Billing Code defined by this ChargeItemDefinition.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
     )
@@ -1988,7 +1989,7 @@ public class ChargeItemDefinition extends DomainResource {
             @Required
             @Binding(
                 bindingName = "ChargeItemDefinitionPriceComponentType",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
                 valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.0"
             )

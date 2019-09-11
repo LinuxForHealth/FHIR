@@ -28,7 +28,7 @@ public class Contributor extends Element {
     @Required
     @Binding(
         bindingName = "ContributorType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of contributor.",
         valueSet = "http://hl7.org/fhir/ValueSet/contributor-type|4.0.0"
     )

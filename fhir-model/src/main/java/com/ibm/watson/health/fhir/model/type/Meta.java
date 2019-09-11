@@ -30,14 +30,14 @@ public class Meta extends Element {
     private final List<Canonical> profile;
     @Binding(
         bindingName = "SecurityLabels",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Security Labels from the Healthcare Privacy and Security Classification System.",
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
     private final List<Coding> security;
     @Binding(
         bindingName = "Tags",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes that represent various types of tags, commonly workflow-related; e.g. \"Needs review by Dr. Jones\".",
         valueSet = "http://hl7.org/fhir/ValueSet/common-tags"
     )

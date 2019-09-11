@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -52,7 +53,7 @@ public class DeviceDefinition extends DomainResource {
     private final String modelNumber;
     @Binding(
         bindingName = "DeviceKind",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Type of device e.g. according to official classification.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -61,7 +62,7 @@ public class DeviceDefinition extends DomainResource {
     private final List<String> version;
     @Binding(
         bindingName = "Safety",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/device-safety"
     )
     private final List<CodeableConcept> safety;
@@ -1664,7 +1665,7 @@ public class DeviceDefinition extends DomainResource {
         @Required
         @Binding(
             bindingName = "DeviceNameType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
         )

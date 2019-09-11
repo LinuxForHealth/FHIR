@@ -33,7 +33,7 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class ContactPoint extends Element {
     @Binding(
         bindingName = "ContactPointSystem",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Telecommunications form for contact point.",
         valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.0.0"
     )
@@ -41,7 +41,7 @@ public class ContactPoint extends Element {
     private final String value;
     @Binding(
         bindingName = "ContactPointUse",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Use of contact point.",
         valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.0.0"
     )

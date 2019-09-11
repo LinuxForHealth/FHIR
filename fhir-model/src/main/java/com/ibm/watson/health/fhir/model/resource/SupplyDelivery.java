@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -45,7 +46,7 @@ public class SupplyDelivery extends DomainResource {
     private final List<Reference> partOf;
     @Binding(
         bindingName = "SupplyDeliveryStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Status of the supply delivery.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.0.0"
     )
@@ -53,7 +54,7 @@ public class SupplyDelivery extends DomainResource {
     private final Reference patient;
     @Binding(
         bindingName = "SupplyDeliveryType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of supply dispense.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-type|4.0.0"
     )
@@ -802,7 +803,7 @@ public class SupplyDelivery extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SupplyDeliveryItem",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The item that was delivered.",
             valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
         )

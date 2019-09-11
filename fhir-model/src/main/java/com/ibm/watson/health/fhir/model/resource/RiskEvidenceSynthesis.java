@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.ContactDetail;
@@ -63,7 +64,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -76,7 +77,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -87,7 +88,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -99,14 +100,14 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private final List<RelatedArtifact> relatedArtifact;
     @Binding(
         bindingName = "SynthesisType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Types of combining results from a body of evidence (eg. summary data meta-analysis).",
         valueSet = "http://hl7.org/fhir/ValueSet/synthesis-type"
     )
     private final CodeableConcept synthesisType;
     @Binding(
         bindingName = "StudyType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Types of research studies (types of research methods).",
         valueSet = "http://hl7.org/fhir/ValueSet/study-type"
     )
@@ -1969,7 +1970,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "RiskEstimateType",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Whether the risk estimate is dichotomous, continuous or qualitative and the specific type of risk estimate (eg proportion or median).",
             valueSet = "http://hl7.org/fhir/ValueSet/risk-estimate-type"
         )
@@ -1977,7 +1978,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         private final Decimal value;
         @Binding(
             bindingName = "UCUMUnits",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Unified Code for Units of Measure (UCUM).",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units|4.0.0"
         )
@@ -2418,7 +2419,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         public static class PrecisionEstimate extends BackboneElement {
             @Binding(
                 bindingName = "PrecisionEstimateType",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "Method of reporting variability of estimates, such as confidence intervals, interquartile range or standard deviation.",
                 valueSet = "http://hl7.org/fhir/ValueSet/precision-estimate-type"
             )
@@ -2748,7 +2749,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
     public static class Certainty extends BackboneElement {
         @Binding(
             bindingName = "QualityOfEvidenceRating",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The quality of the evidence described. The code system used specifies the quality scale used to grade this evidence source while the code specifies the actual quality score (represented as a coded value) associated with the evidence.",
             valueSet = "http://hl7.org/fhir/ValueSet/evidence-quality"
         )
@@ -3104,14 +3105,14 @@ public class RiskEvidenceSynthesis extends DomainResource {
         public static class CertaintySubcomponent extends BackboneElement {
             @Binding(
                 bindingName = "CertaintySubcomponentType",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "The subcomponent classification of quality of evidence rating systems.",
                 valueSet = "http://hl7.org/fhir/ValueSet/certainty-subcomponent-type"
             )
             private final CodeableConcept type;
             @Binding(
                 bindingName = "CertaintySubcomponentRating",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "The quality rating of the subcomponent of a quality of evidence rating.",
                 valueSet = "http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating"
             )

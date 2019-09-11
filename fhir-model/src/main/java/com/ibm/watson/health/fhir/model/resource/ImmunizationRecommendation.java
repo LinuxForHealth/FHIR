@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -572,21 +573,21 @@ public class ImmunizationRecommendation extends DomainResource {
     public static class Recommendation extends BackboneElement {
         @Binding(
             bindingName = "VaccineCode",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The type of vaccine administered.",
             valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
         )
         private final List<CodeableConcept> vaccineCode;
         @Binding(
             bindingName = "TargetDisease",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The disease that the recommended vaccination targets.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-target-disease"
         )
         private final CodeableConcept targetDisease;
         @Binding(
             bindingName = "VaccineCode",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The type of vaccine administered.",
             valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
         )
@@ -594,14 +595,14 @@ public class ImmunizationRecommendation extends DomainResource {
         @Required
         @Binding(
             bindingName = "ImmunizationRecommendationStatus",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The patient's status with respect to a vaccination protocol.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-status"
         )
         private final CodeableConcept forecastStatus;
         @Binding(
             bindingName = "ImmunizationRecommendationReason",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The reason for the patient's status with respect to a vaccination protocol.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-reason"
         )
@@ -1326,7 +1327,7 @@ public class ImmunizationRecommendation extends DomainResource {
             @Required
             @Binding(
                 bindingName = "ImmunizationRecommendationDateCriterion",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Classifies date criterion with respect to conveying information about a patient's vaccination status (e.g. due date, latest to give date, etc.).",
                 valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-date-criterion"
             )

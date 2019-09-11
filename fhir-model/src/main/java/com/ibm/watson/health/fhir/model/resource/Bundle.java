@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.BundleType;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Decimal;
@@ -121,7 +122,7 @@ public class Bundle extends Resource {
     @Required
     @Binding(
         bindingName = "BundleType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the purpose of a bundle - how it is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.0.0"
     )
@@ -1255,7 +1256,7 @@ public class Bundle extends Resource {
         public static class Search extends BackboneElement {
             @Binding(
                 bindingName = "SearchEntryMode",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
                 valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.0.0"
             )
@@ -1524,7 +1525,7 @@ public class Bundle extends Resource {
             @Required
             @Binding(
                 bindingName = "HTTPVerb",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
                 valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.0.0"
             )

@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -61,7 +62,7 @@ public class MeasureReport extends DomainResource {
     @Required
     @Binding(
         bindingName = "MeasureReportStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the measure report.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.0.0"
     )
@@ -69,7 +70,7 @@ public class MeasureReport extends DomainResource {
     @Required
     @Binding(
         bindingName = "MeasureReportType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of the measure report.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.0.0"
     )
@@ -83,7 +84,7 @@ public class MeasureReport extends DomainResource {
     private final Period period;
     @Binding(
         bindingName = "MeasureImprovementNotation",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.0"
     )
@@ -1191,7 +1192,7 @@ public class MeasureReport extends DomainResource {
         public static class Population extends BackboneElement {
             @Binding(
                 bindingName = "MeasurePopulation",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "The type of population (e.g. initial, numerator, denominator, etc.).",
                 valueSet = "http://hl7.org/fhir/ValueSet/measure-population"
             )
@@ -2429,7 +2430,7 @@ public class MeasureReport extends DomainResource {
                 public static class Population extends BackboneElement {
                     @Binding(
                         bindingName = "MeasurePopulation",
-                        strength = "extensible",
+                        strength = BindingStrength.ValueSet.EXTENSIBLE,
                         description = "The type of population (e.g. initial, numerator, denominator, etc.).",
                         valueSet = "http://hl7.org/fhir/ValueSet/measure-population"
                     )

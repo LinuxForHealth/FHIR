@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -60,21 +61,21 @@ public class MedicationStatement extends DomainResource {
     @Required
     @Binding(
         bindingName = "MedicationStatementStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept indicating the current status of a MedicationStatement.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.0.0"
     )
     private final MedicationStatementStatus status;
     @Binding(
         bindingName = "MedicationStatementStatusReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept indicating the reason for the status of the statement.",
         valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-status-codes"
     )
     private final List<CodeableConcept> statusReason;
     @Binding(
         bindingName = "MedicationStatementCategory",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "A coded concept identifying where the medication included in the MedicationStatement is expected to be consumed or administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-category"
     )
@@ -83,7 +84,7 @@ public class MedicationStatement extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept identifying the substance or product being taken.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -98,7 +99,7 @@ public class MedicationStatement extends DomainResource {
     private final List<Reference> derivedFrom;
     @Binding(
         bindingName = "MedicationReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept identifying why the medication is being taken.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )

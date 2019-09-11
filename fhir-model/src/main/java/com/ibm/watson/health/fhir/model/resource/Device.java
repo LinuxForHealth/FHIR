@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Base64Binary;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.ContactPoint;
@@ -49,14 +50,14 @@ public class Device extends DomainResource {
     private final List<UdiCarrier> udiCarrier;
     @Binding(
         bindingName = "FHIRDeviceStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The availability status of the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-status|4.0.0"
     )
     private final FHIRDeviceStatus status;
     @Binding(
         bindingName = "FHIRDeviceStatusReason",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The availability status reason of the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-status-reason"
     )
@@ -72,7 +73,7 @@ public class Device extends DomainResource {
     private final String partNumber;
     @Binding(
         bindingName = "DeviceType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes to identify medical devices.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-type"
     )
@@ -1426,7 +1427,7 @@ public class Device extends DomainResource {
         private final String carrierHRF;
         @Binding(
             bindingName = "UDIEntryType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Codes to identify how UDI data was entered.",
             valueSet = "http://hl7.org/fhir/ValueSet/udi-entry-type|4.0.0"
         )
@@ -1847,7 +1848,7 @@ public class Device extends DomainResource {
         @Required
         @Binding(
             bindingName = "DeviceNameType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
         )

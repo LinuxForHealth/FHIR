@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.ChargeItemStatus;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -55,7 +56,7 @@ public class ChargeItem extends DomainResource {
     @Required
     @Binding(
         bindingName = "ChargeItemStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes identifying the lifecycle stage of a ChargeItem.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-status|4.0.0"
     )
@@ -64,7 +65,7 @@ public class ChargeItem extends DomainResource {
     @Required
     @Binding(
         bindingName = "ChargeItemCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Example set of codes that can be used for billing purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
     )
@@ -81,7 +82,7 @@ public class ChargeItem extends DomainResource {
     private final Quantity quantity;
     @Binding(
         bindingName = "BodySite",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -93,7 +94,7 @@ public class ChargeItem extends DomainResource {
     private final DateTime enteredDate;
     @Binding(
         bindingName = "ChargeItemReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Example binding for reason.",
         valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
     )
@@ -102,7 +103,7 @@ public class ChargeItem extends DomainResource {
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "ChargeItemProduct",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Example binding for product type.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -1470,7 +1471,7 @@ public class ChargeItem extends DomainResource {
     public static class Performer extends BackboneElement {
         @Binding(
             bindingName = "ChargeItemPerformerFunction",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes describing the types of functional roles performers can take on when performing events.",
             valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
         )

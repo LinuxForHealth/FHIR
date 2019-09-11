@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.Decimal;
@@ -61,7 +62,7 @@ public class TestReport extends DomainResource {
     @Required
     @Binding(
         bindingName = "TestReportStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The current status of the test report.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-status-codes|4.0.0"
     )
@@ -71,7 +72,7 @@ public class TestReport extends DomainResource {
     @Required
     @Binding(
         bindingName = "TestReportResult",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The reported execution result.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-result-codes|4.0.0"
     )
@@ -819,7 +820,7 @@ public class TestReport extends DomainResource {
         @Required
         @Binding(
             bindingName = "TestReportParticipantType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of participant.",
             valueSet = "http://hl7.org/fhir/ValueSet/report-participant-type|4.0.0"
         )
@@ -1642,7 +1643,7 @@ public class TestReport extends DomainResource {
                 @Required
                 @Binding(
                     bindingName = "TestReportActionResult",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The results of executing an action.",
                     valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.0.0"
                 )
@@ -1947,7 +1948,7 @@ public class TestReport extends DomainResource {
                 @Required
                 @Binding(
                     bindingName = "TestReportActionResult",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The results of executing an action.",
                     valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.0.0"
                 )

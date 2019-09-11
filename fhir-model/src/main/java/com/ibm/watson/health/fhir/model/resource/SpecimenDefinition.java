@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -45,14 +46,14 @@ public class SpecimenDefinition extends DomainResource {
     private final Identifier identifier;
     @Binding(
         bindingName = "CollectedSpecimenType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The type of the specimen to be collected.",
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
     )
     private final CodeableConcept typeCollected;
     @Binding(
         bindingName = "PreparePatient",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Checks on the patient prior specimen collection.",
         valueSet = "http://hl7.org/fhir/ValueSet/prepare-patient-prior-specimen-collection"
     )
@@ -60,7 +61,7 @@ public class SpecimenDefinition extends DomainResource {
     private final String timeAspect;
     @Binding(
         bindingName = "SpecimenCollection",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The action to collect a type of specimen.",
         valueSet = "http://hl7.org/fhir/ValueSet/specimen-collection"
     )
@@ -619,7 +620,7 @@ public class SpecimenDefinition extends DomainResource {
         private final Boolean isDerived;
         @Binding(
             bindingName = "IntendedSpecimenType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The type of specimen conditioned in a container for lab testing.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
         )
@@ -627,7 +628,7 @@ public class SpecimenDefinition extends DomainResource {
         @Required
         @Binding(
             bindingName = "SpecimenContainedPreference",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Degree of preference of a type of conditioned specimen.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.0.0"
         )
@@ -637,7 +638,7 @@ public class SpecimenDefinition extends DomainResource {
         private final Duration retentionTime;
         @Binding(
             bindingName = "RejectionCriterion",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Criterion for rejection of the specimen by laboratory.",
             valueSet = "http://hl7.org/fhir/ValueSet/rejection-criteria"
         )
@@ -1139,21 +1140,21 @@ public class SpecimenDefinition extends DomainResource {
         public static class Container extends BackboneElement {
             @Binding(
                 bindingName = "ContainerMaterial",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Types of material for specimen containers.",
                 valueSet = "http://hl7.org/fhir/ValueSet/container-material"
             )
             private final CodeableConcept material;
             @Binding(
                 bindingName = "ContainerType",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Type of specimen container.",
                 valueSet = "http://hl7.org/fhir/ValueSet/specimen-container-type"
             )
             private final CodeableConcept type;
             @Binding(
                 bindingName = "ContainerCap",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Color of the container cap.",
                 valueSet = "http://hl7.org/fhir/ValueSet/container-cap"
             )
@@ -1640,7 +1641,7 @@ public class SpecimenDefinition extends DomainResource {
                 @Choice({ CodeableConcept.class, Reference.class })
                 @Binding(
                     bindingName = "ContainerAdditive",
-                    strength = "example",
+                    strength = BindingStrength.ValueSet.EXAMPLE,
                     description = "Substance added to specimen container.",
                     valueSet = "http://terminology.hl7.org/ValueSet/v2-0371"
                 )
@@ -1890,7 +1891,7 @@ public class SpecimenDefinition extends DomainResource {
         public static class Handling extends BackboneElement {
             @Binding(
                 bindingName = "HandlingConditionSet",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Set of handling instructions prior testing of the specimen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/handling-condition"
             )

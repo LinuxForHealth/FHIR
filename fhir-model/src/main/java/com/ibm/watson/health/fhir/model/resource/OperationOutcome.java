@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Extension;
@@ -404,7 +405,7 @@ public class OperationOutcome extends DomainResource {
         @Required
         @Binding(
             bindingName = "IssueSeverity",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "How the issue affects the success of the action.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.0"
         )
@@ -412,14 +413,14 @@ public class OperationOutcome extends DomainResource {
         @Required
         @Binding(
             bindingName = "IssueType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "A code that describes the type of issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.0"
         )
         private final IssueType code;
         @Binding(
             bindingName = "IssueDetails",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A code that provides details as the exact issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/operation-outcome"
         )

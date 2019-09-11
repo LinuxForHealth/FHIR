@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -65,7 +66,7 @@ public class List extends DomainResource {
     @Required
     @Binding(
         bindingName = "ListStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The current state of the list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-status|4.0.0"
     )
@@ -73,7 +74,7 @@ public class List extends DomainResource {
     @Required
     @Binding(
         bindingName = "ListMode",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The processing mode that applies to this list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.0"
     )
@@ -81,7 +82,7 @@ public class List extends DomainResource {
     private final String title;
     @Binding(
         bindingName = "ListPurpose",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "What the purpose of a list is.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-example-codes"
     )
@@ -92,7 +93,7 @@ public class List extends DomainResource {
     private final Reference source;
     @Binding(
         bindingName = "ListOrder",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "What order applies to the items in a list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-order"
     )
@@ -101,7 +102,7 @@ public class List extends DomainResource {
     private final java.util.List<Entry> entry;
     @Binding(
         bindingName = "ListEmptyReason",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "If a list is empty, why it is empty.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-empty-reason"
     )
@@ -891,7 +892,7 @@ public class List extends DomainResource {
     public static class Entry extends BackboneElement {
         @Binding(
             bindingName = "ListItemFlag",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes that provide further information about the reason and meaning of the item in the list.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-item-flag"
         )

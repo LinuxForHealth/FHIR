@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -47,7 +48,7 @@ public class VisionPrescription extends DomainResource {
     @Required
     @Binding(
         bindingName = "VisionStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
@@ -688,7 +689,7 @@ public class VisionPrescription extends DomainResource {
         @Required
         @Binding(
             bindingName = "VisionProduct",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A coded concept describing the vision products.",
             valueSet = "http://hl7.org/fhir/ValueSet/vision-product"
         )
@@ -696,7 +697,7 @@ public class VisionPrescription extends DomainResource {
         @Required
         @Binding(
             bindingName = "VisionEyes",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "A coded concept listing the eye codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.0.0"
         )
@@ -1396,7 +1397,7 @@ public class VisionPrescription extends DomainResource {
             @Required
             @Binding(
                 bindingName = "VisionBase",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "A coded concept listing the base codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/vision-base-codes|4.0.0"
             )

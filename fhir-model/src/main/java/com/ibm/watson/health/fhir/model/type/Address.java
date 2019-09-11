@@ -29,14 +29,14 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Address extends Element {
     @Binding(
         bindingName = "AddressUse",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The use of an address.",
         valueSet = "http://hl7.org/fhir/ValueSet/address-use|4.0.0"
     )
     private final AddressUse use;
     @Binding(
         bindingName = "AddressType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of an address (physical / postal).",
         valueSet = "http://hl7.org/fhir/ValueSet/address-type|4.0.0"
     )

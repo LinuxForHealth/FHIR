@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -44,14 +45,14 @@ public class Substance extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "FHIRSubstanceStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code to indicate if the substance is actively used.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-status|4.0.0"
     )
     private final FHIRSubstanceStatus status;
     @Binding(
         bindingName = "SubstanceCategory",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Category or classification of substance.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-category"
     )
@@ -59,7 +60,7 @@ public class Substance extends DomainResource {
     @Required
     @Binding(
         bindingName = "SubstanceCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Substance codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
     )
@@ -971,7 +972,7 @@ public class Substance extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SubstanceIngredient",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Substance Ingredient codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
         )

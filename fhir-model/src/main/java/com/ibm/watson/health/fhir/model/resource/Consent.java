@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -85,7 +86,7 @@ public class Consent extends DomainResource {
     @Required
     @Binding(
         bindingName = "ConsentState",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the state of the consent.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.0.0"
     )
@@ -93,7 +94,7 @@ public class Consent extends DomainResource {
     @Required
     @Binding(
         bindingName = "ConsentScope",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The four anticipated uses for the Consent Resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-scope"
     )
@@ -101,7 +102,7 @@ public class Consent extends DomainResource {
     @Required
     @Binding(
         bindingName = "ConsentCategory",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "A classification of the type of consents found in a consent statement.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-category"
     )
@@ -115,7 +116,7 @@ public class Consent extends DomainResource {
     private final List<Policy> policy;
     @Binding(
         bindingName = "ConsentPolicyRule",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Regulatory policy examples.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-policy"
     )
@@ -1555,7 +1556,7 @@ public class Consent extends DomainResource {
     public static class Provision extends BackboneElement {
         @Binding(
             bindingName = "ConsentProvisionType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "How a rule statement is applied, such as adding additional consent or removing consent.",
             valueSet = "http://hl7.org/fhir/ValueSet/consent-provision-type|4.0.0"
         )
@@ -1564,35 +1565,35 @@ public class Consent extends DomainResource {
         private final List<Actor> actor;
         @Binding(
             bindingName = "ConsentAction",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Detailed codes for the consent action.",
             valueSet = "http://hl7.org/fhir/ValueSet/consent-action"
         )
         private final List<CodeableConcept> action;
         @Binding(
             bindingName = "SecurityLabels",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Security Labels from the Healthcare Privacy and Security Classification System.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
         )
         private final List<Coding> securityLabel;
         @Binding(
             bindingName = "PurposeOfUse",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "What purposes of use are controlled by this exception. If more than one label is specified, operations must have all the specified labels.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
         )
         private final List<Coding> purpose;
         @Binding(
             bindingName = "ConsentContentClass",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The class (type) of information a consent rule covers.",
             valueSet = "http://hl7.org/fhir/ValueSet/consent-content-class"
         )
         private final List<Coding> clazz;
         @Binding(
             bindingName = "ConsentContentCode",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "If this code is found in an instance, then the exception applies.",
             valueSet = "http://hl7.org/fhir/ValueSet/consent-content-code"
         )
@@ -2310,7 +2311,7 @@ public class Consent extends DomainResource {
             @Required
             @Binding(
                 bindingName = "ConsentActorRole",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "How an actor is involved in the consent considerations.",
                 valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
             )
@@ -2589,7 +2590,7 @@ public class Consent extends DomainResource {
             @Required
             @Binding(
                 bindingName = "ConsentDataMeaning",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "How a resource reference is interpreted when testing consent restrictions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.0.0"
             )

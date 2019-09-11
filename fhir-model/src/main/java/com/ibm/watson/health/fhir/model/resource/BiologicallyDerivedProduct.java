@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.BiologicallyDerivedProductCategory;
 import com.ibm.watson.health.fhir.model.type.BiologicallyDerivedProductStatus;
 import com.ibm.watson.health.fhir.model.type.BiologicallyDerivedProductStorageScale;
@@ -46,20 +47,20 @@ public class BiologicallyDerivedProduct extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "BiologicallyDerivedProductCategory",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Biologically Derived Product Category.",
         valueSet = "http://hl7.org/fhir/ValueSet/product-category|4.0.0"
     )
     private final BiologicallyDerivedProductCategory productCategory;
     @Binding(
         bindingName = "BiologicallyDerivedProductCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Biologically Derived Product Code."
     )
     private final CodeableConcept productCode;
     @Binding(
         bindingName = "BiologicallyDerivedProductStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Biologically Derived Product Status.",
         valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.0.0"
     )
@@ -1131,7 +1132,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "BiologicallyDerivedProductProcedure",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Biologically Derived Product Procedure.",
             valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
         )
@@ -1735,7 +1736,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final Decimal temperature;
         @Binding(
             bindingName = "BiologicallyDerivedProductStorageScale",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "BiologicallyDerived Product Storage Scale.",
             valueSet = "http://hl7.org/fhir/ValueSet/product-storage-scale|4.0.0"
         )

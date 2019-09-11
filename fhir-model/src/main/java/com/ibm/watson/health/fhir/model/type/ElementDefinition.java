@@ -177,7 +177,7 @@ public class ElementDefinition extends BackboneElement {
     private final String path;
     @com.ibm.watson.health.fhir.model.annotation.Binding(
         bindingName = "PropertyRepresentation",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "How a property is represented when serialized.",
         valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.0.0"
     )
@@ -187,7 +187,7 @@ public class ElementDefinition extends BackboneElement {
     private final String label;
     @com.ibm.watson.health.fhir.model.annotation.Binding(
         bindingName = "ElementDefinitionCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes that indicate the meaning of a data element.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
@@ -1936,7 +1936,7 @@ public class ElementDefinition extends BackboneElement {
         @Required
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "SlicingRules",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "How slices are interpreted when evaluating an instance.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.0.0"
         )
@@ -2299,7 +2299,7 @@ public class ElementDefinition extends BackboneElement {
             @Required
             @com.ibm.watson.health.fhir.model.annotation.Binding(
                 bindingName = "DiscriminatorType",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "How an element value is interpreted when discrimination is evaluated.",
                 valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.0.0"
             )
@@ -2890,7 +2890,7 @@ public class ElementDefinition extends BackboneElement {
         @Required
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "FHIRDefinedTypeExt",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Either a resource or a data type, including logical model types.",
             valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
         )
@@ -2899,14 +2899,14 @@ public class ElementDefinition extends BackboneElement {
         private final List<Canonical> targetProfile;
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "AggregationMode",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "How resource references can be aggregated.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.0.0"
         )
         private final List<AggregationMode> aggregation;
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "ReferenceVersionRules",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Whether a reference needs to be version specific or version independent, or whether either can be used.",
             valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.0.0"
         )
@@ -3687,7 +3687,7 @@ public class ElementDefinition extends BackboneElement {
         @Required
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "ConstraintSeverity",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "SHALL applications comply with this constraint?",
             valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.0.0"
         )
@@ -4126,7 +4126,7 @@ public class ElementDefinition extends BackboneElement {
         @Required
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "BindingStrength",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Indication of the degree of conformance expectations associated with a binding.",
             valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.0"
         )
@@ -4432,7 +4432,7 @@ public class ElementDefinition extends BackboneElement {
         private final Id identity;
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "MimeType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The mime type of an attachment. Any valid mime type is allowed.",
             valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
         )

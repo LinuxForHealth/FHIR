@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -41,21 +42,21 @@ public class BodyStructure extends DomainResource {
     private final Boolean active;
     @Binding(
         bindingName = "BodyStructureCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing anatomic morphology.",
         valueSet = "http://hl7.org/fhir/ValueSet/bodystructure-code"
     )
     private final CodeableConcept morphology;
     @Binding(
         bindingName = "BodySite",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept location;
     @Binding(
         bindingName = "BodyStructureQualifier",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Concepts modifying the anatomic location.",
         valueSet = "http://hl7.org/fhir/ValueSet/bodystructure-relative-location"
     )

@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -56,14 +57,14 @@ public class Provenance extends DomainResource {
     private final Reference location;
     @Binding(
         bindingName = "ProvenanceReason",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The reason the activity took place.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
     )
     private final List<CodeableConcept> reason;
     @Binding(
         bindingName = "ProvenanceActivity",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The activity that took place.",
         valueSet = "http://hl7.org/fhir/ValueSet/provenance-activity-type"
     )
@@ -846,14 +847,14 @@ public class Provenance extends DomainResource {
     public static class Agent extends BackboneElement {
         @Binding(
             bindingName = "ProvenanceAgentType",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of participation that a provenance agent played with respect to the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ProvenanceAgentRole",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The role that a provenance agent played with respect to the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
@@ -1213,7 +1214,7 @@ public class Provenance extends DomainResource {
         @Required
         @Binding(
             bindingName = "ProvenanceEntityRole",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "How an entity was used in an activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.0.0"
         )

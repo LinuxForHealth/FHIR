@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -61,7 +62,7 @@ public class GraphDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -74,7 +75,7 @@ public class GraphDefinition extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -83,7 +84,7 @@ public class GraphDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "ResourceType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
     )
@@ -1387,7 +1388,7 @@ public class GraphDefinition extends DomainResource {
             @Required
             @Binding(
                 bindingName = "ResourceType",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
             )
@@ -1795,7 +1796,7 @@ public class GraphDefinition extends DomainResource {
                 @Required
                 @Binding(
                     bindingName = "GraphCompartmentUse",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Defines how a compartment rule is used.",
                     valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.0.0"
                 )
@@ -1803,7 +1804,7 @@ public class GraphDefinition extends DomainResource {
                 @Required
                 @Binding(
                     bindingName = "CompartmentCode",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Identifies a compartment.",
                     valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.0"
                 )
@@ -1811,7 +1812,7 @@ public class GraphDefinition extends DomainResource {
                 @Required
                 @Binding(
                     bindingName = "GraphCompartmentRule",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "How a compartment must be linked.",
                     valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.0.0"
                 )

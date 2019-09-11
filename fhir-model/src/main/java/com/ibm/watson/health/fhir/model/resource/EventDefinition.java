@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -63,7 +64,7 @@ public class EventDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -72,7 +73,7 @@ public class EventDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The possible types of subjects for an event (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -84,7 +85,7 @@ public class EventDefinition extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -97,7 +98,7 @@ public class EventDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )

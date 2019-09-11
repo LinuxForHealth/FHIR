@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.EpisodeOfCareStatus;
@@ -42,7 +43,7 @@ public class EpisodeOfCare extends DomainResource {
     @Required
     @Binding(
         bindingName = "EpisodeOfCareStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the episode of care.",
         valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.0"
     )
@@ -50,7 +51,7 @@ public class EpisodeOfCare extends DomainResource {
     private final List<StatusHistory> statusHistory;
     @Binding(
         bindingName = "EpisodeOfCareType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The type of the episode of care.",
         valueSet = "http://hl7.org/fhir/ValueSet/episodeofcare-type"
     )
@@ -900,7 +901,7 @@ public class EpisodeOfCare extends DomainResource {
         @Required
         @Binding(
             bindingName = "EpisodeOfCareStatus",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The status of the episode of care.",
             valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.0"
         )
@@ -1178,7 +1179,7 @@ public class EpisodeOfCare extends DomainResource {
         private final Reference condition;
         @Binding(
             bindingName = "DiagnosisRole",
-            strength = "preferred",
+            strength = BindingStrength.ValueSet.PREFERRED,
             description = "The type of diagnosis this condition represents.",
             valueSet = "http://hl7.org/fhir/ValueSet/diagnosis-role"
         )

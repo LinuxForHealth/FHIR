@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -65,7 +66,7 @@ public class ServiceRequest extends DomainResource {
     @Required
     @Binding(
         bindingName = "ServiceRequestStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of a service order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
@@ -73,21 +74,21 @@ public class ServiceRequest extends DomainResource {
     @Required
     @Binding(
         bindingName = "ServiceRequestIntent",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of service request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
     private final ServiceRequestIntent intent;
     @Binding(
         bindingName = "ServiceRequestCategory",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Classification of the requested service.",
         valueSet = "http://hl7.org/fhir/ValueSet/servicerequest-category"
     )
     private final List<CodeableConcept> category;
     @Binding(
         bindingName = "ServiceRequestPriority",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
@@ -95,14 +96,14 @@ public class ServiceRequest extends DomainResource {
     private final Boolean doNotPerform;
     @Binding(
         bindingName = "ServiceRequestCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes for tests or services that can be carried out by a designated individual, organization or healthcare service.  For laboratory, LOINC is  (preferred)[http://build.fhir.org/terminologies.html#preferred] and a valueset using LOINC Order codes is available [here](valueset-diagnostic-requests.html).",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
     private final CodeableConcept code;
     @Binding(
         bindingName = "OrderDetail",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codified order entry details which are based on order context.",
         valueSet = "http://hl7.org/fhir/ValueSet/servicerequest-orderdetail"
     )
@@ -117,7 +118,7 @@ public class ServiceRequest extends DomainResource {
     @Choice({ Boolean.class, CodeableConcept.class })
     @Binding(
         bindingName = "ProcedureAsNeededReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept identifying the pre-condition that should hold prior to performing a procedure.  For example \"pain\", \"on flare-up\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-as-needed-reason"
     )
@@ -126,7 +127,7 @@ public class ServiceRequest extends DomainResource {
     private final Reference requester;
     @Binding(
         bindingName = "ServiceRequestParticipantRole",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
     )
@@ -134,7 +135,7 @@ public class ServiceRequest extends DomainResource {
     private final List<Reference> performer;
     @Binding(
         bindingName = "ServiceRequestLocation",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A location type where services are delivered.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType"
     )
@@ -142,7 +143,7 @@ public class ServiceRequest extends DomainResource {
     private final List<Reference> locationReference;
     @Binding(
         bindingName = "ServiceRequestReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Diagnosis or problem codes justifying the reason for requesting the service investigation.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
@@ -153,7 +154,7 @@ public class ServiceRequest extends DomainResource {
     private final List<Reference> specimen;
     @Binding(
         bindingName = "BodySite",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )

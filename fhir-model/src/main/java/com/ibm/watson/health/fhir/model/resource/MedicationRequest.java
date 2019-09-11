@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -55,14 +56,14 @@ public class MedicationRequest extends DomainResource {
     @Required
     @Binding(
         bindingName = "MedicationRequestStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept specifying the state of the prescribing event. Describes the lifecycle of the prescription.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.0.0"
     )
     private final MedicationRequestStatus status;
     @Binding(
         bindingName = "MedicationRequestStatusReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Identifies the reasons for a given status.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-status-reason"
     )
@@ -70,21 +71,21 @@ public class MedicationRequest extends DomainResource {
     @Required
     @Binding(
         bindingName = "MedicationRequestIntent",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of medication order.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.0.0"
     )
     private final MedicationRequestIntent intent;
     @Binding(
         bindingName = "MedicationRequestCategory",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept identifying the category of medication request.  For example, where the medication is to be consumed or administered, or the type of medication treatment.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-category"
     )
     private final List<CodeableConcept> category;
     @Binding(
         bindingName = "MedicationRequestPriority",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
@@ -96,7 +97,7 @@ public class MedicationRequest extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept identifying substance or product that can be ordered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -110,7 +111,7 @@ public class MedicationRequest extends DomainResource {
     private final Reference performer;
     @Binding(
         bindingName = "MedicationRequestPerformerType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Identifies the type of individual that is desired to administer the medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
     )
@@ -118,7 +119,7 @@ public class MedicationRequest extends DomainResource {
     private final Reference recorder;
     @Binding(
         bindingName = "MedicationRequestReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept indicating why the medication was ordered.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -130,7 +131,7 @@ public class MedicationRequest extends DomainResource {
     private final Identifier groupIdentifier;
     @Binding(
         bindingName = "MedicationRequestCourseOfTherapy",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Identifies the overall pattern of medication administratio.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
     )
@@ -2474,14 +2475,14 @@ public class MedicationRequest extends DomainResource {
         @Choice({ Boolean.class, CodeableConcept.class })
         @Binding(
             bindingName = "MedicationRequestSubstitution",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Identifies the type of substitution allowed.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode"
         )
         private final Element allowed;
         @Binding(
             bindingName = "MedicationIntendedSubstitutionReason",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A coded concept describing the reason that a different medication should (or should not) be substituted from what was prescribed.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-SubstanceAdminSubstitutionReason"
         )

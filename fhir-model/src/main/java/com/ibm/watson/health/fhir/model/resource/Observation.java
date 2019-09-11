@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -79,14 +80,14 @@ public class Observation extends DomainResource {
     @Required
     @Binding(
         bindingName = "ObservationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes providing the status of an observation.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
     private final ObservationStatus status;
     @Binding(
         bindingName = "ObservationCategory",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Codes for high level observation categories.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
     )
@@ -94,7 +95,7 @@ public class Observation extends DomainResource {
     @Required
     @Binding(
         bindingName = "ObservationCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes identifying names of simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
@@ -110,14 +111,14 @@ public class Observation extends DomainResource {
     private final Element value;
     @Binding(
         bindingName = "ObservationValueAbsentReason",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Codes specifying why the result (`Observation.value[x]`) is missing.",
         valueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason"
     )
     private final CodeableConcept dataAbsentReason;
     @Binding(
         bindingName = "ObservationInterpretation",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Codes identifying interpretations of observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-interpretation"
     )
@@ -125,14 +126,14 @@ public class Observation extends DomainResource {
     private final List<Annotation> note;
     @Binding(
         bindingName = "BodySite",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept bodySite;
     @Binding(
         bindingName = "ObservationMethod",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Methods for simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-methods"
     )
@@ -1519,14 +1520,14 @@ public class Observation extends DomainResource {
         private final SimpleQuantity high;
         @Binding(
             bindingName = "ObservationRangeMeaning",
-            strength = "preferred",
+            strength = BindingStrength.ValueSet.PREFERRED,
             description = "Code for the meaning of a reference range.",
             valueSet = "http://hl7.org/fhir/ValueSet/referencerange-meaning"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ObservationRangeType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes identifying the population the reference range applies to.",
             valueSet = "http://hl7.org/fhir/ValueSet/referencerange-appliesto"
         )
@@ -1962,7 +1963,7 @@ public class Observation extends DomainResource {
         @Required
         @Binding(
             bindingName = "ObservationCode",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes identifying names of simple observations.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
         )
@@ -1971,14 +1972,14 @@ public class Observation extends DomainResource {
         private final Element value;
         @Binding(
             bindingName = "ObservationValueAbsentReason",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Codes specifying why the result (`Observation.value[x]`) is missing.",
             valueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason"
         )
         private final CodeableConcept dataAbsentReason;
         @Binding(
             bindingName = "ObservationInterpretation",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Codes identifying interpretations of observations.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-interpretation"
         )

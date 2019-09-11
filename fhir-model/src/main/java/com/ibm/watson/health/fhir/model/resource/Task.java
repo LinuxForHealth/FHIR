@@ -24,6 +24,7 @@ import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Base64Binary;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -99,41 +100,41 @@ public class Task extends DomainResource {
     @Required
     @Binding(
         bindingName = "TaskStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The current status of the task.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-status|4.0.0"
     )
     private final TaskStatus status;
     @Binding(
         bindingName = "TaskStatusReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes to identify the reason for current status.  These will typically be specific to a particular workflow."
     )
     private final CodeableConcept statusReason;
     @Binding(
         bindingName = "TaskBusinessStatus",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The domain-specific business-contextual sub-state of the task.  For example: \"Blood drawn\", \"IV inserted\", \"Awaiting physician signature\", etc."
     )
     private final CodeableConcept businessStatus;
     @Required
     @Binding(
         bindingName = "TaskIntent",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Distinguishes whether the task is a proposal, plan or full order.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-intent|4.0.0"
     )
     private final TaskIntent intent;
     @Binding(
         bindingName = "TaskPriority",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The task's priority.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final TaskPriority priority;
     @Binding(
         bindingName = "TaskCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes to identify what the task involves.  These will typically be specific to a particular workflow.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-code"
     )
@@ -148,7 +149,7 @@ public class Task extends DomainResource {
     private final Reference requester;
     @Binding(
         bindingName = "TaskPerformerType",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "The type(s) of task performers allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
     )
@@ -157,7 +158,7 @@ public class Task extends DomainResource {
     private final Reference location;
     @Binding(
         bindingName = "TaskReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Indicates why the task is needed.  E.g. Suspended because patient admitted to hospital."
     )
     private final CodeableConcept reasonCode;
@@ -1963,7 +1964,7 @@ public class Task extends DomainResource {
         @Required
         @Binding(
             bindingName = "TaskInputParameterType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes to identify types of input parameters.  These will typically be specific to a particular workflow.  E.g. \"Comparison source\", \"Applicable consent\", \"Concomitent Medications\", etc."
         )
         private final CodeableConcept type;
@@ -2293,7 +2294,7 @@ public class Task extends DomainResource {
         @Required
         @Binding(
             bindingName = "TaskOutputParameterType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes to identify types of input parameters.  These will typically be specific to a particular workflow.  E.g. \"Identified issues\", \"Preliminary results\", \"Filler order\", \"Final results\", etc."
         )
         private final CodeableConcept type;

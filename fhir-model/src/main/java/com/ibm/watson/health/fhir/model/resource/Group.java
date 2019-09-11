@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -58,7 +59,7 @@ public class Group extends DomainResource {
     @Required
     @Binding(
         bindingName = "GroupType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Types of resources that are part of group.",
         valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.0.0"
     )
@@ -67,7 +68,7 @@ public class Group extends DomainResource {
     private final Boolean actual;
     @Binding(
         bindingName = "GroupKind",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Kind of particular resource; e.g. cow, syringe, lake, etc."
     )
     private final CodeableConcept code;
@@ -765,7 +766,7 @@ public class Group extends DomainResource {
         @Required
         @Binding(
             bindingName = "GroupCharacteristicKind",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "List of characteristics used to describe group members; e.g. gender, age, owner, location, etc."
         )
         private final CodeableConcept code;
@@ -773,7 +774,7 @@ public class Group extends DomainResource {
         @Choice({ CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class })
         @Binding(
             bindingName = "GroupCharacteristicValue",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Value of descriptive member characteristic; e.g. red, male, pneumonia, Caucasian, etc."
         )
         private final Element value;

@@ -35,7 +35,7 @@ public class Expression extends Element {
     @Required
     @Binding(
         bindingName = "ExpressionLanguage",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The media type of the expression language.",
         valueSet = "http://hl7.org/fhir/ValueSet/expression-language",
         maxValueSet = "http://www.rfc-editor.org/bcp/bcp13.txt"

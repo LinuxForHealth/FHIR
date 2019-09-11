@@ -28,7 +28,7 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 )
 @Binding(
     bindingName = "DurationUnits",
-    strength = "extensible",
+    strength = BindingStrength.ValueSet.EXTENSIBLE,
     description = "Appropriate units for Duration.",
     valueSet = "http://hl7.org/fhir/ValueSet/duration-units",
     maxValueSet = "http://hl7.org/fhir/ValueSet/all-time-units"

@@ -24,6 +24,7 @@ import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Base64Binary;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -119,7 +120,7 @@ public class StructureMap extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -132,7 +133,7 @@ public class StructureMap extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -1203,7 +1204,7 @@ public class StructureMap extends DomainResource {
         @Required
         @Binding(
             bindingName = "StructureMapModelMode",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "How the referenced structure is used in this mapping.",
             valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.0"
         )
@@ -1545,7 +1546,7 @@ public class StructureMap extends DomainResource {
         @Required
         @Binding(
             bindingName = "StructureMapGroupTypeMode",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "If this is the default rule set to apply for the source type, or this combination of types.",
             valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.0.0"
         )
@@ -2001,7 +2002,7 @@ public class StructureMap extends DomainResource {
             @Required
             @Binding(
                 bindingName = "StructureMapInputMode",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Mode for this instance of data.",
                 valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.0.0"
             )
@@ -2826,7 +2827,7 @@ public class StructureMap extends DomainResource {
                 private final String element;
                 @Binding(
                     bindingName = "StructureMapSourceListMode",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "If field is a list, how to manage the source.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.0.0"
                 )
@@ -3440,7 +3441,7 @@ public class StructureMap extends DomainResource {
                 private final Id context;
                 @Binding(
                     bindingName = "StructureMapContextType",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "How to interpret the context.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.0.0"
                 )
@@ -3449,7 +3450,7 @@ public class StructureMap extends DomainResource {
                 private final Id variable;
                 @Binding(
                     bindingName = "StructureMapTargetListMode",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "If field is a list, how to manage the production.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.0.0"
                 )
@@ -3457,7 +3458,7 @@ public class StructureMap extends DomainResource {
                 private final Id listRuleId;
                 @Binding(
                     bindingName = "StructureMapTransform",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "How data is copied/created.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.0.0"
                 )

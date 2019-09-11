@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.AdministrativeGender;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -45,7 +46,7 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class ObservationDefinition extends DomainResource {
     @Binding(
         bindingName = "ObservationCategory",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes for high level observation categories.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
     )
@@ -53,7 +54,7 @@ public class ObservationDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "ObservationCode",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes identifying names of simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
@@ -61,7 +62,7 @@ public class ObservationDefinition extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "ObservationDataType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Permitted data type for observation value.",
         valueSet = "http://hl7.org/fhir/ValueSet/permitted-data-type|4.0.0"
     )
@@ -69,7 +70,7 @@ public class ObservationDefinition extends DomainResource {
     private final Boolean multipleResultsAllowed;
     @Binding(
         bindingName = "ObservationMethod",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Methods for simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-methods"
     )
@@ -880,14 +881,14 @@ public class ObservationDefinition extends DomainResource {
     public static class QuantitativeDetails extends BackboneElement {
         @Binding(
             bindingName = "ObservationUnit",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Codes identifying units of measure.",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units"
         )
         private final CodeableConcept customaryUnit;
         @Binding(
             bindingName = "ObservationUnit",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Codes identifying units of measure.",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units"
         )
@@ -1216,7 +1217,7 @@ public class ObservationDefinition extends DomainResource {
     public static class QualifiedInterval extends BackboneElement {
         @Binding(
             bindingName = "ObservationRangeCategory",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Codes identifying the category of observation range.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-range-category|4.0.0"
         )
@@ -1224,21 +1225,21 @@ public class ObservationDefinition extends DomainResource {
         private final Range range;
         @Binding(
             bindingName = "ObservationRangeMeaning",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Code identifying the health context of a range.",
             valueSet = "http://hl7.org/fhir/ValueSet/referencerange-meaning"
         )
         private final CodeableConcept context;
         @Binding(
             bindingName = "ObservationRangeAppliesTo",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes identifying the population the reference range applies to.",
             valueSet = "http://hl7.org/fhir/ValueSet/referencerange-appliesto"
         )
         private final List<CodeableConcept> appliesTo;
         @Binding(
             bindingName = "AdministrativeGender",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
             valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
         )

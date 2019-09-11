@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -42,14 +43,14 @@ public class DocumentManifest extends DomainResource {
     @Required
     @Binding(
         bindingName = "DocumentReferenceStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the document reference.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
     )
     private final DocumentReferenceStatus status;
     @Binding(
         bindingName = "v3Act",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The activity that caused the DocumentManifest to be created.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
     )

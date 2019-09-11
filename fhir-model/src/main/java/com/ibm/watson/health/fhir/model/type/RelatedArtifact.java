@@ -25,7 +25,7 @@ public class RelatedArtifact extends Element {
     @Required
     @Binding(
         bindingName = "RelatedArtifactType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of relationship to the related artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.0.0"
     )

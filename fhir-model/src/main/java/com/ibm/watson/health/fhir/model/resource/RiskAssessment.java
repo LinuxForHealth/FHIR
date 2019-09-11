@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -64,14 +65,14 @@ public class RiskAssessment extends DomainResource {
     @Required
     @Binding(
         bindingName = "RiskAssessmentStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
     private final RiskAssessmentStatus status;
     @Binding(
         bindingName = "RiskAssessmentMethod",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The mechanism or algorithm used to make the assessment; e.g. TIMI, PRISM, Cardiff Type 2 diabetes, etc."
     )
     private final CodeableConcept method;
@@ -1061,7 +1062,7 @@ public class RiskAssessment extends DomainResource {
     public static class Prediction extends BackboneElement {
         @Binding(
             bindingName = "RiskAssessmentOutcome",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The condition or other outcome; e.g. death, remission, amputation, infection, etc."
         )
         private final CodeableConcept outcome;
@@ -1069,7 +1070,7 @@ public class RiskAssessment extends DomainResource {
         private final Element probability;
         @Binding(
             bindingName = "RiskAssessmentProbability",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The likelihood of the occurrence of a specified outcome.",
             valueSet = "http://hl7.org/fhir/ValueSet/risk-probability"
         )

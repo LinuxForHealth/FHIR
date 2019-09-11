@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.AdministrativeGender;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -49,7 +50,7 @@ public class RelatedPerson extends DomainResource {
     private final Reference patient;
     @Binding(
         bindingName = "PatientRelationshipType",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "The nature of the relationship between a patient and the related person.",
         valueSet = "http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype"
     )
@@ -58,7 +59,7 @@ public class RelatedPerson extends DomainResource {
     private final List<ContactPoint> telecom;
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
     )
@@ -898,7 +899,7 @@ public class RelatedPerson extends DomainResource {
         @Required
         @Binding(
             bindingName = "Language",
-            strength = "preferred",
+            strength = BindingStrength.ValueSet.PREFERRED,
             description = "A human language.",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"

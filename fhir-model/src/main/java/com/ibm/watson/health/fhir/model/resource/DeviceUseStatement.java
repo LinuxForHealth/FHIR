@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -46,7 +47,7 @@ public class DeviceUseStatement extends DomainResource {
     @Required
     @Binding(
         bindingName = "DeviceUseStatementStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept indicating the current status of the Device Usage.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.0.0"
     )
@@ -64,7 +65,7 @@ public class DeviceUseStatement extends DomainResource {
     private final List<Reference> reasonReference;
     @Binding(
         bindingName = "BodySite",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )

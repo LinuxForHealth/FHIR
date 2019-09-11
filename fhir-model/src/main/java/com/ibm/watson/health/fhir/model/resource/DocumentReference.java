@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Coding;
@@ -49,28 +50,28 @@ public class DocumentReference extends DomainResource {
     @Required
     @Binding(
         bindingName = "DocumentReferenceStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the document reference.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
     )
     private final DocumentReferenceStatus status;
     @Binding(
         bindingName = "ReferredDocumentStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Status of the underlying document.",
         valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.0"
     )
     private final ReferredDocumentStatus docStatus;
     @Binding(
         bindingName = "DocumentC80Type",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Precise type of clinical document.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-doc-typecodes"
     )
     private final CodeableConcept type;
     @Binding(
         bindingName = "DocumentC80Class",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "High-level kind of a clinical document at a macro level.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
     )
@@ -84,7 +85,7 @@ public class DocumentReference extends DomainResource {
     private final String description;
     @Binding(
         bindingName = "SecurityLabels",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Security Labels from the Healthcare Privacy and Security Classification System.",
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
@@ -1044,7 +1045,7 @@ public class DocumentReference extends DomainResource {
         @Required
         @Binding(
             bindingName = "DocumentRelationshipType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relationship between documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
         )
@@ -1322,7 +1323,7 @@ public class DocumentReference extends DomainResource {
         private final Attachment attachment;
         @Binding(
             bindingName = "DocumentFormat",
-            strength = "preferred",
+            strength = BindingStrength.ValueSet.PREFERRED,
             description = "Document Format Codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/formatcodes"
         )
@@ -1596,7 +1597,7 @@ public class DocumentReference extends DomainResource {
         private final List<Reference> encounter;
         @Binding(
             bindingName = "DocumentEventType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "This list of codes represents the main clinical acts being documented.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
         )
@@ -1604,14 +1605,14 @@ public class DocumentReference extends DomainResource {
         private final Period period;
         @Binding(
             bindingName = "DocumentC80FacilityType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "XDS Facility Type.",
             valueSet = "http://hl7.org/fhir/ValueSet/c80-facilitycodes"
         )
         private final CodeableConcept facilityType;
         @Binding(
             bindingName = "DocumentC80PracticeSetting",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Additional details about where the content was created (e.g. clinical specialty).",
             valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
         )

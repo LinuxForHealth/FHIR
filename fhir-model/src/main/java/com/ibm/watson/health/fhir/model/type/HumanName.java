@@ -26,7 +26,7 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class HumanName extends Element {
     @Binding(
         bindingName = "NameUse",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The use of a human name.",
         valueSet = "http://hl7.org/fhir/ValueSet/name-use|4.0.0"
     )

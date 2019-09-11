@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -70,7 +71,7 @@ public class NamingSystem extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -78,7 +79,7 @@ public class NamingSystem extends DomainResource {
     @Required
     @Binding(
         bindingName = "NamingSystemType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the purpose of the naming system.",
         valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.0.0"
     )
@@ -90,7 +91,7 @@ public class NamingSystem extends DomainResource {
     private final String responsible;
     @Binding(
         bindingName = "IdentifierType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )
@@ -99,7 +100,7 @@ public class NamingSystem extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -936,7 +937,7 @@ public class NamingSystem extends DomainResource {
         @Required
         @Binding(
             bindingName = "NamingSystemIdentifierType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Identifies the style of unique identifier used to identify a namespace.",
             valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.0"
         )

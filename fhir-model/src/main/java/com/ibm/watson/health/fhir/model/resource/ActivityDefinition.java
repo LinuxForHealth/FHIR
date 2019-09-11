@@ -22,6 +22,7 @@ import com.ibm.watson.health.fhir.model.type.ActivityDefinitionKind;
 import com.ibm.watson.health.fhir.model.type.ActivityParticipantType;
 import com.ibm.watson.health.fhir.model.type.Age;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -76,7 +77,7 @@ public class ActivityDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -85,7 +86,7 @@ public class ActivityDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The possible types of subjects for an activity (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -97,7 +98,7 @@ public class ActivityDefinition extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -110,7 +111,7 @@ public class ActivityDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -123,7 +124,7 @@ public class ActivityDefinition extends DomainResource {
     private final List<Canonical> library;
     @Binding(
         bindingName = "ActivityDefinitionKind",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of activity the definition is describing.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.0.0"
     )
@@ -131,21 +132,21 @@ public class ActivityDefinition extends DomainResource {
     private final Canonical profile;
     @Binding(
         bindingName = "ActivityDefinitionType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Detailed type of the activity; e.g. CBC.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
     private final CodeableConcept code;
     @Binding(
         bindingName = "RequestIntent",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
     private final RequestIntent intent;
     @Binding(
         bindingName = "RequestPriority",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
@@ -158,7 +159,7 @@ public class ActivityDefinition extends DomainResource {
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "ActivityProduct",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Code describing the type of substance or medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -167,7 +168,7 @@ public class ActivityDefinition extends DomainResource {
     private final List<Dosage> dosage;
     @Binding(
         bindingName = "BodySite",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A code that identifies the anatomical location.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -2361,14 +2362,14 @@ public class ActivityDefinition extends DomainResource {
         @Required
         @Binding(
             bindingName = "ActivityParticipantType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of participant in the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.0"
         )
         private final ActivityParticipantType type;
         @Binding(
             bindingName = "ActivityParticipantRole",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Defines roles played by participants for the action.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-participant-role"
         )

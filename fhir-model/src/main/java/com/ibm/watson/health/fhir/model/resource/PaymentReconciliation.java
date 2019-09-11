@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Date;
@@ -46,7 +47,7 @@ public class PaymentReconciliation extends DomainResource {
     @Required
     @Binding(
         bindingName = "PaymentReconciliationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
@@ -59,7 +60,7 @@ public class PaymentReconciliation extends DomainResource {
     private final Reference requestor;
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The outcome of the processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
     )
@@ -73,7 +74,7 @@ public class PaymentReconciliation extends DomainResource {
     private final List<Detail> detail;
     @Binding(
         bindingName = "Forms",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The forms codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/forms"
     )
@@ -929,7 +930,7 @@ public class PaymentReconciliation extends DomainResource {
         @Required
         @Binding(
             bindingName = "PaymentType",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The reason for the amount: payment, adjustment, advance.",
             valueSet = "http://hl7.org/fhir/ValueSet/payment-type"
         )
@@ -1455,7 +1456,7 @@ public class PaymentReconciliation extends DomainResource {
     public static class ProcessNote extends BackboneElement {
         @Binding(
             bindingName = "NoteType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The presentation types of notes.",
             valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.0"
         )

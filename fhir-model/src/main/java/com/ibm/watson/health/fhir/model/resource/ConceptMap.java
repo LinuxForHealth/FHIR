@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -83,7 +84,7 @@ public class ConceptMap extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -96,7 +97,7 @@ public class ConceptMap extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -1836,7 +1837,7 @@ public class ConceptMap extends DomainResource {
                 @Required
                 @Binding(
                     bindingName = "ConceptMapEquivalence",
-                    strength = "required",
+                    strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The degree of equivalence between concepts.",
                     valueSet = "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.0.0"
                 )
@@ -2628,7 +2629,7 @@ public class ConceptMap extends DomainResource {
             @Required
             @Binding(
                 bindingName = "ConceptMapGroupUnmappedMode",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines which action to take if there is no match in the group.",
                 valueSet = "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.0.0"
             )

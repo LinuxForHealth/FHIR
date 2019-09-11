@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -47,21 +48,21 @@ public class SupplyRequest extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "SupplyRequestStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Status of the supply request.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-status|4.0.0"
     )
     private final SupplyRequestStatus status;
     @Binding(
         bindingName = "SupplyRequestKind",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Category of supply request.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-kind"
     )
     private final CodeableConcept category;
     @Binding(
         bindingName = "RequestPriority",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
@@ -70,7 +71,7 @@ public class SupplyRequest extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SupplyRequestItem",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The item that was requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
     )
@@ -85,7 +86,7 @@ public class SupplyRequest extends DomainResource {
     private final List<Reference> supplier;
     @Binding(
         bindingName = "SupplyRequestReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The reason why the supply item was requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-reason"
     )
@@ -994,7 +995,7 @@ public class SupplyRequest extends DomainResource {
     public static class Parameter extends BackboneElement {
         @Binding(
             bindingName = "ParameterCode",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A code that identifies the device detail."
         )
         private final CodeableConcept code;

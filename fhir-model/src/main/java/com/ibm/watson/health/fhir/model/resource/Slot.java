@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -40,26 +41,26 @@ public class Slot extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "service-category",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
     @Binding(
         bindingName = "service-type",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
     @Binding(
         bindingName = "specialty",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Additional details about where the content was created (e.g. clinical specialty).",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
     @Binding(
         bindingName = "appointment-type",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0276"
     )
     private final CodeableConcept appointmentType;
@@ -68,7 +69,7 @@ public class Slot extends DomainResource {
     @Required
     @Binding(
         bindingName = "SlotStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The free/busy status of the slot.",
         valueSet = "http://hl7.org/fhir/ValueSet/slotstatus|4.0.0"
     )

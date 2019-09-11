@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -45,14 +46,14 @@ public class Medication extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "MedicationFormalRepresentation",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept that defines the type of a medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
     private final CodeableConcept code;
     @Binding(
         bindingName = "MedicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept defining if the medication is in active use.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-status|4.0.0"
     )
@@ -60,7 +61,7 @@ public class Medication extends DomainResource {
     private final Reference manufacturer;
     @Binding(
         bindingName = "MedicationForm",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "A coded concept defining the form of a medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-form-codes"
     )

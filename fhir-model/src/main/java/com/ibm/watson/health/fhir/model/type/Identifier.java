@@ -23,14 +23,14 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Identifier extends Element {
     @Binding(
         bindingName = "IdentifierUse",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the purpose for this identifier, if known .",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.0.0"
     )
     private final IdentifierUse use;
     @Binding(
         bindingName = "IdentifierType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )

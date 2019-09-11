@@ -28,7 +28,7 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 )
 @Binding(
     bindingName = "DistanceUnits",
-    strength = "extensible",
+    strength = BindingStrength.ValueSet.EXTENSIBLE,
     description = "Appropriate units for Distance.",
     valueSet = "http://hl7.org/fhir/ValueSet/distance-units",
     maxValueSet = "http://hl7.org/fhir/ValueSet/all-distance-units"

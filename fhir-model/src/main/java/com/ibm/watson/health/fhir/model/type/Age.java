@@ -28,7 +28,7 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 )
 @Binding(
     bindingName = "AgeUnits",
-    strength = "extensible",
+    strength = BindingStrength.ValueSet.EXTENSIBLE,
     description = "Appropriate units for Age.",
     valueSet = "http://hl7.org/fhir/ValueSet/age-units",
     maxValueSet = "http://hl7.org/fhir/ValueSet/all-time-units"

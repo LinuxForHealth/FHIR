@@ -22,6 +22,7 @@ import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.AdministrativeGender;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -62,7 +63,7 @@ public class Patient extends DomainResource {
     private final List<ContactPoint> telecom;
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
     )
@@ -73,7 +74,7 @@ public class Patient extends DomainResource {
     private final List<Address> address;
     @Binding(
         bindingName = "MaritalStatus",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The domestic partnership status of a person.",
         valueSet = "http://hl7.org/fhir/ValueSet/marital-status"
     )
@@ -1094,7 +1095,7 @@ public class Patient extends DomainResource {
     public static class Contact extends BackboneElement {
         @Binding(
             bindingName = "ContactRelationship",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The nature of the relationship between a patient and a contact person for that patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/patient-contactrelationship"
         )
@@ -1104,7 +1105,7 @@ public class Patient extends DomainResource {
         private final Address address;
         @Binding(
             bindingName = "AdministrativeGender",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
             valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
         )
@@ -1568,7 +1569,7 @@ public class Patient extends DomainResource {
         @Required
         @Binding(
             bindingName = "Language",
-            strength = "preferred",
+            strength = BindingStrength.ValueSet.PREFERRED,
             description = "A human language.",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -1848,7 +1849,7 @@ public class Patient extends DomainResource {
         @Required
         @Binding(
             bindingName = "LinkType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of link between this patient resource and another patient resource.",
             valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.0.0"
         )

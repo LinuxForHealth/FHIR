@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.ContactPoint;
@@ -54,14 +55,14 @@ public class InsurancePlan extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
     @Binding(
         bindingName = "InsurancePlanType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Used to categorize the product/plan.",
         valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-type"
     )
@@ -1004,7 +1005,7 @@ public class InsurancePlan extends DomainResource {
     public static class Contact extends BackboneElement {
         @Binding(
             bindingName = "ContactPartyType",
-            strength = "extensible",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The purpose for which you would contact a contact party.",
             valueSet = "http://hl7.org/fhir/ValueSet/contactentity-type"
         )
@@ -3668,7 +3669,7 @@ public class InsurancePlan extends DomainResource {
                     private final CodeableConcept type;
                     @Binding(
                         bindingName = "BenefitCostApplicability",
-                        strength = "required",
+                        strength = BindingStrength.ValueSet.REQUIRED,
                         description = "Whether the cost applies to in-network or out-of-network providers.",
                         valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.0.0"
                     )

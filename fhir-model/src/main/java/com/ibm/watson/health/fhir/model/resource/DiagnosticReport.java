@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -50,14 +51,14 @@ public class DiagnosticReport extends DomainResource {
     @Required
     @Binding(
         bindingName = "DiagnosticReportStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the diagnostic report.",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.0"
     )
     private final DiagnosticReportStatus status;
     @Binding(
         bindingName = "DiagnosticServiceSection",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes for diagnostic service sections.",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
     )
@@ -65,7 +66,7 @@ public class DiagnosticReport extends DomainResource {
     @Required
     @Binding(
         bindingName = "DiagnosticReportCodes",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Codes that describe Diagnostic Reports.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-codes"
     )
@@ -84,7 +85,7 @@ public class DiagnosticReport extends DomainResource {
     private final String conclusion;
     @Binding(
         bindingName = "AdjunctDiagnosis",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Diagnosis codes provided as adjuncts to the report.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )

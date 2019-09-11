@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CompartmentType;
@@ -56,7 +57,7 @@ public class CompartmentDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -71,7 +72,7 @@ public class CompartmentDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "CompartmentType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Which type a compartment definition describes.",
         valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.0"
     )
@@ -927,7 +928,7 @@ public class CompartmentDefinition extends DomainResource {
         @Required
         @Binding(
             bindingName = "ResourceType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )

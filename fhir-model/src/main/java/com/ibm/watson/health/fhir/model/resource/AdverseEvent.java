@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.AdverseEventActuality;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -43,21 +44,21 @@ public class AdverseEvent extends DomainResource {
     @Required
     @Binding(
         bindingName = "AdverseEventActuality",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Overall nature of the adverse event, e.g. real or potential.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.0.0"
     )
     private final AdverseEventActuality actuality;
     @Binding(
         bindingName = "AdverseEventCategory",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Overall categorization of the event, e.g. product-related or situational.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-category"
     )
     private final List<CodeableConcept> category;
     @Binding(
         bindingName = "AdverseEventType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Detailed type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-type"
     )
@@ -72,21 +73,21 @@ public class AdverseEvent extends DomainResource {
     private final Reference location;
     @Binding(
         bindingName = "AdverseEventSeriousness",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Overall seriousness of this event for the patient.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-seriousness"
     )
     private final CodeableConcept seriousness;
     @Binding(
         bindingName = "AdverseEventSeverity",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The severity of the adverse event itself, in direct relation to the subject.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.0.0"
     )
     private final CodeableConcept severity;
     @Binding(
         bindingName = "AdverseEventOutcome",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "TODO (and should this be required?).",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.0.0"
     )
@@ -1483,7 +1484,7 @@ public class AdverseEvent extends DomainResource {
         public static class Causality extends BackboneElement {
             @Binding(
                 bindingName = "AdverseEventCausalityAssessment",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Codes for the assessment of whether the entity caused the event.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-causality-assess"
             )
@@ -1492,7 +1493,7 @@ public class AdverseEvent extends DomainResource {
             private final Reference author;
             @Binding(
                 bindingName = "AdverseEventCausalityMethod",
-                strength = "example",
+                strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "TODO.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-causality-method"
             )

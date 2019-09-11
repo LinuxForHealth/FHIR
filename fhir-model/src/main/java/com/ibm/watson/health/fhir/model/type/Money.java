@@ -23,7 +23,7 @@ public class Money extends Element {
     private final Decimal value;
     @Binding(
         bindingName = "CurrencyCode",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code indicating the currency, taken from ISO 4217.",
         valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.0.0"
     )

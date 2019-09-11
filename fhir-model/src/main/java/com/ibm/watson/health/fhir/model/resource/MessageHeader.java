@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -47,7 +48,7 @@ public class MessageHeader extends DomainResource {
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
@@ -61,7 +62,7 @@ public class MessageHeader extends DomainResource {
     private final Reference responsible;
     @Binding(
         bindingName = "EventReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Reason for event occurrence.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-reason-encounter"
     )
@@ -1483,7 +1484,7 @@ public class MessageHeader extends DomainResource {
         @Required
         @Binding(
             bindingName = "ResponseType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The kind of response to a message.",
             valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.0"
         )

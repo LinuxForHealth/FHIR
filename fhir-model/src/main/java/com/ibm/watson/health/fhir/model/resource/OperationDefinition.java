@@ -85,7 +85,7 @@ public class OperationDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -93,7 +93,7 @@ public class OperationDefinition extends DomainResource {
     @Required
     @Binding(
         bindingName = "OperationKind",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Whether an operation is a normal operation or a query.",
         valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.0"
     )
@@ -106,7 +106,7 @@ public class OperationDefinition extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -119,7 +119,7 @@ public class OperationDefinition extends DomainResource {
     private final Canonical base;
     @Binding(
         bindingName = "ResourceType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
     )
@@ -1435,7 +1435,7 @@ public class OperationDefinition extends DomainResource {
         @Required
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "OperationParameterUse",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Whether an operation parameter is an input or an output parameter.",
             valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.0"
         )
@@ -1447,7 +1447,7 @@ public class OperationDefinition extends DomainResource {
         private final String documentation;
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "FHIRAllTypes",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
             valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
         )
@@ -1455,7 +1455,7 @@ public class OperationDefinition extends DomainResource {
         private final List<Canonical> targetProfile;
         @com.ibm.watson.health.fhir.model.annotation.Binding(
             bindingName = "SearchParamType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "Data types allowed to be used for search parameters.",
             valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.0"
         )
@@ -2089,7 +2089,7 @@ public class OperationDefinition extends DomainResource {
             @Required
             @com.ibm.watson.health.fhir.model.annotation.Binding(
                 bindingName = "BindingStrength",
-                strength = "required",
+                strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Indication of the degree of conformance expectations associated with a binding.",
                 valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.0"
             )

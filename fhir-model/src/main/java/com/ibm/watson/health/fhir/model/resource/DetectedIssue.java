@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -46,21 +47,21 @@ public class DetectedIssue extends DomainResource {
     @Required
     @Binding(
         bindingName = "DetectedIssueStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the status of the identified issue.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
     private final DetectedIssueStatus status;
     @Binding(
         bindingName = "DetectedIssueCategory",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Codes identifying the general type of detected issue; e.g. Drug-drug interaction, Timing issue, Duplicate therapy, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-category"
     )
     private final CodeableConcept code;
     @Binding(
         bindingName = "DetectedIssueSeverity",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the potential degree of impact of the identified issue on the patient.",
         valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.0.0"
     )
@@ -857,7 +858,7 @@ public class DetectedIssue extends DomainResource {
     public static class Evidence extends BackboneElement {
         @Binding(
             bindingName = "DetectedIssueEvidenceCode",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes that describes the types of evidence for a detected issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/manifestation-or-symptom"
         )
@@ -1165,7 +1166,7 @@ public class DetectedIssue extends DomainResource {
         @Required
         @Binding(
             bindingName = "DetectedIssueMitigationAction",
-            strength = "preferred",
+            strength = BindingStrength.ValueSet.PREFERRED,
             description = "Codes describing steps taken to resolve the issue or other circumstances that mitigate the risk associated with the issue; e.g. 'added concurrent therapy', 'prior therapy documented', etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action"
         )

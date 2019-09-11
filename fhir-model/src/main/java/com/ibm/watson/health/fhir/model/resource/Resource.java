@@ -10,6 +10,7 @@ import javax.annotation.Generated;
 
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.builder.AbstractBuilder;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Id;
 import com.ibm.watson.health.fhir.model.type.Meta;
@@ -26,7 +27,7 @@ public abstract class Resource extends AbstractVisitable {
     protected final Uri implicitRules;
     @Binding(
         bindingName = "Language",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"

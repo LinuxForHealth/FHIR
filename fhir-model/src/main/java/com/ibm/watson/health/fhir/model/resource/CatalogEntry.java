@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.CatalogEntryRelationType;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -49,7 +50,7 @@ public class CatalogEntry extends DomainResource {
     private final List<CodeableConcept> classification;
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -904,7 +905,7 @@ public class CatalogEntry extends DomainResource {
         @Required
         @Binding(
             bindingName = "CatalogEntryRelationType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relations between entries.",
             valueSet = "http://hl7.org/fhir/ValueSet/relation-type|4.0.0"
         )

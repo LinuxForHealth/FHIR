@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Extension;
@@ -51,7 +52,7 @@ public class AppointmentResponse extends DomainResource {
     private final Instant end;
     @Binding(
         bindingName = "ParticipantType",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Role of participant in encounter.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
     )
@@ -60,7 +61,7 @@ public class AppointmentResponse extends DomainResource {
     @Required
     @Binding(
         bindingName = "ParticipantStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The Participation status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.0"
     )

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Date;
@@ -39,7 +40,7 @@ public class Basic extends DomainResource {
     @Required
     @Binding(
         bindingName = "BasicResourceType",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes for identifying types of resources not yet defined by FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/basic-resource-type"
     )

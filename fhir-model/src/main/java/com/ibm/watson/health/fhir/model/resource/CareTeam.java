@@ -18,6 +18,7 @@ import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.CareTeamStatus;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -50,14 +51,14 @@ public class CareTeam extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "CareTeamStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the status of the care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.0.0"
     )
     private final CareTeamStatus status;
     @Binding(
         bindingName = "CareTeamCategory",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Indicates the type of care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-team-category"
     )
@@ -69,7 +70,7 @@ public class CareTeam extends DomainResource {
     private final List<Participant> participant;
     @Binding(
         bindingName = "CareTeamReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Indicates the reason for the care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -953,7 +954,7 @@ public class CareTeam extends DomainResource {
     public static class Participant extends BackboneElement {
         @Binding(
             bindingName = "CareTeamParticipantRole",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
         )

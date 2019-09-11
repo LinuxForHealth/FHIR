@@ -21,6 +21,7 @@ import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Age;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -67,14 +68,14 @@ public class FamilyMemberHistory extends DomainResource {
     @Required
     @Binding(
         bindingName = "FamilyHistoryStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code that identifies the status of the family history record.",
         valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.0.0"
     )
     private final FamilyHistoryStatus status;
     @Binding(
         bindingName = "FamilyHistoryAbsentReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes describing the reason why a family member's history is not available.",
         valueSet = "http://hl7.org/fhir/ValueSet/history-absent-reason"
     )
@@ -86,14 +87,14 @@ public class FamilyMemberHistory extends DomainResource {
     @Required
     @Binding(
         bindingName = "FamilialRelationship",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The nature of the relationship between the patient and the related person being described in the family member history.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-FamilyMember"
     )
     private final CodeableConcept relationship;
     @Binding(
         bindingName = "Sex",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Codes describing the sex assigned at birth as documented on the birth registration.",
         valueSet = "http://build.fhir.org/valueset-administrative-gender.html"
     )
@@ -107,7 +108,7 @@ public class FamilyMemberHistory extends DomainResource {
     private final Element deceased;
     @Binding(
         bindingName = "FamilyHistoryReason",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes indicating why the family member history was done.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -1181,14 +1182,14 @@ public class FamilyMemberHistory extends DomainResource {
         @Required
         @Binding(
             bindingName = "ConditionCode",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Identification of the Condition or diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
         private final CodeableConcept code;
         @Binding(
             bindingName = "ConditionOutcome",
-            strength = "example",
+            strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The result of the condition for the patient; e.g. death, permanent disability, temporary disability, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-outcome"
         )

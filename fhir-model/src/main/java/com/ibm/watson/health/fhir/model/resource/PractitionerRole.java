@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -48,14 +49,14 @@ public class PractitionerRole extends DomainResource {
     private final Reference organization;
     @Binding(
         bindingName = "PractitionerRole",
-        strength = "example",
+        strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The role a person plays representing an organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/practitioner-role"
     )
     private final List<CodeableConcept> code;
     @Binding(
         bindingName = "PractitionerSpecialty",
-        strength = "preferred",
+        strength = BindingStrength.ValueSet.PREFERRED,
         description = "Specific specialty associated with the agency.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -989,7 +990,7 @@ public class PractitionerRole extends DomainResource {
     public static class AvailableTime extends BackboneElement {
         @Binding(
             bindingName = "DaysOfWeek",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The days of the week.",
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
         )

@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.ContactPoint;
 import com.ibm.watson.health.fhir.model.type.Extension;
@@ -43,7 +44,7 @@ public class Subscription extends DomainResource {
     @Required
     @Binding(
         bindingName = "SubscriptionStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of a subscription.",
         valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.0"
     )
@@ -620,7 +621,7 @@ public class Subscription extends DomainResource {
         @Required
         @Binding(
             bindingName = "SubscriptionChannelType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of method used to execute a subscription.",
             valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.0"
         )
@@ -628,7 +629,7 @@ public class Subscription extends DomainResource {
         private final Url endpoint;
         @Binding(
             bindingName = "MimeType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The mime type of an attachment. Any valid mime type is allowed.",
             valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
         )

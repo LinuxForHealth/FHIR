@@ -19,6 +19,7 @@ import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -75,7 +76,7 @@ public class CodeSystem extends DomainResource {
     @Required
     @Binding(
         bindingName = "PublicationStatus",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
@@ -88,7 +89,7 @@ public class CodeSystem extends DomainResource {
     private final List<UsageContext> useContext;
     @Binding(
         bindingName = "Jurisdiction",
-        strength = "extensible",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -99,7 +100,7 @@ public class CodeSystem extends DomainResource {
     private final Canonical valueSet;
     @Binding(
         bindingName = "CodeSystemHierarchyMeaning",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The meaning of the hierarchy of concepts in a code system.",
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.0"
     )
@@ -109,7 +110,7 @@ public class CodeSystem extends DomainResource {
     @Required
     @Binding(
         bindingName = "CodeSystemContentMode",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.0"
     )
@@ -1429,7 +1430,7 @@ public class CodeSystem extends DomainResource {
         @Required
         @Binding(
             bindingName = "FilterOperator",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The kind of operation to perform as a part of a property based filter.",
             valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
         )
@@ -1797,7 +1798,7 @@ public class CodeSystem extends DomainResource {
         @Required
         @Binding(
             bindingName = "PropertyType",
-            strength = "required",
+            strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of a property value.",
             valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.0.0"
         )
@@ -2605,7 +2606,7 @@ public class CodeSystem extends DomainResource {
         public static class Designation extends BackboneElement {
             @Binding(
                 bindingName = "Language",
-                strength = "preferred",
+                strength = BindingStrength.ValueSet.PREFERRED,
                 description = "A human language.",
                 valueSet = "http://hl7.org/fhir/ValueSet/languages",
                 maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -2613,7 +2614,7 @@ public class CodeSystem extends DomainResource {
             private final Code language;
             @Binding(
                 bindingName = "ConceptDesignationUse",
-                strength = "extensible",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "Details of how a designation would be used.",
                 valueSet = "http://hl7.org/fhir/ValueSet/designation-use"
             )

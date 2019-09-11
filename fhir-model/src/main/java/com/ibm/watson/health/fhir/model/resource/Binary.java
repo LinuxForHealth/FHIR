@@ -13,6 +13,7 @@ import javax.annotation.Generated;
 import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Base64Binary;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Id;
 import com.ibm.watson.health.fhir.model.type.Meta;
@@ -30,7 +31,7 @@ public class Binary extends Resource {
     @Required
     @Binding(
         bindingName = "MimeType",
-        strength = "required",
+        strength = BindingStrength.ValueSet.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
