@@ -32,6 +32,8 @@ import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
+import com.ibm.waston.health.fhir.bulkcommon.COSUtils;
+import com.ibm.waston.health.fhir.bulkcommon.Constants;
 
 /**
  * Bulk import Chunk implementation - the Reader.
@@ -79,6 +81,22 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = "cos.bucket.name")
     String cosBucketName;
+    
+    
+    /**
+     * The Cos bucket name.
+     */
+    @Inject
+    @BatchProperty(name = "cos.read.maxobjects")
+    String maxCOSObjectsPerRead;
+    
+    /**
+     * The Cos object name.
+     */
+    @Inject
+    @BatchProperty(name = "cos.bucket.objectname")
+    String cosBucketObjectName;
+    
 
     /**
      * If use IBM credential.
@@ -92,23 +110,6 @@ public class ChunkReader extends AbstractItemReader {
      */
     private void log(String method, Object msg) {
         logger.info(method + ": " + String.valueOf(msg));
-    }
-
-    private void getCosClient() {
-        SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
-        AWSCredentials credentials;
-        if (cosCredentialIbm.equalsIgnoreCase("Y")) {
-            credentials = new BasicIBMOAuthCredentials(cosApiKeyProperty, cosSrvinstId);
-        } else {
-            credentials = new BasicAWSCredentials(cosApiKeyProperty, cosSrvinstId);
-        }
-
-        ClientConfiguration clientConfig = new ClientConfiguration().withRequestTimeout(8000);
-        clientConfig.setUseTcpKeepAlive(true);
-
-        cosClient = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withEndpointConfiguration(new EndpointConfiguration(cosEndpintUrl, cosLocation))
-                .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
     }
 
     private String getItem(String bucketName, String itemName) {
@@ -148,7 +149,7 @@ public class ChunkReader extends AbstractItemReader {
     public Object readItem() throws Exception {
         List<String> resJsonList = new ArrayList<String>();
         log("readItem", "Begin get CosClient!");
-        getCosClient();
+        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
 
         if (cosClient == null) {
             log("readItem", "Failed to get CosClient!");
@@ -169,7 +170,16 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         // Control the number of COS objects to read in each "item".
-        int maxKeys = 3;
+        int maxKeys = Constants.DEFAULT_NUMOFOBJECTS_PERREAD;
+        if (maxCOSObjectsPerRead != null) {
+            try {
+                maxKeys = Integer.parseInt(maxCOSObjectsPerRead);
+                log("readItem", "Number of COS Objects in each read: " + maxKeys + ".");
+            } catch (Exception e) {
+                log("readItem", "Set Number of COS Objects in each read to default(" + Constants.DEFAULT_NUMOFOBJECTS_PERREAD + ").");
+            }
+        }
+
 
         if (nextToken.contentEquals("ALLDONE")) {
             return null;
@@ -180,13 +190,23 @@ public class ChunkReader extends AbstractItemReader {
 
         ListObjectsV2Result result = cosClient.listObjectsV2(request);
         for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
-            log("readItem", "Item: " + objectSummary.getKey() + ", Bytes: " + objectSummary.getSize());
-
-            String objectContents = getItem(cosBucketName, objectSummary.getKey());
-            if (objectContents != null) {
-                resJsonList.add(objectContents);
+            boolean isToBeProccessed = false;
+            if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) { 
+                if(objectSummary.getKey().startsWith(cosBucketObjectName.trim())) {
+                    isToBeProccessed = true;
+                }
+            } else {
+                isToBeProccessed = true;
             }
-
+            
+            if (isToBeProccessed) {
+                log("readItem", "COS Object: " + objectSummary.getKey() + ", Bytes: " + objectSummary.getSize());
+                
+                String objectContents = getItem(cosBucketName, objectSummary.getKey());
+                if (objectContents != null) {
+                    resJsonList.add(objectContents);
+                }
+            }
         }
 
         if (result.isTruncated()) {
