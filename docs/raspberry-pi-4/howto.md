@@ -1,6 +1,8 @@
 # FHIR Server on the Raspberry Pi 4
 
-https://hl7.org/fhir/R4/
+![FHIR on Raspberry Pi 4](/docs/raspberry-pi-4/piOnFhir30.jpg)
+
+FHIR Specification: https://hl7.org/fhir/R4/
 
 ## Usage
 
