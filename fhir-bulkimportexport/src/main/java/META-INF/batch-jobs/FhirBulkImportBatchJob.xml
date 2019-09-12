@@ -9,8 +9,8 @@
                 <property name="cos.location" value="#{jobParameters['cos.location']}"/>
                 <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                 <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
-                <property name="cos.bucket.pathprefix" value="#{jobParameters['cos.bucket.pathprefix']}"/>
                 <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
             </properties>
         </batchlet>
     </step>

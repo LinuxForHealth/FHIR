@@ -20,5 +20,6 @@ public class Constants {
     public static final int COS_PART_MINIMALSIZE = 5242880;
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
     public static final int DEFAULT_NUMOFPAGES_EACH_COS_OBJECT = 10;
+    public static final int DEFAULT_NUMOFOBJECTS_PERREAD = 1;
 
 }
