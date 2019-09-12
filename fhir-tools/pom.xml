@@ -11,7 +11,7 @@
     <packaging>maven-plugin</packaging>
 
     <properties>
-        <surefire.plugin.version>2.20.1</surefire.plugin.version>
+        <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
         <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
         <jacoco.plugin.version>0.8.2</jacoco.plugin.version>

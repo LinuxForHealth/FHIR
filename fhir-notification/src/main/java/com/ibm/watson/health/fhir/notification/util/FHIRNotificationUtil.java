@@ -12,7 +12,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
-import javax.xml.bind.JAXBException;
 
 import com.ibm.watson.health.fhir.exception.FHIRException;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
@@ -37,10 +36,9 @@ public class FHIRNotificationUtil {
      * @param includeResource a flag that controls whether or not the resource object within
      * the event structure should be included in the serialized message.
      * @return the serialized message as a String
-     * @throws JAXBException
      * @throws FHIRException 
      */
-    public static String toJsonString(FHIRNotificationEvent event, boolean includeResource) throws JAXBException, FHIRException {
+    public static String toJsonString(FHIRNotificationEvent event, boolean includeResource) throws FHIRException {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         builder.add("lastUpdated", event.getLastUpdated());
         builder.add("location", event.getLocation());
