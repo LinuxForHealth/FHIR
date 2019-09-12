@@ -90,6 +90,13 @@ public class BulkImportBatchLet implements Batchlet {
     String cosBucketName;
 
     /**
+     * The Cos object name.
+     */
+    @Inject
+    @BatchProperty(name = "cos.bucket.objectname")
+    String cosBucketObjectName;
+
+    /**
      * If use IBM credential.
      */
     @Inject
@@ -227,22 +234,34 @@ public class BulkImportBatchLet implements Batchlet {
                     .withContinuationToken(nextToken);
 
             ListObjectsV2Result result = cosClient.listObjectsV2(request);
+            
             for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
-                log("process", "Item: " + objectSummary.getKey() + ", Bytes: " + objectSummary.getSize());
-
-                String objectContents = getItem(cosBucketName, objectSummary.getKey());
-
-                if (objectContents != null) {
-                    JSONArray jsonJArray = new JSONArray(objectContents);
-
-                    for (int i = 0; i < jsonJArray.length(); i++) {
-                        JSONObject json_data = jsonJArray.getJSONObject(i);
-                        Resource fhirRes = FHIRParser.parser(Format.JSON).parse(new StringReader(json_data.toString()));
-                        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-                        txn.begin();
-                        fhirPersistence.update(persistenceContext, fhirRes.getId().getValue(), fhirRes);
-                        txn.commit();
-                        imported++;
+                boolean isToBeProccessed = false;
+                if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) {
+                    if(objectSummary.getKey().startsWith(cosBucketObjectName.trim())) {
+                        isToBeProccessed = true;
+                    }
+                } else {
+                    isToBeProccessed = true;
+                }
+                
+                if (isToBeProccessed) {
+                    log("process", "COS Object: " + objectSummary.getKey() + ", Bytes: " + objectSummary.getSize());
+    
+                    String objectContents = getItem(cosBucketName, objectSummary.getKey());
+    
+                    if (objectContents != null) {
+                        JSONArray jsonJArray = new JSONArray(objectContents);
+    
+                        for (int i = 0; i < jsonJArray.length(); i++) {
+                            JSONObject json_data = jsonJArray.getJSONObject(i);
+                            Resource fhirRes = FHIRParser.parser(Format.JSON).parse(new StringReader(json_data.toString()));
+                            FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
+                            txn.begin();
+                            fhirPersistence.update(persistenceContext, fhirRes.getId().getValue(), fhirRes);
+                            txn.commit();
+                            imported++;
+                        }
                     }
                 }
             }
