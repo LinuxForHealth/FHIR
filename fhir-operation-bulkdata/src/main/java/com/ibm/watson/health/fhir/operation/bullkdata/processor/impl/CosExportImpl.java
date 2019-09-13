@@ -7,6 +7,7 @@ package com.ibm.watson.health.fhir.operation.bullkdata.processor.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,6 +22,7 @@ import com.ibm.watson.health.fhir.operation.bullkdata.client.BulkDataClient;
 import com.ibm.watson.health.fhir.operation.bullkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.watson.health.fhir.operation.bullkdata.processor.ExportBulkData;
 import com.ibm.watson.health.fhir.operation.bullkdata.processor.ImportBulkData;
+import com.ibm.watson.health.fhir.operation.bullkdata.util.BulkDataUtil;
 import com.ibm.watson.health.fhir.operation.context.FHIROperationContext;
 import com.ibm.watson.health.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watson.health.fhir.rest.FHIRResourceHelpers;
@@ -30,6 +32,9 @@ import com.ibm.watson.health.fhir.rest.FHIRResourceHelpers;
  *
  */
 public class CosExportImpl implements ExportBulkData, ImportBulkData {
+    
+    private static final String CLASSNAME = CosExportImpl.class.getName();
+    private static final Logger log = Logger.getLogger(CLASSNAME);
 
     @Override
     public Parameters exportBase(MediaType outputFormat, Instant since, List<String> types,
@@ -38,38 +43,43 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         throws FHIROperationException {
 
         try {
-            System.out.println("Using the COS Implementation");
-            
-            // More than one Resource type is being used. 
-            if(types == null || types.size() != 1) {
-                throw new FHIROperationException("We currently only support one type exported at a time");
+            log.info("Using the COS Implementation");
+
+            // More than one Resource type is being used.
+            if (types == null || types.size() != 1) {
+                throw BulkDataUtil.buildOperationException("We currently only support one type exported at a time");
             }
-            
-            Map<String, String> properties = cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
-            
+
+            Map<String, String> properties =
+                    cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
+
             /*
              * Submit Job
              */
-            BulkDataClient client = new BulkDataClient();
+            BulkDataClient client = new BulkDataClient(properties);
             String url = client.submit(outputFormat, since, types, properties);
-            
+
             /*
-             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. 
-             * The OperationContext is checked for ACCEPTED, and picks out the custom response.  
+             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
+             * OperationContext is checked for ACCEPTED, and picks out the custom response.
              */
             Response response =
                     Response.status(Status.ACCEPTED).header("Content-Location", url).build();
-            
+
             operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
             operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
-            
+
             return FHIROperationUtil.getOutputParameters(null);
+        } catch (FHIROperationException fe) {
+            throw fe;
         } catch (Exception e) {
+            // Need to printStackTrace for debugging (eventually we'll shove into logger with debug/fine/finest)
+            e.printStackTrace();
             throw new FHIROperationException("", e);
         }
     }
-    
-    // The following operations are not yet implemented. 
+
+    // The following operations are not yet implemented.
 
     @Override
     public Parameters exportPatient(String logicalId, MediaType outputFormat, Instant since,
@@ -92,7 +102,6 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         throws FHIROperationException {
         throw new FHIROperationException("No $export delete operation right now");
     }
-    
 
     @Override
     public Parameters importBase(Parameters parameters, FHIRRequestContext ctx,

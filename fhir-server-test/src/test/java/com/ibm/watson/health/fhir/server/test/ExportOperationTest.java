@@ -9,6 +9,7 @@ import static com.ibm.watson.health.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -42,11 +43,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME })
     public void testBaseExport() {
         Response response =
-                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.now(), null, null);
+                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.now(), Arrays.asList("Patient"), null);
         assertEquals(response.getStatus(), 202);
         
         String contentLocation = response.getHeaderString("Content-Location");
-        assertEquals(contentLocation, "Go-over-there");
+        assertEquals(contentLocation, "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/BulkImportJob_Patient.ndjson");
         
     }
 
@@ -90,7 +91,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         if (types != null) {
-            parameters.add(Parameter.builder().name(string("_types")).value(string(types.stream().collect(Collectors.joining(",")))).build());
+            parameters.add(Parameter.builder().name(string("_type")).value(string(types.stream().collect(Collectors.joining(",")))).build());
         }
         
         if (typeFilters != null) {

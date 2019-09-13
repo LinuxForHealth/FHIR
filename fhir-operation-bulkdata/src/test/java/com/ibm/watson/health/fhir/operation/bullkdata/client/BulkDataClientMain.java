@@ -1,0 +1,33 @@
+/**
+ * (C) Copyright IBM Corp. 2019
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+package com.ibm.watson.health.fhir.operation.bullkdata.client;
+
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import com.ibm.watson.health.fhir.operation.bullkdata.config.BulkDataConfigUtil;
+
+/**
+ * @author pbastide
+ *
+ */
+public class BulkDataClientMain {
+
+    public static void main(String... args) throws Exception {
+        Map<String,String> properties = new LinkedHashMap<>();
+        properties.put(BulkDataConfigUtil.BATCH_URL, "https://localhost:9443/ibm/api/batch/jobinstances");
+        properties.put(BulkDataConfigUtil.BATCH_USER, "fhiradmin");
+        properties.put(BulkDataConfigUtil.BATCH_USER_PASS, "change-password");
+                
+        properties.put(BulkDataConfigUtil.BATCH_TRUSTSTORE, "/Users/paulbastide/git/wffh/wlp/wlp/usr/servers/defaultServer/resources/security/fhirTruststore.jks");
+        properties.put(BulkDataConfigUtil.BATCH_TRUSTSTORE_PASS, "change-password");
+        
+        BulkDataClient client = new BulkDataClient(properties);
+        client.submit(null, null, Arrays.asList("Patient"), properties);
+    }
+
+}
