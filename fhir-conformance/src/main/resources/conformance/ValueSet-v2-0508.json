@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0508",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Blood Product Processing Requirements</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AU<a name=\"AU\"> </a></td><td>Autologous Unit</td><td/><td>added v2.5</td></tr><tr><td>CM<a name=\"CM\"> </a></td><td>CMV Negative</td><td/><td>added v2.5</td></tr><tr><td>CS<a name=\"CS\"> </a></td><td>CMV Safe</td><td/><td>added v2.5</td></tr><tr><td>DI<a name=\"DI\"> </a></td><td>Directed Unit</td><td/><td>added v2.5</td></tr><tr><td>FR<a name=\"FR\"> </a></td><td>Fresh unit</td><td/><td>added v2.5</td></tr><tr><td>HB<a name=\"HB\"> </a></td><td>Hemoglobin S Negative</td><td/><td>added v2.5</td></tr><tr><td>HL<a name=\"HL\"> </a></td><td>HLA Matched</td><td/><td>added v2.5</td></tr><tr><td>IG<a name=\"IG\"> </a></td><td>IgA Deficient</td><td/><td>added v2.5</td></tr><tr><td>IR<a name=\"IR\"> </a></td><td>Irradiated</td><td/><td>added v2.5</td></tr><tr><td>LR<a name=\"LR\"> </a></td><td>Leukoreduced</td><td/><td>added v2.5</td></tr><tr><td>WA<a name=\"WA\"> </a></td><td>Washed</td><td/><td>added v2.5</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0508",
+    "version": "2.9",
+    "name": "v2.0508",
+    "title": "v2 Blood Product Processing Requirements",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0508 ( Blood Product Processing Requirements)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0508"
+            }
+        ]
+    }
+}

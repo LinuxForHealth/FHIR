@@ -1,0 +1,72 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-EquipmentAlertLevel",
+    "meta": {
+        "lastUpdated": "2018-08-12T00:00:00+10:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>C<a name=\"v3-EquipmentAlertLevel-C\"> </a></td><td>Critical</td><td>\n                        Shut Down, Fix Problem and Re-init<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>N<a name=\"v3-EquipmentAlertLevel-N\"> </a></td><td>Normal</td><td>\n                        No Corrective Action Needed<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>S<a name=\"v3-EquipmentAlertLevel-S\"> </a></td><td>Serious</td><td>\n                        Corrective Action Required<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>W<a name=\"v3-EquipmentAlertLevel-W\"> </a></td><td>Warning</td><td>\n                        Corrective Action Anticipated<br/>\r\n\n                     </td></tr>\r\n</table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v3-EquipmentAlertLevel",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.49"
+        }
+    ],
+    "version": "2018-08-12",
+    "name": "v3.EquipmentAlertLevel",
+    "title": "v3 Code System EquipmentAlertLevel",
+    "status": "active",
+    "experimental": false,
+    "date": "2018-08-12T00:00:00+10:00",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "**** MISSING DEFINITIONS ****",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v3-EquipmentAlertLevel",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "C",
+            "display": "Critical",
+            "definition": "Shut Down, Fix Problem and Re-init"
+        },
+        {
+            "code": "N",
+            "display": "Normal",
+            "definition": "No Corrective Action Needed"
+        },
+        {
+            "code": "S",
+            "display": "Serious",
+            "definition": "Corrective Action Required"
+        },
+        {
+            "code": "W",
+            "display": "Warning",
+            "definition": "Corrective Action Anticipated"
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-2.4-0006",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Religion</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Version</b></td></tr><tr><td>ABC<a name=\"ABC\"> </a></td><td>Christian: American Baptist Church</td><td>from v2.4</td></tr><tr><td>AGN<a name=\"AGN\"> </a></td><td>Agnostic</td><td>from v2.4</td></tr><tr><td>AME<a name=\"AME\"> </a></td><td>Christian: African Methodist Episcopal Zion</td><td>from v2.4</td></tr><tr><td>AMT<a name=\"AMT\"> </a></td><td>Christian: African Methodist Episcopal</td><td>from v2.4</td></tr><tr><td>ANG<a name=\"ANG\"> </a></td><td>Christian: Anglican</td><td>from v2.4</td></tr><tr><td>AOG<a name=\"AOG\"> </a></td><td>Christian: Assembly of God</td><td>from v2.4</td></tr><tr><td>ATH<a name=\"ATH\"> </a></td><td>Atheist</td><td>from v2.4</td></tr><tr><td>BAH<a name=\"BAH\"> </a></td><td>Baha'i</td><td>from v2.4</td></tr><tr><td>BAP<a name=\"BAP\"> </a></td><td>Christian: Baptist</td><td>from v2.4</td></tr><tr><td>BMA<a name=\"BMA\"> </a></td><td>Buddhist: Mahayana</td><td>from v2.4</td></tr><tr><td>BOT<a name=\"BOT\"> </a></td><td>Buddhist: Other</td><td>from v2.4</td></tr><tr><td>BRE<a name=\"BRE\"> </a></td><td>Brethren</td><td>added v2.6</td></tr><tr><td>BTA<a name=\"BTA\"> </a></td><td>Buddhist: Tantrayana</td><td>from v2.4</td></tr><tr><td>BTH<a name=\"BTH\"> </a></td><td>Buddhist: Theravada</td><td>from v2.4</td></tr><tr><td>BUD<a name=\"BUD\"> </a></td><td>Buddhist</td><td>from v2.4</td></tr><tr><td>CAT<a name=\"CAT\"> </a></td><td>Christian: Roman Catholic</td><td>from v2.4</td></tr><tr><td>CFR<a name=\"CFR\"> </a></td><td>Chinese Folk Religionist</td><td>from v2.4</td></tr><tr><td>CHR<a name=\"CHR\"> </a></td><td>Christian</td><td>from v2.4</td></tr><tr><td>CHS<a name=\"CHS\"> </a></td><td>Christian: Christian Science</td><td>from v2.4</td></tr><tr><td>CMA<a name=\"CMA\"> </a></td><td>Christian: Christian Missionary Alliance</td><td>from v2.4</td></tr><tr><td>CNF<a name=\"CNF\"> </a></td><td>Confucian</td><td>from v2.4</td></tr><tr><td>COC<a name=\"COC\"> </a></td><td>Christian: Church of Christ</td><td>from v2.4</td></tr><tr><td>COG<a name=\"COG\"> </a></td><td>Christian: Church of God</td><td>from v2.4</td></tr><tr><td>COI<a name=\"COI\"> </a></td><td>Christian: Church of God in Christ</td><td>from v2.4</td></tr><tr><td>COL<a name=\"COL\"> </a></td><td>Christian: Congregational</td><td>from v2.4</td></tr><tr><td>COM<a name=\"COM\"> </a></td><td>Christian: Community</td><td>from v2.4</td></tr><tr><td>COP<a name=\"COP\"> </a></td><td>Christian: Other Pentecostal</td><td>from v2.4</td></tr><tr><td>COT<a name=\"COT\"> </a></td><td>Christian: Other</td><td>from v2.4</td></tr><tr><td>CRR<a name=\"CRR\"> </a></td><td>Christian: Christian Reformed</td><td>from v2.4</td></tr><tr><td>DOC<a name=\"DOC\"> </a></td><td>Disciples of Christ</td><td>added v2.6</td></tr><tr><td>EOT<a name=\"EOT\"> </a></td><td>Christian: Eastern Orthodox</td><td>from v2.4</td></tr><tr><td>EPI<a name=\"EPI\"> </a></td><td>Christian: Episcopalian</td><td>from v2.4</td></tr><tr><td>ERL<a name=\"ERL\"> </a></td><td>Ethnic Religionist</td><td>from v2.4</td></tr><tr><td>EVC<a name=\"EVC\"> </a></td><td>Christian: Evangelical Church</td><td>from v2.4</td></tr><tr><td>FRQ<a name=\"FRQ\"> </a></td><td>Christian: Friends</td><td>from v2.4</td></tr><tr><td>FUL<a name=\"FUL\"> </a></td><td>Christian: Full Gospel</td><td>added v2.6</td></tr><tr><td>FWB<a name=\"FWB\"> </a></td><td>Christian: Free Will Baptist</td><td>from v2.4</td></tr><tr><td>GRE<a name=\"GRE\"> </a></td><td>Christian: Greek Orthodox</td><td>from v2.4</td></tr><tr><td>HIN<a name=\"HIN\"> </a></td><td>Hindu</td><td>from v2.4</td></tr><tr><td>HOT<a name=\"HOT\"> </a></td><td>Hindu: Other</td><td>from v2.4</td></tr><tr><td>HSH<a name=\"HSH\"> </a></td><td>Hindu: Shaivites</td><td>from v2.4</td></tr><tr><td>HVA<a name=\"HVA\"> </a></td><td>Hindu: Vaishnavites</td><td>from v2.4</td></tr><tr><td>JAI<a name=\"JAI\"> </a></td><td>Jain</td><td>from v2.4</td></tr><tr><td>JCO<a name=\"JCO\"> </a></td><td>Jewish: Conservative</td><td>from v2.4</td></tr><tr><td>JEW<a name=\"JEW\"> </a></td><td>Jewish</td><td>from v2.4</td></tr><tr><td>JOR<a name=\"JOR\"> </a></td><td>Jewish: Orthodox</td><td>from v2.4</td></tr><tr><td>JOT<a name=\"JOT\"> </a></td><td>Jewish: Other</td><td>from v2.4</td></tr><tr><td>JRC<a name=\"JRC\"> </a></td><td>Jewish: Reconstructionist</td><td>from v2.4</td></tr><tr><td>JRF<a name=\"JRF\"> </a></td><td>Jewish: Reform</td><td>from v2.4</td></tr><tr><td>JRN<a name=\"JRN\"> </a></td><td>Jewish: Renewal</td><td>from v2.4</td></tr><tr><td>JWN<a name=\"JWN\"> </a></td><td>Christian: Jehovah's Witness</td><td>from v2.4</td></tr><tr><td>LMS<a name=\"LMS\"> </a></td><td>Christian: Lutheran Missouri Synod</td><td>from v2.4</td></tr><tr><td>LUT<a name=\"LUT\"> </a></td><td>Christian: Lutheran</td><td>from v2.4</td></tr><tr><td>MEN<a name=\"MEN\"> </a></td><td>Christian: Mennonite</td><td>from v2.4</td></tr><tr><td>MET<a name=\"MET\"> </a></td><td>Christian: Methodist</td><td>from v2.4</td></tr><tr><td>MOM<a name=\"MOM\"> </a></td><td>Christian: Latter-day Saints</td><td>from v2.4</td></tr><tr><td>MOS<a name=\"MOS\"> </a></td><td>Muslim</td><td>from v2.4</td></tr><tr><td>MOT<a name=\"MOT\"> </a></td><td>Muslim: Other</td><td>from v2.4</td></tr><tr><td>MSH<a name=\"MSH\"> </a></td><td>Muslim: Shiite</td><td>from v2.4</td></tr><tr><td>MSU<a name=\"MSU\"> </a></td><td>Muslim: Sunni</td><td>from v2.4</td></tr><tr><td>NAM<a name=\"NAM\"> </a></td><td>Native American</td><td>from v2.4</td></tr><tr><td>NAZ<a name=\"NAZ\"> </a></td><td>Christian: Church of the Nazarene</td><td>from v2.4</td></tr><tr><td>NOE<a name=\"NOE\"> </a></td><td>Nonreligious</td><td>from v2.4</td></tr><tr><td>NRL<a name=\"NRL\"> </a></td><td>New Religionist</td><td>from v2.4</td></tr><tr><td>ORT<a name=\"ORT\"> </a></td><td>Christian: Orthodox</td><td>from v2.4</td></tr><tr><td>OTH<a name=\"OTH\"> </a></td><td>Other</td><td>from v2.4</td></tr><tr><td>PEN<a name=\"PEN\"> </a></td><td>Christian: Pentecostal</td><td>from v2.4</td></tr><tr><td>PRC<a name=\"PRC\"> </a></td><td>Christian: Other Protestant</td><td>from v2.4</td></tr><tr><td>PRE<a name=\"PRE\"> </a></td><td>Christian: Presbyterian</td><td>from v2.4</td></tr><tr><td>PRO<a name=\"PRO\"> </a></td><td>Christian: Protestant</td><td>from v2.4</td></tr><tr><td>QUA<a name=\"QUA\"> </a></td><td>Christian: Friends</td><td>from v2.4, removed after v2.5.1</td></tr><tr><td>REC<a name=\"REC\"> </a></td><td>Christian: Reformed Church</td><td>from v2.4</td></tr><tr><td>REO<a name=\"REO\"> </a></td><td>Christian: Reorganized Church of Jesus Christ-LDS</td><td>from v2.4</td></tr><tr><td>SAA<a name=\"SAA\"> </a></td><td>Christian: Salvation Army</td><td>from v2.4</td></tr><tr><td>SEV<a name=\"SEV\"> </a></td><td>Christian: Seventh Day Adventist</td><td>from v2.4</td></tr><tr><td>SHN<a name=\"SHN\"> </a></td><td>Shintoist</td><td>from v2.4</td></tr><tr><td>SIK<a name=\"SIK\"> </a></td><td>Sikh</td><td>from v2.4</td></tr><tr><td>SOU<a name=\"SOU\"> </a></td><td>Christian: Southern Baptist</td><td>from v2.4</td></tr><tr><td>SPI<a name=\"SPI\"> </a></td><td>Spiritist</td><td>from v2.4</td></tr><tr><td>UCC<a name=\"UCC\"> </a></td><td>Christian: United Church of Christ</td><td>from v2.4</td></tr><tr><td>UMD<a name=\"UMD\"> </a></td><td>Christian: United Methodist</td><td>from v2.4</td></tr><tr><td>UNI<a name=\"UNI\"> </a></td><td>Christian: Unitarian</td><td>from v2.4</td></tr><tr><td>UNU<a name=\"UNU\"> </a></td><td>Christian: Unitarian Universalist</td><td>from v2.4</td></tr><tr><td>VAR<a name=\"VAR\"> </a></td><td>Unknown</td><td>from v2.4</td></tr><tr><td>WES<a name=\"WES\"> </a></td><td>Christian: Wesleyan</td><td>from v2.4</td></tr><tr><td>WMC<a name=\"WMC\"> </a></td><td>Christian: Wesleyan Methodist</td><td>from v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-2.4-0006",
+    "version": "0006",
+    "name": "v2.0006.2.4",
+    "title": "v2 table 0006, Version 2.4",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0006 ver 2.9 ( Religion)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0006|2.4"
+            }
+        ]
+    }
+}

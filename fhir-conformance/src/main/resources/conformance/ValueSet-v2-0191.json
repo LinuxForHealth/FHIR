@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0191",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Type of Referenced Data</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AP<a name=\"AP\"> </a></td><td>Other application data, typically uninterpreted binary data (HL7 V2.3 and later)</td><td/><td>added v2.3</td></tr><tr><td>Application<a name=\"Application\"> </a></td><td>Other application data, typically uninterpreted binary data  (HL7 V2.3 and later)</td><td>deprecated</td><td>added v2.3.1, removed after v2.3.1</td></tr><tr><td>AU<a name=\"AU\"> </a></td><td>Audio data (HL7 V2.3 and later)</td><td/><td>added v2.3</td></tr><tr><td>Audio<a name=\"Audio\"> </a></td><td>Audio data  (HL7 V2.3 and later)</td><td>deprecated</td><td>added v2.3.1, removed after v2.3.1</td></tr><tr><td>FT<a name=\"FT\"> </a></td><td>Formatted text (HL7 V2.2 only)</td><td/><td>added v2.2</td></tr><tr><td>IM<a name=\"IM\"> </a></td><td>Image data (HL7 V2.3 and later)</td><td/><td>added v2.3</td></tr><tr><td>Image<a name=\"Image\"> </a></td><td>Image data  (HL7 V2.3 and later)</td><td>deprecated</td><td>added v2.3.1, removed after v2.3.1</td></tr><tr><td>multipart<a name=\"multipart\"> </a></td><td>MIME multipart package</td><td/><td>added v2.4</td></tr><tr><td>NS<a name=\"NS\"> </a></td><td>Non-scanned image (HL7 V2.2 only)</td><td/><td>added v2.2</td></tr><tr><td>SD<a name=\"SD\"> </a></td><td>Scanned document (HL7 V2.2 only)</td><td/><td>added v2.2</td></tr><tr><td>SI<a name=\"SI\"> </a></td><td>Scanned image (HL7 V2.2 only)</td><td/><td>added v2.2</td></tr><tr><td>TEXT<a name=\"TEXT\"> </a></td><td>Machine readable text document (HL7 V2.3.1 and later)</td><td/><td>added v2.3.1</td></tr><tr><td>TX<a name=\"TX\"> </a></td><td>Machine readable text document (HL7 V2.2 only)</td><td/><td>added v2.2</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0191",
+    "version": "2.9",
+    "name": "v2.0191",
+    "title": "v2 Type Of Data",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0191 ( Type Of Data)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0191"
+            }
+        ]
+    }
+}

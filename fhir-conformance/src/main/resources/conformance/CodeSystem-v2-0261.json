@@ -1,0 +1,163 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0261",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Location Equipment</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>EEG<a name=\"EEG\"> </a></td><td>Electro-Encephalogram</td><td/><td>added v2.3</td></tr><tr><td>EKG<a name=\"EKG\"> </a></td><td>Electro-Cardiogram</td><td/><td>added v2.3</td></tr><tr><td>INF<a name=\"INF\"> </a></td><td>Infusion pump</td><td/><td>added v2.3</td></tr><tr><td>IVP<a name=\"IVP\"> </a></td><td>IV pump</td><td/><td>added v2.3</td></tr><tr><td>OXY<a name=\"OXY\"> </a></td><td>Oxygen</td><td/><td>added v2.3</td></tr><tr><td>SUC<a name=\"SUC\"> </a></td><td>Suction</td><td/><td>added v2.3</td></tr><tr><td>VEN<a name=\"VEN\"> </a></td><td>Ventilator</td><td/><td>added v2.3</td></tr><tr><td>VIT<a name=\"VIT\"> </a></td><td>Vital signs monitor</td><td/><td>added v2.3</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0261",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.156"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0261",
+    "title": "v2 Location Equipment",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0261 ( Location Equipment)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "EEG",
+            "display": "Electro-Encephalogram",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Electroencefalogram"
+                }
+            ]
+        },
+        {
+            "code": "EKG",
+            "display": "Electro-Cardiogram",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Electrocardiogram"
+                }
+            ]
+        },
+        {
+            "code": "INF",
+            "display": "Infusion pump",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Infusiepomp"
+                }
+            ]
+        },
+        {
+            "code": "IVP",
+            "display": "IV pump",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Infuuspomp"
+                }
+            ]
+        },
+        {
+            "code": "OXY",
+            "display": "Oxygen",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Zuurstof"
+                }
+            ]
+        },
+        {
+            "code": "SUC",
+            "display": "Suction",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Suctie"
+                }
+            ]
+        },
+        {
+            "code": "VEN",
+            "display": "Ventilator",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Ventilator"
+                }
+            ]
+        },
+        {
+            "code": "VIT",
+            "display": "Vital signs monitor",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Vitale functies monitor"
+                }
+            ]
+        }
+    ]
+}

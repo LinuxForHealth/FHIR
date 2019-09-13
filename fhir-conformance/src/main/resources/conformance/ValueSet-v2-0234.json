@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0234",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Report Timing</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>10D<a name=\"10D\"> </a></td><td>10 day report</td><td/><td>added v2.3</td></tr><tr><td>15D<a name=\"15D\"> </a></td><td>15 day report</td><td/><td>added v2.3</td></tr><tr><td>30D<a name=\"30D\"> </a></td><td>30 day report</td><td/><td>added v2.3</td></tr><tr><td>3D<a name=\"3D\"> </a></td><td>3 day report</td><td/><td>added v2.3</td></tr><tr><td>7D<a name=\"7D\"> </a></td><td>7 day report</td><td/><td>added v2.3</td></tr><tr><td>AD<a name=\"AD\"> </a></td><td>Additional information</td><td/><td>added v2.3</td></tr><tr><td>CO<a name=\"CO\"> </a></td><td>Correction</td><td/><td>added v2.3</td></tr><tr><td>DE<a name=\"DE\"> </a></td><td>Device evaluation</td><td/><td>added v2.3</td></tr><tr><td>PD<a name=\"PD\"> </a></td><td>Periodic</td><td/><td>added v2.3</td></tr><tr><td>RQ<a name=\"RQ\"> </a></td><td>Requested information</td><td/><td>added v2.3</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0234",
+    "version": "2.9",
+    "name": "v2.0234",
+    "title": "v2 Report Timing",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0234 ( Report Timing)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0234"
+            }
+        ]
+    }
+}

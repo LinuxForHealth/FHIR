@@ -1,0 +1,689 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0259",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Modality</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AS<a name=\"AS\"> </a></td><td>Angioscopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>BS<a name=\"BS\"> </a></td><td>Biomagnetic imaging</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>CD<a name=\"CD\"> </a></td><td>Color flow Doppler</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>CP<a name=\"CP\"> </a></td><td>Colposcopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>CR<a name=\"CR\"> </a></td><td>Computed radiography</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>CS<a name=\"CS\"> </a></td><td>Cystoscopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>CT<a name=\"CT\"> </a></td><td>Computed tomography</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>DD<a name=\"DD\"> </a></td><td>Duplex Doppler</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>DG<a name=\"DG\"> </a></td><td>Diapanography</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>DM<a name=\"DM\"> </a></td><td>Digital microscopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>EC<a name=\"EC\"> </a></td><td>Echocardiography</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>ES<a name=\"ES\"> </a></td><td>Endoscopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>FA<a name=\"FA\"> </a></td><td>Fluorescein angiography</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>FS<a name=\"FS\"> </a></td><td>Fundoscopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>LP<a name=\"LP\"> </a></td><td>Laparoscopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>LS<a name=\"LS\"> </a></td><td>Laser surface scan</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>MA<a name=\"MA\"> </a></td><td>Magnetic resonance angiography</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>MS<a name=\"MS\"> </a></td><td>Magnetic resonance spectroscopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>NM<a name=\"NM\"> </a></td><td>Nuclear Medicine (radioisotope study)</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>OT<a name=\"OT\"> </a></td><td>Other</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>PT<a name=\"PT\"> </a></td><td>Positron emission tomography (PET)</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>RF<a name=\"RF\"> </a></td><td>Radio fluoroscopy</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>ST<a name=\"ST\"> </a></td><td>Single photon emission computed tomography (SPECT)</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>TG<a name=\"TG\"> </a></td><td>Thermography</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>US<a name=\"US\"> </a></td><td>Ultrasound</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr><tr><td>XA<a name=\"XA\"> </a></td><td>X-ray Angiography</td><td>deprecated</td><td>added v2.3, removed after v2.8.2</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0259",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.154"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0259",
+    "title": "v2 Modality",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0259 ( Modality)",
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "A property that indicates the status of the concept. One of active, experimental, deprecated, retired",
+            "type": "code"
+        },
+        {
+            "code": "deprecationDate",
+            "uri": "http://hl7.org/fhir/concept-properties#deprecationDate",
+            "description": "The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but their use is discouraged",
+            "type": "dateTime"
+        }
+    ],
+    "concept": [
+        {
+            "code": "AS",
+            "display": "Angioscopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Angioscopie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "BS",
+            "display": "Biomagnetic imaging",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Biomagnetische beeldvorming"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "CD",
+            "display": "Color flow Doppler",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Kleurverloop Doppler"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "CP",
+            "display": "Colposcopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Colposcopie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "CR",
+            "display": "Computed radiography",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Computed Radiography"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "CS",
+            "display": "Cystoscopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Cystoscopie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "CT",
+            "display": "Computed tomography",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Computed Tomography"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "DD",
+            "display": "Duplex Doppler",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Duplex Doppler"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "DG",
+            "display": "Diapanography",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Mammografie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "DM",
+            "display": "Digital microscopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Digitale microscopie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "EC",
+            "display": "Echocardiography",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Echocardiografie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "ES",
+            "display": "Endoscopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Endoscopie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "FA",
+            "display": "Fluorescein angiography",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Fluoresceïne angiografie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "FS",
+            "display": "Fundoscopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Fundoscopie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "LP",
+            "display": "Laparoscopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Laparoscopie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "LS",
+            "display": "Laser surface scan",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Laser oppervlakte scan"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "MA",
+            "display": "Magnetic resonance angiography",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Magnetische resonantie angiografie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "MS",
+            "display": "Magnetic resonance spectroscopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Magnetische resonantie spectrografie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "NM",
+            "display": "Nuclear Medicine (radioisotope study)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Nucleaire geneeskunde (radio-isotopisch onderzoek)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "OT",
+            "display": "Other",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Anders"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "PT",
+            "display": "Positron emission tomography (PET)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Positron Emissie Tomografie (PET)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "RF",
+            "display": "Radio fluoroscopy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Radiofluoroscopie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "ST",
+            "display": "Single photon emission computed tomography (SPECT)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Single Photon Emission Tomography Computed Tomography (SPECT)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "TG",
+            "display": "Thermography",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Thermografie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "US",
+            "display": "Ultrasound",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Ultrasound"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        },
+        {
+            "code": "XA",
+            "display": "X-ray Angiography",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Röntgen angiografie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2015-09"
+                }
+            ]
+        }
+    ]
+}

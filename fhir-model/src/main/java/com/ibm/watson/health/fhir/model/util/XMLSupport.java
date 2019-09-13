@@ -401,11 +401,4 @@ public final class XMLSupport {
             writer.writeStartElement(prefix, localName, namespaceURI);
         }
     }
-    
-    public static void main(String[] args) throws Exception {
-        long start = System.nanoTime();
-        XMLSupport.init();
-        double elapsed = (System.nanoTime() - start) / 1000.0;
-        System.out.println("Initialization time: " + elapsed + " microseconds");
-    }
 }

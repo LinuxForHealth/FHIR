@@ -217,7 +217,7 @@ public class ChunkWriter extends AbstractItemWriter {
                 }
             }
         }
-        if (combinedJsons.length() > 0 ) {
+        if (combinedJsons!= null && combinedJsons.length() > 0 ) {
             pushFhirJsons2Cos(combinedJsons);
         }
 
