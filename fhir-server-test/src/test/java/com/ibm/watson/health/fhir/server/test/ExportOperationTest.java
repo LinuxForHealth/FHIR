@@ -52,7 +52,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, enabled = ON)
     public void testBaseExport() throws FHIRGeneratorException, IOException {
         Response response =
-                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.now(), Arrays.asList("Patient"), null);
+            doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
         assertEquals(response.getStatus(), 202);
 
         String contentLocation = response.getHeaderString("Content-Location");
