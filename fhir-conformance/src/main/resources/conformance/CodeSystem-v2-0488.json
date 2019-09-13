@@ -1,0 +1,219 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0488",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Specimen Collection Method</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>ANP<a name=\"ANP\"> </a></td><td>Plates, Anaerobic</td><td/><td>added v2.5</td></tr><tr><td>BAP<a name=\"BAP\"> </a></td><td>Plates, Blood Agar</td><td/><td>added v2.5</td></tr><tr><td>BCAE<a name=\"BCAE\"> </a></td><td>Blood Culture, Aerobic Bottle</td><td/><td>added v2.5</td></tr><tr><td>BCAN<a name=\"BCAN\"> </a></td><td>Blood Culture, Anaerobic Bottle</td><td/><td>added v2.5</td></tr><tr><td>BCPD<a name=\"BCPD\"> </a></td><td>Blood Culture, Pediatric Bottle</td><td/><td>added v2.5</td></tr><tr><td>BIO<a name=\"BIO\"> </a></td><td>Biopsy</td><td/><td>added v2.5</td></tr><tr><td>CAP<a name=\"CAP\"> </a></td><td>Capillary Specimen</td><td/><td>added v2.5</td></tr><tr><td>CATH<a name=\"CATH\"> </a></td><td>Catheterized</td><td/><td>added v2.5</td></tr><tr><td>CVP<a name=\"CVP\"> </a></td><td>Line, CVP</td><td/><td>added v2.5</td></tr><tr><td>EPLA<a name=\"EPLA\"> </a></td><td>Environmental, Plate</td><td/><td>added v2.5</td></tr><tr><td>ESWA<a name=\"ESWA\"> </a></td><td>Environmental, Swab</td><td/><td>added v2.5</td></tr><tr><td>FNA<a name=\"FNA\"> </a></td><td>Aspiration, Fine Needle</td><td/><td>added v2.5</td></tr><tr><td>KOFFP<a name=\"KOFFP\"> </a></td><td>Plate, Cough</td><td/><td>added v2.5</td></tr><tr><td>LNA<a name=\"LNA\"> </a></td><td>Line, Arterial</td><td/><td>added v2.5</td></tr><tr><td>LNV<a name=\"LNV\"> </a></td><td>Line, Venous</td><td/><td>added v2.5</td></tr><tr><td>MARTL<a name=\"MARTL\"> </a></td><td>Martin-Lewis Agar</td><td/><td>added v2.5</td></tr><tr><td>ML11<a name=\"ML11\"> </a></td><td>Mod. Martin-Lewis Agar</td><td/><td>added v2.5</td></tr><tr><td>MLP<a name=\"MLP\"> </a></td><td>Plate, Martin-Lewis</td><td/><td>added v2.5</td></tr><tr><td>NYP<a name=\"NYP\"> </a></td><td>Plate, New York City</td><td/><td>added v2.5</td></tr><tr><td>PACE<a name=\"PACE\"> </a></td><td>Pace, Gen-Probe</td><td/><td>added v2.5</td></tr><tr><td>PIN<a name=\"PIN\"> </a></td><td>Pinworm Prep</td><td/><td>added v2.5</td></tr><tr><td>PNA<a name=\"PNA\"> </a></td><td>Arterial puncture</td><td/><td>added v2.5</td></tr><tr><td>PRIME<a name=\"PRIME\"> </a></td><td>Pump Prime</td><td/><td>added v2.5</td></tr><tr><td>PUMP<a name=\"PUMP\"> </a></td><td>Pump Specimen</td><td/><td>added v2.5</td></tr><tr><td>QC5<a name=\"QC5\"> </a></td><td>Quality Control For Micro</td><td/><td>added v2.5</td></tr><tr><td>SCLP<a name=\"SCLP\"> </a></td><td>Scalp, Fetal Vein</td><td/><td>added v2.5</td></tr><tr><td>SCRAPS<a name=\"SCRAPS\"> </a></td><td>Scrapings</td><td/><td>added v2.5</td></tr><tr><td>SHA<a name=\"SHA\"> </a></td><td>Shaving</td><td/><td>added v2.5</td></tr><tr><td>SWA<a name=\"SWA\"> </a></td><td>Swab</td><td/><td>added v2.5</td></tr><tr><td>SWD<a name=\"SWD\"> </a></td><td>Swab, Dacron tipped</td><td/><td>added v2.5</td></tr><tr><td>TMAN<a name=\"TMAN\"> </a></td><td>Transport Media, Anaerobic</td><td/><td>added v2.5</td></tr><tr><td>TMCH<a name=\"TMCH\"> </a></td><td>Transport Media, Chalamydia</td><td/><td>added v2.5</td></tr><tr><td>TMM4<a name=\"TMM4\"> </a></td><td>Transport Media, M4</td><td/><td>added v2.5</td></tr><tr><td>TMMY<a name=\"TMMY\"> </a></td><td>Transport Media, Mycoplasma</td><td/><td>added v2.5</td></tr><tr><td>TMOT<a name=\"TMOT\"> </a></td><td>Transport Media,</td><td/><td>added v2.5</td></tr><tr><td>TMP<a name=\"TMP\"> </a></td><td>Plate, Thayer-Martin</td><td/><td>added v2.5</td></tr><tr><td>TMPV<a name=\"TMPV\"> </a></td><td>Transport Media, PVA</td><td/><td>added v2.5</td></tr><tr><td>TMSC<a name=\"TMSC\"> </a></td><td>Transport Media, Stool Culture</td><td/><td>added v2.5</td></tr><tr><td>TMUP<a name=\"TMUP\"> </a></td><td>Transport Media, Ureaplasma</td><td/><td>added v2.5</td></tr><tr><td>TMVI<a name=\"TMVI\"> </a></td><td>Transport Media, Viral</td><td/><td>added v2.5</td></tr><tr><td>VENIP<a name=\"VENIP\"> </a></td><td>Venipuncture</td><td/><td>added v2.5</td></tr><tr><td>WOOD<a name=\"WOOD\"> </a></td><td>Swab, Wooden Shaft</td><td/><td>added v2.5</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0488",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.312"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0488",
+    "title": "v2 Specimen Collection Method",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0488 ( Specimen Collection Method)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "ANP",
+            "display": "Plates, Anaerobic"
+        },
+        {
+            "code": "BAP",
+            "display": "Plates, Blood Agar"
+        },
+        {
+            "code": "BCAE",
+            "display": "Blood Culture, Aerobic Bottle"
+        },
+        {
+            "code": "BCAN",
+            "display": "Blood Culture, Anaerobic Bottle"
+        },
+        {
+            "code": "BCPD",
+            "display": "Blood Culture, Pediatric Bottle"
+        },
+        {
+            "code": "BIO",
+            "display": "Biopsy"
+        },
+        {
+            "code": "CAP",
+            "display": "Capillary Specimen"
+        },
+        {
+            "code": "CATH",
+            "display": "Catheterized"
+        },
+        {
+            "code": "CVP",
+            "display": "Line, CVP"
+        },
+        {
+            "code": "EPLA",
+            "display": "Environmental, Plate"
+        },
+        {
+            "code": "ESWA",
+            "display": "Environmental, Swab"
+        },
+        {
+            "code": "FNA",
+            "display": "Aspiration, Fine Needle"
+        },
+        {
+            "code": "KOFFP",
+            "display": "Plate, Cough"
+        },
+        {
+            "code": "LNA",
+            "display": "Line, Arterial"
+        },
+        {
+            "code": "LNV",
+            "display": "Line, Venous"
+        },
+        {
+            "code": "MARTL",
+            "display": "Martin-Lewis Agar"
+        },
+        {
+            "code": "ML11",
+            "display": "Mod. Martin-Lewis Agar"
+        },
+        {
+            "code": "MLP",
+            "display": "Plate, Martin-Lewis"
+        },
+        {
+            "code": "NYP",
+            "display": "Plate, New York City"
+        },
+        {
+            "code": "PACE",
+            "display": "Pace, Gen-Probe"
+        },
+        {
+            "code": "PIN",
+            "display": "Pinworm Prep"
+        },
+        {
+            "code": "PNA",
+            "display": "Arterial puncture"
+        },
+        {
+            "code": "PRIME",
+            "display": "Pump Prime"
+        },
+        {
+            "code": "PUMP",
+            "display": "Pump Specimen"
+        },
+        {
+            "code": "QC5",
+            "display": "Quality Control For Micro"
+        },
+        {
+            "code": "SCLP",
+            "display": "Scalp, Fetal Vein"
+        },
+        {
+            "code": "SCRAPS",
+            "display": "Scrapings"
+        },
+        {
+            "code": "SHA",
+            "display": "Shaving"
+        },
+        {
+            "code": "SWA",
+            "display": "Swab"
+        },
+        {
+            "code": "SWD",
+            "display": "Swab, Dacron tipped"
+        },
+        {
+            "code": "TMAN",
+            "display": "Transport Media, Anaerobic"
+        },
+        {
+            "code": "TMCH",
+            "display": "Transport Media, Chalamydia"
+        },
+        {
+            "code": "TMM4",
+            "display": "Transport Media, M4"
+        },
+        {
+            "code": "TMMY",
+            "display": "Transport Media, Mycoplasma"
+        },
+        {
+            "code": "TMOT",
+            "display": "Transport Media,"
+        },
+        {
+            "code": "TMP",
+            "display": "Plate, Thayer-Martin"
+        },
+        {
+            "code": "TMPV",
+            "display": "Transport Media, PVA"
+        },
+        {
+            "code": "TMSC",
+            "display": "Transport Media, Stool Culture"
+        },
+        {
+            "code": "TMUP",
+            "display": "Transport Media, Ureaplasma"
+        },
+        {
+            "code": "TMVI",
+            "display": "Transport Media, Viral"
+        },
+        {
+            "code": "VENIP",
+            "display": "Venipuncture"
+        },
+        {
+            "code": "WOOD",
+            "display": "Swab, Wooden Shaft"
+        }
+    ]
+}

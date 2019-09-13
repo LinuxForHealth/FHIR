@@ -14,11 +14,11 @@
     <packaging>war</packaging>
 
     <build>
-        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
+                    <warName>fhir-openapi</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>

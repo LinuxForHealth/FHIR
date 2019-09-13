@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0528",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Event Related Period</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AC<a name=\"AC\"> </a></td><td>before meal (from lat. ante cibus)</td><td/><td>added v2.5</td></tr><tr><td>ACD<a name=\"ACD\"> </a></td><td>before lunch (from lat. ante cibus diurnus)</td><td/><td>added v2.5</td></tr><tr><td>ACM<a name=\"ACM\"> </a></td><td>before breakfast (from lat. ante cibus matutinus)</td><td/><td>added v2.5</td></tr><tr><td>ACV<a name=\"ACV\"> </a></td><td>before dinner (from lat. ante cibus vespertinus)</td><td/><td>added v2.5</td></tr><tr><td>HS<a name=\"HS\"> </a></td><td>the hour of sleep (e.g., H18-22)</td><td/><td>added v2.5</td></tr><tr><td>IC<a name=\"IC\"> </a></td><td>between meals (from lat. inter cibus)</td><td/><td>added v2.5</td></tr><tr><td>ICD<a name=\"ICD\"> </a></td><td>between lunch and dinner</td><td/><td>added v2.5</td></tr><tr><td>ICM<a name=\"ICM\"> </a></td><td>between breakfast and lunch</td><td/><td>added v2.5</td></tr><tr><td>ICV<a name=\"ICV\"> </a></td><td>between dinner and the hour of sleep</td><td/><td>added v2.5</td></tr><tr><td>PC<a name=\"PC\"> </a></td><td>after meal (from lat. post cibus)</td><td/><td>added v2.5</td></tr><tr><td>PCD<a name=\"PCD\"> </a></td><td>after lunch (from lat. post cibus diurnus)</td><td/><td>added v2.5</td></tr><tr><td>PCM<a name=\"PCM\"> </a></td><td>after breakfast (from lat. post cibus matutinus)</td><td/><td>added v2.5</td></tr><tr><td>PCV<a name=\"PCV\"> </a></td><td>after dinner (from lat. post cibus vespertinus)</td><td/><td>added v2.5</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0528",
+    "version": "2.9",
+    "name": "v2.0528",
+    "title": "v2 Event related period",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0528 ( Event related period)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0528"
+            }
+        ]
+    }
+}

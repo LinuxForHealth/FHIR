@@ -1,0 +1,125 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0495",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Body Site Modifier</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>ANT<a name=\"ANT\"> </a></td><td>Anterior</td><td/><td>added v2.5</td></tr><tr><td>BIL<a name=\"BIL\"> </a></td><td>Bilateral</td><td/><td>added v2.5</td></tr><tr><td>DIS<a name=\"DIS\"> </a></td><td>Distal</td><td/><td>added v2.5</td></tr><tr><td>EXT<a name=\"EXT\"> </a></td><td>External</td><td/><td>added v2.5</td></tr><tr><td>L<a name=\"L\"> </a></td><td>Left</td><td/><td>added v2.5</td></tr><tr><td>LAT<a name=\"LAT\"> </a></td><td>Lateral</td><td/><td>added v2.5</td></tr><tr><td>LLQ<a name=\"LLQ\"> </a></td><td>Quadrant, Left Lower</td><td/><td>added v2.5</td></tr><tr><td>LOW<a name=\"LOW\"> </a></td><td>Lower</td><td/><td>added v2.5</td></tr><tr><td>LUQ<a name=\"LUQ\"> </a></td><td>Quadrant, Left Upper</td><td/><td>added v2.5</td></tr><tr><td>MED<a name=\"MED\"> </a></td><td>Medial</td><td/><td>added v2.5</td></tr><tr><td>POS<a name=\"POS\"> </a></td><td>Posterior</td><td/><td>added v2.5</td></tr><tr><td>PRO<a name=\"PRO\"> </a></td><td>Proximal</td><td/><td>added v2.5</td></tr><tr><td>R<a name=\"R\"> </a></td><td>Right</td><td/><td>added v2.5</td></tr><tr><td>RLQ<a name=\"RLQ\"> </a></td><td>Quadrant, Right Lower</td><td/><td>added v2.5</td></tr><tr><td>RUQ<a name=\"RUQ\"> </a></td><td>Quadrant, Right Upper</td><td/><td>added v2.5</td></tr><tr><td>UPP<a name=\"UPP\"> </a></td><td>Upper</td><td/><td>added v2.5</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0495",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.319"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0495",
+    "title": "v2 Body Site Modifier",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0495 ( Body Site Modifier)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "ANT",
+            "display": "Anterior"
+        },
+        {
+            "code": "BIL",
+            "display": "Bilateral"
+        },
+        {
+            "code": "DIS",
+            "display": "Distal"
+        },
+        {
+            "code": "EXT",
+            "display": "External"
+        },
+        {
+            "code": "L",
+            "display": "Left",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "links"
+                }
+            ]
+        },
+        {
+            "code": "LAT",
+            "display": "Lateral"
+        },
+        {
+            "code": "LLQ",
+            "display": "Quadrant, Left Lower"
+        },
+        {
+            "code": "LOW",
+            "display": "Lower"
+        },
+        {
+            "code": "LUQ",
+            "display": "Quadrant, Left Upper"
+        },
+        {
+            "code": "MED",
+            "display": "Medial"
+        },
+        {
+            "code": "POS",
+            "display": "Posterior"
+        },
+        {
+            "code": "PRO",
+            "display": "Proximal"
+        },
+        {
+            "code": "R",
+            "display": "Right"
+        },
+        {
+            "code": "RLQ",
+            "display": "Quadrant, Right Lower"
+        },
+        {
+            "code": "RUQ",
+            "display": "Quadrant, Right Upper"
+        },
+        {
+            "code": "UPP",
+            "display": "Upper"
+        }
+    ]
+}

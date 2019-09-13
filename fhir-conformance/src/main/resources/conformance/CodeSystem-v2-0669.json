@@ -1,0 +1,91 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0669",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Load Status</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>LCC<a name=\"LCC\"> </a></td><td>Load is Complete</td><td>The load is complete</td><td>added v2.6</td></tr><tr><td>LCN<a name=\"LCN\"> </a></td><td>Load Canceled</td><td>The load is canceled</td><td>added v2.6</td></tr><tr><td>LCP<a name=\"LCP\"> </a></td><td>Load In Process</td><td>The load is running</td><td>added v2.6</td></tr><tr><td>LLD<a name=\"LLD\"> </a></td><td>Building a Load</td><td>A load is being built</td><td>added v2.6</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0669",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.385"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0669",
+    "title": "v2 Load Status",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0669 ( Load Status)",
+    "content": "complete",
+    "concept": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "The load is complete"
+                }
+            ],
+            "code": "LCC",
+            "display": "Load is Complete"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "The load is canceled"
+                }
+            ],
+            "code": "LCN",
+            "display": "Load Canceled"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "The load is running"
+                }
+            ],
+            "code": "LCP",
+            "display": "Load In Process"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "A load is being built"
+                }
+            ],
+            "code": "LLD",
+            "display": "Building a Load"
+        }
+    ]
+}

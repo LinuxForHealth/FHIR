@@ -41,9 +41,9 @@ import com.ibm.watson.health.fhir.core.FHIRMediaType;
 public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private static final Logger log = Logger.getLogger(FHIRHttpServletRequestWrapper.class.getName());
 
-    public final static String UTF8 = "utf-8";
-    public final static String UTF16 = "utf-16";
-    public final static String DEFAULT_ACCEPT_HEADER_VALUE = FHIRMediaType.APPLICATION_FHIR_JSON;
+    public static final String UTF8 = "utf-8";
+    public static final String UTF16 = "utf-16";
+    public static final String DEFAULT_ACCEPT_HEADER_VALUE = FHIRMediaType.APPLICATION_FHIR_JSON;
     public static final String HEADER_X_METHOD_OVERRIDE = "X-Method-Override";
 
     // The real HttpServletRequest instance that we'll delegate to.
@@ -104,9 +104,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         _formatShortcuts = new HashMap<>();
         _formatShortcuts.put("xml", FHIRMediaType.APPLICATION_FHIR_XML);
         _formatShortcuts.put("application/xml", FHIRMediaType.APPLICATION_FHIR_XML);
+        _formatShortcuts.put("application/fhir+xml", FHIRMediaType.APPLICATION_FHIR_XML);
         _formatShortcuts.put("text/xml", FHIRMediaType.APPLICATION_FHIR_XML);
         _formatShortcuts.put("json", FHIRMediaType.APPLICATION_FHIR_JSON);
         _formatShortcuts.put("application/json", FHIRMediaType.APPLICATION_FHIR_JSON);
+        _formatShortcuts.put("application/fhir+json", FHIRMediaType.APPLICATION_FHIR_JSON);
     }
 
     /**
@@ -149,13 +151,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         headerNameMappings.put("accept", "_format");
         headerNameMappings.put("x-method-override", "x-method-override");
         headerNameMappings.put("x-http-method-override", "x-http-method-override");
-        headerNameMappings.put("x-whc-lsf-resourcename", "x-whc-lsf-resourcename");
-        headerNameMappings.put("x-whc-lsf-patientid", "x-whc-lsf-patientid");
-        headerNameMappings.put("x-whc-lsf-studyid", "x-whc-lsf-studyid");
-        headerNameMappings.put("x-whc-lsf-siteid", "x-whc-lsf-siteid");
-        headerNameMappings.put("x-whc-lsf-appname", "x-whc-lsf-appname");
-        headerNameMappings.put("x-whc-lsf-appversion", "x-whc-lsf-appversion");
-        headerNameMappings.put("x-whc-lsf-rolename", "x-whc-lsf-rolename");
+
     }
 
     /**
@@ -305,7 +301,22 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     private String possiblyMapQueryParameterValue(String headerName, String value) {
         if (headerName.equals("accept")) {
+            
             String mappedValue = _formatShortcuts.get(value);
+            
+            // We've entered a special situation where the value may have been remapped via the next step
+            // in the jaxrs framework 
+            if (mappedValue == null) {
+                
+                String delegateQueryString = delegate.getQueryString();
+                if(delegateQueryString.contains("_format=application/fhir+json")){
+                    value = FHIRMediaType.APPLICATION_FHIR_JSON;
+                }
+                else if(delegateQueryString.contains("_format=application/fhir+xml")) {
+                    value = FHIRMediaType.APPLICATION_FHIR_XML;
+                }
+            }
+            
             if (mappedValue != null) {
                 value = mappedValue;
             }

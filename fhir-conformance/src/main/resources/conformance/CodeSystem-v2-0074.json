@@ -1,0 +1,1071 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0074",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Diagnostic Service Section ID</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>AU<a name=\"AU\"> </a></td><td>Audiology</td><td/><td>added v2.2</td></tr><tr><td>BG<a name=\"BG\"> </a></td><td>Blood Gases</td><td/><td>from v2.1</td></tr><tr><td>BLB<a name=\"BLB\"> </a></td><td>Blood Bank</td><td/><td>added v2.2</td></tr><tr><td>CG<a name=\"CG\"> </a></td><td>Cytogenetics</td><td/><td>added v2.8.2</td></tr><tr><td>CH<a name=\"CH\"> </a></td><td>Chemistry</td><td/><td>from v2.1</td></tr><tr><td>CP<a name=\"CP\"> </a></td><td>Cytopathology</td><td/><td>from v2.1</td></tr><tr><td>CT<a name=\"CT\"> </a></td><td>CAT Scan</td><td/><td>from v2.1</td></tr><tr><td>CTH<a name=\"CTH\"> </a></td><td>Cardiac Catheterization</td><td/><td>added v2.2</td></tr><tr><td>CUS<a name=\"CUS\"> </a></td><td>Cardiac Ultrasound</td><td/><td>from v2.1</td></tr><tr><td>EC<a name=\"EC\"> </a></td><td>Electrocardiac (e.g., EKG,  EEC, Holter)</td><td/><td>from v2.1</td></tr><tr><td>EN<a name=\"EN\"> </a></td><td>Electroneuro (EEG, EMG,EP,PSG)</td><td/><td>added v2.2</td></tr><tr><td>GE<a name=\"GE\"> </a></td><td>Genetics</td><td/><td>added v2.8.2</td></tr><tr><td>HM<a name=\"HM\"> </a></td><td>Hematology</td><td/><td>from v2.1</td></tr><tr><td>ICU<a name=\"ICU\"> </a></td><td>Bedside ICU Monitoring</td><td/><td>added v2.3</td></tr><tr><td>IMG<a name=\"IMG\"> </a></td><td>Diagnostic Imaging</td><td>deprecated</td><td>added v2.4, removed after v2.4</td></tr><tr><td>IMM<a name=\"IMM\"> </a></td><td>Immunology</td><td/><td>from v2.1</td></tr><tr><td>LAB<a name=\"LAB\"> </a></td><td>Laboratory</td><td/><td>added v2.3</td></tr><tr><td>MB<a name=\"MB\"> </a></td><td>Microbiology</td><td/><td>from v2.1</td></tr><tr><td>MCB<a name=\"MCB\"> </a></td><td>Mycobacteriology</td><td/><td>from v2.1</td></tr><tr><td>MYC<a name=\"MYC\"> </a></td><td>Mycology</td><td/><td>from v2.1</td></tr><tr><td>NMR<a name=\"NMR\"> </a></td><td>Nuclear Magnetic Resonance</td><td/><td>from v2.1</td></tr><tr><td>NMS<a name=\"NMS\"> </a></td><td>Nuclear Medicine Scan</td><td/><td>from v2.1</td></tr><tr><td>NRS<a name=\"NRS\"> </a></td><td>Nursing Service Measures</td><td/><td>from v2.1</td></tr><tr><td>OSL<a name=\"OSL\"> </a></td><td>Outside Lab</td><td/><td>added v2.2</td></tr><tr><td>OT<a name=\"OT\"> </a></td><td>Occupational Therapy</td><td/><td>from v2.1</td></tr><tr><td>OTH<a name=\"OTH\"> </a></td><td>Other</td><td/><td>from v2.1</td></tr><tr><td>OUS<a name=\"OUS\"> </a></td><td>OB Ultrasound</td><td/><td>from v2.1</td></tr><tr><td>PAR<a name=\"PAR\"> </a></td><td>Parasitology</td><td>deprecated</td><td>added v2.4, removed after v2.4</td></tr><tr><td>PAT<a name=\"PAT\"> </a></td><td>Pathology (gross &amp; histopath, not surgical)</td><td>deprecated</td><td>added v2.4, removed after v2.4</td></tr><tr><td>PF<a name=\"PF\"> </a></td><td>Pulmonary Function</td><td/><td>added v2.2</td></tr><tr><td>PHR<a name=\"PHR\"> </a></td><td>Pharmacy</td><td/><td>from v2.1</td></tr><tr><td>PHY<a name=\"PHY\"> </a></td><td>Physician (Hx. Dx, admission note, etc.)</td><td/><td>added v2.2</td></tr><tr><td>PT<a name=\"PT\"> </a></td><td>Physical Therapy</td><td/><td>from v2.1</td></tr><tr><td>RAD<a name=\"RAD\"> </a></td><td>Radiology</td><td/><td>added v2.3</td></tr><tr><td>RC<a name=\"RC\"> </a></td><td>Respiratory Care (therapy)</td><td/><td>from v2.1</td></tr><tr><td>RT<a name=\"RT\"> </a></td><td>Radiation Therapy</td><td/><td>from v2.1</td></tr><tr><td>RUS<a name=\"RUS\"> </a></td><td>Radiology Ultrasound</td><td/><td>from v2.1</td></tr><tr><td>RX<a name=\"RX\"> </a></td><td>Radiograph</td><td/><td>added v2.2</td></tr><tr><td>SP<a name=\"SP\"> </a></td><td>Surgical Pathology</td><td/><td>from v2.1</td></tr><tr><td>SR<a name=\"SR\"> </a></td><td>Serology</td><td/><td>from v2.1</td></tr><tr><td>TX<a name=\"TX\"> </a></td><td>Toxicology</td><td/><td>from v2.1</td></tr><tr><td>URN<a name=\"URN\"> </a></td><td>Urinalysis</td><td>deprecated</td><td>added v2.4, removed after v2.4</td></tr><tr><td>VR<a name=\"VR\"> </a></td><td>Virology</td><td/><td>added v2.2</td></tr><tr><td>VUS<a name=\"VUS\"> </a></td><td>Vascular Ultrasound</td><td/><td>from v2.1</td></tr><tr><td>XRC<a name=\"XRC\"> </a></td><td>Cineradiograph</td><td/><td>from v2.1</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0074",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.29"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0074",
+    "title": "v2 DIAGNOSTIC SERVICE SECTION ID",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0074 ( DIAGNOSTIC SERVICE SECTION ID)",
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "A property that indicates the status of the concept. One of active, experimental, deprecated, retired",
+            "type": "code"
+        },
+        {
+            "code": "deprecationDate",
+            "uri": "http://hl7.org/fhir/concept-properties#deprecationDate",
+            "description": "The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but their use is discouraged",
+            "type": "dateTime"
+        }
+    ],
+    "concept": [
+        {
+            "code": "AU",
+            "display": "Audiology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Audiologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Audiologie"
+                }
+            ]
+        },
+        {
+            "code": "BG",
+            "display": "Blood Gases",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Blutgase"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Bloedgassen"
+                }
+            ]
+        },
+        {
+            "code": "BLB",
+            "display": "Blood Bank",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Blutbank"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Bloedbank"
+                }
+            ]
+        },
+        {
+            "code": "CG",
+            "display": "Cytogenetics",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Cytogenetica"
+                }
+            ]
+        },
+        {
+            "code": "CH",
+            "display": "Chemistry",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Klinische Chemie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Chemie"
+                }
+            ]
+        },
+        {
+            "code": "CP",
+            "display": "Cytopathology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Zellpathologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Cytopathologie"
+                }
+            ]
+        },
+        {
+            "code": "CT",
+            "display": "CAT Scan",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Computertomographie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "CAT-scan"
+                }
+            ]
+        },
+        {
+            "code": "CTH",
+            "display": "Cardiac Catheterization",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Herzkatheter"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Hartcatetherisatie"
+                }
+            ]
+        },
+        {
+            "code": "CUS",
+            "display": "Cardiac Ultrasound",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Kardiologische Ultraschalluntersuchung"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Hart ultrasound"
+                }
+            ]
+        },
+        {
+            "code": "EC",
+            "display": "Electrocardiac (e.g., EKG,  EEC, Holter)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Elektrokardiographie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Electrocardiac (bijv. EKG,  EEC, Holter)"
+                }
+            ]
+        },
+        {
+            "code": "EN",
+            "display": "Electroneuro (EEG, EMG,EP,PSG)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Elektroneurographie, Elektroencephalographie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Electroneuro (EEG, EMG,EP,PSG)"
+                }
+            ]
+        },
+        {
+            "code": "GE",
+            "display": "Genetics",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Genetik"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Genetica"
+                }
+            ]
+        },
+        {
+            "code": "HM",
+            "display": "Hematology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Hämatologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Hematologie"
+                }
+            ]
+        },
+        {
+            "code": "ICU",
+            "display": "Bedside ICU Monitoring",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "IC monitoring naast het bed"
+                }
+            ]
+        },
+        {
+            "code": "IMG",
+            "display": "Diagnostic Imaging",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Diagnostisch beeldvorming"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2000-11"
+                }
+            ]
+        },
+        {
+            "code": "IMM",
+            "display": "Immunology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Immunologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Immunologie"
+                }
+            ]
+        },
+        {
+            "code": "LAB",
+            "display": "Laboratory",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Labor"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Laboratorium"
+                }
+            ]
+        },
+        {
+            "code": "MB",
+            "display": "Microbiology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Mikrobiologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Microbiologie"
+                }
+            ]
+        },
+        {
+            "code": "MCB",
+            "display": "Mycobacteriology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Mykobakteriologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Mycobacteriologie"
+                }
+            ]
+        },
+        {
+            "code": "MYC",
+            "display": "Mycology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Mykologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Mycology"
+                }
+            ]
+        },
+        {
+            "code": "NMR",
+            "display": "Nuclear Magnetic Resonance",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Kernspintomographie (MR)"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Nucleaire magnetisch resonantie"
+                }
+            ]
+        },
+        {
+            "code": "NMS",
+            "display": "Nuclear Medicine Scan",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Szintigramm"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Nucleaire geneeskunde scan"
+                }
+            ]
+        },
+        {
+            "code": "NRS",
+            "display": "Nursing Service Measures",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Pflegemaßnahme"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Verpleegkundige service maatregelen"
+                }
+            ]
+        },
+        {
+            "code": "OSL",
+            "display": "Outside Lab",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Externes Labor"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Outside Lab"
+                }
+            ]
+        },
+        {
+            "code": "OT",
+            "display": "Occupational Therapy",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Beschäftigungstherapie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Ergotherapie"
+                }
+            ]
+        },
+        {
+            "code": "OTH",
+            "display": "Other",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Andere"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Anders"
+                }
+            ]
+        },
+        {
+            "code": "OUS",
+            "display": "OB Ultrasound",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Geburtshilfiche Ultraschalluntersuchung"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "OB Ultrasound"
+                }
+            ]
+        },
+        {
+            "code": "PAR",
+            "display": "Parasitology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Parasitologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Parasitologie"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2000-11"
+                }
+            ]
+        },
+        {
+            "code": "PAT",
+            "display": "Pathology (gross & histopath, not surgical)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Pathologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Pathologie (gross & histopath, niet chirurgisch)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2000-11"
+                }
+            ]
+        },
+        {
+            "code": "PF",
+            "display": "Pulmonary Function",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Lungenfunktion"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Pulmonaire functie"
+                }
+            ]
+        },
+        {
+            "code": "PHR",
+            "display": "Pharmacy",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Apotheke"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Medicatie"
+                }
+            ]
+        },
+        {
+            "code": "PHY",
+            "display": "Physician (Hx. Dx, admission note, etc.)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Arzt (Krankengeschichte, Diagnose, Aufnahmeuntersuchung)"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Arts (Hx. Dx, opnameverslag, etc.)"
+                }
+            ]
+        },
+        {
+            "code": "PT",
+            "display": "Physical Therapy",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "physiklische Therapie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Lichamelijke oefening"
+                }
+            ]
+        },
+        {
+            "code": "RAD",
+            "display": "Radiology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Radiologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Radiologie"
+                }
+            ]
+        },
+        {
+            "code": "RC",
+            "display": "Respiratory Care (therapy)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Atemtherapie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Respiratoire zorg (therapie)"
+                }
+            ]
+        },
+        {
+            "code": "RT",
+            "display": "Radiation Therapy",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Strahlentherapie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Stralingstherapie"
+                }
+            ]
+        },
+        {
+            "code": "RUS",
+            "display": "Radiology Ultrasound",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Radiologische Ultraschalluntersuchung"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Radiologie ultrasound"
+                }
+            ]
+        },
+        {
+            "code": "RX",
+            "display": "Radiograph",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Röntgenaufnahme"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Radiograph"
+                }
+            ]
+        },
+        {
+            "code": "SP",
+            "display": "Surgical Pathology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Operative Pathologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Chirurgische pathologie"
+                }
+            ]
+        },
+        {
+            "code": "SR",
+            "display": "Serology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Serologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Serologie"
+                }
+            ]
+        },
+        {
+            "code": "TX",
+            "display": "Toxicology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Toxikologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Toxicologie"
+                }
+            ]
+        },
+        {
+            "code": "URN",
+            "display": "Urinalysis",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Urinanalyse"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Urinalyse"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2000-11"
+                }
+            ]
+        },
+        {
+            "code": "VR",
+            "display": "Virology",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Virologie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Virologie"
+                }
+            ]
+        },
+        {
+            "code": "VUS",
+            "display": "Vascular Ultrasound",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Ultraschalluntersuchung der Gefäße"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Vasculaire Ultrasound"
+                }
+            ]
+        },
+        {
+            "code": "XRC",
+            "display": "Cineradiograph",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Röntgenkinematographie"
+                },
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Cineradiograph"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0007",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Admission Type</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>A<a name=\"A\"> </a></td><td>Accident</td><td/><td>from v2.1</td></tr><tr><td>C<a name=\"C\"> </a></td><td>Elective</td><td/><td>added v2.4</td></tr><tr><td>E<a name=\"E\"> </a></td><td>Emergency</td><td/><td>from v2.1</td></tr><tr><td>L<a name=\"L\"> </a></td><td>Labor and Delivery</td><td/><td>from v2.1</td></tr><tr><td>N<a name=\"N\"> </a></td><td>Newborn (Birth in healthcare facility)</td><td/><td>added v2.4</td></tr><tr><td>R<a name=\"R\"> </a></td><td>Routine</td><td/><td>from v2.1</td></tr><tr><td>U<a name=\"U\"> </a></td><td>Urgent</td><td/><td>added v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0007",
+    "version": "2.9",
+    "name": "v2.0007",
+    "title": "v2 ADMISSION TYPE",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0007 ( ADMISSION TYPE)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0007"
+            }
+        ]
+    }
+}

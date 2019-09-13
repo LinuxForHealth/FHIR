@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,11 +8,12 @@ package com.ibm.watson.health.fhir.swagger.generator;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
@@ -21,6 +22,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -31,23 +33,24 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
-import javax.xml.bind.annotation.XmlElement;
 
 import com.ibm.watson.health.fhir.core.FHIRMediaType;
+import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.resource.Bundle;
+import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
 import com.ibm.watson.health.fhir.model.resource.DomainResource;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.resource.SearchParameter;
 import com.ibm.watson.health.fhir.model.resource.StructureDefinition;
-import com.ibm.watson.health.fhir.model.resource.Bundle.Entry;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Date;
 import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.ElementDefinition;
-import com.ibm.watson.health.fhir.model.type.Quantity;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
+import com.ibm.watson.health.fhir.model.util.ModelSupport;
+import com.ibm.watson.health.fhir.model.visitor.AbstractVisitable;
 import com.ibm.watson.health.fhir.openapi.generator.FHIROpenApiGenerator;
 import com.ibm.watson.health.fhir.search.util.SearchUtil;
 
@@ -55,6 +58,8 @@ public class FHIRSwaggerGenerator {
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
     private static boolean includeDeleteOperation = false;
+    public static final String TYPEPACKAGENAME = "com.ibm.watson.health.fhir.model.type";
+    public static final String RESOURCEPACKAGENAME = "com.ibm.watson.health.fhir.model.resource";
 
     public static void main(String[] args) throws Exception {
         /*
@@ -70,8 +75,12 @@ public class FHIRSwaggerGenerator {
         } else {
             filter = createAcceptAllFilter();
         }
-        // filter =
-        // createFilter("Patient(create,read);Contract(create,read);Questionnaire(create,read),QuestionnaireResponse(create,read);RiskAssessment(read,search)");
+//      filter = createFilter("Patient(create,read,vread,history,search);"
+//          + "Contract(create,read,vread,history,search);"
+//          + "Questionnaire(create,read,vread,history,search);"
+//          + "QuestionnaireResponse(create,read,vread,history,search);"
+//          + "Claim(create,read,vread,history,search);"
+//          + "RiskAssessment(read,vread,history,search)");
         // filter =
         // createFilter("Patient(create,read,vread,update,delete,search,history)");
 
@@ -80,7 +89,7 @@ public class FHIRSwaggerGenerator {
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
-        info.add("description", "IBM Watson Health Cloud FHIR Server API");
+        info.add("description", "IBM Watson Health FHIR Server API");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
@@ -92,7 +101,7 @@ public class FHIRSwaggerGenerator {
 
         List<String> classNames = getClassNames();
         for (String className : classNames) {
-            Class<?> modelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + className);
+            Class<?> modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
             if (DomainResource.class.isAssignableFrom(modelClass) && filter.acceptResourceType(modelClass)) {
                 generatePaths(modelClass, paths, filter);
                 JsonObjectBuilder tag = factory.createObjectBuilder();
@@ -104,14 +113,14 @@ public class FHIRSwaggerGenerator {
         
         // generate definition for all the defined Types.
         for (String className : FHIROpenApiGenerator.getAllTypesList()) {
-            Class<?> modelClass = Class.forName(FHIROpenApiGenerator.TYPEPACKAGENAME + "." + className);
+            Class<?> modelClass = Class.forName(TYPEPACKAGENAME + "." + className);
             // System.out.println("Type:  " + className);
             generateDefinition(modelClass, definitions);
         }
         
         // generate definition for all inner classes inside the top level resources.
         for (String className : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
-            Class<?> modelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + className);
+            Class<?> modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
             // System.out.println("Resource:  " + className);
             generateDefinition(modelClass, definitions);
         }
@@ -173,10 +182,10 @@ public class FHIRSwaggerGenerator {
                     className = className.substring(0, 1).toUpperCase() + className.substring(1);
                     Class<?> modelClass = null;
                     try {
-                        modelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + className);
+                        modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
                     } catch (ClassNotFoundException e1) {
                         try {
-                            modelClass = Class.forName(FHIROpenApiGenerator.TYPEPACKAGENAME + "." + className);
+                            modelClass = Class.forName(TYPEPACKAGENAME + "." + className);
                         } catch (ClassNotFoundException e2) {
                             modelClass = null;
                             // System.out.println(" -- PopulateStructureDefinition failed: " + className);
@@ -277,6 +286,8 @@ public class FHIRSwaggerGenerator {
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName() + "/{id}/_history", pathObject);
         }
+        
+        // TODO: add patch
     }
 
     private static void generateCreatePathItem(Class<?> modelClass, JsonObjectBuilder path) {
@@ -509,8 +520,7 @@ public class FHIRSwaggerGenerator {
     @SuppressWarnings("unchecked")
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getSearchParameters(Resource.class));
-        searchParameters.addAll(SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
+                SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
         for (SearchParameter searchParameter : searchParameters) {
             JsonObjectBuilder parameter = factory.createObjectBuilder();
             String name = searchParameter.getName().getValue();
@@ -646,34 +656,25 @@ public class FHIRSwaggerGenerator {
             JsonArrayBuilder required = factory.createArrayBuilder();
 
             StructureDefinition structureDefinition = getStructureDefinition(modelClass);
-            
+
             if (structureDefinition == null) {
                 System.out.println("Failed generateDefinition for: " + modelClass.getName());
-               return;
-           }
+                return;
+            }
             
-            /*
-             * if (!BackboneElement.class.isAssignableFrom(modelClass)) { String description
-             * = structureDefinition.getDifferential().getElement().get(0).getDefinition().
-             * getValue(); definition.add("description", description); }
-             */
             for (Field field : modelClass.getDeclaredFields()) {
-                XmlElement xmlElement = field.getAnnotation(XmlElement.class);
-                if (xmlElement != null) {
-                    if (xmlElement.required()) {
-                        if (!"##default".equals(xmlElement.name())) {
-                            required.add(xmlElement.name());
-                        } else {
-                            required.add(field.getName());
-                        }
+                if (!Modifier.isStatic(field.getModifiers()) && !Modifier.isVolatile(field.getModifiers())) {
+                    if (!ModelSupport.isChoiceElement(modelClass, ModelSupport.getElementName(field)) && field.isAnnotationPresent(Required.class)) {
+                        required.add(ModelSupport.getElementName(field));
                     }
+                    generateProperties(structureDefinition, modelClass, field, properties);
                 }
-                generateProperty(structureDefinition, modelClass, field, properties);
             }
 
             Class<?> superClass = modelClass.getSuperclass();
             if (superClass != null
-                    && "com.ibm.watson.health.fhir.model.resource".equals(superClass.getPackage().getName())) {
+                    && superClass.getPackage().getName().startsWith("com.ibm.watson.health.fhir.model")
+                    && !superClass.equals(AbstractVisitable.class)) {
                 JsonArrayBuilder allOf = factory.createArrayBuilder();
 
                 JsonObjectBuilder ref = factory.createObjectBuilder();
@@ -699,8 +700,17 @@ public class FHIRSwaggerGenerator {
                 definition.add("required", requiredArray);
             }
 
-            definitions.add(modelClass.getSimpleName(), definition);
+            definitions.add(getSimpleNameWithEnclosingNames(modelClass), definition);
         }
+    }
+
+    private static String getSimpleNameWithEnclosingNames(Class<?> modelClass) {
+        StringBuilder fullName = new StringBuilder(modelClass.getSimpleName());
+        while (modelClass.isMemberClass()) {
+            modelClass = modelClass.getEnclosingClass();
+            fullName.insert(0, modelClass.getSimpleName() + "_");
+        }
+        return fullName.toString();
     }
 
     private static StructureDefinition getStructureDefinition(Class<?> modelClass) {
@@ -742,19 +752,10 @@ public class FHIRSwaggerGenerator {
         return structureDefinition;
     }
 
-    private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field,
+    private static void generateProperties(StructureDefinition structureDefinition, Class<?> modelClass, Field field,
             JsonObjectBuilder properties) throws Exception {
-        JsonObjectBuilder property = factory.createObjectBuilder();
 
         boolean many = false;
-
-        String fieldName = field.getName();
-        XmlElement xmlElement = field.getAnnotation(XmlElement.class);
-        if (xmlElement != null) {
-            if (!"##default".equals(xmlElement.name())) {
-                fieldName = xmlElement.name();
-            }
-        }
 
         Type fieldType = field.getType();
         Type genericType = field.getGenericType();
@@ -764,18 +765,32 @@ public class FHIRSwaggerGenerator {
             many = true;
         }
 
-        Class<?> fieldClass = (Class<?>) fieldType;
-        ElementDefinition elementDefinition = getElementDefinition(structureDefinition, modelClass, fieldName,
-                fieldClass);
-        String description = null;
-        if (elementDefinition != null) {
-            description = elementDefinition.getDefinition().getValue();
+        String elementName = ModelSupport.getElementName(field);
+
+        if (ModelSupport.isChoiceElement(modelClass, elementName)) {
+            Set<Class<?>> choiceElementTypes = ModelSupport.getChoiceElementTypes(modelClass, elementName);
+            ElementDefinition elementDefinition = getElementDefinition(structureDefinition, modelClass, elementName + "[x]");
+            String description = elementDefinition.getDefinition().getValue();
+            for (Class<?> choiceType : choiceElementTypes) {
+                String choiceElementName = ModelSupport.getChoiceElementName(elementName, choiceType);
+                generateProperty(structureDefinition, modelClass, field, properties, choiceElementName, choiceType, many, description);
+            }
+        } else {
+            ElementDefinition elementDefinition = getElementDefinition(structureDefinition, modelClass, elementName);
+            String description = elementDefinition.getDefinition().getValue();
+            generateProperty(structureDefinition, modelClass, field, properties, elementName, (Class<?>)fieldType, many, description);
         }
+    }
+
+    private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field, JsonObjectBuilder properties,
+        String elementName, Class<?> fieldClass, boolean many, String description) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+
+        JsonObjectBuilder property = factory.createObjectBuilder();
 
         if (isEnumerationWrapperClass(fieldClass)) {
             property.add("type", "string");
             JsonArrayBuilder constants = factory.createArrayBuilder();
-            Class<?> enumClass = Class.forName(fieldClass.getName() + ".ValueSet");
+            Class<?> enumClass = Class.forName(fieldClass.getName() + "$ValueSet");
             for (Object constant : enumClass.getEnumConstants()) {
                 Method method = constant.getClass().getMethod("value");
                 String value = (String) method.invoke(constant);
@@ -785,6 +800,8 @@ public class FHIRSwaggerGenerator {
         // Convert all the java types to according json types based on FHIR spec.
         } else if (String.class.equals(fieldClass)) {
             property.add("type", "string");
+        } else if (Boolean.class.equals(fieldClass)) {
+            property.add("type", "boolean");
         } else if (ZonedDateTime.class.equals(fieldClass)) {
             property.add("type", "string");
             property.add("pattern", "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)-(0[1-9]"
@@ -812,8 +829,8 @@ public class FHIRSwaggerGenerator {
         } else if (fieldClass.getSimpleName().equalsIgnoreCase("int")) {
             property.add("type", "integer");
             property.add("pattern","[0]|[-+]?[1-9][0-9]*");
-        }else {
-            property.add("$ref", "#/definitions/" + fieldClass.getSimpleName());
+        } else {
+            property.add("$ref", "#/definitions/" + getSimpleNameWithEnclosingNames(fieldClass));
         }
 
         if (description != null) {
@@ -824,19 +841,21 @@ public class FHIRSwaggerGenerator {
             JsonObjectBuilder wrapper = factory.createObjectBuilder();
             wrapper.add("type", "array");
             wrapper.add("items", property);
-            properties.add(fieldName, wrapper);
+            properties.add(elementName, wrapper);
         } else {
-            properties.add(fieldName, property);
+            properties.add(elementName, property);
         }
     }
 
-    private static ElementDefinition getElementDefinition(StructureDefinition structureDefinition, Class<?> modelClass,
-            String fieldName, Class<?> fieldClass) {
+    /**
+     * Returns the ElementDefinition for the given elementName in the Type represented by modelClass 
+     */
+    private static ElementDefinition getElementDefinition(StructureDefinition structureDefinition, Class<?> modelClass, String elementName) {
         String structureDefinitionName = structureDefinition.getName().getValue();
         String path = structureDefinitionName;
 
-        String pathEnding = fieldName;
-        if (BackboneElement.class.isAssignableFrom(modelClass) && !BackboneElement.class.equals(modelClass)) {
+        String pathEnding = elementName;
+        if (BackboneElement.class.isAssignableFrom(modelClass) && !BackboneElement.class.equals(modelClass) && modelClass.isMemberClass()) {
             String modelClassName = modelClass.getSimpleName();
             modelClassName = modelClassName.substring(0, 1).toLowerCase() + modelClassName.substring(1);
 
@@ -845,27 +864,20 @@ public class FHIRSwaggerGenerator {
             }
 
             path += "." + modelClassName;
-            pathEnding = modelClassName + "." + fieldName;
+            pathEnding = modelClassName + "." + elementName;
         }
 
-        path += "." + fieldName;
+        path += "." + elementName;
 
         for (ElementDefinition elementDefinition : structureDefinition.getDifferential().getElement()) {
             String elementDefinitionPath = elementDefinition.getPath().getValue();
-            if (elementDefinitionPath.endsWith("[x]")) {
-                if (Quantity.class.isAssignableFrom(fieldClass)) {
-                    elementDefinitionPath = elementDefinitionPath.replace("[x]", "Quantity");
-                } else {
-                    elementDefinitionPath = elementDefinitionPath.replace("[x]", fieldClass.getSimpleName());
-                }
-            }
-            if (elementDefinitionPath.equals(path) || (elementDefinitionPath.startsWith(structureDefinitionName)
+            if (elementDefinitionPath.equals(path) || (elementDefinitionPath.startsWith(structureDefinitionName) 
                     && elementDefinitionPath.endsWith(pathEnding))) {
                 return elementDefinition;
             }
         }
 
-        return null;
+        throw new RuntimeException("Unable to retrieve element definition for " + elementName + " in " + modelClass.getName());
     }
 
     private static List<String> getClassNames() {
@@ -874,9 +886,10 @@ public class FHIRSwaggerGenerator {
 
     private static boolean isEnumerationWrapperClass(Class<?> type) {
         try {
-            Class.forName(type.getName() + ".ValueSet");
+            Class.forName(type.getName() + "$ValueSet");
             return true;
         } catch (Exception e) {
+            // do nothing
         }
         return false;
     }
@@ -938,9 +951,10 @@ public class FHIRSwaggerGenerator {
     private static Map<String, List<String>> buildAcceptAllFilterMap() throws Exception {
         Map<String, List<String>> filterMap = new HashMap<String, List<String>>();
         for (String className : getClassNames()) {
-            Class<?> modelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + className);
+            Class<?> modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
             if (DomainResource.class.isAssignableFrom(modelClass)) {
                 String resourceType = className;
+                // TODO: add patch
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search",
                         "history", "batch", "transaction");
                 filterMap.put(resourceType, operationList);
