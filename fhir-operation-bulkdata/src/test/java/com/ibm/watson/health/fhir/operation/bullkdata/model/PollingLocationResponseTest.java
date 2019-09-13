@@ -37,7 +37,7 @@ public class PollingLocationResponseTest {
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
         Instant now = Instant.now();
-        metadata.setTransactionTime(now);
+        metadata.setTransactionTime(now.toString());
         assertEquals(metadata.toJsonString().replaceFirst(now.getValue().format(Instant.PARSER_FORMATTER), ""), "{\n"
                 +
                 "\"transactionTime\": \"{\n" +
@@ -55,7 +55,7 @@ public class PollingLocationResponseTest {
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
         Instant now = Instant.now();
-        metadata.setTransactionTime(now);
+        metadata.setTransactionTime(now.toString());
         metadata.setOutput(outputs);
         assertEquals(metadata.toJsonString().replaceFirst(now.getValue().format(Instant.PARSER_FORMATTER), ""), "{\n"
                 +

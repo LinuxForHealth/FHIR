@@ -8,8 +8,6 @@ package com.ibm.watson.health.fhir.operation.bullkdata.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ibm.watson.health.fhir.model.type.Instant;
-
 /**
  * ResponseMetadata to manipulate the response back to the client. 
  * This response object is intent for the polling location. 
@@ -19,16 +17,16 @@ import com.ibm.watson.health.fhir.model.type.Instant;
  */
 public class PollingLocationResponse {
 
-    private Instant transactionTime;
+    private String transactionTime;
     private String request;
     private Boolean requiresAccessToken;
     private List<Output> output;
 
-    public Instant getTransactionTime() {
+    public String getTransactionTime() {
         return transactionTime;
     }
 
-    public void setTransactionTime(Instant transactionTime) {
+    public void setTransactionTime(String transactionTime) {
         this.transactionTime = transactionTime;
     }
 
@@ -97,7 +95,7 @@ public class PollingLocationResponse {
 
         if (transactionTime != null) {
             builder.append("\"transactionTime\": \"");
-            builder.append(transactionTime.toString());
+            builder.append(transactionTime);
             builder.append("\"");
             builder.append(",");
         }

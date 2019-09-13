@@ -182,11 +182,40 @@ public class BulkDataUtil {
         return null;
     }
 
-
     public static Parameters getOutputParametersWithJson(PollingLocationResponse resource)
         throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();
         parametersBuilder.parameter(Parameter.builder().name(string("return")).value(string(resource.toJsonString())).build());
         return parametersBuilder.build();
+    }
+
+    /**
+     * 
+     * @param parameters
+     * @return
+     * @throws FHIROperationException
+     */
+    public static String checkAndValidateJob(Parameters parameters)
+        throws FHIROperationException {
+        
+        if (parameters != null) {
+            for (Parameters.Parameter parameter : parameters.getParameter()) {
+                if (parameter.getName() != null
+                        && parameter.getName().getValue().compareTo("job") == 0) {
+
+                    String job =
+                            parameter.getValue().as(com.ibm.watson.health.fhir.model.type.String.class).getValue();
+                    if (job == null || job.isEmpty()) {
+                        throw new FHIROperationException("job passed is invalid and is not supported");
+                    }
+
+                    // Don't look at any other parameters.
+
+                    return job;
+                }
+            }
+        }
+        
+        throw new FHIROperationException("no job identifier is passed");
     }
 }
