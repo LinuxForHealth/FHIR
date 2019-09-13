@@ -142,8 +142,8 @@ public class BulkDataClient {
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
 
         BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
-        builder.applicationName("fhir-bulkimportexport-webapp");
-        builder.moduleName("fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war");
+        builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
+        builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         builder.jobXMLName("FhirBulkExportChunkJob");
 
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
