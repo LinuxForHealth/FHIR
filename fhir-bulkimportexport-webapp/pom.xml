@@ -2,6 +2,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <fhir.bulkjavabatch.war.name>fhir-bulkimportexport</fhir.bulkjavabatch.war.name>
     </properties>
   
     <parent>
@@ -36,6 +37,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <warSourceDirectory>WebContent</warSourceDirectory>
+                    <warName>${fhir.bulkjavabatch.war.name}</warName>
                 </configuration>
             </plugin>
         </plugins>
