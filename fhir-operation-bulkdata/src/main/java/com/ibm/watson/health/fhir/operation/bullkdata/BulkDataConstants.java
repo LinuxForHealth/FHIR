@@ -21,7 +21,7 @@ public class BulkDataConstants {
     
     // Export
     public static final String EXPORT_FORMAT = MEDIA_TYPE_ND_JSON;
-    public static final List<String> EXPORT_FORMATS = Arrays.asList("application/fhir+ndjson", "application/ndjson", "ndjson" );
+    public static final List<String> EXPORT_FORMATS = Arrays.asList(MEDIA_TYPE_ND_JSON, "application/ndjson", "ndjson" );
     
     // Export
     public static final String PARAM_OUTPUT_FORMAT = "_outputFormat";

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.watson.health.fhir.operation.bullkdata.config;
+package com.ibm.watson.health.fhir.operation.bullkdata.config.cache;
 
 import java.io.File;
 import java.util.Map;
@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import com.ibm.watson.health.fhir.config.FHIRConfiguration;
 import com.ibm.watson.health.fhir.core.TenantSpecificFileBasedCache;
 import com.ibm.watson.health.fhir.exception.FHIROperationException;
+import com.ibm.watson.health.fhir.operation.bullkdata.config.BulkDataConfigUtil;
 
 /**
  * This class implements a cache of BulkData configuration organized by tenantId. Each object stored in the cache will be a
