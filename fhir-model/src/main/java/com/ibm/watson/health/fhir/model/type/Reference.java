@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
@@ -28,6 +29,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Reference extends Element {
     private final String reference;
+    @Binding(
+        bindingName = "FHIRResourceTypeExt",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Aa resource (or, for logical models, the URI of the logical model).",
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types"
+    )
     private final Uri type;
     private final Identifier identifier;
     private final String display;

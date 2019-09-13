@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0063",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Relationship</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>ASC<a name=\"ASC\"> </a></td><td>Associate</td><td/><td>added v2.4</td></tr><tr><td>BRO<a name=\"BRO\"> </a></td><td>Brother</td><td/><td>added v2.4</td></tr><tr><td>CGV<a name=\"CGV\"> </a></td><td>Care giver</td><td/><td>added v2.4</td></tr><tr><td>CHD<a name=\"CHD\"> </a></td><td>Child</td><td/><td>added v2.4</td></tr><tr><td>DEP<a name=\"DEP\"> </a></td><td>Handicapped dependent</td><td/><td>added v2.4</td></tr><tr><td>DOM<a name=\"DOM\"> </a></td><td>Life partner</td><td/><td>added v2.4</td></tr><tr><td>EMC<a name=\"EMC\"> </a></td><td>Emergency contact</td><td/><td>added v2.4</td></tr><tr><td>EME<a name=\"EME\"> </a></td><td>Employee</td><td/><td>added v2.4</td></tr><tr><td>EMR<a name=\"EMR\"> </a></td><td>Employer</td><td/><td>added v2.4</td></tr><tr><td>EXF<a name=\"EXF\"> </a></td><td>Extended family</td><td/><td>added v2.4</td></tr><tr><td>FCH<a name=\"FCH\"> </a></td><td>Foster child</td><td/><td>added v2.4</td></tr><tr><td>FND<a name=\"FND\"> </a></td><td>Friend</td><td/><td>added v2.4</td></tr><tr><td>FTH<a name=\"FTH\"> </a></td><td>Father</td><td/><td>added v2.4</td></tr><tr><td>GCH<a name=\"GCH\"> </a></td><td>Grandchild</td><td/><td>added v2.4</td></tr><tr><td>GRD<a name=\"GRD\"> </a></td><td>Guardian</td><td/><td>added v2.4</td></tr><tr><td>GRP<a name=\"GRP\"> </a></td><td>Grandparent</td><td/><td>added v2.4</td></tr><tr><td>MGR<a name=\"MGR\"> </a></td><td>Manager</td><td/><td>added v2.4</td></tr><tr><td>MTH<a name=\"MTH\"> </a></td><td>Mother</td><td/><td>added v2.4</td></tr><tr><td>NCH<a name=\"NCH\"> </a></td><td>Natural child</td><td/><td>added v2.4</td></tr><tr><td>NON<a name=\"NON\"> </a></td><td>None</td><td/><td>added v2.4</td></tr><tr><td>OAD<a name=\"OAD\"> </a></td><td>Other adult</td><td/><td>added v2.4</td></tr><tr><td>OTH<a name=\"OTH\"> </a></td><td>Other</td><td/><td>added v2.4</td></tr><tr><td>OWN<a name=\"OWN\"> </a></td><td>Owner</td><td/><td>added v2.4</td></tr><tr><td>PAR<a name=\"PAR\"> </a></td><td>Parent</td><td/><td>added v2.4</td></tr><tr><td>SCH<a name=\"SCH\"> </a></td><td>Stepchild</td><td/><td>added v2.4</td></tr><tr><td>SEL<a name=\"SEL\"> </a></td><td>Self</td><td/><td>added v2.4</td></tr><tr><td>SIB<a name=\"SIB\"> </a></td><td>Sibling</td><td/><td>added v2.4</td></tr><tr><td>SIS<a name=\"SIS\"> </a></td><td>Sister</td><td/><td>added v2.4</td></tr><tr><td>SPO<a name=\"SPO\"> </a></td><td>Spouse</td><td/><td>added v2.4</td></tr><tr><td>TRA<a name=\"TRA\"> </a></td><td>Trainer</td><td/><td>added v2.4</td></tr><tr><td>UNK<a name=\"UNK\"> </a></td><td>Unknown</td><td/><td>added v2.4</td></tr><tr><td>WRD<a name=\"WRD\"> </a></td><td>Ward of court</td><td/><td>added v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0063",
+    "version": "2.9",
+    "name": "v2.0063",
+    "title": "v2 Relationship",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0063 ( Relationship)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0063"
+            }
+        ]
+    }
+}

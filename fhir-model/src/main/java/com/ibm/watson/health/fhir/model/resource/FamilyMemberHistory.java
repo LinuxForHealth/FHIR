@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,12 +14,14 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Age;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -64,14 +66,38 @@ public class FamilyMemberHistory extends DomainResource {
     private final List<Canonical> instantiatesCanonical;
     private final List<Uri> instantiatesUri;
     @Required
+    @Binding(
+        bindingName = "FamilyHistoryStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "A code that identifies the status of the family history record.",
+        valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.0.0"
+    )
     private final FamilyHistoryStatus status;
+    @Binding(
+        bindingName = "FamilyHistoryAbsentReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes describing the reason why a family member's history is not available.",
+        valueSet = "http://hl7.org/fhir/ValueSet/history-absent-reason"
+    )
     private final CodeableConcept dataAbsentReason;
     @Required
     private final Reference patient;
     private final DateTime date;
     private final String name;
     @Required
+    @Binding(
+        bindingName = "FamilialRelationship",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "The nature of the relationship between the patient and the related person being described in the family member history.",
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-FamilyMember"
+    )
     private final CodeableConcept relationship;
+    @Binding(
+        bindingName = "Sex",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Codes describing the sex assigned at birth as documented on the birth registration.",
+        valueSet = "http://build.fhir.org/valueset-administrative-gender.html"
+    )
     private final CodeableConcept sex;
     @Choice({ Period.class, Date.class, String.class })
     private final Element born;
@@ -80,6 +106,12 @@ public class FamilyMemberHistory extends DomainResource {
     private final Boolean estimatedAge;
     @Choice({ Boolean.class, Age.class, Range.class, Date.class, String.class })
     private final Element deceased;
+    @Binding(
+        bindingName = "FamilyHistoryReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes indicating why the family member history was done.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
@@ -1148,7 +1180,19 @@ public class FamilyMemberHistory extends DomainResource {
      */
     public static class Condition extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "ConditionCode",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Identification of the Condition or diagnosis.",
+            valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
+        )
         private final CodeableConcept code;
+        @Binding(
+            bindingName = "ConditionOutcome",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "The result of the condition for the patient; e.g. death, permanent disability, temporary disability, etc.",
+            valueSet = "http://hl7.org/fhir/ValueSet/condition-outcome"
+        )
         private final CodeableConcept outcome;
         private final Boolean contributedToDeath;
         @Choice({ Age.class, Range.class, Period.class, String.class })

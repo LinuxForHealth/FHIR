@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
@@ -32,6 +33,13 @@ public class Expression extends Element {
     private final String description;
     private final Id name;
     @Required
+    @Binding(
+        bindingName = "ExpressionLanguage",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The media type of the expression language.",
+        valueSet = "http://hl7.org/fhir/ValueSet/expression-language",
+        maxValueSet = "http://www.rfc-editor.org/bcp/bcp13.txt"
+    )
     private final Code language;
     private final String expression;
     private final Uri reference;

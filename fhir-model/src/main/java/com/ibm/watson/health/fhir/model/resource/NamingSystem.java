@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -67,17 +69,41 @@ public class NamingSystem extends DomainResource {
     @Required
     private final String name;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     @Required
+    @Binding(
+        bindingName = "NamingSystemType",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Identifies the purpose of the naming system.",
+        valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.0.0"
+    )
     private final NamingSystemType kind;
     @Required
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
     private final String responsible;
+    @Binding(
+        bindingName = "IdentifierType",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
+        valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
+    )
     private final CodeableConcept type;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final String usage;
     @Required
@@ -909,6 +935,12 @@ public class NamingSystem extends DomainResource {
      */
     public static class UniqueId extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "NamingSystemIdentifierType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Identifies the style of unique identifier used to identify a namespace.",
+            valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.0"
+        )
         private final NamingSystemIdentifierType type;
         @Required
         private final String value;

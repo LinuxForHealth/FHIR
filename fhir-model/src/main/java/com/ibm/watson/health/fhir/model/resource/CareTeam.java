@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.CareTeamStatus;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -47,13 +49,31 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class CareTeam extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "CareTeamStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Indicates the status of the care team.",
+        valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.0.0"
+    )
     private final CareTeamStatus status;
+    @Binding(
+        bindingName = "CareTeamCategory",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Indicates the type of care team.",
+        valueSet = "http://hl7.org/fhir/ValueSet/care-team-category"
+    )
     private final List<CodeableConcept> category;
     private final String name;
     private final Reference subject;
     private final Reference encounter;
     private final Period period;
     private final List<Participant> participant;
+    @Binding(
+        bindingName = "CareTeamReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Indicates the reason for the care team.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final List<Reference> managingOrganization;
@@ -932,6 +952,12 @@ public class CareTeam extends DomainResource {
      * Identifies all people and organizations who are expected to be involved in the care team.
      */
     public static class Participant extends BackboneElement {
+        @Binding(
+            bindingName = "CareTeamParticipantRole",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
+            valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
+        )
         private final List<CodeableConcept> role;
         private final Reference member;
         private final Reference onBehalfOf;

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.ContactPoint;
@@ -51,7 +53,19 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class InsurancePlan extends DomainResource {
     private final List<Identifier> identifier;
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
+    @Binding(
+        bindingName = "InsurancePlanType",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Used to categorize the product/plan.",
+        valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-type"
+    )
     private final List<CodeableConcept> type;
     private final String name;
     private final List<String> alias;
@@ -989,6 +1003,12 @@ public class InsurancePlan extends DomainResource {
      * The contact for the health insurance product for a certain purpose.
      */
     public static class Contact extends BackboneElement {
+        @Binding(
+            bindingName = "ContactPartyType",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "The purpose for which you would contact a contact party.",
+            valueSet = "http://hl7.org/fhir/ValueSet/contactentity-type"
+        )
         private final CodeableConcept purpose;
         private final HumanName name;
         private final List<ContactPoint> telecom;
@@ -3647,6 +3667,12 @@ public class InsurancePlan extends DomainResource {
                 public static class Cost extends BackboneElement {
                     @Required
                     private final CodeableConcept type;
+                    @Binding(
+                        bindingName = "BenefitCostApplicability",
+                        strength = BindingStrength.ValueSet.REQUIRED,
+                        description = "Whether the cost applies to in-network or out-of-network providers.",
+                        valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.0.0"
+                    )
                     private final CodeableConcept applicability;
                     private final List<CodeableConcept> qualifiers;
                     private final Quantity value;

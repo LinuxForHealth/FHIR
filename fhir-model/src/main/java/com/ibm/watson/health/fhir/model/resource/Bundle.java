@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.BundleType;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.Decimal;
@@ -118,6 +120,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Bundle extends Resource {
     private final Identifier identifier;
     @Required
+    @Binding(
+        bindingName = "BundleType",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Indicates the purpose of a bundle - how it is intended to be used.",
+        valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.0.0"
+    )
     private final BundleType type;
     private final Instant timestamp;
     private final UnsignedInt total;
@@ -1246,6 +1254,12 @@ public class Bundle extends Resource {
          * Information about the search process that lead to the creation of this entry.
          */
         public static class Search extends BackboneElement {
+            @Binding(
+                bindingName = "SearchEntryMode",
+                strength = BindingStrength.ValueSet.REQUIRED,
+                description = "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
+                valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.0.0"
+            )
             private final SearchEntryMode mode;
             private final Decimal score;
 
@@ -1509,6 +1523,12 @@ public class Bundle extends Resource {
          */
         public static class Request extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "HTTPVerb",
+                strength = BindingStrength.ValueSet.REQUIRED,
+                description = "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
+                valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.0.0"
+            )
             private final HTTPVerb method;
             @Required
             private final Uri url;

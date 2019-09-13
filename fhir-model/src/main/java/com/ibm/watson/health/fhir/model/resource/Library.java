@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -64,17 +66,41 @@ public class Library extends DomainResource {
     private final String title;
     private final String subtitle;
     @Required
+    @Binding(
+        bindingName = "PublicationStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The lifecycle status of an artifact.",
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+    )
     private final PublicationStatus status;
     private final Boolean experimental;
     @Required
+    @Binding(
+        bindingName = "LibraryType",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The type of knowledge asset this library contains.",
+        valueSet = "http://hl7.org/fhir/ValueSet/library-type"
+    )
     private final CodeableConcept type;
     @Choice({ CodeableConcept.class, Reference.class })
+    @Binding(
+        bindingName = "SubjectType",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The possible types of subjects for a library (E.g. Patient, Practitioner, Organization, Location, etc.).",
+        valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
+    )
     private final Element subject;
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
     private final Markdown description;
     private final List<UsageContext> useContext;
+    @Binding(
+        bindingName = "Jurisdiction",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Countries and regions within which this artifact is targeted for use.",
+        valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
+    )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final String usage;
@@ -82,6 +108,12 @@ public class Library extends DomainResource {
     private final Date approvalDate;
     private final Date lastReviewDate;
     private final Period effectivePeriod;
+    @Binding(
+        bindingName = "DefinitionTopic",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
+        valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
+    )
     private final List<CodeableConcept> topic;
     private final List<ContactDetail> author;
     private final List<ContactDetail> editor;

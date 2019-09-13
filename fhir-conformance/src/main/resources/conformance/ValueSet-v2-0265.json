@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0265",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Specialty Type</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>ALC<a name=\"ALC\"> </a></td><td>Allergy</td><td/><td>added v2.3</td></tr><tr><td>AMB<a name=\"AMB\"> </a></td><td>Ambulatory</td><td/><td>added v2.3</td></tr><tr><td>CAN<a name=\"CAN\"> </a></td><td>Cancer</td><td/><td>added v2.3</td></tr><tr><td>CAR<a name=\"CAR\"> </a></td><td>Coronary/cardiac care</td><td/><td>added v2.3</td></tr><tr><td>CCR<a name=\"CCR\"> </a></td><td>Critical care</td><td/><td>added v2.3</td></tr><tr><td>CHI<a name=\"CHI\"> </a></td><td>Chiropractic</td><td/><td>added v2.3</td></tr><tr><td>EDI<a name=\"EDI\"> </a></td><td>Education</td><td/><td>added v2.3</td></tr><tr><td>EMR<a name=\"EMR\"> </a></td><td>Emergency</td><td/><td>added v2.3</td></tr><tr><td>FPC<a name=\"FPC\"> </a></td><td>Family planning</td><td/><td>added v2.3</td></tr><tr><td>INT<a name=\"INT\"> </a></td><td>Intensive care</td><td/><td>added v2.3</td></tr><tr><td>ISO<a name=\"ISO\"> </a></td><td>Isolation</td><td/><td>added v2.3</td></tr><tr><td>NAT<a name=\"NAT\"> </a></td><td>Naturopathic</td><td/><td>added v2.3</td></tr><tr><td>NBI<a name=\"NBI\"> </a></td><td>Newborn, nursery, infants</td><td/><td>added v2.3</td></tr><tr><td>OBG<a name=\"OBG\"> </a></td><td>Obstetrics, gynecology</td><td/><td>added v2.3</td></tr><tr><td>OBS<a name=\"OBS\"> </a></td><td>Observation</td><td/><td>added v2.3</td></tr><tr><td>OTH<a name=\"OTH\"> </a></td><td>Other specialty</td><td/><td>added v2.3</td></tr><tr><td>PED<a name=\"PED\"> </a></td><td>Pediatrics</td><td/><td>added v2.3</td></tr><tr><td>PHY<a name=\"PHY\"> </a></td><td>General/family practice</td><td/><td>added v2.3</td></tr><tr><td>PIN<a name=\"PIN\"> </a></td><td>Pediatric/neonatal intensive care</td><td/><td>added v2.3</td></tr><tr><td>PPS<a name=\"PPS\"> </a></td><td>Pediatric psychiatric</td><td/><td>added v2.3</td></tr><tr><td>PRE<a name=\"PRE\"> </a></td><td>Pediatric rehabilitation</td><td/><td>added v2.3</td></tr><tr><td>PSI<a name=\"PSI\"> </a></td><td>Psychiatric intensive care</td><td/><td>added v2.3</td></tr><tr><td>PSY<a name=\"PSY\"> </a></td><td>Psychiatric</td><td/><td>added v2.3</td></tr><tr><td>REH<a name=\"REH\"> </a></td><td>Rehabilitation</td><td/><td>added v2.3</td></tr><tr><td>SUR<a name=\"SUR\"> </a></td><td>Surgery</td><td/><td>added v2.3</td></tr><tr><td>WIC<a name=\"WIC\"> </a></td><td>Walk-in clinic</td><td/><td>added v2.3</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0265",
+    "version": "2.9",
+    "name": "v2.0265",
+    "title": "v2 Specialty Type",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0265 ( Specialty Type)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0265"
+            }
+        ]
+    }
+}

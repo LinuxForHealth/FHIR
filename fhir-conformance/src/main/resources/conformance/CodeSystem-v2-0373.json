@@ -1,0 +1,83 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0373",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Treatment</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>ACID<a name=\"ACID\"> </a></td><td>Acidification</td><td/><td>added v2.4</td></tr><tr><td>ALK<a name=\"ALK\"> </a></td><td>Alkalization</td><td/><td>added v2.4</td></tr><tr><td>DEFB<a name=\"DEFB\"> </a></td><td>Defibrination</td><td/><td>added v2.4</td></tr><tr><td>FILT<a name=\"FILT\"> </a></td><td>Filtration</td><td/><td>added v2.4</td></tr><tr><td>LDLP<a name=\"LDLP\"> </a></td><td>LDL Precipitation</td><td/><td>added v2.4</td></tr><tr><td>NEUT<a name=\"NEUT\"> </a></td><td>Neutralization</td><td/><td>added v2.4</td></tr><tr><td>RECA<a name=\"RECA\"> </a></td><td>Recalification</td><td/><td>added v2.4</td></tr><tr><td>UFIL<a name=\"UFIL\"> </a></td><td>Ultrafiltration</td><td/><td>added v2.4</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0373",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.231"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0373",
+    "title": "v2 Treatment",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0373 ( Treatment)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "ACID",
+            "display": "Acidification"
+        },
+        {
+            "code": "ALK",
+            "display": "Alkalization"
+        },
+        {
+            "code": "DEFB",
+            "display": "Defibrination"
+        },
+        {
+            "code": "FILT",
+            "display": "Filtration"
+        },
+        {
+            "code": "LDLP",
+            "display": "LDL Precipitation"
+        },
+        {
+            "code": "NEUT",
+            "display": "Neutralization"
+        },
+        {
+            "code": "RECA",
+            "display": "Recalification"
+        },
+        {
+            "code": "UFIL",
+            "display": "Ultrafiltration"
+        }
+    ]
+}

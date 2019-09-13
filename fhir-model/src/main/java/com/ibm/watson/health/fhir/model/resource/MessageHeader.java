@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -44,6 +46,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class MessageHeader extends DomainResource {
     @Required
     @Choice({ Coding.class, Uri.class })
+    @Binding(
+        bindingName = "MessageEvent",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "One of the message events defined as part of this version of FHIR.",
+        valueSet = "http://hl7.org/fhir/ValueSet/message-events"
+    )
     private final Element event;
     private final List<Destination> destination;
     private final Reference sender;
@@ -52,6 +60,12 @@ public class MessageHeader extends DomainResource {
     @Required
     private final Source source;
     private final Reference responsible;
+    @Binding(
+        bindingName = "EventReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Reason for event occurrence.",
+        valueSet = "http://hl7.org/fhir/ValueSet/message-reason-encounter"
+    )
     private final CodeableConcept reason;
     private final Response response;
     private final List<Reference> focus;
@@ -1468,6 +1482,12 @@ public class MessageHeader extends DomainResource {
         @Required
         private final Id identifier;
         @Required
+        @Binding(
+            bindingName = "ResponseType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The kind of response to a message.",
+            valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.0"
+        )
         private final ResponseType code;
         private final Reference details;
 

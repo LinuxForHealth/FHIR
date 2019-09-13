@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -175,10 +175,22 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class ElementDefinition extends BackboneElement {
     @Required
     private final String path;
+    @com.ibm.watson.health.fhir.model.annotation.Binding(
+        bindingName = "PropertyRepresentation",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "How a property is represented when serialized.",
+        valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.0.0"
+    )
     private final List<PropertyRepresentation> representation;
     private final String sliceName;
     private final Boolean sliceIsConstraining;
     private final String label;
+    @com.ibm.watson.health.fhir.model.annotation.Binding(
+        bindingName = "ElementDefinitionCode",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes that indicate the meaning of a data element.",
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
+    )
     private final List<Coding> code;
     private final Slicing slicing;
     private final String _short;
@@ -1922,6 +1934,12 @@ public class ElementDefinition extends BackboneElement {
         private final String description;
         private final Boolean ordered;
         @Required
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "SlicingRules",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "How slices are interpreted when evaluating an instance.",
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.0.0"
+        )
         private final SlicingRules rules;
 
         private volatile int hashCode;
@@ -2279,6 +2297,12 @@ public class ElementDefinition extends BackboneElement {
          */
         public static class Discriminator extends BackboneElement {
             @Required
+            @com.ibm.watson.health.fhir.model.annotation.Binding(
+                bindingName = "DiscriminatorType",
+                strength = BindingStrength.ValueSet.REQUIRED,
+                description = "How an element value is interpreted when discrimination is evaluated.",
+                valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.0.0"
+            )
             private final DiscriminatorType type;
             @Required
             private final String path;
@@ -2864,10 +2888,28 @@ public class ElementDefinition extends BackboneElement {
      */
     public static class Type extends BackboneElement {
         @Required
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "FHIRDefinedTypeExt",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "Either a resource or a data type, including logical model types.",
+            valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
+        )
         private final Uri code;
         private final List<Canonical> profile;
         private final List<Canonical> targetProfile;
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "AggregationMode",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "How resource references can be aggregated.",
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.0.0"
+        )
         private final List<AggregationMode> aggregation;
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "ReferenceVersionRules",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Whether a reference needs to be version specific or version independent, or whether either can be used.",
+            valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.0.0"
+        )
         private final ReferenceVersionRules versioning;
 
         private volatile int hashCode;
@@ -3643,6 +3685,12 @@ public class ElementDefinition extends BackboneElement {
         private final Id key;
         private final String requirements;
         @Required
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "ConstraintSeverity",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "SHALL applications comply with this constraint?",
+            valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.0.0"
+        )
         private final ConstraintSeverity severity;
         @Required
         private final String human;
@@ -4076,6 +4124,12 @@ public class ElementDefinition extends BackboneElement {
      */
     public static class Binding extends BackboneElement {
         @Required
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "BindingStrength",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "Indication of the degree of conformance expectations associated with a binding.",
+            valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.0"
+        )
         private final BindingStrength strength;
         private final String description;
         private final Canonical valueSet;
@@ -4376,6 +4430,12 @@ public class ElementDefinition extends BackboneElement {
     public static class Mapping extends BackboneElement {
         @Required
         private final Id identity;
+        @com.ibm.watson.health.fhir.model.annotation.Binding(
+            bindingName = "MimeType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "The mime type of an attachment. Any valid mime type is allowed.",
+            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+        )
         private final Code language;
         @Required
         private final String map;

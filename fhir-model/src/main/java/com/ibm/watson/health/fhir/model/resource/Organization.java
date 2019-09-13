@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -63,6 +65,12 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Organization extends DomainResource {
     private final List<Identifier> identifier;
     private final Boolean active;
+    @Binding(
+        bindingName = "OrganizationType",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Used to categorize the organization.",
+        valueSet = "http://hl7.org/fhir/ValueSet/organization-type"
+    )
     private final List<CodeableConcept> type;
     private final String name;
     private final List<String> alias;
@@ -825,6 +833,12 @@ public class Organization extends DomainResource {
      * Contact for the organization for a certain purpose.
      */
     public static class Contact extends BackboneElement {
+        @Binding(
+            bindingName = "ContactPartyType",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "The purpose for which you would contact a contact party.",
+            valueSet = "http://hl7.org/fhir/ValueSet/contactentity-type"
+        )
         private final CodeableConcept purpose;
         private final HumanName name;
         private final List<ContactPoint> telecom;

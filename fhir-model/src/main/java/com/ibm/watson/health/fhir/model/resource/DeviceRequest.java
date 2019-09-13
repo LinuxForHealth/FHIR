@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Canonical;
 import com.ibm.watson.health.fhir.model.type.Code;
@@ -53,12 +55,36 @@ public class DeviceRequest extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Reference> priorRequest;
     private final Identifier groupIdentifier;
+    @Binding(
+        bindingName = "DeviceRequestStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Codes representing the status of the request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
+    )
     private final DeviceRequestStatus status;
     @Required
+    @Binding(
+        bindingName = "RequestIntent",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The kind of diagnostic request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
+    )
     private final RequestIntent intent;
+    @Binding(
+        bindingName = "RequestPriority",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Identifies the level of importance to be assigned to actioning the request.",
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+    )
     private final RequestPriority priority;
     @Required
     @Choice({ Reference.class, CodeableConcept.class })
+    @Binding(
+        bindingName = "DeviceRequestCode",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes for devices that can be requested.",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
+    )
     private final Element code;
     private final List<Parameter> parameter;
     @Required
@@ -68,8 +94,20 @@ public class DeviceRequest extends DomainResource {
     private final Element occurrence;
     private final DateTime authoredOn;
     private final Reference requester;
+    @Binding(
+        bindingName = "DeviceRequestParticipantRole",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
+        valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
+    )
     private final CodeableConcept performerType;
     private final Reference performer;
+    @Binding(
+        bindingName = "DeviceRequestReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Diagnosis or problem codes justifying the reason for requesting the device.",
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
+    )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final List<Reference> insurance;
@@ -1409,6 +1447,11 @@ public class DeviceRequest extends DomainResource {
      * Specific parameters for the ordered item. For example, the prism value for lenses.
      */
     public static class Parameter extends BackboneElement {
+        @Binding(
+            bindingName = "ParameterCode",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "A code that identifies the device detail."
+        )
         private final CodeableConcept code;
         @Choice({ CodeableConcept.class, Quantity.class, Range.class, Boolean.class })
         private final Element value;

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
 
@@ -27,7 +28,19 @@ public class Meta extends Element {
     private final Instant lastUpdated;
     private final Uri source;
     private final List<Canonical> profile;
+    @Binding(
+        bindingName = "SecurityLabels",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Security Labels from the Healthcare Privacy and Security Classification System.",
+        valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
+    )
     private final List<Coding> security;
+    @Binding(
+        bindingName = "Tags",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes that represent various types of tags, commonly workflow-related; e.g. \"Needs review by Dr. Jones\".",
+        valueSet = "http://hl7.org/fhir/ValueSet/common-tags"
+    )
     private final List<Coding> tag;
 
     private volatile int hashCode;

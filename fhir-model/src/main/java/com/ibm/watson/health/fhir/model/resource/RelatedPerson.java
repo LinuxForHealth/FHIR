@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.AdministrativeGender;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -46,9 +48,21 @@ public class RelatedPerson extends DomainResource {
     private final Boolean active;
     @Required
     private final Reference patient;
+    @Binding(
+        bindingName = "PatientRelationshipType",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "The nature of the relationship between a patient and the related person.",
+        valueSet = "http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype"
+    )
     private final List<CodeableConcept> relationship;
     private final List<HumanName> name;
     private final List<ContactPoint> telecom;
+    @Binding(
+        bindingName = "AdministrativeGender",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The gender of a person used for administrative purposes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+    )
     private final AdministrativeGender gender;
     private final Date birthDate;
     private final List<Address> address;
@@ -883,6 +897,13 @@ public class RelatedPerson extends DomainResource {
      */
     public static class Communication extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "Language",
+            strength = BindingStrength.ValueSet.PREFERRED,
+            description = "A human language.",
+            valueSet = "http://hl7.org/fhir/ValueSet/languages",
+            maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+        )
         private final CodeableConcept language;
         private final Boolean preferred;
 

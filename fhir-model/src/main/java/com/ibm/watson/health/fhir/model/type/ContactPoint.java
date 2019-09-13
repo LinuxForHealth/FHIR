@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.ContactPointSystem;
 import com.ibm.watson.health.fhir.model.type.ContactPointUse;
@@ -30,8 +31,20 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class ContactPoint extends Element {
+    @Binding(
+        bindingName = "ContactPointSystem",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Telecommunications form for contact point.",
+        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.0.0"
+    )
     private final ContactPointSystem system;
     private final String value;
+    @Binding(
+        bindingName = "ContactPointUse",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Use of contact point.",
+        valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.0.0"
+    )
     private final ContactPointUse use;
     private final PositiveInt rank;
     private final Period period;

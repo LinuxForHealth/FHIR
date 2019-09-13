@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.type.QuantityComparator;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
@@ -24,6 +25,13 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.  If value is present, it SHALL be positive.",
     expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (value.empty() or value.hasValue().not() or value > 0)"
+)
+@Binding(
+    bindingName = "AgeUnits",
+    strength = BindingStrength.ValueSet.EXTENSIBLE,
+    description = "Appropriate units for Age.",
+    valueSet = "http://hl7.org/fhir/ValueSet/age-units",
+    maxValueSet = "http://hl7.org/fhir/ValueSet/all-time-units"
 )
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Age extends Quantity {

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -55,9 +57,20 @@ public class Group extends DomainResource {
     private final List<Identifier> identifier;
     private final Boolean active;
     @Required
+    @Binding(
+        bindingName = "GroupType",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Types of resources that are part of group.",
+        valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.0.0"
+    )
     private final GroupType type;
     @Required
     private final Boolean actual;
+    @Binding(
+        bindingName = "GroupKind",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Kind of particular resource; e.g. cow, syringe, lake, etc."
+    )
     private final CodeableConcept code;
     private final String name;
     private final UnsignedInt quantity;
@@ -751,9 +764,19 @@ public class Group extends DomainResource {
      */
     public static class Characteristic extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "GroupCharacteristicKind",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "List of characteristics used to describe group members; e.g. gender, age, owner, location, etc."
+        )
         private final CodeableConcept code;
         @Required
         @Choice({ CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class })
+        @Binding(
+            bindingName = "GroupCharacteristicValue",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Value of descriptive member characteristic; e.g. red, male, pneumonia, Caucasian, etc."
+        )
         private final Element value;
         @Required
         private final Boolean exclude;

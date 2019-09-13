@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Address;
 import com.ibm.watson.health.fhir.model.type.AdministrativeGender;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -46,10 +48,23 @@ public class Practitioner extends DomainResource {
     private final List<HumanName> name;
     private final List<ContactPoint> telecom;
     private final List<Address> address;
+    @Binding(
+        bindingName = "AdministrativeGender",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The gender of a person used for administrative purposes.",
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+    )
     private final AdministrativeGender gender;
     private final Date birthDate;
     private final List<Attachment> photo;
     private final List<Qualification> qualification;
+    @Binding(
+        bindingName = "Language",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "A human language.",
+        valueSet = "http://hl7.org/fhir/ValueSet/languages",
+        maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+    )
     private final List<CodeableConcept> communication;
 
     private volatile int hashCode;
@@ -110,8 +125,7 @@ public class Practitioner extends DomainResource {
     }
 
     /**
-     * Address(es) of the practitioner that are not role specific (typically home address). 
-Work addresses are not typically 
+     * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
      * entered in this property as they are usually role dependent.
      * 
      * @return
@@ -616,8 +630,7 @@ Work addresses are not typically
         }
 
         /**
-         * Address(es) of the practitioner that are not role specific (typically home address). 
-Work addresses are not typically 
+         * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
          * entered in this property as they are usually role dependent.
          * 
          * <p>Adds new element(s) to the existing list
@@ -636,8 +649,7 @@ Work addresses are not typically
         }
 
         /**
-         * Address(es) of the practitioner that are not role specific (typically home address). 
-Work addresses are not typically 
+         * Address(es) of the practitioner that are not role specific (typically home address). Work addresses are not typically 
          * entered in this property as they are usually role dependent.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
@@ -823,6 +835,12 @@ Work addresses are not typically
     public static class Qualification extends BackboneElement {
         private final List<Identifier> identifier;
         @Required
+        @Binding(
+            bindingName = "Qualification",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Specific qualification the practitioner has to provide a service.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v2-2.7-0360"
+        )
         private final CodeableConcept code;
         private final Period period;
         private final Reference issuer;

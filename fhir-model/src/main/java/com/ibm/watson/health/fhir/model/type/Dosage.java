@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
@@ -26,13 +27,43 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Dosage extends BackboneElement {
     private final Integer sequence;
     private final String text;
+    @Binding(
+        bindingName = "AdditionalInstruction",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A coded concept identifying additional instructions such as \"take with water\" or \"avoid operating heavy machinery\".",
+        valueSet = "http://hl7.org/fhir/ValueSet/additional-instruction-codes"
+    )
     private final List<CodeableConcept> additionalInstruction;
     private final String patientInstruction;
     private final Timing timing;
     @Choice({ Boolean.class, CodeableConcept.class })
+    @Binding(
+        bindingName = "MedicationAsNeededReason",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A coded concept identifying the precondition that should be met or evaluated prior to consuming or administering a medication dose.  For example \"pain\", \"30 minutes prior to sexual intercourse\", \"on flare-up\" etc.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-as-needed-reason"
+    )
     private final Element asNeeded;
+    @Binding(
+        bindingName = "MedicationAdministrationSite",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A coded concept describing the site location the medicine enters into or onto the body.",
+        valueSet = "http://hl7.org/fhir/ValueSet/approach-site-codes"
+    )
     private final CodeableConcept site;
+    @Binding(
+        bindingName = "RouteOfAdministration",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.",
+        valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
+    )
     private final CodeableConcept route;
+    @Binding(
+        bindingName = "MedicationAdministrationMethod",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "A coded concept describing the technique by which the medicine is administered.",
+        valueSet = "http://hl7.org/fhir/ValueSet/administration-method-codes"
+    )
     private final CodeableConcept method;
     private final List<DoseAndRate> doseAndRate;
     private final Ratio maxDosePerPeriod;
@@ -689,6 +720,12 @@ public class Dosage extends BackboneElement {
      * The amount of medication administered.
      */
     public static class DoseAndRate extends BackboneElement {
+        @Binding(
+            bindingName = "DoseAndRateType",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "The kind of dose or rate specified.",
+            valueSet = "http://hl7.org/fhir/ValueSet/dose-rate-type"
+        )
         private final CodeableConcept type;
         @Choice({ Range.class, SimpleQuantity.class })
         private final Element dose;

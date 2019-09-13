@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Annotation;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -43,6 +45,12 @@ public class DeviceUseStatement extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> basedOn;
     @Required
+    @Binding(
+        bindingName = "DeviceUseStatementStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "A coded concept indicating the current status of the Device Usage.",
+        valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.0.0"
+    )
     private final DeviceUseStatementStatus status;
     @Required
     private final Reference subject;
@@ -55,6 +63,12 @@ public class DeviceUseStatement extends DomainResource {
     private final Reference device;
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
+    @Binding(
+        bindingName = "BodySite",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes describing anatomical locations. May include laterality.",
+        valueSet = "http://hl7.org/fhir/ValueSet/body-site"
+    )
     private final CodeableConcept bodySite;
     private final List<Annotation> note;
 

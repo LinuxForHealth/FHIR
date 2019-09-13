@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,11 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -82,10 +84,28 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Consent extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "ConsentState",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "Indicates the state of the consent.",
+        valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.0.0"
+    )
     private final ConsentState status;
     @Required
+    @Binding(
+        bindingName = "ConsentScope",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The four anticipated uses for the Consent Resource.",
+        valueSet = "http://hl7.org/fhir/ValueSet/consent-scope"
+    )
     private final CodeableConcept scope;
     @Required
+    @Binding(
+        bindingName = "ConsentCategory",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "A classification of the type of consents found in a consent statement.",
+        valueSet = "http://hl7.org/fhir/ValueSet/consent-category"
+    )
     private final List<CodeableConcept> category;
     private final Reference patient;
     private final DateTime dateTime;
@@ -94,6 +114,12 @@ public class Consent extends DomainResource {
     @Choice({ Attachment.class, Reference.class })
     private final Element source;
     private final List<Policy> policy;
+    @Binding(
+        bindingName = "ConsentPolicyRule",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "Regulatory policy examples.",
+        valueSet = "http://hl7.org/fhir/ValueSet/consent-policy"
+    )
     private final CodeableConcept policyRule;
     private final List<Verification> verification;
     private final Provision provision;
@@ -1528,13 +1554,49 @@ public class Consent extends DomainResource {
      * An exception to the base policy of this consent. An exception can be an addition or removal of access permissions.
      */
     public static class Provision extends BackboneElement {
+        @Binding(
+            bindingName = "ConsentProvisionType",
+            strength = BindingStrength.ValueSet.REQUIRED,
+            description = "How a rule statement is applied, such as adding additional consent or removing consent.",
+            valueSet = "http://hl7.org/fhir/ValueSet/consent-provision-type|4.0.0"
+        )
         private final ConsentProvisionType type;
         private final Period period;
         private final List<Actor> actor;
+        @Binding(
+            bindingName = "ConsentAction",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "Detailed codes for the consent action.",
+            valueSet = "http://hl7.org/fhir/ValueSet/consent-action"
+        )
         private final List<CodeableConcept> action;
+        @Binding(
+            bindingName = "SecurityLabels",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "Security Labels from the Healthcare Privacy and Security Classification System.",
+            valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
+        )
         private final List<Coding> securityLabel;
+        @Binding(
+            bindingName = "PurposeOfUse",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "What purposes of use are controlled by this exception. If more than one label is specified, operations must have all the specified labels.",
+            valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
+        )
         private final List<Coding> purpose;
+        @Binding(
+            bindingName = "ConsentContentClass",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "The class (type) of information a consent rule covers.",
+            valueSet = "http://hl7.org/fhir/ValueSet/consent-content-class"
+        )
         private final List<Coding> clazz;
+        @Binding(
+            bindingName = "ConsentContentCode",
+            strength = BindingStrength.ValueSet.EXAMPLE,
+            description = "If this code is found in an instance, then the exception applies.",
+            valueSet = "http://hl7.org/fhir/ValueSet/consent-content-code"
+        )
         private final List<CodeableConcept> code;
         private final Period dataPeriod;
         private final List<Data> data;
@@ -2247,6 +2309,12 @@ public class Consent extends DomainResource {
          */
         public static class Actor extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "ConsentActorRole",
+                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                description = "How an actor is involved in the consent considerations.",
+                valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
+            )
             private final CodeableConcept role;
             @Required
             private final Reference reference;
@@ -2520,6 +2588,12 @@ public class Consent extends DomainResource {
          */
         public static class Data extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "ConsentDataMeaning",
+                strength = BindingStrength.ValueSet.REQUIRED,
+                description = "How a resource reference is interpreted when testing consent restrictions.",
+                valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.0.0"
+            )
             private final ConsentDataMeaning meaning;
             @Required
             private final Reference reference;

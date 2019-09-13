@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,10 +14,12 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.Attachment;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.DateTime;
@@ -47,9 +49,27 @@ public class DiagnosticReport extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> basedOn;
     @Required
+    @Binding(
+        bindingName = "DiagnosticReportStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The status of the diagnostic report.",
+        valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.0"
+    )
     private final DiagnosticReportStatus status;
+    @Binding(
+        bindingName = "DiagnosticServiceSection",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Codes for diagnostic service sections.",
+        valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
+    )
     private final List<CodeableConcept> category;
     @Required
+    @Binding(
+        bindingName = "DiagnosticReportCodes",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "Codes that describe Diagnostic Reports.",
+        valueSet = "http://hl7.org/fhir/ValueSet/report-codes"
+    )
     private final CodeableConcept code;
     private final Reference subject;
     private final Reference encounter;
@@ -63,6 +83,12 @@ public class DiagnosticReport extends DomainResource {
     private final List<Reference> imagingStudy;
     private final List<Media> media;
     private final String conclusion;
+    @Binding(
+        bindingName = "AdjunctDiagnosis",
+        strength = BindingStrength.ValueSet.EXAMPLE,
+        description = "Diagnosis codes provided as adjuncts to the report.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
+    )
     private final List<CodeableConcept> conclusionCode;
     private final List<Attachment> presentedForm;
 

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.util.ValidationSupport;
 import com.ibm.watson.health.fhir.model.visitor.Visitor;
@@ -27,7 +28,20 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watson.health.fhir.tools.CodeGenerator")
 public class Attachment extends Element {
+    @Binding(
+        bindingName = "MimeType",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "The mime type of an attachment. Any valid mime type is allowed.",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+    )
     private final Code contentType;
+    @Binding(
+        bindingName = "Language",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "A human language.",
+        valueSet = "http://hl7.org/fhir/ValueSet/languages",
+        maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
+    )
     private final Code language;
     private final Base64Binary data;
     private final Url url;

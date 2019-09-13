@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0871",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Supply Risk Codes</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>COR<a name=\"COR\"> </a></td><td>Corrosive</td><td>Material is corrosive and may cause severe injury to skin, mucous membranes and eyes. Avoid any unprotected contact.</td><td>added v2.6</td></tr><tr><td>EXP<a name=\"EXP\"> </a></td><td>Explosive</td><td>Material is an explosive mixture.  Keep away from fire, sparks, and heat.</td><td>added v2.6</td></tr><tr><td>FLA<a name=\"FLA\"> </a></td><td>Flammable</td><td>Material is highly flammable and in certain mixtures (with air) may lead to explosions.  Keep away from fire, sparks and excessive heat.</td><td>added v2.6</td></tr><tr><td>INJ<a name=\"INJ\"> </a></td><td>Injury Hazard</td><td>Material is solid and sharp (e.g., cannulas.)  Dispose in hard container.</td><td>added v2.6</td></tr><tr><td>RAD<a name=\"RAD\"> </a></td><td>Radioactive</td><td>Material is a source for ionizing radiation and must be handled with special care to avoid injury of those who handle it and to avoid environmental hazards.</td><td>added v2.6</td></tr><tr><td>TOX<a name=\"TOX\"> </a></td><td>Toxic</td><td>Material is toxic to humans and/or animals.  Special care must be taken to avoid incorporation, even of small amounts.</td><td>added v2.6</td></tr><tr><td>UNK<a name=\"UNK\"> </a></td><td>Unknown</td><td>Material hazard level is unknown.</td><td>added v2.6</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v2-0871",
+    "version": "2.9",
+    "name": "v2.0871",
+    "title": "v2 Supply Risk Codes",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0871 ( Supply Risk Codes)",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0871"
+            }
+        ]
+    }
+}

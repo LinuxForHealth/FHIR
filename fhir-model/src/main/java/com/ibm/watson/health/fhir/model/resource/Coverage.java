@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Required;
 import com.ibm.watson.health.fhir.model.type.BackboneElement;
+import com.ibm.watson.health.fhir.model.type.BindingStrength;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
@@ -45,7 +47,19 @@ import com.ibm.watson.health.fhir.model.visitor.Visitor;
 public class Coverage extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Binding(
+        bindingName = "CoverageStatus",
+        strength = BindingStrength.ValueSet.REQUIRED,
+        description = "A code specifying the state of the resource instance.",
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
+    )
     private final CoverageStatus status;
+    @Binding(
+        bindingName = "CoverageType",
+        strength = BindingStrength.ValueSet.PREFERRED,
+        description = "The type of insurance: public health, worker compensation; private accident, auto, private health, etc.) or a direct payment by an individual or organization.",
+        valueSet = "http://hl7.org/fhir/ValueSet/coverage-type"
+    )
     private final CodeableConcept type;
     private final Reference policyHolder;
     private final Reference subscriber;
@@ -53,6 +67,12 @@ public class Coverage extends DomainResource {
     @Required
     private final Reference beneficiary;
     private final String dependent;
+    @Binding(
+        bindingName = "Relationship",
+        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        description = "The relationship between the Subscriber and the Beneficiary (insured/covered party/patient).",
+        valueSet = "http://hl7.org/fhir/ValueSet/subscriber-relationship"
+    )
     private final CodeableConcept relationship;
     private final Period period;
     @Required
@@ -1030,6 +1050,12 @@ public class Coverage extends DomainResource {
      */
     public static class Class extends BackboneElement {
         @Required
+        @Binding(
+            bindingName = "CoverageClass",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "The policy classifications, eg. Group, Plan, Class, etc.",
+            valueSet = "http://hl7.org/fhir/ValueSet/coverage-class"
+        )
         private final CodeableConcept type;
         @Required
         private final String value;
@@ -1335,6 +1361,12 @@ public class Coverage extends DomainResource {
      * have been included on the health card.
      */
     public static class CostToBeneficiary extends BackboneElement {
+        @Binding(
+            bindingName = "CopayTypes",
+            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            description = "The types of services to which patient copayments are specified.",
+            valueSet = "http://hl7.org/fhir/ValueSet/coverage-copay-type"
+        )
         private final CodeableConcept type;
         @Required
         @Choice({ SimpleQuantity.class, Money.class })
@@ -1661,6 +1693,12 @@ public class Coverage extends DomainResource {
          */
         public static class Exception extends BackboneElement {
             @Required
+            @Binding(
+                bindingName = "CoverageFinancialException",
+                strength = BindingStrength.ValueSet.EXAMPLE,
+                description = "The types of exceptions from the part or full value of financial obligations such as copays.",
+                valueSet = "http://hl7.org/fhir/ValueSet/coverage-financial-exception"
+            )
             private final CodeableConcept type;
             private final Period period;
 
