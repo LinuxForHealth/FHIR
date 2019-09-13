@@ -19,7 +19,7 @@ Log in to your IBM Cloud account https://cloud.ibm.com/.
 
 Click `Create resource`.
 
-Choose DB2 (transactional, formerly DashDB).
+Choose DB2 (transactional).
 
 Select the instance size. Flex is the best choice for a basic production workload.
 
