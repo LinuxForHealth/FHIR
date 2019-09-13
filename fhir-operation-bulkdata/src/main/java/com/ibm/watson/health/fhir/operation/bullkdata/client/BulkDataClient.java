@@ -166,6 +166,6 @@ public class BulkDataClient {
         String jobId = Integer.toString(response.getInstanceId());
         String resourceType = types.get(0);
 
-        return baseUrl + "/" + bucket + "/" + jobId + "_" + resourceType + ".ndjson";
+        return baseUrl + "/" + bucket + "/job" + jobId + "_" + resourceType + "_0.ndjson";
     }
 }

@@ -40,14 +40,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     public static final String FORMAT = "application/fhir+ndjson";
 
-    @Test(groups = { TEST_GROUP_NAME })
+    @Test(groups = { TEST_GROUP_NAME }, enabled = false)
     public void testBaseExport() {
         Response response =
-                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.now(), Arrays.asList("Patient"), null);
+                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
         assertEquals(response.getStatus(), 202);
         
         String contentLocation = response.getHeaderString("Content-Location");
-        assertEquals(contentLocation, "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/BulkImportJob_Patient.ndjson");
+        assertEquals(contentLocation, "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/job1_Patient_0.ndjson");
         
     }
 
