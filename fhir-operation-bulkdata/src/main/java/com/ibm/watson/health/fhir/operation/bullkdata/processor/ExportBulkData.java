@@ -41,7 +41,7 @@ public interface ExportBulkData {
      * @param typeFilters
      * @param ctx
      * @param resourceHelper
-     * @param operationContext 
+     * @param operationContext
      * @param cache
      * 
      * @return
@@ -92,7 +92,7 @@ public interface ExportBulkData {
     public Parameters exportGroup(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
         FHIRResourceHelpers resourceHelper) throws FHIROperationException;
-    
+
     /**
      * deletes the export job
      * 
@@ -107,5 +107,19 @@ public interface ExportBulkData {
      */
     public Parameters deleteExport(MediaType outputFormat, Instant since, List<String> types,
         List<String> typeFilters, FHIRRequestContext ctx, FHIRResourceHelpers resourceHelper)
+        throws FHIROperationException;
+
+    /**
+     * checks the status of the export job
+     * 
+     * @param job
+     * @param operationContext
+     * @param cache
+     * 
+     * @return
+     * @throws FHIROperationException
+     */
+    public Parameters statusExport(String job, 
+        FHIROperationContext operationContext, BulkDataTenantSpecificCache cache)
         throws FHIROperationException;
 }

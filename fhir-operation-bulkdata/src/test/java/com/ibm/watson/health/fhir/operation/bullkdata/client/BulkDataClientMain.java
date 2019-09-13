@@ -27,7 +27,10 @@ public class BulkDataClientMain {
         properties.put(BulkDataConfigUtil.BATCH_TRUSTSTORE_PASS, "change-password");
         
         BulkDataClient client = new BulkDataClient(properties);
-        client.submit(null, null, Arrays.asList("Patient"), properties);
+        
+        // client.submit(null, null, Arrays.asList("Patient"), properties);
+        
+        client.status("9");
     }
 
 }

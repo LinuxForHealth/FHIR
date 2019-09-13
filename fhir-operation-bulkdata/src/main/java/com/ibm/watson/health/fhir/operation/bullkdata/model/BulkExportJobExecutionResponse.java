@@ -5,6 +5,7 @@
  */
 package com.ibm.watson.health.fhir.operation.bullkdata.model;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -65,6 +66,16 @@ public class BulkExportJobExecutionResponse {
     private String instanceName;
     private String lastUpdatedTime;
     private List<Link> _links = new ArrayList<>();
+    
+    private JobParameter jobParameters;
+    
+    public JobParameter getJobParameters() {
+        return jobParameters;
+    }
+
+    public void setJobParameters(JobParameter jobParameters) {
+        this.jobParameters = jobParameters;
+    }
 
     public String getJobName() {
         return jobName;
@@ -141,6 +152,84 @@ public class BulkExportJobExecutionResponse {
     public void addLink(Link link) {
         this._links.add(link);
     }
+    
+    public static class JobParameter {
+
+        String fhirResourceType;
+        String fhirSearchFromDate;
+
+        String cosBucketName;
+        String cosLocation;
+        String cosEndpointUrl;
+        String cosCredentialIbm;
+        String cosApiKey;
+        String cosSrvInstId;
+
+        public String getFhirResourceType() {
+            return fhirResourceType;
+        }
+
+        public void setFhirResourceType(String fhirResourceType) {
+            this.fhirResourceType = fhirResourceType;
+        }
+
+        public String getFhirSearchFromDate() {
+            return fhirSearchFromDate;
+        }
+
+        public void setFhirSearchFromDate(String fhirSearchFromDate) {
+            this.fhirSearchFromDate = fhirSearchFromDate;
+        }
+
+        public String getCosBucketName() {
+            return cosBucketName;
+        }
+
+        public void setCosBucketName(String cosBucketName) {
+            this.cosBucketName = cosBucketName;
+        }
+
+        public String getCosLocation() {
+            return cosLocation;
+        }
+
+        public void setCosLocation(String cosLocation) {
+            this.cosLocation = cosLocation;
+        }
+
+        public String getCosEndpointUrl() {
+            return cosEndpointUrl;
+        }
+
+        public void setCosEndpointUrl(String cosEndpointUrl) {
+            this.cosEndpointUrl = cosEndpointUrl;
+        }
+
+        public String getCosCredentialIbm() {
+            return cosCredentialIbm;
+        }
+
+        public void setCosCredentialIbm(String cosCredentialIbm) {
+            this.cosCredentialIbm = cosCredentialIbm;
+        }
+
+        public String getCosApiKey() {
+            return cosApiKey;
+        }
+
+        public void setCosApiKey(String cosApiKey) {
+            this.cosApiKey = cosApiKey;
+        }
+
+        public String getCosSrvInstId() {
+            return cosSrvInstId;
+        }
+
+        public void setCosSrvInstId(String cosSrvInstId) {
+            this.cosSrvInstId = cosSrvInstId;
+        }
+
+    }
 
     /**
      * Link is a sub class reflecting the link to the parts of the Export Job.
@@ -179,7 +268,8 @@ public class BulkExportJobExecutionResponse {
     public static class Builder {
 
         private BulkExportJobExecutionResponse response = new BulkExportJobExecutionResponse();
-
+        private JobParameter jobParameter = new JobParameter();
+        
         private Builder() {
             // Intentionally hiding from external callers.
         }
@@ -223,6 +313,46 @@ public class BulkExportJobExecutionResponse {
             response.setLastUpdatedTime(lastUpdatedTime);
             return this;
         }
+        
+        public Builder fhirResourceType(String fhirResourceType) {
+            jobParameter.setFhirResourceType(fhirResourceType);
+            return this;
+        }
+
+        public Builder fhirSearchFromDate(String fhirSearchFromDate) {
+            jobParameter.setFhirSearchFromDate(fhirSearchFromDate);
+            return this;
+        }
+
+        public Builder cosBucketName(String cosBucketName) {
+            jobParameter.setCosBucketName(cosBucketName);
+            return this;
+        }
+
+        public Builder cosLocation(String cosLocation) {
+            jobParameter.setCosLocation(cosLocation);
+            return this;
+        }
+
+        public Builder cosEndpointUrl(String cosEndpointUrl) {
+            jobParameter.setCosEndpointUrl(cosEndpointUrl);
+            return this;
+        }
+
+        public Builder cosCredentialIbm(String cosCredentialIbm) {
+            jobParameter.setCosCredentialIbm(cosCredentialIbm);
+            return this;
+        }
+
+        public Builder cosApiKey(String cosApiKey) {
+            jobParameter.setCosApiKey(cosApiKey);
+            return this;
+        }
+
+        public Builder cosSrvInstId(String cosSrvInstId) {
+            jobParameter.setCosSrvInstId(cosSrvInstId);
+            return this;
+        }
 
         public Builder link(String rel, String href) {
             Link link = new Link();
@@ -233,6 +363,7 @@ public class BulkExportJobExecutionResponse {
         }
 
         public BulkExportJobExecutionResponse build() {
+            response.setJobParameters(jobParameter);
             return response;
         }
 
@@ -248,8 +379,23 @@ public class BulkExportJobExecutionResponse {
      *
      */
     public static class Parser {
+        
+        private Parser() {
+            // No Op
+        }
 
         private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+        
+        public static BulkExportJobExecutionResponse parse(String jsonString) throws FHIROperationException {
+            
+            try(InputStream in = new ByteArrayInputStream(jsonString.getBytes())){
+                
+                return BulkExportJobExecutionResponse.Parser.parse(in);
+                
+            } catch(Exception e) {
+                throw new FHIROperationException("Problem parsing the Bulk Export Job's from jsonString response from the server", e);
+            }
+        }
 
         public static BulkExportJobExecutionResponse parse(InputStream in) throws FHIROperationException {
             try (JsonReader jsonReader =
@@ -257,43 +403,47 @@ public class BulkExportJobExecutionResponse {
                 JsonObject jsonObject = jsonReader.readObject();
                 BulkExportJobExecutionResponse.Builder builder = BulkExportJobExecutionResponse.builder();
 
-                String jobName = jsonObject.getString("jobName");
-                if (jobName != null) {
+                
+                if (jsonObject.containsKey("jobName")) {
+                    String jobName = jsonObject.getString("jobName");
                     builder.jobName(jobName);
                 }
 
-                Integer instanceId = jsonObject.getInt("instanceId");
-                if (instanceId != null) {
+                
+                if (jsonObject.containsKey("instanceId")) {
+                    Integer instanceId = jsonObject.getInt("instanceId");
                     builder.instanceId(instanceId);
                 }
-
-                String appName = jsonObject.getString("appName");
-                if (appName != null) {
+                
+                if (jsonObject.containsKey("appName")) {
+                    String appName = jsonObject.getString("appName");
                     builder.appName(appName);
                 }
-
-                String batchStatus = jsonObject.getString("batchStatus");
-                if (batchStatus != null) {
+                
+                if (jsonObject.containsKey("batchStatus")) {
+                    String batchStatus = jsonObject.getString("batchStatus");
                     builder.batchStatus(batchStatus);
                 }
 
-                String jobXMLName = jsonObject.getString("jobXMLName");
-                if (jobXMLName != null) {
+               
+                if (jsonObject.containsKey("jobXMLName")) {
+                    String jobXMLName = jsonObject.getString("jobXMLName");
                     builder.jobXMLName(jobXMLName);
                 }
-
-                String instanceName = jsonObject.getString("instanceName");
-                if (instanceName != null) {
+                
+                if (jsonObject.containsKey("instanceName")) {
+                    String instanceName = jsonObject.getString("instanceName");
                     builder.instanceName(instanceName);
                 }
-
-                String lastUpdatedTime = jsonObject.getString("lastUpdatedTime");
-                if (lastUpdatedTime != null) {
+                
+                if (jsonObject.containsKey("lastUpdatedTime")) {
+                    String lastUpdatedTime = jsonObject.getString("lastUpdatedTime");
                     builder.lastUpdatedTime(lastUpdatedTime);
                 }
 
-                JsonArray arr = jsonObject.getJsonArray("_links");
-                if (arr != null) {
+               
+                if (jsonObject.containsKey("_links")) {
+                    JsonArray arr = jsonObject.getJsonArray("_links");
                     ListIterator<JsonValue> iter = arr.listIterator();
                     while (iter.hasNext()) {
                         JsonValue v = iter.next();
@@ -307,9 +457,54 @@ public class BulkExportJobExecutionResponse {
                         }
                     }
                 }
+                
+                
+                if (jsonObject.containsKey("jobParameters")) {
+                    JsonObject obj = jsonObject.getJsonObject("jobParameters");
+                    String fhirResourceType = obj.getString("fhir.resourcetype");
+                    if (fhirResourceType != null) {
+                        builder.fhirResourceType(fhirResourceType);
+                    }
+
+                    String fhirSearchFromdate = obj.getString("fhir.search.fromdate");
+                    if (fhirSearchFromdate != null) {
+                        builder.fhirSearchFromDate(fhirSearchFromdate);
+                    }
+
+                    String cosBucketName = obj.getString("cos.bucket.name");
+                    if (cosBucketName != null) {
+                        builder.cosBucketName(cosBucketName);
+                    }
+
+                    String cosLocation = obj.getString("cos.location");
+                    if (cosLocation != null) {
+                        builder.cosLocation(cosLocation);
+                    }
+
+                    String cosEndpointUrl = obj.getString("cos.endpointurl");
+                    if (cosEndpointUrl != null) {
+                        builder.cosEndpointUrl(cosEndpointUrl);
+                    }
+
+                    String cosCredentialIbm = obj.getString("cos.credential.ibm");
+                    if (cosCredentialIbm != null) {
+                        builder.cosCredentialIbm(cosCredentialIbm);
+                    }
+
+                    String cosApiKey = obj.getString("cos.api.key");
+                    if (cosApiKey != null) {
+                        builder.cosApiKey(cosApiKey);
+                    }
+
+                    String cosSrvinstId = obj.getString("cos.srvinst.id");
+                    if (cosSrvinstId != null) {
+                        builder.cosSrvInstId(cosSrvinstId);
+                    }
+                }
 
                 return builder.build();
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new FHIROperationException("Problem parsing the Bulk Export Job's response from the server", e);
             }
         }
@@ -329,7 +524,7 @@ public class BulkExportJobExecutionResponse {
         private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
                 Json.createGeneratorFactory(properties);
 
-        public static String generate(BulkExportJobExecutionResponse obj) throws IOException {
+        public static String generate(BulkExportJobExecutionResponse obj, boolean withSensitive) throws IOException {
             String o = "{}";
             try (StringWriter writer = new StringWriter();) {
                 try (JsonGenerator generator =
@@ -382,6 +577,52 @@ public class BulkExportJobExecutionResponse {
                         generator.writeEnd();
                     }
 
+                    
+                    generator.writeStartObject("jobParameters");
+
+                    JobParameter parameter = obj.getJobParameters();
+
+                    if (withSensitive) {
+                        if (parameter.getCosApiKey() != null) {
+                            generator.write("cos.api.key", parameter.getCosApiKey());
+                        }
+                    }
+
+                    if (withSensitive) {
+                        if (parameter.getCosBucketName() != null) {
+                            generator.write("cos.bucket.name", parameter.getCosBucketName());
+                        }
+                    }
+
+                    if (parameter.getCosCredentialIbm() != null) {
+                        generator.write("cos.credential.ibm", parameter.getCosCredentialIbm());
+                    }
+
+                    if (withSensitive) {
+                        if (parameter.getCosEndpointUrl() != null) {
+                            generator.write("cos.endpointurl", parameter.getCosEndpointUrl());
+                        }
+                    }
+                    if (parameter.getCosLocation() != null) {
+                        generator.write("cos.location", parameter.getCosLocation());
+                    }
+
+                    if (withSensitive) {
+                        if (parameter.getCosSrvInstId() != null) {
+                            generator.write("cos.srvinst.id", parameter.getCosSrvInstId());
+                        }
+                    }
+
+                    if (parameter.getFhirResourceType() != null) {
+                        generator.write("fhir.resourcetype", parameter.getFhirResourceType());
+                    }
+
+                    if (parameter.getFhirSearchFromDate() != null) {
+                        generator.write("fhir.search.fromdate", parameter.getFhirSearchFromDate());
+                    }
+
+                    generator.writeEnd();
+                    
                     generator.writeEnd();
                 }
                 o = writer.toString();

@@ -76,12 +76,10 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
             /*
              * Submit Job
              */
-            
-            
-            
+
             /*
-             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. 
-             * The OperationContext is checked for ACCEPTED, and picks out the custom response.  
+             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
+             * OperationContext is checked for ACCEPTED, and picks out the custom response.
              */
             String url = "Go-over-there";
             Response response =
@@ -89,8 +87,6 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
             operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
             operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
 
-            
-            
             return FHIROperationUtil.getOutputParameters(null);
         } catch (Exception e) {
             throw new FHIROperationException("", e);
@@ -126,6 +122,16 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
         List<String> typeFilters, FHIRRequestContext ctx, FHIRResourceHelpers resourceHelper)
         throws FHIROperationException {
 
+        try {
+            return getOutputParametersWithJson(null);
+        } catch (Exception e) {
+            throw new FHIROperationException("", e);
+        }
+    }
+
+    @Override
+    public Parameters statusExport(String job, FHIROperationContext operationContext,
+        BulkDataTenantSpecificCache cache) throws FHIROperationException {
         try {
             return getOutputParametersWithJson(null);
         } catch (Exception e) {
