@@ -47,7 +47,9 @@ public class BulkDataConfigUtil {
     public static final String JOB_PARAMETERS_PAGES = "cos.pagesperobject";
     public static final String JOB_PARAMETERS_MAX = "cos.read.maxobjects";
     public static final String JOB_PARAMETERS_COSREADPER = "fhir.cosreadsperdbbatch";
-
+    
+    public static final String IMPLEMENTATION_TYPE = "implementation_type";
+    
     /**
      * @param f
      * @return
@@ -62,6 +64,8 @@ public class BulkDataConfigUtil {
                 addToMap(jsonObject, configs, APPLICATION_NAME);
                 addToMap(jsonObject, configs, MODULE_NAME);
                 addToMap(jsonObject, configs, JOB_XML_NAME);
+                
+                addToMap(jsonObject, configs, IMPLEMENTATION_TYPE);
 
                 addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_BUCKET);
                 addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_LOCATION);
