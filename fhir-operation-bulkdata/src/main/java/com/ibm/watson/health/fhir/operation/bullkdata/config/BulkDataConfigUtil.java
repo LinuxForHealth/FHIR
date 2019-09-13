@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.json.Json;
@@ -20,13 +21,13 @@ import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
 
 /**
- * bulkdata.json is picked up from the given file, and loaded into an intermediate map. 
+ * bulkdata.json is picked up from the given file, and loaded into an intermediate map.
  * 
  * @author pbastide
  *
  */
 public class BulkDataConfigUtil {
-    
+
     private static final String CLASSNAME = BulkDataConfigUtil.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
@@ -47,9 +48,16 @@ public class BulkDataConfigUtil {
     public static final String JOB_PARAMETERS_PAGES = "cos.pagesperobject";
     public static final String JOB_PARAMETERS_MAX = "cos.read.maxobjects";
     public static final String JOB_PARAMETERS_COSREADPER = "fhir.cosreadsperdbbatch";
+
+    public static final String BATCH_USER = "batch-user";
+    public static final String BATCH_USER_PASS = "batch-user-password";
+    public static final String BATCH_URL = "batch-uri";
     
+    public static final String BATCH_TRUSTSTORE = "batch-truststore";
+    public static final String BATCH_TRUSTSTORE_PASS = "batch-truststore-password";
+
     public static final String IMPLEMENTATION_TYPE = "implementation_type";
-    
+
     /**
      * @param f
      * @return
@@ -64,8 +72,14 @@ public class BulkDataConfigUtil {
                 addToMap(jsonObject, configs, APPLICATION_NAME);
                 addToMap(jsonObject, configs, MODULE_NAME);
                 addToMap(jsonObject, configs, JOB_XML_NAME);
-                
+
                 addToMap(jsonObject, configs, IMPLEMENTATION_TYPE);
+
+                addToMap(jsonObject, configs, BATCH_USER);
+                addToMap(jsonObject, configs, BATCH_USER_PASS);
+                addToMap(jsonObject, configs, BATCH_URL);
+                addToMap(jsonObject, configs, BATCH_TRUSTSTORE);
+                addToMap(jsonObject, configs, BATCH_TRUSTSTORE_PASS);
 
                 addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_BUCKET);
                 addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_LOCATION);
@@ -80,11 +94,11 @@ public class BulkDataConfigUtil {
             }
 
         } catch (FileNotFoundException e) {
-         // This exception is highly unlikely, but still possible.
+            // This exception is highly unlikely, but still possible.
             log.warning("The file is not found for bulkdata.json");
         } catch (IOException e) {
-         // This exception is highly unlikely, but still possible.
-            log.warning("The file is not found for bulkdata.json");
+            // This exception is highly unlikely, but still possible.
+            log.log(Level.WARNING, "The file is not found for bulkdata.json", e);
         }
         return configs;
     }

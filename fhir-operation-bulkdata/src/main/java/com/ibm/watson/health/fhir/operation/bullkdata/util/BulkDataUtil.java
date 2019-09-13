@@ -168,7 +168,7 @@ public class BulkDataUtil {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (parameter.getName() != null
-                        && parameter.getName().getValue().compareTo("_type") == 0) {
+                        && parameter.getName().getValue().compareTo("_typeFilters") == 0) {
                     String typeFilters =
                             parameter.getValue().as(com.ibm.watson.health.fhir.model.type.String.class).getValue();
                     if (!typeFilters.isEmpty()) {

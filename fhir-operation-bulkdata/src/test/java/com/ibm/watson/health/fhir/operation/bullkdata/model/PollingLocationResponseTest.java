@@ -21,7 +21,7 @@ import com.ibm.watson.health.fhir.operation.bullkdata.model.PollingLocationRespo
  * @author pbastide
  *
  */
-public class ResponseMetadataTest {
+public class PollingLocationResponseTest {
 
     @Test
     public void testResponseMetadataJsonEmpty() {
