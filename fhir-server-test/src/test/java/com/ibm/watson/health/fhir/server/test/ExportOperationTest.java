@@ -40,9 +40,9 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public static final String FORMAT = "application/fhir+ndjson";
 
     @Test(groups = { TEST_GROUP_NAME })
-    public void testSubjectPatient() {
+    public void testBaseExport() {
         Response response =
-                doGet(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.now(), null, null);
+                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.now(), null, null);
         assertEquals(response.getStatus(), 202);
         
         String contentLocation = response.getHeaderString("Content-Location");
@@ -50,7 +50,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         
     }
 
-    public Response doGet(String path, String mimeType, String outputFormat, Instant since,
+    public Response doPost(String path, String mimeType, String outputFormat, Instant since,
         List<String> types, List<String> typeFilters) {
 
         WebTarget target = getWebTarget();

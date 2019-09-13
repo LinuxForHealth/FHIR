@@ -5,13 +5,15 @@
 	"jobParameters": {
 		"cos.bucket.name": "fhir-r4-connectathon",
 		"cos.location": "us",
-		"cos.endpointurl": "https: //fake",
+		"cos.endpointurl": "https://unknown",
 		"fhir.tenant": "default",
 		"cos.credential.ibm": "Y",
 		"cos.api.key": "fake", 
 		"cos.srvinst.id" : "crn:v1:bluemix:public:cloud-object-storage:global:a/fake::",
 		"cos.pagesperobject": "2",
 		"cos.read.maxobjects": "2",
-		"fhir.cosreadsperdbbatch": "2"
-	}
+		"fhir.cosreadsperdbbatch": "2",
+		"fhir.search.fromdate" : ""
+	}, 
+	"implementation_type" : "dummy"	
 }

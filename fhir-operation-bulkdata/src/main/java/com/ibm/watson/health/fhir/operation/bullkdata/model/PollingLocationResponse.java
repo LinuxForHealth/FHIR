@@ -11,10 +11,13 @@ import java.util.stream.Collectors;
 import com.ibm.watson.health.fhir.model.type.Instant;
 
 /**
+ * ResponseMetadata to manipulate the response back to the client. 
+ * This response object is intent for the polling location. 
+ * 
  * @author pbastide
  *
  */
-public class ResponseMetadata {
+public class PollingLocationResponse {
 
     private Instant transactionTime;
     private String request;
