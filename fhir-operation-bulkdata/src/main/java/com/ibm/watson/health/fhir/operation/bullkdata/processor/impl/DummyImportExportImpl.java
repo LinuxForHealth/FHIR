@@ -19,8 +19,8 @@ import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.resource.Parameters;
 import com.ibm.watson.health.fhir.model.resource.Parameters.Parameter;
 import com.ibm.watson.health.fhir.model.type.Instant;
-import com.ibm.watson.health.fhir.operation.bullkdata.config.BulkDataTenantSpecificCache;
-import com.ibm.watson.health.fhir.operation.bullkdata.model.ResponseMetadata;
+import com.ibm.watson.health.fhir.operation.bullkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.watson.health.fhir.operation.bullkdata.model.PollingLocationResponse;
 import com.ibm.watson.health.fhir.operation.bullkdata.processor.ExportBulkData;
 import com.ibm.watson.health.fhir.operation.bullkdata.processor.ImportBulkData;
 import com.ibm.watson.health.fhir.operation.context.FHIROperationContext;
@@ -52,7 +52,7 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
     @SuppressWarnings("unused")
     private static WeakHashMap<String, Phase> jobTracker = new WeakHashMap<>();
 
-    public static Parameters getOutputParametersWithJson(ResponseMetadata resource)
+    public static Parameters getOutputParametersWithJson(PollingLocationResponse resource)
         throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();
         parametersBuilder.parameter(Parameter.builder().name(string("return")).value(string(resource.toJsonString())).build());

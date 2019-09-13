@@ -5,7 +5,6 @@
  */
 package com.ibm.watson.health.fhir.operation.bullkdata.model;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -65,8 +64,6 @@ public class BulkExportJobInstanceResponse {
     private String jobXMLName;
     private String instanceName;
     private String lastUpdatedTime;
-    private String instanceState; 
-    
     private List<Link> _links = new ArrayList<>();
 
     public String getJobName() {
@@ -143,14 +140,6 @@ public class BulkExportJobInstanceResponse {
 
     public void addLink(Link link) {
         this._links.add(link);
-    }
-
-    public String getInstanceState() {
-        return instanceState;
-    }
-
-    public void setInstanceState(String instanceState) {
-        this.instanceState = instanceState;
     }
 
     /**
@@ -234,11 +223,6 @@ public class BulkExportJobInstanceResponse {
             response.setLastUpdatedTime(lastUpdatedTime);
             return this;
         }
-        
-        public Builder instanceState(String instanceState) {
-            response.setInstanceState(instanceState);
-            return this;
-        }
 
         public Builder link(String rel, String href) {
             Link link = new Link();
@@ -270,16 +254,6 @@ public class BulkExportJobInstanceResponse {
         }
 
         private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-        
-        public static BulkExportJobInstanceResponse parse(String jsonString) throws FHIROperationException {
-            try(InputStream in = new ByteArrayInputStream(jsonString.getBytes())){
-                
-                return BulkExportJobInstanceResponse.Parser.parse(in);
-                
-            } catch(Exception e) {
-                throw new FHIROperationException("Problem parsing the Bulk Export Job's from jsonString response from the server", e);
-            }
-        }
 
         public static BulkExportJobInstanceResponse parse(InputStream in) throws FHIROperationException {
             try (JsonReader jsonReader =
@@ -287,56 +261,43 @@ public class BulkExportJobInstanceResponse {
                 JsonObject jsonObject = jsonReader.readObject();
                 BulkExportJobInstanceResponse.Builder builder = BulkExportJobInstanceResponse.builder();
 
-                if (jsonObject.containsKey("jobName")) {
-                    String jobName = jsonObject.getString("jobName");
+                String jobName = jsonObject.getString("jobName");
+                if (jobName != null) {
                     builder.jobName(jobName);
                 }
-                
-                if (jsonObject.containsKey("instanceId")) {
-                    Integer instanceId = jsonObject.getInt("instanceId");
+
+                Integer instanceId = jsonObject.getInt("instanceId");
+                if (instanceId != null) {
                     builder.instanceId(instanceId);
                 }
 
-                if (jsonObject.containsKey("appName")) {
-                    String appName = jsonObject.getString("appName");
+                String appName = jsonObject.getString("appName");
+                if (appName != null) {
                     builder.appName(appName);
                 }
-                
-                if (jsonObject.containsKey("batchStatus")) {
-                    String batchStatus = jsonObject.getString("batchStatus");
+
+                String batchStatus = jsonObject.getString("batchStatus");
+                if (batchStatus != null) {
                     builder.batchStatus(batchStatus);
                 }
 
-                
-                if (jsonObject.containsKey("jobXMLName")) {
-                    String jobXMLName = jsonObject.getString("jobXMLName");
+                String jobXMLName = jsonObject.getString("jobXMLName");
+                if (jobXMLName != null) {
                     builder.jobXMLName(jobXMLName);
                 }
-                
-                if (jsonObject.containsKey("instanceName")) {
-                    String instanceName = jsonObject.getString("instanceName");
+
+                String instanceName = jsonObject.getString("instanceName");
+                if (instanceName != null) {
                     builder.instanceName(instanceName);
                 }
-                
-                
-                if (jsonObject.containsKey("instanceState")) {
-                    String instanceState = jsonObject.getString("instanceState");
-                    builder.instanceState(instanceState);
-                }
-                
-                if (jsonObject.containsKey("submitter")) {
-                    String submitter = jsonObject.getString("submitter");
-                    builder.submitter(submitter);
-                }
 
-                if (jsonObject.containsKey("lastUpdatedTime")) {
-                    String lastUpdatedTime = jsonObject.getString("lastUpdatedTime");
+                String lastUpdatedTime = jsonObject.getString("lastUpdatedTime");
+                if (lastUpdatedTime != null) {
                     builder.lastUpdatedTime(lastUpdatedTime);
                 }
 
-                
-                if (jsonObject.containsKey("_links")) {
-                    JsonArray arr = jsonObject.getJsonArray("_links");
+                JsonArray arr = jsonObject.getJsonArray("_links");
+                if (arr != null) {
                     ListIterator<JsonValue> iter = arr.listIterator();
                     while (iter.hasNext()) {
                         JsonValue v = iter.next();
@@ -385,10 +346,6 @@ public class BulkExportJobInstanceResponse {
 
                     if (obj.getInstanceId() != null) {
                         generator.write("instanceId", obj.getInstanceId());
-                    }
-                    
-                    if (obj.getInstanceState() != null) {
-                        generator.write("instanceState", obj.getInstanceState());
                     }
 
                     if (obj.getAppName() != null) {

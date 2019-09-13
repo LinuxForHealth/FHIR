@@ -13,7 +13,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.watson.health.fhir.model.type.Instant;
-import com.ibm.watson.health.fhir.operation.bullkdata.model.ResponseMetadata.Output;
+import com.ibm.watson.health.fhir.operation.bullkdata.model.PollingLocationResponse.Output;
 
 /**
  * Simple Test for the Rough Response defined in the BulkData Export 
@@ -25,7 +25,7 @@ public class ResponseMetadataTest {
 
     @Test
     public void testResponseMetadataJsonEmpty() {
-        ResponseMetadata metadata = new ResponseMetadata();
+        PollingLocationResponse metadata = new PollingLocationResponse();
         assertEquals(metadata.toJsonString(), "{\n" +
                 "\"output\" : []\n" +
                 "}");
@@ -33,7 +33,7 @@ public class ResponseMetadataTest {
 
     @Test
     public void testResponseMetadataJsonFull() {
-        ResponseMetadata metadata = new ResponseMetadata();
+        PollingLocationResponse metadata = new PollingLocationResponse();
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
         Instant now = Instant.now();
@@ -51,7 +51,7 @@ public class ResponseMetadataTest {
         List<Output> outputs = new ArrayList<>();
         outputs.add(new Output("type", "url"));
 
-        ResponseMetadata metadata = new ResponseMetadata();
+        PollingLocationResponse metadata = new PollingLocationResponse();
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
         Instant now = Instant.now();
