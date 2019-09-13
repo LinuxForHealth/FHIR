@@ -23,18 +23,16 @@
     <!-- Disable welcome page so that internal server info won't be revealed in responses
          to requests with an invalid context root.
     -->
-    <httpDispatcher enableWelcomePage="false" />
+    <httpDispatcher enableWelcomePage="false"/>
     <!-- Disable X-Powered-By header to avoid leaking information and
          override the default error pages to avoid showing stack traces
          for nonsensical queries like requests for a JSP page that doesn't exist.
     -->
-    <webContainer disableXPoweredBy="true" 
-        displaytextwhennoerrorpagedefined="Unexpected request/response. Please check the URL and try again."
-        deferServletLoad="false" />
+    <webContainer disableXPoweredBy="true" displaytextwhennoerrorpagedefined="Unexpected request/response. Please check the URL and try again."/>
 
     <!-- FHIR Server's keystore and truststore configuration -->
-    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
-    <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeystore.jks" password="change-password"/>
+    <ssl clientAuthenticationSupported="true" id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore"/>
+    <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeystore.jks" password="change-password"/> 
     <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTruststore.jks" password="change-password"/>
     <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
 
@@ -51,17 +49,17 @@
     </basicRegistry>
     
     <authorization-roles id="com.ibm.ws.batch">
-	<security-role name="batchAdmin">	
-		<user name="fhiradmin"/>	
-	</security-role>
-	<security-role name="batchSubmitter">
-		<user name="fhiruser"/>
-	</security-role>
-	<security-role name="batchMonitor">
-		<user name="fhiradmin"/>
-		<user name="fhiruser"/>
-	</security-role>
-</authorization-roles>
+        <security-role name="batchAdmin">
+            <user name="fhiradmin"/>
+        </security-role>
+        <security-role name="batchSubmitter">
+            <user name="fhiruser"/>
+        </security-role>
+        <security-role name="batchMonitor">
+            <user name="fhiradmin"/>
+            <user name="fhiruser"/>
+        </security-role>
+    </authorization-roles>
 
     <!--    
     <openidConnectProvider id="oidc-provider" oauthProviderRef="oauth2-provider"/> 
@@ -92,11 +90,7 @@
     <!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
          Update fhir-server-config.json to publish the remote provider OAuth URLs. -->
     <!-- 
-    <openidConnectClient authorizationEndpointUrl="https://change-me/authorize" 
-                    clientId="change-me" 
-                    clientSecret="{xor}change-me" 
-                    id="client01" 
-                    tokenEndpointUrl="https://change-me/token">     
+    <openidConnectClient authorizationEndpointUrl="https://authorize-dstu2.smarthealthit.org/authorize"  
     </openidConnectClient> 
     -->
     
@@ -106,7 +100,7 @@
         Note: on Linux, the server must be running with root priviledges in order to
         listen on ports <= 1024.
      -->
-    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="-1" httpsPort="9443" onError="FAIL"/>
+    <httpEndpoint host="*" httpPort="-1" httpsPort="9443" id="defaultHttpEndpoint" onError="FAIL"/>
 
     <!-- 
         Modify the trace string below as needed to enable/disable tracing. 
@@ -119,19 +113,11 @@
 
     <applicationMonitor updateTrigger="mbean"/>   
 
+    <webContainer deferServletLoad="false"/>   
+
     <!-- This is the main FHIR Server REST API war -->
-    <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
-        <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
-        <!-- Include id attributes to make it easier to override this via dropinConfig -->
-        <application-bnd id="binding">
-            <security-role id="users" name="FHIRUsers">
-                <group name="FHIRUsers"/>
-            </security-role>
-        </application-bnd>
-    </webApplication>
 
     <!-- This is the openapi definition for the FHIR Server -->
-    <webApplication id="fhir-openapi" location="fhir-openapi.war" name="fhir-openapi"/>
     
     <!-- 
         This library element puts a specific directory in the classpath so that it can be used
@@ -158,11 +144,9 @@
         <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
     
-    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource"
-        type="javax.sql.XADataSource">
-        <jdbcDriver libraryRef="fhirSharedLib"
-            javax.sql.XADataSource="com.ibm.watson.health.fhir.persistence.proxy.FHIRProxyXADataSource" />
-        <connectionManager />
+    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.watson.health.fhir.persistence.proxy.FHIRProxyXADataSource" libraryRef="fhirSharedLib"/>
+        <connectionManager/>
     </dataSource>
     
     
@@ -193,25 +177,9 @@
             currentSchema="OAUTHDBSCHEMA" 
             driverType="4"/>
     </dataSource>
-    -->
+    -->    
 
-	<dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-		<jdbcDriver libraryRef="fhirSharedLib" />
-		<properties.db2.jcc apiKey="${BATCH_DB_APIKEY}"
-			currentSchema="JBATCH" 
-			databaseName="BLUDB" 
-			driverType="4"
-			pluginName="IBMIAMauth" 
-			portNumber="50001" 
-			securityMechanism="15"
-			serverName="${BATCH_DB_HOSTNAME}"
-			sslConnection="true" />
-	</dataSource>  
-    
-    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="JBATCH" tablePrefix=""/>
-
-    <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
+    <webApplication contextRoot="fhir-server" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
             <security-role id="users" name="FHIRUsers">
@@ -220,4 +188,12 @@
         </application-bnd>
     </webApplication>
 
+    <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war" name="fhir-bulkimportexport-webapp">
+        <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
+        <application-bnd>
+            <security-role id="users" name="FHIRUsers">
+                <group name="FHIRUsers"/>
+            </security-role>
+        </application-bnd>
+    </webApplication>
 </server>
