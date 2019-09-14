@@ -48,6 +48,13 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = "fhir.tenant")
     String fhirTenant;
+    
+    /**
+     * Fhir data store id.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.datastoreid")
+    String fhirDatastoreId;
 
     /**
      * Fhir ResourceType.
@@ -125,6 +132,11 @@ public class ChunkReader extends AbstractItemReader {
             log("readItem", "Set tenant to default!");
         }
         
+        if (fhirDatastoreId == null) {
+            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            log("readItem", "Set DatastoreId to default!");
+        }
+        
         if (fhirSearchPageSize != null) {
             try {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
@@ -140,7 +152,7 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         FHIRConfiguration.setConfigHome("./");
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirTenant));
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
 
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
