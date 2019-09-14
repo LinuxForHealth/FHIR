@@ -260,7 +260,7 @@ public class BulkDataClient {
         String baseCosUrl = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT);
         String bucket = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET);
         String downloadUrl =
-                baseCosUrl + "/" + bucket + "/job" + jobId + "_" + resourceType + "_0.ndjson";
+                baseCosUrl + "/" + bucket + "/job" + jobId + "/" + resourceType + "_0.ndjson";
 
         // Request 
         String request = "/$export?_type=" + resourceType;
