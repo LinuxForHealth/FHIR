@@ -195,18 +195,19 @@
     </dataSource>
     -->
 
-	<dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-		<jdbcDriver libraryRef="fhirSharedLib" />
-		<properties.db2.jcc apiKey="${BATCH_DB_APIKEY}"
-			currentSchema="JBATCH" 
-			databaseName="BLUDB" 
-			driverType="4"
-			pluginName="IBMIAMauth" 
-			portNumber="50001" 
-			securityMechanism="15"
-			serverName="${BATCH_DB_HOSTNAME}"
-			sslConnection="true" />
-	</dataSource>  
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
+    <jdbcDriver libraryRef="fhirSharedLib" />
+    <properties.db2.jcc 
+        apiKey="${BATCH_DB_APIKEY}"
+        currentSchema="JBATCH" 
+        databaseName="BLUDB" 
+        driverType="4"
+        pluginName="IBMIAMauth" 
+        portNumber="50001"
+        securityMechanism="15" 
+        serverName="${BATCH_DB_HOSTNAME}"
+        sslConnection="true" />
+    </dataSource>  
     
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
     <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="JBATCH" tablePrefix=""/>
