@@ -195,7 +195,7 @@
     </dataSource>
     -->
 
-	<dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
     <jdbcDriver libraryRef="fhirSharedLib" />
     <properties.db2.jcc 
         apiKey="${BATCH_DB_APIKEY}"
