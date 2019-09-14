@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.ibm.waston.health.fhir.bulkcommon.Constants;
 import com.ibm.watson.health.fhir.config.FHIRConfiguration;
 import com.ibm.watson.health.fhir.config.FHIRRequestContext;
 import com.ibm.watson.health.fhir.model.format.Format;
@@ -42,6 +43,13 @@ public class ChunkWriter extends AbstractItemWriter {
     @Inject
     @BatchProperty(name = "fhir.tenant")
     String fhirTenant;
+    
+    /**
+     * Fhir data store id.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.datastoreid")
+    String fhirDatastoreId;
 
     /**
      * @see AbstractItemWriter#AbstractItemWriter()
@@ -69,8 +77,14 @@ public class ChunkWriter extends AbstractItemWriter {
             fhirTenant = "default";
             log("writeItems", "Set tenant to default!");
         }
+        
+        if (fhirDatastoreId == null) {
+            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            log("readItem", "Set DatastoreId to default!");
+        }
+        
         FHIRConfiguration.setConfigHome("./");
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirTenant));
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
 
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
