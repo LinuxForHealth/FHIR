@@ -88,7 +88,9 @@ public class BulkExportJobInstanceRequest {
 
         String fhirResourceType;
         String fhirSearchFromDate;
-
+        String fhirTenant; 
+        String fhirDataStoreId;
+        
         String cosBucketName;
         String cosLocation;
         String cosEndpointUrl;
@@ -160,6 +162,22 @@ public class BulkExportJobInstanceRequest {
             this.cosSrvInstId = cosSrvInstId;
         }
 
+        public String getFhirTenant() {
+            return fhirTenant;
+        }
+
+        public void setFhirTenant(String fhirTenant) {
+            this.fhirTenant = fhirTenant;
+        }
+
+        public String getFhirDataStoreId() {
+            return fhirDataStoreId;
+        }
+
+        public void setFhirDataStoreId(String fhirDataStoreId) {
+            this.fhirDataStoreId = fhirDataStoreId;
+        }
+
     }
 
     /**
@@ -229,6 +247,16 @@ public class BulkExportJobInstanceRequest {
 
         public Builder cosSrvInstId(String cosSrvInstId) {
             jobParameter.setCosSrvInstId(cosSrvInstId);
+            return this;
+        }
+        
+        public Builder fhirTenant(String fhirTenant) {
+            jobParameter.setFhirTenant(fhirTenant);
+            return this;
+        }
+        
+        public Builder fhirDataStoreId(String fhirDataStoreId) {
+            jobParameter.setFhirDataStoreId(fhirDataStoreId);
             return this;
         }
 
@@ -322,6 +350,16 @@ public class BulkExportJobInstanceRequest {
                     if (cosSrvinstId != null) {
                         builder.cosSrvInstId(cosSrvinstId);
                     }
+                    
+                    String fhirTenant = obj.getString("fhir.tenant");
+                    if (fhirTenant != null) {
+                        builder.fhirTenant(fhirTenant);
+                    }
+                    
+                    String fhirDataStoreId = obj.getString("fhir.datastoreid");
+                    if (fhirDataStoreId != null) {
+                        builder.fhirDataStoreId(fhirDataStoreId);
+                    }
                 }
 
                 return builder.build();
@@ -414,6 +452,14 @@ public class BulkExportJobInstanceRequest {
 
                     if (parameter.getFhirSearchFromDate() != null) {
                         generator.write("fhir.search.fromdate", parameter.getFhirSearchFromDate());
+                    }
+                    
+                    if (parameter.getFhirTenant() != null) {
+                        generator.write("fhir.tenant", parameter.getFhirTenant());
+                    }
+                    
+                    if (parameter.getFhirDataStoreId() != null) {
+                        generator.write("fhir.datastoreid", parameter.getFhirDataStoreId());
                     }
 
                     generator.writeEnd();
