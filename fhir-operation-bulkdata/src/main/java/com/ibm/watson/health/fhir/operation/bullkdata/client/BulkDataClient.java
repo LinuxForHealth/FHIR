@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.ibm.watson.health.fhir.client.impl.FHIRBasicAuthenticator;
+import com.ibm.watson.health.fhir.config.FHIRRequestContext;
 import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.type.Instant;
 import com.ibm.watson.health.fhir.operation.bullkdata.config.BulkDataConfigUtil;
@@ -140,6 +141,8 @@ public class BulkDataClient {
 
         // Need to push this into a property.
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
+        
+        System.out.println("-> " + properties.get(BulkDataConfigUtil.BATCH_URL));
 
         BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
@@ -152,7 +155,13 @@ public class BulkDataClient {
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
-
+        
+        String fhirTenant = FHIRRequestContext.get().getTenantId();
+        builder.fhirTenant(fhirTenant);
+        
+        String fhirDataStoreId = FHIRRequestContext.get().getDataStoreId();
+        builder.fhirDataStoreId(fhirDataStoreId);
+        
         String resourceType = types.get(0);
         builder.fhirResourceType(resourceType);
 
@@ -169,8 +178,8 @@ public class BulkDataClient {
         String responseStr = r.readEntity(String.class);
 
         // Debug / Dev only
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("JSON -> \n" + responseStr);
+        if (log.isLoggable(Level.WARNING)) {
+            log.warning("JSON -> \n" + responseStr);
         }
 
         BulkExportJobInstanceResponse response =
@@ -179,7 +188,7 @@ public class BulkDataClient {
         // From the response
         String jobId = Integer.toString(response.getInstanceId());
 
-        return "/fhir-server/api/v4/$export-status?job=" + jobId;
+        return "/wh-fhir-dev/api/v4/$export-status?job=" + jobId;
     }
 
     /**
@@ -213,8 +222,8 @@ public class BulkDataClient {
             BulkExportJobExecutionResponse response =
                     BulkExportJobExecutionResponse.Parser.parse(responseStr);
 
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Logging the BulkExportJobExecutionResponse Details -> \n "
+            if (log.isLoggable(Level.WARNING)) {
+                log.warning("Logging the BulkExportJobExecutionResponse Details -> \n "
                         + BulkExportJobExecutionResponse.Writer.generate(response, false));
             }
 
@@ -224,7 +233,7 @@ public class BulkDataClient {
             } else if (SUCCESS_STATUS.contains(batchStatus)) {
                 result = process(response);
             } else if (FAILED_STATUS.contains(batchStatus)) {
-                throw BulkDataUtil.buildOperationException("batch status check is null");
+                throw BulkDataUtil.buildOperationException("batch status check is failed");
             }
 
         } catch (FHIROperationException fe) {
