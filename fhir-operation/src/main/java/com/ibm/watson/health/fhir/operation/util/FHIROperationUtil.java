@@ -18,10 +18,22 @@ import com.ibm.watson.health.fhir.model.resource.Parameters;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watson.health.fhir.model.resource.Parameters.Parameter;
+import com.ibm.watson.health.fhir.model.type.Canonical;
+import com.ibm.watson.health.fhir.model.type.Code;
+import com.ibm.watson.health.fhir.model.type.Date;
+import com.ibm.watson.health.fhir.model.type.DateTime;
 import com.ibm.watson.health.fhir.model.type.Id;
+import com.ibm.watson.health.fhir.model.type.Instant;
 import com.ibm.watson.health.fhir.model.type.IssueSeverity;
 import com.ibm.watson.health.fhir.model.type.IssueType;
+import com.ibm.watson.health.fhir.model.type.Oid;
 import com.ibm.watson.health.fhir.model.type.OperationParameterUse;
+import com.ibm.watson.health.fhir.model.type.PositiveInt;
+import com.ibm.watson.health.fhir.model.type.Time;
+import com.ibm.watson.health.fhir.model.type.UnsignedInt;
+import com.ibm.watson.health.fhir.model.type.Uri;
+import com.ibm.watson.health.fhir.model.type.Url;
+import com.ibm.watson.health.fhir.model.type.Uuid;
 
 public class FHIROperationUtil {
 
@@ -44,14 +56,38 @@ public class FHIROperationUtil {
                             String value = values.get(0);
                             Parameter.Builder parameterBuilder =
                                     Parameter.builder().name(string(name));
-                            if ("string".equals(typeName)) {
-                                parameterBuilder.value(string(value));
-                            } else if ("boolean".equals(typeName)) {
+                            if ("boolean".equals(typeName)) {
                                 parameterBuilder.value(com.ibm.watson.health.fhir.model.type.Boolean.of(value));
-                            } else if ("decimal".equals(typeName)) {
-                                parameterBuilder.value(com.ibm.watson.health.fhir.model.type.Decimal.of(value));
                             } else if ("integer".equals(typeName)) {
                                 parameterBuilder.value(com.ibm.watson.health.fhir.model.type.Integer.of(value));
+                            } else if ("string".equals(typeName)) {
+                                parameterBuilder.value(com.ibm.watson.health.fhir.model.type.String.of(value));
+                            } else if ("decimal".equals(typeName)) {
+                                parameterBuilder.value(com.ibm.watson.health.fhir.model.type.Decimal.of(value));
+                            } else if ("uri".equals(typeName)) {
+                                parameterBuilder.value(Uri.of(value));
+                            } else if ("url".equals(typeName)) {
+                                parameterBuilder.value(Url.of(value));
+                            } else if ("canonical".equals(typeName)) {
+                                parameterBuilder.value(Canonical.of(value));
+                            } else if ("instant".equals(typeName)) {
+                                parameterBuilder.value(Instant.of(value));
+                            } else if ("date".equals(typeName)) {
+                                parameterBuilder.value(Date.of(value));
+                            } else if ("dateTime".equals(typeName)) {
+                                parameterBuilder.value(DateTime.of(value));
+                            } else if ("time".equals(typeName)) {
+                                parameterBuilder.value(Time.of(value));
+                            } else if ("code".equals(typeName)) {
+                                parameterBuilder.value(Code.of(value));
+                            } else if ("oid".equals(typeName)) {
+                                parameterBuilder.value(Oid.of(value));
+                            } else if ("unsignedInt".equals(typeName)) {
+                                parameterBuilder.value(UnsignedInt.of(value));
+                            } else if ("positiveInt".equals(typeName)) {
+                                parameterBuilder.value(PositiveInt.of(value));
+                            } else if ("uuid".equals(typeName)) {
+                                parameterBuilder.value(Uuid.of(value));
                             } else {
                                 throw new FHIROperationException("Invalid parameter type: '"
                                         + typeName + "'");
