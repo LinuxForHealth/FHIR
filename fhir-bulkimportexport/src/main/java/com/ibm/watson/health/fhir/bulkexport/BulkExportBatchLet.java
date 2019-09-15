@@ -119,6 +119,13 @@ public class BulkExportBatchLet implements Batchlet {
     @Inject
     @BatchProperty(name = "fhir.tenant")
     String fhirTenant;
+    
+    /**
+     * Fhir data store id.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.datastoreid")
+    String fhirDatastoreId;
 
     /**
      * Fhir ResourceType.
@@ -230,8 +237,14 @@ public class BulkExportBatchLet implements Batchlet {
             fhirTenant = Constants.DEFAULT_FHIR_TENANT;
             log("process", "Set tenant to default!");
         }
+        
+        if (fhirDatastoreId == null) {
+            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            log("readItem", "Set DatastoreId to default!");
+        }
+        
         FHIRConfiguration.setConfigHome("./");
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirTenant));
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
 
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();

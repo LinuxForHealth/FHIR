@@ -35,6 +35,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
+import com.ibm.waston.health.fhir.bulkcommon.Constants;
 import com.ibm.watson.health.fhir.config.FHIRConfiguration;
 import com.ibm.watson.health.fhir.config.FHIRRequestContext;
 import com.ibm.watson.health.fhir.model.format.Format;
@@ -109,6 +110,13 @@ public class BulkImportBatchLet implements Batchlet {
     @Inject
     @BatchProperty(name = "fhir.tenant")
     String fhirTenant;
+    
+    /**
+     * Fhir data store id.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.datastoreid")
+    String fhirDatastoreId;
 
     private void getCosClient() {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
@@ -218,8 +226,14 @@ public class BulkImportBatchLet implements Batchlet {
             fhirTenant = "default";
             log("process", "Set tenant to default!");
         }
+        
+        if (fhirDatastoreId == null) {
+            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            log("readItem", "Set DatastoreId to default!");
+        }
+        
         FHIRConfiguration.setConfigHome("./");
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirTenant));
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
 
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
