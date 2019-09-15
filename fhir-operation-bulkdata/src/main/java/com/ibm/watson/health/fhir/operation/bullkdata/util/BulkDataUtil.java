@@ -12,7 +12,9 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
 
+import com.ibm.watson.health.fhir.core.FHIRMediaType;
 import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watson.health.fhir.model.resource.Parameters.Parameter;
@@ -58,22 +60,35 @@ public class BulkDataUtil {
 
         javax.ws.rs.core.UriInfo uriInfo =
                 (javax.ws.rs.core.UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
+        return MediaType.valueOf(retrieveOutputFormat(uriInfo));
+    }
+    
+    private static String retrieveOutputFormat(javax.ws.rs.core.UriInfo uriInfo) throws FHIROperationException {
+        // If the parameter isn't passed, use application/fhir+ndjson
+        String value = "application/fhir+ndjson";
+        
         MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
         List<String> qps = queryParameters.get("_outputFormat");
+        
         if (qps != null) {
             if (qps.isEmpty() || qps.size() != 1) {
-                throw buildOperationException("Cardinality expectation for $apply operation parameter is 0..1 ");
+                throw buildOperationException("_outputFormat cardinality expectation for $apply operation parameter is 0..1 ");
             }
 
+            // Workaround for Liberty/CXF replacing "+" with " "
             String format = qps.get(0);
+            if (format.contains(" ") && uriInfo.getRequestUri().getRawQuery().contains("+")) {
+                format = format.replace(" ", "+");
+            }
 
+            // We're checking that it's acceptable.
             if (!BulkDataConstants.EXPORT_FORMATS.contains(format)) {
                 throw buildOperationException("Invalid requested format.  ");
             }
 
         }
-
-        return MediaType.valueOf("application/fhir+ndjson");
+        
+        return value;
     }
 
     public static FHIROperationException buildOperationException(String errMsg) {

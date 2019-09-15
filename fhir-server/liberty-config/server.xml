@@ -49,19 +49,19 @@
             <member name="fhiruser"/>
         </group>
     </basicRegistry>
-    
+
     <authorization-roles id="com.ibm.ws.batch">
-	<security-role name="batchAdmin">	
-		<user name="fhiradmin"/>	
-	</security-role>
-	<security-role name="batchSubmitter">
-		<user name="fhiruser"/>
-	</security-role>
-	<security-role name="batchMonitor">
-		<user name="fhiradmin"/>
-		<user name="fhiruser"/>
-	</security-role>
-</authorization-roles>
+        <security-role name="batchAdmin">
+            <user name="fhiradmin" />
+        </security-role>
+        <security-role name="batchSubmitter">
+            <user name="fhiruser" />
+        </security-role>
+        <security-role name="batchMonitor">
+            <user name="fhiradmin" />
+            <user name="fhiruser" />
+        </security-role>
+    </authorization-roles>
 
     <!--    
     <openidConnectProvider id="oidc-provider" oauthProviderRef="oauth2-provider"/> 
@@ -117,7 +117,7 @@
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
 
-    <applicationMonitor updateTrigger="mbean"/>   
+    <applicationMonitor updateTrigger="mbean"/>
 
     <!-- This is the main FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
