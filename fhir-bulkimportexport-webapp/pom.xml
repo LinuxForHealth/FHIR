@@ -21,6 +21,29 @@
             <groupId>com.ibm.watson.health</groupId>
             <artifactId>fhir-bulkimportexport</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <!-- exclude artifacts packaged in shared library dir -->
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.ibm.db2</groupId>
+                    <artifactId>jcc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derbyclient</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
