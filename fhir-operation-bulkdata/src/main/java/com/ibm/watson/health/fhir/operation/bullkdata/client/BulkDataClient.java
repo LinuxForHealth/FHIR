@@ -188,7 +188,8 @@ public class BulkDataClient {
         // From the response
         String jobId = Integer.toString(response.getInstanceId());
 
-        return "/wh-fhir-dev/api/v4/$export-status?job=" + jobId;
+        String hostname = properties.get(BulkDataConfigUtil.SERVER_HOSTNAME);
+        return "https://" + hostname + "/wh-fhir-dev/api/v4/$export-status?job=" + jobId;
     }
 
     /**
