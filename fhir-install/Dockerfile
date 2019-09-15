@@ -1,10 +1,10 @@
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2016,2017,2018,2019
+# (C) Copyright IBM Corp. 2016,2019
 # 
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM websphere-liberty:19.0.0.4-microProfile2 as base
+FROM websphere-liberty:microProfile2 as base
 
 ENV LICENSE accept
 
@@ -23,7 +23,7 @@ RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/ &
     /opt/ibm/wlp/bin/installUtility install fhir-server --acceptLicense
 
 
-FROM websphere-liberty:19.0.0.4-microProfile2
+FROM websphere-liberty:microProfile2
 COPY --chown=1001:0 --from=base /opt/ibm/wlp/ /opt/ibm/wlp
 
 MAINTAINER John T.E. Timm <johntimm@us.ibm.com>

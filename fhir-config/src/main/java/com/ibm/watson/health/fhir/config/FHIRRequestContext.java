@@ -46,7 +46,6 @@ public class FHIRRequestContext {
     };
     
     public FHIRRequestContext() {
-        super();
         this.requestUniqueId = UUID.randomUUID().toString();
     }
     
