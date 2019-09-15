@@ -130,15 +130,8 @@ public class ChunkWriter extends AbstractItemWriter {
         if (chunkData != null && chunkData.isSingleCosObject()) {
             if (chunkData.getUploadId() == null) {
                 chunkData.setUploadId(COSUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName));
-                combinedJsons = "[\r\n" + combinedJsons;
             }
 
-            
-            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                combinedJsons = combinedJsons + "\r\n]";
-            } else {
-                combinedJsons = combinedJsons + ",";
-            }
             InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
             chunkData.getCosDataPacks().add(COSUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName, 
                     chunkData.getUploadId(), newStream, combinedJsons.getBytes(StandardCharsets.UTF_8).length, chunkData.getPartNum()));
@@ -152,11 +145,10 @@ public class ChunkWriter extends AbstractItemWriter {
         } else {
             int numofPagePerCosObject;
             try {
-                numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);           
+                numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);
             } catch (Exception e) {
                 numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
             }
-            combinedJsons = "[\r\n" + combinedJsons + "\r\n]";
             InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(combinedJsons.getBytes(StandardCharsets.UTF_8).length);
