@@ -47,7 +47,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     public static final String FORMAT = "application/fhir+ndjson";
 
-    public static final boolean ON = true;
+    public static final boolean ON = false;
     
     @Test(groups = { TEST_GROUP_NAME }, enabled = ON)
     public void testBaseExport() throws FHIRGeneratorException, IOException {
