@@ -6,14 +6,19 @@
 
 package com.ibm.watson.health.fhir.bulkexport;
 
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.batch.api.chunk.ItemProcessor;
 import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
+import com.ibm.watson.health.fhir.model.format.Format;
+import com.ibm.watson.health.fhir.model.generator.FHIRGenerator;
+import com.ibm.watson.health.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 
 /**
@@ -53,11 +58,24 @@ public class ChunkProcessor implements ItemProcessor {
         int dataSize = 0;
                         
         for (Resource res : resources) {
-            String ndJsonLine = res.toString().replace("\r", "").replace("\n", "");
+            String ndJsonLine = null;
+            StringWriter writer = new StringWriter();
+            try{
+                FHIRGenerator.generator(Format.JSON).generate(res, writer);
+                ndJsonLine = writer.toString();
+            } catch (FHIRGeneratorException e) {
+                if (res.getId() != null) {
+                    logger.log(Level.WARNING, "Error while writing resources with id '" + res.getId().getValue() + "'", e);
+                } else {
+                    logger.log(Level.WARNING, "Error while writing resources with unknown id", e);
+                }
+                ndJsonLine = null;
+            }
+            
             if (combinedJsons == null) {
                 combinedJsons = ndJsonLine;
             } else {
-                combinedJsons = combinedJsons + "," + "\r\n" + ndJsonLine;
+                combinedJsons = combinedJsons + "\r\n" + ndJsonLine;
             }
         }
 
