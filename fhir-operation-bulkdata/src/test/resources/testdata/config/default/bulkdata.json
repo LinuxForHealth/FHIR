@@ -20,5 +20,7 @@
 	"batch-user": "fhiruser",
 	"batch-user-password": "change-password",
 	"batch-truststore": "resources/security/fhirTruststore.jks",
-	"batch-truststore-password": "change-password"
+	"batch-truststore-password": "change-password",
+	"serverHostname" : "cthon22.wh-fhir.dev.cloud.ibm.com",
+	"contextRoot" : "/wh-fhir-dev/api/v4"
 }
