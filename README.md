@@ -3,6 +3,9 @@
 ### Overview
 The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://www.hl7.org/fhir/r4/http.html) with a focus on performance and configurability.
 
+### Build Status
+The current build status is [![Build Status](https://travis-ci.com/IBM/FHIR.svg?branch=master)](https://travis-ci.com/IBM/FHIR)
+
 For a detailed description of FHIR conformance, please see https://github.com/ibm/fhir/blob/master/docs/Conformance.md.
 
 The server can be packaged as a set of jar files, a web application archive (war), an application installer, or a Docker image.
