@@ -86,7 +86,7 @@ The Watson Health FHIR Server has been written by many individuals over many yea
 
 2. Use comments. Preferably javadoc.
 
-3. Keep the documentation up-to-date. Project documentation exists under the fhir-docs repo and we have a CHANGELOG for tracking user-visible changes, a Conformance page for documenting conformance to the specification, and a User Guide for FHIR Server administrators.
+3. Keep the documentation up-to-date. Project documentation exists under the docs directory. We have a CHANGELOG for tracking user-visible changes, a Conformance page for documenting conformance to the specification, and a User Guide for FHIR Server administrators.
 
 4. Use spaces (not tabs) in java source. For this we have a checkstyle rule which will fail the build if you're using tabs. We also prefer spaces over tabs in JSON and XML, but its not strictly enforced.
 

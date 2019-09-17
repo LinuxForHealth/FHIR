@@ -34,6 +34,8 @@ public class BulkDataConfigUtil {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     public static final String APPLICATION_NAME = "applicationName";
+    public static final String SERVER_HOSTNAME = "serverHostname";
+    public static final String CONTEXT_ROOT = "contextRoot";
     public static final String MODULE_NAME = "moduleName";
     public static final String JOB_XML_NAME = "jobXMLName";
     public static final String JOB_PARAMETERS = "jobParameters";
@@ -70,6 +72,8 @@ public class BulkDataConfigUtil {
                 JsonObject jsonObject = jsonReader.readObject();
 
                 addToMap(jsonObject, configs, APPLICATION_NAME);
+                addToMap(jsonObject, configs, SERVER_HOSTNAME);
+                addToMap(jsonObject, configs, CONTEXT_ROOT);
                 addToMap(jsonObject, configs, MODULE_NAME);
                 addToMap(jsonObject, configs, JOB_XML_NAME);
 
@@ -105,12 +109,22 @@ public class BulkDataConfigUtil {
 
     private static void addChildrenToMap(JsonObject jsonObject, Map<String, String> configs,
         String jobParameters, String paramName) {
-        JsonObject obj = jsonObject.getJsonObject(jobParameters);
-        addToMap(obj, configs, paramName);
+        
+        if(jsonObject.containsKey(jobParameters)) {
+            JsonObject obj = jsonObject.getJsonObject(jobParameters);
+            addToMap(obj, configs, paramName);
+        } else { 
+            log.warning("JobParameters obj not found in bulkdata.json ");
+        }
     }
 
     public static void addToMap(JsonObject jsonObject, Map<String, String> configs, String name) {
-        String value = jsonObject.getString(name);
-        configs.put(name, value);
+        if(jsonObject.containsKey(name)) {
+            String value = jsonObject.getString(name);
+            configs.put(name, value);
+        } else { 
+            log.warning("Value not found in bulkdata.json '" + name + "'");
+        }
+        
     }
 }

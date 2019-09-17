@@ -107,7 +107,9 @@ public class BulkExportJobRestTest {
                 "        \"cos.credential.ibm\": \"Y\",\n" + 
                 "        \"cos.api.key\": \"key\",\n" + 
                 "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" + 
-                "        \"fhir.search.fromdate\": \"2019-08-01\"\n" + 
+                "        \"fhir.search.fromdate\": \"2019-08-01\",\n" + 
+                "        \"fhir.tenant\": \"default\",\n" +
+                "        \"fhir.datastoreid\": \"default\"\n" +
                 "    }\n" + 
                 "}";
         
@@ -138,7 +140,9 @@ public class BulkExportJobRestTest {
                 "        \"cos.credential.ibm\": \"Y\",\n" + 
                 "        \"cos.api.key\": \"key\",\n" + 
                 "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" + 
-                "        \"fhir.search.fromdate\": \"2019-08-01\"\n" + 
+                "        \"fhir.search.fromdate\": \"2019-08-01\",\n" + 
+                "        \"fhir.tenant\": \"default\",\n" +
+                "        \"fhir.datastoreid\": \"default\"\n" +
                 "    }\n" + 
                 "}";
         
