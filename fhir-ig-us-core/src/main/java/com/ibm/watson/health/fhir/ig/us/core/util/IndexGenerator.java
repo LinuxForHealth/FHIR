@@ -6,8 +6,7 @@
 
 package com.ibm.watson.health.fhir.ig.us.core.util;
 
-import static com.ibm.watson.health.fhir.conformance.util.ConformanceUtil.getUrl;
-import static com.ibm.watson.health.fhir.conformance.util.ConformanceUtil.isConformanceResource;
+import static com.ibm.watson.health.fhir.registry.util.FHIRRegistryUtil.*;
 
 import java.io.File;
 import java.io.FileReader;
@@ -25,16 +24,20 @@ import com.ibm.watson.health.fhir.model.resource.Resource;
 public class IndexGenerator {
     public static void main(String[] args) throws Exception {
         List<String> index = new ArrayList<>();
-        File dir = new File("src/main/resources/conformance/");
+        File dir = new File("src/main/resources/resources/");
         for (File file : dir.listFiles()) {
             if (!file.isDirectory()) {
                 try (FileReader reader = new FileReader(file)) {
                     try {
                         Resource resource = FHIRParser.parser(Format.JSON).parse(reader);
-                        if (!isConformanceResource(resource)) {
+                        if (!isDefinitionalResource(resource)) {
                             continue;
                         }
-                        index.add(String.format("%s,%s", getUrl(resource), "conformance/" + file.getName()));
+                        String url = getUrl(resource);
+                        String version = getVersion(resource);
+                        if (url != null && version != null) {
+                            index.add(String.format("%s,%s,%s", url, version, "resources/" + file.getName()));
+                        }
                     } catch (FHIRParserException e) {
                         System.err.println("Unable to add: " + file.getName() + " to the index due to exception: " + e.getMessage());
                     }
@@ -42,6 +45,6 @@ public class IndexGenerator {
             }
         }
         Collections.sort(index);
-        Files.write(Paths.get("src/main/resources/index"), index);
+        Files.write(Paths.get("src/main/resources/us-core.index"), index);
     }
 }

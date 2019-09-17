@@ -18,6 +18,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
+import com.ibm.watson.health.fhir.model.resource.ActivityDefinition;
 import com.ibm.watson.health.fhir.model.resource.CarePlan;
 import com.ibm.watson.health.fhir.model.resource.CarePlan.Activity.Detail;
 import com.ibm.watson.health.fhir.model.resource.OperationDefinition;
@@ -28,18 +29,27 @@ import com.ibm.watson.health.fhir.model.resource.PlanDefinition;
 import com.ibm.watson.health.fhir.model.resource.PlanDefinition.Action;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.type.Annotation;
+import com.ibm.watson.health.fhir.model.type.Canonical;
+import com.ibm.watson.health.fhir.model.type.CarePlanActivityKind;
 import com.ibm.watson.health.fhir.model.type.CarePlanActivityStatus;
 import com.ibm.watson.health.fhir.model.type.CarePlanIntent;
 import com.ibm.watson.health.fhir.model.type.CarePlanStatus;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
+import com.ibm.watson.health.fhir.model.type.Dosage;
+import com.ibm.watson.health.fhir.model.type.Dosage.DoseAndRate;
+import com.ibm.watson.health.fhir.model.type.Element;
 import com.ibm.watson.health.fhir.model.type.Extension;
 import com.ibm.watson.health.fhir.model.type.IssueSeverity;
 import com.ibm.watson.health.fhir.model.type.IssueType;
+import com.ibm.watson.health.fhir.model.type.Quantity;
 import com.ibm.watson.health.fhir.model.type.Reference;
+import com.ibm.watson.health.fhir.model.type.SimpleQuantity;
+import com.ibm.watson.health.fhir.model.type.Uri;
 import com.ibm.watson.health.fhir.operation.AbstractOperation;
 import com.ibm.watson.health.fhir.operation.context.FHIROperationContext;
 import com.ibm.watson.health.fhir.operation.util.FHIROperationUtil;
+import com.ibm.watson.health.fhir.registry.FHIRRegistry;
 import com.ibm.watson.health.fhir.rest.FHIRResourceHelpers;
 
 /**
@@ -227,7 +237,16 @@ public class ApplyOperation extends AbstractOperation {
         CodeableConcept userLanguage, CodeableConcept userTaskContext, CodeableConcept setting,
         CodeableConcept settingContext) {
         CarePlan.Builder builder = CarePlan.builder();
-
+        
+        if (planDefinition.getUrl() != null) {
+            Uri url = planDefinition.getUrl();
+            if (url.is(Canonical.class)) {
+                builder.instantiatesCanonical(url.as(Canonical.class));
+            } else {
+                builder.instantiatesUri(url);
+            }
+        }
+        
         // Subjects
         if (subjects != null) {
             Reference subjectRef = null;
@@ -323,14 +342,50 @@ public class ApplyOperation extends AbstractOperation {
      */
     private void convertFromPlanDefinitionToCarePlan(PlanDefinition planDefinition,
         CarePlan.Builder builder) {
-
+        
         List<CarePlan.Activity> activities = new ArrayList<>();
-        for (Action action : planDefinition.getAction()) {
-
+        for (Action action : getActions(planDefinition.getAction())) {
             CarePlan.Activity.Builder cab = CarePlan.Activity.builder();
-            cab.reference(Reference.builder().reference(string("PlanDefinition/" + planDefinition.getId().getValue())).build());
-            // THis should be the reference to the Plan Definition.
+
+            ActivityDefinition activityDefinition = null;
+            Element definition = action.getDefinition();
             
+            if (definition != null) {
+                activityDefinition = FHIRRegistry.getInstance().getResource(definition.as(Uri.class).getValue(), ActivityDefinition.class);
+            }
+
+            if (activityDefinition != null) {
+                CarePlan.Activity.Detail.Builder cadb = CarePlan.Activity.Detail.builder();
+                cadb.kind(CarePlanActivityKind.of(activityDefinition.getKind().getValue()));
+                cadb.status(CarePlanActivityStatus.NOT_STARTED);
+                cadb.code(activityDefinition.getCode());
+                cadb.description(activityDefinition.getDescription());
+                cadb.quantity(activityDefinition.getQuantity());
+                cadb.scheduled(activityDefinition.getTiming());
+                if (!activityDefinition.getDosage().isEmpty()) {
+                    Dosage dosage = activityDefinition.getDosage().get(0);
+                    if (!dosage.getDoseAndRate().isEmpty()) {
+                        DoseAndRate doseAndRate = dosage.getDoseAndRate().get(0);
+                        Element dose = doseAndRate.getDose();
+                        if (dose.is(Quantity.class)) {
+                            SimpleQuantity quantity = SimpleQuantity.builder()
+                                    .value(dose.as(Quantity.class).getValue())
+                                    .system(dose.as(Quantity.class).getSystem())
+                                    .code(dose.as(Quantity.class).getCode())
+                                    .unit(dose.as(Quantity.class).getUnit())
+                                    .build();
+                            cadb.dailyAmount(quantity);
+                        }
+                    }
+                }
+                if (definition.is(Canonical.class)) {
+                    cadb.instantiatesCanonical(definition.as(Canonical.class));
+                } else {
+                    cadb.instantiatesUri(definition.as(Uri.class));
+                }
+                cab.detail(cadb.build());
+            }
+                        
             List<Annotation> progress = Collections.emptyList();
             cab.progress(progress);
             
@@ -369,6 +424,17 @@ public class ApplyOperation extends AbstractOperation {
          * <p>
          * For a more detailed description, refer to the PlanDefinition and ActivityDefinition resource documentation
          */
+    }
+
+    private List<Action> getActions(List<Action> actions) {
+        List<Action> result = new ArrayList<>();
+        for (Action action : actions) {
+            if (action.getDefinition() != null) {
+                result.add(action);
+            }
+            result.addAll(getActions(action.getAction()));
+        }
+        return result;
     }
 
     /*

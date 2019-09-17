@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ibm.watson.health.fhir.model.annotation.Binding;
 import com.ibm.watson.health.fhir.model.annotation.Choice;
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.annotation.Required;
@@ -157,6 +158,7 @@ public final class ModelSupport {
         private final boolean repeating;
         private final boolean choice;
         private final Set<Class<?>> choiceTypes;
+        private final Binding binding;
         
         ElementInfo(String name,
                 Class<?> type, 
@@ -164,7 +166,8 @@ public final class ModelSupport {
                 boolean required, 
                 boolean repeating, 
                 boolean choice, 
-                Set<Class<?>> choiceTypes) {
+                Set<Class<?>> choiceTypes, 
+                Binding binding) {
             this.name = name;
             this.declaringType = declaringType;
             this.type = type;
@@ -172,6 +175,7 @@ public final class ModelSupport {
             this.repeating = repeating;
             this.choice = choice;
             this.choiceTypes = choiceTypes;
+            this.binding = binding;
         }
         
         public String getName() {
@@ -204,6 +208,14 @@ public final class ModelSupport {
         
         public Set<Class<?>> getChoiceTypes() {
             return choiceTypes;
+        }
+        
+        public Binding getBinding() {
+            return binding;
+        }
+        
+        public boolean hasBinding() {
+            return (binding != null);
         }
     }
 
@@ -242,8 +254,19 @@ public final class ModelSupport {
                     boolean required = isRequired(field);
                     boolean repeating = isRepeating(field);
                     boolean choice = isChoice(field);
+                    Binding binding = field.getAnnotation(Binding.class);
                     Set<Class<?>> choiceTypes = choice ? Collections.unmodifiableSet(getChoiceTypes(field)) : Collections.emptySet();
-                    elementInfoMap.put(elementName, new ElementInfo(elementName, type, declaringType, required, repeating, choice, choiceTypes));
+                    elementInfoMap.put(elementName, new ElementInfo(
+                            elementName, 
+                            type, 
+                            declaringType, 
+                            required, 
+                            repeating, 
+                            choice, 
+                            choiceTypes, 
+                            binding
+                        )
+                    );
                 }
                 modelClassElementInfoMap.put(modelClass, Collections.unmodifiableMap(elementInfoMap));
             }
