@@ -18,5 +18,10 @@
             <artifactId>fhir-operation</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-registry</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

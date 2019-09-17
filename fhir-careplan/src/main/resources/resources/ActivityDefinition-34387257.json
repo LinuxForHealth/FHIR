@@ -1,0 +1,70 @@
+{
+  "resourceType": "ActivityDefinition",
+  "id": "34387257",
+  "url": "https://himss19.elsevierfhir.com/fhir/r4/ActivityDefinition/34387257",
+  "version": "0",
+  "name": "ElsevierUsOrder34387257",
+  "title": "Enalapril Oral Tablet; 10 mg 1 time a day (dispense 30 tablet(s); 3 refills)",
+  "status": "active",
+  "experimental": false,
+  "publisher": "Elsevier Inc",
+  "description": "Enalapril Oral Tablet; 10 mg 1 time a day (dispense 30 tablet(s); 3 refills)",
+  "jurisdiction": [
+    {
+      "coding": [
+        {
+          "system": "urn:iso:std:iso:3166",
+          "code": "US",
+          "display": "United States of America",
+          "userSelected": false
+        }
+      ],
+      "text": "United States of America"
+    }
+  ],
+  "kind": "MedicationRequest",
+  "timingTiming": {
+    "repeat": {
+      "frequency": 1,
+      "period": 1,
+      "periodUnit": "d"
+    }
+  },
+  "quantity": {
+    "value": 30,
+    "unit": "Tablet"
+  },
+  "dosage": [
+    {
+      "additionalInstruction": [
+        {
+          "text": "1 time a day"
+        }
+      ],
+      "route": {
+        "text": "Oral"
+      },
+      "method": {
+        "text": "Tablet"
+      },
+      "doseAndRate": [
+        {
+          "doseQuantity": {
+            "value": 10,
+            "unit": "mg"
+          }
+        }
+      ]
+    }
+  ],
+  "dynamicValue": [
+    {
+      "path": "dispenseRequest.numberOfRepeatsAllowed",
+      "expression": {
+        "description": "dispenseRequest.numberOfRepeatsAllowed is 3",
+        "language": "text/cql",
+        "expression": "3"
+      }
+    }
+  ]
+}
