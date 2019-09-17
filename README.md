@@ -1,5 +1,8 @@
 ## IBM Server for HL7 FHIR
 
+### Build Status
+The current build status is [![Build Status](https://travis-ci.com/IBM/FHIR.svg?branch=master)](https://travis-ci.com/IBM/FHIR)
+
 ### Overview
 The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://www.hl7.org/fhir/r4/http.html) with a focus on performance and configurability.
 
