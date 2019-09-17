@@ -17,6 +17,7 @@ import java.util.ServiceLoader;
 import com.ibm.watson.health.fhir.model.resource.DomainResource;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.registry.resource.FHIRRegistryResource;
+import com.ibm.watson.health.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.watson.health.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class FHIRRegistry {
@@ -57,8 +58,9 @@ public class FHIRRegistry {
         List<FHIRRegistryResource> resources = resourceMap.get(url);
         if (resources != null) {
             if (version != null) {
+                Version v = Version.from(version);
                 for (FHIRRegistryResource resource : resources) {
-                    if (resource.getVersion().equals(version)) {
+                    if (resource.getVersion().equals(v)) {
                         return resource;
                     }
                 }
