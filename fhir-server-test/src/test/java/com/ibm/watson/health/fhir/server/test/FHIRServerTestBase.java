@@ -55,8 +55,8 @@ import com.ibm.watson.health.fhir.model.type.IssueType;
 import com.ibm.watson.health.fhir.model.type.RestfulCapabilityMode;
 import com.ibm.watson.health.fhir.model.type.SystemRestfulInteraction;
 import com.ibm.watson.health.fhir.model.type.TypeRestfulInteraction;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
 import com.ibm.watson.health.fhir.persistence.test.common.FHIRModelTestBase;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 /**
  * Base class for fhir-server unit tests.

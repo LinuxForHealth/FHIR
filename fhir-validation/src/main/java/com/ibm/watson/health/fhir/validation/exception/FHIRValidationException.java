@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.watson.health.fhir.model.validation.exception;
+package com.ibm.watson.health.fhir.validation.exception;
 
 public class FHIRValidationException extends Exception {
     private static final long serialVersionUID = 1L;

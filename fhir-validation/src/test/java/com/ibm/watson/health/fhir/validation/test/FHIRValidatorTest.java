@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.watson.health.fhir.model.path.test;
+package com.ibm.watson.health.fhir.validation.test;
 
 import java.io.FilterOutputStream;
 import java.time.LocalDate;
@@ -25,8 +25,8 @@ import com.ibm.watson.health.fhir.model.type.Instant;
 import com.ibm.watson.health.fhir.model.type.Integer;
 import com.ibm.watson.health.fhir.model.type.Meta;
 import com.ibm.watson.health.fhir.model.type.String;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
 import com.ibm.watson.health.fhir.model.visitor.PathAwareAbstractVisitor;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 public class FHIRValidatorTest {
     public static void main(java.lang.String[] args) throws Exception {

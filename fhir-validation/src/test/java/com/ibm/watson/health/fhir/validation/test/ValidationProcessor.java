@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.watson.health.fhir.model.spec.test;
+package com.ibm.watson.health.fhir.validation.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,9 @@ import java.util.stream.Stream;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.watson.health.fhir.model.spec.test.IExampleProcessor;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 /**
  * Strategy to process resources using the {@link FHIRValidator}

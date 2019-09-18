@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.watson.health.fhir.model.path.test;
+package com.ibm.watson.health.fhir.validation.test;
 
 import java.io.InputStream;
 import java.util.Collection;
@@ -17,7 +17,7 @@ import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watson.health.fhir.model.resource.CareTeam;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 public class CareTeamTest {
     public static void main(String[] args) throws Exception {

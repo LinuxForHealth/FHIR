@@ -108,8 +108,7 @@ import com.ibm.watson.health.fhir.model.type.Uri;
 import com.ibm.watson.health.fhir.model.type.Url;
 import com.ibm.watson.health.fhir.model.util.FHIRUtil;
 import com.ibm.watson.health.fhir.model.util.ModelSupport;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
-import com.ibm.watson.health.fhir.model.validation.exception.FHIRValidationException;
+import com.ibm.watson.health.fhir.validation.exception.FHIRValidationException;
 import com.ibm.watson.health.fhir.operation.FHIROperation;
 import com.ibm.watson.health.fhir.operation.context.FHIROperationContext;
 import com.ibm.watson.health.fhir.operation.registry.FHIROperationRegistry;
@@ -145,6 +144,7 @@ import com.ibm.watson.health.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.watson.health.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.watson.health.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.watson.health.fhir.server.util.RestAuditLogger;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 @Path("/")
 @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,

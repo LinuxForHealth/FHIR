@@ -21,7 +21,7 @@ import com.ibm.watson.health.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.watson.health.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.watson.health.fhir.registry.spi.FHIRRegistryResourceProvider;
 
-public class FHIRRegistry {
+public final class FHIRRegistry {
     private static final Logger log = Logger.getLogger(FHIRRegistry.class.getName());
     
     private static final FHIRRegistry INSTANCE = new FHIRRegistry();
@@ -80,7 +80,7 @@ public class FHIRRegistry {
             return null;
         }
         Resource result = resource.getResource();
-        if (id != null) {
+        if (result != null && id != null) {
             if (result.is(DomainResource.class)) {
                 for (Resource contained : result.as(DomainResource.class).getContained()) {
                     if (contained.getId() != null && id.equals(contained.getId().getValue())) {

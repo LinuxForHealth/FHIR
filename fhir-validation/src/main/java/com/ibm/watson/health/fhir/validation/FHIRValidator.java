@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.watson.health.fhir.model.validation;
+package com.ibm.watson.health.fhir.validation;
 
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.singleton;
@@ -30,8 +30,8 @@ import com.ibm.watson.health.fhir.model.type.Element;
 import com.ibm.watson.health.fhir.model.type.IssueSeverity;
 import com.ibm.watson.health.fhir.model.type.IssueType;
 import com.ibm.watson.health.fhir.model.util.ModelSupport;
-import com.ibm.watson.health.fhir.model.validation.exception.FHIRValidationException;
 import com.ibm.watson.health.fhir.model.visitor.PathAwareVisitorAdapter;
+import com.ibm.watson.health.fhir.validation.exception.FHIRValidationException;
 
 public class FHIRValidator {
     public static boolean DEBUG = false;

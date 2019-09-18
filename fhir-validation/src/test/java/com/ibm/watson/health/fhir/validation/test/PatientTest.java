@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.watson.health.fhir.model.examples.test;
+package com.ibm.watson.health.fhir.validation.test;
 
 import static com.ibm.watson.health.fhir.model.type.String.string;
 
@@ -29,7 +29,7 @@ import com.ibm.watson.health.fhir.model.type.Narrative;
 import com.ibm.watson.health.fhir.model.type.NarrativeStatus;
 import com.ibm.watson.health.fhir.model.type.Reference;
 import com.ibm.watson.health.fhir.model.type.Xhtml;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 /**
  * Demonstrates the Creation of a Patient and Subsequent validation against the specification.

@@ -9,7 +9,7 @@ package com.ibm.watson.health.fhir.server.test;
 import org.testng.annotations.Test;
 
 import com.ibm.watson.health.fhir.model.spec.test.R4ExamplesDriver;
-import com.ibm.watson.health.fhir.model.spec.test.ValidationProcessor;
+import com.ibm.watson.health.fhir.validation.test.ValidationProcessor;
 
 /**
  * Basic sniff test of the FHIR Server.

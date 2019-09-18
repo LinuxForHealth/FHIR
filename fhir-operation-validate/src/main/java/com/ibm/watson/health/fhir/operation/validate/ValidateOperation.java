@@ -29,11 +29,11 @@ import com.ibm.watson.health.fhir.model.type.IssueSeverity;
 import com.ibm.watson.health.fhir.model.type.IssueType;
 import com.ibm.watson.health.fhir.model.type.Narrative;
 import com.ibm.watson.health.fhir.model.type.NarrativeStatus;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
 import com.ibm.watson.health.fhir.operation.AbstractOperation;
 import com.ibm.watson.health.fhir.operation.context.FHIROperationContext;
 import com.ibm.watson.health.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watson.health.fhir.rest.FHIRResourceHelpers;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 public class ValidateOperation extends AbstractOperation {
     public ValidateOperation() {

@@ -20,10 +20,10 @@ import java.util.logging.Logger;
 import com.ibm.watson.health.fhir.exception.FHIROperationException;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watson.health.fhir.model.type.IssueSeverity;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
-import com.ibm.watson.health.fhir.model.validation.exception.FHIRValidationException;
+import com.ibm.watson.health.fhir.validation.exception.FHIRValidationException;
 import com.ibm.watson.health.fhir.operation.FHIROperation;
 import com.ibm.watson.health.fhir.operation.exception.FHIROperationNotFoundException;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 public class FHIROperationRegistry {
     private final Logger log = Logger.getLogger(FHIROperationRegistry.class.getName());
