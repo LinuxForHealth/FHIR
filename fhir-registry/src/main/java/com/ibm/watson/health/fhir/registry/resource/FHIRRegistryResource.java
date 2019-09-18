@@ -72,8 +72,7 @@ public class FHIRRegistryResource {
             return false;
         }
         FHIRRegistryResource other = (FHIRRegistryResource) obj;
-        return Objects.equals(url, other.url) && 
-                Objects.equals(version, other.version);
+        return Objects.equals(url, other.url) && Objects.equals(version, other.version);
     }
     
     @Override
@@ -82,16 +81,26 @@ public class FHIRRegistryResource {
     }
     
     public static class Version implements Comparable<Version> {
+        public enum CompareMode { SEMVER, LEXICAL };
+        
         private final String version;
         private final Integer major;
         private final Integer minor;
         private final Integer patch;
+        private final CompareMode mode;
+        
+        private Version(String version) {
+            this.version = version;
+            major = minor = patch = null;
+            mode = CompareMode.LEXICAL;
+        }
         
         private Version(String version, Integer major, Integer minor, Integer patch) {
             this.version = version;
             this.major = major;
             this.minor = minor;
             this.patch = patch;
+            this.mode = CompareMode.SEMVER;
         }
         
         public int major() {
@@ -107,16 +116,21 @@ public class FHIRRegistryResource {
         }
         
         public static Version from(String version) {
-            Integer major, minor = 0, patch = 0;
             String[] tokens = version.split("\\.");
-            major = Integer.parseInt(tokens[0]);
-            if (tokens.length >= 2) {
-                minor = Integer.parseInt(tokens[1]);
+            if (tokens.length < 1 || tokens.length > 3) {
+                return new Version(version);
             }
-            if (tokens.length == 3) {
-                patch = Integer.parseInt(tokens[2]);
+            try {
+                if (version.startsWith("v") || version.startsWith("V")) {
+                    version = version.substring(1);
+                }
+                Integer major = Integer.parseInt(tokens[0]);
+                Integer minor = (tokens.length >= 2) ? Integer.parseInt(tokens[1]) : 0;
+                Integer patch = (tokens.length == 3) ? Integer.parseInt(tokens[2]) : 0;
+                return new Version(version, major, minor, patch);
+            } catch (Exception e) {
+                return new Version(version);
             }
-            return new Version(version, major, minor, patch);
         }
         
         @Override
@@ -127,18 +141,24 @@ public class FHIRRegistryResource {
             if (this == obj) {
                 return true;
             }
-            if (getClass() == obj.getClass()) {
-                return true;
+            if (getClass() != obj.getClass()) {
+                return false;
             }
             Version other = (Version) obj;
-            return Objects.equals(major, other.major) && 
-                    Objects.equals(minor, other.minor) && 
-                    Objects.equals(patch, other.patch);
+            if (CompareMode.LEXICAL.equals(mode) || CompareMode.LEXICAL.equals(other.mode)) {
+                return Objects.equals(version, other.version);
+            } else {
+                return Objects.equals(major, other.major) && Objects.equals(minor, other.minor) && Objects.equals(patch, other.patch);
+            }
         }
         
         @Override
         public int hashCode() {
-            return Objects.hash(major, minor, patch);
+            if (CompareMode.LEXICAL.equals(mode)) {
+                return Objects.hash(version);
+            } else {
+                return Objects.hash(major, minor, patch);
+            }
         }
         
         @Override
@@ -148,15 +168,19 @@ public class FHIRRegistryResource {
 
         @Override
         public int compareTo(Version version) {
-            int result = major.compareTo(version.major);
-            if (result == 0) {
-                result = minor.compareTo(version.minor);
+            if (CompareMode.LEXICAL.equals(mode) || CompareMode.LEXICAL.equals(version.mode)) {
+                return this.version.compareTo(version.version);
+            } else {
+                int result = major.compareTo(version.major);
                 if (result == 0) {
-                    return patch.compareTo(version.patch);
+                    result = minor.compareTo(version.minor);
+                    if (result == 0) {
+                        return patch.compareTo(version.patch);
+                    }
+                    return result;
                 }
                 return result;
             }
-            return result;
         }
     }
 }

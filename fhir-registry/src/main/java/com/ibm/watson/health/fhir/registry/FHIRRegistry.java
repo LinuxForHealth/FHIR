@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
+import java.util.logging.Logger;
 
 import com.ibm.watson.health.fhir.model.resource.DomainResource;
 import com.ibm.watson.health.fhir.model.resource.Resource;
@@ -21,6 +22,8 @@ import com.ibm.watson.health.fhir.registry.resource.FHIRRegistryResource.Version
 import com.ibm.watson.health.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class FHIRRegistry {
+    private static final Logger log = Logger.getLogger(FHIRRegistry.class.getName());
+    
     private static final FHIRRegistry INSTANCE = new FHIRRegistry();
     
     private final Map<String, List<FHIRRegistryResource>> resourceMap;
@@ -36,18 +39,18 @@ public class FHIRRegistry {
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
         Objects.requireNonNull(url);
         Objects.requireNonNull(resourceType);
-        
-        String version = null;
-        int index = url.indexOf("|");
+                
+        String id = null;
+        int index = url.indexOf("#");
         if (index != -1) {
-            version = url.substring(index + 1);
+            id = url.substring(index + 1);
             url = url.substring(0, index);
         }
         
-        String id = null;
-        index = url.indexOf("#");
+        String version = null;
+        index = url.indexOf("|");
         if (index != -1) {
-            id = url.substring(index + 1);
+            version = url.substring(index + 1);
             url = url.substring(0, index);
         }
         
@@ -64,7 +67,7 @@ public class FHIRRegistry {
                         return resource;
                     }
                 }
-                throw new IllegalArgumentException("Unable to find resource: " + url + " with version: " + version);
+                log.warning("Unable to find resource: " + url + " with version: " + version);
             } else {
                 return resources.get(resources.size() - 1);
             }
@@ -84,10 +87,11 @@ public class FHIRRegistry {
                         return contained;
                     }
                 }
-                throw new IllegalArgumentException("Unable to find contained resource with id: " + id + " in resource: " + url);
+                log.warning("Unable to find contained resource with id: " + id + " in resource: " + url);
             } else {
-                throw new IllegalArgumentException("Resource: " + url + " is not a DomainResource");
+                log.warning("Resource: " + url + " is not a DomainResource");
             }
+            return null;
         }
         return result;
     }
