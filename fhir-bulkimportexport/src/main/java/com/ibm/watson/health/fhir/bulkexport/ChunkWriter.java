@@ -8,11 +8,8 @@ package com.ibm.watson.health.fhir.bulkexport;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Logger;
-
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
 import javax.batch.runtime.context.JobContext;
@@ -81,37 +78,23 @@ public class ChunkWriter extends AbstractItemWriter {
     @Inject
     @BatchProperty(name = "cos.credential.ibm")
     String cosCredentialIbm;
-    
+
     /**
      * The Cos object name.
      */
     @Inject
     @BatchProperty(name = "cos.bucket.objectname")
     String cosBucketObjectName;
-    
+
     /**
      * Fhir ResourceType.
      */
     @Inject
     @BatchProperty(name = "fhir.resourcetype")
     String fhirResourceType;
-    
-    /**
-     * The cos.pagesperobject.
-     */
-    @Inject
-    @BatchProperty(name = "cos.pagesperobject")
-    String pagesPerCosObject;
-    
+
     @Inject
     JobContext jobContext;
-
-    /**
-     * Logging helper.
-     */
-    private void log(String method, Object msg) {
-        logger.info(method + ": " + String.valueOf(msg));
-    }
 
     /**
      * @see AbstractItemWriter#AbstractItemWriter()
@@ -120,98 +103,93 @@ public class ChunkWriter extends AbstractItemWriter {
         super();
     }
 
-    private void pushFhirJsons2Cos(String combinedJsons) throws Exception {
-
+    private void pushFhirJsons2Cos(InputStream in, int dataLength) throws Exception {
         if (cosClient == null) {
-            return;
+            logger.warning("pushFhirJsons2Cos: no cosClient!");
+            throw new Exception("pushFhirJsons2Cos: no cosClient!");
         }
-        
-        TransientUserData chunkData = (TransientUserData)jobContext.getTransientUserData();
-        if (chunkData != null && chunkData.isSingleCosObject()) {
+
+        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        if (chunkData == null) {
+            logger.warning("pushFhirJsons2Cos: chunkData is null, this should never happen!");
+            throw new Exception("pushFhirJsons2Cos: chunkData is null, this should never happen!");
+        }
+        if (chunkData.isSingleCosObject()) {
             if (chunkData.getUploadId() == null) {
                 chunkData.setUploadId(COSUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName));
             }
 
-            InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
-            chunkData.getCosDataPacks().add(COSUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName, 
-                    chunkData.getUploadId(), newStream, combinedJsons.getBytes(StandardCharsets.UTF_8).length, chunkData.getPartNum()));
-            chunkData.setPartNum(chunkData.getPartNum()+1);
-            chunkData.setCurrentPartSize(0);
-            
+            chunkData.getCosDataPacks().add(COSUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName,
+                    chunkData.getUploadId(), in, dataLength, chunkData.getPartNum()));
+            logger.info("pushFhirJsons2Cos: " + dataLength + " bytes were successfully appended to COS object - "
+                    + cosBucketObjectName);
+            chunkData.setPartNum(chunkData.getPartNum() + 1);
+            chunkData.getBufferStream().reset();
+
             if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                COSUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(), chunkData.getCosDataPacks());
+                COSUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(),
+                        chunkData.getCosDataPacks());
+                jobContext.setExitStatus("Export was finished; " + cosBucketObjectName);
             }
-            
+
         } else {
-            int numofPagePerCosObject;
-            try {
-                numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);
-            } catch (Exception e) {
-                numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
-            }
-            InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
             ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(combinedJsons.getBytes(StandardCharsets.UTF_8).length);
-            
+            metadata.setContentLength(dataLength);
+
             String itemName;
-            if (chunkData != null) {
-                    itemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType 
-                            + "_" + (int) Math.ceil((chunkData.getPageNum()-1)/numofPagePerCosObject) + ".ndjson";
+            if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
+                itemName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getPartNum() + ".ndjson";
             } else {
-                itemName = cosBucketPathPrefix + "/" + UUID.randomUUID().toString();
+                itemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + chunkData.getPartNum()
+                        + ".ndjson";
             }
 
-            PutObjectRequest req = new PutObjectRequest(cosBucketName, itemName, newStream, metadata);
+            PutObjectRequest req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
             cosClient.putObject(req);
-
-            log("pushFhirJsons2Cos", itemName + " was successfully written to COS");            
+            chunkData.setPartNum(chunkData.getPartNum() + 1);
+            chunkData.getBufferStream().reset();
+            logger.info(
+                    "pushFhirJsons2Cos: " + itemName + "(" + dataLength + " bytes) was successfully written to COS");
+            if (jobContext.getExitStatus() == null) {
+                jobContext.setExitStatus("Export was finished; " + itemName);
+            } else {
+                jobContext.setExitStatus(jobContext.getExitStatus() + " : " + itemName);
+            }
         }
-        
+
     }
 
     /**
      * @see AbstractItemWriter#writeItems(List<java.lang.Object>)
      */
-    @SuppressWarnings("unchecked")
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
-        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+                cosLocation);
 
         if (cosClient == null) {
-            log("writeItems", "Failed to get CosClient!");
-            return;
+            logger.warning("writeItems: Failed to get CosClient!");
+            throw new Exception("writeItems: Failed to get CosClient!!");
         } else {
-            log("writeItems", "Succeed get CosClient!");
+            logger.finer("writeItems: Got CosClient successfully!");
         }
-
         if (cosBucketName == null) {
             cosBucketName = Constants.DEFAULT_COS_BUCKETNAME;
         }
-
         cosBucketName = cosBucketName.toLowerCase();
-
-        if (cosBucketPathPrefix == null) {
-            cosBucketPathPrefix = UUID.randomUUID().toString();
-        }
-
         if (!cosClient.doesBucketExist(cosBucketName)) {
             CreateBucketRequest req = new CreateBucketRequest(cosBucketName);
             cosClient.createBucket(req);
         }
-        
-        String combinedJsons = null;
-        for (Object resListObject : arg0) {
-            List<String> resList = ((List<String>) resListObject);
-            for (String resJsons : resList) {
-                if (combinedJsons == null) {
-                    combinedJsons = resJsons;
-                } else {
-                    combinedJsons = combinedJsons + "," + "\r\n" + resJsons; 
-                }
+
+        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        if (chunkData == null) {
+            logger.warning("writeItems: chunkData is null, this should never happen!");
+            throw new Exception("writeItems: chunkData is null, this should never happen!");
+        } else {
+            if (chunkData.getBufferStream().size() > 0) {
+                pushFhirJsons2Cos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()),
+                        chunkData.getBufferStream().size());
             }
         }
-        if (combinedJsons!= null && combinedJsons.length() > 0 ) {
-            pushFhirJsons2Cos(combinedJsons);
-        }
-
     }
 }

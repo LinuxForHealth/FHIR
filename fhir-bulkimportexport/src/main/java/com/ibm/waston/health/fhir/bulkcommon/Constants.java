@@ -12,8 +12,13 @@
 
 package com.ibm.waston.health.fhir.bulkcommon;
 
+/**
+ * Constants for BulkExportImport.
+ * 
+ * @author Albert Wang
+ */
 public class Constants {
-    
+
     public static final String DEFAULT_FHIR_TENANT = "default";
     public static final String DEFAULT_COS_BUCKETNAME = "fhir-bulkImExport-Connectathon";
     // The minimal size (5M bytes) for COS multiple-parts upload.
@@ -21,5 +26,5 @@ public class Constants {
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
     public static final int DEFAULT_NUMOFPAGES_EACH_COS_OBJECT = 10;
     public static final int DEFAULT_NUMOFOBJECTS_PERREAD = 1;
-
+    public static final int DEFAULT_MAXCOSFILE_SIZE = 104857600;
 }

@@ -7,21 +7,23 @@
 package com.ibm.watson.health.fhir.bulkexport;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.batch.api.BatchProperty;
 import javax.batch.api.Batchlet;
+import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
+import com.ibm.cloud.objectstorage.services.s3.model.AbortMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
@@ -30,6 +32,9 @@ import com.ibm.waston.health.fhir.bulkcommon.COSUtils;
 import com.ibm.waston.health.fhir.bulkcommon.Constants;
 import com.ibm.watson.health.fhir.config.FHIRConfiguration;
 import com.ibm.watson.health.fhir.config.FHIRRequestContext;
+import com.ibm.watson.health.fhir.model.format.Format;
+import com.ibm.watson.health.fhir.model.generator.FHIRGenerator;
+import com.ibm.watson.health.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.util.ModelSupport;
 import com.ibm.watson.health.fhir.persistence.FHIRPersistence;
@@ -46,15 +51,16 @@ import com.ibm.watson.health.fhir.search.util.SearchUtil;
  * @author Albert Wang
  */
 public class BulkExportBatchLet implements Batchlet {
+    private final static Logger logger = Logger.getLogger(BulkExportBatchLet.class.getName());
     private AmazonS3 cosClient = null;
-    // Please make sure pageSize is greater or equal to cosBatchSize.
-    // cosBatchSize is used in batchlet job only.
-    int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE, cosBatchSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
+    int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
+    int cosMaxFileSize = 0;
     boolean isSingleCosObject = false;
     String uploadId;
     List<PartETag> cosDataPacks = new ArrayList<PartETag>();
     int partNum = 1;
-    
+    String exportFileNames = null;
+
     /**
      * The IBM COS API key or S3 access key.
      */
@@ -103,15 +109,20 @@ public class BulkExportBatchLet implements Batchlet {
     @Inject
     @BatchProperty(name = "cos.credential.ibm")
     String cosCredentialIbm;
-    
-    
+
     /**
      * The Cos object name.
      */
     @Inject
     @BatchProperty(name = "cos.bucket.objectname")
     String cosBucketObjectName;
-    
+
+    /**
+     * The Cos object name.
+     */
+    @Inject
+    @BatchProperty(name = "cos.bucket.maxfilesize")
+    String cosBucketMaxFileSize;
 
     /**
      * Fhir tenant id.
@@ -119,7 +130,7 @@ public class BulkExportBatchLet implements Batchlet {
     @Inject
     @BatchProperty(name = "fhir.tenant")
     String fhirTenant;
-    
+
     /**
      * Fhir data store id.
      */
@@ -149,19 +160,20 @@ public class BulkExportBatchLet implements Batchlet {
     String fhirSearchToDate;
 
     /**
+     * Fhir search page size.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.search.pagesize")
+    String fhirSearchPageSize;
+
+    @Inject
+    JobContext jobContext;
+
+    /**
      * Default constructor.
      */
     public BulkExportBatchLet() {
 
-    }
-
-    private final static Logger logger = Logger.getLogger(BulkExportBatchLet.class.getName());
-
-    /**
-     * Logging helper.
-     */
-    private void log(String method, Object msg) {
-        logger.info(method + ": " + String.valueOf(msg));
     }
 
     /**
@@ -169,31 +181,38 @@ public class BulkExportBatchLet implements Batchlet {
      */
     private boolean stopRequested = false;
 
-    private void pushFhirJsons2Cos(String combinedJsons) throws Exception {
-
-        if (cosClient == null)
-            return;
-        
-        if (isSingleCosObject) {
-            InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
-            cosDataPacks.add(COSUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName, uploadId, newStream, combinedJsons.getBytes(StandardCharsets.UTF_8).length, partNum));
-            partNum ++;
-            log("pushFhirJsons2Cos", " Contents were successfully appended to COS object: " + cosBucketObjectName);
-        } else {            
-            ObjectMetadata metadata = new ObjectMetadata();
-            combinedJsons = "[\r\n" + combinedJsons + "\r\n]";
-            metadata.setContentLength(combinedJsons.getBytes(StandardCharsets.UTF_8).length);
-
-            String itemName = cosBucketPathPrefix + "/" + UUID.randomUUID().toString();
-
-            InputStream newStream = new ByteArrayInputStream(combinedJsons.getBytes(StandardCharsets.UTF_8));
-            PutObjectRequest req = new PutObjectRequest(cosBucketName, itemName, newStream, metadata);
-            cosClient.putObject(req);     
-            log("pushFhirJsons2Cos", itemName + " was successfully written to COS");
+    private void pushFhirJsons2Cos(InputStream in, int dataLength) throws Exception {
+        if (cosClient == null) {
+            logger.warning("pushFhirJsons2Cos: no cosClient!");
+            throw new Exception("pushFhirJsons2Cos: no cosClient!");
         }
-        
-    }
+        if (isSingleCosObject) {
+            cosDataPacks.add(COSUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName, uploadId, in,
+                    dataLength, partNum));
+            partNum++;
+            logger.info(
+                    "pushFhirJsons2Cos: Contents were successfully appended to COS object - " + cosBucketObjectName);
+        } else {
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(dataLength);
+            String itemName;
+            if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
+                itemName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + partNum + ".ndjson";
+            } else {
+                itemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + partNum + ".ndjson";
+            }
+            PutObjectRequest req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
+            cosClient.putObject(req);
+            partNum++;
+            logger.info("pushFhirJsons2Cos: " + itemName + " was successfully written to COS");
+            if (exportFileNames == null) {
+                exportFileNames = itemName;
+            } else {
+                exportFileNames += " : " + itemName;
+            }
 
+        }
+    }
 
     /**
      * Main entry point.
@@ -201,80 +220,82 @@ public class BulkExportBatchLet implements Batchlet {
     @SuppressWarnings("unchecked")
     @Override
     public String process() throws Exception {
-        String exitStatus = "Export Stopped before it's started!";
-        log("process", "Begin get CosClient!");
-        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
-
+        String exitStatus;
+        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+                cosLocation);
         if (cosClient == null) {
-            log("process", "Failed to get CosClient!");
-            return "Failed to get CosClient!";
+            logger.warning("process: Failed to get CosClient!");
+            throw new Exception("process: Failed to get CosClient!");
         } else {
-            log("process", "Succeed get CosClient!");
+            logger.finer("process: Got CosClient successfully!");
         }
-
         if (cosBucketName == null) {
             cosBucketName = Constants.DEFAULT_COS_BUCKETNAME;
         }
-
         cosBucketName = cosBucketName.toLowerCase();
-
-        if (cosBucketPathPrefix == null) {
-            cosBucketPathPrefix = UUID.randomUUID().toString();
-        }
-        
         if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) {
             isSingleCosObject = true;
         }
-
-        COSUtils.listBuckets(cosClient);
-
         if (!cosClient.doesBucketExist(cosBucketName)) {
             CreateBucketRequest req = new CreateBucketRequest(cosBucketName);
             cosClient.createBucket(req);
         }
-
         if (fhirTenant == null) {
             fhirTenant = Constants.DEFAULT_FHIR_TENANT;
-            log("process", "Set tenant to default!");
+            logger.info("process: Set tenant to default!");
         }
-        
         if (fhirDatastoreId == null) {
             fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
-            log("readItem", "Set DatastoreId to default!");
+            logger.info("process: Set DatastoreId to default!");
         }
-        
+        if (fhirSearchPageSize != null) {
+            try {
+                pageSize = Integer.parseInt(fhirSearchPageSize);
+                logger.info("process: Set page size to " + pageSize + ".");
+            } catch (Exception e) {
+                logger.warning("process: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
+            }
+        }
+        if (!isSingleCosObject && cosBucketMaxFileSize != null) {
+            try {
+                cosMaxFileSize = Integer.parseInt(cosBucketMaxFileSize);
+                logger.info("process: Set max COS file size to " + cosMaxFileSize + ".");
+            } catch (Exception e) {
+                cosMaxFileSize = Constants.DEFAULT_MAXCOSFILE_SIZE;
+                logger.warning("process: Set max COS file size to default(" + Constants.DEFAULT_MAXCOSFILE_SIZE + ").");
+            }
+        }
+
         FHIRConfiguration.setConfigHome("./");
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
-
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
-
         Class<? extends Resource> resourceType = (Class<? extends Resource>) ModelSupport
                 .getResourceType(fhirResourceType);
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String queryString;
+        String queryString = "&_sort=_lastUpdated";
 
-        queryString = "&_lastUpdated=ge" + fhirSearchFromDate + "&_lastUpdated=lt" + fhirSearchToDate
-                + "&_sort=_lastUpdated";
-        queryParameters.put("_lastUpdated", Collections.singletonList("ge" + fhirSearchFromDate));
-        queryParameters.put("_lastUpdated", Collections.singletonList("lt" + fhirSearchToDate));
+        if (fhirSearchFromDate != null) {
+            queryString += ("&_lastUpdated=ge" + fhirSearchFromDate);
+            queryParameters.put("_lastUpdated", Collections.singletonList("ge" + fhirSearchFromDate));
+        }
+        if (fhirSearchToDate != null) {
+            queryString += ("&_lastUpdated=lt" + fhirSearchToDate);
+            queryParameters.put("_lastUpdated", Collections.singletonList("lt" + fhirSearchToDate));
+        }
+
         queryParameters.put("_sort", Arrays.asList(new String[] { "_lastUpdated" }));
-
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
-
-        int pageNum = 1, exported = 0;
-
+        int pageNum = 1, exported = 0, totalExported = 0;
         searchContext.setPageSize(pageSize);
-        
-        String combinedJsons = null;
-        
+
         if (isSingleCosObject) {
-            combinedJsons = "[" + "\r\n";
             uploadId = COSUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName);
         }
 
+        ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
         while (!stopRequested) {
             searchContext.setPageNumber(pageNum);
             FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
@@ -282,117 +303,87 @@ public class BulkExportBatchLet implements Batchlet {
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType);
             txn.commit();
-              
-            pageNum++;
 
-            int count = 0;
-            
             if (resources != null) {
                 for (Resource res : resources) {
                     if (stopRequested) {
-                        exitStatus = "Export stopped!" + " exported: " + exported;
                         break;
                     }
-                    count++;
-                    exported++;
-                    String ndJsonLine = res.toString().replace("\r", "").replace("\n", "");
-                    if (combinedJsons == null) {
-                        combinedJsons = ndJsonLine;
-                    } else {
-                        if (combinedJsons.length() < 10) {
-                            // if isSingleCosObject, then we don't need "," for the first record.
-                            combinedJsons = combinedJsons + ndJsonLine;
-                        } else {
-                            combinedJsons = combinedJsons + "," + "\r\n" + ndJsonLine;
-                        }
+                    if (res == null) {
+                        continue;
                     }
-
-                    if (count == cosBatchSize) {
-                        if (isSingleCosObject) {
-                            if (pageNum <= searchContext.getLastPageNumber()) {
-                             // There is more contents to come for the single Cos object, so add "," to the end.
-                                combinedJsons = combinedJsons + ",";
-                                // only push to COS if the combinedJsons is greater than the minimal COS part size.
-                                if (combinedJsons.getBytes(StandardCharsets.UTF_8).length >= Constants.COS_PART_MINIMALSIZE) {
-                                    pushFhirJsons2Cos(combinedJsons);
-                                    count = 0;
-                                    combinedJsons = null;
-                                }
-                            } else {
-                             // There is no more contents to come for the single Cos object, so add "]" to the end and push to COS.
-                                combinedJsons = combinedJsons + "\r\n]";
-                                pushFhirJsons2Cos(combinedJsons);
-                                count = 0;
-                                combinedJsons = null;
-                            }   
+                    try {
+                        FHIRGenerator.generator(Format.JSON).generate(res, bufferStream);
+                        bufferStream.write("\r\n".getBytes());
+                        exported++;
+                    } catch (FHIRGeneratorException e) {
+                        if (res.getId() != null) {
+                            logger.log(Level.WARNING,
+                                    "Error while writing resources with id '" + res.getId().getValue() + "'", e);
                         } else {
-                            pushFhirJsons2Cos(combinedJsons);
-                            count = 0;
-                            combinedJsons = null;
+                            logger.log(Level.WARNING, "Error while writing resources with unknown id", e);
                         }
                     }
                 }
-
-                if (combinedJsons != null) {
-                    if (isSingleCosObject && combinedJsons.length() > 10) {
-                        if (pageNum <= searchContext.getLastPageNumber() && !stopRequested) {
-                         // There is more contents to come for the single Cos object, so add "," to the end.
-                            combinedJsons = combinedJsons + ",";
-                            // only push to COS if the combinedJsons is greater than the minimal COS part size.
-                            if (combinedJsons.getBytes(StandardCharsets.UTF_8).length >= Constants.COS_PART_MINIMALSIZE) {
-                                pushFhirJsons2Cos(combinedJsons);
-                                count = 0;
-                                combinedJsons = null;
-                            }
-                        } else {
-                         // There is no more contents to come for the single Cos object, so add "]" to the end and push to COS.
-                            combinedJsons = combinedJsons + "\r\n]";
-                            pushFhirJsons2Cos(combinedJsons);
-                            count = 0;
-                            combinedJsons = null;
-                        }   
-                    } else {
-                        pushFhirJsons2Cos(combinedJsons);
-                        count = 0;
-                        combinedJsons = null;
-                    }
-                }
-
-
-                // No more to export, so stop.
-                if (pageNum > searchContext.getLastPageNumber()) {
-                    stopRequested = true;
-                    exitStatus = "Export finished! exported: " + exported;
-                }
-
-            } else {
-                if (exported > 0) {
-                    exitStatus = "Export finished! exported: " + exported;
-                } else {
-                    exitStatus = "Nothing exported!";
-                }
-                stopRequested = true;
             }
 
-        }
-        
-        // always finish the upload no matter if any real content has been uploaded.
-        if (isSingleCosObject) {
-            COSUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, uploadId, cosDataPacks);
+            if (exported > 0) {
+                if ((!isSingleCosObject && cosMaxFileSize == 0)
+                        || (!isSingleCosObject && cosMaxFileSize > 0 && bufferStream.size() > cosMaxFileSize)
+                        || (isSingleCosObject && bufferStream.size() > Constants.COS_PART_MINIMALSIZE) || stopRequested
+                        || (pageNum + 1) > searchContext.getLastPageNumber()) {
+                    pushFhirJsons2Cos(new ByteArrayInputStream(bufferStream.toByteArray()), bufferStream.size());
+                    bufferStream.reset();
+                    totalExported += exported;
+                    exported = 0;
+                }
+            }
+            if (!stopRequested) {
+                pageNum++;
+            }
+            // No more to export, so stop.
+            if (pageNum > searchContext.getLastPageNumber()) {
+                stopRequested = true;
+            }
         }
 
-        log("process", "ExitStatus: " + exitStatus);
+        // more to export but was stopped/canceled.
+        if (pageNum <= searchContext.getLastPageNumber()) {
+            if (isSingleCosObject) {
+                cosClient.abortMultipartUpload(
+                        new AbortMultipartUploadRequest(cosBucketName, cosBucketObjectName, uploadId));
+                exitStatus = "Export was canceled! Nothing was exported to COS!";
+            } else {
+                exitStatus = "Export was stoped! Total exported - " + totalExported;
+            }
+        } else {
+            if (isSingleCosObject) {
+                if (totalExported > 0) {
+                    COSUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, uploadId,
+                            cosDataPacks);
+                    exportFileNames = cosBucketObjectName;
+                } else {
+                    cosClient.abortMultipartUpload(
+                            new AbortMultipartUploadRequest(cosBucketName, cosBucketObjectName, uploadId));
+                }
+            }
+            exitStatus = "Export was finished! Total exported - " + totalExported;
+        }
 
+        if (exportFileNames != null) {
+            exitStatus += "; " + exportFileNames;
+        }
+        logger.info("process: " + exitStatus);
+        jobContext.setExitStatus(exitStatus);
         return exitStatus;
     }
-        
 
     /**
      * Called if the batchlet is stopped by the container.
      */
     @Override
     public void stop() throws Exception {
-        log("stop:", "Stop request accepted!");
+        logger.info("stop: Stop request accepted!");
         stopRequested = true;
     }
 }
