@@ -50,7 +50,10 @@ ${SIT}/fhir-server-dist/install.sh ${SIT}
 
 echo "Copying configuration to install location..."
 rm -fr ${SIT}/wlp/usr/servers/fhir-server/config/*
-cp -pr ${WORKSPACE}/fhir-install/docker/volumes/dist/config/* ${SIT}/wlp/usr/servers/fhir-server/config
+cp -pr ${WORKSPACE}/fhir-install/docker/volumes/dist/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
+
+echo "Copying test artifacts to install location..."
+cp -pr ${WORKSPACE}/fhir-operation/target/fhir-operation-*-tests.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
 
 # Start up the fhir server
 echo "
