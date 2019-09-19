@@ -58,7 +58,6 @@
                         <phase>package</phase>
                         <configuration>
                             <finalName>fhir-server-distribution</finalName>
-                            <outputDirectory>${publish.dir}</outputDirectory>
                             <appendAssemblyId>false</appendAssemblyId>
                             <attach>true</attach>
                             <descriptors>

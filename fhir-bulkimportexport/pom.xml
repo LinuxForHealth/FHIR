@@ -19,17 +19,14 @@
         <dependency>
             <groupId>com.ibm.cos</groupId>
             <artifactId>ibm-cos-java-sdk</artifactId>
-            <version>2.1.0</version>
         </dependency>
         <dependency>
-            <groupId>javax.batch</groupId>
-            <artifactId>javax.batch-api</artifactId>
-            <version>1.0</version>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
+            <groupId>jakarta.batch</groupId>
+            <artifactId>jakarta.batch-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -39,7 +36,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence</artifactId>
-            <version>${project.version}</version>           
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -49,7 +46,13 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence-jdbc</artifactId>
-            <version>${project.version}</version>           
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derbytools</artifactId>
+                </exclusion>
+            </exclusions>     
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

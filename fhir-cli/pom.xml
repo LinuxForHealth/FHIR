@@ -52,7 +52,6 @@
                         <phase>package</phase>
                         <configuration>
                             <finalName>fhir-cli</finalName>
-                            <outputDirectory>${publish.dir}</outputDirectory>
                             <appendAssemblyId>false</appendAssemblyId>
                             <attach>true</attach>
                             <descriptors>
