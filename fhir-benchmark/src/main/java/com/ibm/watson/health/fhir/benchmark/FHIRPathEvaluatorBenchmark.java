@@ -11,6 +11,7 @@ import static com.ibm.watson.health.fhir.benchmark.runner.FHIRBenchmarkRunner.PR
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.io.StringReader;
+import java.util.Collection;
 
 import org.hl7.fhir.instance.model.api.IBase;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -23,8 +24,9 @@ import com.ibm.watson.health.fhir.benchmark.runner.FHIRBenchmarkRunner;
 import com.ibm.watson.health.fhir.benchmark.util.BenchmarkUtil;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
+import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
 import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -43,8 +45,9 @@ public class FHIRPathEvaluatorBenchmark {
         public FhirContext context;
         public IFluentPath fluentPath;
         public FHIRPathEvaluator evaluator;
+        public EvaluationContext evaluationContext;
+        public Collection<FHIRPathNode> initialContext;
         public Resource resource;
-        public FHIRPathTree tree;
         public IBaseResource baseResource;
                 
         @Setup
@@ -52,15 +55,16 @@ public class FHIRPathEvaluatorBenchmark {
             context = FhirContext.forR4();
             fluentPath = context.newFluentPath();
             resource = FHIRParser.parser(Format.JSON).parse(new StringReader(JSON_SPEC_EXAMPLE));
-            tree = FHIRPathTree.tree(resource);
-            evaluator = FHIRPathEvaluator.evaluator(tree);
+            evaluator = FHIRPathEvaluator.evaluator();
+            evaluationContext = new EvaluationContext(resource);
+            initialContext = singleton(evaluationContext.getTree().getRoot());
             baseResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
         }
     }
     
     @Benchmark
     public void benchmarkEvaluator(FHIRPathEvaluatorState state) throws Exception {
-        state.evaluator.evaluate(FHIRPathEvaluatorState.EXPRESSION, singleton(state.tree.getRoot()));
+        state.evaluator.evaluate(state.evaluationContext, FHIRPathEvaluatorState.EXPRESSION, state.initialContext);
     }
     
     @Benchmark
@@ -77,9 +81,9 @@ public class FHIRPathEvaluatorBenchmark {
         System.out.println(fluentPath.evaluate(baseResource, expression, IBase.class));
     
         Resource resource = FHIRParser.parser(Format.JSON).parse(new StringReader(specExample));
-        FHIRPathTree tree = FHIRPathTree.tree(resource);
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);        
-        System.out.println(evaluator.evaluate(expression, singleton(tree.getRoot())));
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        EvaluationContext evaluationContext = new EvaluationContext(resource);
+        System.out.println(evaluator.evaluate(evaluationContext, expression, singleton(evaluationContext.getTree().getRoot())));
     }
 
     public static void main(String[] args) throws Exception {

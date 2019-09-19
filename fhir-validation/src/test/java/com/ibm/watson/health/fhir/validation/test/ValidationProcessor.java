@@ -32,7 +32,7 @@ public class ValidationProcessor implements IExampleProcessor {
      */
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
-        List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
+        List<OperationOutcome.Issue> issues = FHIRValidator.validator().validate(resource);
         if (!issues.isEmpty()) {
             List<String> issueStrings = new ArrayList<String>();
             for (Issue issue : issues) {

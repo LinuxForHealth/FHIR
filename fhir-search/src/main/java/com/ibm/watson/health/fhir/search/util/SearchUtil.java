@@ -30,8 +30,8 @@ import com.ibm.watson.health.fhir.config.FHIRRequestContext;
 import com.ibm.watson.health.fhir.config.PropertyGroup;
 import com.ibm.watson.health.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.path.exception.FHIRPathException;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.resource.SearchParameter;
@@ -468,8 +468,8 @@ public class SearchUtil {
         Class<?> resourceType = resource.getClass();
 
         // Create one time.
-        FHIRPathTree tree = FHIRPathTree.tree(resource);
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        EvaluationContext evaluationContext = new EvaluationContext(resource);
 
         List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
 
@@ -492,7 +492,7 @@ public class SearchUtil {
 
                 try {
                    
-                    Collection<FHIRPathNode> tmpResults = evaluator.evaluate(expression.getValue(), tree.getRoot());
+                    Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
                     
                     if (log.isLoggable(Level.FINEST)) {
                         log.finest("Expression [" + expression.getValue() + "] parameter-code [" + parameter.getCode().getValue() + "] Size -[" + tmpResults.size() + "]");

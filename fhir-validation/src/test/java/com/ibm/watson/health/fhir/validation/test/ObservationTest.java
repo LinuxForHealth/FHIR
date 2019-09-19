@@ -19,7 +19,7 @@ public class ObservationTest {
     public static void main(String[] args) throws Exception {
         try (InputStream in = ObservationTest.class.getClassLoader().getResourceAsStream("JSON/observation.json")) {
             Observation observation = FHIRParser.parser(Format.JSON).parse(in);
-            List<Issue> issues = FHIRValidator.validator(observation).validate();
+            List<Issue> issues = FHIRValidator.validator().validate(observation);
             for (Issue issue : issues) {
                 System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
             }

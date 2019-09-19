@@ -19,8 +19,8 @@ import com.ibm.watson.health.fhir.exception.FHIRException;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
 import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.resource.Bundle;
 import com.ibm.watson.health.fhir.model.resource.SearchParameter;
 import com.ibm.watson.health.fhir.model.type.ResourceType;
@@ -48,9 +48,9 @@ public class ValueTypesTool {
             // The code is agnostic to format.
             Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);  
 
-            FHIRPathTree tree = FHIRPathTree.tree(bundle);
-            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
-            Collection<FHIRPathNode> result = evaluator.evaluate(ParametersUtil.FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+            EvaluationContext evaluationContext = new EvaluationContext(bundle);
+            Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, ParametersUtil.FHIR_PATH_BUNDLE_ENTRY);
 
             outputJsonHeader();
             for (SearchParameter parameter : result.stream().map(node -> node.asResourceNode().resource().as(SearchParameter.class)).collect(Collectors.toList())) {

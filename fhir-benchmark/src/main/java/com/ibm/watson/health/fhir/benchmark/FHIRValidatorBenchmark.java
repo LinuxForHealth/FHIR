@@ -20,7 +20,6 @@ import com.ibm.watson.health.fhir.benchmark.runner.FHIRBenchmarkRunner;
 import com.ibm.watson.health.fhir.benchmark.util.BenchmarkUtil;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
@@ -34,29 +33,29 @@ public class FHIRValidatorBenchmark {
         public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
         
         public FhirContext context;
-        public FhirValidator validator;
+        public FhirValidator fhirValidator;
+        public FHIRValidator validator;
         public Resource resource;
-        public FHIRPathTree tree;
         public IBaseResource baseResource;
         
         @Setup
         public void setUp() throws Exception {
             context = FhirContext.forR4();
-            validator = context.newValidator();
+            fhirValidator = context.newValidator();
+            validator = FHIRValidator.validator();
             resource = FHIRParser.parser(Format.JSON).parse(new StringReader(JSON_SPEC_EXAMPLE));
-            tree = FHIRPathTree.tree(resource);
             baseResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
         }
     }
     
     @Benchmark
     public void benchmarkValidator(FHIRValidatorState state) throws Exception {
-        FHIRValidator.validator(state.tree).validate();
+        state.validator.validate(state.resource);
     }
     
     @Benchmark
     public void benchmarkHAPIValidator(FHIRValidatorState state) throws Exception {
-        state.validator.validateWithResult(state.baseResource);
+        state.fhirValidator.validateWithResult(state.baseResource);
     }
     
     public static void main(String[] args) throws Exception {

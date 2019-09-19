@@ -59,7 +59,7 @@ public class FHIROperationRegistry {
     }
 
     private boolean isValid(FHIROperation operation) throws FHIRValidationException, FHIRValidationException {
-        List<Issue> issues = FHIRValidator.validator(operation.getDefinition()).validate();
+        List<Issue> issues = FHIRValidator.validator().validate(operation.getDefinition());
         if (!issues.isEmpty()) {
             for (Issue issue : issues) {
                 log.info("Issue: " + issue.getCode().getValue() + ":" 

@@ -566,7 +566,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         
         List<Issue> issues = Collections.emptyList();
         try {
-            issues = FHIRValidator.validator(resource).validate();
+            issues = FHIRValidator.validator().validate(resource);
         } catch(Exception e) {
             if(failOnValidationException) {
                 fail("Unable to validate the resource", e);
