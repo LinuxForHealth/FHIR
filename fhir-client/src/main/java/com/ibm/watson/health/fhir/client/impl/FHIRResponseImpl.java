@@ -10,11 +10,10 @@ import java.net.URI;
 import java.time.Instant;
 
 import javax.json.JsonObject;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.ibm.watson.health.fhir.client.FHIRResponse;
-import com.ibm.watson.health.fhir.core.FHIRUtilities;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 
 /**
@@ -135,5 +134,25 @@ public class FHIRResponseImpl implements FHIRResponse {
             }
         }
         return result;
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watson.health.fhir.client.FHIRResponse#isEmpty()
+     */
+    @Override
+    public boolean isEmpty() {
+        // To check for the presence of a resource in the response, we can't fully trust
+        // the Content-Length response header or the JAX-RS Response.hasEntity() method.
+        // The following scenarios are possible:
+        // 1) Response.hasEntity() could return true even if Content-Length = 0
+        // 2) Content-Length might be missing
+        // Return true if either Response.hasEntity() returns false,
+        // OR the Content-Length header is specified as "0".
+        String contentLengthStr = response.getHeaderString(HttpHeaders.CONTENT_LENGTH);
+        int contentLength = -1;
+        if (contentLengthStr != null && !contentLengthStr.isEmpty()) {
+            contentLength = Integer.valueOf(contentLengthStr).intValue();
+        }
+        return (!response.hasEntity() || contentLength == 0);
     }
 }

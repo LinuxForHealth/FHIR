@@ -6,7 +6,6 @@
 
 package com.ibm.watson.health.fhir.operation;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +40,10 @@ public abstract class AbstractOperation implements FHIROperation {
         else return definition.getCode().getValue();
     }
 
+    /**
+     * Validate the input parameters, invoke the operation, validate the output parameters, and return the result.
+     * @throws FHIROperationException if input or output parameters fail validation or an exception occurs
+     */
     @Override
     public final Parameters invoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
         Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
@@ -57,6 +60,11 @@ public abstract class AbstractOperation implements FHIROperation {
         return getParameters(parameters, name).size();
     }
 
+    /**
+     * This is the method that concrete subclasses must implement to perform the operation logic.
+     * @return The Parameters object to return or null if there is no response Parameters object to return
+     * @throws FHIROperationException
+     */
     protected abstract Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
         Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException;
 
@@ -82,6 +90,10 @@ public abstract class AbstractOperation implements FHIROperation {
 
     protected List<Parameters.Parameter> getParameters(Parameters parameters, String name) {
         List<Parameters.Parameter> result = new ArrayList<Parameters.Parameter>();
+        if (parameters == null) {
+             return result;
+        }
+        
         for (Parameters.Parameter parameter : parameters.getParameter()) {
             if (parameter.getName() != null && name.equals(parameter.getName().getValue())) {
                 result.add(parameter);
@@ -141,7 +153,7 @@ public abstract class AbstractOperation implements FHIROperation {
         validateParameters(result, OperationParameterUse.OUT);
     }
     
-    protected void validateParameters(Parameters parameters, OperationParameterUse use) throws FHIROperationException {        
+    protected void validateParameters(Parameters parameters, OperationParameterUse use) throws FHIROperationException {
         String direction = OperationParameterUse.IN.equals(use) ? "input" : "output";
 
         // Retrieve the set of parameters from the OperationDefinition matching the specified use (in/out).
@@ -158,7 +170,7 @@ public abstract class AbstractOperation implements FHIROperation {
                 throw buildExceptionWithIssue(msg, IssueType.ValueSet.REQUIRED);
             }
             if (!"*".equals(max)) {
-                int maxValue = Integer.parseInt(max);                
+                int maxValue = Integer.parseInt(max);
                 if (count > maxValue) {
                     String msg = "Number of occurrences of " + direction + " parameter: '" + name + "' greater than allowed maximum: " + maxValue;
                     throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
@@ -199,9 +211,13 @@ public abstract class AbstractOperation implements FHIROperation {
             }
         }
         
-        // Next, verify that each parameter contained in the Parameters object is defined
-        // in the OperationDefinition.   This will root out any extaneous parameters included
+        
+        // Next, if parameters is not null, verify that each parameter contained in the Parameters object is defined
+        // in the OperationDefinition. This will root out any extaneous parameters included
         // in the Parameters object.
+        if (parameters == null) {
+            return;
+        }
         for (Parameters.Parameter p : parameters.getParameter()) {
             String name = p.getName().getValue();
             

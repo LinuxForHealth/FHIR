@@ -8,6 +8,7 @@ package com.ibm.watson.health.fhir.server.test;
 
 import static com.ibm.watson.health.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -248,7 +249,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String message = "Hello, World!";
 
         Parameters parameters = Parameters.builder()
-                .parameter(Parameter.builder().name(string("input")).value(string(message)).build()).build();
+                .parameter(Parameter.builder().name(string("input-string")).value(string(message)).build()).build();
 
         FHIRClient client = getFHIRClient();
         FHIRResponse response = client.invoke("$hello", parameters);
@@ -266,16 +267,31 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String message = "Hello, World!";
 
         FHIRParameters parameters = new FHIRParameters();
-        parameters.queryParam("input", message);
+        parameters.queryParam("input-string", message);
 
         FHIRClient client = getFHIRClient();
         FHIRResponse response = client.invoke("$hello", parameters);
 
+        assertEquals(response.getStatus(), 200, "Expect HTTP 200 response but got HTTP " + response.getStatus());
+        assertFalse(response.isEmpty(), "Response unexpectedly contains no resource.");
         Parameters output = response.getResource(Parameters.class);
 
         assertNotNull(output);
+        assertFalse(output.getParameter().isEmpty());
         assertEquals(((com.ibm.watson.health.fhir.model.type.String) output.getParameter().get(0).getValue()).getValue(),
                 message);
+    }
+    
+    @Test(groups = { "fhir-operation" })
+    // Testcase for GET [baseUrl]/${operationName}?input="Hello, World!"
+    public void testGetHelloOperationWithEmptyBody() throws Exception {
+        FHIRParameters parameters = null;
+
+        FHIRClient client = getFHIRClient();
+        FHIRResponse response = client.invoke("$hello", parameters);
+
+        assertEquals(response.getStatus(), 200, "Expect HTTP 200 response but got HTTP " + response.getStatus());
+        assertTrue(response.isEmpty(), "Response contains an unexpected resource.");
     }
 
     @Test(groups = { "fhir-operation" })
