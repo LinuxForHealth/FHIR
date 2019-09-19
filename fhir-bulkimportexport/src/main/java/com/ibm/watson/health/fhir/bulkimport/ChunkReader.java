@@ -6,31 +6,17 @@
 
 package com.ibm.watson.health.fhir.bulkimport;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
 import javax.inject.Inject;
 
-import com.ibm.cloud.objectstorage.ClientConfiguration;
-import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
-import com.ibm.cloud.objectstorage.auth.AWSCredentials;
-import com.ibm.cloud.objectstorage.auth.AWSStaticCredentialsProvider;
-import com.ibm.cloud.objectstorage.auth.BasicAWSCredentials;
-import com.ibm.cloud.objectstorage.client.builder.AwsClientBuilder.EndpointConfiguration;
-import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
-import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
-import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
 import com.ibm.waston.health.fhir.bulkcommon.COSUtils;
 import com.ibm.waston.health.fhir.bulkcommon.Constants;
@@ -81,22 +67,20 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = "cos.bucket.name")
     String cosBucketName;
-    
-    
+
     /**
      * The Cos bucket name.
      */
     @Inject
     @BatchProperty(name = "cos.read.maxobjects")
     String maxCOSObjectsPerRead;
-    
+
     /**
      * The Cos object name.
      */
     @Inject
     @BatchProperty(name = "cos.bucket.objectname")
     String cosBucketObjectName;
-    
 
     /**
      * If use IBM credential.
@@ -106,40 +90,10 @@ public class ChunkReader extends AbstractItemReader {
     String cosCredentialIbm;
 
     /**
-     * Logging helper.
-     */
-    private void log(String method, Object msg) {
-        logger.info(method + ": " + String.valueOf(msg));
-    }
-
-    private String getItem(String bucketName, String itemName) {
-        S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
-
-        try (InputStreamReader in = new InputStreamReader(item.getObjectContent())) {
-            final int bufferSize = 1024;
-            final char[] buffer = new char[bufferSize];
-            final StringBuilder out = new StringBuilder();
-
-            for (;;) {
-                int rsz = in.read(buffer, 0, buffer.length);
-                if (rsz < 0)
-                    break;
-                out.append(buffer, 0, rsz);
-            }
-            logger.log(Level.FINER, out.toString());
-            return out.toString();
-        } catch (IOException ioe) {
-            log("getItem", "Error reading file " + itemName);
-            return null;
-        }
-    }
-
-    /**
      * @see AbstractItemReader#AbstractItemReader()
      */
     public ChunkReader() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -147,39 +101,36 @@ public class ChunkReader extends AbstractItemReader {
      * @see AbstractItemReader#readItem()
      */
     public Object readItem() throws Exception {
-        List<String> resJsonList = new ArrayList<String>();
-        log("readItem", "Begin get CosClient!");
-        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+        List<String> resCosObjectNameList = new ArrayList<String>();
+        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+                cosLocation);
 
         if (cosClient == null) {
-            log("readItem", "Failed to get CosClient!");
+            logger.warning("readItem: Failed to get CosClient!");
             return null;
         } else {
-            log("readItem", "Succeed get CosClient!");
+            logger.finer("readItem: Succeed get CosClient!");
         }
-
         if (cosBucketName == null) {
             cosBucketName = "fhir-bulkImExport-Connectathon";
         }
-
         cosBucketName = cosBucketName.toLowerCase();
-
         if (!cosClient.doesBucketExist(cosBucketName)) {
-            log("readItem", "Bucket not found!");
+            logger.warning("readItem: Bucket '" + cosBucketName + "' not found!");
+            COSUtils.listBuckets(cosClient);
             return null;
         }
-
         // Control the number of COS objects to read in each "item".
         int maxKeys = Constants.DEFAULT_NUMOFOBJECTS_PERREAD;
         if (maxCOSObjectsPerRead != null) {
             try {
                 maxKeys = Integer.parseInt(maxCOSObjectsPerRead);
-                log("readItem", "Number of COS Objects in each read: " + maxKeys + ".");
+                logger.info("readItem: Number of COS Objects in each read - " + maxKeys + ".");
             } catch (Exception e) {
-                log("readItem", "Set Number of COS Objects in each read to default(" + Constants.DEFAULT_NUMOFOBJECTS_PERREAD + ").");
+                logger.warning("readItem: Set Number of COS Objects in each read to default("
+                        + Constants.DEFAULT_NUMOFOBJECTS_PERREAD + ").");
             }
         }
-
 
         if (nextToken.contentEquals("ALLDONE")) {
             return null;
@@ -187,24 +138,21 @@ public class ChunkReader extends AbstractItemReader {
 
         ListObjectsV2Request request = new ListObjectsV2Request().withBucketName(cosBucketName).withMaxKeys(maxKeys)
                 .withContinuationToken(nextToken);
-
         ListObjectsV2Result result = cosClient.listObjectsV2(request);
         for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
             boolean isToBeProccessed = false;
-            if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) { 
-                if(objectSummary.getKey().startsWith(cosBucketObjectName.trim())) {
+            if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) {
+                if (objectSummary.getKey().startsWith(cosBucketObjectName.trim())) {
                     isToBeProccessed = true;
                 }
             } else {
                 isToBeProccessed = true;
             }
-            
             if (isToBeProccessed) {
-                log("readItem", "COS Object: " + objectSummary.getKey() + ", Bytes: " + objectSummary.getSize());
-                
-                String objectContents = getItem(cosBucketName, objectSummary.getKey());
-                if (objectContents != null) {
-                    resJsonList.add(objectContents);
+                logger.info("readItem: COS Object(" + objectSummary.getKey() + ") - " + objectSummary.getSize()
+                        + " bytes.");
+                if (objectSummary.getSize() > 0) {
+                    resCosObjectNameList.add(objectSummary.getKey());
                 }
             }
         }
@@ -216,7 +164,7 @@ public class ChunkReader extends AbstractItemReader {
             nextToken = "ALLDONE";
         }
 
-        return resJsonList;
+        return resCosObjectNameList;
     }
 
     @Override

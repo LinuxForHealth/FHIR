@@ -16,7 +16,6 @@
                     <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
                 </properties>
             </reader>
-            <processor ref="com.ibm.watson.health.fhir.bulkexport.ChunkProcessor" />
             <writer ref="com.ibm.watson.health.fhir.bulkexport.ChunkWriter">
                 <properties>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
@@ -28,12 +27,12 @@
                     <property name="cos.bucket.pathprefix" value="#{jobParameters['cos.bucket.pathprefix']}"/>
                     <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
                     <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
-                    <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}"/>
                 </properties>
             </writer>
             <checkpoint-algorithm ref="com.ibm.watson.health.fhir.bulkexport.CheckPointAlgorithm">
                 <properties>
                     <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}"/>
+                    <property name="cos.bucket.maxfilesize" value="#{jobParameters['cos.bucket.maxfilesize']}"/>
                 </properties>
             </checkpoint-algorithm>
         </chunk>
