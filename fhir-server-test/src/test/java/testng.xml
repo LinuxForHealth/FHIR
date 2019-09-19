@@ -28,12 +28,10 @@
 
             <class name="com.ibm.watson.health.fhir.cli.test.FHIRCliTest" />
             
-            <!-- requires $validate and $hello operations to be deployed. 
-            Include the following jars in the fhir-server userlib dir before running the test:
-            * fhir-operation-validate-99-SNAPSHOT.jar
-            * fhir-operation-99-SNAPSHOT-tests.jar
+            <!-- requires $hello operation to be deployed. 
+            Include the fhir-operation-[version]-tests jar in the fhir-server userlib dir before running the test:
             -->
-            <!-- <class name="com.ibm.watson.health.fhir.server.test.FHIROperationTest" /> -->
+            <class name="com.ibm.watson.health.fhir.server.test.FHIROperationTest" />
         </classes>
     </test>
 </suite>

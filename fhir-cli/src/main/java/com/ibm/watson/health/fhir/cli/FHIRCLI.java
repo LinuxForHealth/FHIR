@@ -76,7 +76,6 @@ public class FHIRCLI {
     private static final String copyright = "\nFHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2018, 2019.\n";
     private static final String header = "\nProvides access to the FHIR Client API via the command line.\n\nOptions:\n";
     private static final String syntax = "fhir-cli [options]";
-    private static final String CONTENT_LENGTH_HEADER = "Content-Length";
     private static final String DEFAULT_MIMETYPE = FHIRMediaType.APPLICATION_FHIR_JSON;
     
     private static PrintStream console = System.err;
@@ -294,22 +293,7 @@ public class FHIRCLI {
                 println("");
             }
             
-            // If the response contains a resource, then display it per user-specified options.
-            // To check for the presence of a resource in the response, we can't fully trust
-            // the Content-Length response header or the JAX-RS Response.hasEntity() method.
-            // The following scenarios are possible:
-            // 1) Response.hasEntity() could return true even if Content-Length = 0
-            // 2) Content-Length might be missing
-            // Result: we'll try to read the resource if Response.hasEntity() returns true,
-            // AND the Content-Length header is not specified as "0".
-            // In other words, if Content-Length is missing or set to something other than 0 and
-            // Response.hasEntity() is true, then we'll try to read the response entity.
-            String contentLengthStr = jaxrsResponse.getHeaderString(CONTENT_LENGTH_HEADER);
-            int contentLength = -1;
-            if (contentLengthStr != null && !contentLengthStr.isEmpty()) {
-                contentLength = Integer.valueOf(contentLengthStr).intValue();
-            }
-            if (jaxrsResponse.hasEntity() && contentLength != 0) {
+            if (!response.isEmpty()) {
                 Resource responseObj = response.getResource(Resource.class);
                 if (responseObj != null) {
                     Writer writer = null;

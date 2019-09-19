@@ -105,4 +105,10 @@ public interface FHIRResponse {
      * @throws Exception
      */
     String[] parseLocation(String locationString) throws Exception;
+    
+    /**
+     * Returns whether the response contains a FHIR Resource entity.
+     * @return true if the response body is empty, otherwise false 
+     */
+    boolean isEmpty();
 }

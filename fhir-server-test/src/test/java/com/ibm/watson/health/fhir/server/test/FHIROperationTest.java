@@ -8,6 +8,7 @@ package com.ibm.watson.health.fhir.server.test;
 
 import static com.ibm.watson.health.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -27,14 +28,14 @@ import com.ibm.watson.health.fhir.core.FHIRMediaType;
 import com.ibm.watson.health.fhir.model.resource.AllergyIntolerance;
 import com.ibm.watson.health.fhir.model.resource.Bundle;
 import com.ibm.watson.health.fhir.model.resource.Composition;
+import com.ibm.watson.health.fhir.model.resource.Composition.Section;
 import com.ibm.watson.health.fhir.model.resource.Condition;
 import com.ibm.watson.health.fhir.model.resource.Observation;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome;
 import com.ibm.watson.health.fhir.model.resource.Parameters;
+import com.ibm.watson.health.fhir.model.resource.Parameters.Parameter;
 import com.ibm.watson.health.fhir.model.resource.Patient;
 import com.ibm.watson.health.fhir.model.resource.Practitioner;
-import com.ibm.watson.health.fhir.model.resource.Composition.Section;
-import com.ibm.watson.health.fhir.model.resource.Parameters.Parameter;
 import com.ibm.watson.health.fhir.model.type.Code;
 import com.ibm.watson.health.fhir.model.type.CodeableConcept;
 import com.ibm.watson.health.fhir.model.type.Coding;
@@ -248,7 +249,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String message = "Hello, World!";
 
         Parameters parameters = Parameters.builder()
-                .parameter(Parameter.builder().name(string("input")).value(string(message)).build()).build();
+                .parameter(Parameter.builder().name(string("input-string")).value(string(message)).build()).build();
 
         FHIRClient client = getFHIRClient();
         FHIRResponse response = client.invoke("$hello", parameters);
@@ -261,21 +262,69 @@ public class FHIROperationTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "fhir-operation" })
-    // Testcase for GET [baseUrl]/${operationName}?input="Hello, World!"
+    // Testcase for GET [baseUrl]/${operationName}?input-string="Hello, World!"
     public void testGetHelloOperation() throws Exception {
         String message = "Hello, World!";
 
         FHIRParameters parameters = new FHIRParameters();
-        parameters.queryParam("input", message);
+        parameters.queryParam("input-string", message);
 
         FHIRClient client = getFHIRClient();
         FHIRResponse response = client.invoke("$hello", parameters);
 
+        assertEquals(response.getStatus(), 200, "Expect HTTP 200 response but got HTTP " + response.getStatus());
+        assertFalse(response.isEmpty(), "Response unexpectedly contains no resource.");
         Parameters output = response.getResource(Parameters.class);
 
         assertNotNull(output);
+        assertFalse(output.getParameter().isEmpty());
         assertEquals(((com.ibm.watson.health.fhir.model.type.String) output.getParameter().get(0).getValue()).getValue(),
                 message);
+    }
+    
+    @Test(groups = { "fhir-operation" })
+    // Testcase for GET [baseUrl]/${operationName}?input-boolean=true&input-canonical="https://examples.com"&input-code...
+    public void testGetHelloOperationWithPrimitives() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.queryParam("input-boolean", "true");                                         //1
+        parameters.queryParam("input-canonical", "http://example.com");                         //2
+        parameters.queryParam("input-code", "testCode");                                        //3
+        parameters.queryParam("input-date", "2019-09-04");                                      //4
+        parameters.queryParam("input-dateTime", "2019-09-19T11:10:00.000Z");                    //5
+        parameters.queryParam("input-id", "abc123");                                            //6
+        parameters.queryParam("input-instant", "2019-09-19T11:10:00.000Z");                     //7
+        parameters.queryParam("input-integer", "1");                                            //8
+        parameters.queryParam("input-oid", "urn:oid:2.16.840.1.113883.3.18");                   //9
+        parameters.queryParam("input-positiveInt", "1");                                        //10
+        parameters.queryParam("input-string", "Hello, World!");                                 //11
+        parameters.queryParam("input-time", "11:12:00");                                        //12
+        parameters.queryParam("input-unsignedInt", "1");                                        //13
+        parameters.queryParam("input-uri", "http://example.com");                               //14
+        parameters.queryParam("input-url", "http://example.com");                               //15
+        parameters.queryParam("input-uuid", "urn:uuid:f35473c3-bf5e-4c76-b184-bca9b8bc1cc2");   //16
+
+        FHIRClient client = getFHIRClient();
+        FHIRResponse response = client.invoke("$hello", parameters);
+
+        assertEquals(response.getStatus(), 200, "Expect HTTP 200 response but got HTTP " + response.getStatus());
+        assertFalse(response.isEmpty(), "Response unexpectedly contains no resource.");
+        Parameters output = response.getResource(Parameters.class);
+
+        assertNotNull(output);
+        assertFalse(output.getParameter().isEmpty());
+        assertEquals(output.getParameter().size(), 16);
+    }
+    
+    @Test(groups = { "fhir-operation" })
+    // Testcase for GET [baseUrl]/${operationName}"
+    public void testGetHelloOperationWithEmptyBody() throws Exception {
+        FHIRParameters parameters = null;
+
+        FHIRClient client = getFHIRClient();
+        FHIRResponse response = client.invoke("$hello", parameters);
+
+        assertEquals(response.getStatus(), 200, "Expect HTTP 200 response but got HTTP " + response.getStatus());
+        assertTrue(response.isEmpty(), "Response contains an unexpected resource.");
     }
 
     @Test(groups = { "fhir-operation" })
@@ -291,8 +340,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
-        String text = operationOutcome.getIssue().get(0).getDetails().getText().getValue();
-        assertEquals("All OK", text);
+        assertNotNull(operationOutcome);
     }
 
     @Test(groups = { "fhir-operation" })
@@ -307,7 +355,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
         assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
         OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
-        String text = operationOutcome.getIssue().get(0).getDiagnostics().getValue();
+        String text = operationOutcome.getIssue().get(0).getDetails().getText().getValue();
         if (text.contains("Input parameter 'resource' is required")) {
             assertTrue(true); // Force assertion to true
         } else {
@@ -327,8 +375,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
-        String text = operationOutcome.getIssue().get(0).getDetails().getText().getValue();
-        assertEquals("All OK", text);
+        assertNotNull(operationOutcome);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreateComposition" })
@@ -382,8 +429,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
-        String text = operationOutcome.getIssue().get(0).getDetails().getText().getValue();
-        assertEquals("All OK", text);
+        assertNotNull(operationOutcome);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreateComposition" })

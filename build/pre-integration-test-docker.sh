@@ -15,6 +15,7 @@ fi
 # Set up installers and config files where docker processing can see them
 cd ${WORKSPACE}/fhir-install/docker
 ./copy-dependencies.sh
+./copy-test-operations.sh
 
 # resolve environment variables in the Dockerfile(s).
 cat ./Dockerfile-fhirtest.template | envsubst > ./Dockerfile-fhirtest

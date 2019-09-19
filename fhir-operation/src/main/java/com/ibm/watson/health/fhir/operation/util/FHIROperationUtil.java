@@ -46,7 +46,6 @@ public class FHIROperationUtil {
             Parameters.Builder parametersBuilder = Parameters.builder();
             parametersBuilder.id(Id.of("InputParameters"));
             if (definition != null) {
-
                 for (OperationDefinition.Parameter parameter : definition.getParameter()) {
                     if (OperationParameterUse.IN.getValue().equals(parameter.getUse().getValue())) {
                         String name = parameter.getName().getValue();
@@ -82,6 +81,8 @@ public class FHIROperationUtil {
                                 parameterBuilder.value(Code.of(value));
                             } else if ("oid".equals(typeName)) {
                                 parameterBuilder.value(Oid.of(value));
+                            } else if ("id".equals(typeName)) {
+                                parameterBuilder.value(Id.of(value));
                             } else if ("unsignedInt".equals(typeName)) {
                                 parameterBuilder.value(UnsignedInt.of(value));
                             } else if ("positiveInt".equals(typeName)) {
@@ -144,6 +145,9 @@ public class FHIROperationUtil {
     }
 
     public static boolean hasSingleResourceOutputParameter(Parameters parameters) {
+        if (parameters == null) {
+            return false;
+        }
         return parameters.getParameter().size() == 1 &&
                 "return".equals(parameters.getParameter().get(0).getName().getValue()) &&
                 parameters.getParameter().get(0).getResource() != null;
