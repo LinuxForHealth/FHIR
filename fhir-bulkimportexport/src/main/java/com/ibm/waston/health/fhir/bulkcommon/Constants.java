@@ -28,4 +28,5 @@ public class Constants {
     public static final int DEFAULT_NUMOFOBJECTS_PERREAD = 1;
     public static final int DEFAULT_MAXCOSFILE_SIZE = 104857600;
     public static final String FHIR_SEARCH_LASTUPDATED = "_lastUpdated";
+    public static final String NDJSON_LINESEPERATOR = "\r\n";
 }

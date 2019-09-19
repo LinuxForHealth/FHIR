@@ -34,7 +34,7 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
     String pagesPerCosObject;
 
     /**
-     * The Cos object name.
+     * The file size limit when exporting to multiple COS files.
      */
     @Inject
     @BatchProperty(name = "cos.bucket.maxfilesize")

@@ -119,7 +119,7 @@ public class ChunkReader extends AbstractItemReader {
 
                 try {
                     FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                    chunkData.getBufferStream().write("\r\n".getBytes());
+                    chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR.getBytes());
                 } catch (FHIRGeneratorException e) {
                     if (res.getId() != null) {
                         logger.log(Level.WARNING, "updateChunkDataSizeInfo: Error while writing resources with id '"

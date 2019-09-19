@@ -118,7 +118,7 @@ public class BulkExportBatchLet implements Batchlet {
     String cosBucketObjectName;
 
     /**
-     * The Cos object name.
+     * The file size limit when exporting to multiple COS files.
      */
     @Inject
     @BatchProperty(name = "cos.bucket.maxfilesize")
@@ -314,7 +314,7 @@ public class BulkExportBatchLet implements Batchlet {
                     }
                     try {
                         FHIRGenerator.generator(Format.JSON).generate(res, bufferStream);
-                        bufferStream.write("\r\n".getBytes());
+                        bufferStream.write(Constants.NDJSON_LINESEPERATOR.getBytes());
                         exported++;
                     } catch (FHIRGeneratorException e) {
                         if (res.getId() != null) {
