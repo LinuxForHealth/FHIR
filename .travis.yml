@@ -48,12 +48,8 @@ env:
 language: java
 
 # Setup the distribution with git-lfs addon
+# packages are installed in before_install 
 dist: bionic
-addons:
-  apt:
-    packages:
-    - git-lfs
-    - ant
 
 # Use JDKs per https://github.com/IBM/FHIR/wiki/Setting-up-for-development
 jdk:
@@ -77,6 +73,8 @@ branches:
 # - Passes to the download function so it can cache. 
 # Reference: https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/x86_64/index.yml 
 before_install:
+  - sudo apt-get update -y 
+  - sudo apt-get install git-lfs 
   - | 
     # Travis Event must be push before we download. 
     if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_TAG != "" ]]; then 
@@ -166,8 +164,7 @@ deploy:
   - provider: releases
     api_key: $GITHUB_OAUTH_TOKEN
     file_glob: true
-    file:
-      - target/*.jar
+    file: target/*.jar
     skip_cleanup: true
     on:
       tags: true
