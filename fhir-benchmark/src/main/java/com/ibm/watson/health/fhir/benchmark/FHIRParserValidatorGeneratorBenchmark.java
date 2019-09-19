@@ -23,7 +23,7 @@ import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.generator.FHIRGenerator;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
 import com.ibm.watson.health.fhir.model.resource.Resource;
-import com.ibm.watson.health.fhir.model.validation.FHIRValidator;
+import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;

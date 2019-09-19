@@ -23,13 +23,13 @@ import com.ibm.watson.health.fhir.config.FHIRRequestContext;
 import com.ibm.watson.health.fhir.model.spec.test.Expectation;
 import com.ibm.watson.health.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.watson.health.fhir.model.spec.test.SerializationProcessor;
-import com.ibm.watson.health.fhir.model.spec.test.ValidationProcessor;
 import com.ibm.watson.health.fhir.persistence.FHIRPersistence;
 import com.ibm.watson.health.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watson.health.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watson.health.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watson.health.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.watson.health.fhir.schema.derby.DerbyFhirDatabase;
+import com.ibm.watson.health.fhir.validation.test.ValidationProcessor;
 
 /**
  * Integration test using a multi-tenant schema in DB2 as the target for the
