@@ -185,8 +185,7 @@ after_script:
 notifications:
   email:
     recipients: 
-      - pbastide@us.ibm.com
-      #, lmsurpre@us.ibm.com
+      - pbastide@us.ibm.com, lmsurpre@us.ibm.com
     on_success: never # default: change
     on_failure: always # default: always  
 
