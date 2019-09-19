@@ -266,7 +266,6 @@ public class BulkExportBatchLet implements Batchlet {
             }
         }
 
-        FHIRConfiguration.setConfigHome("./");
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
@@ -275,18 +274,19 @@ public class BulkExportBatchLet implements Batchlet {
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String queryString = "&_sort=_lastUpdated";
+        String queryString = "&_sort=" + Constants.FHIR_SEARCH_LASTUPDATED;
 
         if (fhirSearchFromDate != null) {
-            queryString += ("&_lastUpdated=ge" + fhirSearchFromDate);
-            queryParameters.put("_lastUpdated", Collections.singletonList("ge" + fhirSearchFromDate));
+            queryString += ("&" + Constants.FHIR_SEARCH_LASTUPDATED + "=ge" + fhirSearchFromDate);
+            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED,
+                    Collections.singletonList("ge" + fhirSearchFromDate));
         }
         if (fhirSearchToDate != null) {
-            queryString += ("&_lastUpdated=lt" + fhirSearchToDate);
-            queryParameters.put("_lastUpdated", Collections.singletonList("lt" + fhirSearchToDate));
+            queryString += ("&" + Constants.FHIR_SEARCH_LASTUPDATED + "=lt" + fhirSearchToDate);
+            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, Collections.singletonList("lt" + fhirSearchToDate));
         }
 
-        queryParameters.put("_sort", Arrays.asList(new String[] { "_lastUpdated" }));
+        queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         int pageNum = 1, exported = 0, totalExported = 0;
         searchContext.setPageSize(pageSize);
