@@ -81,6 +81,8 @@ public class FHIROperationUtil {
                                 parameterBuilder.value(Code.of(value));
                             } else if ("oid".equals(typeName)) {
                                 parameterBuilder.value(Oid.of(value));
+                            } else if ("id".equals(typeName)) {
+                                parameterBuilder.value(Id.of(value));
                             } else if ("unsignedInt".equals(typeName)) {
                                 parameterBuilder.value(UnsignedInt.of(value));
                             } else if ("positiveInt".equals(typeName)) {
