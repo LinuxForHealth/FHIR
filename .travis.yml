@@ -80,7 +80,7 @@ git:
 # Build
 
 # IBM Java SDK 
-# - Passes to the download funciton so it can cache. 
+# - Passes to the download function so it can cache. 
 # Reference: https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/x86_64/index.yml 
 before_install:
   - | 
