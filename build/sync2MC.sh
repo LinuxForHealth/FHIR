@@ -25,6 +25,6 @@ urlstring="https://api.bintray.com/maven_central_sync/${subject}/${reponame}/${p
 
 basicauth="${user}:${apikey}"
 
-echo "
+echo " 
 Executing curl command..."
 curl -X POST --data '{ "close": "1" }' -H "Content-Type: application/json" -L -k --user ${basicauth} ${urlstring}
