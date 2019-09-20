@@ -39,9 +39,17 @@ public class FHIRValidator {
     private FHIRValidator() { }
     
     public List<Issue> validate(Resource resource) throws FHIRValidationException {
-        Objects.requireNonNull(resource);
+        return validate(new EvaluationContext(resource));
+    }
+    
+    public List<Issue> validate(EvaluationContext evaluationContext) throws FHIRValidationException {
+        Objects.requireNonNull(evaluationContext);
+        Objects.requireNonNull(evaluationContext.getTree());
+        if (!evaluationContext.getTree().getRoot().isResourceNode()) {
+            throw new IllegalArgumentException("Root must be resource node");
+        }
         try {
-            return visitor.validate(resource);
+            return visitor.validate(evaluationContext);
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);
         }
@@ -58,10 +66,14 @@ public class FHIRValidator {
         
         private ValidatingVisitor() { }
         
-        private List<Issue> validate(Resource resource) {
+        private List<Issue> validate(EvaluationContext evaluationContext) {
             reset();
-            evaluationContext = new EvaluationContext(resource);
-            resource.accept(this);
+            this.evaluationContext = evaluationContext;
+            this.evaluationContext.getTree()
+                .getRoot()
+                .asResourceNode()
+                .resource()
+                .accept(this);
             return issues;
         }
         

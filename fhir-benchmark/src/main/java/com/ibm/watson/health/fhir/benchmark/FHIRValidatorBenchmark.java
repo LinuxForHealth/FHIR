@@ -20,6 +20,7 @@ import com.ibm.watson.health.fhir.benchmark.runner.FHIRBenchmarkRunner;
 import com.ibm.watson.health.fhir.benchmark.util.BenchmarkUtil;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
@@ -34,23 +35,25 @@ public class FHIRValidatorBenchmark {
         
         public FhirContext context;
         public FhirValidator fhirValidator;
+        public IBaseResource baseResource;
         public FHIRValidator validator;
         public Resource resource;
-        public IBaseResource baseResource;
+        public EvaluationContext evaluationContext;
         
         @Setup
         public void setUp() throws Exception {
             context = FhirContext.forR4();
             fhirValidator = context.newValidator();
+            baseResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
             validator = FHIRValidator.validator();
             resource = FHIRParser.parser(Format.JSON).parse(new StringReader(JSON_SPEC_EXAMPLE));
-            baseResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
+            evaluationContext = new EvaluationContext(resource);
         }
     }
     
     @Benchmark
     public void benchmarkValidator(FHIRValidatorState state) throws Exception {
-        state.validator.validate(state.resource);
+        state.validator.validate(state.evaluationContext);
     }
     
     @Benchmark

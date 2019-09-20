@@ -6,6 +6,7 @@
 
 package com.ibm.watson.health.fhir.model.path.evaluator;
 
+import static com.ibm.watson.health.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.watson.health.fhir.model.path.FHIRPathDecimalValue.decimalValue;
 import static com.ibm.watson.health.fhir.model.path.FHIRPathIntegerValue.integerValue;
 import static com.ibm.watson.health.fhir.model.path.FHIRPathStringValue.EMPTY_STRING;
@@ -23,8 +24,6 @@ import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.isSingleto
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.isTrue;
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.watson.health.fhir.model.type.String.string;
-
-import static com.ibm.watson.health.fhir.model.util.FHIRUtil.createLRUCache;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -49,13 +48,13 @@ import com.ibm.watson.health.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.watson.health.fhir.model.path.FHIRPathLexer;
 import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
 import com.ibm.watson.health.fhir.model.path.FHIRPathParser;
+import com.ibm.watson.health.fhir.model.path.FHIRPathParser.ExpressionContext;
+import com.ibm.watson.health.fhir.model.path.FHIRPathParser.ParamListContext;
 import com.ibm.watson.health.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watson.health.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.watson.health.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.FHIRPathType;
-import com.ibm.watson.health.fhir.model.path.FHIRPathParser.ExpressionContext;
-import com.ibm.watson.health.fhir.model.path.FHIRPathParser.ParamListContext;
 import com.ibm.watson.health.fhir.model.path.exception.FHIRPathException;
 import com.ibm.watson.health.fhir.model.path.function.FHIRPathFunction;
 import com.ibm.watson.health.fhir.model.resource.Resource;
@@ -1295,6 +1294,7 @@ public class FHIRPathEvaluator {
         
         public EvaluationContext(Resource resource) {
             this(FHIRPathTree.tree(resource));
+            externalConstantMap.put("resource", singleton(tree.getRoot()));
         }
         
         public EvaluationContext(Element element) {
@@ -1303,9 +1303,6 @@ public class FHIRPathEvaluator {
         
         public EvaluationContext(FHIRPathTree tree) {
             this.tree = tree;
-            if (tree != null && tree.getRoot().isResourceNode()) {
-                externalConstantMap.put("resource", singleton(tree.getRoot()));
-            }
             externalConstantMap.put("ucum", UCUM_SYSTEM_SINGLETON);
         }
         

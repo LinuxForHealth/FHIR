@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
@@ -835,16 +834,5 @@ public class FHIRUtil {
         default:
             return true;
         }
-    }
-
-    public static <K, V> Map<K, V> createLRUCache(int maxEntries) {
-        return Collections.synchronizedMap(new LinkedHashMap<K, V>(maxEntries, 0.75f, true) {
-            private static final long serialVersionUID = 1L;
-            
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-                return size() > maxEntries;
-            }
-        });
     }
 }

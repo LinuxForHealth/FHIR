@@ -1,0 +1,31 @@
+/*
+ * (C) Copyright IBM Corp. 2019
+ * 
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.ibm.watson.health.fhir.core.util;
+
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private static final long serialVersionUID = 1L;
+    
+    private final int maxEntries;
+    
+    private LRUCache(int maxEntries) {
+        super(maxEntries, 0.75f, true);
+        this.maxEntries = maxEntries;
+    }
+    
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > maxEntries;
+    }
+    
+    public static <K, V> Map<K, V> createLRUCache(int maxEntries) {
+        return Collections.synchronizedMap(new LRUCache<>(maxEntries));
+    }
+}
