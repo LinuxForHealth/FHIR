@@ -1,5 +1,7 @@
 ## IBM Server for HL7 FHIR
 
+> NOTE: We are preparing a global change to package, group and related names. See issue #114 for details and to track the status of the change.
+
 ### Build Status
 The current build status is [![Build Status](https://travis-ci.com/IBM/FHIR.svg?branch=master)](https://travis-ci.com/IBM/FHIR)
 
