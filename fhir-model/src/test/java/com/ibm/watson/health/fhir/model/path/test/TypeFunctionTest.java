@@ -19,19 +19,19 @@ import com.ibm.watson.health.fhir.examples.ExamplesUtil;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
 import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.TupleTypeInfo;
 import com.ibm.watson.health.fhir.model.path.TupleTypeInfoElement;
 import com.ibm.watson.health.fhir.model.path.TypeInfo;
 import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.resource.Patient;
 
 public class TypeFunctionTest {
     @Test
     public void testTypeFunction() throws Exception {
         Patient patient = FHIRParser.parser(Format.JSON).parse(ExamplesUtil.reader("json/spec/patient-example-a.json"));
-        FHIRPathTree tree = FHIRPathTree.tree(patient);
-        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator(tree).evaluate("Patient.contact.type()", tree.getRoot());
+        EvaluationContext evaluationContext = new EvaluationContext(patient);
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext, "Patient.contact.type()");
         TypeInfo actual = getSingleton(result).asTypeInfoNode().typeInfo();
         List<TupleTypeInfoElement> element = new ArrayList<>();
         element.add(new TupleTypeInfoElement("relationship", "List<FHIR.CodeableConcept>", false));

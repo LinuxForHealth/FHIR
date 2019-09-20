@@ -64,7 +64,7 @@ public class ImportOperation extends AbstractOperation {
             }
 
             Resource resource = parameter.getResource();
-            List<Issue> issues = FHIRValidator.validator(resource).validate();
+            List<Issue> issues = FHIRValidator.validator().validate(resource);
 
             if (issues.stream().anyMatch(issue -> isFailure(issue.getSeverity()))) {
                 throw new FHIROperationException("Input resource failed validation.").withIssue(issues);

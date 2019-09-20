@@ -6,6 +6,7 @@
 
 package com.ibm.watson.health.fhir.model.path.evaluator;
 
+import static com.ibm.watson.health.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.watson.health.fhir.model.path.FHIRPathDecimalValue.decimalValue;
 import static com.ibm.watson.health.fhir.model.path.FHIRPathIntegerValue.integerValue;
 import static com.ibm.watson.health.fhir.model.path.FHIRPathStringValue.EMPTY_STRING;
@@ -30,7 +31,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -48,16 +48,18 @@ import com.ibm.watson.health.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.watson.health.fhir.model.path.FHIRPathLexer;
 import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
 import com.ibm.watson.health.fhir.model.path.FHIRPathParser;
+import com.ibm.watson.health.fhir.model.path.FHIRPathParser.ExpressionContext;
+import com.ibm.watson.health.fhir.model.path.FHIRPathParser.ParamListContext;
 import com.ibm.watson.health.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.watson.health.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.watson.health.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.FHIRPathType;
-import com.ibm.watson.health.fhir.model.path.FHIRPathParser.ExpressionContext;
-import com.ibm.watson.health.fhir.model.path.FHIRPathParser.ParamListContext;
 import com.ibm.watson.health.fhir.model.path.exception.FHIRPathException;
 import com.ibm.watson.health.fhir.model.path.function.FHIRPathFunction;
+import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.model.type.Decimal;
+import com.ibm.watson.health.fhir.model.type.Element;
 import com.ibm.watson.health.fhir.model.type.Quantity;
 
 public class FHIRPathEvaluator {
@@ -65,58 +67,51 @@ public class FHIRPathEvaluator {
     
     public static final Collection<FHIRPathNode> SINGLETON_TRUE = singleton(FHIRPathBooleanValue.TRUE);
     public static final Collection<FHIRPathNode> SINGLETON_FALSE = singleton(FHIRPathBooleanValue.FALSE);
-
+    
     private static final int EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES = 512;
     private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = createLRUCache(EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES);
 
-    private final EvaluationContext evaluationContext;
-    private final EvaluatingVisitor visitor;
+    private final EvaluatingVisitor visitor = new EvaluatingVisitor();
     
-    private FHIRPathEvaluator() {
-        this(null);
-    }
-    
-    private FHIRPathEvaluator(FHIRPathTree tree) {
-        evaluationContext = new EvaluationContext(tree);
-        visitor = new EvaluatingVisitor(evaluationContext);
-    }
+    private FHIRPathEvaluator() { }
     
     public EvaluationContext getEvaluationContext() {
-        return evaluationContext;
+        return visitor.getEvaluationContext();
     }
     
     public Collection<FHIRPathNode> evaluate(String expr) throws FHIRPathException {
-        return evaluate(expr, empty());
+        return evaluate(new EvaluationContext(), expr, empty());
     }
     
-    public Collection<FHIRPathNode> evaluate(String expr, FHIRPathNode node) throws FHIRPathException {
-        return evaluate(expr, singleton(node));
+    public Collection<FHIRPathNode> evaluate(Resource resource, String expr) throws FHIRPathException {
+        return evaluate(new EvaluationContext(resource), expr);
     }
     
-    public Collection<FHIRPathNode> evaluate(String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
+    public Collection<FHIRPathNode> evaluate(Element element, String expr) throws FHIRPathException {
+        return evaluate(new EvaluationContext(element), expr);
+    }
+    
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr) throws FHIRPathException {        
+        return evaluate(evaluationContext, expr, evaluationContext.getTree().getRoot());
+    }
+    
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, FHIRPathNode node) throws FHIRPathException {        
+        return evaluate(evaluationContext, expr, singleton(node));
+    }
+    
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
+        Objects.requireNonNull(evaluationContext);
         Objects.requireNonNull(initialContext);
         try {
             evaluationContext.setExternalConstant("context", initialContext);
-            visitor.reset();
-            visitor.pushContext(initialContext);
-            Collection<FHIRPathNode> result = getExpressionContext(expr).accept(visitor);
-            visitor.popContext();
-            return Collections.unmodifiableCollection(result);
+            return visitor.evaluate(evaluationContext, getExpressionContext(expr), initialContext);
         } catch (Exception e) {
             throw new FHIRPathException("An error occurred while evaluating expression: " + expr, e);
         }
     }
-
+    
     private static ExpressionContext getExpressionContext(String expr) {
         return EXPRESSION_CONTEXT_CACHE.computeIfAbsent(Objects.requireNonNull(expr), FHIRPathEvaluator::compile);
-    }
-    
-    public static FHIRPathEvaluator evaluator() {
-        return new FHIRPathEvaluator();
-    }
-    
-    public static FHIRPathEvaluator evaluator(FHIRPathTree tree) {
-        return new FHIRPathEvaluator(tree);
     }
     
     private static ExpressionContext compile(String expr) {
@@ -126,20 +121,37 @@ public class FHIRPathEvaluator {
         return parser.expression();
     }
     
+    public static FHIRPathEvaluator evaluator() {
+        return new FHIRPathEvaluator();
+    }
+    
     private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {
         private static final String SYSTEM_NAMESPACE = "System";
+ 
         private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
         private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createLRUCache(IDENTIFIER_CACHE_MAX_ENTRIES);
+        
         private static final int LITERAL_CACHE_MAX_ENTRIES = 128;
         private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = createLRUCache(LITERAL_CACHE_MAX_ENTRIES);
         
-        private final EvaluationContext evaluationContext;
+        private EvaluationContext evaluationContext;
         private final Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();
 
         private int indentLevel = 0;
         
-        private EvaluatingVisitor(EvaluationContext evaluationContext) {
+        private EvaluatingVisitor() { }
+        
+        private Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, ExpressionContext expressionContext, Collection<FHIRPathNode> initialContext) {
+            reset();
             this.evaluationContext = evaluationContext;
+            contextStack.push(initialContext);
+            Collection<FHIRPathNode> result = expressionContext.accept(this);
+            contextStack.pop();
+            return Collections.unmodifiableCollection(result);
+        }
+        
+        private EvaluationContext getEvaluationContext() {
+            return evaluationContext;
         }
         
         private void reset() {
@@ -1276,7 +1288,20 @@ public class FHIRPathEvaluator {
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
         
-        private EvaluationContext(FHIRPathTree tree) {
+        public EvaluationContext() {
+            this((FHIRPathTree) null);
+        }
+        
+        public EvaluationContext(Resource resource) {
+            this(FHIRPathTree.tree(resource));
+            externalConstantMap.put("resource", singleton(tree.getRoot()));
+        }
+        
+        public EvaluationContext(Element element) {
+            this(FHIRPathTree.tree(element));
+        }
+        
+        public EvaluationContext(FHIRPathTree tree) {
             this.tree = tree;
             externalConstantMap.put("ucum", UCUM_SYSTEM_SINGLETON);
         }
@@ -1306,17 +1331,6 @@ public class FHIRPathEvaluator {
         }
     }
     
-    private static <K, V> Map<K, V> createLRUCache(int maxEntries) {
-        return Collections.synchronizedMap(new LinkedHashMap<K, V>(maxEntries, 0.75f, true) {
-            private static final long serialVersionUID = 1L;
-            
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-                return size() > maxEntries;
-            }
-        });
-    }
-
     public static void main(String[] args) throws Exception {
         FHIRPathEvaluator.DEBUG = true;
         Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate("@2016-12-31 < @2017-01-01");

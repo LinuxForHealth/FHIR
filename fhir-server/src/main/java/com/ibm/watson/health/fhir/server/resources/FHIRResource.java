@@ -1159,7 +1159,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     private List<OperationOutcome.Issue> validateInput(Resource resource)
         throws FHIRValidationException, FHIRHttpException {
-        List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
+        List<OperationOutcome.Issue> issues = FHIRValidator.validator().validate(resource);
         if (!issues.isEmpty()) {
             boolean includesFailure = false;
             for (OperationOutcome.Issue issue : issues) {
@@ -2465,7 +2465,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         }
 
                         List<OperationOutcome.Issue> issues =
-                                FHIRValidator.validator(resource).validate();
+                                FHIRValidator.validator().validate(resource);
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
                             if (anyFailueInIssues(issues)) {

@@ -84,7 +84,7 @@ public class FHIRValidatorTest {
         
         PathAwareAbstractVisitor.DEBUG = true;
         FHIRValidator.DEBUG = true;
-        List<Issue> issues = FHIRValidator.validator(patient).validate();
+        List<Issue> issues = FHIRValidator.validator().validate(patient);
         
         if (!issues.isEmpty()) {
             System.out.println("Issue(s) found:");

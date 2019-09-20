@@ -22,8 +22,8 @@ import com.ibm.watson.health.fhir.model.generator.exception.FHIRGeneratorExcepti
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
 import com.ibm.watson.health.fhir.model.path.FHIRPathElementNode;
 import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.resource.Bundle;
 import com.ibm.watson.health.fhir.model.resource.SearchParameter;
 import com.ibm.watson.health.fhir.model.type.BundleType;
@@ -92,9 +92,9 @@ public class IndexCalculationTool {
             // The code is agnostic to format.
             Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);  
 
-            FHIRPathTree tree = FHIRPathTree.tree(bundle);
-            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
-            Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH, tree.getRoot());
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+            EvaluationContext evaluationContext = new EvaluationContext(bundle);
+            Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, FHIR_PATH);
 
             int count = 0;
             for (FHIRPathElementNode node : result.stream().map(a -> a.as(FHIRPathElementNode.class)).collect(Collectors.toList())) {

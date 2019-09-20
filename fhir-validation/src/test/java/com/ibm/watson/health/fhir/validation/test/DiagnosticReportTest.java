@@ -154,7 +154,7 @@ public class DiagnosticReportTest {
 
         List<Issue> issues = Collections.emptyList();
         try {
-            issues = FHIRValidator.validator(resource).validate();
+            issues = FHIRValidator.validator().validate(resource);
         } catch (Exception e) {
             if (failOnValidationException) {
                 System.out.println("Unable to validate the resource");

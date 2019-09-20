@@ -39,7 +39,8 @@ public class FHIRParserValidatorGeneratorBenchmark {
         public static final String XML_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.XML, SPEC_EXAMPLE_NAME);
         
         public FhirContext context;
-        public FhirValidator validator;
+        public FhirValidator fhirValidator;
+        public FHIRValidator validator;
         public FHIRParser jsonParser;
         public FHIRGenerator jsonGenerator;
         public FHIRParser xmlParser;
@@ -49,7 +50,8 @@ public class FHIRParserValidatorGeneratorBenchmark {
         public void setUp() {
             context = FhirContext.forR4();
             context.setParserErrorHandler(new StrictErrorHandler());
-            validator = context.newValidator();
+            fhirValidator = context.newValidator();
+            validator = FHIRValidator.validator();
             jsonParser = FHIRParser.parser(Format.JSON);
             jsonGenerator = FHIRGenerator.generator(Format.JSON);
             xmlParser = FHIRParser.parser(Format.XML);
@@ -60,14 +62,14 @@ public class FHIRParserValidatorGeneratorBenchmark {
     @Benchmark
     public void benchmarkJsonParserValidatorGenerator(FHIRParserValidatorGeneratorBenchmarkState state) throws Exception {
         Resource resource = state.jsonParser.parse(new StringReader(FHIRParserValidatorGeneratorBenchmarkState.JSON_SPEC_EXAMPLE));
-        FHIRValidator.validator(resource).validate();
+        state.validator.validate(resource);
         state.jsonGenerator.generate(resource, FHIRParserValidatorGeneratorBenchmarkState.NOP_WRITER);
     }
     
     @Benchmark
     public void benchmarkXMLParserValidatorGenerator(FHIRParserValidatorGeneratorBenchmarkState state) throws Exception {
         Resource resource = state.xmlParser.parse(new StringReader(FHIRParserValidatorGeneratorBenchmarkState.XML_SPEC_EXAMPLE));
-        FHIRValidator.validator(resource).validate();
+        state.validator.validate(resource);
         state.xmlGenerator.generate(resource, FHIRParserValidatorGeneratorBenchmarkState.NOP_WRITER);
     }
     
@@ -75,7 +77,7 @@ public class FHIRParserValidatorGeneratorBenchmark {
     public void benchmarkHAPIJsonParserValidatorGenerator(FHIRParserValidatorGeneratorBenchmarkState state) throws Exception {
         IParser parser = state.context.newJsonParser();
         IBaseResource resource = parser.parseResource(new StringReader(FHIRParserValidatorGeneratorBenchmarkState.JSON_SPEC_EXAMPLE));
-        state.validator.validateWithResult(resource);
+        state.fhirValidator.validateWithResult(resource);
         parser.encodeResourceToWriter(resource, FHIRParserValidatorGeneratorBenchmarkState.NOP_WRITER);
     }
     
@@ -83,7 +85,7 @@ public class FHIRParserValidatorGeneratorBenchmark {
     public void benchmarkHAPIXMLParserValidatorGenerator(FHIRParserValidatorGeneratorBenchmarkState state) throws Exception {
         IParser parser = state.context.newXmlParser();
         IBaseResource baseResource = parser.parseResource(new StringReader(FHIRParserValidatorGeneratorBenchmarkState.XML_SPEC_EXAMPLE));
-        state.validator.validateWithResult(baseResource);
+        state.fhirValidator.validateWithResult(baseResource);
         parser.encodeResourceToWriter(baseResource, FHIRParserValidatorGeneratorBenchmarkState.NOP_WRITER);
     }
 

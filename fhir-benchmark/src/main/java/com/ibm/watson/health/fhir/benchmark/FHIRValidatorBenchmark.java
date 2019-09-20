@@ -20,7 +20,7 @@ import com.ibm.watson.health.fhir.benchmark.runner.FHIRBenchmarkRunner;
 import com.ibm.watson.health.fhir.benchmark.util.BenchmarkUtil;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 import com.ibm.watson.health.fhir.validation.FHIRValidator;
 
@@ -34,29 +34,31 @@ public class FHIRValidatorBenchmark {
         public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
         
         public FhirContext context;
-        public FhirValidator validator;
-        public Resource resource;
-        public FHIRPathTree tree;
+        public FhirValidator fhirValidator;
         public IBaseResource baseResource;
+        public FHIRValidator validator;
+        public Resource resource;
+        public EvaluationContext evaluationContext;
         
         @Setup
         public void setUp() throws Exception {
             context = FhirContext.forR4();
-            validator = context.newValidator();
-            resource = FHIRParser.parser(Format.JSON).parse(new StringReader(JSON_SPEC_EXAMPLE));
-            tree = FHIRPathTree.tree(resource);
+            fhirValidator = context.newValidator();
             baseResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
+            validator = FHIRValidator.validator();
+            resource = FHIRParser.parser(Format.JSON).parse(new StringReader(JSON_SPEC_EXAMPLE));
+            evaluationContext = new EvaluationContext(resource);
         }
     }
     
     @Benchmark
     public void benchmarkValidator(FHIRValidatorState state) throws Exception {
-        FHIRValidator.validator(state.tree).validate();
+        state.validator.validate(state.evaluationContext);
     }
     
     @Benchmark
     public void benchmarkHAPIValidator(FHIRValidatorState state) throws Exception {
-        state.validator.validateWithResult(state.baseResource);
+        state.fhirValidator.validateWithResult(state.baseResource);
     }
     
     public static void main(String[] args) throws Exception {

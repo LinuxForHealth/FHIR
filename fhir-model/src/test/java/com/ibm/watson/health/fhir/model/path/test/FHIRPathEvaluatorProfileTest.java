@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 import com.ibm.watson.health.fhir.examples.ExamplesUtil;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.parser.FHIRParser;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.resource.Resource;
 
 public class FHIRPathEvaluatorProfileTest {
@@ -25,14 +25,14 @@ public class FHIRPathEvaluatorProfileTest {
                 .lines()
                 .collect(Collectors.joining(System.lineSeparator()));
         Resource resource = FHIRParser.parser(Format.JSON).parse(new StringReader(specExample));
-        FHIRPathTree tree = FHIRPathTree.tree(resource);
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
-        profile(evaluator);
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        EvaluationContext evaluationContext = new EvaluationContext(resource);
+        profile(evaluator, evaluationContext);
     }
 
-    private static void profile(FHIRPathEvaluator evaluator) throws Exception {
+    private static void profile(FHIRPathEvaluator evaluator, EvaluationContext evaluationContext) throws Exception {
         for (int i = 0; i < NUM_ITERATIONS; i++) {
-            evaluator.evaluate("Bundle.entry.resource.where(birthDate > @1950)", evaluator.getEvaluationContext().getTree().getRoot());
+            evaluator.evaluate(evaluationContext, "Bundle.entry.resource.where(birthDate > @1950)");
         }        
     }
 }

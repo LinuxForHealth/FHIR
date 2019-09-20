@@ -15,8 +15,8 @@ import java.util.UUID;
 import com.ibm.watson.health.fhir.model.format.Format;
 import com.ibm.watson.health.fhir.model.generator.FHIRGenerator;
 import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
-import com.ibm.watson.health.fhir.model.path.FHIRPathTree;
 import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator;
+import com.ibm.watson.health.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.watson.health.fhir.model.resource.Patient;
 import com.ibm.watson.health.fhir.model.type.Boolean;
 import com.ibm.watson.health.fhir.model.type.Date;
@@ -84,12 +84,12 @@ public class FHIRPathEvaluatorTest {
         System.out.println("");
         
         PathAwareAbstractVisitor.DEBUG = true;
-        FHIRPathTree tree = FHIRPathTree.tree(patient);
         
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        EvaluationContext evaluationContext = new EvaluationContext(patient);
         
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = evaluator.evaluate("Patient.name.given.first().as(System.String)", tree.getRoot());
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "Patient.name.given.first().as(System.String)");
         
         System.out.println("result: " + result);
     }
