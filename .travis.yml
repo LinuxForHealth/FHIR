@@ -49,12 +49,13 @@ language: java
 
 # Setup the distribution with git-lfs addon
 # packages are installed in before_install 
+# details on image https://docs.travis-ci.com/user/reference/bionic/#jvm-clojure-groovy-java-scala-images
 dist: bionic
 
 # Use JDKs per https://github.com/IBM/FHIR/wiki/Setting-up-for-development
+# switch to 'trusty' to enable openjdk8 - https://docs.travis-ci.com/user/reference/trusty/#jvm-clojure-groovy-java-scala-images
 jdk:
 - openjdk11
-- openjdk8
 
 # Matrix build (just incase we choose)
 matrix: 
