@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.path.FHIRPathNode;
@@ -30,6 +29,7 @@ import com.ibm.watson.health.fhir.model.type.IssueType;
 import com.ibm.watson.health.fhir.model.util.ModelSupport;
 import com.ibm.watson.health.fhir.model.visitor.PathAwareVisitorAdapter;
 import com.ibm.watson.health.fhir.validation.exception.FHIRValidationException;
+import com.ibm.watson.health.fhir.validation.util.ProfileSupport;
 
 public class FHIRValidator {
     public static boolean DEBUG = false;
@@ -83,12 +83,15 @@ public class FHIRValidator {
         
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Element element) {
-            validate(element.getClass());
+            Class<?> elementType = element.getClass();
+            validate(elementType, ModelSupport.getConstraints(elementType));
         }
 
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
-            validate(resource.getClass());
+            Class<?> resourceType = resource.getClass();
+            validate(resourceType, ModelSupport.getConstraints(resourceType));
+            validate(resourceType, ProfileSupport.getConstraints(resource));
         }
 
         private FHIRPathResourceNode getResource(Class<?> type, FHIRPathNode node) {
@@ -117,8 +120,7 @@ public class FHIRValidator {
             return null;
         }
 
-        private void validate(Class<?> type) {
-            Set<Constraint> constraints = ModelSupport.getConstraints(type);
+        private void validate(Class<?> type, Collection<Constraint> constraints) {
             String path = getPath();
             for (Constraint constraint : constraints) {
                 if (constraint.modelChecked()) {
