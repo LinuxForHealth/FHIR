@@ -120,6 +120,14 @@ public class FHIRValidator {
             return null;
         }
 
+        /**
+         * Validate the node at the current path in the tree against each constraint in the collection.
+         * 
+         * @param type
+         *     the type of the current node in the tree
+         * @param constraints
+         *     the set of constraints to validate against
+         */
         private void validate(Class<?> type, Collection<Constraint> constraints) {
             String path = getPath();
             for (Constraint constraint : constraints) {

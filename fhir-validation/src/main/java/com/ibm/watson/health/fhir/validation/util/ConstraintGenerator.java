@@ -22,6 +22,9 @@ import com.ibm.watson.health.fhir.model.type.Element;
 import com.ibm.watson.health.fhir.model.type.ElementDefinition;
 import com.ibm.watson.health.fhir.model.type.Uri;
 
+/**
+ * A class used to generate FHIRPath expressions from a StructureDefinition
+ */
 public class ConstraintGenerator {
     public List<Constraint> generate(StructureDefinition profile) {
         List<Constraint> constraints = new ArrayList<>();

@@ -23,6 +23,9 @@ import com.ibm.watson.health.fhir.model.type.Meta;
 import com.ibm.watson.health.fhir.model.type.TypeDerivationRule;
 import com.ibm.watson.health.fhir.registry.FHIRRegistry;
 
+/**
+ * A utility class used to access / collect constraints within one or more profile differentials
+ */
 public final class ProfileSupport {
     private static final Map<String, List<Constraint>> PROFILE_CONSTRAINT_CACHE = new ConcurrentHashMap<>();
     

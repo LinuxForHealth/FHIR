@@ -9,6 +9,11 @@ package com.ibm.watson.health.fhir.validation.test;
 import static com.ibm.watson.health.fhir.model.type.String.string;
 import static com.ibm.watson.health.fhir.validation.util.ProfileSupport.getConstraints;
 
+import java.util.List;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import com.ibm.watson.health.fhir.model.annotation.Constraint;
 import com.ibm.watson.health.fhir.model.resource.Observation;
 import com.ibm.watson.health.fhir.model.resource.OperationOutcome.Issue;
@@ -27,10 +32,14 @@ import com.ibm.watson.health.fhir.validation.FHIRValidator;
 public class BodyWeightProfileTest {
     private static final String BODY_WEIGHT_PROFILE_URL = "http://hl7.org/fhir/StructureDefinition/bodyweight";
 
-    public static void main(String[] args) throws Exception {
-        for (Constraint constraint : getConstraints(BODY_WEIGHT_PROFILE_URL)) {
-            System.out.println(constraint);
-        }
+    @Test
+    public static void testBodyWeightProfile() throws Exception {
+        List<Constraint> constraints = getConstraints(BODY_WEIGHT_PROFILE_URL);
+        
+        Assert.assertEquals(constraints.size(), 3);
+        Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-1")).count() == 1);
+        Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-2")).count() == 1);
+        Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-3")).count() == 1);
                 
         Observation bodyWeight = Observation.builder()
             .meta(Meta.builder()
@@ -59,11 +68,10 @@ public class BodyWeightProfileTest {
                 .unit(string("lbs"))
                 .build())
             .build();
-        
-        System.out.println(bodyWeight);
-
-        for (Issue issue : FHIRValidator.validator().validate(bodyWeight)) {
-            System.out.println(issue);
-        }
+                
+        List<Issue> issues = FHIRValidator.validator().validate(bodyWeight);
+        Assert.assertEquals(issues.size(), 2);
+        Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
+        Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("vs-1")).count() == 1);
     }
 }
