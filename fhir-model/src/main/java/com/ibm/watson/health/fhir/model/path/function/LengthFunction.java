@@ -7,7 +7,9 @@
 package com.ibm.watson.health.fhir.model.path.function;
 
 import static com.ibm.watson.health.fhir.model.path.FHIRPathIntegerValue.integerValue;
+import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.util.Collection;
@@ -34,6 +36,9 @@ public class LengthFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        return singleton(integerValue(getStringValue(context).length()));
+        if (!hasStringValue(context)) {
+            return empty();
+        }
+        return singleton(integerValue(getStringValue(context).length()));        
     }
 }

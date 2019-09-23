@@ -8,7 +8,9 @@ package com.ibm.watson.health.fhir.model.path.function;
 
 import static com.ibm.watson.health.fhir.model.path.FHIRPathStringValue.stringValue;
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.getSingleton;
+import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.watson.health.fhir.model.path.util.FHIRPathUtil.singleton;
 
@@ -41,8 +43,12 @@ public class ToStringFunction extends FHIRPathAbstractFunction {
         if (!isSingleton(context)) {
             return empty();
         }
+        if (hasPrimitiveValue(context)) {
+            FHIRPathPrimitiveValue value = getPrimitiveValue(context);
+            return singleton(stringValue(value.toString()));
+        }
         FHIRPathNode node = getSingleton(context);
-        if (node instanceof FHIRPathPrimitiveValue || node instanceof FHIRPathQuantityNode) {
+        if (node instanceof FHIRPathQuantityNode) {
             return singleton(stringValue(node.toString()));
         }
         return empty();
