@@ -13,7 +13,13 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Build tools
+      run: mvn install --file fhir-tools/pom.xml
     - name: Build samples
       run: mvn install --file fhir-examples/pom.xml
     - name: Build with Maven
-      run: mvn package --file fhir-parent/pom.xml
+      run: mvn install --file fhir-parent/pom.xml
+    - name: Build sample generator
+      run: mvn package --file fhir-examples-generator/pom.xml
+    - name: Build benchmark
+      run: mvn package --file fhir-benchmark/pom.xml
