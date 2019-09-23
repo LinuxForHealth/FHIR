@@ -446,10 +446,10 @@ function label_pr_with_status {
     BUILD_LABEL=$1
 
     # quick switch between github.com and ibm.com domains.
-    BASE_URL="api.github.ibm.com"
+    BASE_URL="api.github.com"
     if [[ "${TRAVIS_APP_HOST}" == *"ibm.com"* ]]
     then
-        BASE_URL="api.github.ibm.com"
+        BASE_URL="api.github.com"
     fi
 
     LABEL="{  \
