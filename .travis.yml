@@ -136,7 +136,7 @@ script:
     fi
    
 after_failure:
-  # outputs the diagnostic details for travis
+  # outputs the diagnostic details for travis 
   - bash build/git-build.sh 'diag' diagnostics
   # dumps our log directory 
   - cat build/logs/diag.log
