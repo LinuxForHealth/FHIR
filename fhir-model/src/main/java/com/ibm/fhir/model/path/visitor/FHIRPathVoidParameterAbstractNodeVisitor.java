@@ -15,7 +15,7 @@ import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.fhir.model.path.FHIRPathTypeInfoNode;
 
-public abstract class FHIRPathAbstractNoParameterNodeVisitor extends FHIRPathAbstractNodeVisitor<Void> {
+public abstract class FHIRPathVoidParameterAbstractNodeVisitor extends FHIRPathAbstractNodeVisitor<Void> {
     // called by template methods
     protected abstract void doVisit(FHIRPathBooleanValue value);
     protected abstract void doVisit(FHIRPathDateTimeValue value);
