@@ -1,6 +1,6 @@
-# FHIR Server on the Raspberry Pi 4
+# IBM Server for HL7 FHIR on the Raspberry Pi 4
 
-![FHIR on Raspberry Pi 4](/docs/raspberry-pi-4/piOnFhir30.jpg)
+![IBM Server for HL7 FHIR on Raspberry Pi 4](/docs/raspberry-pi-4/piOnFhir30.jpg)
 
 FHIR Specification: https://hl7.org/fhir/R4/
 
@@ -12,7 +12,7 @@ The default password used throughout is `change-password` and this is configured
 
 ## Introduction
 
-The IBM Watson Health FHIR server runs as a web application in the Open Liberty application server. By default persistence is provided with a Derby database, but it can also be configured to use IBM Db2 on Cloud. This example shall use the default Derby instance.
+The IBM Server for HL7 FHIR runs as a web application in the Open Liberty application server. By default persistence is provided with a Derby database, but it can also be configured to use IBM Db2 on Cloud. This example shall use the default Derby instance.
 
 | Component    | Details        |
 | ------------ | -------------- |
@@ -103,9 +103,9 @@ Be patient. A lot of unit tests are executed, including processing a number of t
 Some exceptions from negative tests may appear in the build log. As long as the build completes, these shouldn't be a concern. Success should look like this:
 
 ```
-[INFO] Reactor Summary for IBM Watson Health FHIR Server 4.0.0-SNAPSHOT:
+[INFO] Reactor Summary for IBM Server for HL7 FHIR 4.0.0-SNAPSHOT:
 [INFO] 
-[INFO] IBM Watson Health FHIR Server ...................... SUCCESS [  8.537 s]
+[INFO] IBM Server for HL7 FHIR ...................... SUCCESS [  8.537 s]
 [INFO] fhir-core .......................................... SUCCESS [  7.478 s]
 [INFO] fhir-task-api ...................................... SUCCESS [  0.583 s]
 [INFO] fhir-task-core ..................................... SUCCESS [  9.217 s]

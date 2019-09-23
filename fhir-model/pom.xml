@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fhir-model</artifactId>
-    
+
     <parent>
-        <groupId>com.ibm.watson.health</groupId>
+        <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
         <version>4.0.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
@@ -47,7 +47,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -60,7 +59,7 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>com.ibm.watson.health</groupId>
+                    <groupId>com.ibm.fhir</groupId>
                     <artifactId>fhir-tools</artifactId>
                     <version>${project.version}</version>
                     <dependencies>

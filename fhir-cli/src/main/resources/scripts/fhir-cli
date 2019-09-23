@@ -19,4 +19,4 @@ done
 # add any JVM options here
 #JAVA_OPTS=""
 
-java -cp "${CP}" ${JAVA_OPTS} com.ibm.watson.health.fhir.cli.FHIRCLI ${1+"$@"}
+java -cp "${CP}" ${JAVA_OPTS} com.ibm.fhir.cli.FHIRCLI ${1+"$@"}

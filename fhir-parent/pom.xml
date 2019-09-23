@@ -3,11 +3,11 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ibm.watson.health</groupId>
+    <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
     <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>IBM Watson Health FHIR Server</name>
+    <name>IBM Server for HL7 FHIR</name>
 
     <properties>
         <liberty.version>19.0.0.8</liberty.version>
@@ -62,10 +62,16 @@
         <module>../fhir-coverage-reports</module>
     </modules>
 
-    <!-- This section "enforces" that we're using consistent versions of 
+    <!-- This section "enforces" that we're using consistent versions of
         artifacts within our modules -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>fhir-examples</artifactId>
+                <version>4.0.0-SNAPSHOT</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
@@ -435,19 +441,19 @@
                     <version>${jacoco.plugin.version}</version>
                     <configuration>
                         <excludes>
-                            <exclude>com/ibm/watson/health/fhir/model/*.class</exclude>
+                            <exclude>com/ibm/fhir/model/*.class</exclude>
                             <exclude>**/*Exception.*</exclude>
                             <exclude>**/FHIRPersistenceInterceptor.*</exclude>
                             <exclude>**/exception/*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/logging/beans/*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/whc/**/*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/trail/FHIRAuditTrailApplication.*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/trail/FHIRAuditTrailBuildIdentifier.*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/trail/filter/*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/trail/listener/*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/trail/provider/*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/trail/resource/*</exclude>
-                            <exclude>com/ibm/watson/health/fhir/audit/trail/util/*</exclude>
+                            <exclude>com/ibm/fhir/audit/logging/beans/*</exclude>
+                            <exclude>com/ibm/fhir/audit/whc/**/*</exclude>
+                            <exclude>com/ibm/fhir/audit/trail/FHIRAuditTrailApplication.*</exclude>
+                            <exclude>com/ibm/fhir/audit/trail/FHIRAuditTrailBuildIdentifier.*</exclude>
+                            <exclude>com/ibm/fhir/audit/trail/filter/*</exclude>
+                            <exclude>com/ibm/fhir/audit/trail/listener/*</exclude>
+                            <exclude>com/ibm/fhir/audit/trail/provider/*</exclude>
+                            <exclude>com/ibm/fhir/audit/trail/resource/*</exclude>
+                            <exclude>com/ibm/fhir/audit/trail/util/*</exclude>
                             <exclude>**/DerbyBootstrapper.*</exclude>
                         </excludes>
                     </configuration>
@@ -594,7 +600,7 @@
                             <maxmemory>1g</maxmemory>
                             <archive>
                                 <manifestEntries>
-                                    <Automatic-Module-Name>com.ibm.watson.health</Automatic-Module-Name>
+                                    <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
                                 </manifestEntries>
                             </archive>
                             <doclint>none</doclint>
@@ -632,7 +638,7 @@
         <profile>
             <id>all-tests</id>
             <properties>
-                <com.ibm.watson.health.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.watson.health.fhir.model.spec.test.R4ExamplesDriver.testType>
+                <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
             </properties>
         </profile>
     </profiles>

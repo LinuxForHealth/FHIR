@@ -4,13 +4,13 @@
 	"meta": {
 		"versionId": "1",
 		"lastUpdated": "2019-08-14T18:47:05.987Z",
-		"profile": ["http://ibm.com/watson/health/fhir/profile/Profile"],
+		"profile": ["http://ibm.com/fhir/profile/Profile"],
 		"security": [{
-			"system": "http://ibm.com/watson/health/fhir/security",
+			"system": "http://ibm.com/fhir/security",
 			"code": "security"
 		}],
 		"tag": [{
-			"system": "http://ibm.com/watson/health/fhir/tag",
+			"system": "http://ibm.com/fhir/tag",
 			"code": "tag"
 		}]
 	},

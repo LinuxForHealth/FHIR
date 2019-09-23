@@ -10,27 +10,27 @@ An example as follows:
 	},
 	"type": "collection",
 	"entry": [{
-		"fullUrl": "http://ibm.com/watson/health/fhir/SearchParameter/Patient-favorite-color",
+		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-color",
-			"url": "http://ibm.com/watson/health/fhir/SearchParameter/Patient-favorite-color",
+			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
 			"version": "4.0.0",
 			"name": "favorite-color",
 			"status": "draft",
 			"experimental": false,
 			"date": "2018-12-27T22:37:54+11:00",
-			"publisher": "IBM Watson Health FHIR Test",
+			"publisher": "IBM Server for HL7 FHIR Test",
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/watson/health/fhir"
+					"value": "http://ibm.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/watson/health/fhir"
+					"value": "http://ibm.com/fhir"
 				}]
 			}],
 			"description": "the patient's favorite color",
@@ -38,8 +38,8 @@ An example as follows:
 			"base": ["Patient"],
 			"type": "string",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/watson/health/fhir/extension/Patient/favorite-color']/f:valueString",
-			"expression": "Patient.extension.where(url='http://ibm.com/watson/health/fhir/extension/Patient/favorite-color').valueString",
+			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-color']/f:valueString",
+			"expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-color').valueString",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []
