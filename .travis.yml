@@ -74,7 +74,7 @@ branches:
 # - Passes to the download function so it can cache. 
 # Reference: https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/x86_64/index.yml 
 before_install:
-  - sudo apt-get update -y 
+  - sudo apt-get update
   - sudo apt-get install git-lfs 
   - | 
     # Travis Event must be push before we download. 
