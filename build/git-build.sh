@@ -496,6 +496,8 @@ function comment_on_pull_request_with_log {
 
     if [[ "${TRAVIS_PULL_REQUEST_BRANCH}" != "" && "${TRAVIS_EVENT_TYPE}" == "pull_request" && "${TRAVIS_PULL_REQUEST}" != "false" ]]
     then
+        echo "API_URL: ${API_URL}"
+        echo "LABEL: ${COMMENT}"
         curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "User-Agent: ibm-fhir-cicd" -X POST -d "${COMMENT}" "${API_URL}"
     fi
 }
