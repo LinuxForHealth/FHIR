@@ -5,7 +5,7 @@
     </properties>
     <step id="step1">
         <chunk checkpoint-policy="item" item-count="#{jobProperties['fhir.cosreadsperdbbatch']}">
-            <reader ref="com.ibm.watson.health.fhir.bulkimport.ChunkReader">
+            <reader ref="com.ibm.fhir.bulkimport.ChunkReader">
                 <properties>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
@@ -17,7 +17,7 @@
                     <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
                 </properties>
             </reader>
-            <writer ref="com.ibm.watson.health.fhir.bulkimport.ChunkWriter">
+            <writer ref="com.ibm.fhir.bulkimport.ChunkWriter">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>

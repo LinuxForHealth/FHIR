@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="bulkimportbatchjob" restartable="true" version="1.0">
     <step id="step1">
-        <batchlet ref="com.ibm.watson.health.fhir.bulkimport.BulkImportBatchLet">
+        <batchlet ref="com.ibm.fhir.bulkimport.BulkImportBatchLet">
             <properties >
                 <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                 <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>

@@ -280,7 +280,7 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
     “fhirServer”: {
         ...
         “persistence”: {
-            "factoryClassname": "com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             …
         }
 }
@@ -358,7 +358,7 @@ The FHIR server's proxy datasource allows us to configure a single statically-de
 ```
 <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource">
     <jdbcDriver libraryRef="fhirSharedLib"
-       javax.sql.XADataSource="com.ibm.watson.health.fhir.persistence.proxy.FHIRProxyXADataSource" />
+       javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource" />
 </dataSource>
 ```
 
@@ -375,7 +375,7 @@ Here is a simple example of a single (default) datastore:
 {
     "fhirServer":{
         "persistence":{
-            "factoryClassname":"com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "datasources": {
                 "default": {
                     "type": "derby",
@@ -406,7 +406,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
     "fhirServer":{
         ...
         "persistence":{
-            "factoryClassname":"com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             ...
             "datasources": {
                 "study1": {
@@ -444,7 +444,7 @@ Within each tenant's `fhir-server-config.json` file, the `fhirServer/persistence
 {
     "fhirServer":{
         "persistence":{
-            "factoryClassname":"com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "datasources": {
                 "study1": {
                     "type": "db2",
@@ -896,11 +896,11 @@ With the `includeResourceTypes`property set as in the preceding example, the FHI
 The FHIR server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This could be used to enforce application-specific business rules associated with resources. Interceptor methods can be called immediately before or after _create_ and _update_ persistence operations.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
-A persistence interceptor implementation must implement the following `com.ibm.watson.health.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
+A persistence interceptor implementation must implement the following `com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
 interface:
 
 ```
-package com.ibm.watson.health.fhir.persistence.interceptor;
+package com.ibm.fhir.persistence.interceptor;
 
 /**
  * This interface describes a persistence interceptor.
@@ -908,7 +908,7 @@ package com.ibm.watson.health.fhir.persistence.interceptor;
  * users to inject business logic into the REST API processing flow.
  * To make use of this interceptor, develop a class that implements this interface,
  * then store your implementation class name in a file called
- * META-INF/services/com.ibm.watson.health.fhir.persistence.FHIRPersistenceInterceptor within
+ * META-INF/services/com.ibm.fhir.persistence.FHIRPersistenceInterceptor within
  * your jar file.
  */
 public interface FHIRPersistenceInterceptor {
@@ -963,7 +963,7 @@ To implement a persistence interceptor, complete the following steps:
 1.	Develop a Java class which implements the `FHIRPersistenceInterceptor` interface.
 2.	Store the fully-qualified classname of your interceptor implementation class in a file called :
 
-      `META-INF/services/com.ibm.watson.health.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
+      `META-INF/services/com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
 
     Here's an example of the file contents:
 
@@ -1281,7 +1281,7 @@ The FHIR Client API can be found on the WHC Nexus artifact server. In order to u
 
 ```
         <dependency>
-            <groupId>com.ibm.watson.health.fhir</groupId>
+            <groupId>com.ibm.fhir</groupId>
             <artifactId>fhir-client</artifactId>
             <version>${fhir.server.version}</version>
         </dependency>
@@ -1297,7 +1297,7 @@ Within the master branch of the FHIR Git repository, you can find the “fhir-cl
 
 ## 4.8 FHIR command-line interface (fhir-cli)
 The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [our Artifactory server](
-https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/watson/health/fhir/fhir-cli/).
+https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/fhir/fhir-cli/).
 
 ### 4.8.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
@@ -1703,7 +1703,7 @@ This section contains an example of the FHIR server's global configuration, alon
             "logMaxSize": 20
         },
         "persistence":{
-            "factoryClassname":"com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "common":{
                 "__comment":"Configuration properties common to all persistence layer implementations",
                 "updateCreateEnabled":true
@@ -1862,8 +1862,8 @@ In addition to the provided operations, the FHIR server supports user-provided c
 
 To contribute an operation:
 
-1. Implement each operation as a Java class that extends `com.ibm.watson.health.fhir.operation.AbstractOperation` from `fhir-operation.jar`. Ensure that your implementation returns an appropriate `OperationDefinition` in its `getDefinition()` method, because the framework validates both the request and response payloads to ensure that they conform to the definition.
-2. Create a file named `com.ibm.watson.health.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
+1. Implement each operation as a Java class that extends `com.ibm.fhir.operation.AbstractOperation` from `fhir-operation.jar`. Ensure that your implementation returns an appropriate `OperationDefinition` in its `getDefinition()` method, because the framework validates both the request and response payloads to ensure that they conform to the definition.
+2. Create a file named `com.ibm.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
 3. Include your jar file under the `<WLP_HOME>/wlp/usr/servers/fhir-server/userlib/` directory of your installation.
 4. Restart the FHIR server. Changes to custom operations require a server restart, because the server discovers and instantiates operations during server startup only.
 
@@ -1979,7 +1979,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
-|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.watson.health.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.watson.health.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
+|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
@@ -2005,7 +2005,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/kafka/enabled`|false|
 |`fhirServer/notifications/kafka/topicName`|`fhirNotifications`|
 |`fhirServer/notifications/kafka/connectionProperties`|`{}`|
-|`fhirServer/persistence/factoryClassname`|com.ibm.watson.health.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
+|`fhirServer/persistence/factoryClassname`|com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
