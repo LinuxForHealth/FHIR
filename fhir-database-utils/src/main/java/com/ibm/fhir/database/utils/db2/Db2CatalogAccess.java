@@ -34,7 +34,7 @@ public class Db2CatalogAccess implements ICatalogAccess {
     }
     
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.rdbms.ICatalogAccess#getPartitionList(java.lang.String, java.lang.String)
+     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#getPartitionList(java.lang.String, java.lang.String)
      */
     @Override
     public List<PartitionInfo> getPartitionList(String schema, String table) {
@@ -47,7 +47,7 @@ public class Db2CatalogAccess implements ICatalogAccess {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.rdbms.ICatalogAccess#addMonthPartition(java.lang.String, java.lang.String, java.util.Date)
+     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#addMonthPartition(java.lang.String, java.lang.String, java.util.Date)
      */
     @Override
     public void addMonthPartition(String schema, String table, Date lowValue) {
@@ -61,7 +61,7 @@ public class Db2CatalogAccess implements ICatalogAccess {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.rdbms.ICatalogAccess#addDayPartition(java.lang.String, java.lang.String, java.util.Date)
+     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#addDayPartition(java.lang.String, java.lang.String, java.util.Date)
      */
     @Override
     public void addDayPartition(String schema, String table, Date lowValue) {
@@ -75,7 +75,7 @@ public class Db2CatalogAccess implements ICatalogAccess {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.rdbms.ICatalogAccess#dropPartition(java.lang.String, java.lang.String, com.ibm.watson.platform.health.replicator.rdbms.PartitionInfo)
+     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#dropPartition(java.lang.String, java.lang.String, com.ibm.fhir.database.utils.api.ICatalogAccess.PartitionInfo)
      */
     @Override
     public void dropPartition(String schema, String table, PartitionInfo pi) {
@@ -89,7 +89,7 @@ public class Db2CatalogAccess implements ICatalogAccess {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.rdbms.ICatalogAccess#dropDetachedPartitions(java.lang.String, java.lang.String)
+     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#dropDetachedPartitions(java.lang.String, java.lang.String)
      */
     @Override
     public void dropDetachedPartitions(String schema, String table, int partMaintBatchSize) {

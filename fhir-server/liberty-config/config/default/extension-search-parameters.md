@@ -20,7 +20,7 @@ An example as follows:
 			"status": "draft",
 			"experimental": false,
 			"date": "2018-12-27T22:37:54+11:00",
-			"publisher": "IBM Watson Health FHIR Test",
+			"publisher": "IBM Server for HL7 FHIR Test",
 			"contact": [{
 				"telecom": [{
 					"system": "url",

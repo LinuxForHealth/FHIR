@@ -59,7 +59,7 @@ public final class SimpleTransaction implements ITransaction {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.hvit.api.ITransactionService#setRollbackOnly()
+     * @see com.ibm.fhir.database.utils.api.ITransaction#setRollbackOnly()
      */
     @Override
     public void setRollbackOnly() {

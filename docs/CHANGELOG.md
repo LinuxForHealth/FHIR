@@ -51,7 +51,7 @@
   * fhir-server is now built into a docker image that is available from Artifactory (see fhir-server README)
 
 ## [2.2.0] - 2018-10-15
-Release 2.2.0 is the first <q>common service</q> release from the Watson Health FHIR Server codebase.
+Release 2.2.0 is the first <q>common service</q> release from the `IBM Server for HL7 FHIR` codebase.
 
 ### Security
 * client should perform hostname verification by default

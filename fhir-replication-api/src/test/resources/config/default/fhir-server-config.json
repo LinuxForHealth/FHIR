@@ -3,9 +3,9 @@
         "persistence":{
             "replicationInterceptor": {
                 "enabled": true,
-                "studyIdExtensionUrl": "http://www.ibm.com/watson/health/fhir/extensions/whc-lsf/1.0/studyid",
-                "siteIdExtensionUrl": "http://www.ibm.com/watson/health/fhir/extensions/whc-lsf/1.0/siteid",
-                "subjectIdExtensionUrl": "http://www.ibm.com/watson/health/fhir/extensions/whc-lsf/1.0/patientid",
+                "studyIdExtensionUrl": "http://www.ibm.com/ibm/fhir/extensions/whc-lsf/1.0/studyid",
+                "siteIdExtensionUrl": "http://www.ibm.com/ibm/fhir/extensions/whc-lsf/1.0/siteid",
+                "subjectIdExtensionUrl": "http://www.ibm.com/ibm/fhir/extensions/whc-lsf/1.0/patientid",
                 "studyIdHeaderName": "X-WHC-LSF-studyid",
                 "resourcesRequiringSubjectId": [
                     "Patient"
