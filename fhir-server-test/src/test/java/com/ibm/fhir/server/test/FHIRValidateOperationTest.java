@@ -44,7 +44,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
 
         WebTarget target = getWebTarget();
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
         
         assertEquals(operationOutcome.getIssue().size(), 2);
