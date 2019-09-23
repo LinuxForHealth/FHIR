@@ -1,37 +1,37 @@
 <suite name="FHIRServerIntegrationTests">  
     <test name="ExampleTest">
         <classes>
-            <class name="com.ibm.watson.health.fhir.server.test.R4ExampleServerTest" />
+            <class name="com.ibm.fhir.server.test.R4ExampleServerTest" />
         </classes>
     </test>
  
     <test name="ServerTests">
         <classes>
-            <class name="com.ibm.watson.health.fhir.server.test.Base64BinaryTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.BasicServerTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.ServerSpecTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.BundleTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.DeleteTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.UpdateTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.DuplicateResourceIdTest"/>
-            <class name="com.ibm.watson.health.fhir.server.test.FHIRDocumentOperationTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.FHIRValidateOperationTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.FHIRHealthcheckOperationTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.MultiDataStoreTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.SearchTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.SearchAllTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.SearchExtensionsTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.SortingTest" />
-            <class name="com.ibm.watson.health.fhir.server.test.WebSocketNotificationsTest" />
+            <class name="com.ibm.fhir.server.test.Base64BinaryTest" />
+            <class name="com.ibm.fhir.server.test.BasicServerTest" />
+            <class name="com.ibm.fhir.server.test.ServerSpecTest" />
+            <class name="com.ibm.fhir.server.test.BundleTest" />
+            <class name="com.ibm.fhir.server.test.DeleteTest" />
+            <class name="com.ibm.fhir.server.test.UpdateTest" />
+            <class name="com.ibm.fhir.server.test.DuplicateResourceIdTest"/>
+            <class name="com.ibm.fhir.server.test.FHIRDocumentOperationTest" />
+            <class name="com.ibm.fhir.server.test.FHIRValidateOperationTest" />
+            <class name="com.ibm.fhir.server.test.FHIRHealthcheckOperationTest" />
+            <class name="com.ibm.fhir.server.test.MultiDataStoreTest" />
+            <class name="com.ibm.fhir.server.test.SearchTest" />
+            <class name="com.ibm.fhir.server.test.SearchAllTest" />
+            <class name="com.ibm.fhir.server.test.SearchExtensionsTest" />
+            <class name="com.ibm.fhir.server.test.SortingTest" />
+            <class name="com.ibm.fhir.server.test.WebSocketNotificationsTest" />
             
-            <class name="com.ibm.watson.health.fhir.client.test.FHIRClientTest" />
+            <class name="com.ibm.fhir.client.test.FHIRClientTest" />
 
-            <class name="com.ibm.watson.health.fhir.cli.test.FHIRCliTest" />
+            <class name="com.ibm.fhir.cli.test.FHIRCliTest" />
             
             <!-- requires $hello operation to be deployed. 
             Include the fhir-operation-[version]-tests jar in the fhir-server userlib dir before running the test:
             -->
-            <class name="com.ibm.watson.health.fhir.server.test.FHIROperationTest" />
+            <class name="com.ibm.fhir.server.test.FHIROperationTest" />
         </classes>
     </test>
 </suite>

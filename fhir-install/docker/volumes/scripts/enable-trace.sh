@@ -11,4 +11,4 @@
 
 server_xml="/opt/ibm/fhir-server/wlp/usr/servers/fhir-server/server.xml"
 
-sed -i -e '/<httpEndpoint.*>/a <logging traceSpecification="*=info:com.ibm.watson.health.fhir.*=finer" traceFormat="BASIC"/>' $server_xml 
+sed -i -e '/<httpEndpoint.*>/a <logging traceSpecification="*=info:com.ibm.fhir.*=finer" traceFormat="BASIC"/>' $server_xml 

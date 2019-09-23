@@ -3,13 +3,13 @@
     xmlns="http://xmlns.jcp.org/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <display-name>IBM Watson Health FHIR Server</display-name>
+    <display-name>IBM Server for HL7 FHIR</display-name>
     <servlet>
         <servlet-name>FHIRRestServlet</servlet-name>
         <servlet-class>com.ibm.websphere.jaxrs.server.IBMRestServlet</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>com.ibm.watson.health.fhir.server.FHIRApplication</param-value>
+            <param-value>com.ibm.fhir.server.FHIRApplication</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -47,7 +47,7 @@
 
     <filter>
         <filter-name>FHIRAuthFilter</filter-name>
-        <filter-class>com.ibm.watson.health.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter</filter-class>
+        <filter-class>com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FHIRAuthFilter</filter-name>
@@ -56,7 +56,7 @@
 
     <filter>
         <filter-name>FHIRAesEncryptionFilter</filter-name>
-        <filter-class>com.ibm.watson.health.fhir.server.filter.enc.FHIRAesEncryptionFilter</filter-class>
+        <filter-class>com.ibm.fhir.server.filter.enc.FHIRAesEncryptionFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FHIRAesEncryptionFilter</filter-name>
@@ -65,7 +65,7 @@
 
     <filter>
         <filter-name>FHIRRestFilter</filter-name>
-        <filter-class>com.ibm.watson.health.fhir.server.filter.rest.FHIRRestServletFilter</filter-class>
+        <filter-class>com.ibm.fhir.server.filter.rest.FHIRRestServletFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FHIRRestFilter</filter-name>

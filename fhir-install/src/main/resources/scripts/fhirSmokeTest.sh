@@ -25,7 +25,7 @@ TMP_DIR=$(mktemp -d)
 curl -k -u fhiruser:change-password https://$SERVER_HOST:$SERVER_PORT/fhir-server/api/v4/metadata > $TMP_DIR/meta.json 2> /dev/null
 
 echo -n "Checking FHIR server signature... "
-[ $(cat $TMP_DIR/meta.json | grep '"description":"IBM Watson Health FHIR Server version ' | wc -l) != "1" ] && echo "Error! Signature not found." && exit 4
+[ $(cat $TMP_DIR/meta.json | grep '"description":"IBM Server for HL7 FHIR version ' | wc -l) != "1" ] && echo "Error! Signature not found." && exit 4
 echo "OK!"
 
 echo -n "Checking FHIR API version... "
