@@ -26,7 +26,7 @@
 # $ travis endpoint --set-default -X -e https://api.travis-ci.com
 # $ travis login -X -e https://api.travis-ci.com -g <GITHUB_TOKEN>
 # $ travis encrypt FHIR_GITHUB_TOKEN=<NOT_TRUE> --add env.FHIR_GITHUB_TOKEN
-# 
+#  
 # Switched to travis encrypt <VALUE OF TOKEN> 
 # 
 # no output, just stores in the .travis.yml (formatting is kind of messy)
