@@ -45,7 +45,6 @@
         <module>../fhir-operation-healthcheck</module>
         <module>../fhir-operation-apply</module>
         <module>../fhir-operation-bulkdata</module>
-        <module>../fhir-bulkimportexport</module>
         <module>../fhir-bulkimportexport-webapp</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
@@ -280,6 +279,21 @@
                 <artifactId>jakarta.xml.bind-api</artifactId>
                 <version>2.3.2</version>
             </dependency>
+            <dependency>
+                <groupId>com.ibm.cos</groupId>
+                <artifactId>ibm-cos-java-sdk</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.batch</groupId>
+                <artifactId>jakarta.batch-api</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>1.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -301,7 +315,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>3.1.2</version>
                     <executions>
                         <execution>
                             <goals>
