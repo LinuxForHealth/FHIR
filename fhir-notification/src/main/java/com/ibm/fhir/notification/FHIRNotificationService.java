@@ -56,7 +56,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
         log.finer("Notification service will publish events for these resource types: "
                 + (includedResourceTypes.isEmpty() ? "ALL" : "\n" + includedResourceTypes.toString()));
     }
-    
+
     public static FHIRNotificationService getInstance() {
         return INSTANCE;
     }
@@ -135,8 +135,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     /*
      * (non-Javadoc)
      * @see
-     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#afterCreate(com.ibm.watson.health.
-     * fhir.persistence.interceptor.FHIRPersistenceEvent)
+     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#afterCreate(com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent)
      */
     @Override
     public void afterCreate(FHIRPersistenceEvent pEvent) throws FHIRPersistenceInterceptorException {
@@ -148,8 +147,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     /*
      * (non-Javadoc)
      * @see
-     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#afterUpdate(com.ibm.watson.health.
-     * fhir.persistence.interceptor.FHIRPersistenceEvent)
+     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#afterUpdate(com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent)
      */
     @Override
     public void afterUpdate(FHIRPersistenceEvent pEvent) throws FHIRPersistenceInterceptorException {
@@ -161,8 +159,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     /*
      * (non-Javadoc)
      * @see
-     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#beforeCreate(com.ibm.watson.health.
-     * fhir.persistence.interceptor.FHIRPersistenceEvent)
+     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#beforeCreate(com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent)
      */
     @Override
     public void beforeCreate(FHIRPersistenceEvent pEvent) throws FHIRPersistenceInterceptorException {
@@ -172,8 +169,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     /*
      * (non-Javadoc)
      * @see
-     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#beforeUpdate(com.ibm.watson.health.
-     * fhir.persistence.interceptor.FHIRPersistenceEvent)
+     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#beforeUpdate(com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent)
      */
     @Override
     public void beforeUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
@@ -192,7 +188,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
                 log.finer("Resource type filter not specified, publishing all events.");
                 return true;
             }
-            
+
             // If the resource type filter contains "*", then publish all events.
             if (includedResourceTypes.contains("*")) {
                 log.finer("Resource type filter contains '*', publishing all events.");

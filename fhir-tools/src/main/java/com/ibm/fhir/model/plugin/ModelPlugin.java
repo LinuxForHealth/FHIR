@@ -34,7 +34,7 @@ import com.ibm.fhir.model.plugin.generator.ModelGenerator;
  * </code>
  * 
  * Run the following to create/update the classes in the fhir-model project: <code> 
- * mvn com.ibm.watson.health:fhir-tools:generate-model -f ./fhir-model/pom.xml
+ * mvn com.ibm.fhir:fhir-tools:generate-model -f ./fhir-model/pom.xml
  * </code>
  * 
  * @author PBastide

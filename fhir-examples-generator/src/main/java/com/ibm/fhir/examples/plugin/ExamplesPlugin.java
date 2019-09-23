@@ -32,7 +32,7 @@ import com.ibm.fhir.examples.ExamplesGenerator;
  * </code>
  * 
  * Run the following to create/update the classes in the fhir-model project: <code> 
- * mvn com.ibm.watson.health:fhir-examples-generator:generate-examples -f ./fhir-parent/pom.xml
+ * mvn com.ibm.fhir:fhir-examples-generator:generate-examples -f ./fhir-parent/pom.xml
  * </code>
  * 
  * @author PBastide
