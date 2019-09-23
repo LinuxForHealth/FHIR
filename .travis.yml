@@ -23,9 +23,9 @@
 # Dist Limits - https://docs.travis-ci.com/user/reference/overview/
 
 # To encrypt the FHIR_GITHUB_TOKEN
-# $travis endpoint --set-default -X -e https://travis.ibm.com/api
-# $ travis login -X -e https://travis.ibm.com/api -g  <GITHUB_TOKEN>
-# $travis encrypt FHIR_GITHUB_TOKEN=<NOT_TRUE> --add env.FHIR_GITHUB_TOKEN
+# $ travis endpoint --set-default -X -e https://api.travis-ci.com
+# $ travis login -X -e https://api.travis-ci.com -g <GITHUB_TOKEN>
+# $ travis encrypt FHIR_GITHUB_TOKEN=<NOT_TRUE> --add env.FHIR_GITHUB_TOKEN
 # 
 # no output, just stores in the .travis.yml (formatting is kind of messy)
 # update env -> global -> secure:
@@ -34,14 +34,14 @@
 # Define the environment variables in this block: 
 env:
   global:
-    - BINTRAY_REPO_OWNER=ibm-watson-health
-    - BINTRAY_REPO_NAME=FHIR
+    - BINTRAY_REPO_OWNER="ibm-watson-health"
+    - BINTRAY_REPO_NAME="fhir"
     # Packages need to be updated as a list. 
-    - BINTRAY_PKG_NAME=com.ibm.fhir:pkg
+    - BINTRAY_PKG_NAME="com.ibm.fhir:pkg"
     # IBM Java 8
-    - IBM_JAVA_8_SHASUM=bc53faf476655e565f965dab3db37f9258bfc16bb8c5352c93d43d53860b79d3
-    - IBM_JAVA_8_URI=https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.5.40/linux/x86_64/ibm-java-sdk-8.0-5.40-x86_64-archive.bin
-    - secure: "LsKu7Xt5YGlD23ra9oY6zzDchrVYlZ4U2arOGfFrNMCvmopFt5YMoyRkiRndJTsA+kRPTmDfbSCBYOR7nWqVOvfAqInPnOPN4Uk8Ixfbi1FYEhOx/daIOC1n4y1gBrjy51oCyZWShz5TPivc1DWwWbxL3NtXujBxrDLqMBJXmu1yG8N13qZzZ4VOSM+P0YOWzXqRciiyXWSpAAApB9MPDSAsD73HYJ7U1IfKZBEpWlzVLcveWI9LFWHbvWXRJrIpPtq2rPUHD6mcbN4YKpImMjTospTkf6u4k/U8Z1hZPtMtHXfwjV+blulZxCysgO+YZD1Z7wYNB89bU2FDtALfUqsn7vLcxb1g8YWFYUHERuRLz+lcqOXW5r02b2Bq/qXqJIyTGvuLHEjhOd2DbGBycJ2cgq+e9qb/zK4lcsvppT7+tjorQl/rdY9KImoLAdKgBNw0nI3cjMQPv2+0MFt2SHETBANdrKeiSkfe1CBk33FFn3NYmm1kUTju0Cavy59LFzw7DZJvz09z0t2hhr+8PcW97iTE9qT39SivwZ2iJBqDdfzGBgJ2H6or6DeZMYv7v2ja3u7tYsi4WFFsXOC0VDDHxm7/oQW+ka7DczAoPuq0FgHsX3ieYYW3VLcDQy9WBJGJ3VbYUDDFbmxyaQulT5vbBtO6vsusDtbEOmtlfhE="
+    - IBM_JAVA_8_SHASUM="bc53faf476655e565f965dab3db37f9258bfc16bb8c5352c93d43d53860b79d3"
+    - IBM_JAVA_8_URI="https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.5.40/linux/x86_64/ibm-java-sdk-8.0-5.40-x86_64-archive.bin"
+    - secure: "jYznkywxkiV7H/BLfugXn3bTM11nR0P6lruIIWFWPNxX2v03rRUs1R0G7zBLdF5doadQf4ua21jwvziuTdDE1dVShXonPCFEFIL93GK8T8BnTd+3hjweICNqHDGndQk8o53X6doWO/054g119JyDqxPs6Y4whbwRYfQXyQp3faB0IRl1NkDesjUsTadjofSHqhfody3lSLAOGYV03lCgVmA05nWFtQTZO/UKjV77F+QfoQ9XHEoMZfnZCYC6Y/LOvixmYDrmcEHdTF8rDncVobxHJqB7mJwNCSg3+k6bdmlsW+ug4/b3KllEcxYaItutd+amCVwKmNgvsssPsgSIwZXesuJIQ9W5ulBsJQE0P1vV6DKXiwpXyWwVWWefnr0AL3d9HCuUrQGidYbwcy35aOKkjXZD4jkFI9jmm+LrWW2YyyYtImCclmxQeJM+kpbUiF7XtFiDKBcKRTHNwicm7UT5VenplWRPKtwxED0c9VtzfUPoUn8vQEDao1Cu+xHBpprDOOwwM6MNj0uV7CKLRyUhagglorb85nCx4whcArjJ3RLcP28iME5eXDPulASc11rgRhfuId2M98q4nvl1ouMpI08E8ZqtBx2Xi5M3GtH6I4SEEegUeWx93FxUejxZuY6mhHj6vze/L/pN//HnroVQbQVUgdegoLPmcpkmskw="
 
 ################################################################################################################
 # Setup the basics (distribution/addon/jdk/java)
