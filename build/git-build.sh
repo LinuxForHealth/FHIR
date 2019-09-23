@@ -464,7 +464,7 @@ function label_pr_with_status {
 
     if [[ "${TRAVIS_PULL_REQUEST_BRANCH}" != "" && "${TRAVIS_EVENT_TYPE}" == "pull_request" && "${TRAVIS_PULL_REQUEST}" != "false" ]]
     then
-        curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "UserAgent: ibm-fhir-cicd" -X POST -d "${LABEL}" "${API_URL}"
+        curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "User-Agent: ibm-fhir-cicd" -X POST -d "${LABEL}" "${API_URL}"
     fi
 }
 
