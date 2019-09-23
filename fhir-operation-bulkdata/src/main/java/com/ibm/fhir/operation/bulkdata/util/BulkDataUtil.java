@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.util;
+package com.ibm.fhir.operation.bulkdata.util;
 
 import static com.ibm.fhir.model.type.String.string;
 
@@ -22,8 +22,8 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.IssueSeverity;
 import com.ibm.fhir.model.type.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.operation.bullkdata.BulkDataConstants;
-import com.ibm.fhir.operation.bullkdata.model.PollingLocationResponse;
+import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
+import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 
 /**

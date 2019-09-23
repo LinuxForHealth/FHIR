@@ -13,7 +13,8 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.operation.bullkdata.model.PollingLocationResponse.Output;
+import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
+import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse.Output;
 
 /**
  * Simple Test for the Rough Response defined in the BulkData Export 

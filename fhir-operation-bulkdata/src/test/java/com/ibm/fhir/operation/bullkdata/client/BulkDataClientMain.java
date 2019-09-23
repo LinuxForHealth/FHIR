@@ -9,7 +9,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.ibm.fhir.operation.bullkdata.config.BulkDataConfigUtil;
+import com.ibm.fhir.operation.bulkdata.client.BulkDataClient;
+import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 
 /**
  * @author pbastide

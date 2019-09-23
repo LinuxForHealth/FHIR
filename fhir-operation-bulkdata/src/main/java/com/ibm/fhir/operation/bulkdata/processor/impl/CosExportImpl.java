@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.processor.impl;
+package com.ibm.fhir.operation.bulkdata.processor.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -18,12 +18,12 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.operation.bullkdata.client.BulkDataClient;
-import com.ibm.fhir.operation.bullkdata.config.cache.BulkDataTenantSpecificCache;
-import com.ibm.fhir.operation.bullkdata.model.PollingLocationResponse;
-import com.ibm.fhir.operation.bullkdata.processor.ExportBulkData;
-import com.ibm.fhir.operation.bullkdata.processor.ImportBulkData;
-import com.ibm.fhir.operation.bullkdata.util.BulkDataUtil;
+import com.ibm.fhir.operation.bulkdata.client.BulkDataClient;
+import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
+import com.ibm.fhir.operation.bulkdata.processor.ExportBulkData;
+import com.ibm.fhir.operation.bulkdata.processor.ImportBulkData;
+import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.rest.FHIRResourceHelpers;

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.model;
+package com.ibm.fhir.operation.bulkdata.model;
 
 import java.util.List;
 import java.util.stream.Collectors;

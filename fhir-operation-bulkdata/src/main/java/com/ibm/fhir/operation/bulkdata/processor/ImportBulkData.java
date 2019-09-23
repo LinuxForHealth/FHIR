@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.processor;
+package com.ibm.fhir.operation.bulkdata.processor;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;

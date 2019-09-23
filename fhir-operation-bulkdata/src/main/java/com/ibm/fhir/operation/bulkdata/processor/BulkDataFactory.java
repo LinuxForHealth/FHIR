@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.processor;
+package com.ibm.fhir.operation.bulkdata.processor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.operation.bullkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bullkdata.config.cache.BulkDataTenantSpecificCache;
-import com.ibm.fhir.operation.bullkdata.processor.impl.CosExportImpl;
-import com.ibm.fhir.operation.bullkdata.processor.impl.DummyImportExportImpl;
+import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
+import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.fhir.operation.bulkdata.processor.impl.CosExportImpl;
+import com.ibm.fhir.operation.bulkdata.processor.impl.DummyImportExportImpl;
 
 /**
  * The BulkDataFactory enables the tenant specific lookup of the 'dummy' or 'cos' implementations. 

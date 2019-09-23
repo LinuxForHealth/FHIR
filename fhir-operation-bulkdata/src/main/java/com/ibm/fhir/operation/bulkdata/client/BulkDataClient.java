@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.client;
+package com.ibm.fhir.operation.bulkdata.client;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,12 +32,12 @@ import com.ibm.fhir.client.impl.FHIRBasicAuthenticator;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.operation.bullkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bullkdata.model.BulkExportJobExecutionResponse;
-import com.ibm.fhir.operation.bullkdata.model.BulkExportJobInstanceRequest;
-import com.ibm.fhir.operation.bullkdata.model.BulkExportJobInstanceResponse;
-import com.ibm.fhir.operation.bullkdata.model.PollingLocationResponse;
-import com.ibm.fhir.operation.bullkdata.util.BulkDataUtil;
+import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
+import com.ibm.fhir.operation.bulkdata.model.BulkExportJobExecutionResponse;
+import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceRequest;
+import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceResponse;
+import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
+import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
 
 /**
  * BulkData Client to connect to the other server.

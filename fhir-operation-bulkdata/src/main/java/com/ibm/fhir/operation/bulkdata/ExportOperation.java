@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.bullkdata;
+package com.ibm.fhir.operation.bulkdata;
 
 import java.io.InputStream;
 import java.util.List;
@@ -21,9 +21,9 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.IssueType;
 import com.ibm.fhir.operation.AbstractOperation;
-import com.ibm.fhir.operation.bullkdata.config.cache.BulkDataTenantSpecificCache;
-import com.ibm.fhir.operation.bullkdata.processor.BulkDataFactory;
-import com.ibm.fhir.operation.bullkdata.util.BulkDataUtil;
+import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
+import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.processor.impl;
+package com.ibm.fhir.operation.bulkdata.processor.impl;
 
 import static com.ibm.fhir.model.type.String.string;
 
@@ -19,10 +19,10 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.operation.bullkdata.config.cache.BulkDataTenantSpecificCache;
-import com.ibm.fhir.operation.bullkdata.model.PollingLocationResponse;
-import com.ibm.fhir.operation.bullkdata.processor.ExportBulkData;
-import com.ibm.fhir.operation.bullkdata.processor.ImportBulkData;
+import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
+import com.ibm.fhir.operation.bulkdata.processor.ExportBulkData;
+import com.ibm.fhir.operation.bulkdata.processor.ImportBulkData;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.rest.FHIRResourceHelpers;

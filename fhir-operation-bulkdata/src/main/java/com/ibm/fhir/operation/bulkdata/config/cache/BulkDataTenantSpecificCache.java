@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.bullkdata.config.cache;
+package com.ibm.fhir.operation.bulkdata.config.cache;
 
 import java.io.File;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.TenantSpecificFileBasedCache;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.operation.bullkdata.config.BulkDataConfigUtil;
+import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 
 /**
  * This class implements a cache of BulkData configuration organized by tenantId. Each object stored in the cache will be a

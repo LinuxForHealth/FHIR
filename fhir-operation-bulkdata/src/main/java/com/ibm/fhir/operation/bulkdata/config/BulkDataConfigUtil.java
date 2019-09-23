@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.config;
+package com.ibm.fhir.operation.bulkdata.config;
 
 import java.io.File;
 import java.io.FileInputStream;
