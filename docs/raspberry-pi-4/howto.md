@@ -12,7 +12,7 @@ The default password used throughout is `change-password` and this is configured
 
 ## Introduction
 
-The `IBM Server for HL7 FHIR` runs as a web application in the Open Liberty application server. By default persistence is provided with a Derby database, but it can also be configured to use IBM Db2 on Cloud. This example shall use the default Derby instance.
+The IBM Server for HL7 FHIR runs as a web application in the Open Liberty application server. By default persistence is provided with a Derby database, but it can also be configured to use IBM Db2 on Cloud. This example shall use the default Derby instance.
 
 | Component    | Details        |
 | ------------ | -------------- |
