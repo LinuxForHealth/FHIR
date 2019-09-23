@@ -285,14 +285,14 @@
                 <version>2.1.0</version>
             </dependency>
             <dependency>
-                <groupId>javax.batch</groupId>
-                <artifactId>javax.batch-api</artifactId>
-                <version>1.0</version>
+                <groupId>jakarta.batch</groupId>
+                <artifactId>jakarta.batch-api</artifactId>
+                <version>1.0.2</version>
             </dependency>
             <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject</artifactId>
-                <version>1</version>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>1.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bullkdata.model;
+package com.ibm.fhir.operation.bulkdata.model;
 
 import static org.testng.Assert.fail;
 

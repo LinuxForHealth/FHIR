@@ -22,12 +22,12 @@
             <artifactId>ibm-cos-java-sdk</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.batch</groupId>
-            <artifactId>javax.batch-api</artifactId>
+            <groupId>jakarta.batch</groupId>
+            <artifactId>jakarta.batch-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
