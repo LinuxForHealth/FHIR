@@ -10,7 +10,7 @@
         <version>4.0.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
-    
+
     <properties>
         <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,7 +30,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

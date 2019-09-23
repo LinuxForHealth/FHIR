@@ -62,10 +62,16 @@
         <module>../fhir-coverage-reports</module>
     </modules>
 
-    <!-- This section "enforces" that we're using consistent versions of 
+    <!-- This section "enforces" that we're using consistent versions of
         artifacts within our modules -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>fhir-examples</artifactId>
+                <version>4.0.0-SNAPSHOT</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>

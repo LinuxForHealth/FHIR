@@ -44,7 +44,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -53,7 +52,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
