@@ -26,7 +26,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     private static final Logger logger = Logger.getLogger(DerbyTranslator.class.getName());
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.stream.rdbms.IStatementWriter#addForUpdate(java.lang.String)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#addForUpdate(java.lang.String)
      */
     @Override
     public String addForUpdate(String sql) {
@@ -34,7 +34,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isDerby()
+     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#isDerby()
      */
     @Override
     public boolean isDerby() {
@@ -42,7 +42,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#globalTempTableName(java.lang.String)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#globalTempTableName(java.lang.String)
      */
     @Override
     public String globalTempTableName(String tableName) {
@@ -50,7 +50,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#createGlobalTempTable(java.lang.String)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#createGlobalTempTable(java.lang.String)
      */
     @Override
     public String createGlobalTempTable(String ddl) {
@@ -58,7 +58,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isDuplicate(java.sql.SQLException)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#isDuplicate(java.sql.SQLException)
      */
     @Override
     public boolean isDuplicate(SQLException x) {
@@ -67,7 +67,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isLockTimeout(java.sql.SQLException)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#isLockTimeout(java.sql.SQLException)
      */
     @Override
     public boolean isLockTimeout(SQLException x) {
@@ -76,7 +76,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isLockTimeout(java.sql.SQLException)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#isLockTimeout(java.sql.SQLException)
      */
     @Override
     public boolean isDeadlock(SQLException x) {
@@ -85,7 +85,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isConnectionError(java.sql.SQLException)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#isConnectionError(java.sql.SQLException)
      */
     @Override
     public boolean isConnectionError(SQLException x) {
@@ -94,7 +94,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#translate(java.sql.SQLException)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#translate(java.sql.SQLException)
      */
     @Override
     public DataAccessException translate(SQLException x) {
@@ -119,7 +119,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isUndefinedName(java.sql.SQLException)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#isUndefinedName(java.sql.SQLException)
      */
     @Override
     public boolean isUndefinedName(SQLException x) {
@@ -127,7 +127,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
     
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#fillProperties(java.util.Properties, com.ibm.watson.platform.health.replicator.api.ConnectionDetails)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#fillProperties(java.util.Properties, com.ibm.watson.platform.health.replicator.api.ConnectionDetails)
      */
     @Override
     public void fillProperties(Properties p, ConnectionDetails cd) {
@@ -144,7 +144,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#timestampDiff(java.lang.String, java.lang.String, java.lang.String)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#timestampDiff(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public String timestampDiff(String left, String right, String alias) {
@@ -157,7 +157,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#createSequence(java.lang.String, int)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#createSequence(java.lang.String, int)
      */
     @Override
     public String createSequence(String name, int cache) {
@@ -166,7 +166,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#reorgTableCommand(java.lang.String)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#reorgTableCommand(java.lang.String)
      */
     @Override
     public String reorgTableCommand(String tableName) {

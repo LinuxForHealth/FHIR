@@ -43,8 +43,8 @@ lastupdated: "2019-09-04"
 
 # 1 Overview
 
-The Watson Health&trade; FHIR Server provides a REST API that is patterned after the HL7 FHIR specification and supports the full set of FHIR-defined resource types.
-The FHIR server is intended to be a common component for providing FHIR capabilities within Watson Health services and solutions.
+The IBM Server for HL7 FHIR provides a REST API that is patterned after the HL7 FHIR specification and supports the full set of FHIR-defined resource types.
+The FHIR server is intended to be a common component for providing FHIR capabilities within health services and solutions.
 
 ## 1.1 Recent updates
 View information about recent changes that were made to this document. For more information about changes that were made to the FHIR server codebase, see the [CHANGELOG](CHANGELOG.md).
@@ -63,7 +63,7 @@ View information about recent changes that were made to this document. For more 
 * Added section on upgrading from one version to the next
 
 ###	Release 2.1
-Watson Health FHIR Server version 2.1 was developed under the Watson Health. 
+IBM Server for HL7 FHIR version 2.1 was developed under the Watson Health development organization. 
 
 ###	Release 1.2
 *	Added information about the update/create feature.
@@ -133,15 +133,15 @@ The preceding command should produce output similar to the following:
 {
     "resourceType" : "Conformance",
     "version" : "1.0.0",
-    "name" : "IBM Watson Health Cloud FHIR server",
+    "name" : "IBM Server for HL7 FHIR server",
     "publisher" : "IBM Corporation",
     "date" : "Mon Jun 27 16:06:45 CDT 2016",
-    "description" : "IBM Watson Health Cloud FHIR server version 1.0.0 build id development",
+    "description" : "IBM Server for HL7 FHIR version 1.0.0 build id development",
     "copyright" : "(c) Copyright IBM Corporation 2016",
     "kind" : "instance",
     "software" : {
         "id" : "development",
-        "name" : "IBM Watson Health Cloud FHIR server",
+        "name" : "IBM Server for HL7 FHIR",
         "version" : "1.0.0"
     },
     "fhirVersion" : "1.0.2 - r4",
@@ -472,9 +472,9 @@ For a Derby-related datasource definition, any bean property supported by the `E
 
 
 ## 3.5 Search parameters
-The FHIR specification defines a set of searchable fields for each resource type and the Watson Health FHIR Server supports all spec-defined search parameters by default.
+The FHIR specification defines a set of searchable fields for each resource type and the IBM Server for HL7 FHIR supports all spec-defined search parameters by default.
 
-Additionally, the Watson Health FHIR Server supports searching on additional fields, including:
+Additionally, the IBM Server for HL7 FHIR supports searching on additional fields, including:
 * fields that are defined in the base specification but not configured to be searchable;
 * extension elements that you add to a standard FHIR resource type; and
 * attributes that you define as part of a custom resource type)
@@ -506,7 +506,7 @@ To configure the FHIR server with one or more custom search parameters, create a
 </Bundle>
 ```
 
-Note 1:  According to the [FHIR specification](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code), it is the `code` field (and not the `name` field) which is supposed to be used for the name of the search parameter in search requests. Because earlier versions of the Watson Health FHIR Server used the `name` field for this purpose, we have decided not to change that at this time. However, users of the the server are strongly encouraged to include their desired name in both the `name` **and** `code` fields for improved backwards/forwards compatibility. Use of the `name` field, without a matching `code`, is considered deprecated and the FHIR server will likely change to exclusively use the `code` field in a [future release](https://github.ibm.com/watson-health-fhir-server/fhir/issues/202).
+Note 1:  According to the [FHIR specification](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code), it is the `code` field (and not the `name` field) which is supposed to be used for the name of the search parameter in search requests. Because earlier versions of the IBM Server for HL7 FHIR used the `name` field for this purpose, we have decided not to change that at this time. However, users of the the server are strongly encouraged to include their desired name in both the `name` **and** `code` fields for improved backwards/forwards compatibility. Use of the `name` field, without a matching `code`, is considered deprecated and the FHIR server will likely change to exclusively use the `code` field in a [future release](https://github.com/ibm/fhir/issues/202).
 
 Note 2:  In previous versions of the FHIR server, the XPath expression could point to either the `extension` element or to the `value[x]` element within that extension (for example, `valueString`). However, for complex extensions and parameters of type `date`, the expression must always point to the specific element to be indexed. Therefor, matching to the specific element to be indexed is best and matching to the parent element instead is considered deprecated.
 
@@ -522,7 +522,7 @@ You can modify the default server implementation by taking advantage of the FHIR
  * Notification service: Logging and auditing options available with Websockets, Apache Kafka
  * Persistence interceptors: Customers can specify code to be called before or after persistence operations, to enforce custom governance rules when a resource operation occurs.
  * Resource validation: Supports validation of FHIR resources on creation or update with spec-defined ISO schematron rules out of box, but also supports user-defined schematrons. A 'validate' operation is also bundled into the FHIR REST API layer to verify resources before ingestion.
- * Custom operations framework: The Watson Health&trade; FHIR server implementation defines an extended operations framework that standardizes the inputs and outputs and the URI patterns for extensions to the standard REST API. By using the custom operations framework, developers can  extend the capabilities of the FHIR server by developing adapters, wrappers, or connectors to other services.
+ * Custom operations framework: The IBM Server for HL7 FHIR implementation defines an extended operations framework that standardizes the inputs and outputs and the URI patterns for extensions to the standard REST API. By using the custom operations framework, developers can  extend the capabilities of the FHIR server by developing adapters, wrappers, or connectors to other services.
 
 ## 4.1 Virtual resource types
 
@@ -783,7 +783,7 @@ Note that this `StructureDefinition` refers to `Basic` as the base and that only
 As compared with a virtual resource type for which no pre-defined structure is defined, using structure definitions with virtual resource types increases the number of available datatypes from 8 to 34 (that is the full range of value types supported by a FHIR extension element). Specifying structure definitions also allows us to apply basic minimum and maximum cardinality constraints and type checking.
 
 ## 4.2 Notification Service
-The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_ and _update_ operations. The notification service can be used by other Watson Health Cloud components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
+The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_ and _update_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
 
 The notification service supports two implementations: WebSocket and Kafka.
 
@@ -1837,7 +1837,7 @@ This is how the filtering algorithm works:
 3.	Using the search parameter names associated with the rule retrieved in Step 1, the FHIR server will apply the rule to each built-in search parameter defined for that resource type.If the search parameter's name is found within the inclusion rule's list of search parameter names or the inclusion rule's list of names includes the wildcard (`“*”`), then the search parameter will be included in the FHIR server's view of search parameters for that resource type.
 
 ## 4.11 Extended operations
-In addition to the standard REST API (create, update, search, and so forth), the Watson Health FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
+In addition to the standard REST API (create, update, search, and so forth), the IBM Server for HL7 FHIR supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
 
 ### 4.11.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate` and `$document` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.

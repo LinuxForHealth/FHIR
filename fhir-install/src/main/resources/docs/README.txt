@@ -1,1 +1,1 @@
-The FHIR Server User Guide has moved to https://github.ibm.com/watson-health-fhir-server/fhir-docs
+The FHIR Server User Guide has moved to https://github.com/ibm/fhir/docs

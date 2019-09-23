@@ -26,7 +26,7 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 public class Db2Translator implements IDatabaseTranslator {
 
     /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.stream.rdbms.IStatementWriter#addForUpdate(java.lang.String)
+     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#addForUpdate(java.lang.String)
      */
     @Override
     public String addForUpdate(String sql) {

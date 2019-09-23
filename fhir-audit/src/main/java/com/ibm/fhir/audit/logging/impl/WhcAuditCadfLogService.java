@@ -97,7 +97,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
      * 
      * @see
      * com.ibm.fhir.audit.logging.api.AuditLogService#initialize(com.
-     * ibm.watson.health.fhir.config.PropertyGroup)
+     * ibm.fhir.config.PropertyGroup)
      */
     @Override
     public void initialize(PropertyGroup auditLogProperties) throws Exception {
@@ -170,7 +170,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
      * 
      * @see
      * com.ibm.fhir.audit.logging.api.AuditLogService#logEntry(com.ibm.
-     * watson.health.fhir.audit.logging.beans.AuditLogEntry)
+     * fhir.audit.logging.beans.AuditLogEntry)
      */
     @Override
     public void logEntry(AuditLogEntry logEntry) throws Exception {
