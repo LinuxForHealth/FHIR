@@ -459,11 +459,11 @@ function label_pr_with_status {
         }"
     API_URL="https://${BASE_URL}/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/labels"
 
-    echo "API_URL: ${API_URL}"
-    echo "LABEL: ${LABEL}"
-
-    if [[ "${TRAVIS_PULL_REQUEST_BRANCH}" != "" && "${TRAVIS_EVENT_TYPE}" == "pull_request" && "${TRAVIS_PULL_REQUEST}" != "false" ]]
+    if [[ "${TRAVIS_EVENT_TYPE}" == "pull_request" ]]
     then
+        echo "API_URL: ${API_URL}"
+        echo "LABEL: ${LABEL}"
+
         curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "User-Agent: ibm-fhir-cicd" -X POST -d "${LABEL}" "${API_URL}"
     fi
 }
@@ -474,11 +474,7 @@ function comment_on_pull_request_with_log {
     COMMENT_IN=$1
 
     # quick switch between github.com and ibm.com domains.
-    BASE_URL="api.github.ibm.com"
-    if [[ "${TRAVIS_APP_HOST}" == *"ibm.com"* ]]
-    then
-        BASE_URL="api.github.ibm.com"
-    fi
+    BASE_URL="api.github.com"
 
     # Log File -> Comment is wrapped. 
     # 50K chars seem enough
@@ -500,7 +496,7 @@ function comment_on_pull_request_with_log {
 
     if [[ "${TRAVIS_PULL_REQUEST_BRANCH}" != "" && "${TRAVIS_EVENT_TYPE}" == "pull_request" && "${TRAVIS_PULL_REQUEST}" != "false" ]]
     then
-        curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "UserAgent: ibm-fhir-cicd" -X POST -d "${COMMENT}" "${API_URL}"
+        curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "User-Agent: ibm-fhir-cicd" -X POST -d "${COMMENT}" "${API_URL}"
     fi
 }
 
