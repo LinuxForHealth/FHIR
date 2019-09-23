@@ -27,6 +27,8 @@
 # $ travis login -X -e https://api.travis-ci.com -g <GITHUB_TOKEN>
 # $ travis encrypt FHIR_GITHUB_TOKEN=<NOT_TRUE> --add env.FHIR_GITHUB_TOKEN
 # 
+# Switched to travis encrypt <VALUE OF TOKEN> 
+# 
 # no output, just stores in the .travis.yml (formatting is kind of messy)
 # update env -> global -> secure:
 
@@ -41,7 +43,6 @@ env:
     # IBM Java 8
     - IBM_JAVA_8_SHASUM="bc53faf476655e565f965dab3db37f9258bfc16bb8c5352c93d43d53860b79d3"
     - IBM_JAVA_8_URI="https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.5.40/linux/x86_64/ibm-java-sdk-8.0-5.40-x86_64-archive.bin"
-    - secure: aH7AEVEpm2Ympf0q/RoOjmZyR9+Ev6uGWHINuCTNoEESEaAWPCulhoWBLepZ9AXLq0mstvZbfenboIY1izohkY4ajWqBbQD6aealQkgKPSqtNx6U+kmrv8bqhbKb7xkvYPPk+gpna4n5d+LzfWRPvknkDrmtirR3tpfq3LaP6kZEujXDqxMfsjvtUYRBcfADCqemOO5RvJsydZpV6g6qAjjkS1zdO+KqmOEnlptPzTJQrC1/KYTYalHV24+s/JydFR2qygEoj6jkh1+S+aI5pkDJA0CiKXWcAF5hWVByvxcHKgzdjj0PG5Nnvpgu8DbU9zaPegfz6hxIEM74VU2r2c1c0OCOue99d16wap5o1Okce/0+FYu4Mg76V5TAQRaJMZ41nISPT00iTEMlpNr1w2jd5JLtBAi8yCk9vazp9yvxM+FWBYA8s7u7GfDjgs/3Ycxu2Q+8SfTQCVipcRTJ8EBvi6OgfmOWHubNScGRus9yGzS/Bt9jq1W007HPtrwAUnHw8m954gwCvgra/MeE+HGo/xTx8IUf7J1sj+fy+bkdb1Z0SwIUFA1WrobMAKfZ18l97/mV0eAptXZJ8RtzjgnhMQP27+FMmlARAM6QG0jL4nwcLxoLUeA+nvjAdw70aoWDoCLUEOhNX+HRx7V8RfDr8QaOGPLn40nXJS+dewg=
 
 ################################################################################################################
 # Setup the basics (distribution/addon/jdk/java)
