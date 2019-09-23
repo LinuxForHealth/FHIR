@@ -459,6 +459,9 @@ function label_pr_with_status {
         }"
     API_URL="https://${BASE_URL}/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/labels"
 
+    echo "API_URL: ${API_URL}"
+    echo "LABEL: ${LABEL}"
+
     if [[ "${TRAVIS_PULL_REQUEST_BRANCH}" != "" && "${TRAVIS_EVENT_TYPE}" == "pull_request" && "${TRAVIS_PULL_REQUEST}" != "false" ]]
     then
         curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "UserAgent: ibm-fhir-cicd" -X POST -d "${LABEL}" "${API_URL}"
