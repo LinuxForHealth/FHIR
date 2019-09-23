@@ -15,7 +15,7 @@ import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.fhir.model.path.FHIRPathTypeInfoNode;
 
-public class FHIRPathNoParameterNodeVisitorAdapter extends FHIRPathAbstractNoParameterNodeVisitor {
+public class FHIRPathVoidParameterNodeVisitorAdapter extends FHIRPathVoidParameterAbstractNodeVisitor {
     @Override
     protected void doVisit(FHIRPathBooleanValue value) {
         // do nothing
