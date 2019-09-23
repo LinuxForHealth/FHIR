@@ -157,7 +157,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private static final String FHIR_SERVER_NAME = "IBM Watson Health FHIR Server";
     private static final String FHIR_COPY_RIGHT = "(c) Copyright IBM Corporation 2018, 2019";
-    private static final String EXTENSION_URL = "http://ibm.com/watson/health/fhir/extension";
+    private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
 
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";

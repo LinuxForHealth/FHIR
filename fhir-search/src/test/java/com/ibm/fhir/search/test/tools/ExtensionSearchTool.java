@@ -86,7 +86,7 @@ public class ExtensionSearchTool {
      */
     private static SearchParameter buildCommonBasic(String typeLowerCase, String typeCamelCase) {
         String id = "Basic-" + typeLowerCase;
-        String url = "http://ibm.com/watson/health/fhir/SearchParameter/Basic-" + typeLowerCase;
+        String url = "http://ibm.com/fhir/SearchParameter/Basic-" + typeLowerCase;
         String name = typeLowerCase;
         String code = typeLowerCase;
         SearchParamType type = SearchParamType.DATE;

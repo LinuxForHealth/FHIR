@@ -112,7 +112,7 @@ public class JaxrsClientTestMain {
                 .birthDate(com.ibm.fhir.model.type.Date.of("1950-08-15"))
                 .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE)
                         .use(ContactPointUse.HOME).value(string("555-1234")).build())
-                .extension(Extension.builder().url("http://ibm.com/watson/health/fhir/extension/Patient/favorite-color")
+                .extension(Extension.builder().url("http://ibm.com/fhir/extension/Patient/favorite-color")
                         .value(string("blue")).build()).build();        
         return patient;
     }

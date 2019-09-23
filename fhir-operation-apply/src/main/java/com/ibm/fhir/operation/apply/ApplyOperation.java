@@ -76,7 +76,7 @@ public class ApplyOperation extends AbstractOperation {
     private static final String PARAM_SETTING_CONTEXT = "settingContext";
 
     private static final String EXTENSION_BASE_URL =
-            "http://ibm.com/watson/health/fhir/extension/apply/";
+            "http://ibm.com/fhir/extension/apply/";
 
     @Override
     protected OperationDefinition buildOperationDefinition() {

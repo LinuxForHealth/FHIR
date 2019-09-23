@@ -488,17 +488,17 @@ To configure the FHIR server with one or more custom search parameters, create a
   <id value="searchParams"/>
   <type value="collection"/>
   <entry>
-    <fullUrl value="http://ibm.com/watson/health/fhir/SearchParameter/Patient-favorite-color"/>
+    <fullUrl value="http://ibm.com/fhir/SearchParameter/Patient-favorite-color"/>
     <resource>
       <SearchParameter>
         <id value="Patient-favorite-color"/>
-        <url value="http://ibm.com/watson/health/fhir/SearchParameter/Patient-favorite-color"/>
+        <url value="http://ibm.com/fhir/SearchParameter/Patient-favorite-color"/>
         <name value="favorite-color"/>
         <code value="favorite-color"/>
         <base value="Patient"/>
         <type value="string"/>
         <description value="the patient's favorite color"/>
-        <xpath value="f:Patient/f:extension[@url='http://ibm.com/watson/health/fhir/extension/Patient/favorite-color']/f:valueString"/>
+        <xpath value="f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-color']/f:valueString"/>
         <xpathUsage value="normal"/>
       </SearchParameter>
     </resource>
@@ -512,7 +512,7 @@ Note 2:  In previous versions of the FHIR server, the XPath expression could poi
 
 Each time a resource is created or updated, the FHIR server will evaluate the XPath applicable to the resource type and index the values of the matching elements, making these available to search via a parameter name that matches the `name` element on the `SearchParameter` definition.
 
-In the preceding example, extension elements (on a Patient resource) with a url of `http://ibm.com/watson/health/fhir/extension/Patient/favorite-color` will be indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/api/v1/Patient?favorite-color:exact=pink`.
+In the preceding example, extension elements (on a Patient resource) with a url of `http://ibm.com/fhir/extension/Patient/favorite-color` will be indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/api/v1/Patient?favorite-color:exact=pink`.
 
 For more information on search parameters, see the HL7 FHIR specification and [Section 4.10.3 Search parameters](#4103-search-parameters) of this document.
 
@@ -563,36 +563,36 @@ The FHIR server converts the preceding `WeatherDetail` virtual resource into a B
   "resourceType": "Basic",
   "extension": [
     {
-      "url": "http://ibm.com/watson/health/fhir/extension/geolocation",
+      "url": "http://ibm.com/fhir/extension/geolocation",
       "extension": [
         {
-          "url": "http://ibm.com/watson/health/fhir/extension/latitude",
+          "url": "http://ibm.com/fhir/extension/latitude",
           "valueDecimal": 35.732652
         },
         {
-          "url": "http://ibm.com/watson/health/fhir/extension/longitude",
+          "url": "http://ibm.com/fhir/extension/longitude",
           "valueDecimal": -78.850286
         }
       ]
     },
     {
-      "url": "http://ibm.com/watson/health/fhir/extension/references",
+      "url": "http://ibm.com/fhir/extension/references",
       "valueReference": {
         "reference": "Patient/1234"
       }
     },
     {
-      "url": "http://ibm.com/watson/health/fhir/extension/measurements",
+      "url": "http://ibm.com/fhir/extension/measurements",
       "extension": [
         {
           "url": "_item",
           "extension": [
             {
-              "url": "http://ibm.com/watson/health/fhir/extension/type",
+              "url": "http://ibm.com/fhir/extension/type",
               "valueString": "humidity"
             },
             {
-              "url": "http://ibm.com/watson/health/fhir/extension/value",
+              "url": "http://ibm.com/fhir/extension/value",
               "valueInteger": 35
             }
           ]
@@ -601,11 +601,11 @@ The FHIR server converts the preceding `WeatherDetail` virtual resource into a B
           "url": "_item",
           "extension": [
             {
-              "url": "http://ibm.com/watson/health/fhir/extension/type",
+              "url": "http://ibm.com/fhir/extension/type",
               "valueString": "chanceOfRain"
             },
             {
-              "url": "http://ibm.com/watson/health/fhir/extension/value",
+              "url": "http://ibm.com/fhir/extension/value",
               "valueInteger": 0
             }
           ]
@@ -613,14 +613,14 @@ The FHIR server converts the preceding `WeatherDetail` virtual resource into a B
       ]
     },
     {
-      "url": "http://ibm.com/watson/health/fhir/extension/description",
+      "url": "http://ibm.com/fhir/extension/description",
       "valueString": "70 degrees farenheit and sunny"
     }
   ],
   "code": {
     "coding": [
       {
-        "system": "http://ibm.com/watson/health/fhir/basic-resource-type",
+        "system": "http://ibm.com/fhir/basic-resource-type",
         "code": "WeatherDetail"
       }
     ]
@@ -1063,7 +1063,7 @@ Now, let's say that we want to add an extension to this `Patient` resource as in
     } ],
     "birthDate" : "1950-08-15",
     "extension": [{
-        "url": "http://ibm.com/watson/health/fhir/extension/partner/study_ID",
+        "url": "http://ibm.com/fhir/extension/partner/study_ID",
         "valueString": "abc-1234"
     }]
 }
@@ -1078,7 +1078,7 @@ We could validate this extension by providing the following schematron rule:
   <sch:ns prefix="h" uri="http://www.w3.org/1999/xhtml"/>
   <sch:pattern>
     <sch:rule context="//f:Patient">
-      <sch:assert test="exists(f:extension[@url='http://ibm.com/watson/health/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
+      <sch:assert test="exists(f:extension[@url='http://ibm.com/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
     </sch:rule>
   </sch:pattern>
 </sch:schema>
@@ -1135,7 +1135,7 @@ You might want to organize your user-defined schematron rules so that they only 
 {
     "resourceType" : "Patient",
     "meta": {
-        "profile": [ "http://ibm.com/watson/health/fhir/profile/partner" ]
+        "profile": [ "http://ibm.com/fhir/profile/partner" ]
     },
     "name" : [ {
         "family" : [ "Doe" ],
@@ -1158,14 +1158,14 @@ and then we could modify the user-defined schematron rule as follows:
   <sch:ns prefix="f" uri="http://hl7.org/fhir"/>
   <sch:ns prefix="h" uri="http://www.w3.org/1999/xhtml"/>
   <sch:pattern>
-    <sch:rule context="//f:Patient[./f:meta/f:profile/@value='http://ibm.com/watson/health/fhir/profile/partner']">
-      <sch:assert test="exists(f:extension[@url='http://ibm.com/watson/health/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
+    <sch:rule context="//f:Patient[./f:meta/f:profile/@value='http://ibm.com/fhir/profile/partner']">
+      <sch:assert test="exists(f:extension[@url='http://ibm.com/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
     </sch:rule>
   </sch:pattern>
 </sch:schema>
 ```
 
-By doing this, we have a much more flexible user-defined validation mechanism that allows us to apply rules only when 'http://ibm.com/watson/health/fhir/profile/partner' is present in the instance.
+By doing this, we have a much more flexible user-defined validation mechanism that allows us to apply rules only when 'http://ibm.com/fhir/profile/partner' is present in the instance.
 
 ## 4.5 Encryption and decryption of requests and responses
 The FHIR server is equipped with a servlet filter that can be configured to perform encryption and decryption of REST API requests and responses. This provides an extra level of security beyond the use of the HTTPS transport layer alone.
