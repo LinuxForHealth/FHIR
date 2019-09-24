@@ -420,12 +420,8 @@ function comment_on_pull_request {
     COMMENT_IN=$1
 
     # quick switch between github.com and ibm.com domains.
-    BASE_URL="api.github.ibm.com"
-    if [[ "${TRAVIS_APP_HOST}" == *"ibm.com"* ]]
-    then
-        BASE_URL="api.github.ibm.com"
-    fi
-
+    BASE_URL="api.github.com"
+    
     COMMENT="{\"body\": \"${COMMENT_IN}\"}"
     API_URL="https://${BASE_URL}/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments"
 
