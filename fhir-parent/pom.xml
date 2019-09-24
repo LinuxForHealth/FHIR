@@ -20,6 +20,8 @@
         <jacoco.plugin.version>0.8.2</jacoco.plugin.version>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
+        <my.maven.jar.plugin>3.1.2</my.maven.jar.plugin>
     </properties>
 
     <modules>
@@ -61,7 +63,7 @@
         <module>../fhir-coverage-reports</module>
     </modules>
 
-    <!-- This section "enforces" that we're using consistent versions of
+    <!-- This section "enforces" that we're using consistent versions of 
         artifacts within our modules -->
     <dependencyManagement>
         <dependencies>
@@ -315,7 +317,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>${my.maven.jar.plugin}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -341,11 +343,11 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.3</version>
-                    <!-- Upgraded maven-war-plugin to avoid 'An illegal reflective
-                        access operation' in OpenJDK 11 The dependency 'xstream.converters.collections.TreeMapConverter'
-                        used an out-of-date approach. This comment is left here to allow others to
-                        find the reason for the change, and in case another library introduces a
+                    <version>${my.maven.war.plugin}</version>
+                    <!-- Upgraded maven-war-plugin to avoid 'An illegal reflective 
+                        access operation' in OpenJDK 11 The dependency 'xstream.converters.collections.TreeMapConverter' 
+                        used an out-of-date approach. This comment is left here to allow others to 
+                        find the reason for the change, and in case another library introduces a 
                         similar issue in the code base. -->
                     <configuration>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -553,6 +555,19 @@
     </scm>
 
     <profiles>
+        <profile>
+            <id>m2e</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name>
+                </property>
+            </activation>
+            <properties>
+                <my.maven.war.plugin>2.6</my.maven.war.plugin>
+                <my.maven.jar.plugin>2.6</my.maven.jar.plugin>
+            </properties>
+        </profile>
+
         <profile>
             <id>sandbox</id>
             <activation>
