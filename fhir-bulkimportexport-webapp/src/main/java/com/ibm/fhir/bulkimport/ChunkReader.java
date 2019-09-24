@@ -32,7 +32,7 @@ public class ChunkReader extends AbstractItemReader {
     private AmazonS3 cosClient = null;
 
     int pageNum = 0;
-    String nextToken = "";
+    String nextToken = null;
 
     /**
      * The IBM COS API key or S3 access key.
@@ -133,7 +133,7 @@ public class ChunkReader extends AbstractItemReader {
             }
         }
 
-        if (nextToken.contentEquals("ALLDONE")) {
+        if (nextToken != null && nextToken.contentEquals("ALLDONE")) {
             return null;
         }
 
