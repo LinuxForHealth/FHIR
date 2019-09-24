@@ -150,7 +150,7 @@ public class BulkImportBatchLet implements Batchlet {
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
 
         boolean moreResults = true;
-        String nextToken = "";
+        String nextToken = null;
         int maxKeys = 100, imported = 0;
         while (moreResults && !stopRequested) {
             ListObjectsV2Request request = new ListObjectsV2Request().withBucketName(cosBucketName).withMaxKeys(maxKeys)
@@ -179,7 +179,6 @@ public class BulkImportBatchLet implements Batchlet {
             if (result.isTruncated()) {
                 nextToken = result.getNextContinuationToken();
             } else {
-                nextToken = "";
                 moreResults = false;
             }
         }
