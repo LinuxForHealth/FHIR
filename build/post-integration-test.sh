@@ -24,7 +24,6 @@ ${SIT}/wlp/bin/server stop fhir-server
 
 # Gather up all the log files and test results
 it_results=${SIT}/integration-test-results
-zip_file=${WORKSPACE}/integration-test-results.zip
 rm -fr ${it_results} 2>/dev/null
 mkdir -p ${it_results}/server-logs
 mkdir -p ${it_results}/fhir-server-test
@@ -34,10 +33,6 @@ cp -pr ${SIT}/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
 
 echo "Gathering integration test output"
 cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
-
-echo "Zipping up integration test results"
-rm ${zip_file} 2>/dev/null
-zip -r ${zip_file} ${it_results}
 
 echo "Integration test post-processing completed!"
 

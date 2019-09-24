@@ -51,3 +51,8 @@ jobs:
         build/pre-integration-test.sh
         mvn test -DskipTests=false -f fhir-server-test/pom.xml
         build/post-integration-test.sh
+    - name: Upload logs
+      uses: actions/upload-artifact@master
+      with:
+        name: integration-test-results
+        path: SIT/integration-test-results
