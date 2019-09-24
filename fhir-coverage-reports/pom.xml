@@ -119,7 +119,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-bulkimportexport</artifactId>
+            <artifactId>fhir-bulkimportexport-webapp</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
