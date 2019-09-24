@@ -116,7 +116,7 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <classifier>jar</classifier>
+                            <classifier>client</classifier>
                             <includes>
                                 <include>**/*</include>
                             </includes>

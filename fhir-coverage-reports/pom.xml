@@ -121,6 +121,8 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-bulkimportexport-webapp</artifactId>
             <version>${project.version}</version>
+            <classifier>client</classifier>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
