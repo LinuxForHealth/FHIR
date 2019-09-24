@@ -315,7 +315,8 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <!--  2.6 is chosen as Eclipse has an issue with the newer version https://bugs.eclipse.org/bugs/show_bug.cgi?id=547340#c9  -->
+                    <version>2.6</version>
                     <executions>
                         <execution>
                             <goals>
