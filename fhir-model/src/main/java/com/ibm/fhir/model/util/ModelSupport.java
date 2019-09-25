@@ -86,9 +86,9 @@ import com.ibm.fhir.model.type.Xhtml;
 public final class ModelSupport {
     public static boolean DEBUG = false;
     
+    private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
-    private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
         Base64Binary.class, 
@@ -160,6 +160,8 @@ public final class ModelSupport {
         private final Set<Class<?>> choiceTypes;
         private final Binding binding;
         
+        private final Set<String> choiceElementNames;
+        
         ElementInfo(String name,
                 Class<?> type, 
                 Class<?> declaringType, 
@@ -176,6 +178,13 @@ public final class ModelSupport {
             this.choice = choice;
             this.choiceTypes = choiceTypes;
             this.binding = binding;
+            Set<String> choiceElementNames = new LinkedHashSet<>();
+            if (this.choice) {
+                for (Class<?> choiceType : this.choiceTypes) {
+                    choiceElementNames.add(getChoiceElementName(this.name, choiceType));
+                }
+            }
+            this.choiceElementNames = Collections.unmodifiableSet(choiceElementNames);
         }
         
         public String getName() {
@@ -216,6 +225,10 @@ public final class ModelSupport {
         
         public boolean hasBinding() {
             return (binding != null);
+        }
+        
+        public Set<String> getChoiceElementNames() {
+            return choiceElementNames;
         }
     }
 
@@ -316,7 +329,7 @@ public final class ModelSupport {
         return new LinkedHashSet<>(Arrays.asList(field.getAnnotation(Choice.class).value()));
     }
 
-    private static List<Class<?>> getClosure(Class<?> modelClass) {
+    public static List<Class<?>> getClosure(Class<?> modelClass) {
         List<Class<?>> closure = new ArrayList<>();
         while (!Object.class.equals(modelClass)) {
             closure.add(modelClass);
@@ -343,6 +356,15 @@ public final class ModelSupport {
     
     public static Collection<ElementInfo> getElementInfo(Class<?> modelClass) {
         return MODEL_CLASS_ELEMENT_INFO_MAP.getOrDefault(modelClass, Collections.emptyMap()).values();
+    }
+    
+    public static ElementInfo getChoiceElementInfo(Class<?> modelClass, String typeSpecificElementName) {
+        for (ElementInfo elementInfo : getElementInfo(modelClass)) {
+            if (elementInfo.isChoice() && elementInfo.getChoiceElementNames().contains(typeSpecificElementName)) {
+                return elementInfo;
+            }
+        }
+        return null;
     }
     
     /**
@@ -426,6 +448,15 @@ public final class ModelSupport {
         return typeName;
     }
     
+    public static Set<String> getTypeNames(Class<?> modelClass) {
+        Set<String> typeNames = new HashSet<>();
+        while (!Object.class.equals(modelClass)) {
+            typeNames.add(getTypeName(modelClass));
+            modelClass = modelClass.getSuperclass();
+        }
+        return typeNames;
+    }
+
     public static boolean isBackboneElementType(Class<?> modelClass) {
         return BackboneElement.class.isAssignableFrom(modelClass);
     }
@@ -444,6 +475,10 @@ public final class ModelSupport {
     
     public static boolean isChoiceElementType(Class<?> type) {
         return CHOICE_ELEMENT_TYPES.contains(type);
+    }
+    
+    public static boolean isCodeSubtype(Class<?> type) {
+        return Code.class.isAssignableFrom(type) && !Code.class.equals(type);
     }
 
     public static boolean isElement(Object modelObject) {
