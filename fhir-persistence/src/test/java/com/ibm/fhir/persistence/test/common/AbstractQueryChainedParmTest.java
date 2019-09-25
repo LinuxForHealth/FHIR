@@ -10,7 +10,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,10 +19,10 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.ImmunizationRecommendation;
+import com.ibm.fhir.model.resource.ImmunizationRecommendation.Recommendation;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.ImmunizationRecommendation.Recommendation;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -106,24 +105,24 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" })
     public void testCreateComposition_chained() throws Exception {
-    	
-    	CodeableConcept forecastStatus = CodeableConcept.builder().text(str2model("cloudy")).build();
-    	CodeableConcept vaccineCode = CodeableConcept.builder().text(str2model("a vaccine")).build();
-    	PositiveInt doseNumber = PositiveInt.of(10);
-    	ImmunizationRecommendation.Recommendation recommendation = ImmunizationRecommendation.Recommendation.builder().forecastStatus(forecastStatus)
-    			.vaccineCode(vaccineCode)
-    			.doseNumber(doseNumber)
-    	.build();
+        
+        CodeableConcept forecastStatus = CodeableConcept.builder().text(str2model("cloudy")).build();
+        CodeableConcept vaccineCode = CodeableConcept.builder().text(str2model("a vaccine")).build();
+        PositiveInt doseNumber = PositiveInt.of(10);
+        ImmunizationRecommendation.Recommendation recommendation = ImmunizationRecommendation.Recommendation.builder().forecastStatus(forecastStatus)
+                .vaccineCode(vaccineCode)
+                .doseNumber(doseNumber)
+        .build();
 
-    	List<Recommendation> recommendations = Arrays.asList(recommendation);
-    	Reference patientRef = Reference.builder().display(str2model("Pat Ient")).build();
-    	DateTime date = DateTime.of("2017-09-04");
+        List<Recommendation> recommendations = Arrays.asList(recommendation);
+        Reference patientRef = Reference.builder().display(str2model("Pat Ient")).build();
+        DateTime date = DateTime.of("2017-09-04");
 
-    	ImmunizationRecommendation imm_rec = ImmunizationRecommendation.builder().patient(patientRef).date(date).recommendation(recommendations)
-    			.build();
-    	
-    	// Check the resource was saved correctly
-    	Resource saved = persistence.create(getDefaultPersistenceContext(), imm_rec);
+        ImmunizationRecommendation imm_rec = ImmunizationRecommendation.builder().patient(patientRef).date(date).recommendation(recommendations)
+                .build();
+        
+        // Check the resource was saved correctly
+        Resource saved = persistence.create(getDefaultPersistenceContext(), imm_rec).getResource();
         assertNotNull(saved);
         assertNotNull(saved.getId());
         assertNotNull(saved.getId().getValue());
@@ -132,14 +131,14 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
         assertEquals("1", saved.getMeta().getVersionId().getValue());
         
         // "Connect" the observation to the patient and encounter via a Reference
-    	Reference immunizationRef = Reference.builder().reference(str2model("ImmunizationRecommendation/" + imm_rec.getId().getValue())).build();
+        Reference immunizationRef = Reference.builder().reference(str2model("ImmunizationRecommendation/" + imm_rec.getId().getValue())).build();
 
-    	DateTime year = DateTime.of("2018");
-    	CompositionStatus status = CompositionStatus.ENTERED_IN_ERROR;
-    	CodeableConcept type = CodeableConcept.builder().text(str2model("test")).build();
-    	Composition composition = Composition.builder().status(status).type(type).date(year).author(Arrays.asList(immunizationRef)).title(str2model("TEST")).build();
-    	
-    	Resource c2 = persistence.create(getDefaultPersistenceContext(), composition);
+        DateTime year = DateTime.of("2018");
+        CompositionStatus status = CompositionStatus.ENTERED_IN_ERROR;
+        CodeableConcept type = CodeableConcept.builder().text(str2model("test")).build();
+        Composition composition = Composition.builder().status(status).type(type).date(year).author(Arrays.asList(immunizationRef)).title(str2model("TEST")).build();
+        
+        Resource c2 = persistence.create(getDefaultPersistenceContext(), composition).getResource();
         assertNotNull(c2);
         assertNotNull(c2.getId());
         assertNotNull(c2.getId().getValue());

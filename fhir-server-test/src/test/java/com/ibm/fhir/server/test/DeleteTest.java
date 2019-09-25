@@ -406,7 +406,7 @@ public class DeleteTest extends FHIRServerTestBase {
         obs = obs.toBuilder().id(Id.of(obsId)).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
 
         
-        // First conditional delete should find no matches, so we should get back a 404.
+        // First conditional delete should find no matches, so we should get back a 200 OK.
         FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
         FHIRResponse response = client.conditionalDelete("Observation", query);
         assertNotNull(response);

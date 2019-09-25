@@ -56,8 +56,8 @@ public abstract class AbstractQueryMultiResourceTest extends AbstractPersistence
 
         // update the id on the resource
         observation = observation.toBuilder().id(Id.of(commonId)).build();        
-        Resource resource = persistence.create(getDefaultPersistenceContext(), observation);
-        resource = persistence.update(getDefaultPersistenceContext(), commonId, resource);
+        Resource resource = persistence.create(getDefaultPersistenceContext(), observation).getResource();
+        resource = persistence.update(getDefaultPersistenceContext(), commonId, resource).getResource();
         assertNotNull(resource);
         assertNotNull(resource.getId());
         assertNotNull(resource.getId().getValue());

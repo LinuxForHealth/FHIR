@@ -31,7 +31,7 @@ public class HistoryOperation extends BaseOperation {
         
         final String logicalId = resource.getId().getValue();
         
-        List<Resource> resources = tc.getPersistence().history(context, resource.getClass(), logicalId);
+        List<? extends Resource> resources = tc.getPersistence().history(context, resource.getClass(), logicalId).getResource();
         if (resources.size() != this.expectedCount) {
             throw new AssertionError(resource.getClass().getSimpleName() + "/" + logicalId + " history returned "
                 + resources.size() + ", expected " + this.expectedCount);

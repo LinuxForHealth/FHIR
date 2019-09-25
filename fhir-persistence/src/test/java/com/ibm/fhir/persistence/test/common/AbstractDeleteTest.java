@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Device.UdiCarrier;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -73,15 +74,15 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     @Test(groups = { "jdbc-normalized" }, expectedExceptions = FHIRPersistenceResourceNotFoundException.class)
     public void testDeleteInvalidDevice() throws Exception {
         
-        Resource result = persistence.delete(getDefaultPersistenceContext(), Device.class, "invalid-device-id");
-        assertNull(result);
+        SingleResourceResult<Device> result = persistence.delete(getDefaultPersistenceContext(), Device.class, "invalid-device-id");
+        assertNull(result.getResource());
     }
     
     @Test(groups = { "jdbc-normalized" })
     public void testReadInvalidDevice() throws Exception {
         
-        Device device = (Device) persistence.read(getDefaultPersistenceContext(), Device.class, "invalid-device-id");
-        assertNull(device);
+        SingleResourceResult<Device> result = persistence.read(getDefaultPersistenceContext(), Device.class, "invalid-device-id");
+        assertNull(result.getResource());
     }
     
 //    @Test(groups = { "jdbc-normalized" }, dependsOnMethods = { "testCreateDevice", "testReadDevice" })

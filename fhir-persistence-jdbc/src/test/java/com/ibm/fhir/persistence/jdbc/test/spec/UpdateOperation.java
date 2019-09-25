@@ -26,7 +26,7 @@ public class UpdateOperation extends BaseOperation {
         
         logger.fine("Updating: " + logicalId);
 
-        Resource newResource = tc.getPersistence().update(context, logicalId, resource);
+        Resource newResource = tc.getPersistence().update(context, logicalId, resource).getResource();
         check(tc, resource, newResource, this.getClass().getSimpleName());
         
         // Update the context with the modified resource

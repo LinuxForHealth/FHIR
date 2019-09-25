@@ -765,7 +765,7 @@ public class FHIRUtil {
         return false;
     }
     
-    public static Resource addTag(Resource resource, Coding tag) {
+    public static <T extends Resource> T addTag(T resource, Coding tag) {
         Objects.requireNonNull(resource);
         Objects.requireNonNull(tag);
         if (hasTag(resource, tag)) {
@@ -774,11 +774,13 @@ public class FHIRUtil {
         Meta meta = resource.getMeta();
         Meta.Builder metaBuilder = (meta == null) ? Meta.builder() : meta.toBuilder();
         // re-build resource with updated meta element
-        return resource.toBuilder()
-                .meta(metaBuilder
-                    .tag(tag)
-                    .build())
-                .build();
+        @SuppressWarnings("unchecked")
+        T updatedResource = (T) resource.toBuilder()
+                                    .meta(metaBuilder
+                                        .tag(tag)
+                                        .build())
+                                    .build();
+        return updatedResource;
     }
 
     // add for FHIRResource.java

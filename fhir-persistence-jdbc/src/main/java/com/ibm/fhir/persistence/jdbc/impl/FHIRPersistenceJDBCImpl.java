@@ -33,10 +33,10 @@ import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import javax.xml.bind.JAXBException;
 
-import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -54,6 +54,8 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -191,7 +193,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @see com.ibm.fhir.persistence.FHIRPersistence#create(com.ibm.fhir.persistence.context.FHIRPersistenceContext, com.ibm.fhir.model.Resource)
      */
     @Override
-    public Resource create(FHIRPersistenceContext context, Resource resource) throws FHIRPersistenceException  {
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -218,7 +220,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             metaBuilder.lastUpdated(lastUpdated);
             resultBuilder.meta(metaBuilder.build());
             
-            resource = resultBuilder.build();
+            @SuppressWarnings("unchecked")
+            T updatedResource = (T) resultBuilder.build();
             
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
@@ -226,12 +229,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             resourceDTO.setVersionId(newVersionNumber);
             Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
             resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(resource.getClass().getSimpleName());
+            resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
              
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
             
-            FHIRGenerator.generator( Format.JSON, false).generate(resource, zipStream);
+            FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
             
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
@@ -245,10 +248,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
             
             // Store search parameters
-            this.storeSearchParameters(resource, resourceDTO);
+            this.storeSearchParameters(updatedResource, resourceDTO);
             
-            // For FHIR R4, model objects are immutable, so we need to return an updated copy
-            return resource;
+            SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource(updatedResource)
+                    .build();
+            
+            return result;
         }
         catch(FHIRPersistenceException e) {
             throw e;
@@ -267,12 +274,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @see com.ibm.fhir.persistence.FHIRPersistence#read(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
      */
     @Override
-    public Resource read(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId)
+    public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
                             throws FHIRPersistenceException {
         final String METHODNAME = "read";
         log.entering(CLASSNAME, METHODNAME);
         
-        Resource resource = null;
+        T resource = null;
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
                 
         try {
@@ -291,19 +298,24 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             log.exiting(CLASSNAME, METHODNAME);
         }
         
-        return resource;
+        SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
+                .success(true)
+                .resource(resource)
+                .build();
+        
+        return result;
     }
 
     /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.FHIRPersistence#vread(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String, java.lang.String)
      */
     @Override
-    public Resource vread(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId, String versionId) 
+    public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId) 
                         throws FHIRPersistenceException {
         final String METHODNAME = "vread";
         log.entering(CLASSNAME, METHODNAME);
         
-        Resource resource = null;
+        T resource = null;
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
         int version;
                         
@@ -327,14 +339,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             log.exiting(CLASSNAME, METHODNAME);
         }
         
-        return resource;
+        SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
+                .success(true)
+                .resource(resource)
+                .build();
+        
+        return result;
     }
 
     /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.FHIRPersistence#update(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.String, com.ibm.fhir.model.Resource)
      */
     @Override
-    public Resource update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
         final String METHODNAME = "update";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -383,7 +400,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             metaBuilder.lastUpdated(lastUpdated);
             resultBuilder.meta(metaBuilder.build());
             
-            resource = resultBuilder.build();
+            
+            @SuppressWarnings("unchecked")
+            T updatedResource = (T) resultBuilder.build();
             
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
@@ -391,12 +410,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             resourceDTO.setVersionId(newVersionNumber);
             Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
             resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(resource.getClass().getSimpleName());
+            resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
              
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
             
-            FHIRGenerator.generator( Format.JSON, false).generate(resource, zipStream);
+            FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
@@ -409,9 +428,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
             
             // Store search parameters
-            this.storeSearchParameters(resource, resourceDTO);
+            this.storeSearchParameters(updatedResource, resourceDTO);
             
-            return resource;
+            SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource(updatedResource)
+                    .build();
+            
+            return result;
         }
         catch(FHIRPersistenceException e) {
             throw e;
@@ -439,12 +463,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @see com.ibm.fhir.persistence.FHIRPersistence#history(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
      */
     @Override
-    public List<Resource> history(FHIRPersistenceContext context, Class<? extends Resource> resourceType,
+    public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType,
             String logicalId) throws FHIRPersistenceException {
         final String METHODNAME = "history";
         log.entering(CLASSNAME, METHODNAME);
         
-        List<Resource> resources = new ArrayList<>();
+        List<T> resources = new ArrayList<>();
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
         FHIRHistoryContext historyContext;
         int resourceCount;
@@ -485,14 +509,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             log.exiting(CLASSNAME, METHODNAME);
         }
         
-        return resources;
+        MultiResourceResult<T> result = new MultiResourceResult.Builder<T>()
+                .success(true)
+                .resource(resources)
+                .build();
+        
+        return result;
     }
 
     /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.FHIRPersistence#search(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class)
      */
     @Override
-    public List<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
+    public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
         final String METHODNAME = "search";
         log.entering(CLASSNAME, METHODNAME);
@@ -536,7 +565,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     }
                     else {
                         unsortedResultsList = this.getResourceDao().search(queryString);
-                        resources = this.convertResourceDTOList(unsortedResultsList, resourceType);
+                        resources = this.convertResourceDTOListOld(unsortedResultsList, resourceType);
                     }  
                 }
             }
@@ -553,7 +582,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             log.exiting(CLASSNAME, METHODNAME);
         }
         
-        return resources;
+        MultiResourceResult<Resource> result = new MultiResourceResult.Builder<>()
+                .success(true)
+                .resource(resources)
+                .build();
+        
+        return result;
     }
 
     /* (non-Javadoc)
@@ -653,7 +687,37 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws JAXBException
      * @throws IOException 
      */
-    protected List<Resource> convertResourceDTOList(List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
+    // This variant uses generics and is used in history.
+    // TODO: this method needs to either get merged or better differentiated with the old one used for search
+    protected <T extends Resource> List<T> convertResourceDTOList(List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<T> resourceType) 
+                                throws FHIRException, JAXBException, IOException {
+        final String METHODNAME = "convertResourceDTO List";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        List<T> resources = new ArrayList<>();
+        try {
+            for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
+                resources.add(this.convertResourceDTO(resourceDTO, resourceType, null));
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resources;
+    }
+    
+    /**
+     * Converts the passed Resource Data Transfer Object collection to a collection of FHIR Resource objects.
+     * @param resourceDTOList
+     * @param resourceType
+     * @return
+     * @throws JAXBException
+     * @throws IOException 
+     */
+    // This variant doesn't use generics and is used in search.
+    // TODO: this method needs to either get merged or better differentiated with the new one that supports history operation via generics.
+    // Start by better understanding what happens for `_include` and `_revinclude` search results that contain multiple different types
+    protected List<Resource> convertResourceDTOListOld(List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
                                 throws FHIRException, JAXBException, IOException {
         final String METHODNAME = "convertResourceDTO List";
         log.entering(CLASSNAME, METHODNAME);
@@ -674,17 +738,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * Converts the passed Resource Data Transfer Object to a FHIR Resource object.
      * @param resourceDTO - A valid Resource DTO
      * @param resourceType - The FHIR type of resource to be converted.
-     * @param filter - An optional filter for including only specified elements inside a Resource.
+     * @param elements - An optional filter for including only specified elements inside a Resource.
      * @return Resource - A FHIR Resource object representation of the data portion of the passed Resource DTO.
      * @throws JAXBException
      * @throws IOException 
      */
-    protected Resource convertResourceDTO(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO, 
-            Class<? extends Resource> resourceType, 
+    protected <T extends Resource> T convertResourceDTO(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO, 
+            Class<T> resourceType, 
             List<String> elements) throws FHIRException, JAXBException, IOException {
         final String METHODNAME = "convertResourceDTO";
         log.entering(CLASSNAME, METHODNAME);
-        Resource resource = null;
+        T resource = null;
         try {
             if (resourceDTO != null) {
                 InputStream in = new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData()));

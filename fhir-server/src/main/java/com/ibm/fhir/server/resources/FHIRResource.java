@@ -108,7 +108,6 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.validation.exception.FHIRValidationException;
 import com.ibm.fhir.operation.FHIROperation;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
@@ -145,6 +144,7 @@ import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.fhir.server.util.RestAuditLogger;
 import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 @Path("/")
 @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
@@ -535,8 +535,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             ior = doDelete(type, null, searchQueryString, null);
-            ResponseBuilder response = Response.noContent();
             status = ior.getStatus();
+            ResponseBuilder response = Response.status(status);
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());
             }
@@ -1101,7 +1101,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
 
             // R4: remember model objects are immutable, so we get back a new resource with the id/meta stuff
-            resource = getPersistenceImpl().create(persistenceContext, resource);
+            resource = getPersistenceImpl().create(persistenceContext, resource).getResource();
             event.setFhirResource(resource); // update event with latest
             ior.setStatus(Response.Status.CREATED);
             ior.setResource(resource);
@@ -1366,7 +1366,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
-            newResource = getPersistenceImpl().update(persistenceContext, id, newResource);
+            newResource = getPersistenceImpl().update(persistenceContext, id, newResource).getResource();
             event.setFhirResource(newResource); // update event with latest
             ior.setResource(newResource);
 
@@ -1535,10 +1535,16 @@ public class FHIRResource implements FHIRResourceHelpers {
                 }
 
                 if (resultCount == 0) {
-                    // Search yielded no matches, so we'll return a 404 Not Found.
-                    String msg =
-                            "Search criteria for a conditional delete operation yielded no matches.";
-                    throw new FHIRPersistenceResourceNotFoundException(msg);
+                    // Search yielded no matches
+                    String msg = "Search criteria for a conditional delete operation yielded no matches.";
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine(msg);
+                    }
+                    status = Response.Status.OK;
+                    // TODO: setting OO in response causes NullPointer in setBundleResponseFields...it assumes a valid id and Meta.lastUpdated
+//                    ior.setResource(FHIRUtil.buildOperationOutcome(msg, IssueType.ValueSet.NOT_FOUND, IssueSeverity.ValueSet.WARNING));
+                    ior.setStatus(status);
+                    return ior;
                 } else if (resultCount == 1) {
                     // If we found a single match, then we'll delete this one.
                     Resource resource = responseBundle.getEntry().get(0).getResource();
@@ -1577,7 +1583,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
 
-            Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id);
+            Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id).getResource();
             ior.setResource(resource);
             event.setFhirResource(resource);
             ior.setStatus(Response.Status.NO_CONTENT);
@@ -1690,7 +1696,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted);
-            resource = getPersistenceImpl().read(persistenceContext, resourceType, id);
+            resource = getPersistenceImpl().read(persistenceContext, resourceType, id).getResource();
             if (resource == null && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id
                         + "' not found.");
@@ -1807,7 +1813,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
-            resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId);
+            resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId).getResource();
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '"
                         + resourceType.getSimpleName() + "/" + id + "' version " + versionId
@@ -1928,8 +1934,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, historyContext);
-            List<Resource> resources =
-                    getPersistenceImpl().history(persistenceContext, resourceType, id);
+            List<? extends Resource> resources =
+                    getPersistenceImpl().history(persistenceContext, resourceType, id).getResource();
             bundle = createHistoryBundle(resources, historyContext);
             bundle = addLinks(historyContext, bundle, requestUri);
 
@@ -2031,7 +2037,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             List<Resource> resources =
-                    getPersistenceImpl().search(persistenceContext, resourceType);
+                    getPersistenceImpl().search(persistenceContext, resourceType).getResource();
 
             bundle = createSearchBundle(resources, searchContext);
             if (requestUri != null) {
@@ -3745,7 +3751,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      *            the FHIRHistoryContext associated with the history operation
      * @return the bundle
      */
-    private Bundle createHistoryBundle(List<Resource> resources, FHIRHistoryContext historyContext)
+    private Bundle createHistoryBundle(List<? extends Resource> resources, FHIRHistoryContext historyContext)
         throws FHIROperationException {
         // generate ID for this bundle and set the "total" field for the bundle
         Bundle.Builder bundleBuilder =
@@ -4063,7 +4069,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 return (Response) ox;
             }
             
-        }        
+        }
         
         URI locationURI =
                 (URI) operationContext.getProperty(FHIROperationContext.PROPNAME_LOCATION_URI);

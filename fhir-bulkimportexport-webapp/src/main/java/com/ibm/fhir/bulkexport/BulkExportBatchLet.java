@@ -301,7 +301,7 @@ public class BulkExportBatchLet implements Batchlet {
             FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
             txn.begin();
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-            List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType);
+            List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
             txn.commit();
 
             if (resources != null) {
