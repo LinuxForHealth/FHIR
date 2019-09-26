@@ -211,7 +211,7 @@ public class DeleteTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.update(deletedResource);
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
     }
 
     @Test(dependsOnMethods = {
@@ -411,7 +411,7 @@ public class DeleteTest extends FHIRServerTestBase {
         FHIRResponse response = client.conditionalDelete("Observation", query);
         assertNotNull(response);
         if (deleteSupported) {
-            assertResponse(response.getResponse(), Response.Status.NOT_FOUND.getStatusCode());
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }

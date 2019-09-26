@@ -175,7 +175,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         String newVersion = "4";
         String ifMatchValue = "W/\"" + currentVersion + "\"";
         runTest("testUpdateDeletedPatient", "-p", propsFile(), "--operation", "update", "--resource", dirPrefix("vreadPatient.json"), "-H", "If-Match=" + ifMatchValue);
-        verifyConsoleOutput("Status code: 200", "ETag: W/\"" + newVersion + "\"");
+        verifyConsoleOutput("Status code: 201", "ETag: W/\"" + newVersion + "\"");
     }
     
     @Test(dependsOnMethods={"testUpdateDeletedPatient"})
@@ -203,7 +203,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         }
         
         runTest("testConditionalDeletePatientError", "-p", propsFile(), "--operation", "conditional-delete", "--type", "Patient", "-qp", "_id=" + UUID.randomUUID().toString());
-        verifyConsoleOutput("Status code: 404", "no matches");
+        verifyConsoleOutput("Status code: 200");
     }
     
     @Test(dependsOnMethods={"testCreatePatient"})
