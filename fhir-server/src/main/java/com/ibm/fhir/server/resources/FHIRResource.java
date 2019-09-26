@@ -1228,12 +1228,6 @@ public class FHIRResource implements FHIRResourceHelpers {
                             + "' does not match type specified in request URI: " + type;
                     throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
                 }
-
-                // Make sure the resource has an 'id' attribute.
-                if (newResource.getId() == null) {
-                    String msg = "Input resource must contain an 'id' attribute.";
-                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
-                }
             }
 
             // Next, if a conditional update was invoked then use the search criteria to find the
@@ -1274,11 +1268,26 @@ public class FHIRResource implements FHIRResourceHelpers {
                     }
                     // Search yielded no matches, so we'll do an update/create operation below.
                     ior.setPrevResource(null);
-                    id = newResource.getId().getValue();
+
+                    // if no id provided, then generate an id for the input resource
+                    if (newResource.getId() == null || newResource.getId().getValue() == null) {
+                        id = UUID.randomUUID().toString();
+                        newResource = newResource.toBuilder().id(Id.of(id)).build();
+                    } else {
+                        id = newResource.getId().getValue();
+                    }
                 } else if (resultCount == 1) {
                     // If we found a single match, then we'll perform a normal update on the matched resource.
                     ior.setPrevResource(responseBundle.getEntry().get(0).getResource());
                     id = ior.getPrevResource().getId().getValue();
+
+                    // If the id of the input resource is different from the id of the search result, 
+                    // then throw exception.
+                    if (newResource.getId() != null && newResource.getId().getValue() != null
+                            && !newResource.getId().getValue().equalsIgnoreCase(id)) {
+                        String msg = "Input resource 'id' attribute must match the id of the search result resource.";
+                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.VALUE);
+                    }
                 } else {
                     String msg =
                             "The search criteria specified for a conditional update/patch operation returned multiple matches.";
@@ -1289,6 +1298,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (id == null) {
                     String msg = "The 'id' parameter is required for an update/pach operation.";
                     throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                }
+                
+                // Make sure the resource has an 'id' attribute.
+                if (newResource.getId() == null) {
+                    String msg = "Input resource must contain an 'id' attribute.";
+                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
                 }
 
                 // If an id value was passed in (i.e. the id specified in the REST API URL string),
