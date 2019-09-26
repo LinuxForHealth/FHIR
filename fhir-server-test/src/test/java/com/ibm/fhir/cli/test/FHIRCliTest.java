@@ -175,7 +175,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         String newVersion = "4";
         String ifMatchValue = "W/\"" + currentVersion + "\"";
         runTest("testUpdateDeletedPatient", "-p", propsFile(), "--operation", "update", "--resource", dirPrefix("vreadPatient.json"), "-H", "If-Match=" + ifMatchValue);
-        verifyConsoleOutput("Status code: 200", "ETag: W/\"" + newVersion + "\"");
+        verifyConsoleOutput("Status code: 201", "ETag: W/\"" + newVersion + "\"");
     }
     
     @Test(dependsOnMethods={"testUpdateDeletedPatient"})

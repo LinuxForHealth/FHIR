@@ -1310,9 +1310,16 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Validate the input resource and return any validation errors.
             validateInput(newResource);
 
-            // Perform the "version-aware" update check.
+            // Perform the "version-aware" update check, and also find out if the resource was deleted.
+            boolean isDeleted = false;
             if (ior.getPrevResource() != null) {
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
+
+                try {
+                    doRead(type, id, (patch != null), false, requestProperties, newResource);
+                } catch (FHIRPersistenceResourceDeletedException e) {
+                    isDeleted = true;
+                }
             }
 
             // Start a new txn in the persistence layer if one is not already active.
@@ -1337,6 +1344,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     getInterceptorMgr().fireBeforeUpdateEvent(event);
                 }
             }
+
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
@@ -1364,8 +1372,15 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Commit our transaction if we started one before.
             txn.commit();
             txn = null;
-            status = ior.getStatus();
+            
+            // If the deleted resource is updated, then simply return 201 instead of 200 to pass Touchstone test.
+            // we don't set the previous resource to null in above codes if the resource was deleted, otherwise
+            // it will break the code logic of the resource versioning.
+            if (isDeleted && ior.getStatus() == Response.Status.OK) {
+                ior.setStatus(Response.Status.CREATED);
+            }
 
+            status = ior.getStatus();
             return ior;
         } catch (FHIRPersistenceResourceNotFoundException e) {
             log.log(Level.SEVERE, errMsg, e);

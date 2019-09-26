@@ -211,7 +211,7 @@ public class DeleteTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.update(deletedResource);
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
     }
 
     @Test(dependsOnMethods = {
