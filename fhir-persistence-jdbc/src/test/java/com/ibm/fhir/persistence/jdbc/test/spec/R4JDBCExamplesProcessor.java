@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.test.spec;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -35,10 +36,9 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 
 	// supplier of FHIRPersistenceContext for history operations
 	private final Supplier<FHIRPersistenceContext> historyContextSupplier;
-	
-	
+		
 	/**
-	 * Public constructor. Initializes the list of operations
+	 * Public constructor. Uses a defaultlist of operations
 	 * @param persistence
 	 */
 	public R4JDBCExamplesProcessor(FHIRPersistence persistence, 
@@ -61,6 +61,23 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         operations.add(new HistoryOperation(4)); // create+update+update+delete = 4 versions
 	}
 
+	/**
+	 * Create a processor with a specific set of operations
+	 * @param persistence
+	 * @param persistenceContextSupplier
+	 * @param historyContextSupplier
+	 * @param operations
+	 */
+    public R4JDBCExamplesProcessor(FHIRPersistence persistence, Supplier<FHIRPersistenceContext> persistenceContextSupplier,
+            Supplier<FHIRPersistenceContext> historyContextSupplier, Collection<ITestResourceOperation> operations) {
+        this.persistence = persistence;
+        this.persistenceContextSupplier = persistenceContextSupplier;
+        this.historyContextSupplier = historyContextSupplier;
+
+        // The sequence of operations we want to apply to each resource
+        this.operations.addAll(operations);
+    }
+	
 	/* (non-Javadoc)
 	 * @see com.ibm.fhir.persistence.test.spec.IExampleProcessor#process(java.lang.String, com.ibm.fhir.model.resource.Resource)
 	 */

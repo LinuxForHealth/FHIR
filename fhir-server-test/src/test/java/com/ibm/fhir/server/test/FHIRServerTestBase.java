@@ -1,4 +1,4 @@
-/*
+/**
  * (C) Copyright IBM Corp. 2017,2018,2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -55,8 +55,8 @@ import com.ibm.fhir.model.type.IssueType;
 import com.ibm.fhir.model.type.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.TypeRestfulInteraction;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * Base class for fhir-server unit tests.
@@ -72,12 +72,12 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
     // Default values for FHIRClient properties that we use here.
     private static final String DEFAULT_TRUSTSTORE_LOCATION = "fhirClientTruststore.jks";
-    private static final String DEFAULT_TRUSTSTORE_PASSWORD = "password";
+    private static final String DEFAULT_TRUSTSTORE_PASSWORD = "change-password";
     private static final String DEFAULT_KEYSTORE_LOCATION = "fhirClientKeystore.jks";
-    private static final String DEFAULT_KEYSTORE_PASSWORD = "password";
+    private static final String DEFAULT_KEYSTORE_PASSWORD = "change-password";
     private static final String DEFAULT_USERNAME = "fhiruser";
-    private static final String DEFAULT_PASSWORD = "fhiruser";
-
+    private static final String DEFAULT_PASSWORD = "change-password";
+    
     // Constants that define test property names.
     private static final String PROPNAME_WEBSOCKET_URL = "test.websocket.url";
     private static final String PROPNAME_KAFKA_CONNINFO = "test.kafka.connectionInfo";
@@ -98,7 +98,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String tsPassword = null;
     private String ksLocation = null;
     private String ksPassword = null;
-
+    
     protected static final String MEDIATYPE_JSON = FHIRMediaType.APPLICATION_JSON;
     protected static final String MEDIATYPE_JSON_FHIR = FHIRMediaType.APPLICATION_FHIR_JSON;
     protected static final String MEDIATYPE_XML = FHIRMediaType.APPLICATION_XML;
@@ -108,7 +108,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
     public FHIRServerTestBase() {
     }
-
+    
     protected String getWebSocketURL() {
         return websocketUrl;
     }
@@ -144,7 +144,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String getKsPassword() {
         return ksPassword;
     }
-
+    
     /**
      * We'll resolve all the supported test properties. We have two ways of setting
      * properties: 1) store them in a file called "test.properties" which is in the
@@ -165,6 +165,18 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         } catch (Exception e) {
             // Ignore any errors while trying to load the file.
         }
+        
+        setUp(properties);
+    }
+
+    /**
+     * We'll resolve all the supported test properties. We have two ways of setting
+     * properties: 1) store them in a file called "test.properties" which is in the
+     * classpath. 2) set each individual property as a JVM system property.
+     *
+     * Supported property names: test.host test.port test.urlprefix
+     */
+    public void setUp(Properties properties) throws Exception {
 
         // Create our FHIRClient instance based on the properties we just read in.
         client = FHIRClientFactory.getClient(properties);
@@ -184,6 +196,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         ksLocation = getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_LOCATION);
         ksPassword = FHIRUtilities
                 .decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_PASSWORD));
+
     }
 
     /**

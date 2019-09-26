@@ -1,4 +1,4 @@
-/*
+/**
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,6 +11,12 @@ import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +46,7 @@ public class R4ExamplesDriver {
     private static final String MINIMAL_FILE_INDEX = "/minimal.txt";
     private static final String SPEC_FILE_INDEX = "/spec.txt";
     private static final String IBM_FILE_INDEX = "/ibm.txt";
+    private static final String PERFORMANCE_FILE_INDEX = "/performance.txt";
 
     // Call this processor for each of the examples, if given
     private IExampleProcessor processor;
@@ -48,12 +55,32 @@ public class R4ExamplesDriver {
     private IExampleProcessor validator;
 
     // track some simple metrics
-    private int testCount;
-    private int successCount;
-    Exception firstException = null;
+    private AtomicInteger testCount = new AtomicInteger();
+    private AtomicInteger successCount = new AtomicInteger();
+    private Exception firstException = null;
+    
+    // Optional pool if we want to process the examples in parallel
+    private ExecutorService pool;
+    
+    // Limit the number of requests we submit to the pool
+    private int maxInflight;
+    private Lock lock = new ReentrantLock();
+    private Condition runningCondition = lock.newCondition();
+    private Condition inflightCondition = lock.newCondition();
+    
+    // The number of requests submitted but not yet completed (queued + running)
+    private int currentlySubmittedCount;
+    
+    // optional metrics collection
+    private DriverMetrics metrics;
+
     
     public static enum TestType {
-        ALL, MINIMAL, SPEC, IBM
+        ALL,          // Both R4 spec and IBM generated examples 
+        MINIMAL,      // Small mix of spec and IBM examples used for unit tests to keep build times short
+        SPEC,         // All R4 spec examples
+        IBM,          // All IBM generated examples
+        PERFORMANCE   // R4 spec and IBM examples less than 1MB - used for concurrency tests
     }
 
     /**
@@ -65,11 +92,30 @@ public class R4ExamplesDriver {
     }
 
     /**
+     * Setter for the metrics object
+     * @param metrics
+     */
+    public void setMetrics(DriverMetrics metrics) {
+        this.metrics = metrics;
+    }
+
+    /**
      * Setter for the validation processor
      * @param p
      */
     public void setValidator(IExampleProcessor p) {
         this.validator = p;
+    }
+
+    /**
+     * Setter for the thread-pool. Used only if processing the examples in
+     * parallel
+     * @param pool the threadpool to use
+     * @param maxInflight the maximum number of requests submitted to the pool before blocking
+     */
+    public void setPool(ExecutorService pool, int maxInflight) {
+        this.pool = pool;
+        this.maxInflight = maxInflight;
     }
 
     /**
@@ -118,6 +164,9 @@ public class R4ExamplesDriver {
         case IBM: 
             filename = dir + IBM_FILE_INDEX;
             break;
+        case PERFORMANCE: 
+            filename = dir + PERFORMANCE_FILE_INDEX;
+            break;
         default:
             throw new IllegalArgumentException("shouldn't be necessary");
         }
@@ -140,8 +189,8 @@ public class R4ExamplesDriver {
         logger.info(String.format("Processing index file '%s' with format '%s'", filename, format.toString()));
         // reset the state just in case we are called more than once
         this.firstException = null;
-        this.testCount = 0;
-        this.successCount = 0;
+        this.testCount.set(0);
+        this.successCount.set(0);
 
         long start = System.nanoTime();
 
@@ -157,27 +206,23 @@ public class R4ExamplesDriver {
                         String expectation = tokens[0];
                         String example = tokens[1];
                         if (example.toUpperCase().endsWith(".JSON") && format == Format.JSON) {
-                            testCount++;
+                            testCount.incrementAndGet();
                             Expectation exp = Expectation.valueOf(expectation);
-
-                            try {
-                                processExample(JSON_PATH + "/" + example, format, exp);
-                            } catch (ExampleProcessorException e) {
-                                errors.add(e);
-                            }
-                        } else if (example.toUpperCase().endsWith(".XML") && format == Format.XML) {
-                            testCount++;
+                            submitExample(errors, JSON_PATH + "/" + example, format, exp);
+                        }
+                        else if (example.toUpperCase().endsWith(".XML") && format == Format.XML) {
+                            testCount.incrementAndGet();
                             Expectation exp = Expectation.valueOf(expectation);
-
-                            try {
-                                processExample(XML_PATH + "/" + example, format, exp);
-                            } catch (ExampleProcessorException e) {
-                                errors.add(e);
-                            }
+                            submitExample(errors, XML_PATH + "/" + example, format, exp);
                         }
                     }
                 }
 
+            }
+
+            // If we are running with a thread-pool, then we must wait for everything to complete
+            if (pool != null) {
+                waitForCompletion();
             }
 
             // propagate the first exception so we fail the test
@@ -186,7 +231,7 @@ public class R4ExamplesDriver {
             }
         }
         finally {
-            if (testCount > 0) {
+            if (testCount.get() > 0) {
                 long elapsed = (System.nanoTime() - start) / 1000000;
 
                 // Just for formatting
@@ -195,8 +240,10 @@ public class R4ExamplesDriver {
                 // We count overall success if we successfully process the resource,
                 // or if we got an expected exception earlier on
                 logger.info("Overall success rate = " + successCount + "/" + testCount + " = " 
-                        + (100*successCount / testCount) + "%. Took " + elapsed + " ms");
+                        + (100*successCount.get() / testCount.get()) + "%. Took " + elapsed + " ms");
             }
+            
+            // We can access errors here safely because waitForCompletion called lock/unlock in this thread (in case you were wondering)
             for (ExampleProcessorException error : errors) {
                 logger.warning(error.toString());
             }
@@ -205,6 +252,68 @@ public class R4ExamplesDriver {
 
     public void processExample(String file, Expectation expectation) throws ExampleProcessorException {
         processExample(file, Format.JSON, expectation);
+    }
+    
+    /**
+     * Submit the given example for processing
+     * @param errors the list of errors to accumulate
+     * @param file
+     * @param format
+     * @param expectation
+     * @throws ExampleProcessorException
+     */
+    public void submitExample(List<ExampleProcessorException> errors, String file, Format format, Expectation expectation) throws ExampleProcessorException {
+        if (pool != null) {
+            
+            // Wait until we have capacity. We do this to throttle the number of requests
+            // submitted to pool, hopefully avoiding memory issues if ever we have a really
+            // large index to process
+            lock.lock();
+            while (this.currentlySubmittedCount == this.maxInflight) {
+                try {
+                    this.inflightCondition.await(1000, TimeUnit.MILLISECONDS);
+                }
+                catch (InterruptedException x) {
+                    // NOP
+                }
+            }
+            currentlySubmittedCount++;
+            lock.unlock();
+            
+            pool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        processExample(file, format, expectation);
+                    } catch (ExampleProcessorException e) {
+                        lock.lock();
+                        errors.add(e);
+                        lock.unlock();
+                    }
+                    finally {
+                        lock.lock();
+                        int oldCount = currentlySubmittedCount--;
+                        if (oldCount == maxInflight) {
+                            inflightCondition.signal();
+                        }
+                        
+                        if (currentlySubmittedCount == 0) {
+                            runningCondition.signal();
+                        }
+                        lock.unlock();
+                    }
+                }
+            });
+        }
+        else {
+            // run in-line
+            try {
+                processExample(file, format, expectation);
+            } catch (ExampleProcessorException e) {
+                errors.add(e);
+            }
+        }
     }
 
     /**
@@ -217,7 +326,7 @@ public class R4ExamplesDriver {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Processing: " + file);
         } else {
-            System.out.print("."); // So we know its not stalled
+            System.out.print("."); // So we know it's not stalled
         }
         Expectation actual;
 
@@ -250,7 +359,7 @@ public class R4ExamplesDriver {
             actual = Expectation.PARSE;
             if (expectation == Expectation.PARSE) {
                 // successful test, even though we won't be able to validate/process
-                successCount++;
+                successCount.incrementAndGet();
             }
             else {
                 // oops, hit an unexpected parse error
@@ -287,6 +396,7 @@ public class R4ExamplesDriver {
     protected Expectation processExample(String file, Resource resource, Expectation expectation) throws ExampleProcessorException {
         Expectation actual = Expectation.OK;
         if (validator != null) {
+            long start = System.nanoTime();
             try {
                 validator.process(file, resource);
 
@@ -308,7 +418,7 @@ public class R4ExamplesDriver {
 
                 if (expectation == Expectation.VALIDATION) {
                     // we expected an error, and we got it...so that's a success
-                    successCount++;
+                    successCount.incrementAndGet();
                 }
                 else {
                     // oops, hit an unexpected validation error
@@ -322,10 +432,18 @@ public class R4ExamplesDriver {
                     throw error;
                 }
             }
+            finally {
+                if (metrics != null) {
+                    long validateEnd = System.nanoTime();
+                    long validateTime = validateEnd - start;
+                    metrics.addValidateTime(validateTime / DriverMetrics.NANOS_MS);
+                }
+            }
         }
 
         // process the resource (as long as validation was successful
         if (processor != null && resource != null) {
+            long start = System.nanoTime();
             try {
                 processor.process(file, resource);
 
@@ -340,7 +458,7 @@ public class R4ExamplesDriver {
                 }
                 else {
                     // processed the resource successfully, and didn't expect an error
-                    successCount++;
+                    successCount.incrementAndGet();
                 }
             }
             catch (Exception x) {
@@ -349,7 +467,7 @@ public class R4ExamplesDriver {
 
                 if (expectation == Expectation.PROCESS) {
                     // we expected an error, and we got it...so that's a success
-                    successCount++;
+                    successCount.incrementAndGet();
                 }
                 else {
                     // processing error, but didn't expect it
@@ -363,6 +481,13 @@ public class R4ExamplesDriver {
                     throw error;
                 }
 
+            }
+            finally {
+                if (metrics != null) {
+                    long processEnd = System.nanoTime();
+                    long processTime = processEnd - start;
+                    metrics.addProcessTime(processTime / DriverMetrics.NANOS_MS);
+                }
             }
         }
 
@@ -384,8 +509,36 @@ public class R4ExamplesDriver {
     public Resource readResource(String fileName, Format format) throws Exception {
 
         // We don't really care about knowing the resource type. We can check this later
+        long start = System.nanoTime();
         try (Reader reader = ExamplesUtil.reader(fileName)) {
             return FHIRParser.parser(format).parse(reader);
+        }
+        finally {
+            if (metrics != null) {
+                metrics.addReadTime((System.nanoTime() - start) / DriverMetrics.NANOS_MS);
+            }
+        }
+    }
+
+    /**
+     * Block until all the submitted requests are completed
+     */
+    private void waitForCompletion() {
+        lock.lock();
+        logger.info("Waiting for all requests to complete (remaining = " + this.currentlySubmittedCount + ")");
+        try {
+            while (this.currentlySubmittedCount > 0) {
+                try {
+                    runningCondition.await(1000, TimeUnit.MILLISECONDS);
+                }
+                catch (InterruptedException x) {
+                    throw new IllegalStateException(x);
+                }
+            }
+        }
+        finally {
+            lock.unlock();
+            logger.info("All requests complete");
         }
     }
 
