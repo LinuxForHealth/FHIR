@@ -3710,7 +3710,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         // generate ID for this bundle and set total
 
         Bundle.Builder bundleBuider =
-                Bundle.builder().type(BundleType.SEARCHSET).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.fhir.model.type.UnsignedInt.of((int) (long) searchContext.getTotalCount()));
+                Bundle.builder().type(BundleType.SEARCHSET).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.fhir.model.type.UnsignedInt.of((int) searchContext.getTotalCount()));
 
         for (Resource resource : resources) {
             if (resource.getId() == null || !resource.getId().hasValue()) {
