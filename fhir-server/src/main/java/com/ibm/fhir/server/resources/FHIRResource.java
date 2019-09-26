@@ -545,7 +545,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = e.getHttpStatus();
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            status = Response.Status.NOT_FOUND;
+            // Return 200 instead of 404 to pass TouchStone test
+            status = Response.Status.OK;
             return exceptionResponse(e, status);
         } catch (FHIRPersistenceNotSupportedException e) {
             status = Response.Status.METHOD_NOT_ALLOWED;

@@ -203,7 +203,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         }
         
         runTest("testConditionalDeletePatientError", "-p", propsFile(), "--operation", "conditional-delete", "--type", "Patient", "-qp", "_id=" + UUID.randomUUID().toString());
-        verifyConsoleOutput("Status code: 404", "no matches");
+        verifyConsoleOutput("Status code: 200");
     }
     
     @Test(dependsOnMethods={"testCreatePatient"})
