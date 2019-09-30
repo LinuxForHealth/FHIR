@@ -29,7 +29,6 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.naming.InitialContext;
 import javax.transaction.TransactionSynchronizationRegistry;
-import javax.xml.bind.JAXBException;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
@@ -746,12 +745,11 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
      * @param resourceDTOList
      * @param resourceType
      * @return
-     * @throws JAXBException
+     * @throws FHIRException
      * @throws IOException 
      */
     protected List<Resource> convertResourceDTOList(List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList, 
-            Class<? extends Resource> resourceType, List<String> elements) 
-            throws FHIRException, JAXBException, IOException {
+            Class<? extends Resource> resourceType, List<String> elements) throws FHIRException, IOException {
         final String METHODNAME = "convertResourceDTO List";
         log.entering(CLASSNAME, METHODNAME);
         

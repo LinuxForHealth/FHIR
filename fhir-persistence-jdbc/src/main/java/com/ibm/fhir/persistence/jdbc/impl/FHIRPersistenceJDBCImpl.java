@@ -31,7 +31,6 @@ import java.util.zip.GZIPOutputStream;
 import javax.naming.InitialContext;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
-import javax.xml.bind.JAXBException;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
@@ -684,13 +683,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param resourceDTOList
      * @param resourceType
      * @return
-     * @throws JAXBException
+     * @throws FHIRException
      * @throws IOException 
      */
     // This variant uses generics and is used in history.
     // TODO: this method needs to either get merged or better differentiated with the old one used for search
     protected <T extends Resource> List<T> convertResourceDTOList(List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<T> resourceType) 
-                                throws FHIRException, JAXBException, IOException {
+                                throws FHIRException, IOException {
         final String METHODNAME = "convertResourceDTO List";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -711,14 +710,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param resourceDTOList
      * @param resourceType
      * @return
-     * @throws JAXBException
+     * @throws FHIRException
      * @throws IOException 
      */
     // This variant doesn't use generics and is used in search.
     // TODO: this method needs to either get merged or better differentiated with the new one that supports history operation via generics.
     // Start by better understanding what happens for `_include` and `_revinclude` search results that contain multiple different types
     protected List<Resource> convertResourceDTOListOld(List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList, Class<? extends Resource> resourceType) 
-                                throws FHIRException, JAXBException, IOException {
+                                throws FHIRException, IOException {
         final String METHODNAME = "convertResourceDTO List";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -740,12 +739,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param resourceType - The FHIR type of resource to be converted.
      * @param elements - An optional filter for including only specified elements inside a Resource.
      * @return Resource - A FHIR Resource object representation of the data portion of the passed Resource DTO.
-     * @throws JAXBException
+     * @throws FHIRException
      * @throws IOException 
      */
     protected <T extends Resource> T convertResourceDTO(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO, 
             Class<T> resourceType, 
-            List<String> elements) throws FHIRException, JAXBException, IOException {
+            List<String> elements) throws FHIRException, IOException {
         final String METHODNAME = "convertResourceDTO";
         log.entering(CLASSNAME, METHODNAME);
         T resource = null;
@@ -779,12 +778,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param elements - An optional list of element names to include in the resources. If null, filtering will be skipped.
      * @return List<Resource> - A list of Resources of the passed resourceType, sorted according the order of ids in the passed sortedIdList.
      * @throws FHIRPersistenceException
-     * @throws JAXBException 
      * @throws IOException 
      */
     protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList, 
                                                       List<String> elements) 
-                            throws FHIRException, FHIRPersistenceException, JAXBException, IOException {
+                            throws FHIRException, FHIRPersistenceException, IOException {
         final String METHOD_NAME = "buildFhirResource";
         log.entering(this.getClass().getName(), METHOD_NAME);
         

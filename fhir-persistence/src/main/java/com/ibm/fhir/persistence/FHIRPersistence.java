@@ -22,6 +22,7 @@ public interface FHIRPersistence {
     
     /**
      * Stores a new FHIR Resource in the datastore.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
      * @return a SingleResourceResult with a copy of resource with Meta fields updated by the persistence layer and/or 
@@ -32,6 +33,7 @@ public interface FHIRPersistence {
     
     /**
      * Retrieves the most recent version of a FHIR Resource from the datastore.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType the resource type of the Resource instance to be retrieved
      * @param logicalId the logical id of the Resource instance to be retrieved
@@ -45,6 +47,7 @@ public interface FHIRPersistence {
     
     /**
      * Retrieves a specific version of a FHIR Resource from the datastore.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType the resource type of the Resource instance to be retrieved
      * @param logicalId the logical id of the Resource instance to be retrieved
@@ -59,6 +62,7 @@ public interface FHIRPersistence {
     
     /**
      * Updates an existing FHIR Resource by storing a new version in the datastore.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param logicalId the logical id of the FHIR Resource to be updated
      * @param resource the new contents of the FHIR Resource to be stored
@@ -70,6 +74,7 @@ public interface FHIRPersistence {
     
     /**
      * Deletes the specified FHIR Resource from the datastore.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType The type of FHIR Resource to be deleted.
      * @param logicalId the logical id of the FHIR Resource to be deleted
@@ -83,6 +88,7 @@ public interface FHIRPersistence {
     
     /**
      * Retrieves all of the versions of the specified FHIR Resource.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType the resource type of the Resource instances to be retrieved
      * @param logicalId the logical id of the Resource instances to be retrieved
@@ -94,6 +100,7 @@ public interface FHIRPersistence {
     
     /**
      * Performs a search on the specified target resource type using the specified search parameters.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType the resource type which is the target of the search
      * @return a MultiResourceResult with the list of FHIR Resources in the search result set and/or
