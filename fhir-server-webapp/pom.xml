@@ -80,6 +80,16 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-operation-bulkdata</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -107,6 +117,16 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-registry</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
