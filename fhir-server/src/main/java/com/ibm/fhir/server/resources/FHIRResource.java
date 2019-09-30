@@ -1288,6 +1288,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                         String msg = "Input resource 'id' attribute must match the id of the search result resource.";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.VALUE);
                     }
+                    // Make sure the id of the newResource is not null and is the same as the id of the found resource.
+                    newResource = newResource.toBuilder().id(Id.of(id)).build();
                 } else {
                     String msg =
                             "The search criteria specified for a conditional update/patch operation returned multiple matches.";
