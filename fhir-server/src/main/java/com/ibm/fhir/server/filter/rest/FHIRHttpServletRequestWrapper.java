@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
@@ -339,6 +341,19 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 else if(delegateQueryString.contains("_format=application/fhir+xml")) {
                     value = FHIRMediaType.APPLICATION_FHIR_XML;
                 }
+                
+                // if there is charset defined in _format, then take it.
+                if (delegateQueryString.contains("_format=application/fhir+json") 
+                        || delegateQueryString.contains("_format=application/fhir+xml")) {
+                    List<String> formats = Arrays.asList(delegate.getParameter("_format").split(";"));
+                    for (String format : formats) {
+                        if (format.contains(CHARSET)) {
+                            value = value + ";" + format;
+                            break;
+                        }
+                    }
+                }
+                
             }
             
             if (mappedValue != null) {
