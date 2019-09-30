@@ -13,27 +13,67 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.path.util.FHIRPathUtil;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.ElementDefinition;
+import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
+import com.ibm.fhir.registry.FHIRRegistry;
 
 /**
- * A class used to generate FHIRPath expressions from a StructureDefinition
+ * A class used to generate FHIRPath expressions from a profile
  */
 public class ConstraintGenerator {
-    public List<Constraint> generate(StructureDefinition profile) {
+    public List<Constraint> generate(StructureDefinition profile, Class<?> resourceType) {
         List<Constraint> constraints = new ArrayList<>();
+        
+        String url = profile.getUrl().getValue();
+        String prefix = url.substring(url.lastIndexOf("/") + 1);
+        
+        int index = 1;
+        
         Tree tree = buildTree(profile);
-        for (Node child : tree.root.children) {
-            String expr = transform(child);
-            constraints.add(createConstraint(UUID.randomUUID().toString(), Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "<no description>", expr, false));
+        
+        for (Node child : tree.root.children) {            
+            ElementDefinition elementDefinition = child.elementDefinitions.get(0);
+            if (!hasConstraint(elementDefinition, resourceType)) {
+                continue;
+            }
+            if (isSliceDefinition(elementDefinition)) {
+                // for each slice
+                for (int i = 1; i < child.elementDefinitions.size(); i++) {
+                    String expr = generate(child, child.elementDefinitions.get(i), resourceType);
+                    System.out.println("expr: " + expr);
+                    String id = prefix + "-gen-" + index;
+                    constraints.add(constraint(id, expr));
+                    index++;
+                }
+            } else {
+                String expr = generate(child, elementDefinition, resourceType);
+                System.out.println("expr: " + expr);
+                String id = prefix + "-gen-" + index;
+                constraints.add(constraint(id, expr));
+                index++;
+            }
         }
+        
         return constraints;
+    }
+    
+    private Constraint constraint(String id, String expr) {
+        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "<no description>", expr, false);
+    }
+
+    private boolean isSliceDefinition(ElementDefinition elementDefinition) {
+        return elementDefinition.getSlicing() != null;
     }
 
     private Tree buildTree(StructureDefinition profile) {
@@ -42,25 +82,28 @@ public class ConstraintGenerator {
         Map<String, Node> nodeMap = new LinkedHashMap<>();
         for (ElementDefinition elementDefinition : profile.getDifferential().getElement()) {
             String path = elementDefinition.getPath().getValue();
-
             Node node = nodeMap.get(path);
             if (node == null) {
                 node = new Node();
+                
                 node.path = path;
-
+                
                 int index = path.lastIndexOf(".");
-                node.label = path.substring(index + 1);
+                String label = path.substring(index + 1).replace("[x]", "");
+                if (FHIRPathUtil.isKeyword(label)) {
+                    label = FHIRPathUtil.delimit(label);
+                }
+                node.label = label;                
                 node.parent = (index != -1) ? nodeMap.get(path.substring(0, index)) : null;
-
+                
                 if (node.parent == null) {
                     root = node;
                 } else {
                     node.parent.children.add(node);
                 }
-
+                
                 nodeMap.put(path, node);
             }
-
             node.elementDefinitions.add(elementDefinition);
         }
 
@@ -70,17 +113,33 @@ public class ConstraintGenerator {
 
         return tree;
     }
-
-    private String transform(Node node) {
+    
+    private String generate(Node node, ElementDefinition elementDefinition, Class<?> resourceType) {        
         StringBuilder sb = new StringBuilder();
+        
+        int whereCount = 0;
+                
+        Integer min = (elementDefinition.getMin() != null) ? elementDefinition.getMin().getValue() : null;
+        String max = (elementDefinition.getMax() != null) ? elementDefinition.getMax().getValue() : null;
 
-        Integer min = getMin(node);
-        String max = getMax(node);
-
-        sb.append(node.label);
-
-        Element fixed = getFixed(node);
-        Element pattern = getPattern(node);
+        if (min == null || min == 0) {
+            sb.append(node.label + ".exists() implies (");
+        }
+        
+        if (hasChoiceTypeConstraint(elementDefinition, resourceType)) {
+            String path = elementDefinition.getPath().getValue();
+            String typeSpecificElementName = path.substring(path.lastIndexOf(".") + 1);
+            ElementInfo choiceElementInfo = ModelSupport.getChoiceElementInfo(resourceType, typeSpecificElementName);
+            String elementName = choiceElementInfo.getName();
+            String typeName = typeSpecificElementName.substring(elementName.length());
+            sb.append(elementName).append(".as(").append(typeName).append(")");
+        } else {
+            sb.append(node.label);
+        }
+        
+        Element fixed = elementDefinition.getFixed();
+        Element pattern = elementDefinition.getPattern();
+        
         if (fixed != null) {
             sb.append(" = ");
             if (fixed.is(Code.class)) {
@@ -96,73 +155,101 @@ public class ConstraintGenerator {
         // TODO: value set binding
 
         // TODO: reference types
-
-        if (!node.children.isEmpty()) {
+        
+        List<Node> children = getChildren(node, elementDefinition);
+        if (!children.isEmpty()) {
+            whereCount++;
+            
             sb.append(".where(");
-
             StringJoiner joiner = new StringJoiner(" and ");
-            for (Node child : node.children) {
-                joiner.add(transform(child));
+            for (Node child : children) {
+                joiner.add(generate(child, child.elementDefinitions.get(0), resourceType));
             }
             sb.append(joiner.toString());
-
             sb.append(")");
+            
+            whereCount--;
         }
 
-        if (min != null && max != null && fixed == null) {
+        if (min != null && max != null && fixed == null && whereCount == 0) {
             if (min == 1 && "*".equals(max)) {
                 sb.append(".exists()");
             } else if (min == 1 && "1".equals(max)) {
                 sb.append(".count() = 1");
             }
         }
+        
+        if (min == null || min == 0) {
+            sb.append(")");
+        }
 
         return sb.toString();
     }
-
-    private Integer getMin(Node node) {
-        for (ElementDefinition elementDefinition : node.elementDefinitions) {
-            if (elementDefinition.getMin() != null) {
-                return elementDefinition.getMin().getValue();
-            }
+    
+    private boolean hasConstraint(ElementDefinition elementDefinition, Class<?> resourceType) {
+        return hasReferenceTypeConstraint(elementDefinition) || 
+                hasCardinalityConstraint(elementDefinition) || 
+                hasFixed(elementDefinition) || 
+                hasPattern(elementDefinition) || 
+                hasBinding(elementDefinition) || 
+                hasChoiceTypeConstraint(elementDefinition, resourceType);
+    }
+    
+    private boolean hasChoiceTypeConstraint(ElementDefinition elementDefinition, Class<?> resourceType) {
+        String path = elementDefinition.getPath().getValue();
+        String elementName = path.substring(path.lastIndexOf(".") + 1);
+        return ModelSupport.getChoiceElementInfo(resourceType, elementName) != null;
+    }
+    
+    private boolean hasReferenceTypeConstraint(ElementDefinition elementDefinition) {
+        if (elementDefinition.getType().isEmpty()) {
+            return false;
         }
-        return null;
+        Type type = elementDefinition.getType().get(0);
+        if (type.getCode() != null && type.getCode().getValue() != null) {
+            String code = type.getCode().getValue();
+            return "Reference".equals(code) && !type.getTargetProfile().isEmpty();
+        }
+        return false;
+    }
+    
+    private boolean hasCardinalityConstraint(ElementDefinition elementDefinition) {
+        return elementDefinition.getMin() != null || elementDefinition.getMax() != null;
+    }
+    
+    private boolean hasFixed(ElementDefinition elementDefinition) {
+        return elementDefinition.getFixed() != null;
+    }
+    
+    private boolean hasPattern(ElementDefinition elementDefinition) {
+        return elementDefinition.getPattern() != null;
+    }
+    
+    private boolean hasBinding(ElementDefinition elementDefinition) {
+        return elementDefinition.getBinding() != null;
+    }
+    
+    private List<Node> getChildren(Node node, ElementDefinition elementDefinition) {
+        if (isSlice(elementDefinition)) {
+            String sliceName = getSliceName(elementDefinition);
+            return node.children.stream()
+                    .filter(child -> child.elementDefinitions.get(0).getId().contains(sliceName))
+                    .collect(Collectors.toList());
+        }
+        return node.children;
     }
 
-    private String getMax(Node node) {
-        for (ElementDefinition elementDefinition : node.elementDefinitions) {
-            if (elementDefinition.getMax() != null) {
-                return elementDefinition.getMax().getValue();
-            }
-        }
-        return null;
+    private boolean isSlice(ElementDefinition elementDefinition) {
+        return elementDefinition.getSliceName() != null;
     }
-
-    private Element getFixed(Node node) {
-        for (ElementDefinition elementDefinition : node.elementDefinitions) {
-            if (elementDefinition.getFixed() != null) {
-                return elementDefinition.getFixed();
-            }
-        }
-        return null;
-    }
-
-    private Element getPattern(Node node) {
-        for (ElementDefinition elementDefinition : node.elementDefinitions) {
-            if (elementDefinition.getPattern() != null) {
-                return elementDefinition.getPattern();
-            }
-        }
-        return null;
+    
+    private String getSliceName(ElementDefinition elementDefinition) {
+        return elementDefinition.getSliceName().getValue();
     }
 
     static class Tree {
         Node root;
         Map<String, Node> nodeMap;
-
-        Node getNode(String path) {
-            return nodeMap.get(path);
-        }
     }
 
     static class Node {
@@ -171,15 +258,15 @@ public class ConstraintGenerator {
         Node parent;
         List<Node> children = new ArrayList<>();
         List<ElementDefinition> elementDefinitions = new ArrayList<>();
-
-        int getLevel() {
-            int level = 0;
-            Node parent = this.parent;
-            while (parent != null) {
-                level++;
-                parent = parent.parent;
-            }
-            return level;
-        }
+    }
+    
+    public static void main(String[] args) throws Exception {
+        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/vitalsigns", StructureDefinition.class);
+        ConstraintGenerator generator = new ConstraintGenerator();
+        generator.generate(profile, Observation.class);
+        
+        profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/bodyweight", StructureDefinition.class);
+        generator = new ConstraintGenerator();
+        generator.generate(profile, Observation.class);
     }
 }

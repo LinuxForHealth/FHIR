@@ -59,7 +59,6 @@
                         <phase>package</phase>
                         <configuration>
                             <finalName>${project.artifactId}</finalName>
-                            <outputDirectory>${publish.dir}</outputDirectory>
                             <appendAssemblyId>true</appendAssemblyId>
                             <attach>true</attach>
                             <descriptors>
