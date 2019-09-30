@@ -221,20 +221,20 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * the content of the updated accept header will be used in content-type header of the response by the javax
      * framework. 
      * This function fixes the missing charset errors which are caused by:
-     * (1) charset is definied in "Accept-Charset" header instead of in "Accept" header.
+     * (1) charset is defined in "Accept-Charset" header instead of in "Accept" header.
      * (2) _format overrides json/xml only, but charset is defined in either "Accept-Charset" or "Accept" header.  
      * @param s
      * @return
      */
     private String updateAcceptHeader(String s) {
         if (s!= null && !s.contains(CHARSET)) {
-            String orgHeaderValue = delegate.getHeader(ACCEPT);
-            if (orgHeaderValue.contains(CHARSET)) {
-                s = s + ";" + orgHeaderValue.substring(orgHeaderValue.indexOf(CHARSET));
+            String originalHeaderValue = delegate.getHeader(ACCEPT);
+            if (originalHeaderValue != null && originalHeaderValue.contains(CHARSET)) {
+                s = s + ";" + originalHeaderValue.substring(originalHeaderValue.indexOf(CHARSET));
             } else {
-                String orgAcceptCharset = delegate.getHeader(ACCEPT_CHARSET);
-                if (orgAcceptCharset != null) {
-                    s = s + ";" + CHARSET + "=" + orgAcceptCharset; 
+                String originalAcceptCharset = delegate.getHeader(ACCEPT_CHARSET);
+                if (originalAcceptCharset != null) {
+                    s = s + ";" + CHARSET + "=" + originalAcceptCharset; 
                 } 
             }
         }
