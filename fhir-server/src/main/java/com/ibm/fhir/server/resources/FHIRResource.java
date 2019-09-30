@@ -1300,17 +1300,17 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (id == null) {
                     String msg = "The 'id' parameter is required for an update/pach operation.";
                     throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
-                }
-                
-                // Make sure the resource has an 'id' attribute.
-                if (newResource.getId() == null) {
-                    String msg = "Input resource must contain an 'id' attribute.";
-                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
-                }
+                } 
 
                 // If an id value was passed in (i.e. the id specified in the REST API URL string),
                 // then make sure it's the same as the value in the resource.
                 if (patch == null) {
+                    // Make sure the resource has an 'id' attribute.
+                    if (newResource.getId() == null) {
+                        String msg = "Input resource must contain an 'id' attribute.";
+                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                    }
+                    
                     if (!newResource.getId().getValue().equals(id)) {
                         String msg = "Input resource 'id' attribute must match 'id' parameter.";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.VALUE);
