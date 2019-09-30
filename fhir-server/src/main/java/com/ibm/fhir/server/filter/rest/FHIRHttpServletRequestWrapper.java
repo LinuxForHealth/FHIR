@@ -45,6 +45,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     public static final String UTF16 = "utf-16";
     public static final String DEFAULT_ACCEPT_HEADER_VALUE = FHIRMediaType.APPLICATION_FHIR_JSON;
     public static final String HEADER_X_METHOD_OVERRIDE = "X-Method-Override";
+    public static final String CHARSET = "charset";
+    public static final String ACCEPT = "Accept";
+    public static final String ACCEPTCHARSET = "Accept-Charset";
 
     // The real HttpServletRequest instance that we'll delegate to.
     private HttpServletRequest delegate;
@@ -209,6 +212,22 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                     Encode.forHtml(queryString));
         }
     }
+    
+    
+    private String updateAcceptHeader(String s) {
+        if (s!= null && !s.contains(CHARSET)) {
+            String orgHeaderValue = delegate.getHeader(ACCEPT);
+            if (orgHeaderValue.contains(CHARSET)) {
+                s = s + ";" + orgHeaderValue.substring(orgHeaderValue.indexOf(CHARSET));
+            } else {
+                String orgAcceptCharset = delegate.getHeader(ACCEPTCHARSET);
+                if (orgAcceptCharset != null) {
+                    s = s + ";" + CHARSET + "=" + orgAcceptCharset; 
+                } 
+            }
+        }
+        return s;
+    }
 
     /**
      * This method allows us to support overriding of HTTP headers with query parameters. For example, if this
@@ -280,6 +299,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                     s = defaultValue;
                 }
             }
+        }
+
+        // Add charset according to the Accept|Accept-Charset header of the request
+        if (headerName.equalsIgnoreCase(ACCEPT)) {
+            s = updateAcceptHeader(s);
         }
 
         if (log.isLoggable(Level.FINEST)) {
@@ -425,6 +449,15 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 v.add(s);
                 e = v.elements();
             }
+        }
+        
+        // Add charset according to the Accept|Accept-Charset header of the request
+        if (headerName.equalsIgnoreCase(ACCEPT)) {
+                v = new Vector<String>();
+                while (e.hasMoreElements()) {
+                    v.add(updateAcceptHeader(e.nextElement()));
+                }
+                e = v.elements();
         }
         
         // In order to display the header values in a trace message, we actually need to
