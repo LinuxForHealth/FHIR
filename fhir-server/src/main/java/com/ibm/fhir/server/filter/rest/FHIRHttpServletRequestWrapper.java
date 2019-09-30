@@ -49,7 +49,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     public static final String HEADER_X_METHOD_OVERRIDE = "X-Method-Override";
     public static final String CHARSET = "charset";
     public static final String ACCEPT = "Accept";
-    public static final String ACCEPTCHARSET = "Accept-Charset";
+    public static final String ACCEPT_CHARSET = "Accept-Charset";
 
     // The real HttpServletRequest instance that we'll delegate to.
     private HttpServletRequest delegate;
@@ -222,7 +222,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             if (orgHeaderValue.contains(CHARSET)) {
                 s = s + ";" + orgHeaderValue.substring(orgHeaderValue.indexOf(CHARSET));
             } else {
-                String orgAcceptCharset = delegate.getHeader(ACCEPTCHARSET);
+                String orgAcceptCharset = delegate.getHeader(ACCEPT_CHARSET);
                 if (orgAcceptCharset != null) {
                     s = s + ";" + CHARSET + "=" + orgAcceptCharset; 
                 } 
@@ -331,20 +331,21 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             String mappedValue = _formatShortcuts.get(value);
             
             // We've entered a special situation where the value may have been remapped via the next step
-            // in the jaxrs framework 
+            // in the jaxrs framework
             if (mappedValue == null) {
-                
+                boolean addCharset = false;
                 String delegateQueryString = delegate.getQueryString();
                 if(delegateQueryString.contains("_format=application/fhir+json")){
                     value = FHIRMediaType.APPLICATION_FHIR_JSON;
+                    addCharset = true;
                 }
                 else if(delegateQueryString.contains("_format=application/fhir+xml")) {
                     value = FHIRMediaType.APPLICATION_FHIR_XML;
+                    addCharset = true;
                 }
                 
                 // if there is charset defined in _format, then take it.
-                if (delegateQueryString.contains("_format=application/fhir+json") 
-                        || delegateQueryString.contains("_format=application/fhir+xml")) {
+                if (addCharset) {
                     List<String> formats = Arrays.asList(delegate.getParameter("_format").split(";"));
                     for (String format : formats) {
                         if (format.contains(CHARSET)) {
@@ -353,9 +354,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                         }
                     }
                 }
-                
             }
-            
+
             if (mappedValue != null) {
                 value = mappedValue;
             }
