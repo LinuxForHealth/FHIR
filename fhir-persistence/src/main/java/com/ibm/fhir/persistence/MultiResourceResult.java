@@ -102,7 +102,8 @@ public class MultiResourceResult<T extends Resource> {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder<T> resource(@SuppressWarnings("unchecked") T... resource) {
+        @SafeVarargs
+        public final Builder<T> resource(T... resource) {
             for (T value : resource) {
                 this.resource.add(value);
             }
