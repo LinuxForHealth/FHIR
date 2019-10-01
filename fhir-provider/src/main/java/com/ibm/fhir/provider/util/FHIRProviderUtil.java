@@ -27,15 +27,24 @@ public final class FHIRProviderUtil {
             // ignore
         }
         if (mediaType != null) {
-            if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_JSON_TYPE)) {
-                return FHIRMediaType.APPLICATION_FHIR_JSON_TYPE;
+            MediaType outMediaType = null;
+            if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_JSON_TYPE)) {               
+                outMediaType = FHIRMediaType.APPLICATION_FHIR_JSON_TYPE;
             } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_JSON_TYPE)) {
-                return MediaType.APPLICATION_JSON_TYPE;
+                outMediaType = MediaType.APPLICATION_JSON_TYPE;
             } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_XML_TYPE)) {
-                return FHIRMediaType.APPLICATION_FHIR_XML_TYPE;
+                outMediaType = FHIRMediaType.APPLICATION_FHIR_XML_TYPE;
             } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_XML_TYPE)) {
-                return MediaType.APPLICATION_XML_TYPE;
+                outMediaType = MediaType.APPLICATION_XML_TYPE;
+            } else {
+                outMediaType = FHIRMediaType.APPLICATION_FHIR_JSON_TYPE;
             }
+            // Need to get the charset setting from the acceptHeader if there
+            if (mediaType.getParameters() != null
+                    && mediaType.getParameters().get("charset") != null) {
+                outMediaType = outMediaType.withCharset(mediaType.getParameters().get("charset"));
+            }
+            return outMediaType;
         }
         // default
         return FHIRMediaType.APPLICATION_FHIR_JSON_TYPE;
