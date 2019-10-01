@@ -524,7 +524,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             ior = doDelete(type, id, null, null);
+            
             ResponseBuilder response = Response.noContent();
+            
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());
             }
@@ -532,7 +534,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            return exceptionResponse(e, Response.Status.NOT_FOUND);
+            return exceptionResponse(e, Response.Status.OK);
         } catch (FHIRPersistenceNotSupportedException e) {
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
         } catch (FHIROperationException e) {
@@ -568,6 +570,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             ior = doDelete(type, null, searchQueryString, null);
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status);
+            if (ior.getOperationOutcome() != null) {
+                response.entity(ior.getOperationOutcome());
+            }
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());
             }
@@ -1579,8 +1584,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         log.fine(msg);
                     }
                     status = Response.Status.OK;
-                    // TODO: setting OO in response causes NullPointer in setBundleResponseFields...it assumes a valid id and Meta.lastUpdated
-//                    ior.setResource(FHIRUtil.buildOperationOutcome(msg, IssueType.ValueSet.NOT_FOUND, IssueSeverity.ValueSet.WARNING));
+                    ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(msg, IssueType.ValueSet.NOT_FOUND, IssueSeverity.ValueSet.WARNING));
                     ior.setStatus(status);
                     return ior;
                 } else if (resultCount == 1) {
@@ -1637,7 +1641,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             return ior;
         } catch (FHIRPersistenceResourceNotFoundException e) {
             log.log(Level.SEVERE, errMsg, e);
-            status = Response.Status.NOT_FOUND;
+            status = Response.Status.OK;
             throw e;
         } catch (FHIRPersistenceNotSupportedException e) {
             log.log(Level.SEVERE, errMsg, e);

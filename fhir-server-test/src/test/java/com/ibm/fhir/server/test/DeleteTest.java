@@ -144,7 +144,7 @@ public class DeleteTest extends FHIRServerTestBase {
     }
 
     /**
-     * Ensure we get back a 404 Not Found for deleting a resource with an invalid id
+     * Ensure we get back a 200 OK for deleting a resource with an invalid id
      * @throws Exception
      */
     @Test()
@@ -155,8 +155,7 @@ public class DeleteTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.delete(MedicationAdministration.class.getSimpleName(), "invalid-resource-id-testDeleteInvalidResource");
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.NOT_FOUND.getStatusCode());
-        // 404 doesn't have an etag in the response
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
     }
 
 
