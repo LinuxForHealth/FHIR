@@ -250,15 +250,12 @@ public class FHIRValidator {
         }
 
         private FHIRPathResourceNode getResource(Class<?> type, FHIRPathNode node) {
-            if (!Resource.class.isAssignableFrom(type)) {
-                // the constraint came from a data type
-                return (FHIRPathResourceNode) evaluationContext.getTree().getRoot();
-            }
-
             if (node.isResourceNode()) {
                 // the current context node is a resource node
                 return (FHIRPathResourceNode) node;
             }
+
+            boolean isDefinedOnResource = Resource.class.isAssignableFrom(type);
 
             // move up in the tree to find the first ancestor that is a resource node
             String path = node.path();
@@ -267,6 +264,14 @@ public class FHIRValidator {
                 path = path.substring(0, index);
                 node = evaluationContext.getTree().getNode(path);
                 if (node instanceof FHIRPathResourceNode) {
+                    // if the constraint isn't defined on the resource and we're dealing with a contained resource
+                    // then return the parent resource node which contains this resource
+                    int lastSegmentStart = path.lastIndexOf(".");
+                    if (!isDefinedOnResource && lastSegmentStart != -1 
+                            && path.substring(lastSegmentStart + 1).matches("contained\\[\\d+\\]")) {
+                        return (FHIRPathResourceNode) evaluationContext.getTree().getNode(path.substring(0, lastSegmentStart));
+                    }
+                    // otherwise return the resource node
                     return (FHIRPathResourceNode) node;
                 }
                 index = path.lastIndexOf(".");
