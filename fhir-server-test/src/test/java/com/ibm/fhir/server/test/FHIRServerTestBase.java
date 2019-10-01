@@ -183,7 +183,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                 .decode(getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_PASSWORD, DEFAULT_TRUSTSTORE_PASSWORD));
         ksLocation = getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_LOCATION);
         ksPassword = FHIRUtilities
-                .decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_PASSWORD));
+                .decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_PASSWORD , DEFAULT_KEYSTORE_PASSWORD));
     }
 
     /**
