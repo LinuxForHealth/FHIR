@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.tyrus.client.SslContextConfigurator;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
+import org.glassfish.tyrus.core.TyrusWebSocketEngine;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.client.FHIRClient;
@@ -42,12 +43,12 @@ import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.model.resource.CapabilityStatement;
-import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.IssueSeverity;
@@ -84,7 +85,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private static final String PROPNAME_KAFKA_TOPICNAME = "test.kafka.topicName";
 
     // for secure WebSocket Client
-    private static final String PROPNAME_SSL_ENGINE_CONFIGURATOR = "org.glassfish.tyrus.client.sslEngineConfigurator";
+    private static final String PROPNAME_SSL_ENGINE_CONFIGURATOR =
+            "org.glassfish.tyrus.client.sslEngineConfigurator";
 
     // These are values of test-specific properties.
     private String websocketUrl = null;
@@ -146,9 +148,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * We'll resolve all the supported test properties. We have two ways of setting
-     * properties: 1) store them in a file called "test.properties" which is in the
-     * classpath. 2) set each individual property as a JVM system property.
+     * We'll resolve all the supported test properties. We have two ways of setting properties: 1) store them in a file
+     * called "test.properties" which is in the classpath. 2) set each individual property as a JVM system property.
      *
      * Supported property names: test.host test.port test.urlprefix
      */
@@ -157,7 +158,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         Properties properties = new Properties();
         try {
             // Read test.properties file if present
-            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.properties");
+            InputStream is =
+                    Thread.currentThread().getContextClassLoader().getResourceAsStream("test.properties");
             if (is != null) {
                 properties.load(is);
                 is.close();
@@ -172,29 +174,33 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         websocketUrl = getProperty(properties, PROPNAME_WEBSOCKET_URL, DEFAULT_WEBSOCKET_URL);
 
         // Retrieve the info needed by a Kafka consumer.
-        kafkaConnectionInfo = getProperty(properties, PROPNAME_KAFKA_CONNINFO, DEFAULT_KAFKA_CONNINFO);
+        kafkaConnectionInfo =
+                getProperty(properties, PROPNAME_KAFKA_CONNINFO, DEFAULT_KAFKA_CONNINFO);
         kafkaTopicName = getProperty(properties, PROPNAME_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
 
         fhirUser = getProperty(properties, FHIRClient.PROPNAME_CLIENT_USERNAME, DEFAULT_USERNAME);
-        fhirPassword = FHIRUtilities
-                .decode(getProperty(properties, FHIRClient.PROPNAME_CLIENT_PASSWORD, DEFAULT_PASSWORD));
-        tsLocation = getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_LOCATION, DEFAULT_TRUSTSTORE_LOCATION);
-        tsPassword = FHIRUtilities
-                .decode(getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_PASSWORD, DEFAULT_TRUSTSTORE_PASSWORD));
-        ksLocation = getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_LOCATION);
-        ksPassword = FHIRUtilities
-                .decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_PASSWORD));
+        fhirPassword =
+                FHIRUtilities.decode(getProperty(properties, FHIRClient.PROPNAME_CLIENT_PASSWORD, DEFAULT_PASSWORD));
+        tsLocation =
+                getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_LOCATION, DEFAULT_TRUSTSTORE_LOCATION);
+        tsPassword =
+                FHIRUtilities.decode(getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_PASSWORD, DEFAULT_TRUSTSTORE_PASSWORD));
+        ksLocation =
+                getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_LOCATION);
+        ksPassword =
+                FHIRUtilities.decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_PASSWORD));
     }
 
     /**
-     * Tries to find the property named <propertyName> first as a System property,
-     * then as a property within the <properties> object. If neither are found, then
-     * the <defaultValue> is returned.
+     * Tries to find the property named <propertyName> first as a System property, then as a property within the
+     * <properties> object. If neither are found, then the <defaultValue> is returned.
      *
-     * @param properties   Properties object containing the properties loaded from
-     *                     our properties file.
-     * @param propertyName the name of the property to retrieve
-     * @param defaultValue the default value to use if the property can't be found
+     * @param properties
+     *            Properties object containing the properties loaded from our properties file.
+     * @param propertyName
+     *            the name of the property to retrieve
+     * @param defaultValue
+     *            the default value to use if the property can't be found
      */
     protected String getProperty(Properties properties, String propertyName, String defaultValue) {
         return System.getProperty(propertyName, properties.getProperty(propertyName, defaultValue));
@@ -211,7 +217,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         try {
             return client.getWebTarget();
         } catch (Throwable t) {
-            fail("Unexpected exception while retrieving WebTarget: ",t);
+            fail("Unexpected exception while retrieving WebTarget: ", t);
 
             // This is here to appease the java compiler so we don't need to declare a
             // throws clause.
@@ -227,27 +233,29 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Creates and returns an "endpoint" to be used to receive notifications via a
-     * websocket.
+     * Creates and returns an "endpoint" to be used to receive notifications via a websocket.
      */
     protected FHIRNotificationServiceClientEndpoint getWebsocketClientEndpoint() {
         try {
-            FHIRNotificationServiceClientEndpoint endpoint = new FHIRNotificationServiceClientEndpoint();
-            ClientEndpointConfig config = ClientEndpointConfig.Builder.create().configurator(new Configurator() {
-                public void beforeRequest(Map<String, List<String>> headers) {
-                    String userpw = getFhirUser() + ":" + getFhirPassword();
-                    String encoding = Base64.getEncoder().encodeToString(userpw.getBytes());
-                    List<String> values = new ArrayList<String>();
-                    values.add("Basic " + encoding);
-                    headers.put("Authorization", values);
-                }
-            }).build();
+            FHIRNotificationServiceClientEndpoint endpoint =
+                    new FHIRNotificationServiceClientEndpoint();
+            ClientEndpointConfig config =
+                    ClientEndpointConfig.Builder.create().configurator(new Configurator() {
+                        public void beforeRequest(Map<String, List<String>> headers) {
+                            String userpw = getFhirUser() + ":" + getFhirPassword();
+                            String encoding = Base64.getEncoder().encodeToString(userpw.getBytes());
+                            List<String> values = new ArrayList<String>();
+                            values.add("Basic " + encoding);
+                            headers.put("Authorization", values);
+                        }
+                    }).build();
 
             String webSocketURL = getWebSocketURL();
             if (webSocketURL.startsWith("wss")) {
                 String tsLoc = getAbsoluteFilename(getTsLocation());
                 if (tsLoc == null) {
-                    throw new FileNotFoundException("Truststore file not found: " + getTsLocation());
+                    throw new FileNotFoundException("Truststore file not found: "
+                            + getTsLocation());
                 }
 
                 String ksLoc = getAbsoluteFilename(getKsLocation());
@@ -262,9 +270,13 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
                 final SslContextConfigurator defaultConfig = new SslContextConfigurator();
                 defaultConfig.retrieve(System.getProperties());
-                SslEngineConfigurator sslEngineConfigurator = new SslEngineConfigurator(defaultConfig, true, false,
-                        false);
+                SslEngineConfigurator sslEngineConfigurator =
+                        new SslEngineConfigurator(defaultConfig, true, false, false);
                 sslEngineConfigurator.setHostVerificationEnabled(false);
+
+                config.getUserProperties().put(TyrusWebSocketEngine.TRACING_TYPE, "ALL");
+                config.getUserProperties().put(TyrusWebSocketEngine.TRACING_THRESHOLD, "TRACE");
+
                 config.getUserProperties().put(PROPNAME_SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
             }
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
@@ -277,8 +289,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Common function to invoke the 'metadata' operation and return the
-     * CapabilityStatement object.
+     * Common function to invoke the 'metadata' operation and return the CapabilityStatement object.
      */
     protected CapabilityStatement retrieveConformanceStatement() throws Exception {
         if (conformanceStmt == null) {
@@ -295,8 +306,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Determines whether or not the server supports the "update/create" feature by
-     * examining the conformance statement.
+     * Determines whether or not the server supports the "update/create" feature by examining the conformance statement.
      */
     protected boolean isUpdateCreateSupported() throws Exception {
         Boolean updateCreateSupported = Boolean.FALSE;
@@ -321,8 +331,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Determines whether or not the server supports the "delete" operation by
-     * examining the conformance statement.
+     * Determines whether or not the server supports the "delete" operation by examining the conformance statement.
      */
     protected boolean isDeleteSupported() throws Exception {
         CapabilityStatement conf = retrieveConformanceStatement();
@@ -355,10 +364,9 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         CapabilityStatement conf = retrieveConformanceStatement();
 
         for (Extension e : conf.getExtension()) {
-            if (e.getUrl().contains("persistenceType") && (((com.ibm.fhir.model.type.String) e.getValue())
-                    .getValue().contains("FHIRPersistenceJDBCImpl")
-                    || ((com.ibm.fhir.model.type.String) e.getValue()).getValue()
-                            .contains("FHIRPersistenceJDBCNormalizedImpl"))) {
+            if (e.getUrl().contains("persistenceType")
+                    && (((com.ibm.fhir.model.type.String) e.getValue()).getValue().contains("FHIRPersistenceJDBCImpl")
+                            || ((com.ibm.fhir.model.type.String) e.getValue()).getValue().contains("FHIRPersistenceJDBCNormalizedImpl"))) {
                 compartmentSearchSupported = true;
                 break;
             }
@@ -375,8 +383,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Determines whether or not the server supports the "update/create" feature by
-     * examining the conformance statement.
+     * Determines whether or not the server supports the "update/create" feature by examining the conformance statement.
      */
     protected boolean isTransactionSupported() throws Exception {
         SystemRestfulInteraction transactionMode = null;
@@ -411,11 +418,12 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     //
 
     /**
-     * Verify that the status code in the Response is equal to the expected status
-     * code.
+     * Verify that the status code in the Response is equal to the expected status code.
      *
-     * @param response           the Response to verify
-     * @param expectedStatusCode the expected status code value
+     * @param response
+     *            the Response to verify
+     * @param expectedStatusCode
+     *            the expected status code value
      */
     protected void assertResponse(Response response, int expectedStatusCode) {
         assertNotNull(response);
@@ -425,9 +433,10 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     /**
      * Verify that a FHIRClient response has the expected status code.
      *
-     * @param response           the FHIRResponse that contains the response for a
-     *                           FHIRClient API invocation
-     * @param expectedStatusCode the status code that we expect in the response
+     * @param response
+     *            the FHIRResponse that contains the response for a FHIRClient API invocation
+     * @param expectedStatusCode
+     *            the status code that we expect in the response
      */
     protected void assertResponse(FHIRResponse response, int expectedStatusCode) {
         assertNotNull(response);
@@ -435,10 +444,10 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Validate the specified OperationOutcome object to make sure it contains an
-     * exception.
+     * Validate the specified OperationOutcome object to make sure it contains an exception.
      *
-     * @param msgPart a string which should be found in the exception message.
+     * @param msgPart
+     *            a string which should be found in the exception message.
      */
     protected void assertExceptionOperationOutcome(OperationOutcome oo, String msgPart) {
         assertNotNull(oo);
@@ -493,11 +502,11 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     //
 
     /**
-     * For the specified response, this function will extract the logical id value
-     * from the response's Location header. The format of a location header value
-     * should be: "[base]/<resource-type>/<id>/_history/<version>"
+     * For the specified response, this function will extract the logical id value from the response's Location header.
+     * The format of a location header value should be: "[base]/<resource-type>/<id>/_history/<version>"
      *
-     * @param response the response object for a REST API invocation
+     * @param response
+     *            the response object for a REST API invocation
      * @return the logical id value
      */
     protected String getLocationLogicalId(Response response) {
@@ -536,59 +545,62 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     protected Patient setUniqueFamilyName(Patient patient, String uniqueName) {
-        List<com.ibm.fhir.model.type.String> familyList = new ArrayList<com.ibm.fhir.model.type.String>();
+        List<com.ibm.fhir.model.type.String> familyList =
+                new ArrayList<com.ibm.fhir.model.type.String>();
         familyList.add(string(uniqueName));
-        List <HumanName> nameList = new ArrayList<HumanName>();
-        for(HumanName humanName: patient.getName()) {
-            nameList.add(HumanName.builder().family(string(uniqueName)).given(humanName.getGiven()).build());           
+        List<HumanName> nameList = new ArrayList<HumanName>();
+        for (HumanName humanName : patient.getName()) {
+            nameList.add(HumanName.builder().family(string(uniqueName)).given(humanName.getGiven()).build());
         }
-        
-        
+
         patient = patient.toBuilder().name(nameList).build();
         return patient;
     }
 
-    public void checkForIssuesWithValidation(Resource resource, boolean failOnValidationException, boolean failOnWarning) {
-        
+    public void checkForIssuesWithValidation(Resource resource, boolean failOnValidationException,
+        boolean failOnWarning) {
+
         List<Issue> issues = Collections.emptyList();
         try {
             issues = FHIRValidator.validator().validate(resource);
-        } catch(Exception e) {
-            if(failOnValidationException) {
+        } catch (Exception e) {
+            if (failOnValidationException) {
                 fail("Unable to validate the resource", e);
             }
         }
-        
+
         if (!issues.isEmpty()) {
             System.out.println("Printing Issue with Validation");
             int nonWarning = 0;
             int allOtherIssues = 0;
             for (Issue issue : issues) {
-                if(IssueSeverity.ERROR.getValue().compareTo(issue.getSeverity().getValue()) == 0 
-                        || IssueSeverity.FATAL.getValue().compareTo(issue.getSeverity().getValue()) == 0 ) {
+                if (IssueSeverity.ERROR.getValue().compareTo(issue.getSeverity().getValue()) == 0
+                        || IssueSeverity.FATAL.getValue().compareTo(issue.getSeverity().getValue()) == 0) {
                     nonWarning++;
                 } else {
                     allOtherIssues++;
                 }
-                System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
-                
+                System.out.println("severity: " + issue.getSeverity().getValue() + ", details: "
+                        + issue.getDetails().getText().getValue() + ", expression: "
+                        + issue.getExpression().get(0).getValue());
+
             }
-            
+
             System.out.println("count = [" + issues.size() + "]");
-            assertEquals(nonWarning,0);
-            
-            if(failOnWarning) {
-                assertEquals(allOtherIssues,0);
+            assertEquals(nonWarning, 0);
+
+            if (failOnWarning) {
+                assertEquals(allOtherIssues, 0);
             }
-        } 
-        else {
+        } else {
             assertTrue("Passed with no issues in validation", true);
         }
-        
+
     }
-    
+
     /**
      * Parses a location URI into the resourceType, resourceId, and (optionally) the version id.
+     * 
      * @param locationURI
      * @return
      */
@@ -607,7 +619,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                 result[1] = tokens[tokens.length - 3];
                 result[2] = tokens[tokens.length - 1];
             } else {
-                throw new IllegalArgumentException("Incorrect location value specified: " + location);
+                throw new IllegalArgumentException("Incorrect location value specified: "
+                        + location);
             }
         } else {
             if (tokens.length >= 2) {
@@ -615,7 +628,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                 result[0] = tokens[tokens.length - 2];
                 result[1] = tokens[tokens.length - 1];
             } else {
-                throw new IllegalArgumentException("Incorrect location value specified: " + location);
+                throw new IllegalArgumentException("Incorrect location value specified: "
+                        + location);
             }
         }
         return result;
