@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IBM/FHIR.svg?branch=master)](https://travis-ci.com/IBM/FHIR)
+[![Build Status](https://travis-ci.com/IBM/FHIR.svg?branch=master)](https://travis-ci.com/IBM/FHIR) 
 
 ## IBM Server for HL7 FHIR
 
