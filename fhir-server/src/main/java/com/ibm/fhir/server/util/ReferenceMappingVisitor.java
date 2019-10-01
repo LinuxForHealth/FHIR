@@ -38,7 +38,7 @@ public class ReferenceMappingVisitor<T extends Visitable> extends CopyingVisitor
 
     @Override
     public boolean visit(String elementName, int elementIndex, Reference reference) {
-        if (reference.getReference().hasValue()) {
+        if (reference != null && reference.getReference() != null && reference.getReference().hasValue()) {
             String value = reference.getReference().getValue();
             // Use more generic urn: to handle all cases including the legacy integration tests
             if (value.startsWith("urn:")) {
