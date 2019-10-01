@@ -11,6 +11,7 @@ import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -39,18 +40,98 @@ public class FHIRValidator {
 
     private FHIRValidator() { }
 
-    public List<Issue> validate(Resource resource) throws FHIRValidationException {
-        return validate(new EvaluationContext(resource));
+    /**
+     * Validate a {@link Resource} against constraints in the base specification and 
+     * resource-asserted profile references or specific profile references but not both. 
+     * 
+     * <p>Profile references that are passed into this method are only applicable to the outermost 
+     * resource (not contained resources).
+     * 
+     * @param resource
+     *     a {@link Resource} instance (the target of validation)
+     * @param profiles
+     *     specific profile references to validate the resource against
+     * @return
+     *     list of issues generated during validation
+     * @throws FHIRValidationException
+     *     for errors that occur during validation
+     */
+    public List<Issue> validate(Resource resource, String... profiles) throws FHIRValidationException {
+        return validate(resource, (profiles.length == 0), profiles);
+    }
+    
+    /**
+     * Validate a {@link Resource} against constraints in the base specification and 
+     * resource-asserted profile references and/or specific profile references. 
+     * 
+     * <p>Profile references that are passed into this method are only applicable to the outermost 
+     * resource (not contained resources).
+     * 
+     * @param resource
+     *     a {@link Resource} instance (the target of validation)
+     * @param includeResourceAssertedProfiles
+     *     whether or not to consider resource-asserted profiles during validation
+     * @param profiles
+     *     specific profile references to validate the resource against
+     * @return
+     *     list of issues generated during validation
+     * @throws FHIRValidationException
+     *     for errors that occur during validation
+     */
+    public List<Issue> validate(Resource resource, boolean includeResourceAssertedProfiles, String... profiles) throws FHIRValidationException {
+        return validate(new EvaluationContext(resource), includeResourceAssertedProfiles, profiles);
+    }
+    
+    /**
+     * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and 
+     * resource-asserted profile references or specific profile references but not both.
+     * 
+     * <p>Profile references that are passed into this method are only applicable to the outermost 
+     * resource (not contained resources).
+     * 
+     * @param evaluationContext
+     *     the {@link EvaluationContext} for this validation which includes a {@link FHIRPathTree} 
+     *     built from a {@link Resource} instance (the target of validation)
+     * @param profiles
+     *     specific profile references to validate the evaluation context against
+     * @return
+     *     list of issues generated during validation
+     * @throws FHIRValidationException
+     *     for errors that occur during validation
+     * @see {@link FHIRPathEvaluator.EvaluationContext}
+     */
+    public List<Issue> validate(EvaluationContext evaluationContext, String... profiles) throws FHIRValidationException {
+        return validate(evaluationContext, (profiles.length == 0), profiles);
     }
 
-    public List<Issue> validate(EvaluationContext evaluationContext) throws FHIRValidationException {
+    /**
+     * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and 
+     * resource-asserted profile references and/or specific profile references.
+     * 
+     * <p>Profile references that are passed into this method are only applicable to the outermost 
+     * resource (not contained resources).
+     * 
+     * @param evaluationContext
+     *     the {@link EvaluationContext} for this validation which includes a {@link FHIRPathTree} 
+     *     built from a {@link Resource} instance (the target of validation)
+     * @param includeResourceAssertedProfiles
+     *     whether or not to consider resource-asserted profiles during validation
+     * @param profiles
+     *     specific profile references to validate the evaluation context against
+     * @return
+     *     list of issues generated during validation
+     * @throws FHIRValidationException
+     *     for errors that occur during validation
+     * @see {@link FHIRPathEvaluator.EvaluationContext}
+     */
+    public List<Issue> validate(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, String... profiles) throws FHIRValidationException {
         Objects.requireNonNull(evaluationContext);
         Objects.requireNonNull(evaluationContext.getTree());
         if (!evaluationContext.getTree().getRoot().isResourceNode()) {
             throw new IllegalArgumentException("Root must be resource node");
         }
         try {
-            return visitor.validate(evaluationContext);
+            return visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles);
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);
         }
@@ -63,13 +144,17 @@ public class FHIRValidator {
     private static class ValidatingNodeVisitor extends FHIRPathVoidParameterNodeVisitorAdapter {
         private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         private EvaluationContext evaluationContext;
+        private boolean includeResourceAssertedProfiles;
+        private List<String> profiles;
         private List<Issue> issues = new ArrayList<>();
 
         private ValidatingNodeVisitor() { }
 
-        private List<Issue> validate(EvaluationContext evaluationContext) {
+        private List<Issue> validate(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, String... profiles) {
             reset();
             this.evaluationContext = evaluationContext;
+            this.includeResourceAssertedProfiles = includeResourceAssertedProfiles;
+            this.profiles = Arrays.asList(profiles);
             this.evaluationContext.getTree().getRoot().accept(this);
             return issues;
         }
@@ -101,7 +186,12 @@ public class FHIRValidator {
         private void validate(FHIRPathResourceNode resourceNode) {
             Class<?> resourceType = resourceNode.resource().getClass();
             validate(resourceType, resourceNode, ModelSupport.getConstraints(resourceType));
-            validate(resourceType, resourceNode, ProfileSupport.getConstraints(resourceNode.resource()));
+            if (includeResourceAssertedProfiles) {
+                validate(resourceType, resourceNode, ProfileSupport.getConstraints(resourceNode.resource()));
+            }
+            if (!profiles.isEmpty() && !resourceNode.path().contains(".")) {
+                validate(resourceType, resourceNode, ProfileSupport.getConstraints(profiles, resourceType));
+            }
         }
         
         private void validate(Class<?> type, FHIRPathNode node, Collection<Constraint> constraints) {
@@ -123,7 +213,7 @@ public class FHIRValidator {
                     System.out.println("    Constraint: " + constraint);
                 }
 
-                Collection<FHIRPathNode> initialContext = singleton(evaluationContext.getTree().getNode(path));
+                Collection<FHIRPathNode> initialContext = singleton(node);
                 if (!Constraint.LOCATION_BASE.equals(constraint.location())) {
                     initialContext = evaluator.evaluate(evaluationContext, constraint.location(), initialContext);
                 }
@@ -137,13 +227,13 @@ public class FHIRValidator {
                     if (!result.isEmpty() && isFalse(result)) {
                         // constraint validation failed
                         Issue issue = Issue.builder()
-                                .severity(severity)
-                                .code(IssueType.INVARIANT)
-                                .details(CodeableConcept.builder()
-                                    .text(string(constraint.id() + ": " + constraint.description()))
-                                    .build())
-                                .expression(string(contextNode.path()))
-                                .build();
+                            .severity(severity)
+                            .code(IssueType.INVARIANT)
+                            .details(CodeableConcept.builder()
+                                .text(string(constraint.id() + ": " + constraint.description()))
+                                .build())
+                            .expression(string(contextNode.path()))
+                            .build();
 
                         issues.add(issue);
                     }

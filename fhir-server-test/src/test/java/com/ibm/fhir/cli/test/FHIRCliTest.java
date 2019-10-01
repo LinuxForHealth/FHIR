@@ -175,7 +175,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         String newVersion = "4";
         String ifMatchValue = "W/\"" + currentVersion + "\"";
         runTest("testUpdateDeletedPatient", "-p", propsFile(), "--operation", "update", "--resource", dirPrefix("vreadPatient.json"), "-H", "If-Match=" + ifMatchValue);
-        verifyConsoleOutput("Status code: 200", "ETag: W/\"" + newVersion + "\"");
+        verifyConsoleOutput("Status code: 201", "ETag: W/\"" + newVersion + "\"");
     }
     
     @Test(dependsOnMethods={"testUpdateDeletedPatient"})
@@ -203,7 +203,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         }
         
         runTest("testConditionalDeletePatientError", "-p", propsFile(), "--operation", "conditional-delete", "--type", "Patient", "-qp", "_id=" + UUID.randomUUID().toString());
-        verifyConsoleOutput("Status code: 404", "no matches");
+        verifyConsoleOutput("Status code: 200");
     }
     
     @Test(dependsOnMethods={"testCreatePatient"})
@@ -257,39 +257,6 @@ public class FHIRCliTest extends FHIRServerTestBase {
         return resourceId;
     }
 
-    /**
-     * Parses a location URI into the resourceType, resourceId, and (optionally) the version id.
-     * @param locationURI
-     * @return
-     */
-    private String[] parseLocationURI(String location) {
-        String[] result = null;
-        if (location == null) {
-            throw new NullPointerException("The 'location' parameter was specified as null.");
-        }
-
-        String[] tokens = location.split("/");
-        // Check if we should expect 4 tokens or only 2.
-        if (location.contains("_history")) {
-            if (tokens.length >= 4) {
-                result = new String[3];
-                result[0] = tokens[tokens.length - 4];
-                result[1] = tokens[tokens.length - 3];
-                result[2] = tokens[tokens.length - 1];
-            } else {
-                throw new IllegalArgumentException("Incorrect location value specified: " + location);
-            }
-        } else {
-            if (tokens.length >= 2) {
-                result = new String[2];
-                result[0] = tokens[tokens.length - 2];
-                result[1] = tokens[tokens.length - 1];
-            } else {
-                throw new IllegalArgumentException("Incorrect location value specified: " + location);
-            }
-        }
-        return result;
-    }
 
     /**
      * Runs a fhir-cli test with the specified list of arguments

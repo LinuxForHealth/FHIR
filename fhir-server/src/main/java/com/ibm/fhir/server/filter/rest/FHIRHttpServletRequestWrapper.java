@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
@@ -45,6 +47,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     public static final String UTF16 = "utf-16";
     public static final String DEFAULT_ACCEPT_HEADER_VALUE = FHIRMediaType.APPLICATION_FHIR_JSON;
     public static final String HEADER_X_METHOD_OVERRIDE = "X-Method-Override";
+    public static final String CHARSET = "charset";
+    public static final String ACCEPT = "Accept";
+    public static final String ACCEPT_CHARSET = "Accept-Charset";
 
     // The real HttpServletRequest instance that we'll delegate to.
     private HttpServletRequest delegate;
@@ -209,6 +214,32 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                     Encode.forHtml(queryString));
         }
     }
+    
+    
+    /**
+     * This function is called to modified the accept header to add the missing charset setting,
+     * the content of the updated accept header will be used in content-type header of the response by the javax
+     * framework. 
+     * This function fixes the missing charset errors which are caused by:
+     * (1) charset is defined in "Accept-Charset" header instead of in "Accept" header.
+     * (2) _format overrides json/xml only, but charset is defined in either "Accept-Charset" or "Accept" header.  
+     * @param s
+     * @return
+     */
+    private String updateAcceptHeader(String s) {
+        if (s!= null && !s.contains(CHARSET)) {
+            String originalHeaderValue = delegate.getHeader(ACCEPT);
+            if (originalHeaderValue != null && originalHeaderValue.contains(CHARSET)) {
+                s = s + ";" + originalHeaderValue.substring(originalHeaderValue.indexOf(CHARSET));
+            } else {
+                String originalAcceptCharset = delegate.getHeader(ACCEPT_CHARSET);
+                if (originalAcceptCharset != null) {
+                    s = s + ";" + CHARSET + "=" + originalAcceptCharset; 
+                } 
+            }
+        }
+        return s;
+    }
 
     /**
      * This method allows us to support overriding of HTTP headers with query parameters. For example, if this
@@ -282,6 +313,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             }
         }
 
+        // Add charset according to the Accept|Accept-Charset header of the request
+        if (headerName.equalsIgnoreCase(ACCEPT)) {
+            s = updateAcceptHeader(s);
+        }
+
         if (log.isLoggable(Level.FINEST)) {
             log.finest("getHeader(\"" + headerName + "\"): " + s);
         }
@@ -305,18 +341,31 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             String mappedValue = _formatShortcuts.get(value);
             
             // We've entered a special situation where the value may have been remapped via the next step
-            // in the jaxrs framework 
+            // in the jaxrs framework
             if (mappedValue == null) {
-                
+                boolean addCharset = false;
                 String delegateQueryString = delegate.getQueryString();
                 if(delegateQueryString.contains("_format=application/fhir+json")){
                     value = FHIRMediaType.APPLICATION_FHIR_JSON;
+                    addCharset = true;
                 }
                 else if(delegateQueryString.contains("_format=application/fhir+xml")) {
                     value = FHIRMediaType.APPLICATION_FHIR_XML;
+                    addCharset = true;
+                }
+                
+                // if there is charset defined in _format, then take it.
+                if (addCharset) {
+                    List<String> formats = Arrays.asList(delegate.getParameter("_format").split(";"));
+                    for (String format : formats) {
+                        if (format.contains(CHARSET)) {
+                            value = value + ";" + format;
+                            break;
+                        }
+                    }
                 }
             }
-            
+
             if (mappedValue != null) {
                 value = mappedValue;
             }
@@ -425,6 +474,15 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 v.add(s);
                 e = v.elements();
             }
+        }
+        
+        // Add charset according to the Accept|Accept-Charset header of the request
+        if (headerName.equalsIgnoreCase(ACCEPT)) {
+                v = new Vector<String>();
+                while (e.hasMoreElements()) {
+                    v.add(updateAcceptHeader(e.nextElement()));
+                }
+                e = v.elements();
         }
         
         // In order to display the header values in a trace message, we actually need to

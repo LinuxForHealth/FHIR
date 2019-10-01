@@ -25,6 +25,8 @@
         <m2e.jpa.activation>false</m2e.jpa.activation>
         <m2e.jsf.activation>false</m2e.jsf.activation>
         <m2e.cdi.activation>true</m2e.cdi.activation>
+        <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
+        <my.maven.jar.plugin>3.1.2</my.maven.jar.plugin>
     </properties>
 
     <modules>
@@ -66,7 +68,7 @@
         <module>../fhir-coverage-reports</module>
     </modules>
 
-    <!-- This section "enforces" that we're using consistent versions of
+    <!-- This section "enforces" that we're using consistent versions of 
         artifacts within our modules -->
     <dependencyManagement>
         <dependencies>
@@ -285,11 +287,6 @@
                 <version>2.3.2</version>
             </dependency>
             <dependency>
-                <groupId>com.ibm.cos</groupId>
-                <artifactId>ibm-cos-java-sdk</artifactId>
-                <version>2.1.0</version>
-            </dependency>
-            <dependency>
                 <groupId>jakarta.batch</groupId>
                 <artifactId>jakarta.batch-api</artifactId>
                 <version>1.0.2</version>
@@ -298,6 +295,11 @@
                 <groupId>jakarta.inject</groupId>
                 <artifactId>jakarta.inject-api</artifactId>
                 <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ibm.cos</groupId>
+                <artifactId>ibm-cos-java-sdk</artifactId>
+                <version>2.1.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -320,8 +322,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <!--  2.6 is chosen as Eclipse has an issue with the newer version https://bugs.eclipse.org/bugs/show_bug.cgi?id=547340#c9  -->
-                    <version>2.6</version>
+                    <version>${my.maven.jar.plugin}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -347,7 +348,12 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>${my.maven.war.plugin}</version>
+                    <!-- Upgraded maven-war-plugin to avoid 'An illegal reflective 
+                        access operation' in OpenJDK 11 The dependency 'xstream.converters.collections.TreeMapConverter' 
+                        used an out-of-date approach. This comment is left here to allow others to 
+                        find the reason for the change, and in case another library introduces a 
+                        similar issue in the code base. -->
                     <configuration>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                         <archiveClasses>false</archiveClasses>
@@ -359,7 +365,7 @@
                             <manifestEntries>
                                 <Implementation-Title>${project.name}</Implementation-Title>
                                 <Implementation-Version>${project.version}
-                                    - ${build.id}</Implementation-Version>
+                                    - ${BUILD_ID}</Implementation-Version>
                                 <Build-Time>${maven.build.timestamp}</Build-Time>
                                 <Build-Number>${BUILD_ID}</Build-Number>
                                 <Git-Commit>${GIT_COMMIT}</Git-Commit>
@@ -474,7 +480,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                     <configuration>
                         <configLocation>checkstyle.xml</configLocation>
                         <consoleOutput>true</consoleOutput>
@@ -554,6 +560,19 @@
     </scm>
 
     <profiles>
+        <profile>
+            <id>m2e</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name>
+                </property>
+            </activation>
+            <properties>
+                <my.maven.war.plugin>2.6</my.maven.war.plugin>
+                <my.maven.jar.plugin>2.6</my.maven.jar.plugin>
+            </properties>
+        </profile>
+
         <profile>
             <id>sandbox</id>
             <activation>

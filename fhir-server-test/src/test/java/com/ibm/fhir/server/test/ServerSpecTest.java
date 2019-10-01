@@ -617,5 +617,38 @@ public class ServerSpecTest extends FHIRServerTestBase {
         response = client.conditionalUpdate(obs, badSearch);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
+    }
+    
+    @Test(groups = { "server-spec" })
+    public void testConditionalUpdateObservation2() throws Exception {
+        String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
+        String obsId = UUID.randomUUID().toString();
+        Observation obs = readResource(Observation.class, "Observation1.json");
+        obs = obs.toBuilder()
+                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .build();
+        
+        // First conditional update should find no matches, so we should get back a 201 
+        // with server assigned id.
+        FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
+        FHIRResponse response = client.conditionalUpdate(obs, query);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+        String locationURI = response.getLocation();
+        assertNotNull(locationURI);
+        
+        String[] tokens = parseLocationURI(locationURI);
+        String resourceId = tokens[1];
+        
+        // Second conditional update should find 1 match, but because there is a un-matching
+        // resourceId in the input resource, so we should get back a 400 error.
+        query = new FHIRParameters().searchParam("_id", resourceId);
+        obs = obs.toBuilder().id(Id.of(obsId)).build();
+        response = client.conditionalUpdate(obs, query);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
+        assertExceptionOperationOutcome(response.getResource(OperationOutcome.class),
+                "Input resource 'id' attribute must match the id of the search result resource");
+        
     }    
 }

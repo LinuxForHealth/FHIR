@@ -55,7 +55,10 @@ public class ExportOperationTest extends FHIRServerTestBase {
             doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
         assertEquals(response.getStatus(), 202);
 
+        // Debug the content-location that's returned. 
         String contentLocation = response.getHeaderString("Content-Location");
+        System.out.println("Content Location: " + contentLocation);
+        
         assertEquals(contentLocation, "/fhir-server/api/v4/$export-status?job=1");
 
     }
@@ -162,7 +165,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
         // String contentLocation = response.getHeaderString("Content-Location");
         // assertEquals(contentLocation,
-        // "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/job1_Patient_0.ndjson");
+        // "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/job1/Patient_1.ndjson");
 
     }
 
