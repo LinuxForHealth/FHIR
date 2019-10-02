@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Location;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.search.SearchConstants.Modifier;

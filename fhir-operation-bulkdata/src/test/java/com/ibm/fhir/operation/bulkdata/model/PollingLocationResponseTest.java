@@ -13,7 +13,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse.Output;
 
 /**

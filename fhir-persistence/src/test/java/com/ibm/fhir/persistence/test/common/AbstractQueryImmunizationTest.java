@@ -6,13 +6,6 @@
 
 package com.ibm.fhir.persistence.test.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-
-import org.testng.annotations.Test;
-
-import com.ibm.fhir.model.resource.Immunization;
-
 /**
  *  This class contains a collection of tests that will be run against
  *  each of the various persistence layer implementations.

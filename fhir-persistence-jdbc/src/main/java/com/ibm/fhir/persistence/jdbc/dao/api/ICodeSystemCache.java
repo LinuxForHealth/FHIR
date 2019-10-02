@@ -7,6 +7,8 @@
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
  * Abstraction of the cache service managing code systems

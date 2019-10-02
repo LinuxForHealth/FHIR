@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.persistence.util;
 
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 

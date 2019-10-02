@@ -8,26 +8,11 @@ package com.ibm.fhir.persistence.test.common;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  *  This class contains a collection of tests that will be run against

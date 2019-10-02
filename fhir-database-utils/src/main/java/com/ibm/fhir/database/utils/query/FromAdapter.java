@@ -6,11 +6,6 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Adapter for building the FROM clause of a SELECT statement
  * @author rarnold

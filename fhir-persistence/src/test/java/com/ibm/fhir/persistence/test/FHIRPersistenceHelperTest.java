@@ -6,10 +6,10 @@
 
 package com.ibm.fhir.persistence.test;
 
-import static org.testng.AssertJUnit.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.fail;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

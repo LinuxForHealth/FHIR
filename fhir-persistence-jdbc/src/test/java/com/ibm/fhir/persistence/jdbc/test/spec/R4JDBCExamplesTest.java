@@ -8,9 +8,9 @@ package com.ibm.fhir.persistence.jdbc.test.spec;
 
 import java.util.Properties;
 
-import org.testng.annotations.Test;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.persistence.FHIRPersistence;

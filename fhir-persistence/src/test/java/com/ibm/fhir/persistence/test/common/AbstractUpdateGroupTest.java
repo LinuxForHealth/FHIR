@@ -6,33 +6,7 @@
 
 package com.ibm.fhir.persistence.test.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.logging.Logger;
-
-import org.testng.annotations.Test;
-
-import com.ibm.fhir.core.FHIRUtilities;
-import com.ibm.fhir.model.resource.Group;
-import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.UnsignedInt;
-import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
-import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.fhir.persistence.context.impl.FHIRHistoryContextImpl;
 
 /**
  *   This test class was inspired by Defect 195430.

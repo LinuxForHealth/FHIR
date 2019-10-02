@@ -15,11 +15,11 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.spec.test.Expectation;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.spec.test.SerializationProcessor;

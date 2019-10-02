@@ -6,13 +6,6 @@
 
 package com.ibm.fhir.core.test.mains;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import com.ibm.fhir.core.FHIRUtilities;
-
 public class TimestampTestMain {
     public static void main(String[] args) throws Exception {
 //        XMLGregorianCalendar calendar = FHIRUtilities.parseDateTime("1944-08-11", true);

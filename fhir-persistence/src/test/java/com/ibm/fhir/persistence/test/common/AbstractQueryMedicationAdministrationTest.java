@@ -6,22 +6,6 @@
 
 package com.ibm.fhir.persistence.test.common;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.testng.annotations.Test;
-
-import com.ibm.fhir.model.resource.MedicationAdministration;
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
-
 /**
  *  This class contains a collection of tests that will be run against
  *  each of the various persistence layer implementations.

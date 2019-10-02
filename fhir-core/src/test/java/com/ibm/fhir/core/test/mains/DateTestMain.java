@@ -6,22 +6,6 @@
 
 package com.ibm.fhir.core.test.mains;
 
-import static com.ibm.fhir.core.FHIRUtilities.*;
-import static org.testng.AssertJUnit.*;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.Duration;
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.testng.annotations.Test;
-
-import com.ibm.fhir.core.FHIRUtilities;
-
 public class DateTestMain {
     // TODO remove when we are happy we can permanently delete the FHIRUtilities methods under test
 //    public static void main(String[] args) throws Exception {

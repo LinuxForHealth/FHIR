@@ -8,7 +8,6 @@ package com.ibm.fhir.operation.validate;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
-import static com.ibm.fhir.model.util.FHIRUtil.isFailure;
 
 import java.io.InputStream;
 import java.util.Collections;
@@ -19,10 +18,10 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.IssueSeverity;
