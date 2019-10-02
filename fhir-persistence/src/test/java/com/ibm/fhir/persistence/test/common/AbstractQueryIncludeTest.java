@@ -5,7 +5,9 @@
  */
 
 package com.ibm.fhir.persistence.test.common;
-
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.HumanName;
+import com.ibm.fhir.model.util.FHIRUtil;
 /**
  *  This class tests the persistence layer support for the FHIR _include and _revinclude search result parameters.
  *  @see https://www.hl7.org/fhir/DSTU2/search.html#include

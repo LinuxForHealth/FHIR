@@ -5,7 +5,9 @@
  */
 
 package com.ibm.fhir.persistence.test.common;
+import java.util.Map;
 
+import org.testng.annotations.Test;
 /**
  *  This class contains a collection of tests that will be run against
  *  each of the various persistence layer implementations.
