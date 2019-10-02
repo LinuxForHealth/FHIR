@@ -21,9 +21,11 @@ import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
+import com.ibm.fhir.model.path.FHIRPathTree;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.path.visitor.FHIRPathVoidParameterNodeVisitorAdapter;
+import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -221,7 +223,7 @@ public class FHIRValidator {
                 IssueSeverity severity = Constraint.LEVEL_WARNING.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
 
                 for (FHIRPathNode contextNode : initialContext) {
-                    evaluationContext.setExternalConstant("resource", getResource(type, contextNode));
+                    evaluationContext.setExternalConstant("resource", getResourceNode(type, contextNode));
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
 
                     if (!result.isEmpty() && isFalse(result)) {
@@ -249,30 +251,37 @@ public class FHIRValidator {
             }
         }
 
-        private FHIRPathResourceNode getResource(Class<?> type, FHIRPathNode node) {
-            if (!Resource.class.isAssignableFrom(type)) {
-                // the constraint came from a data type
-                return (FHIRPathResourceNode) evaluationContext.getTree().getRoot();
-            }
-
+        private FHIRPathResourceNode getResourceNode(Class<?> type, FHIRPathNode node) {
             if (node.isResourceNode()) {
-                // the current context node is a resource node
-                return (FHIRPathResourceNode) node;
+                return node.asResourceNode();
+            }
+            
+            List<FHIRPathResourceNode> resourceNodes = getResourceNodes(node);
+            
+            if (!Resource.class.isAssignableFrom(type) && isContained(resourceNodes)) {
+                return resourceNodes.get(1);
             }
 
-            // move up in the tree to find the first ancestor that is a resource node
+            return resourceNodes.get(0);
+        }
+        
+        private boolean isContained(List<FHIRPathResourceNode> resourceNodes) {
+            return resourceNodes.size() > 1 && resourceNodes.get(1).resource().is(DomainResource.class);
+        }
+        
+        private List<FHIRPathResourceNode> getResourceNodes(FHIRPathNode node) {
+            List<FHIRPathResourceNode> resourceNodes = new ArrayList<>();
             String path = node.path();
             int index = path.lastIndexOf(".");
             while (index != -1) {
                 path = path.substring(0, index);
                 node = evaluationContext.getTree().getNode(path);
-                if (node instanceof FHIRPathResourceNode) {
-                    return (FHIRPathResourceNode) node;
+                if (node.isResourceNode()) {
+                    resourceNodes.add(node.asResourceNode());
                 }
                 index = path.lastIndexOf(".");
             }
-
-            return null;
+            return resourceNodes;
         }
     }
 }
