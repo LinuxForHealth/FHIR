@@ -9,18 +9,18 @@ package com.ibm.fhir.swagger.generator;
 import java.io.InputStream;
 
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.StructureDefinition;
-import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 public class LoadStructureDefinitions {
     public static void main(String[] args) throws Exception {
         long start = System.currentTimeMillis();
         InputStream stream = LoadStructureDefinitions.class.getClassLoader().getResourceAsStream("profiles-resources.json");
-        Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, stream);
+        Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);
         int entryCount = 0;
         for (Entry entry : bundle.getEntry()) {
             if (entry.getResource() instanceof StructureDefinition) {

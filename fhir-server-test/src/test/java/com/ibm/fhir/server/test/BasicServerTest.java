@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.Observation;
@@ -32,7 +33,6 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.ContactPointSystem;
 import com.ibm.fhir.model.type.ContactPointUse;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
  * Basic sniff test of the FHIR Server.
@@ -162,7 +162,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
 
         StringWriter writer = new StringWriter();
-        FHIRUtil.write(patient, Format.JSON, writer);
+        FHIRGenerator.generator(Format.JSON, false).generate(patient, writer);
         String patientResourceString = writer.toString();
         String patientResourceStringWithFakeElement = patientResourceString.substring(0, 1) + "\"fake\":\"value\","
                 + patientResourceString.substring(1);

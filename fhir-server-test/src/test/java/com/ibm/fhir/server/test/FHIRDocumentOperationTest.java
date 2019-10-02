@@ -22,14 +22,15 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Composition;
+import com.ibm.fhir.model.resource.Composition.Section;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
-import com.ibm.fhir.model.resource.Composition.Section;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -37,7 +38,6 @@ import com.ibm.fhir.model.type.CompositionStatus;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 public class FHIRDocumentOperationTest extends FHIRServerTestBase {
     private Patient savedCreatedPatient = null;
@@ -171,10 +171,10 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
 
         if (DEBUG_JSON) {
             System.out.println("allergyIntolernace: ");
-            FHIRUtil.write(allergyIntolerance, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(allergyIntolerance, System.out);
 
             System.out.println("responseAllergyIntolerance:  ");
-            FHIRUtil.write(responseAllergyIntolerance, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(responseAllergyIntolerance, System.out);
         }
 
         assertResourceEquals(allergyIntolerance, responseAllergyIntolerance);
