@@ -23,14 +23,22 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.notification.FHIRNotificationEvent;
 
+/**
+ * 
+ * The following tests are intentionally marked as singleThreaded. 
+ * The singleThreaded property addresses an issue where the 
+ * session does not start-connect-receive a message. 
+ *
+ */
 public class WebSocketNotificationsTest extends FHIRServerTestBase {
+    
     private Patient savedCreatedPatient;
     private Observation savedCreatedObservation;
 
     /**
      * Create a Patient, then make sure we can retrieve it.
      */
-    @Test(groups = { "websocket-notifications" })
+    @Test(groups = { "websocket-notifications" }, singleThreaded = true)
     public void testCreatePatient() throws Exception {
         FHIRNotificationServiceClientEndpoint endpoint = getWebsocketClientEndpoint();
         assertNotNull(endpoint);
@@ -45,6 +53,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
+        System.out.println(">>> [CREATE] Patient Resource -> Id: " + patientId);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
@@ -65,7 +74,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     /**
      * Create an Observation and make sure we can retrieve it.
      */
-    @Test(groups = { "websocket-notifications" }, dependsOnMethods = { "testCreatePatient" })
+    @Test(groups = { "websocket-notifications" }, dependsOnMethods = { "testCreatePatient" }, singleThreaded = true)
     public void testCreateObservation() throws Exception {
         FHIRNotificationServiceClientEndpoint endpoint = getWebsocketClientEndpoint();
 
@@ -99,7 +108,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     /**
      * Tests the update of the original observation that was previously created.
      */
-    @Test(groups = { "websocket-notifications" }, dependsOnMethods = { "testCreateObservation" })
+    @Test(groups = { "websocket-notifications" }, dependsOnMethods = { "testCreateObservation" },  singleThreaded = true)
     public void testUpdateObservation() throws Exception {
         FHIRNotificationServiceClientEndpoint endpoint = getWebsocketClientEndpoint();
 
