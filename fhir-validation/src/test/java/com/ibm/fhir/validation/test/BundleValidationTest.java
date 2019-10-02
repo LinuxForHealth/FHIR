@@ -6,10 +6,12 @@
 
 package com.ibm.fhir.validation.test;
 
+import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -21,9 +23,14 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Request;
+import com.ibm.fhir.model.resource.Bundle.Entry.Response;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.type.BundleType;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.HTTPVerb;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.IssueSeverity;
 import com.ibm.fhir.model.type.Reference;
@@ -42,6 +49,7 @@ public class BundleValidationTest {
         Bundle validInnerBundle = bundleTemplate;
         
         Bundle invalidInnerBundle = bundleTemplate.toBuilder()
+                                                  .type(BundleType.BATCH)
                                                   .entry(Entry.builder().fullUrl(Uri.of("BadURI")).build())
                                                   .build();
         
@@ -61,11 +69,18 @@ public class BundleValidationTest {
                 System.out.println("    severity: " + issue.getSeverity().getValue() + ", type: " + issue.getCode().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
             }
         }
-        assertEquals(issues.size(), 1);
+        
+        assertEquals(issues.size(), 2);
+        
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
-        assertTrue(issues.get(0).getDetails().getText().getValue().contains("bdl-5: must be a resource unless there's a request or response"));
+        assertTrue(issues.get(0).getDetails().getText().getValue().contains("bdl-3: entry.request mandatory for batch/transaction/history, otherwise prohibited"));
         assertTrue(issues.get(0).getExpression().size() == 1);
-        assertTrue(issues.get(0).getExpression().get(0).getValue().equals("Bundle.entry[1].resource.entry[0]"));
+        assertTrue(issues.get(0).getExpression().get(0).getValue().equals("Bundle.entry[1].resource"));
+
+        assertEquals(issues.get(1).getSeverity(), IssueSeverity.ERROR);
+        assertTrue(issues.get(1).getDetails().getText().getValue().contains("bdl-5: must be a resource unless there's a request or response"));
+        assertTrue(issues.get(1).getExpression().size() == 1);
+        assertTrue(issues.get(1).getExpression().get(0).getValue().equals("Bundle.entry[1].resource.entry[0]"));
     }
     
     @Test
@@ -141,5 +156,98 @@ public class BundleValidationTest {
                 assertNotEquals(issue.getSeverity(), IssueSeverity.ERROR, "Resource contains unexpected validation error: " + issue);
             }
         }
+    }
+    
+    @Test
+    public static void testValidBundleContainedInDomainResource() throws Exception {
+        FHIRParser parser = FHIRParser.parser(Format.JSON);
+        Patient patient = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Patient-1.json"));
+        Practitioner practitioner = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Practitioner-1.json"));
+        
+        practitioner = practitioner.toBuilder()
+                .id(Id.of("practitioner"))
+                .extension(Extension.builder()
+                    .url("http://ibm.com/fhir/ext")
+                    .value(Reference.builder()
+                        .reference(string("#bundle"))
+                        .build())
+                    .build())
+                .build();
+        
+        Bundle bundle = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Bundle-1.json"));
+        
+        bundle = bundle.toBuilder().type(BundleType.BATCH)
+                .id(Id.of("bundle"))
+                .entry(Entry.builder()
+                    .request(Request.builder()
+                        .url(Uri.of("fhir-server/v4/api/Patient"))
+                        .method(HTTPVerb.POST)
+                        .build())
+                    .build())
+                .build();
+        
+        patient = patient.toBuilder()
+                .extension(Extension.builder()
+                        .url("http://ibm.com/fhir/ext")
+                        .value(Reference.builder()
+                            .reference(string("#bundle"))
+                            .build())
+                    .build())
+                .contained(practitioner)
+                .contained(bundle)
+                .build();
+        
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, System.out);
+        System.out.println();
+        
+        PathAwareAbstractVisitor.DEBUG = false;
+        FHIRValidator.DEBUG = false;
+        List<Issue> issues = FHIRValidator.validator().validate(bundle);
+        
+        if (!issues.isEmpty()) {
+            System.out.println("Issue(s) found:");
+            for (Issue issue : issues) {
+                System.out.println("    severity: " + issue.getSeverity().getValue() + ", type: " + issue.getCode().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
+                assertNotEquals(issue.getSeverity(), IssueSeverity.ERROR);
+            }
+        }
+    }
+    
+    @Test
+    public static void testInvalidBundleContainedInDomainResource() throws Exception {
+        FHIRParser parser = FHIRParser.parser(Format.JSON);
+        Patient patient = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Patient-1.json"));
+        Bundle bundle = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Bundle-1.json"));
+        
+        bundle = bundle.toBuilder().type(BundleType.BATCH)
+                .entry(Entry.builder()
+                    .response(Response.builder()
+                        .status(string("status"))
+                        .build())
+                    .build())
+                .build();
+        
+        patient = patient.toBuilder().contained(bundle).build();
+        
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, System.out);
+        System.out.println();
+        
+        PathAwareAbstractVisitor.DEBUG = false;
+        FHIRValidator.DEBUG = false;
+        List<Issue> issues = FHIRValidator.validator().validate(bundle);
+        
+        List<Issue> errors = new ArrayList<>();
+        if (!issues.isEmpty()) {
+            System.out.println("Issue(s) found:");
+            for (Issue issue : issues) {
+                if (IssueSeverity.ERROR.equals(issue.getSeverity())) {
+                    errors.add(issue);
+                }
+            }
+        }
+        
+        assertEquals(errors.size(), 2);
+        assertTrue(errors.get(0).getDetails().getText().getValue().startsWith("bdl-3"));
+        assertTrue(errors.get(1).getDetails().getText().getValue().startsWith("bdl-4"));
     }
 }
