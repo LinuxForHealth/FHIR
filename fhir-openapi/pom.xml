@@ -10,8 +10,12 @@
     </parent>
 
     <artifactId>fhir-openapi</artifactId>
-    
+
     <packaging>war</packaging>
+
+    <properties>
+        <m2e.wtp.activation>true</m2e.wtp.activation>
+    </properties>
 
     <build>
         <plugins>
