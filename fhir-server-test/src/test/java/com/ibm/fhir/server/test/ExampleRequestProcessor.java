@@ -46,6 +46,9 @@ public class ExampleRequestProcessor implements IExampleProcessor {
     // Read (GET) multiplier for more interesting (simple) performance checks.
     private final int readIterations;
     
+    // Target (once configured) can be shared amongst threads
+    private final WebTarget target;
+    
     /**
      * Public constructor
      * @param base
@@ -58,6 +61,7 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         this.tenantId = tenantId;
         this.metrics = metrics;
         this.readIterations = readIterations;
+        this.target = base.getWebTarget();
     }
 
     /* (non-Javadoc)
@@ -73,8 +77,6 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         // resource we read back from FHIR
         ResourceFingerprintVisitor v = new ResourceFingerprintVisitor();
         resource.accept(resource.getClass().getSimpleName(), v);
-
-        WebTarget target = base.getWebTarget();
 
         String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
 
@@ -92,6 +94,7 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         // Next, call the 'read' API to retrieve the new resource and verify it. We
         // can repeat this a number of times to help get some more useful performance numbers
         for (int i=0; i<this.readIterations; i++) {
+            postEnd = System.nanoTime(); // update for each iteration
             response = target.path(resourceTypeName + "/" + logicalId).request(FHIRMediaType.APPLICATION_FHIR_JSON).header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId).get();
             base.assertResponse(response, Response.Status.OK.getStatusCode());
             metrics.addGetTime((System.nanoTime() - postEnd) / DriverMetrics.NANOS_MS);
