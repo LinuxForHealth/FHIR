@@ -56,6 +56,7 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
                 FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(text);
                 events.add(event);
                 if (events.size() >= limit) {
+                    System.out.println(">>> Call close(). ");
                     close();
                 }
             }
