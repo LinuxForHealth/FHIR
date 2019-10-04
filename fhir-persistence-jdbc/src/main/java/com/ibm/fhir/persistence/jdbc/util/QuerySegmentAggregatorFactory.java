@@ -8,7 +8,6 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 import java.util.logging.Logger;
 
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
 import com.ibm.fhir.search.context.FHIRSearchContext;

@@ -19,7 +19,6 @@ import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
  *  This class contains a collection of tests that will be run against

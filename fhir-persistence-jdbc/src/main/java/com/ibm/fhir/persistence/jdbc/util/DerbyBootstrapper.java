@@ -13,12 +13,12 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.jdbc.SchemaType;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 

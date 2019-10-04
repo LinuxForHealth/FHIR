@@ -1,0 +1,228 @@
+{
+	"resourceType": "ExplanationOfBenefit",
+	"id": "3307a5ee-fa1a-4f37-a0ca-94f7f787e099",
+	"contained": [
+		{
+			"resourceType": "ServiceRequest",
+			"id": "referral",
+			"status": "completed",
+			"intent": "order",
+			"subject": {
+				"reference": "urn:uuid:38317616-8f19-4a6a-90a5-532eb75e501c"
+			},
+			"requester": {
+				"reference": "urn:uuid:0000016d-881c-151a-0000-000000000258"
+			},
+			"performer": [
+				{
+					"reference": "#coverage"
+				}
+			]
+		},
+		{
+			"resourceType": "Coverage",
+			"id": "coverage",
+			"status": "active",
+			"type": {
+				"text": "Cigna Health"
+			},
+			"beneficiary": {
+				"reference": "urn:uuid:38317616-8f19-4a6a-90a5-532eb75e501c"
+			},
+			"payor": [
+				{
+					"display": "Cigna Health"
+				}
+			]
+		}
+	],
+	"identifier": [
+		{
+			"system": "https://bluebutton.cms.gov/resources/variables/clm_id",
+			"value": "fde5e03d-0b93-4b40-b6d0-d35c433c21fc"
+		},
+		{
+			"system": "https://bluebutton.cms.gov/resources/identifier/claim-group",
+			"value": "99999999999"
+		}
+	],
+	"status": "active",
+	"type": {
+		"coding": [
+			{
+				"system": "http://terminology.hl7.org/CodeSystem/claim-type",
+				"code": "institutional"
+			}
+		]
+	},
+	"use": "claim",
+	"patient": {
+		"reference": "urn:uuid:38317616-8f19-4a6a-90a5-532eb75e501c"
+	},
+	"billablePeriod": {
+		"start": "2010-05-07T18:31:14-04:00",
+		"end": "2011-05-07T18:31:14-04:00"
+	},
+	"created": "2010-05-07T18:31:14-04:00",
+	"insurer": {
+		"display": "Cigna Health"
+	},
+	"provider": {
+		"reference": "urn:uuid:0000016d-881c-151a-0000-000000000258"
+	},
+	"referral": {
+		"reference": "#referral"
+	},
+	"claim": {
+		"reference": "urn:uuid:fde5e03d-0b93-4b40-b6d0-d35c433c21fc"
+	},
+	"outcome": "complete",
+	"careTeam": [
+		{
+			"sequence": 1,
+			"provider": {
+				"reference": "urn:uuid:0000016d-881c-151a-0000-000000000258"
+			},
+			"role": {
+				"coding": [
+					{
+						"system": "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+						"code": "primary",
+						"display": "Primary Care Practitioner"
+					}
+				]
+			}
+		}
+	],
+	"diagnosis": [
+		{
+			"sequence": 1,
+			"diagnosisReference": {
+				"reference": "urn:uuid:216c80cc-c86b-44f6-94e6-d569240f575d"
+			},
+			"type": [
+				{
+					"coding": [
+						{
+							"system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
+							"code": "principal"
+						}
+					]
+				}
+			]
+		}
+	],
+	"insurance": [
+		{
+			"focal": true,
+			"coverage": {
+				"reference": "#coverage",
+				"display": "Cigna Health"
+			}
+		}
+	],
+	"item": [
+		{
+			"sequence": 1,
+			"category": {
+				"coding": [
+					{
+						"system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+						"code": "1",
+						"display": "Medical care"
+					}
+				]
+			},
+			"productOrService": {
+				"coding": [
+					{
+						"system": "http://snomed.info/sct",
+						"code": "50849002",
+						"display": "Emergency room admission (procedure)"
+					}
+				],
+				"text": "Emergency room admission (procedure)"
+			},
+			"servicedPeriod": {
+				"start": "2010-05-07T17:31:14-04:00",
+				"end": "2010-05-07T18:31:14-04:00"
+			},
+			"locationCodeableConcept": {
+				"coding": [
+					{
+						"system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+						"code": "20",
+						"display": "Urgent Care Facility"
+					}
+				]
+			},
+			"encounter": [
+				{
+					"reference": "urn:uuid:1af72178-970f-4a16-97e0-25154b8a22de"
+				}
+			]
+		},
+		{
+			"sequence": 2,
+			"diagnosisSequence": [
+				1
+			],
+			"category": {
+				"coding": [
+					{
+						"system": "https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd",
+						"code": "1",
+						"display": "Medical care"
+					}
+				]
+			},
+			"productOrService": {
+				"coding": [
+					{
+						"system": "http://snomed.info/sct",
+						"code": "44465007",
+						"display": "Sprain of ankle"
+					}
+				],
+				"text": "Sprain of ankle"
+			},
+			"servicedPeriod": {
+				"start": "2010-05-07T17:31:14-04:00",
+				"end": "2010-05-07T18:31:14-04:00"
+			},
+			"locationCodeableConcept": {
+				"coding": [
+					{
+						"system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+						"code": "20",
+						"display": "Urgent Care Facility"
+					}
+				]
+			}
+		}
+	],
+	"total": [
+		{
+			"category": {
+				"coding": [
+					{
+						"system": "http://terminology.hl7.org/CodeSystem/adjudication",
+						"code": "submitted",
+						"display": "Submitted Amount"
+					}
+				],
+				"text": "Submitted Amount"
+			},
+			"amount": {
+				"value": 129.16,
+				"currency": "USD"
+			}
+		}
+	],
+	"payment": {
+		"amount": {
+			"value": 0.0,
+			"currency": "USD"
+		}
+	}
+}

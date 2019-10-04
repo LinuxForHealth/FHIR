@@ -14,7 +14,6 @@ import java.util.Date;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.common.DateMath;
 
 /**
  * @author rarnold

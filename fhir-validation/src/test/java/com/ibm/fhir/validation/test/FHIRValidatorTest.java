@@ -6,16 +6,20 @@
 
 package com.ibm.fhir.validation.test;
 
-import java.io.FilterOutputStream;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
+import org.testng.annotations.Test;
+
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Extension;
@@ -23,13 +27,15 @@ import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
+import com.ibm.fhir.model.type.IssueSeverity;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.visitor.PathAwareAbstractVisitor;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class FHIRValidatorTest {
-    public static void main(java.lang.String[] args) throws Exception {
+    @Test
+    public static void testPatientValidation() throws Exception {
         Id id = Id.builder().value(UUID.randomUUID().toString())
                 .extension(Extension.builder()
                     .url("http://www.ibm.com/someExtension")
@@ -72,18 +78,12 @@ public class FHIRValidatorTest {
                 .birthDate(Date.of(LocalDate.now()))
                 .build();
         
-        FilterOutputStream out = new FilterOutputStream(System.out) {
-            public void close() {
-                // do nothing
-            }
-        };
-        
-        FHIRGenerator.generator(Format.JSON, true).generate(patient, out);
+        FHIRGenerator.generator(Format.JSON, true).generate(patient, System.out);
         
         System.out.println("");
         
-        PathAwareAbstractVisitor.DEBUG = true;
-        FHIRValidator.DEBUG = true;
+        PathAwareAbstractVisitor.DEBUG = false;
+        FHIRValidator.DEBUG = false;
         List<Issue> issues = FHIRValidator.validator().validate(patient);
         
         if (!issues.isEmpty()) {
@@ -92,5 +92,10 @@ public class FHIRValidatorTest {
                 System.out.println("    severity: " + issue.getSeverity().getValue() + ", type: " + issue.getCode().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
             }
         }
+        assertEquals(issues.size(), 1);
+        assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+        assertTrue(issues.get(0).getDetails().getText().getValue().contains("dom-6: A resource should have narrative for robust management"));
+        assertTrue(issues.get(0).getExpression().size() == 1);
+        assertTrue(issues.get(0).getExpression().get(0).getValue().equals("Patient"));
     }
 }

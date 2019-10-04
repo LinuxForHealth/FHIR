@@ -18,6 +18,7 @@ import com.ibm.fhir.model.type.IssueType;
 import com.ibm.fhir.model.type.OperationParameterUse;
 import com.ibm.fhir.model.type.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
@@ -187,7 +188,7 @@ public abstract class AbstractOperation implements FHIROperation {
                         Class<?> parameterValueType, parameterDefinitionType;
                         parameterValueType = Class.forName(parameterValueTypeName);
 
-                        if (FHIRUtil.isStandardResourceType(parameterDefinitionTypeName)){
+                        if (ModelSupport.isResourceType(parameterDefinitionTypeName)){
                             parameterDefinitionType = Class.forName("com.ibm.fhir.model.resource." + parameterDefinitionTypeName);
                         } else {
                             parameterDefinitionType = Class.forName("com.ibm.fhir.model.type." + parameterDefinitionTypeName);

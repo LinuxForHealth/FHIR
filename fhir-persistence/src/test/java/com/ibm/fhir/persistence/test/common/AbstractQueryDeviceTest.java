@@ -16,15 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRReplicationContext;

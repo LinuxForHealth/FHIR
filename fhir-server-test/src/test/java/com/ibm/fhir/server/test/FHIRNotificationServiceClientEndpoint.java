@@ -62,6 +62,14 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         });
     }
     
+    @Override
+    public void onError(Session session, Throwable thr) {
+        System.out.println(">>> Session error: " + session.getId());
+        System.out.println(">>> Stack Trace as follows -> ");
+        thr.printStackTrace();
+        super.onError(session, thr);
+    }
+
     public void onClose(Session session, CloseReason reason) {
         System.out.println(">>> Session closed: " + session.getId());
         latch.countDown();

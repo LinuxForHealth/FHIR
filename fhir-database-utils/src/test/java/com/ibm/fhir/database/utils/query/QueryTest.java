@@ -6,16 +6,16 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import static org.testng.Assert.assertEquals;
-
-import org.testng.annotations.Test;
-
-import com.ibm.fhir.database.utils.query.Select;
-
 import static com.ibm.fhir.database.utils.query.Select.alias;
 import static com.ibm.fhir.database.utils.query.Select.select;
-import static com.ibm.fhir.database.utils.query.SqlConstants.*;
-import static com.ibm.fhir.database.utils.query.TestConstants.*;
+import static com.ibm.fhir.database.utils.query.SqlConstants.IS_NOT_NULL;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_AGE;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_ID;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_NAME;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_TAB;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_TOWN;
+
+import org.testng.annotations.Test;
 
 /**
  * @author rarnold

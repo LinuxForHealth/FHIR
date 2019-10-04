@@ -6,10 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.test;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
 
 import java.time.LocalDate;
 import java.time.Year;

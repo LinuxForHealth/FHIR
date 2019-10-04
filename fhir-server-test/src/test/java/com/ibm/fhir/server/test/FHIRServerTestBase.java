@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.tyrus.client.SslContextConfigurator;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
+import org.glassfish.tyrus.core.TyrusWebSocketEngine;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.client.FHIRClient;
@@ -42,12 +43,12 @@ import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.model.resource.CapabilityStatement;
-import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.IssueSeverity;
@@ -266,6 +267,10 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                         false);
                 sslEngineConfigurator.setHostVerificationEnabled(false);
                 config.getUserProperties().put(PROPNAME_SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
+                
+                // Enabled Tracing for Testing Only in the limited WebSocket Notification Tests
+                config.getUserProperties().put(TyrusWebSocketEngine.TRACING_TYPE, "ALL");
+                config.getUserProperties().put(TyrusWebSocketEngine.TRACING_THRESHOLD, "TRACE");
             }
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(endpoint, config, new URI(webSocketURL));

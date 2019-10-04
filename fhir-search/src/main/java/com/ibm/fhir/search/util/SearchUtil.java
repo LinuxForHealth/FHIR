@@ -39,8 +39,8 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.ResourceType;
 import com.ibm.fhir.model.type.SearchParamType;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -561,7 +561,7 @@ public class SearchUtil {
                     String modifierResourceTypeName = null;
                     if (parameterName.contains(":")) {
                         String mod = parameterName.substring(parameterName.indexOf(":") + 1);
-                        if (FHIRUtil.isStandardResourceType(mod)) {
+                        if (ModelSupport.isResourceType(mod)) {
                             modifier = SearchConstants.Modifier.TYPE;
                             modifierResourceTypeName = mod;
                         } else {
@@ -946,7 +946,7 @@ public class SearchUtil {
                 if (loc > 0) {
                     // Parameter exists
                     String mod = parameterName.substring(loc + 1);
-                    if (FHIRUtil.isStandardResourceType(mod)) {
+                    if (ModelSupport.isResourceType(mod)) {
                         modifier = SearchConstants.Modifier.TYPE;
                         modifierResourceTypeName = mod;
                     } else {
@@ -991,7 +991,7 @@ public class SearchUtil {
                 // Non standard resource support?
                 if (currentIndex < lastIndex) {
                     // FHIRUtil.getResourceType(modifierResourceTypeName)
-                    resourceType = FHIRUtil.getResourceType(modifierResourceTypeName);
+                    resourceType = ModelSupport.getResourceType(modifierResourceTypeName);
                 }
 
                 currentIndex++;
