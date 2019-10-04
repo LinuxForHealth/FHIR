@@ -70,6 +70,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -108,7 +109,6 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.validation.exception.FHIRValidationException;
 import com.ibm.fhir.operation.FHIROperation;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
@@ -145,6 +145,7 @@ import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.fhir.server.util.RestAuditLogger;
 import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 @Path("/")
 @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
@@ -259,6 +260,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             ResponseBuilder response =
                     Response.created(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             resource = ior.getResource();
+            if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(resource);
+            } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
             response = addHeaders(response, resource);
             response.status(ior.getStatus());
             return response.build();
@@ -290,8 +296,14 @@ public class FHIRResource implements FHIRResourceHelpers {
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
-
-            response = addHeaders(response, ior.getResource());
+            
+            Resource updatedResource = ior.getResource();
+            if (updatedResource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(updatedResource);
+            } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
+            response = addHeaders(response, updatedResource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
@@ -335,7 +347,13 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = ior.getStatus();
             response.status(status);
 
-            response = addHeaders(response, ior.getResource());
+            Resource updatedResource = ior.getResource();
+            if (updatedResource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(updatedResource);
+            } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
+            response = addHeaders(response, updatedResource);
 
             if (createAuditLogRecord) {
                 if (status == Response.Status.CREATED) {
@@ -387,7 +405,13 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = ior.getStatus();
             response.status(status);
 
-            response = addHeaders(response, ior.getResource());
+            Resource resource = ior.getResource();
+            if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(resource);
+            } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
+            response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
@@ -435,6 +459,13 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = ior.getStatus();
             response.status(status);
 
+            Resource resource = ior.getResource();
+            if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(resource);
+            } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
+            
             response = addHeaders(response, ior.getResource());
 
             if (createAuditLogRecord) {
@@ -493,7 +524,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             ior = doDelete(type, id, null, null);
+            
             ResponseBuilder response = Response.noContent();
+            
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());
             }
@@ -501,7 +534,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            return exceptionResponse(e, Response.Status.NOT_FOUND);
+            return exceptionResponse(e, Response.Status.OK);
         } catch (FHIRPersistenceNotSupportedException e) {
             return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
         } catch (FHIROperationException e) {
@@ -535,8 +568,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             ior = doDelete(type, null, searchQueryString, null);
-            ResponseBuilder response = Response.noContent();
             status = ior.getStatus();
+            ResponseBuilder response = Response.status(status);
+            if (ior.getOperationOutcome() != null) {
+                response.entity(ior.getOperationOutcome());
+            }
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());
             }
@@ -1004,7 +1040,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      *            the Resource to be stored.
      * @param requestProperties
      *            additional request properties which supplement the HTTP headers associated with this request
-     * @return a FHIRRestOperationResponse object containing the results of the operation
+     * @return a FHIRRestOperationResponse object containing the results of the operation 
      * @throws Exception
      */
     public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist,
@@ -1085,7 +1121,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             // Validate the input resource and return any validation errors, but warnings are OK
-            validateInput(resource);
+            List<Issue> validationWarnings = validateInput(resource);
+            ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(validationWarnings));
 
             // If there were no validation errors, then create the resource and return the location header.
 
@@ -1101,7 +1138,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
 
             // R4: remember model objects are immutable, so we get back a new resource with the id/meta stuff
-            resource = getPersistenceImpl().create(persistenceContext, resource);
+            resource = getPersistenceImpl().create(persistenceContext, resource).getResource();
             event.setFhirResource(resource); // update event with latest
             ior.setStatus(Response.Status.CREATED);
             ior.setResource(resource);
@@ -1172,9 +1209,14 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (includesFailure) {
                 throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
             } else {
-                String info =
-                        issues.stream().flatMap(issue -> Stream.of(issue.getDetails())).flatMap(details -> Stream.of(details.getText())).flatMap(text -> Stream.of(text.getValue())).collect(Collectors.joining(", "));
-                log.warning("TODO: Validation warnings should be added to response: " + info);
+                if (log.isLoggable(Level.FINE)) {
+                    String info = issues.stream()
+                                .flatMap(issue -> Stream.of(issue.getDetails()))
+                                .flatMap(details -> Stream.of(details.getText()))
+                                .flatMap(text -> Stream.of(text.getValue()))
+                                .collect(Collectors.joining(", "));
+                    log.fine("Validation warnings for input resource: " + info);
+                }
             }
         }
         return issues;
@@ -1326,7 +1368,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             // Validate the input resource and return any validation errors.
-            validateInput(newResource);
+            List<Issue> validationWarnings = validateInput(newResource);
+            ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(validationWarnings));
 
             // Perform the "version-aware" update check, and also find out if the resource was deleted.
             boolean isDeleted = false;
@@ -1366,7 +1409,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
-            newResource = getPersistenceImpl().update(persistenceContext, id, newResource);
+            newResource = getPersistenceImpl().update(persistenceContext, id, newResource).getResource();
             event.setFhirResource(newResource); // update event with latest
             ior.setResource(newResource);
 
@@ -1535,10 +1578,15 @@ public class FHIRResource implements FHIRResourceHelpers {
                 }
 
                 if (resultCount == 0) {
-                    // Search yielded no matches, so we'll return a 404 Not Found.
-                    String msg =
-                            "Search criteria for a conditional delete operation yielded no matches.";
-                    throw new FHIRPersistenceResourceNotFoundException(msg);
+                    // Search yielded no matches
+                    String msg = "Search criteria for a conditional delete operation yielded no matches.";
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine(msg);
+                    }
+                    status = Response.Status.OK;
+                    ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(msg, IssueType.ValueSet.NOT_FOUND, IssueSeverity.ValueSet.WARNING));
+                    ior.setStatus(status);
+                    return ior;
                 } else if (resultCount == 1) {
                     // If we found a single match, then we'll delete this one.
                     Resource resource = responseBundle.getEntry().get(0).getResource();
@@ -1577,7 +1625,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
 
-            Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id);
+            Resource resource = getPersistenceImpl().delete(persistenceContext, resourceType, id).getResource();
             ior.setResource(resource);
             event.setFhirResource(resource);
             ior.setStatus(Response.Status.NO_CONTENT);
@@ -1593,7 +1641,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             return ior;
         } catch (FHIRPersistenceResourceNotFoundException e) {
             log.log(Level.SEVERE, errMsg, e);
-            status = Response.Status.NOT_FOUND;
+            status = Response.Status.OK;
             throw e;
         } catch (FHIRPersistenceNotSupportedException e) {
             log.log(Level.SEVERE, errMsg, e);
@@ -1690,7 +1738,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted);
-            resource = getPersistenceImpl().read(persistenceContext, resourceType, id);
+            resource = getPersistenceImpl().read(persistenceContext, resourceType, id).getResource();
             if (resource == null && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id
                         + "' not found.");
@@ -1807,7 +1855,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
-            resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId);
+            resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId).getResource();
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '"
                         + resourceType.getSimpleName() + "/" + id + "' version " + versionId
@@ -1928,8 +1976,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, historyContext);
-            List<Resource> resources =
-                    getPersistenceImpl().history(persistenceContext, resourceType, id);
+            List<? extends Resource> resources =
+                    getPersistenceImpl().history(persistenceContext, resourceType, id).getResource();
             bundle = createHistoryBundle(resources, historyContext);
             bundle = addLinks(historyContext, bundle, requestUri);
 
@@ -2031,7 +2079,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             List<Resource> resources =
-                    getPersistenceImpl().search(persistenceContext, resourceType);
+                    getPersistenceImpl().search(persistenceContext, resourceType).getResource();
 
             bundle = createSearchBundle(resources, searchContext);
             if (requestUri != null) {
@@ -2500,17 +2548,29 @@ public class FHIRResource implements FHIRResourceHelpers {
                         List<OperationOutcome.Issue> issues =
                                 FHIRValidator.validator().validate(resource);
                         if (!issues.isEmpty()) {
-                            OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
                             if (anyFailueInIssues(issues)) {
-                                response =
-                                        Bundle.Entry.Response.builder().status(string(Integer.toString(SC_BAD_REQUEST))).build();
+                                OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
+                                response = Bundle.Entry.Response.builder()
+                                            .status(string(Integer.toString(SC_BAD_REQUEST)))
+                                            .build();
+                                responseEntry = Bundle.Entry.builder()
+                                            .response(response)
+                                            .resource(oo)
+                                            .build();
                                 numErrors++;
                             } else {
-                                response =
-                                        Bundle.Entry.Response.builder().status(string(Integer.toString(SC_OK))).build();
+                                response = Bundle.Entry.Response.builder()
+                                            .status(string(Integer.toString(SC_OK)))
+                                            .build();
+                                Bundle.Entry.Builder responseEntryBuilder = Bundle.Entry.builder().response(response);
+                                // Only add hints/warnings if the return preference was "OperationOutcome"
+                                if (HTTPReturnPreference.OPERATION_OUTCOME.equals(FHIRRequestContext.get().getReturnPreference())) {
+                                    OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
+                                    responseEntryBuilder.resource(oo);
+                                }
+                                responseEntry = responseEntryBuilder.build();
                             }
-                            responseEntry =
-                                    Bundle.Entry.builder().response(response).resource(oo).build();
+                            
                             continue;
                         }
                     }
@@ -2985,7 +3045,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                             // Process and replace bundler Entry
                             Bundle.Entry resultEntry =
-                                    setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
+                                    setBundleResponseFields(responseEntry, resource, ior.getOperationOutcome(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
                             responseIndexAndEntries.put(entryIndex, resultEntry);
 
@@ -3049,7 +3109,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                         // Process and replace bundler Entry
                         Bundle.Entry resultEntry =
-                                setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
+                                setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
                         responseIndexAndEntries.put(entryIndex, resultEntry);
 
@@ -3080,7 +3140,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                         // Process and replace bundler Entry
                         Bundle.Entry resultEntry =
-                                setBundleResponseFields(responseEntry, ior.getResource(), null, ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
+                                setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), null, ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
                         responseIndexAndEntries.put(entryIndex, resultEntry);
                     } else {
@@ -3365,8 +3425,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     private Bundle.Entry setBundleResponseFields(Bundle.Entry responseEntry, Resource resource,
-        URI locationURI, int httpStatus, String requestDescription,
-        long initialTime) throws FHIROperationException {
+        OperationOutcome operationOutcome, URI locationURI, int httpStatus, String requestDescription, long initialTime) throws FHIROperationException {
+        
         Bundle.Entry.Response response = responseEntry.getResponse();
         Bundle.Entry.Response.Builder resBuilder = response.toBuilder();
         resBuilder.status(string(Integer.toString(httpStatus)));
@@ -3377,8 +3437,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             resBuilder =
                     resBuilder.id(resource.getId().getValue()).lastModified(resource.getMeta().getLastUpdated()).etag(string(getEtagValue(resource)));
 
-            bundleEntryBuilder = bundleEntryBuilder.resource(resource);
-
+            if (HTTPReturnPreference.REPRESENTATION.equals(FHIRRequestContext.get().getReturnPreference())) {
+                bundleEntryBuilder.resource(resource);
+            } else if (HTTPReturnPreference.OPERATION_OUTCOME.equals(FHIRRequestContext.get().getReturnPreference())) {
+                bundleEntryBuilder.resource(operationOutcome);
+            }
         }
         if (locationURI != null) {
             resBuilder = resBuilder.location(Uri.of(locationURI.toString()));
@@ -3406,7 +3469,8 @@ public class FHIRResource implements FHIRResourceHelpers {
      * Adds the Etag and Last-Modified headers to the specified response object.
      */
     private ResponseBuilder addHeaders(ResponseBuilder rb, Resource resource) {
-        return rb.header(HttpHeaders.ETAG, getEtagValue(resource)).header(HttpHeaders.LAST_MODIFIED, resource.getMeta().getLastUpdated().getValue().toString());
+        return rb.header(HttpHeaders.ETAG, getEtagValue(resource))
+                 .header(HttpHeaders.LAST_MODIFIED, resource.getMeta().getLastUpdated().getValue().toString());
     }
 
     private String getEtagValue(Resource resource) {
@@ -3745,7 +3809,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      *            the FHIRHistoryContext associated with the history operation
      * @return the bundle
      */
-    private Bundle createHistoryBundle(List<Resource> resources, FHIRHistoryContext historyContext)
+    private Bundle createHistoryBundle(List<? extends Resource> resources, FHIRHistoryContext historyContext)
         throws FHIROperationException {
         // generate ID for this bundle and set the "total" field for the bundle
         Bundle.Builder bundleBuilder =
@@ -4063,7 +4127,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 return (Response) ox;
             }
             
-        }        
+        }
         
         URI locationURI =
                 (URI) operationContext.getProperty(FHIROperationContext.PROPNAME_LOCATION_URI);

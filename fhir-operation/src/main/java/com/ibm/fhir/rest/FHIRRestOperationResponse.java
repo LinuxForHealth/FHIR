@@ -10,6 +10,7 @@ import java.net.URI;
 
 import javax.ws.rs.core.Response;
 
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
@@ -20,6 +21,7 @@ public class FHIRRestOperationResponse {
     private URI locationURI;
     private Resource resource;
     private Resource prevResource;
+    private OperationOutcome operationOutcome;
     
     public FHIRRestOperationResponse() {
     }
@@ -28,6 +30,11 @@ public class FHIRRestOperationResponse {
         setStatus(status);
         setLocationURI(locationURI);
         setResource(resource);
+    }
+    public FHIRRestOperationResponse(Response.Status status, URI locationURI, OperationOutcome operationOutcome) {
+        setStatus(status);
+        setLocationURI(locationURI);
+        setOperationOutcome(operationOutcome);
     }
     public Response.Status getStatus() {
         return status;
@@ -54,5 +61,13 @@ public class FHIRRestOperationResponse {
 
     public void setPrevResource(Resource prevResource) {
         this.prevResource = prevResource;
+    }
+
+    public OperationOutcome getOperationOutcome() {
+        return operationOutcome;
+    }
+
+    public void setOperationOutcome(OperationOutcome operationOutcome) {
+        this.operationOutcome = operationOutcome;
     }
 }

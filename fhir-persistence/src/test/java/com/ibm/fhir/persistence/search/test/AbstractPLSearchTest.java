@@ -96,7 +96,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      * @throws Exception
      */
     protected boolean searchReturnsResource(String searchParamName, String queryValue, Resource expectedResource) throws Exception {
-        List<Resource> resources = runQueryTest(expectedResource.getClass(), persistence, searchParamName, queryValue, Integer.MAX_VALUE);
+        List<? extends Resource> resources = runQueryTest(expectedResource.getClass(), persistence, searchParamName, queryValue, Integer.MAX_VALUE);
         assertNotNull(resources);
         if (resources.size() > 0) {
             Resource returnedResource = findResourceInResponse(expectedResource, resources);
@@ -112,7 +112,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      * Otherwise it returns null.
      * @param resources
      */
-    protected Resource findResourceInResponse(Resource resourceToFind, List<Resource> resources) {
+    protected Resource findResourceInResponse(Resource resourceToFind, List<? extends Resource> resources) {
         Resource returnedResource = null;
         boolean alreadyFound = false;
         int count = 0;

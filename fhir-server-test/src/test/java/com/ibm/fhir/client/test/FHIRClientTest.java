@@ -8,6 +8,7 @@ package com.ibm.fhir.client.test;
 
 import static com.ibm.fhir.client.FHIRRequestHeader.header;
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -151,6 +152,50 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
 
+        assertNotNull(response.getLocation());
+        assertNotNull(response.getLocationURI());
+        assertNotNull(response.getETag());
+        assertNotNull(response.getLastModified());
+    }
+
+    @Test
+    public void testCreatePatientWithReturnPref() throws Exception {
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        assertNotNull(patient);
+
+        FHIRRequestHeader preferHeader;
+        FHIRResponse response;
+        
+        // Create the patient with return=minimal and then validate the response.
+        preferHeader = new FHIRRequestHeader("Prefer", "return=minimal");
+        response = client.create(patient, preferHeader);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+        assertTrue(response.isEmpty());
+        assertNotNull(response.getLocation());
+        assertNotNull(response.getLocationURI());
+        assertNotNull(response.getETag());
+        assertNotNull(response.getLastModified());
+        
+        // Create the patient with return=representation and then validate the response.
+        preferHeader = new FHIRRequestHeader("Prefer", "return=representation");
+        response = client.create(patient, preferHeader);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+        assertFalse(response.isEmpty());
+        assertNotNull(response.getResource(Patient.class));
+        assertNotNull(response.getLocation());
+        assertNotNull(response.getLocationURI());
+        assertNotNull(response.getETag());
+        assertNotNull(response.getLastModified());
+
+        // Create the patient with return=OperationOutcome and then validate the response.
+        preferHeader = new FHIRRequestHeader("Prefer", "return=representation");
+        response = client.create(patient, preferHeader);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+        assertNotNull(response.getResource(OperationOutcome.class));
         assertNotNull(response.getLocation());
         assertNotNull(response.getLocationURI());
         assertNotNull(response.getETag());
@@ -494,6 +539,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertEquals(BundleType.TRANSACTION_RESPONSE.getValue(), responseBundle.getType().getValue());
     }
 
+    
     private Bundle addRequestToBundle(Bundle bundle, HTTPVerb method, String url, Resource resource) throws Exception {
           
         Bundle.Entry.Request request = Bundle.Entry.Request.builder().method(method).url(Uri.of(url)).build();   

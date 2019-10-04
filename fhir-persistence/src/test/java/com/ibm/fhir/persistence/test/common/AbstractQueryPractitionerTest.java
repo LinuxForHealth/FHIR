@@ -195,7 +195,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -220,7 +220,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((Practitioner)resources.get(0)).getAddress().get(0).getCity().getValue(),"Ogalalla");
@@ -249,7 +249,7 @@ public abstract class AbstractQueryPractitionerTest extends AbstractPersistenceT
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Practitioner.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         long count = context.getTotalCount();

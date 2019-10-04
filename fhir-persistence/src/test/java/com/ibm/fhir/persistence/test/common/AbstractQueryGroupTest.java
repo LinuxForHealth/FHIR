@@ -97,7 +97,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -122,7 +122,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((Group)resources.get(0)).getMember().get(3).getEntity().getReference().getValue(),"Patient/pat4");
@@ -148,7 +148,7 @@ public abstract class AbstractQueryGroupTest extends AbstractPersistenceTest {
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms,null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Group.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         long count = context.getTotalCount();

@@ -748,7 +748,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -800,7 +800,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         long count = context.getTotalCount();
@@ -823,7 +823,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         queryParms.put("_since", Collections.singletonList("2015-06-10T21:32:59.076Z"));
         FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
         
-        List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), Patient.class, savedPatient.getId().getValue());
+        List<Patient> resources = persistence.history(getPersistenceContextForHistory(context), Patient.class, savedPatient.getId().getValue()).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -852,7 +852,7 @@ public abstract class AbstractQueryPatientTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Patient.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();

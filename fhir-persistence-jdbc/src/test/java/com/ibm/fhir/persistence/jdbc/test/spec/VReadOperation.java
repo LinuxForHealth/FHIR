@@ -22,7 +22,7 @@ public class VReadOperation extends BaseOperation {
         final String logicalId = resource.getId().getValue();
         final String versionId = resource.getMeta().getVersionId().getValue();
         
-        Resource newResource = tc.getPersistence().vread(context, resource.getClass(), logicalId, versionId);
+        Resource newResource = tc.getPersistence().vread(context, resource.getClass(), logicalId, versionId).getResource();
         check(tc, resource, newResource, this.getClass().getSimpleName());
 
         // This operation doesn't modify the resource, so we don't
