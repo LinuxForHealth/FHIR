@@ -18,6 +18,7 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 
 /**
  * This class contains resource deletion tests.
