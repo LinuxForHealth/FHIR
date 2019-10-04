@@ -37,6 +37,7 @@ import javax.json.stream.JsonGenerator;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.DomainResource;
@@ -173,7 +174,7 @@ public class FHIRSwaggerGenerator {
     private static void populateStructureDefinitionMap(Map<Class<?>, StructureDefinition> structureDefinitionMap,
             String structureDefinitionFile) throws Exception {
         InputStream stream = FHIRSwaggerGenerator.class.getClassLoader().getResourceAsStream(structureDefinitionFile);
-        Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, stream);
+        Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);
         for (Entry entry : bundle.getEntry()) {
             if (entry.getResource() instanceof StructureDefinition) {
                 StructureDefinition structureDefinition = (StructureDefinition) entry.getResource();

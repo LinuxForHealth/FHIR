@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.ibm.fhir.database.utils.model.ColumnBase;
-import com.ibm.fhir.database.utils.model.PartitionDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;

@@ -18,8 +18,8 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.ImmunizationRecommendation;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ImmunizationRecommendation.Recommendation.DateCriterion;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.PositiveInt;

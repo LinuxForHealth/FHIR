@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**

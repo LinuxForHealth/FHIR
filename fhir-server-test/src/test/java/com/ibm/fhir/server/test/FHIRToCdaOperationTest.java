@@ -25,19 +25,20 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.BundleType;
 import com.ibm.fhir.model.type.Code;
@@ -47,7 +48,6 @@ import com.ibm.fhir.model.type.CompositionStatus;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 // TODO create tests for invoking toCda transform on saved resources (building on $document operation)
 public class FHIRToCdaOperationTest extends FHIRServerTestBase {
@@ -63,7 +63,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
 
         Bundle document = buildDocument();
 
-        FHIRUtil.write(document, Format.XML, System.out);
+        FHIRGenerator.generator(Format.JSON, false).generate(document, System.out);
 
         Entity<Bundle> entity = Entity.entity(document, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Bundle").request().post(entity, Response.class);
@@ -131,7 +131,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
         assertNotNull(outcome);
         List<Issue> issues = outcome.getIssue();
         assertTrue(issues.size() > 0);
-        FHIRUtil.write(outcome, Format.JSON, System.out);
+        FHIRGenerator.generator(Format.JSON, false).generate(outcome, System.out);
     }
 
     /*
@@ -145,7 +145,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
         Bundle documentBundle = createCCD(datetime, title, CompositionStatus.FINAL);
 
         Parameters parameters = createParameters(documentBundle, false);
-        FHIRUtil.write(parameters, Format.JSON, System.out);
+        FHIRGenerator.generator(Format.JSON, false).generate(parameters, System.out);
 
         Response response = sendRequest(parameters);
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -168,7 +168,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
         assertNotNull(outcome);
         List<Issue> issues = outcome.getIssue();
         assertTrue(issues.size() > 0);
-        FHIRUtil.write(outcome, Format.JSON, System.out);
+        FHIRGenerator.generator(Format.JSON, false).generate(outcome, System.out);
     }
 
     /**
@@ -429,7 +429,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
     }
 
     private Response sendRequest(Parameters parameters) throws JAXBException, FHIRException {
-        FHIRUtil.write(parameters, Format.XML, System.out);
+        FHIRGenerator.generator(Format.JSON, false).generate(parameters, System.out);
         System.out.println();
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
 

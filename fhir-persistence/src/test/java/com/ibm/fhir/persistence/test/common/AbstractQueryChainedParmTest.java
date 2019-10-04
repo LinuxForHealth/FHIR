@@ -10,7 +10,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,10 +19,10 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.ImmunizationRecommendation;
+import com.ibm.fhir.model.resource.ImmunizationRecommendation.Recommendation;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.ImmunizationRecommendation.Recommendation;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;

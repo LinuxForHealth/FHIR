@@ -12,8 +12,6 @@ import java.util.Properties;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
-
 /**
  * @author rarnold
  *

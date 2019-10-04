@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 import org.owasp.encoder.Encode;
 
-import com.ibm.fhir.audit.logging.impl.DisabledAuditLogService;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;

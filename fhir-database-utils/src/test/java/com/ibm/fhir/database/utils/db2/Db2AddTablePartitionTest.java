@@ -10,8 +10,6 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.database.utils.db2.Db2AddTablePartition;
-
 /**
  * @author rarnold
  *

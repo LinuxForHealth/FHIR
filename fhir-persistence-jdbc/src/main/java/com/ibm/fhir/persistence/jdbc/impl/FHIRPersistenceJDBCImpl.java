@@ -33,10 +33,10 @@ import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import javax.xml.bind.JAXBException;
 
-import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;

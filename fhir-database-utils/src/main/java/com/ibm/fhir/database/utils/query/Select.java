@@ -6,7 +6,9 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import static com.ibm.fhir.database.utils.query.SqlConstants.*;
+import static com.ibm.fhir.database.utils.query.SqlConstants.FROM;
+import static com.ibm.fhir.database.utils.query.SqlConstants.SELECT;
+import static com.ibm.fhir.database.utils.query.SqlConstants.SPACE;
 
 import com.ibm.fhir.database.utils.query.expression.Predicate;
 import com.ibm.fhir.database.utils.query.expression.PredicateExpression;

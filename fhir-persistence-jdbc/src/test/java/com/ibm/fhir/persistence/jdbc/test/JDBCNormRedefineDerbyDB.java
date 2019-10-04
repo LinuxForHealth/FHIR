@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.test;
 
 import java.util.Properties;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;

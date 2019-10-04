@@ -15,9 +15,6 @@ import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceRequest;
-import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceResponse;
-
 /**
  * BulkExportJobResponse
  * 

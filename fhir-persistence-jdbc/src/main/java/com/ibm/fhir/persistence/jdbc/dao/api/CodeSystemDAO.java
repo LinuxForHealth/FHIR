@@ -8,7 +8,6 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import java.util.Map;
 
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 

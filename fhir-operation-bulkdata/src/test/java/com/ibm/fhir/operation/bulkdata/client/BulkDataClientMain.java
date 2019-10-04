@@ -5,11 +5,9 @@
  */
 package com.ibm.fhir.operation.bulkdata.client;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.ibm.fhir.operation.bulkdata.client.BulkDataClient;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 
 /**

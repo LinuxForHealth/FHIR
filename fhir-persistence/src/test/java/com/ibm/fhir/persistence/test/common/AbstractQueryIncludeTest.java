@@ -5,29 +5,9 @@
  */
 
 package com.ibm.fhir.persistence.test.common;
-
-import static org.testng.Assert.fail;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.testng.annotations.Test;
-
-import com.ibm.fhir.model.resource.Device;
-import com.ibm.fhir.model.resource.Encounter;
-import com.ibm.fhir.model.resource.Observation;
-import com.ibm.fhir.model.resource.Organization;
-import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.util.FHIRUtil;
-
 /**
  *  This class tests the persistence layer support for the FHIR _include and _revinclude search result parameters.
  *  @see https://www.hl7.org/fhir/DSTU2/search.html#include

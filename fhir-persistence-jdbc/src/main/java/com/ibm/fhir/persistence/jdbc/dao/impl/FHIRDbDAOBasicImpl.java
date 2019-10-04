@@ -21,12 +21,12 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2SetTenantVariable;
-import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.IssueType;

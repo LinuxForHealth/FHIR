@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.AuditEvent;
 import com.ibm.fhir.model.resource.Binary;
 import com.ibm.fhir.model.resource.DocumentReference;
@@ -65,7 +66,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         if (DEBUG_JSON) {
-            FHIRUtil.write(binary, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(binary, System.out);
         }
 
         String binaryId = getLocationLogicalId(response);
@@ -75,7 +76,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         Binary responseBinary = response.readEntity(Binary.class);
 
         if (DEBUG_JSON) {
-            FHIRUtil.write(responseBinary, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(responseBinary, System.out);
         }
 
         String valueString = new String(responseBinary.getData().getValue());
@@ -164,7 +165,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         if (DEBUG_JSON) {
-            FHIRUtil.write(auditEvent, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(auditEvent, System.out);
         }
 
         // Retrieve the AuditEvent
@@ -174,7 +175,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         AuditEvent responseAuditEvent = response.readEntity(AuditEvent.class);
 
         if (DEBUG_JSON) {
-            FHIRUtil.write(responseAuditEvent, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(responseAuditEvent, System.out);
         }
 
         Base64Binary base64Binary = (Base64Binary) responseAuditEvent.getEntity().get(0).getDetail().get(0).getValue();
@@ -217,7 +218,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                 .build();
 
         if (DEBUG_JSON) {
-            FHIRUtil.write(parameters, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(parameters, System.out);
         }
 
         // Persist the Parameters resource
@@ -232,7 +233,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         Parameters responseParameters = response.readEntity(Parameters.class);
 
         if (DEBUG_JSON) {
-            FHIRUtil.write(responseParameters, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(responseParameters, System.out);
         }
 
         Base64Binary base64Binary = (Base64Binary) responseParameters.getParameter().get(0).getValue();
@@ -277,7 +278,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         if (DEBUG_JSON) {
-            FHIRUtil.write(auditEvent, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(auditEvent, System.out);
         }
 
         // Retrieve the AuditEvent
@@ -287,7 +288,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         AuditEvent responseAuditEvent = response.readEntity(AuditEvent.class);
 
         if (DEBUG_JSON) {
-            FHIRUtil.write(responseAuditEvent, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON, false).generate(responseAuditEvent, System.out);
         }
 
         // Compare original and retrieved values.
