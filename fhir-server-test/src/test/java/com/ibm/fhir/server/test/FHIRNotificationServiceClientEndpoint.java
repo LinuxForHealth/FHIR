@@ -45,7 +45,6 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         latch = new CountDownLatch(1);
         this.limit = limit;
         events = Collections.synchronizedList(new ArrayList<FHIRNotificationEvent>(limit));
-        System.out.println("FHIRNotificationServiceClientEndpoint thread id = " + Thread.currentThread().getId());
     }
     
     public void onOpen(Session session, EndpointConfig config) {
@@ -53,13 +52,10 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         this.session = session;
         session.addMessageHandler(new MessageHandler.Whole<String>() {
             public void onMessage(String text) {
-                System.out.println(Thread.currentThread().getId() + ">>> Received message: " + text);
+                System.out.println(">>> Received message: " + text);
                 FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(text);
-                System.out.println(">>> Begin adding message to events.");
                 events.add(event);
-                System.out.println(">>> Finish adding message to events.");
                 if (events.size() >= limit) {
-                    System.out.println(">>> Call close(). ");
                     close();
                 }
             }

@@ -9,17 +9,20 @@ package com.ibm.fhir.notification.util;
 import java.io.StringReader;
 
 import javax.json.Json;
+import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.FHIRNotificationEvent;
 
 public class FHIRNotificationUtil {
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     public static FHIRNotificationEvent toNotificationEvent(String jsonString) {
-        JsonReader reader = Json.createReader(new StringReader(jsonString));
+        try (JsonReader reader = JSON_READER_FACTORY.createReader(new StringReader(jsonString))) {
         JsonObject jsonObject = reader.readObject();
         reader.close();
         FHIRNotificationEvent event = new FHIRNotificationEvent();
@@ -28,6 +31,10 @@ public class FHIRNotificationUtil {
         event.setLastUpdated(jsonObject.getString("lastUpdated"));
         event.setResourceId(jsonObject.getString("resourceId"));
         return event;
+        } catch (JsonException e) {
+            System.out.println("Failed to parse json string: " + e.getLocalizedMessage());
+            return null;
+        }
     }
     
     /**
