@@ -54,7 +54,9 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
             public void onMessage(String text) {
                 System.out.println(">>> Received message: " + text);
                 FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(text);
+                System.out.println(">>> Begin adding message to events.");
                 events.add(event);
+                System.out.println(">>> Finish adding message to events.");
                 if (events.size() >= limit) {
                     System.out.println(">>> Call close(). ");
                     close();
