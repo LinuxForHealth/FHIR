@@ -97,7 +97,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         Observation responseObs = response.readEntity(Observation.class);
         savedCreatedObservation = responseObs;
 
-        endpoint.getLatch().await(5, TimeUnit.SECONDS);
+        endpoint.getLatch().await(2, TimeUnit.SECONDS);
 
         FHIRNotificationEvent event = endpoint.getFirstEvent();
         assertTrue(event != null);
