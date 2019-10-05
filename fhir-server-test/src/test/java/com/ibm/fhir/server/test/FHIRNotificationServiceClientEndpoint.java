@@ -32,7 +32,7 @@ import javax.websocket.WebSocketContainer;
 
 public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     private Session session = null;    
-    private List<FHIRNotificationEvent> events = null;
+    private List<String> events = null;
     
     private CountDownLatch latch = null;    
     private int limit = 1;
@@ -44,7 +44,7 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     public FHIRNotificationServiceClientEndpoint(int limit) {
         latch = new CountDownLatch(1);
         this.limit = limit;
-        events = Collections.synchronizedList(new ArrayList<FHIRNotificationEvent>(limit));
+        events = Collections.synchronizedList(new ArrayList<String>(limit));
     }
     
     public void onOpen(Session session, EndpointConfig config) {
@@ -53,8 +53,8 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         session.addMessageHandler(new MessageHandler.Whole<String>() {
             public void onMessage(String text) {
                 System.out.println(">>> Received message: " + text);
-                FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(text);
-                events.add(event);
+            //    FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(text);
+                events.add(text);
                 if (events.size() >= limit) {
                     close();
                 }
@@ -76,12 +76,15 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     }
     
     public FHIRNotificationEvent getFirstEvent() {
-        List<FHIRNotificationEvent> view = getEvents();
-        return !view.isEmpty() ? view.get(0) : null;
+        List<String> view = getEvents();
+        if (!view.isEmpty() && view.get(0) != null) {
+            return FHIRNotificationUtil.toNotificationEvent(view.get(0));
+        } 
+        return null;
     }
     
-    public List<FHIRNotificationEvent> getEvents() {
-        return Collections.unmodifiableList(new ArrayList<FHIRNotificationEvent>(events));
+    public List<String> getEvents() {
+        return Collections.unmodifiableList(new ArrayList<String>(events));
     }
     
     public int getLimit() {
@@ -146,7 +149,7 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
             System.out.println("");
         }
         
-        List<FHIRNotificationEvent> events = endpoint.getEvents();
+        List<String> events = endpoint.getEvents();
         
         if (events.size() == 0) {
             text = "no events.";
@@ -158,11 +161,12 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         
         System.out.println("Client received " + text);
         System.out.println("");
-        for (FHIRNotificationEvent event : events) {
-            System.out.println("    location:      " + event.getLocation());
-            System.out.println("    operationType: " + event.getOperationType());
-            System.out.println("    lastUpdated:   " + event.getLastUpdated());
-            System.out.println("    resourceId:    " + event.getResourceId());
+        for (String event : events) {
+            FHIRNotificationEvent notifyEvent = FHIRNotificationUtil.toNotificationEvent(event);
+            System.out.println("    location:      " + notifyEvent.getLocation());
+            System.out.println("    operationType: " + notifyEvent.getOperationType());
+            System.out.println("    lastUpdated:   " + notifyEvent.getLastUpdated());
+            System.out.println("    resourceId:    " + notifyEvent.getResourceId());
             System.out.println("");
         }
     }

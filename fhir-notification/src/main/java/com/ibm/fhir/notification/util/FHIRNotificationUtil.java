@@ -18,6 +18,7 @@ import javax.json.JsonReaderFactory;
 
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.notification.FHIRNotificationEvent;
 
 public class FHIRNotificationUtil {
@@ -26,7 +27,6 @@ public class FHIRNotificationUtil {
     public static FHIRNotificationEvent toNotificationEvent(String jsonString) {
         try (JsonReader reader = JSON_READER_FACTORY.createReader(new StringReader(jsonString))) {
         JsonObject jsonObject = reader.readObject();
-        reader.close();
         FHIRNotificationEvent event = new FHIRNotificationEvent();
         event.setOperationType(jsonObject.getString("operationType"));
         event.setLocation(jsonObject.getString("location"));
@@ -54,7 +54,7 @@ public class FHIRNotificationUtil {
         builder.add("operationType", event.getOperationType());
         builder.add("resourceId", event.getResourceId());
         if (includeResource && event.getResource() != null) {
-            builder.add("resource", FHIRUtil.toJsonObject(event.getResource()));
+            builder.add("resource", JsonSupport.toJsonObject(event.getResource()));
         }
         JsonObject jsonObject = builder.build();
         String jsonString = jsonObject.toString();
