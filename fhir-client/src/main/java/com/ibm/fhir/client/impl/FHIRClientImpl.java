@@ -43,6 +43,7 @@ import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
@@ -94,6 +95,7 @@ public class FHIRClientImpl implements FHIRClient {
     private boolean hostnameVerificationEnabled = true;
     
     private int httpTimeout;
+    private HTTPReturnPreference httpReturnPref = HTTPReturnPreference.MINIMAL;
 
     protected FHIRClientImpl() {
     }
@@ -186,6 +188,7 @@ public class FHIRClientImpl implements FHIRClient {
         Entity<T> entity = Entity.entity(resource, getDefaultMimeType());
         Invocation.Builder builder = endpoint.path(resourceType).request(getDefaultMimeType());
         headers = addIfNoneExistHeader(headers, parameters);
+        headers = addHttpPreferHeader(headers, getHttpReturnPref());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
@@ -217,6 +220,39 @@ public class FHIRClientImpl implements FHIRClient {
         // Add the new header at the end.
         result[result.length - 1] = ifNoneExistHeader;
 
+        return result;
+    }
+    
+    /**
+     * This function will add a "Prefer" request header to the specified array of headers.
+     * @param headers a possibly null array of FHIRRequestHeader objects
+     * @param  returnPref a value representing the HTTP return preference to be used for the request
+     * @return a new array of FHIRRequestHeader objects containing the additional "Prefer" request header
+     */
+    private FHIRRequestHeader[] addHttpPreferHeader(FHIRRequestHeader[] headers, HTTPReturnPreference returnPref) {
+        if (headers != null ) {
+            for (FHIRRequestHeader fhirRequestHeader : headers) {
+                if ("Prefer".equals(fhirRequestHeader.getName())) {
+                    // User has provided an explicit Prefer header, so don't overwrite that
+                    return headers;
+                }
+            }
+        }
+        
+        FHIRRequestHeader preferHeader = new FHIRRequestHeader("Prefer", "return=" + returnPref.value());
+        
+        // Create a new array that has room for the new "Prefer" header.
+        int headersSize = (headers != null ? headers.length : 0);
+        FHIRRequestHeader[] result = new FHIRRequestHeader[headersSize + 1];
+        if (headers != null) {
+            for (int i = 0; i < headers.length; i++) {
+                result[i] = headers[i];
+            }
+        }
+        
+        // Add the new header at the end.
+        result[result.length - 1] = preferHeader;
+        
         return result;
     }
 
@@ -959,6 +995,8 @@ public class FHIRClientImpl implements FHIRClient {
             setHostnameVerificationEnabled(Boolean.parseBoolean(getProperty(PROPNAME_HOSTNAME_VERIFICATION_ENABLED, "true")));
             
             setHttpTimeout(Integer.parseUnsignedInt(getProperty(PROPNAME_HTTP_TIMEOUT, "60000")));
+            
+            setHttpReturnPref(HTTPReturnPreference.from(getProperty(PROPNAME_HTTP_RETURN_PREF, HTTPReturnPreference.MINIMAL.value())));
         } catch (Throwable t) {
             throw new Exception("Unexpected error while processing client properties.", t);
         }
@@ -1234,5 +1272,13 @@ public class FHIRClientImpl implements FHIRClient {
 
     public void setHttpTimeout(int httpTimeout) {
         this.httpTimeout = httpTimeout;
+    }
+
+    public HTTPReturnPreference getHttpReturnPref() {
+        return httpReturnPref;
+    }
+
+    public void setHttpReturnPref(HTTPReturnPreference returnPref) {
+        this.httpReturnPref = returnPref;
     }
 }

@@ -22,6 +22,7 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -98,17 +99,17 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract" })
     public void testUpdateContract() throws Exception {
-    	
-    	// update the saved contract
+        
+        // update the saved contract
         Contract contract = savedContract.toBuilder().language(Code.of("it")).build();
         persistence.update(getDefaultPersistenceContext(), contract.getId().getValue(), contract);
         assertNotNull(contract);
         assertEquals("2", contract.getMeta().getVersionId().getValue());
 
         // Now re-read the risk assessment and make sure we get back the correctly updated object
-        Contract retrievedContract = (Contract) persistence.read(getDefaultPersistenceContext(), Contract.class, contract.getId().getValue());
-        assertNotNull(retrievedContract);
-        assertResourceEquals(contract, retrievedContract);
+        SingleResourceResult<Contract> result = persistence.read(getDefaultPersistenceContext(), Contract.class, contract.getId().getValue());
+        assertNotNull(result.getResource());
+        assertResourceEquals(contract, result.getResource());
     }
     
     /**
@@ -124,15 +125,15 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         assertEquals("3", contract.getMeta().getVersionId().getValue());
 
         // Now re-read the risk assessment and make sure we get back the correctly updated object
-        Contract retrievedContract = (Contract) persistence.read(getDefaultPersistenceContext(), Contract.class, contract.getId().getValue());
-        assertNotNull(retrievedContract);
-        assertResourceEquals(contract, retrievedContract);
+        SingleResourceResult<Contract> result = persistence.read(getDefaultPersistenceContext(), Contract.class, contract.getId().getValue());
+        assertNotNull(result.getResource());
+        assertResourceEquals(contract, result.getResource());
         
         // Finally, read the 3rd version of the updated Contract to make sure we get back the right one.
-        retrievedContract = (Contract) persistence.vread(getDefaultPersistenceContext(), Contract.class, 
+        result = persistence.vread(getDefaultPersistenceContext(), Contract.class, 
                                         contract.getId().getValue(), contract.getMeta().getVersionId().getValue());
-        assertNotNull(retrievedContract);
-        assertResourceEquals(contract, retrievedContract);
+        assertNotNull(result.getResource());
+        assertResourceEquals(contract, result.getResource());
     }
     
     /*
@@ -150,7 +151,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -175,7 +176,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((Contract)resources.get(0)).getSubject().get(0).getReference().getValue(),"Patient/example");
@@ -201,7 +202,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Contract.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         long count = context.getTotalCount();
@@ -224,7 +225,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         queryParms.put("_since", Collections.singletonList("2015-06-10T21:32:59.076Z"));
         FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
         
-        List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue());
+        List<Contract> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue()).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -244,7 +245,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         queryParms.put("_page", Collections.singletonList("1"));
         FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
         
-        List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue());
+        List<Contract> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue()).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -265,7 +266,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         queryParms.put("_count", Collections.singletonList("2"));
         FHIRHistoryContext context = FHIRPersistenceUtil.parseHistoryParameters(queryParms);
         
-        List<Resource> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue());
+        List<Contract> resources = persistence.history(getPersistenceContextForHistory(context), Contract.class, savedContract.getId().getValue()).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -302,11 +303,11 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
         assertEquals("1", contract.getMeta().getVersionId().getValue());
 
         Reference patientRef = Reference.builder()
-        		.reference(com.ibm.fhir.model.type.String.of("Patient/" + patient.getId().getValue()))
-        		.build();
+                .reference(com.ibm.fhir.model.type.String.of("Patient/" + patient.getId().getValue()))
+                .build();
         
         Contract updatedContract = contract.toBuilder().subject(patientRef).build();
-        Resource updatedResource = persistence.update(getDefaultPersistenceContext(), updatedContract.getId().getValue(), updatedContract);
+        Contract updatedResource = persistence.update(getDefaultPersistenceContext(), updatedContract.getId().getValue(), updatedContract).getResource();
         assertEquals("2", updatedResource.getMeta().getVersionId().getValue());
     }
     

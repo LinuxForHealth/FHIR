@@ -19,7 +19,7 @@ public class DeleteOperation extends BaseOperation {
 
         final String logicalId = resource.getId().getValue();
         
-        Resource newResource = tc.getPersistence().delete(context, resource.getClass(), logicalId);
+        Resource newResource = tc.getPersistence().delete(context, resource.getClass(), logicalId).getResource();
         
         // Update the context with the modified resource. This is the deletion marker
         // and so should be substantially different when compared with the actual resource

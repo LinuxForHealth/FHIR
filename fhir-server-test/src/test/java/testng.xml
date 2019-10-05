@@ -1,4 +1,5 @@
-<suite name="FHIRServerIntegrationTests">  
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="FHIRServerIntegrationTests">
     <test name="ExampleTest">
         <classes>
             <class name="com.ibm.fhir.server.test.R4ExampleServerTest" />

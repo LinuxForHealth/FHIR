@@ -34,11 +34,11 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
         
         Coding tag = Coding.builder()
-        		.system(Uri.of("http://ibm.com/fhir/tag"))
-        		.code(Code.of("tag")).build();
+                .system(Uri.of("http://ibm.com/fhir/tag"))
+                .code(Code.of("tag")).build();
         Coding security = Coding.builder()
-        		.system(Uri.of("http://ibm.com/fhir/security"))
-        		.code(Code.of("security")).build();
+                .system(Uri.of("http://ibm.com/fhir/security"))
+                .code(Code.of("security")).build();
 
         Meta meta = patient.getMeta();
         Meta.Builder mb = meta == null ? Meta.builder() : meta.toBuilder();
@@ -48,7 +48,7 @@ public abstract class AbstractSearchAllTest extends AbstractPersistenceTest {
         
         patient = patient.toBuilder().meta(mb.build()).build();
         
-        Resource resource = persistence.create(getDefaultPersistenceContext(), patient);
+        Resource resource = persistence.create(getDefaultPersistenceContext(), patient).getResource();
         assertNotNull(resource);
         assertNotNull(resource.getId());
         assertNotNull(resource.getId().getValue());

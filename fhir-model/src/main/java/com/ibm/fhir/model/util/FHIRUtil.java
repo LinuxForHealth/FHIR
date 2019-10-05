@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,6 +56,7 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
@@ -171,6 +173,13 @@ public class FHIRUtil {
         UsageContext.class,
         Dosage.class));
     private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
+    private static final OperationOutcome ALL_OK = OperationOutcome.builder()
+                                                            .issue(Issue.builder()
+                                                                    .severity(IssueSeverity.INFORMATION)
+                                                                    .code(IssueType.INFORMATIONAL)
+                                                                    .details(CodeableConcept.builder().text(string("All OK")).build())
+                                                                    .build())
+                                                            .build();
 
     private FHIRUtil() { }
 
@@ -461,14 +470,23 @@ public class FHIRUtil {
         if (expression == null || expression.isEmpty()) {
             expression = "<no expression>";
         }
-        return OperationOutcome.Issue.builder().severity(IssueSeverity.of(severity)).code(IssueType.of(code)).details(CodeableConcept.builder().text(string(details)).build()).expression(Collections.singletonList(string(expression))).build();
+        return OperationOutcome.Issue.builder()
+                    .severity(IssueSeverity.of(severity))
+                    .code(IssueType.of(code))
+                    .details(CodeableConcept.builder().text(string(details)).build())
+                    .expression(Collections.singletonList(string(expression)))
+                    .build();
     }
 
     /**
      * Build an OperationOutcome that contains the specified list of operation outcome issues.
      */
-    public static OperationOutcome buildOperationOutcome(List<OperationOutcome.Issue> issues) {
-        // Build an OperationOutcome and stuff the issues into it.
+    public static OperationOutcome buildOperationOutcome(Collection<OperationOutcome.Issue> issues) {
+        // If there are no issues, then return the ALL OK OperationOutcome
+        if (issues == null || issues.isEmpty()) {
+            return ALL_OK;
+        }
+        // Otherwise build an OperationOutcome and stuff the issues into it.
         return OperationOutcome.builder().issue(issues).build();
     }
 
@@ -765,7 +783,16 @@ public class FHIRUtil {
         return false;
     }
     
-    public static Resource addTag(Resource resource, Coding tag) {
+    /**
+     * Return a copy of resource {@code resource} with tag {@code tag}
+     * @param <T>
+     * @param resource
+     *          the resource to add the tag too
+     * @param tag
+     *          the tag to add
+     * @return a copy of the resource with the new tag (if it didn't already exist), or the resource passed in if the tag is already present
+     */
+    public static <T extends Resource> T addTag(T resource, Coding tag) {
         Objects.requireNonNull(resource);
         Objects.requireNonNull(tag);
         if (hasTag(resource, tag)) {
@@ -774,11 +801,13 @@ public class FHIRUtil {
         Meta meta = resource.getMeta();
         Meta.Builder metaBuilder = (meta == null) ? Meta.builder() : meta.toBuilder();
         // re-build resource with updated meta element
-        return resource.toBuilder()
-                .meta(metaBuilder
-                    .tag(tag)
-                    .build())
-                .build();
+        @SuppressWarnings("unchecked")
+        T updatedResource = (T) resource.toBuilder()
+                                    .meta(metaBuilder
+                                        .tag(tag)
+                                        .build())
+                                    .build();
+        return updatedResource;
     }
 
     // add for FHIRResource.java

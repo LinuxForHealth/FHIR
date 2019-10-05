@@ -33,7 +33,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
     public void testCreateEncounter() throws Exception {
             Encounter encounter = readResource(Encounter.class, "Encounter.json");
 
-        Resource created = persistence.create(getDefaultPersistenceContext(), encounter);
+        Resource created = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
         assertNotNull(created);
         assertNotNull(created.getId());
         assertNotNull(created.getId().getValue());
@@ -51,7 +51,7 @@ public abstract class AbstractQueryEncounterTest extends AbstractPersistenceTest
     public void testCreateEncounter_with_relatedPerson() throws Exception {
         Encounter encounter = readResource(Encounter.class, "Encounter-with-RelatedPerson.json");
 
-        Resource created = persistence.create(getDefaultPersistenceContext(), encounter);
+        Resource created = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
         assertNotNull(created);
         assertNotNull(created.getId());
         assertNotNull(created.getId().getValue());

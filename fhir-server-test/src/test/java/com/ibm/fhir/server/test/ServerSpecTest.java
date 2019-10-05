@@ -9,10 +9,10 @@ package com.ibm.fhir.server.test;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.net.URI;
 import java.time.ZoneOffset;
@@ -80,6 +80,39 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         assertNotNull(responsePatient);
         savedPatient = responsePatient;
+    }
+    
+    @Test(groups = { "server-spec" })
+    public void testCreatePatientWithReturnPrefs() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request()
+                                .header("Prefer", "return=minimal")
+                                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        URI location = response.getLocation();
+        assertNotNull(location);
+        assertNotNull(location.toString());
+        assertFalse(location.toString().isEmpty());
+        assertEquals(response.getLength(),0);
+        
+        response = target.path("Patient").request()
+                .header("Prefer", "return=representation")
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        assertNotNull(responsePatient);
+        
+        response = target.path("Patient").request()
+                .header("Prefer", "return=OperationOutcome")
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        assertTrue(oo.getIssue().toString().contains("dom-6: A resource should have narrative for robust management"));
     }
 
     // Test: create a new patient that contains an id
@@ -650,5 +683,5 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertExceptionOperationOutcome(response.getResource(OperationOutcome.class),
                 "Input resource 'id' attribute must match the id of the search result resource");
         
-    }    
+    }
 }
