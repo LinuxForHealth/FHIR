@@ -108,7 +108,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -133,7 +133,7 @@ public abstract class AbstractQueryQuestionnaireTest extends AbstractPersistence
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Questionnaire.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((Questionnaire)resources.get(0)).getDate().getValue(),"1969-12-31T19:00:02+00:00");

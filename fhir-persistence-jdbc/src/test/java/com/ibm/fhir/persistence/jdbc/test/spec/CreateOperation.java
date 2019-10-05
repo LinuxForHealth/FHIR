@@ -25,7 +25,7 @@ public class CreateOperation extends BaseOperation {
 
         // This needs to be a new resource. If it's not, then the
         // create will fail with a version id mismatch error
-        Resource newResource = tc.getPersistence().create(context, resource);
+        Resource newResource = tc.getPersistence().create(context, resource).getResource();
         check(tc, resource, newResource, this.getClass().getSimpleName());
         
         // Update the context with the modified resource

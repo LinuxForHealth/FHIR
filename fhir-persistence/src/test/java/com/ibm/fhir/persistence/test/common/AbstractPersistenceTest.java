@@ -22,6 +22,7 @@ import org.testng.annotations.BeforeMethod;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -114,9 +115,9 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
             searchContext.setPageSize(maxPageSize);
         }
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType);
-        assertNotNull(resources);
-        return resources;
+        MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
+        assertNotNull(result.getResource());
+        return result.getResource();
     }
 
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {
@@ -133,8 +134,8 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
             searchContext.setPageSize(maxPageSize);
         }
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType);
-        assertNotNull(resources);
-        return resources;
+        MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
+        assertNotNull(result.getResource());
+        return result.getResource();
     }
 }

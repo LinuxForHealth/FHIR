@@ -51,7 +51,19 @@ jobs:
         build/pre-integration-test.sh
         mvn test -DskipTests=false -f fhir-server-test/pom.xml
         build/post-integration-test.sh
+    - name: Gather error logs
+      if: failure()
+      run: |
+        it_results=SIT/integration-test-results
+        rm -fr ${it_results} 2>/dev/null
+        mkdir -p ${it_results}/server-logs
+        mkdir -p ${it_results}/fhir-server-test
+        echo "Gathering post-test server logs..."
+        cp -pr SIT/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
+        echo "Gathering integration test output"
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     - name: Upload logs
+      if: always()
       uses: actions/upload-artifact@master
       with:
         name: integration-test-results

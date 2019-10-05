@@ -138,6 +138,14 @@ public interface FHIRClient {
      */
     public static final String PROPNAME_HTTP_TIMEOUT = "fhirclient.http.receive.timeout";
     
+    /**
+     * The client preference for whether the server response for modification requests like POST or PUT should include
+     * an empty body, the updated resources, or a resource describing the outcome of the interaction.
+     * 
+     * <p>"minimal", "representation", or "OperationOutcome"
+     */
+    public static final String PROPNAME_HTTP_RETURN_PREF = "fhirclient.http.return.pref";
+    
     
     /**
      * Returns a JAX-RS 2.0 WebTarget object associated with the REST API endpoint.

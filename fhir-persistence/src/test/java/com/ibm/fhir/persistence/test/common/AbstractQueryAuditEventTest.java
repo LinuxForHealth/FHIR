@@ -73,7 +73,7 @@ public abstract class AbstractQueryAuditEventTest extends AbstractPersistenceTes
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateAuditEvent" })
     public void testAuditEventQuery_noParams() throws Exception {
-        List<Resource> resources = runQueryTest(AuditEvent.class, persistence, null, null);
+        List<? extends Resource> resources = runQueryTest(AuditEvent.class, persistence, null, null);
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
     }

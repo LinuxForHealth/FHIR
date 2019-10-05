@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
 
 /**
@@ -30,6 +31,9 @@ public class FHIRRequestContext {
     private String tenantKey;
     private String dataStoreId;
     private String requestUniqueId;
+    
+    // Default to the "minimal" representation which means create/update responses won't return the resource body
+    private HTTPReturnPreference returnPreference = HTTPReturnPreference.MINIMAL;
     
     private Pattern validChars = Pattern.compile("[a-zA-Z0-9_\\-]+");
     private String errorMsg = "Only [a-z], [A-Z], [0-9], '_', and '-' characters are allowed.";
@@ -148,5 +152,19 @@ public class FHIRRequestContext {
     
     private static String objectHandle(Object obj) {
         return '@' + Integer.toHexString(System.identityHashCode(obj));
+    }
+
+    /**
+     * @return the returnPreference
+     */
+    public HTTPReturnPreference getReturnPreference() {
+        return returnPreference;
+    }
+
+    /**
+     * @param returnPreference the returnPreference to set
+     */
+    public void setReturnPreference(HTTPReturnPreference returnPreference) {
+        this.returnPreference = returnPreference;
     }
 }

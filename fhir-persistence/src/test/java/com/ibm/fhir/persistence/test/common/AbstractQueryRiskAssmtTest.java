@@ -166,7 +166,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -191,7 +191,7 @@ public abstract class AbstractQueryRiskAssmtTest extends AbstractPersistenceTest
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), RiskAssessment.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((RiskAssessment)resources.get(0)).getCondition().getReference().getValue(),"Condition/stroke");

@@ -124,7 +124,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Medication.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Medication.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -176,7 +176,7 @@ public abstract class AbstractQueryMedicationTest extends AbstractPersistenceTes
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Medication.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Medication.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         long count = context.getTotalCount();

@@ -82,7 +82,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         assertNotNull(device.getMeta());
         assertNotNull(device.getMeta().getVersionId().getValue());
          
-        Device readDevice = (Device)persistence.read(context, Device.class, device.getId().getValue());
+        Device readDevice = persistence.read(context, Device.class, device.getId().getValue()).getResource();
         assertNotNull(readDevice);
         assertEquals(versionId,readDevice.getMeta().getVersionId().getValue());
         ZonedDateTime tempLastUpdated =  readDevice.getMeta().getLastUpdated().getValue();
@@ -140,7 +140,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -192,7 +192,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         long count = context.getTotalCount();
@@ -215,7 +215,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         long count = context.getTotalCount();
@@ -238,7 +238,7 @@ public abstract class AbstractQueryDeviceTest extends AbstractPersistenceTest {
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), Device.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((Device)resources.get(0)).getUrl().getValue(),"http://www.testdevice.ibm.com/bogusDeviceId");

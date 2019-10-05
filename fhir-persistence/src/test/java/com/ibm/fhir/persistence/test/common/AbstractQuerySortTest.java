@@ -213,7 +213,7 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, true);
         searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
@@ -275,7 +275,7 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         

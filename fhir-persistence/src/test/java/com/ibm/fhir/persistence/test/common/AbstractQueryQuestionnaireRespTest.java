@@ -286,7 +286,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         long count = context.getTotalCount();
@@ -311,7 +311,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() != 0);
         assertEquals(((QuestionnaireResponse)resources.get(0)).getAuthored().getValue(),"2015-11-25T18:30:50+01:00");
@@ -337,7 +337,7 @@ public abstract class AbstractQueryQuestionnaireRespTest extends AbstractPersist
         queryParms.put(parmName, Collections.singletonList(parmValue));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParms, null);
         context.setPageNumber(1);
-        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class);
+        List<Resource> resources = persistence.search(getPersistenceContextForSearch(context), QuestionnaireResponse.class).getResource();
         assertNotNull(resources);
         assertTrue(resources.size() == 0);
         long count = context.getTotalCount();
