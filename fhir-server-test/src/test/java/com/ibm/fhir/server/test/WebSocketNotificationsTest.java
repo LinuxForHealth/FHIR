@@ -40,7 +40,6 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
      */
     @Test(groups = { "websocket-notifications" }, singleThreaded = true)
     public void testCreatePatient() throws Exception {
-        System.out.println("testCreatePatient threadid = " + Thread.currentThread().getId());
         FHIRNotificationServiceClientEndpoint endpoint = getWebsocketClientEndpoint();
         assertNotNull(endpoint);
 
