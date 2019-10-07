@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.json.Json;
+import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
@@ -117,6 +118,7 @@ import com.ibm.fhir.model.visitor.Visitable;
  * Utility methods for working with the FHIR object model. 
  */
 public class FHIRUtil {
+    private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
@@ -436,23 +438,9 @@ public class FHIRUtil {
         FHIRGenerator.generator(format, prettyPrinting).generate(resource, writer);
     }
 
-    public static JsonObject toJsonObject(Resource resource) throws FHIRGeneratorException {
-        // write Resource to String
-        StringWriter writer = new StringWriter();
-        FHIRGenerator.generator(Format.JSON).generate(resource, writer);
-        String jsonString = writer.toString();
-
-        // read JsonObject from String
-        return Json.createReader(new StringReader(jsonString)).readObject();
-    }
-
-    public static JsonObjectBuilder toJsonObjectBuilder(Resource resource) throws FHIRException {
-        return toJsonObjectBuilder(toJsonObject(resource));
-    }
-
     // copy an immutable JsonObject into a mutable JsonObjectBuilder
     public static JsonObjectBuilder toJsonObjectBuilder(JsonObject jsonObject) {
-        JsonObjectBuilder builder = Json.createObjectBuilder();
+        JsonObjectBuilder builder = BUILDER_FACTORY.createObjectBuilder();
         // JsonObject is a Map<String, JsonValue>
         for (String key : jsonObject.keySet()) {
             JsonValue value = jsonObject.get(key);

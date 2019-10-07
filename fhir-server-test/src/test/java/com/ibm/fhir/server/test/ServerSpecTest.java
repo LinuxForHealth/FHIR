@@ -19,6 +19,7 @@ import java.time.ZoneOffset;
 import java.util.UUID;
 
 import javax.json.Json;
+import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -53,6 +54,7 @@ import com.ibm.fhir.model.type.code.ObservationStatus;
  * etc.
  */
 public class ServerSpecTest extends FHIRServerTestBase {
+    private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     private Patient savedPatient;
     @SuppressWarnings("unused")
     private Observation savedObservation;
@@ -148,7 +150,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     public void testCreatePatientErrorInvalidResource() throws JAXBException {
         WebTarget target = getWebTarget();
         
-        JsonObject patient = Json.createObjectBuilder().add("resourceType", "Patient")
+        JsonObject patient = BUILDER_FACTORY.createObjectBuilder().add("resourceType", "Patient")
                 .build();
         
         Entity<JsonObject> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -326,7 +328,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         
         
-        JsonObject observation = Json.createObjectBuilder().add("resourceType", "Observation")
+        JsonObject observation = BUILDER_FACTORY.createObjectBuilder().add("resourceType", "Observation")
                 .build();
         
         Entity<JsonObject> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
