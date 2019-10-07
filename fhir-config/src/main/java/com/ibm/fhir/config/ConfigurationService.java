@@ -15,6 +15,7 @@ import java.lang.reflect.Constructor;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 
 /**
  * The ConfigurationService is used by the FHIR Server to retrieve JSON-based configuration data.
@@ -23,7 +24,7 @@ import javax.json.JsonReader;
  *
  */
 public class ConfigurationService {
-
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     /**
      * This property can be used to set the name of the "property group" class that should be instantiated with the
      * top-level JsonObject representing the configuration.
@@ -52,7 +53,7 @@ public class ConfigurationService {
      *            an InputStream to the input JSON file
      */
     public static PropertyGroup loadConfiguration(InputStream is) throws Exception {
-        try (JsonReader reader = Json.createReader(is)) {
+        try (JsonReader reader = JSON_READER_FACTORY.createReader(is)) {
             JsonObject jsonObj = reader.readObject();
             reader.close();
             return instantiatePropertyGroup(jsonObj);

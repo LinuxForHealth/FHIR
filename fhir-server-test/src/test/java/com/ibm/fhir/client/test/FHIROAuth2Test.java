@@ -15,6 +15,7 @@ import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -27,6 +28,7 @@ import org.testng.annotations.Test;
  * OAuth 2.0 tests used to register a client and generate an access token
  */
 public class FHIROAuth2Test extends FHIRClientTestBase {
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     private String accessToken = null;
     private String clientID = null;
@@ -49,11 +51,14 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
         }
 
         reader.close();
-        JsonReader jsonReader = Json.createReader(new StringReader(jsonStr.toString()));
-        JsonObject jsonObj = jsonReader.readObject();
-        jsonReader.close();
-       
-        assertNotNull(jsonObj);
+        
+        JsonObject jsonObj;
+        try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(new StringReader(jsonStr.toString()))) {
+            jsonObj = jsonReader.readObject();
+            jsonReader.close();  
+            assertNotNull(jsonObj);
+        }
+        
         
         WebTarget endpoint = client.getWebTargetUsingBasicAuth(oidcRegURL, clientAdminUsername, clientAdminPwd);
         Entity<JsonObject> entity = Entity.entity(jsonObj, "application/json");

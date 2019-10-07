@@ -24,24 +24,24 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRParameters;
-import com.ibm.fhir.client.FHIRRequestHeader;
-import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.client.FHIRParameters.Modifier;
 import com.ibm.fhir.client.FHIRParameters.ValuePrefix;
+import com.ibm.fhir.client.FHIRRequestHeader;
+import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Patient.Contact;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.BundleType;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.ContactPointSystem;
 import com.ibm.fhir.model.type.ContactPointUse;
 import com.ibm.fhir.model.type.HTTPVerb;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.JsonSupport;
 
 /**
  * Basic tests related to the FHIR Client API.
@@ -146,7 +146,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
         assertNotNull(patient);
-        JsonObject jsonObj = FHIRUtil.toJsonObject(patient);
+        JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 
         FHIRResponse response = client.create(jsonObj);
         assertNotNull(response);
@@ -257,7 +257,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
                         .use(ContactPointUse.WORK)
                         .value(string("408-400-7448")).build()).build()).build();     
         
-        JsonObject jsonObj = FHIRUtil.toJsonObject(patient);
+        JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 
         // Update the patient and then validate the response.
         response = client.update(jsonObj);
@@ -479,7 +479,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     public void testValidatePatientJsonObject() throws Exception {
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
         assertNotNull(patient);
-        JsonObject jsonObj = FHIRUtil.toJsonObject(patient);
+        JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 
         FHIRResponse response = client.validate(jsonObj);
         assertNotNull(response);
