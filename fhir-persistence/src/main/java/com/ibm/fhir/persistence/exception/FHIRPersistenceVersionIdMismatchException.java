@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.persistence.exception;
 
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 /**

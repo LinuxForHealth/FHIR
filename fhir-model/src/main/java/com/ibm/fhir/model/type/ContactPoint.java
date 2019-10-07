@@ -13,8 +13,9 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.type.ContactPointSystem;
-import com.ibm.fhir.model.type.ContactPointUse;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ContactPointSystem;
+import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 

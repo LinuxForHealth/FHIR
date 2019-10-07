@@ -27,11 +27,11 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.CompositionStatus;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.CompositionStatus;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
 /**

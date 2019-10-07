@@ -118,7 +118,8 @@ public final class JsonSupport {
     public static <T extends JsonValue> T getJsonValue(JsonObject jsonObject, String key, Class<T> expectedType) {
         JsonValue jsonValue = jsonObject.get(key);
         if (jsonValue != null && !expectedType.isInstance(jsonValue)) {
-            throw new IllegalArgumentException("Expected: " + expectedType.getSimpleName() + " but found: " + jsonValue.getValueType());
+            throw new IllegalArgumentException("Expected: " + expectedType.getSimpleName() + " but found: " + jsonValue.getValueType() 
+                                                + " for element: " + key);
         }
         return expectedType.cast(jsonValue);
     }

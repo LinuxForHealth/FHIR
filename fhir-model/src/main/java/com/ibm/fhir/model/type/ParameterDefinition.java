@@ -13,8 +13,9 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.FHIRAllTypes;
-import com.ibm.fhir.model.type.ParameterUse;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.FHIRAllTypes;
+import com.ibm.fhir.model.type.code.ParameterUse;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 

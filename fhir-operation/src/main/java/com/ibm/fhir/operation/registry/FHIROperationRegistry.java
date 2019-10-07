@@ -19,11 +19,11 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.validation.exception.FHIRValidationException;
+import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.operation.FHIROperation;
 import com.ibm.fhir.operation.exception.FHIROperationNotFoundException;
 import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class FHIROperationRegistry {
     private final Logger log = Logger.getLogger(FHIROperationRegistry.class.getName());

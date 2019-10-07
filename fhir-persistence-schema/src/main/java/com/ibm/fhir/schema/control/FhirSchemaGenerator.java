@@ -28,7 +28,7 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
-import com.ibm.fhir.model.type.FHIRResourceType;
+import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
  * Encapsules the generation of the FHIR schema artifacts

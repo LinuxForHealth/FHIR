@@ -21,7 +21,6 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
 

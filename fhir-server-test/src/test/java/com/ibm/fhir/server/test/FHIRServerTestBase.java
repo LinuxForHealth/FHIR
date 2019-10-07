@@ -51,11 +51,11 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
-import com.ibm.fhir.model.type.RestfulCapabilityMode;
-import com.ibm.fhir.model.type.SystemRestfulInteraction;
-import com.ibm.fhir.model.type.TypeRestfulInteraction;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
+import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
+import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 import com.ibm.fhir.validation.FHIRValidator;
 

@@ -21,7 +21,7 @@ import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.TypeDerivationRule;
+import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 

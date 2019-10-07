@@ -85,8 +85,8 @@ public class FHIRException extends Exception {
     }
 
     @Override
-    public String getMessage() {
-        String superMsg = super.getMessage();
+    public String toString() {
+        String superMsg = super.toString();
         StringBuilder myMsg = new StringBuilder();
 
         if (superMsg != null && !superMsg.isEmpty()) {

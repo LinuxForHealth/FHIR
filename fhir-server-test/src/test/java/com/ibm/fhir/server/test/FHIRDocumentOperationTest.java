@@ -34,10 +34,10 @@ import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.CompositionStatus;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.CompositionStatus;
 
 public class FHIRDocumentOperationTest extends FHIRServerTestBase {
     private Patient savedCreatedPatient = null;

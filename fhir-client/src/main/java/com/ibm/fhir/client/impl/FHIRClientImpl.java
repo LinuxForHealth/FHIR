@@ -47,7 +47,7 @@ import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.BundleType;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.provider.FHIRJsonPatchProvider;
 import com.ibm.fhir.provider.FHIRJsonProvider;
 import com.ibm.fhir.provider.FHIRProvider;

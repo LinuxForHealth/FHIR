@@ -41,14 +41,14 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.type.AdministrativeGender;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Quantity;
-import com.ibm.fhir.model.type.SortDirection;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.SortDirection;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SortingTest extends FHIRServerTestBase {

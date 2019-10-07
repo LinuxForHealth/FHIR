@@ -11,13 +11,7 @@ import static org.testng.AssertJUnit.assertNull;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Device;
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.Device.UdiCarrier;
 import com.ibm.fhir.persistence.SingleResourceResult;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
-import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 
 /**

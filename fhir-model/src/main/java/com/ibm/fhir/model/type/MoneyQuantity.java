@@ -12,7 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.type.QuantityComparator;
+import com.ibm.fhir.model.type.code.QuantityComparator;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
