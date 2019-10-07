@@ -26,6 +26,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 import javax.xml.bind.JAXBException;
 
 import org.json.JSONException;
@@ -45,6 +46,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
 
 public class FHIRModelTestBase {
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     protected static final String NL = System.getProperty("line.separator");
     public static boolean DEBUG_JSON = false;
     public static boolean DEBUG_XML = false;
@@ -108,10 +110,8 @@ public class FHIRModelTestBase {
      * @throws Exception
      */
     public static JsonObject readJsonObjectFromFile(String fileName) throws IOException, Exception {
-        
-        try (Reader reader = new InputStreamReader(resolveFileLocation(fileName), Charset.forName("UTF-8"))) {
-            
-            JsonReader jsonReader = Json.createReader(reader);
+        try (Reader reader = new InputStreamReader(resolveFileLocation(fileName), Charset.forName("UTF-8"));
+                JsonReader jsonReader = JSON_READER_FACTORY.createReader(reader)) {
             return jsonReader.readObject();
             
         }
@@ -250,10 +250,10 @@ public class FHIRModelTestBase {
      * Reads a JSON object from the specified file.
      */
     protected JsonObject readJsonObject(String fileName) throws Exception {
-        JsonReader reader = Json.createReader(resolveFileLocation(fileName));
-        JsonObject jsonObject = reader.readObject();
-        reader.close();
-        return jsonObject;
+        try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(resolveFileLocation(fileName))) {
+            return jsonReader.readObject();
+            
+        }
     }
     
     protected void printOutputToConsole(DomainResource res, Format f) {
