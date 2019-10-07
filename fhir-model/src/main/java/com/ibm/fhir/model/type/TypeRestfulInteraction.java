@@ -9,6 +9,9 @@ package com.ibm.fhir.model.type;
 import java.util.Collection;
 import java.util.Objects;
 
+import javax.annotation.Generated;
+
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TypeRestfulInteraction extends Code {
     public static final TypeRestfulInteraction READ = TypeRestfulInteraction.of(ValueSet.READ);
 

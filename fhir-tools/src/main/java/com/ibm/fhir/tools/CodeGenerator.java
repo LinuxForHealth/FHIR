@@ -1751,6 +1751,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb._import("javax.annotation.Generated");
         cb._import("javax.xml.stream.XMLStreamException");
         cb._import("javax.xml.stream.XMLStreamReader");
         
@@ -1767,6 +1768,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRXMLParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         
@@ -2122,6 +2124,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb._import("javax.annotation.Generated");
         cb._import("javax.json.Json");
         cb._import("javax.json.JsonArray");
         cb._import("javax.json.JsonNumber");
@@ -2144,6 +2147,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRJsonParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
@@ -2173,6 +2177,8 @@ public class CodeGenerator {
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingInputStream(in), StandardCharsets.UTF_8)")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
+            ._catch("FHIRParserException e")
+                ._throw("e")
             ._catch("Exception e")
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
@@ -2193,6 +2199,8 @@ public class CodeGenerator {
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingReader(reader))")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
+            ._catch("FHIRParserException e")
+                ._throw("e")
             ._catch("Exception e")
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
@@ -2592,6 +2600,9 @@ public class CodeGenerator {
                 cb._import("java.util.Collection");
                 cb._import("java.util.Objects").newLine();
                 
+                cb._import("javax.annotation.Generated").newLine();
+                
+                cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
                 cb._class(mods("public"), bindingName, "Code");
                 
                 List<JsonObject> concepts = getConcepts(valueSet);

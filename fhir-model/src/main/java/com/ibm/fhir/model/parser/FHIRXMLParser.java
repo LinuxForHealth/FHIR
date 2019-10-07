@@ -19,6 +19,7 @@ import java.io.Reader;
 import java.util.Stack;
 import java.util.StringJoiner;
 
+import javax.annotation.Generated;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -31,6 +32,7 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.util.XMLSupport.StreamReaderDelegate;
 
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FHIRXMLParser implements FHIRParser {
     public static boolean DEBUG = false;
 

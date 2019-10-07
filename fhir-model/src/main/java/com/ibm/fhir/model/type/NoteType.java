@@ -9,6 +9,9 @@ package com.ibm.fhir.model.type;
 import java.util.Collection;
 import java.util.Objects;
 
+import javax.annotation.Generated;
+
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class NoteType extends Code {
     /**
      * Display
