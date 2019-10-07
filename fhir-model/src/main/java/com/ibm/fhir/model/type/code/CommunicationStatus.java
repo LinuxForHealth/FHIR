@@ -138,11 +138,11 @@ public class CommunicationStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (Builder) super.value(ValueSet.from(value).value());
+            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
         }
 
         public Builder value(ValueSet value) {
-            return (Builder) super.value(value.value());
+            return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override

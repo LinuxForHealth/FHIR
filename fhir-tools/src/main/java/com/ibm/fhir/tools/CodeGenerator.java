@@ -2675,7 +2675,7 @@ public class CodeGenerator {
                     .invoke("builder", "extension", args("extension"))
                     .invoke("builder", "value", args("value"))
                     ._return("builder")
-                .end().newLine();                
+                .end().newLine();
                 
                 cb.method(mods("public", "static"), "Builder", "builder")
                     ._return(_new("Builder"))
@@ -2704,11 +2704,11 @@ public class CodeGenerator {
                 
                 cb.override();
                 cb.method(mods("public"), "Builder", "value", args("java.lang.String value"))
-                    ._return("(Builder) super.value(ValueSet.from(value).value())")
+                    ._return("(value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this")
                 .end().newLine();
                 
                 cb.method(mods("public"), "Builder", "value", args("ValueSet value"))
-                    ._return("(Builder) super.value(value.value())")
+                    ._return("(value != null) ? (Builder) super.value(value.value()) : this")
                 .end().newLine();
                 
                 cb.override();
