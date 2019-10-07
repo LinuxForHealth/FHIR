@@ -10,7 +10,8 @@ import static com.ibm.fhir.model.util.FHIRUtil.buildOperationOutcome;
 import static com.ibm.fhir.model.util.FHIRUtil.buildOperationOutcomeIssue;
 import static com.ibm.fhir.model.util.JsonSupport.nonClosingInputStream;
 import static com.ibm.fhir.model.util.JsonSupport.nonClosingOutputStream;
-import static com.ibm.fhir.provider.util.FHIRProviderUtil.*;
+import static com.ibm.fhir.provider.util.FHIRProviderUtil.buildResponse;
+import static com.ibm.fhir.provider.util.FHIRProviderUtil.getMediaType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,8 +40,8 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 
 @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })

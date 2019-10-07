@@ -18,7 +18,7 @@ import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;

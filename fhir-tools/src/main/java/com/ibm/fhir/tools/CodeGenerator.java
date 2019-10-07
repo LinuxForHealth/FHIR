@@ -306,11 +306,11 @@ public class CodeGenerator {
         cb._import("java.time.Year");
         cb._import("java.time.YearMonth");
         cb._import("java.time.ZonedDateTime");
-        
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
+        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
@@ -1485,9 +1485,7 @@ public class CodeGenerator {
                     path.equals(basePath) && 
                     !"ElementDefinition".equals(name) && 
                     !isProfiledType(name)) {
-                if (isResource(structureDefinition)) {
-                    imports.add("com.ibm.fhir.model.type.BindingStrength");
-                }
+                imports.add("com.ibm.fhir.model.type.code.BindingStrength");
                 imports.add("com.ibm.fhir.model.annotation.Binding");
             }
             
@@ -1501,9 +1499,11 @@ public class CodeGenerator {
                 definition = structureDefinitionMap.get(camelCase(fieldType));
             }
             
-            if (isResource(structureDefinition) && (isDataType(definition)) || hasRequiredBinding(elementDefinition)) {
+            if (isResource(structureDefinition) && isDataType(definition)) {
                 imports.add("com.ibm.fhir.model.type." + fieldType);
-            }
+            } else if (hasRequiredBinding(elementDefinition)) {
+                imports.add("com.ibm.fhir.model.type.code." + fieldType);
+            } 
             
             if (isProhibited(elementDefinition)) {
                 imports.add("com.ibm.fhir.model.util.ValidationSupport");
@@ -1761,6 +1761,7 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
+        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
@@ -2140,6 +2141,7 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
+        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
@@ -2593,9 +2595,13 @@ public class CodeGenerator {
                 valueSet = tokens[0];
                 
                 CodeBuilder cb = new CodeBuilder();
-                String packageName = "com.ibm.fhir.model.type";
+                String packageName = "com.ibm.fhir.model.type.code";
                 cb.lines(HEADER).newLine();
                 cb._package(packageName).newLine();
+                
+                cb._import("com.ibm.fhir.model.type.Code");
+                cb._import("com.ibm.fhir.model.type.Extension");
+                cb._import("com.ibm.fhir.model.type.String").newLine();
                 
                 cb._import("java.util.Collection");
                 cb._import("java.util.Objects").newLine();
@@ -2665,9 +2671,9 @@ public class CodeGenerator {
                 
                 cb.method(mods("public"), "Builder", "toBuilder")
                     .assign("Builder builder", "new Builder()")
-                    .assign("builder.id", "id")
-                    .invoke("builder.extension", "addAll", args("extension"))
-                    .assign("builder.value", "value")
+                    .invoke("builder", "id", args("id"))
+                    .invoke("builder", "extension", args("extension"))
+                    .invoke("builder", "value", args("value"))
                     ._return("builder")
                 .end().newLine();                
                 

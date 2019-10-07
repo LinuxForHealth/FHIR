@@ -29,14 +29,14 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
+import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.RestfulCapabilityMode;
-import com.ibm.fhir.model.type.TypeRestfulInteraction;
+import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
+import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**

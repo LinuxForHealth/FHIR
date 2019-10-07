@@ -18,10 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.ClientEndpointConfig.Configurator;
-
-import com.ibm.fhir.notification.FHIRNotificationEvent;
-import com.ibm.fhir.notification.util.FHIRNotificationUtil;
-
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.Endpoint;
@@ -29,6 +25,9 @@ import javax.websocket.EndpointConfig;
 import javax.websocket.MessageHandler;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+
+import com.ibm.fhir.notification.FHIRNotificationEvent;
+import com.ibm.fhir.notification.util.FHIRNotificationUtil;
 
 public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     private Session session = null;    

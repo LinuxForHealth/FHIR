@@ -14,7 +14,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.AbstractOperation;
 import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;

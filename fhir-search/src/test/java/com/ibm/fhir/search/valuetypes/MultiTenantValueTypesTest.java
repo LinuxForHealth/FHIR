@@ -22,7 +22,6 @@ import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.search.test.BaseSearchTest;
-import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
  * Multi-Tenant Value Types Test

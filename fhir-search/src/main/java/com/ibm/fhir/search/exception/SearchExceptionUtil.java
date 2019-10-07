@@ -7,7 +7,7 @@
 package com.ibm.fhir.search.exception;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 /**

@@ -34,9 +34,7 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.type.AdministrativeGender;
 import com.ibm.fhir.model.type.Boolean;
-import com.ibm.fhir.model.type.BundleType;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -45,8 +43,10 @@ import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.ObservationStatus;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.ObservationStatus;
 
 /**
  * This class tests the REST API's compliance with the FHIR spec in terms of status code and OperationOutcome responses,

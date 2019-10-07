@@ -14,26 +14,26 @@ import java.util.Map;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
-import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
 import com.ibm.fhir.model.type.Oid;
-import com.ibm.fhir.model.type.OperationParameterUse;
 import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.Uuid;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.OperationParameterUse;
 
 public class FHIROperationUtil {
 

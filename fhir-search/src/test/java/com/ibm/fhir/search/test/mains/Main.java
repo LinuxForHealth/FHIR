@@ -14,11 +14,11 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.ContactPointSystem;
-import com.ibm.fhir.model.type.ContactPointUse;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.code.ContactPointSystem;
+import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
 

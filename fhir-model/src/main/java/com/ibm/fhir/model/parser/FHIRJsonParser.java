@@ -35,6 +35,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
 import com.ibm.fhir.model.type.*;
+import com.ibm.fhir.model.type.code.*;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;

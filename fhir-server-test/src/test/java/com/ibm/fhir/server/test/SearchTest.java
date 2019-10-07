@@ -34,12 +34,12 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Person;
 import com.ibm.fhir.model.resource.Person.Link;
-import com.ibm.fhir.model.type.AdministrativeGender;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {

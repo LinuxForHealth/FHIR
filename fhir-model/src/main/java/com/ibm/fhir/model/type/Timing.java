@@ -18,9 +18,10 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.DayOfWeek;
-import com.ibm.fhir.model.type.EventTiming;
-import com.ibm.fhir.model.type.UnitsOfTime;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DayOfWeek;
+import com.ibm.fhir.model.type.code.EventTiming;
+import com.ibm.fhir.model.type.code.UnitsOfTime;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
