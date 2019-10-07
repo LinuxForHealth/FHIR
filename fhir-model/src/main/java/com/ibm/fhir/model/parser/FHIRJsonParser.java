@@ -72,6 +72,8 @@ public class FHIRJsonParser implements FHIRParser {
         try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingReader(reader))) {
             JsonObject jsonObject = jsonReader.readObject();
             return parseAndFilter(jsonObject, elementsToInclude);
+        } catch (FHIRParserException e) {
+            throw e;
         } catch (Exception e) {
             throw new FHIRParserException(e.getMessage(), getPath(), e);
         }
