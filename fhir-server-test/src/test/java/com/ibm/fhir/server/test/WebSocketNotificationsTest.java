@@ -62,7 +62,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatient = responsePatient;
 
-        endpoint.getLatch().await(10, TimeUnit.SECONDS);
+        endpoint.getLatch().await(5, TimeUnit.SECONDS);
 
         FHIRNotificationEvent event = endpoint.getFirstEvent();
         assertTrue(event != null);
@@ -132,7 +132,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
         Observation responseObservation = response.readEntity(Observation.class);
 
-        endpoint.getLatch().await(10, TimeUnit.SECONDS);
+        endpoint.getLatch().await(5, TimeUnit.SECONDS);
 
         FHIRNotificationEvent event = endpoint.getFirstEvent();
         assertTrue(event != null);
