@@ -53,7 +53,9 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         session.addMessageHandler(new MessageHandler.Whole<String>() {
             public void onMessage(String text) {
                 System.out.println(">>> Received message: " + text);
-            //    FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(text);
+                //Receive raw message string for better performance, we found that using 
+                // FHIRNotificationUtil.toNotificationEvent here could cost up to 10 seconds 
+                // for each message during integration test of the CI pipeline.
                 events.add(text);
                 if (events.size() >= limit) {
                     close();

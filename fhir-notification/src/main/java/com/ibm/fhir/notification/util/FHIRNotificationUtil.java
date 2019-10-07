@@ -26,13 +26,13 @@ public class FHIRNotificationUtil {
     private static final JsonBuilderFactory JSON_BUILDER_FACTORY = Json.createBuilderFactory(null);
     public static FHIRNotificationEvent toNotificationEvent(String jsonString) {
         try (JsonReader reader = JSON_READER_FACTORY.createReader(new StringReader(jsonString))) {
-        JsonObject jsonObject = reader.readObject();
-        FHIRNotificationEvent event = new FHIRNotificationEvent();
-        event.setOperationType(jsonObject.getString("operationType"));
-        event.setLocation(jsonObject.getString("location"));
-        event.setLastUpdated(jsonObject.getString("lastUpdated"));
-        event.setResourceId(jsonObject.getString("resourceId"));
-        return event;
+            JsonObject jsonObject = reader.readObject();
+            FHIRNotificationEvent event = new FHIRNotificationEvent();
+            event.setOperationType(jsonObject.getString("operationType"));
+            event.setLocation(jsonObject.getString("location"));
+            event.setLastUpdated(jsonObject.getString("lastUpdated"));
+            event.setResourceId(jsonObject.getString("resourceId"));
+            return event;
         } catch (JsonException e) {
             System.out.println("Failed to parse json string: " + e.getLocalizedMessage());
             return null;
