@@ -8,14 +8,13 @@ package com.ibm.fhir.server.test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -37,7 +36,7 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
 
     private Session initSession = null;
 
-    private List<String> events = null;
+    private ConcurrentLinkedQueue<String> events = new ConcurrentLinkedQueue<>();
 
     private CountDownLatch latch = null;
     private int limit = 1;
@@ -49,7 +48,6 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     public FHIRNotificationServiceClientEndpoint(int limit) {
         latch = new CountDownLatch(1);
         this.limit = limit;
-        events = Collections.synchronizedList(new ArrayList<String>(limit));
     }
 
     public void onOpen(Session session, EndpointConfig config) {
@@ -111,9 +109,9 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     }
 
     public FHIRNotificationEvent getFirstEvent() {
-        List<String> view = getEvents();
-        if (!view.isEmpty() && view.get(0) != null) {
-            return FHIRNotificationUtil.toNotificationEvent(view.get(0));
+        
+        if (!events.isEmpty()) {
+            return FHIRNotificationUtil.toNotificationEvent(events.remove());
         }
         return null;
     }
