@@ -15,12 +15,12 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Markdown;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Range;
-import com.ibm.fhir.model.type.ResourceType;
-import com.ibm.fhir.model.type.SearchParamType;
 import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.SearchParamType;
 
 /**
  * Helper class to create {@link SearchParameter} model objects

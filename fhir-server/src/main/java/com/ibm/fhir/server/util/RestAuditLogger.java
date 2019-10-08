@@ -34,14 +34,14 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Bundle;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.HTTPVerb;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 /**

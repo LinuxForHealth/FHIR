@@ -21,8 +21,8 @@ import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.ElementDefinition;
-import com.ibm.fhir.model.type.TypeDerivationRule;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 public class VitalSignsProfileTest {

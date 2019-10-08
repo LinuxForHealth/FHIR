@@ -40,14 +40,14 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.BundleType;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.CompositionStatus;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.CompositionStatus;
 
 // TODO create tests for invoking toCda transform on saved resources (building on $document operation)
 public class FHIRToCdaOperationTest extends FHIRServerTestBase {

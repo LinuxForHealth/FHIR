@@ -19,8 +19,6 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.search.compartment.CompartmentCache;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.test.BaseSearchTest;
 

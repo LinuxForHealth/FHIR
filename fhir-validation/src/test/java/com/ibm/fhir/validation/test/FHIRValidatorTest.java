@@ -27,9 +27,9 @@ import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
-import com.ibm.fhir.model.type.IssueSeverity;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.String;
+import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.visitor.PathAwareAbstractVisitor;
 import com.ibm.fhir.validation.FHIRValidator;
 

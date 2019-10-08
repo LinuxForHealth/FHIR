@@ -12,8 +12,8 @@ import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 /**

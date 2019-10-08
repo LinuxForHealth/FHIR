@@ -6,12 +6,6 @@
             "truststoreLocation":"resources/security/fhirTruststore.jks",
             "truststorePassword":"change-password"
         },
-        "encryption":{
-            "enabled":false,
-            "keystoreLocation":"resources/security/fhirkeys.jceks",
-            "keystorePassword":"change-password",
-            "keyPassword":"change-password"
-        },
         "validation":{
             "userDefinedSchematronEnabled":true
         },

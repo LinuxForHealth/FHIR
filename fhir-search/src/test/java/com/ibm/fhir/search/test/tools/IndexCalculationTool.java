@@ -26,7 +26,7 @@ import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.BundleType;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.parameters.ParametersUtil;
 

@@ -29,7 +29,7 @@ import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2SetTenantVariable;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;

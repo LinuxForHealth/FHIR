@@ -13,12 +13,12 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 

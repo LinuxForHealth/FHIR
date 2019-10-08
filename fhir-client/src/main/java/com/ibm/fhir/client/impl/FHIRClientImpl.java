@@ -47,7 +47,7 @@ import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.BundleType;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.provider.FHIRJsonPatchProvider;
 import com.ibm.fhir.provider.FHIRJsonProvider;
 import com.ibm.fhir.provider.FHIRProvider;
@@ -59,8 +59,6 @@ import com.ibm.fhir.provider.FHIRProvider;
 public class FHIRClientImpl implements FHIRClient {
 
     private static final String KEYSTORE_TYPE_JKS = "JKS";
-    private static final String KEYSTORE_TYPE_JCEKS = "JCEKS";
-    private static final String ENCRYPTION_ALGORITHM_AES = "AES";
 
     private Client client = null;
     private Properties clientProperties = null;
@@ -83,12 +81,6 @@ public class FHIRClientImpl implements FHIRClient {
 
     private KeyStore trustStore = null;
     private KeyStore keyStore = null;
-
-    private boolean encryptionEnabled = false;
-    private String encKeyStoreLocation = null;
-    private String encKeyStorePassword = null;
-    private String encKeyPassword = null;
-    private SecretKeySpec encryptionKey = null;
 
     private boolean loggingEnabled = false;
     
@@ -852,15 +844,6 @@ public class FHIRClientImpl implements FHIRClient {
                 cb = cb.trustStore(ks);
             }
 
-            // Add support for encryption/decryption if enabled.
-            if (isEncryptionEnabled()) {
-                try {
-                    cb = cb.register(new FHIREncryptionClientFilter(getEncryptionKey()));
-                } catch (Throwable t) {
-                    throw new Exception("Unexpected error while registering encryption client filter: ", t);
-                }
-            }
-
             // Add a hostname verifier if we're using an ssl transport.
             if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
                 cb = cb.hostnameVerifier(new HostnameVerifier() {
@@ -981,15 +964,6 @@ public class FHIRClientImpl implements FHIRClient {
                 setKeyStore(loadKeyStoreFile(getKeyStoreLocation(), getKeyStorePassword(), KEYSTORE_TYPE_JKS));
             }
 
-            // Process the encryption-related properties.
-            setEncryptionEnabled(Boolean.parseBoolean(getProperty(PROPNAME_ENCRYPTION_ENABLED, "false")));
-            if (isEncryptionEnabled()) {
-                setEncKeyStoreLocation(getRequiredProperty(PROPNAME_ENCRYPTION_KSLOC));
-                setEncKeyStorePassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_ENCRYPTION_KSPW)));
-                setEncKeyPassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_ENCRYPTION_KEYPW)));
-                setEncryptionKey(FHIRUtilities.retrieveEncryptionKeyFromKeystore(getEncKeyStoreLocation(), getEncKeyStorePassword(), ENCRYPTION_KEY_ALIAS, getEncKeyPassword(), KEYSTORE_TYPE_JCEKS, ENCRYPTION_ALGORITHM_AES));
-            }
-
             setLoggingEnabled(Boolean.parseBoolean(getProperty(PROPNAME_LOGGING_ENABLED, "false")));
             
             setHostnameVerificationEnabled(Boolean.parseBoolean(getProperty(PROPNAME_HOSTNAME_VERIFICATION_ENABLED, "true")));
@@ -1066,14 +1040,6 @@ public class FHIRClientImpl implements FHIRClient {
         return s;
     }
 
-    private SecretKeySpec getEncryptionKey() {
-        return encryptionKey;
-    }
-
-    private void setEncryptionKey(SecretKeySpec encryptionKey) {
-        this.encryptionKey = encryptionKey;
-    }
-
     private void setClientProperties(Properties clientProperties) {
         this.clientProperties = clientProperties;
     }
@@ -1145,15 +1111,7 @@ public class FHIRClientImpl implements FHIRClient {
     private void setTrustStore(KeyStore trustStore) {
         this.trustStore = trustStore;
     }
-
-    private boolean isEncryptionEnabled() {
-        return encryptionEnabled;
-    }
-
-    private void setEncryptionEnabled(boolean encryptionEnabled) {
-        this.encryptionEnabled = encryptionEnabled;
-    }
-
+   
     private boolean isOAuth2Enabled() {
         return oAuth2Enabled;
     }
@@ -1200,30 +1158,6 @@ public class FHIRClientImpl implements FHIRClient {
 
     private void setKeyStore(KeyStore keyStore) {
         this.keyStore = keyStore;
-    }
-
-    public String getEncKeyStoreLocation() {
-        return encKeyStoreLocation;
-    }
-
-    public void setEncKeyStoreLocation(String encKeyStoreLocation) {
-        this.encKeyStoreLocation = encKeyStoreLocation;
-    }
-
-    public String getEncKeyStorePassword() {
-        return encKeyStorePassword;
-    }
-
-    public void setEncKeyStorePassword(String encKeyStorePassword) {
-        this.encKeyStorePassword = encKeyStorePassword;
-    }
-
-    public String getEncKeyPassword() {
-        return encKeyPassword;
-    }
-
-    public void setEncKeyPassword(String encKeyPassword) {
-        this.encKeyPassword = encKeyPassword;
     }
 
     public String getKeyStoreLocation() {

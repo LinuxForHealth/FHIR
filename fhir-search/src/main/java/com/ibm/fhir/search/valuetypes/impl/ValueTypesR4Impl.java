@@ -228,6 +228,10 @@ public class ValueTypesR4Impl implements IValueTypes {
                 // Checks the other possibility
                 found = processClass(clzs, "com.ibm.fhir.model.type", type);
             }
+            if (!found) {
+                // Checks the other possibility
+                found = processClass(clzs, "com.ibm.fhir.model.type.code", type);
+            }
 
             // Logs out if error.
             if (!found) {

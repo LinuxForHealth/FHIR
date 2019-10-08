@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.search.compartment.CompartmentCache;
 import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**

@@ -28,14 +28,14 @@ import com.ibm.fhir.model.resource.Bundle.Entry.Response;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
-import com.ibm.fhir.model.type.BundleType;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.HTTPVerb;
 import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.type.IssueSeverity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.HTTPVerb;
+import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.visitor.PathAwareAbstractVisitor;
 import com.ibm.fhir.validation.FHIRValidator;
 

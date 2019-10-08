@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.spec.test.IExampleProcessor;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.validation.FHIRValidator;

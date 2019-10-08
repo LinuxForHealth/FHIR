@@ -42,8 +42,8 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 
 @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
 @Produces({ FHIRMediaType.APPLICATION_JSON_PATCH })

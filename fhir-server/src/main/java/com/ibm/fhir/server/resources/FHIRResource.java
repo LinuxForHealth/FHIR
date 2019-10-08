@@ -86,27 +86,27 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.BundleType;
 import com.ibm.fhir.model.type.Canonical;
-import com.ibm.fhir.model.type.CapabilityStatementKind;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.ConditionalDeleteStatus;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.FHIRVersion;
-import com.ibm.fhir.model.type.HTTPVerb;
 import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
-import com.ibm.fhir.model.type.PublicationStatus;
-import com.ibm.fhir.model.type.ResourceType;
-import com.ibm.fhir.model.type.RestfulCapabilityMode;
-import com.ibm.fhir.model.type.SystemRestfulInteraction;
-import com.ibm.fhir.model.type.TypeRestfulInteraction;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.CapabilityStatementKind;
+import com.ibm.fhir.model.type.code.ConditionalDeleteStatus;
+import com.ibm.fhir.model.type.code.FHIRVersion;
+import com.ibm.fhir.model.type.code.HTTPVerb;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
+import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
+import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.FHIROperation;
@@ -3611,9 +3611,16 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             // Build the ConformanceResource for this resource type.
-            Rest.Resource cr =
-                    Rest.Resource.builder().type(ResourceType.of(resourceType)).profile(Canonical.of("http://hl7.org/fhir/profiles/"
-                            + resourceType)).interaction(interactions).conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true)).conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true)).updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled())).conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE)).searchParam(conformanceSearchParams).build();
+            Rest.Resource cr = Rest.Resource.builder()
+                                         .type(ResourceType.of(resourceType))
+                                         .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceType))
+                                         .interaction(interactions)
+                                         .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
+                                         .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
+                                         .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
+                                         .conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE))
+                                         .searchParam(conformanceSearchParams)
+                                         .build();
 
             resources.add(cr);
         }
@@ -3682,10 +3689,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         List<Extension> extentions = new ArrayList<Extension>();
         Extension extension = Extension.builder().url(EXTENSION_URL
                 + "/defaultTenantId").value(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID))).build();
-        extentions.add(extension);
-
-        extension = Extension.builder().url(EXTENSION_URL
-                + "/encryptionEnabled").value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_ENCRYPTION).getBooleanProperty("enabled", Boolean.FALSE))).build();
         extentions.add(extension);
 
         extension = Extension.builder().url(EXTENSION_URL

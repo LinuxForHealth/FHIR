@@ -17,10 +17,10 @@ import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.type.BundleType;
-import com.ibm.fhir.model.type.IssueSeverity;
 import com.ibm.fhir.model.resource.ExplanationOfBenefit;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class ExplanationOfBenefitTest {

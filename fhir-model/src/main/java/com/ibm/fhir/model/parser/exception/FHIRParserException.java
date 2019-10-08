@@ -20,4 +20,15 @@ public class FHIRParserException extends FHIRException {
     public String getPath() {
         return path;
     }
+    
+    @Override
+    public String getMessage() {
+        String message = super.getMessage();
+        
+        if (path != null && !path.isEmpty()) {
+            message = message + " [" + path + "]";
+        }
+        
+        return message;
+    }
 }
