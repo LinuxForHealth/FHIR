@@ -2,22 +2,17 @@
 
     <!-- Enable features -->
     <featureManager>
-        <feature>localConnector-1.0</feature>
-        <feature>jaxrs-2.1</feature>
-        <!-- <feature>openidConnectClient-1.0</feature> -->
-        <feature>openidConnectServer-1.0</feature>
         <feature>appSecurity-2.0</feature>
-        <feature>transportSecurity-1.0</feature>
-        <feature>cdi-2.0</feature>
-        <feature>jsonp-1.1</feature>
-        <feature>jsf-2.3</feature>
-        <feature>servlet-4.0</feature>
-        <feature>websocket-1.1</feature>
-        <!-- db2 jdbc driver 4.24.92 doesn't fully implement jdbc-4.2 -->
-        <feature>jdbc-4.1</feature>
-        <feature>mpOpenAPI-1.0</feature>
         <feature>batchManagement-1.0</feature>
-        <feature>jaxb-2.2</feature>
+        <feature>jaxrs-2.1</feature>
+        <!-- the db2 jcc driver for 11.5.0.0 doesn't fully implement jdbc-4.2 -->
+        <feature>jdbc-4.1</feature>
+        <feature>jsonp-1.1</feature>
+        <feature>mpOpenAPI-1.0</feature>
+        <feature>openidConnectServer-1.0</feature>
+        <feature>servlet-4.0</feature>
+        <feature>transportSecurity-1.0</feature>    
+        <feature>websocket-1.1</feature>
     </featureManager>
 
     <!-- Disable welcome page so that internal server info won't be revealed in responses
