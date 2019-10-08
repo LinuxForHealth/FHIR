@@ -55,13 +55,13 @@ public class FHIRRequestHeader {
     /**
      * This static method can be used as a shortcut for instantiating a new FHIRRequestHeader.
      * Example:
-     * <xmp>
+     * <code>
      *      import static com.ibm.fhir.client.FHIRRequestHeader.header;
      *      
      *      ...
      *      
      *      response = client.create(myPatient, header("Header1","value1"), header("Header2","value2"));
-     * </xmp> 
+     * </code> 
      * 
      * @param name the name of the request header 
      * @param value the value of the request header
