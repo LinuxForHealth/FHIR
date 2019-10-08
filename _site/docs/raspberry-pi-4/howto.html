@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/FHIR/assets/css/style.css?v=3fd9013749d31b943c30eb195a75dd9bba258037">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>IBM Server for HL7 FHIR | The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="IBM Server for HL7 FHIR" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<meta property="og:description" content="The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<link rel="canonical" href="https://ibm.github.io/FHIR/FHIR/docs/raspberry-pi-4/howto.html" />
+<meta property="og:url" content="https://ibm.github.io/FHIR/FHIR/docs/raspberry-pi-4/howto.html" />
+<meta property="og:site_name" content="IBM Server for HL7 FHIR" />
+<script type="application/ld+json">
+{"url":"https://ibm.github.io/FHIR/FHIR/docs/raspberry-pi-4/howto.html","headline":"IBM Server for HL7 FHIR","description":"The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.","@type":"WebPage","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">IBM Server for HL7 FHIR</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/FHIR/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="forkme_banner" href="https://github.com/IBM/FHIR">View on GitHub</a>
+      </li>
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Guides
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+          </div>
+        </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Java Docs
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+           Downloads
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="https://github.com/IBM/FHIR/zipball/gh-pages">... as a .zip file</a>
+            <a class="dropdown-item" href="https://github.com/IBM/FHIR/tarball/gh-pages">...  as a tar.gz file</a>
+        </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+   
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="ibm-server-for-hl7-fhir-on-the-raspberry-pi-4">IBM Server for HL7 FHIR on the Raspberry Pi 4</h1>
+<p><img src="/docs/raspberry-pi-4/piOnFhir30.jpg" alt="IBM Server for HL7 FHIR on Raspberry Pi 4" /></p>
+<p>FHIR Specification: <a href="https://hl7.org/fhir/R4/">https://hl7.org/fhir/R4/</a></p>
+<h2 id="usage">Usage</h2>
+<p>This installation is for curiousity only and should not be used with PHI, only synthetic test data. Production instances require additional hardening which is outside the scope of this guide.</p>
+<p>The default password used throughout is <code>change-password</code> and this is configured as clear-text in the configuration files to make it even more obvious that it should be changed as part of any hardening. Refer to the [FHIRServerUsersGuide.md] for more details.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The IBM Server for HL7 FHIR runs as a web application in the Open Liberty application server. By default persistence is provided with a Derby database, but it can also be configured to use IBM Db2 on Cloud. This example shall use the default Derby instance.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hardware</td>
+<td>Raspberry Pi 4</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>4GB</td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Raspbian (Buster)</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>64GB microSD</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>openjdk11</td>
+</tr>
+<tr>
+<td>Apache Maven</td>
+<td>3.6.1</td>
+</tr>
+<tr>
+<td>Application Server</td>
+<td>Open Liberty 19.0.0.8</td>
+</tr>
+<tr>
+<td>HTTPS Port</td>
+<td>9443</td>
+</tr>
+<tr>
+<td>Default user</td>
+<td>fhiruser</td>
+</tr>
+<tr>
+<td>Default password</td>
+<td>change-password</td>
+</tr>
+</tbody>
+</table>
+<p>Set up your Raspberry Pi 4 (4GB model) using Raspbian (<a href="https://www.raspberrypi.org/downloads/">https://www.raspberrypi.org/downloads/</a>).</p>
+<blockquote>
+<p>TIP: Under load, the Raspberry Pi 4 CPU throttles when it reaches a critical temperature, so a case with cooling is recommended. Without naming products, an aluminum case which acts as a heat sink could be a good choice. The CPU definitely throttles during the build using the official (plastic) Raspberry Pi 4 case.</p>
+</blockquote>
+<h2 id="development-environment-and-prerequisites">Development Environment and Prerequisites</h2>
+<p>To build we need three things:</p>
+<ol>
+<li>openjdk11 (already available)</li>
+<li>Apache Maven</li>
+<li>Access to the internet (for Maven dependencies)</li>
+</ol>
+<h3 id="install-maven">Install Maven</h3>
+<p>You can use apt-get to install Apache Maven but if you want to avoid all the dependencies which come along with it, just grab the binary release and unpack it</p>
+<p>OPTION A:</p>
+<pre><code>sudo apt-get install maven
+</code></pre>
+<p>OPTION B:</p>
+<pre><code>wget https://www-us.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz -P /tmp
+sudo mkdir -p /opt/tools &amp;&amp; cd /opt/tools &amp;&amp; tar xzvf /tmp/apache-maven-3.6.1-bin.tar.gz
+
+</code></pre>
+<p>If installing Maven manually, add it to your PATH:</p>
+<pre><code># Add Maven to PATH
+export PATH=&quot;/opt/tools/apache-maven-3.6.1/bin:${PATH}&quot;
+</code></pre>
+<h3 id="check">Check</h3>
+<pre><code>pi@raspberrypi:~/git/FHIR $ mvn -version
+Apache Maven 3.6.1 (d66c9c0b3152b2e69ee9bac180bb8fcc8e6af555; 2019-04-04T15:00:29-04:00)
+Maven home: /opt/tools/apache-maven-3.6.1
+Java version: 11.0.3, vendor: Raspbian, runtime: /usr/lib/jvm/java-11-openjdk-armhf
+Default locale: en_US, platform encoding: UTF-8
+OS name: &quot;linux&quot;, version: &quot;4.19.66-v7l+&quot;, arch: &quot;arm&quot;, family: &quot;unix&quot;
+</code></pre>
+<h2 id="environment">Environment</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Liberty Home</td>
+<td>/opt/ibm/fhir-server/wlp</td>
+</tr>
+<tr>
+<td>JAVA_HOME</td>
+<td>/usr/lib/jvm/java-11-openjdk-armhf</td>
+</tr>
+</tbody>
+</table>
+<h2 id="building">Building</h2>
+<p>Set up your development environment and clone the repository:</p>
+<pre><code>mkdir -p ~/git &amp;&amp; cd ~/git &amp;&amp; git clone https://github.com/IBM/FHIR.git
+</code></pre>
+<p>Now you should be ready to build:</p>
+<pre><code>cd ~/git/FHIR
+mvn clean install -f fhir-parent/pom.xml
+</code></pre>
+<p>Be patient. A lot of unit tests are executed, including processing a number of the FHIR specification examples in various contexts which is fairly CPU intensive. Unit tests in the fhir-persistence-jdbc project use a functional schema deployed in a Derby database, exercising the bulk of the persistence code except for the REST layer.</p>
+<p>Some exceptions from negative tests may appear in the build log. As long as the build completes, these shouldn't be a concern. Success should look like this:</p>
+<pre><code>[INFO] Reactor Summary for IBM Server for HL7 FHIR 4.0.0-SNAPSHOT:
+[INFO] 
+[INFO] IBM Server for HL7 FHIR ...................... SUCCESS [  8.537 s]
+[INFO] fhir-core .......................................... SUCCESS [  7.478 s]
+[INFO] fhir-task-api ...................................... SUCCESS [  0.583 s]
+[INFO] fhir-task-core ..................................... SUCCESS [  9.217 s]
+[INFO] fhir-database-utils ................................ SUCCESS [ 16.877 s]
+[INFO] fhir-config ........................................ SUCCESS [ 12.278 s]
+[INFO] fhir-audit ......................................... SUCCESS [ 13.421 s]
+[INFO] fhir-model ......................................... SUCCESS [03:32 min]
+[INFO] fhir-conformance ................................... SUCCESS [ 39.934 s]
+[INFO] fhir-ig-us-core .................................... SUCCESS [ 23.337 s]
+[INFO] fhir-search ........................................ SUCCESS [01:16 min]
+[INFO] fhir-persistence ................................... SUCCESS [ 38.613 s]
+[INFO] fhir-replication-api ............................... SUCCESS [ 11.191 s]
+[INFO] fhir-persistence-proxy ............................. SUCCESS [ 28.315 s]
+[INFO] fhir-persistence-schema ............................ SUCCESS [04:44 min]
+[INFO] fhir-persistence-jdbc .............................. SUCCESS [16:34 min]
+[INFO] fhir-provider ...................................... SUCCESS [  9.223 s]
+[INFO] fhir-operation ..................................... SUCCESS [ 26.337 s]
+[INFO] fhir-operation-validate ............................ SUCCESS [  1.065 s]
+[INFO] fhir-operation-document ............................ SUCCESS [  1.074 s]
+[INFO] fhir-operation-healthcheck ......................... SUCCESS [  0.547 s]
+[INFO] fhir-client ........................................ SUCCESS [ 12.460 s]
+[INFO] fhir-cli ........................................... SUCCESS [ 12.682 s]
+[INFO] fhir-notification .................................. SUCCESS [  0.971 s]
+[INFO] fhir-notification-kafka ............................ SUCCESS [  0.769 s]
+[INFO] fhir-notification-websocket ........................ SUCCESS [  0.931 s]
+[INFO] FHIR Server REST API Implementation ................ SUCCESS [ 36.295 s]
+[INFO] FHIR Server REST API WebApp ........................ SUCCESS [ 11.151 s]
+[INFO] fhir-server-test ................................... SUCCESS [  6.484 s]
+[INFO] fhir-swagger-generator ............................. SUCCESS [  5.121 s]
+[INFO] fhir-openapi ....................................... SUCCESS [  0.739 s]
+[INFO] fhir-install ....................................... SUCCESS [ 59.261 s]
+[INFO] fhir-coverage-reports .............................. SUCCESS [ 43.491 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  33:28 min
+[INFO] Finished at: 2019-09-11T19:23:06-04:00
+[INFO] ------------------------------------------------------------------------
+</code></pre>
+<h2 id="installation">Installation</h2>
+<p>The above build creates an installable artifact:</p>
+<pre><code>~/git/FHIR/fhir-install/target/fhir-server-distribution.zip
+</code></pre>
+<p>Unpack the archive into a working directory:</p>
+<pre><code>mkdir -p ~/unpack &amp;&amp; cd ~/unpack &amp;&amp; unzip ~/git/FHIR/fhir-install/target/fhir-server-distribution.zip
+</code></pre>
+<p>Decide where you want to install. As this isn't a production server, installing it under the pi user is convenient.</p>
+<p>mkdir -p ~/runtime/fhir-server &amp;&amp; sh ~/unpack/fhir-server-dist/install.sh ~/runtime/fhir-server</p>
+<p>Check that the Liberty runtime was installed correctly:</p>
+<pre><code>~/runtime/fhir-server/wlp/bin/server status fhir-server
+
+Server fhir-server is not running.
+</code></pre>
+<p>The default configuration uses a 4GB heap size which is too large for the Pi. Edit the jvm.options file and reduce the memory footprint using -Xmx1024M and -Xms1024M:</p>
+<pre><code>pi@raspberrypi:~ $ vi ~/runtime/fhir-server/wlp/usr/servers/fhir-server/jvm.options 
+...
+grep -- -Xm ~/runtime/fhir-server/wlp/usr/servers/fhir-server/jvm.options
+-Xms1024M
+-Xmx1024M
+
+</code></pre>
+<p>Start the server (the first startup takes some time):</p>
+<pre><code>~/runtime/fhir-server/wlp/bin/server start fhir-server
+
+Starting server fhir-server.
+Server fhir-server started with process ID 1234.
+</code></pre>
+<h2 id="smoke-test">Smoke Test</h2>
+<p>Run a basic connectivity check. This is a primitive check to ensure that the application server is accessible and that the FHIR web application is running:</p>
+<pre><code>sh ~/unpack/fhir-server-dist/fhirSmokeTest.sh localhost 9443
+
+Checking if server localhost is accessible on port 9443 ... OK!
+Checking FHIR server signature... OK!
+Checking FHIR API version... OK!
+
+Success! All checks passed.
+</code></pre>
+<h2 id="clean-up">Clean up</h2>
+<pre><code>rm -fr ~/unpack/fhir-server-dist
+rm -f /tmp/apache-maven-3.6.1-bin.tar.gz
+</code></pre>
+<h2 id="create-a-patient-resource">Create a Patient Resource</h2>
+<p>Create a new patient resource using the following POST. The FHIR server will allocate a unique logical identifier (UUID):</p>
+<pre><code>curl -k \
+-H 'Content-Type: application/json' \
+-u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/Patient' -d '
+{
+    &quot;resourceType&quot; : &quot;Patient&quot;,
+    &quot;active&quot; : true,
+    &quot;name&quot; : [ {
+        &quot;family&quot; : &quot;Ortiz&quot;,
+        &quot;given&quot; : [ &quot;David&quot; ]
+    } ],
+    &quot;gender&quot; : &quot;male&quot;
+}
+'
+</code></pre>
+<p>The FHIR server should respond with a 201 Created status:</p>
+<pre><code>HTTP/2 201 
+location: https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc/_history/1
+etag: W/&quot;1&quot;
+last-modified: 2019-09-12T19:22:02.159503Z
+date: Thu, 12 Sep 2019 19:22:05 GMT
+content-length: 0
+content-language: en-US
+</code></pre>
+<p>Use the <code>location:</code> value returned from <strong>your</strong> POST to read back the resource:</p>
+<p>Command (example):</p>
+<pre><code>curl --silent -k -H 'Accept: application/json' -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc' | python -m json.tool
+</code></pre>
+<blockquote>
+<p>Remember to use the patient logical id returned as the location: header in your POST - if you try to use <code>041786ad-d6a1-42ea-bf47-4dd8eb08a5fc</code> the response status will be Not Found.</p>
+</blockquote>
+<p>Output:</p>
+<pre><code>{
+    &quot;active&quot;: true,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;id&quot;: &quot;041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;,
+    &quot;meta&quot;: {
+        &quot;lastUpdated&quot;: &quot;2019-09-12T19:22:02.159503Z&quot;,
+        &quot;versionId&quot;: &quot;1&quot;
+    },
+    &quot;name&quot;: [
+        {
+            &quot;family&quot;: &quot;Ortiz&quot;,
+            &quot;given&quot;: [
+                &quot;David&quot;
+            ]
+        }
+    ],
+    &quot;resourceType&quot;: &quot;Patient&quot;
+}
+</code></pre>
+<p>Now we can update the resource using a PUT (David =&gt; Dave). Again, it is important to use the logical ids from your example, not the values shown here. This includes the &quot;id&quot; field in the body, which should match the logical id of the URL:</p>
+<pre><code>curl -k -i \
+-X PUT \
+-H 'Content-Type: application/json' \
+-u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc' -d '
+{
+    &quot;active&quot;: true,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;id&quot;: &quot;041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;,
+    &quot;meta&quot;: {
+        &quot;lastUpdated&quot;: &quot;2019-09-12T19:22:02.159503Z&quot;,
+        &quot;versionId&quot;: &quot;1&quot;
+    },
+    &quot;name&quot;: [
+        {
+            &quot;family&quot;: &quot;Ortiz&quot;,
+            &quot;given&quot;: [
+                &quot;Dave&quot;
+            ]
+        }
+    ],
+    &quot;resourceType&quot;: &quot;Patient&quot;
+}
+'
+</code></pre>
+<p>Response:</p>
+<pre><code>HTTP/2 200 
+location: https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc/_history/2
+etag: W/&quot;2&quot;
+last-modified: 2019-09-12T19:46:24.656131Z
+date: Thu, 12 Sep 2019 19:46:26 GMT
+content-length: 0
+content-language: en-US
+</code></pre>
+<p>Note the location: has now changed to indicate the new version is 2.</p>
+<p>Retrieve the latest version:</p>
+<pre><code>curl --silent -k -H 'Accept: application/json' -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc' | python -m json.tool
+</code></pre>
+<p>Response:</p>
+<pre><code>curl --silent -k -H 'Accept: application/json' -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc' | python -m json.tool
+{
+    &quot;active&quot;: true,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;id&quot;: &quot;041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;,
+    &quot;meta&quot;: {
+        &quot;lastUpdated&quot;: &quot;2019-09-12T19:46:24.656131Z&quot;,
+        &quot;versionId&quot;: &quot;2&quot;
+    },
+    &quot;name&quot;: [
+        {
+            &quot;family&quot;: &quot;Ortiz&quot;,
+            &quot;given&quot;: [
+                &quot;Dave&quot;
+            ]
+        }
+    ],
+    &quot;resourceType&quot;: &quot;Patient&quot;
+}
+
+</code></pre>
+<p>Note that the given name is &quot;Dave&quot;.</p>
+<p>To see a previous version, perform a vread:</p>
+<pre><code>curl --silent -k -H 'Accept: application/json' -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc/_history/1' | python -m json.tool
+
+</code></pre>
+<p>Response:</p>
+<pre><code>{
+    &quot;active&quot;: true,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;id&quot;: &quot;041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;,
+    &quot;meta&quot;: {
+        &quot;lastUpdated&quot;: &quot;2019-09-12T19:22:02.159503Z&quot;,
+        &quot;versionId&quot;: &quot;1&quot;
+    },
+    &quot;name&quot;: [
+        {
+            &quot;family&quot;: &quot;Ortiz&quot;,
+            &quot;given&quot;: [
+                &quot;David&quot;
+            ]
+        }
+    ],
+    &quot;resourceType&quot;: &quot;Patient&quot;
+}
+
+</code></pre>
+<p>In version 1, we see that the given name is the original value of &quot;David&quot;.</p>
+<p>All the versions of the resource can be read using a history read operation:</p>
+<pre><code>curl --silent -k -H 'Accept: application/json' -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc/_history' | python -m json.tool
+</code></pre>
+<p>The response is a FHIR bundle resource containing both versions of the Patient. Note the name change from David (version 1) to Dave (version 2):</p>
+<pre><code>{
+    &quot;entry&quot;: [
+        {
+            &quot;fullUrl&quot;: &quot;https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;,
+            &quot;request&quot;: {
+                &quot;method&quot;: &quot;PUT&quot;,
+                &quot;url&quot;: &quot;Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;
+            },
+            &quot;resource&quot;: {
+                &quot;active&quot;: true,
+                &quot;gender&quot;: &quot;male&quot;,
+                &quot;id&quot;: &quot;041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;,
+                &quot;meta&quot;: {
+                    &quot;lastUpdated&quot;: &quot;2019-09-12T19:46:24.656131Z&quot;,
+                    &quot;versionId&quot;: &quot;2&quot;
+                },
+                &quot;name&quot;: [
+                    {
+                        &quot;family&quot;: &quot;Ortiz&quot;,
+                        &quot;given&quot;: [
+                            &quot;Dave&quot;
+                        ]
+                    }
+                ],
+                &quot;resourceType&quot;: &quot;Patient&quot;
+            },
+            &quot;response&quot;: {
+                &quot;status&quot;: &quot;200&quot;
+            }
+        },
+        {
+            &quot;fullUrl&quot;: &quot;https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;,
+            &quot;request&quot;: {
+                &quot;method&quot;: &quot;POST&quot;,
+                &quot;url&quot;: &quot;Patient&quot;
+            },
+            &quot;resource&quot;: {
+                &quot;active&quot;: true,
+                &quot;gender&quot;: &quot;male&quot;,
+                &quot;id&quot;: &quot;041786ad-d6a1-42ea-bf47-4dd8eb08a5fc&quot;,
+                &quot;meta&quot;: {
+                    &quot;lastUpdated&quot;: &quot;2019-09-12T19:22:02.159503Z&quot;,
+                    &quot;versionId&quot;: &quot;1&quot;
+                },
+                &quot;name&quot;: [
+                    {
+                        &quot;family&quot;: &quot;Ortiz&quot;,
+                        &quot;given&quot;: [
+                            &quot;David&quot;
+                        ]
+                    }
+                ],
+                &quot;resourceType&quot;: &quot;Patient&quot;
+            },
+            &quot;response&quot;: {
+                &quot;status&quot;: &quot;200&quot;
+            }
+        }
+    ],
+    &quot;id&quot;: &quot;cecfa920-ead0-402a-9431-35b7e6c2a768&quot;,
+    &quot;link&quot;: [
+        {
+            &quot;relation&quot;: &quot;self&quot;,
+            &quot;url&quot;: &quot;https://localhost:9443/fhir-server/api/v4/Patient/041786ad-d6a1-42ea-bf47-4dd8eb08a5fc/_history&quot;
+        }
+    ],
+    &quot;resourceType&quot;: &quot;Bundle&quot;,
+    &quot;total&quot;: 2,
+    &quot;type&quot;: &quot;history&quot;
+}
+
+</code></pre>
+<h1 id="end-of-document">END-OF-DOCUMENT</h1>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">IBM Server for HL7 FHIR maintained by <a href="https://github.com/IBM">IBM</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+        
+      </footer>
+    </div>
+
+    
+  </body>
+</html>

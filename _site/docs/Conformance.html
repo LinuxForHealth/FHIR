@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/FHIR/assets/css/style.css?v=3fd9013749d31b943c30eb195a75dd9bba258037">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>IBM Server for HL7 FHIR | The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="IBM Server for HL7 FHIR" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<meta property="og:description" content="The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<link rel="canonical" href="https://ibm.github.io/FHIR/FHIR/docs/Conformance.html" />
+<meta property="og:url" content="https://ibm.github.io/FHIR/FHIR/docs/Conformance.html" />
+<meta property="og:site_name" content="IBM Server for HL7 FHIR" />
+<script type="application/ld+json">
+{"url":"https://ibm.github.io/FHIR/FHIR/docs/Conformance.html","headline":"IBM Server for HL7 FHIR","description":"The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.","@type":"WebPage","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">IBM Server for HL7 FHIR</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/FHIR/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="forkme_banner" href="https://github.com/IBM/FHIR">View on GitHub</a>
+      </li>
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Guides
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+          </div>
+        </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Java Docs
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+           Downloads
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="https://github.com/IBM/FHIR/zipball/gh-pages">... as a .zip file</a>
+            <a class="dropdown-item" href="https://github.com/IBM/FHIR/tarball/gh-pages">...  as a tar.gz file</a>
+        </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+   
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="conformance-to-the-hl7-fhir-specification">Conformance to the HL7 FHIR Specification</h1>
+<p>The IBM Server for HL7 FHIR aims to be a conformant implementation of the HL7 FHIR specification, version 4.0.0 (R4). However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.</p>
+<h2 id="capability-statement">Capability statement</h2>
+<p>The HL7 FHIR specification defines <a href="https://www.hl7.org/fhir/R4/http.html#capabilities">an interaction</a> for retrieving a machine-readable description of the server's capabilities via the <code>[base]/metadata</code> endpoint. The IBM Server for HL7 FHIR implements this interaction and generates a <code>CapabilityStatement</code> resource based on the current server configuration. While the <code>CapabilityStatement</code> resource is ideal for certain uses, this markdown document provides a human-readable summary of important details, with a special focus on limitations of the current implementation and deviations from the specification.</p>
+<h2 id="fhir-http-api">FHIR HTTP API</h2>
+<p>The HL7 FHIR specification is more than just a content standard. It defines an <a href="https://www.hl7.org/fhir/R4/http.html">HTTP API</a> for creating, reading, updating, deleting, and searching over FHIR resources. The IBM Server for HL7 FHIR implements the full API for every resource defined in the specification, with the following exceptions:</p>
+<ul>
+<li>history is only supported at the resource instance level (no resource type history and no whole-system history)</li>
+<li>there are parts of the FHIR search specification which are not fully implemented as documented in the following section</li>
+</ul>
+<h2 id="search">Search</h2>
+<p>The IBM Server for HL7 FHIR supports search parameters of type <code>Number</code>, <code>Date/DateTime</code>, <code>String</code>, <code>Token</code>, <code>Reference</code>, <code>Quantity</code>, and <code>URI</code>.</p>
+<p>Search parameters of type <a href="https://www.hl7.org/fhir/R4/search.html#composite">Composite</a> and <a href="https://www.hl7.org/fhir/R4/search.html#special">Special</a> are not currently supported.</p>
+<p>For all other types, the IBM Server for HL7 FHIR supports the parameters defined in the
+specification and allows for the configuration of additional ones.</p>
+<h3 id="search-parameters">Search parameters</h3>
+<p>Search parameters defined in the specification can be found by browsing the R4 FHIR specification by resource type. For example, to find the search parameters for a Patient resource, navigate to <a href="https://www.hl7.org/fhir/R4/patient.html">https://www.hl7.org/fhir/R4/patient.html</a> and scroll to the Search Parameters section near the end of the page.</p>
+<p>In addition, the following search parameters are supported on all resources:</p>
+<ul>
+<li><code>_id</code></li>
+<li><code>_lastUpdated</code></li>
+<li><code>_profile</code></li>
+<li><code>_security</code></li>
+<li><code>_source</code></li>
+<li><code>_tag</code></li>
+</ul>
+<p>The <code>_text</code>, <code>_content</code>, <code>_list</code>, and <code>_query</code> parameters are not supported at this time.</p>
+<p>Finally, the specification defines a set of <q>Search result parameters</q> for controlling the search behavior. The IBM Server for HL7 FHIR supports the following:</p>
+<ul>
+<li><code>_sort</code></li>
+<li><code>_count</code></li>
+<li><code>_include</code></li>
+<li><code>_revinclude</code></li>
+<li><code>_elements</code></li>
+</ul>
+<p>The <code>_count</code> parameter can be used to return at most 1000 records. If the client specifies a <code>_count</code> of over 1000, the page size is capped at 1000. If the client specifies a <code>_count</code> of 1000 or less, the server honors the client request.</p>
+<p>The <code>_summary</code>, <code>_total</code>, <code>_contained</code>, and <code>_containedType</code> parameters are not supported at this time.</p>
+<h3 id="custom-search-parameters">Custom search parameters</h3>
+<p>Custom search parameters are search parameters that are not defined in the FHIR R4 specification, but are configured for search on the IBM Server for HL7 FHIR. You can configure custom parameters for either extension elements or for elements that are defined in the specification but without a corresponding search parameter.</p>
+<p>For information on how to specify custom search parameters, see <a href="FHIRServerUserGuide.md#35-search-parameters">Section 3.5 Search parameters</a> of the FHIR Server User Guide.</p>
+<h3 id="search-modifiers">Search modifiers</h3>
+<p>FHIR search modifiers are described at <a href="https://www.hl7.org/fhir/R4/search.html#modifiers">https://www.hl7.org/fhir/R4/search.html#modifiers</a> and vary by search parameter type. The IBM Server for HL7 FHIR implements a subset of the spec-defined search modifiers that is defined in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>FHIR Search Parameter Type</th>
+<th>Supported Modifiers</th>
+<th>&quot;Default&quot; search behavior when no Modifier is present</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td><code>:exact</code>,<code>:contains</code>,<code>:missing</code></td>
+<td>Performs a &quot;starts with&quot; search that is case-insensitive and accent-insensitive</td>
+</tr>
+<tr>
+<td>Reference</td>
+<td><code>:[type]</code>,<code>:missing</code></td>
+<td>Performs an exact match search</td>
+</tr>
+<tr>
+<td>URI</td>
+<td><code>:below</code>,<code>:missing</code></td>
+<td>Performs a &quot;starts with&quot; search</td>
+</tr>
+<tr>
+<td>Token</td>
+<td><code>:below</code>,<code>:not</code>,<code>:missing</code></td>
+<td>Performs an exact match search</td>
+</tr>
+<tr>
+<td>Number</td>
+<td><code>:missing</code></td>
+<td>Honors prefix if present, otherwise performs an exact match search</td>
+</tr>
+<tr>
+<td>Date</td>
+<td><code>:missing</code></td>
+<td>Honors prefix if present, otherwise performs an exact match search</td>
+</tr>
+<tr>
+<td>Quantity</td>
+<td><code>:missing</code></td>
+<td>Honors prefix if present, otherwise performs an exact match search</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the default IBM Server for HL7 FHIR behavior for URI search parameters differs from the behavior defined at <a href="https://www.hl7.org/fhir/R4/search.html#uri">https://www.hl7.org/fhir/R4/search.html#uri</a>.</p>
+<p>At present, modifiers cannot be used with chained parameters. For example, a search with query string like <code>subject:Basic.date:missing</code> will result in an <code>OperationOutcome</code> explaining that the search parameter could not be processed.</p>
+<p>The <code>:text</code> modifier is not supported in this version of the FHIR server and use of this modifier will results in an HTTP 400 error with an <code>OperationOutcome</code> that describes the failure.</p>
+<p>Due to performance implications, the <code>:exact</code> modifier should be used for String searches where possible.</p>
+<h3 id="search-prefixes">Search prefixes</h3>
+<p>FHIR search prefixes are described at <a href="https://www.hl7.org/fhir/R4/search.html#prefix">https://www.hl7.org/fhir/R4/search.html#prefix</a>.</p>
+<p>As defined in the specification, the following prefixes are supported for Number, Date, and Quantity search parameters:</p>
+<ul>
+<li><code>eq</code></li>
+<li><code>ne</code></li>
+<li><code>gt</code></li>
+<li><code>lt</code></li>
+<li><code>gt</code></li>
+<li><code>le</code></li>
+<li><code>sa</code></li>
+<li><code>eb</code></li>
+<li><code>ap</code></li>
+</ul>
+<p>For explicit range targets (parameter values extracted from Period and Range elements), the prefixes are interpreted as according to <a href="https://www.hl7.org/fhir/R4/search.html#prefix">https://www.hl7.org/fhir/R4/search.html#prefix</a>.</p>
+<p>For example, a search like <code>Observation?date=2018-10-29T12:00:00Z</code> would <em>not</em> match an Observation with an effectivePeriod of <code>start=2018-10-29</code> and <code>end=2018-10-30</code> because &quot;the search range does not fully contain the range of the target value.&quot; Similarly, a search like <code>range=5||mg</code> would not match a range value with <code>low = 1 mg</code> and <code>high = 10 mg</code>. To obtain all range values (Period or Range) which contain a specific value, please use the <code>ap</code> prefix which is defined to match when &quot;the range of the search value overlaps with the range of the target value.&quot;</p>
+<p>For other target values (parameter values extracted from elements that are not a Period or Range), <code>ap</code> is treated like <code>eq</code>, <code>eb</code> is treated like <code>lt</code>, and <code>sa</code> is treated like <code>gt</code>. Please note that this <code>ap</code> behavior differs from the behavior recommended in the specification.</p>
+<p>In the absence of a prefix, the default behavior for number, date, and quantity searches is an exact match search.</p>
+<p>The <code>eb</code> and <code>ap</code> prefixes are not supported for searches which target values of type integer (or derived types).</p>
+<p>If not specified on a query string, the default prefix is <code>eq</code>.</p>
+<h3 id="searching-on-date">Searching on Date</h3>
+<p>The FHIR server adheres to the specification except in cases where a time is included in the search query value. When a time is specified, the implementation requires an hour, minute, second, and timezone value. Including these values is consistent with the way in which <code>instant</code> and <code>dateTime</code> data types are defined at <a href="https://www.hl7.org/fhir/R4/datatypes.html#primitive">https://www.hl7.org/fhir/R4/datatypes.html#primitive</a>. However, the implementation differs from the description at <a href="https://www.hl7.org/fhir/R4/search.html#date">https://www.hl7.org/fhir/R4/search.html#date</a>, which allows clients to include hours and minutes, but to omit values for seconds and time zone.</p>
+<p>Indexing fields of type <code>Timing</code> is not well-defined in the specification and is not supported in this version of the IBM Server for HL7 FHIR.</p>
+<h3 id="searching-on-token">Searching on Token</h3>
+<p>For search parameters of type token, resource values are not indexed unless the resource instance contains both a <code>system</code> <strong>and</strong> <code>code</code>. The server implements the following variations of token search defined in the specification:</p>
+<ul>
+<li><code>[parameter]=[code]</code></li>
+<li><code>[parameter]=[system]|[code]</code></li>
+<li><code>[parameter]=|[code]</code></li>
+</ul>
+<p>However, the <code>|[code]</code> variant currently behaves like the <code>[code]</code> option, matching code values irrespective of the system instead of matching only on elements with missing/null system values as defined in the spec.</p>
+<p>The IBM Server for HL7 FHIR does not yet support searching a token value by codesystem, irrespective of the value (<code>|[system]|</code>).</p>
+<p>For search parameters of type token that are defined on data fields of type <code>ContactPoint</code>, the FHIR server currently uses the <code>ContactPoint.system</code> and the <code>ContactPoint.value</code> instead of the <code>ContactPoint.use</code> field as described in the specification.</p>
+<p>Searching string values via a token search parameter is not currently supported.</p>
+<h3 id="searching-on-number">Searching on Number</h3>
+<p>For fields of type <code>decimal</code>, the IBM Server for HL7 FHIR does not compute an implicit range for search. Search query values must match to the same precision, or greater precision, as the value in the resource.</p>
+<h3 id="searching-on-quantity">Searching on Quantity</h3>
+<p>Quantity elements are not indexed unless they include either a valid <code>system</code> <strong>and</strong> <code>code</code> for their unit <strong>or</strong> a human-readable <code>unit</code> field. Quantities that don't include a <code>value</code> element are also skipped.</p>
+<p>The FHIR server does not perform any unit conversion or unit manipulation at this time. Quantity values <strong>must</strong> be searched using the same unit <code>code</code> that is included in the original resource. If, and only if, a coded unit is not present on a resource, then the FHIR server indexes the human-readable <code>unit</code> field, which can then be searched by omitting the <code>system</code> in the search query.</p>
+<p>The IBM Server for HL7 FHIR does not consider the <code>Quantity.comparator</code> field as part of search processing at this time.
+Similar to Numeric searches, the FHIR Server does not compute an implicit range for quantity values...the precise number given in the resource is required for retrieval via standard search (i.e. searches with either no prefix or the <code>eq</code> prefix).</p>
+<h3 id="searching-on-uri">Searching on URI</h3>
+<p>URI searches on the IBM Server for HL7 FHIR are case-insensitive, similar to the default behavior of searching on string values.</p>
+<h2 id="hl7-fhir-r4-v400-errata">HL7 FHIR R4 (v4.0.0) errata</h2>
+<p>We will add information here as we find issues with the artifacts provided with this version of the specification.</p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">IBM Server for HL7 FHIR maintained by <a href="https://github.com/IBM">IBM</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+        
+      </footer>
+    </div>
+
+    
+  </body>
+</html>

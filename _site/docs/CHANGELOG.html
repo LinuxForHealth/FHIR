@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/FHIR/assets/css/style.css?v=3fd9013749d31b943c30eb195a75dd9bba258037">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>IBM Server for HL7 FHIR | The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="IBM Server for HL7 FHIR" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<meta property="og:description" content="The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<link rel="canonical" href="https://ibm.github.io/FHIR/FHIR/docs/CHANGELOG.html" />
+<meta property="og:url" content="https://ibm.github.io/FHIR/FHIR/docs/CHANGELOG.html" />
+<meta property="og:site_name" content="IBM Server for HL7 FHIR" />
+<script type="application/ld+json">
+{"url":"https://ibm.github.io/FHIR/FHIR/docs/CHANGELOG.html","headline":"IBM Server for HL7 FHIR","description":"The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.","@type":"WebPage","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">IBM Server for HL7 FHIR</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/FHIR/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="forkme_banner" href="https://github.com/IBM/FHIR">View on GitHub</a>
+      </li>
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Guides
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+          </div>
+        </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Java Docs
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+           Downloads
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="https://github.com/IBM/FHIR/zipball/gh-pages">... as a .zip file</a>
+            <a class="dropdown-item" href="https://github.com/IBM/FHIR/tarball/gh-pages">...  as a tar.gz file</a>
+        </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+   
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2 id="unreleased">[Unreleased]</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Nothing yet</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Nothing yet</li>
+</ul>
+<h2 id="section">[2.2.1] - 2019-5-17</h2>
+<h3 id="fixed-1">Fixed</h3>
+<ul>
+<li>NPE when specifying <code>_elements</code> on Resource query</li>
+<li><code>_elements</code> doesn't support comma-separated list of values</li>
+<li>NPE on searches involving partially-incomplete Timing or ContactPoint values</li>
+<li>FHIRJsonParser support for primitive elements with extensions</li>
+<li>transaction-response bundles return entries with empty responses
+<ul>
+<li>now the server will include all required fields with extensions that explain why the data is missing</li>
+</ul>
+</li>
+<li>Bundle request entry urls are never unencoded
+<ul>
+<li>query parameter values should now be percent-encoded (e.g. to distinguish between <code>&amp;</code> in a value (<code>%26</code>) and <code>&amp;</code> as a separator)</li>
+</ul>
+</li>
+</ul>
+<h3 id="changed-1">Changed</h3>
+<ul>
+<li>!BREAKING! Renamed FHIRUtil.read() and FHIRJsonParser.parse() methods which support <code>_elements</code> filter to readAndFilter / parseAndFilter respectively</li>
+<li>FHIRJsonParser is now configurable; users can set fhirServer/core/jsonParserLenient and fhirServer/core/jsonParserValidating in fhir-server-config.json</li>
+<li>!BREAKING! FHIRJsonParser is now strict (jsonParserLenient=false) and validating (jsonParserValidating=true) by default
+<ul>
+<li>for backwards-compatibility, users should set jsonParserLenient=true and jsonParserValidating=false in fhir-server-config.json</li>
+</ul>
+</li>
+<li>!BREAKING! Unrecognized parameters passed during a search operation will now be ignored by the server (instead of returning a 400 error)
+<ul>
+<li>clients should check the self link of the searchset bundle response to determine which parameters were used to service the request</li>
+<li>to opt into the old behavior, clients can include a Prefer header with a value of <code>handling=strict</code></li>
+</ul>
+</li>
+<li>when a tenant has no tenant-specific extension-search-parameters.xml, we now fall back to the &quot;default&quot; tenant's extension-search-parameters.xml</li>
+<li>search now supports &quot;eb&quot; (ends before), &quot;sa&quot; (starts after), and &quot;ap&quot; (approximate) prefixes for date, number, and quantity search parameters
+<ul>
+<li>for non-explicit range targets, &quot;ap&quot; is treated like &quot;eq&quot;, &quot;eb&quot; is treated like &quot;lt&quot;, and &quot;sa&quot; is treated like &quot;gt&quot;</li>
+</ul>
+</li>
+<li>!BREAKING! for explicit range targets (Period and Range), &quot;eq&quot; searches now match when &quot;the range of the search value fully contains the range of the target value&quot;
+<ul>
+<li>for a search on a specific value within a range to match, please use the &quot;ap&quot; prefix (or &quot;lt&quot; or &quot;gt&quot;)</li>
+</ul>
+</li>
+<li>SearchParameter xpath values can (and should) now be given to the valueX element, not just to the parent extension
+<ul>
+<li>for backwards-compatibility, we will continue to support xpath values which point to the extension element, but this is now considered deprecated</li>
+</ul>
+</li>
+<li>search improvements for values of type Period, Timing, and ContactPoint</li>
+<li>validation now executes schematron constaints on contained resources and entry resources within a bundle
+<ul>
+<li>this is accomplished by loading a single file with all constraints on the first request, so we recommend hitting the $validate endpoint (or triggering validation via a create operation) in order to warm the cache before serving client requests</li>
+</ul>
+</li>
+<li>you can now match values containing <code>,</code>, <code>|</code>, and <code>$</code> by prefixing those characters with a <code>\</code> in your search query
+<ul>
+<li>!BREAKING! to search for a value containing <code>\</code> itself, be sure to use <code>\\</code> instead</li>
+</ul>
+</li>
+<li>new configuration parameters added to support toggling pretty-print</li>
+<li>server now responds with pretty-print off by default for both XML and JSON</li>
+<li>custom operations can now be invoked from batch/transaction bundle requests
+<ul>
+<li>search-all (<code>GET /_search</code>) and <code>POST [resource]/_search</code> with query string parameters can now be included in batch requests as well</li>
+</ul>
+</li>
+<li>upgrade to WebSphere Liberty 19.0.0.4, IBM Java 8.0-5.35, and db2jcc4 4.25.1301</li>
+<li>updated README</li>
+</ul>
+<h3 id="added">Added</h3>
+<ul>
+<li>Packaging for use on IBM Cloud, including
+<ul>
+<li>$healthcheck operation for testing the db connection</li>
+<li>fhir-server is now built into a docker image that is available from Artifactory (see fhir-server README)</li>
+</ul>
+</li>
+</ul>
+<h2 id="section-1">[2.2.0] - 2018-10-15</h2>
+<p>Release 2.2.0 is the first <q>common service</q> release from the IBM Server for HL7 FHIR codebase.</p>
+<h3 id="security">Security</h3>
+<ul>
+<li>client should perform hostname verification by default</li>
+<li>improve security of default configuration</li>
+<li>addressed appscan-identified issues including
+<ul>
+<li>input validation of tenantId and datastoreId values provided via header</li>
+<li>output validation while logging user-provided data</li>
+<li>improve error handling</li>
+</ul>
+</li>
+</ul>
+<h3 id="fixed-2">Fixed</h3>
+<ul>
+<li>race condition in add_resource stored procedure</li>
+<li>server error on incomplete identifier/code/quantity fields</li>
+<li>broken DocumentReference-identifier search</li>
+<li>JDBCNormalizedQueryBuilder assumes chained parameters are of type string</li>
+</ul>
+<h3 id="changed-2">Changed</h3>
+<ul>
+<li>support configurable file-based audit logging</li>
+<li>expand stored procedure parametertype arrays</li>
+<li>upgrade to Liberty 18.0.0.2 and update features</li>
+<li>!BREAKING! - use FHIROperationException as base exception and add severity and issueType</li>
+<li>avoid duplicate read operations during update operation</li>
+<li>moved user guide to docs</li>
+</ul>
+<h3 id="added-1">Added</h3>
+<ul>
+<li>
+<p>high-performance FHIRJsonGenerator for serializing FHIR</p>
+</li>
+<li>
+<p>search parser support for <code>_include</code> and <code>_revinclude</code></p>
+</li>
+<li>
+<p>JDBC persistence layer support for <code>_include</code> and <code>_revinclude</code> search parameters</p>
+</li>
+<li>
+<p>support the <code>_elements</code> search parameter</p>
+</li>
+<li>
+<p>$healthcheck operation which tests connection to the db</p>
+</li>
+<li>
+<p>Update to OpenAPI 3.0 and remove fhir-swagger-ui project</p>
+</li>
+</ul>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">IBM Server for HL7 FHIR maintained by <a href="https://github.com/IBM">IBM</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+        
+      </footer>
+    </div>
+
+    
+  </body>
+</html>

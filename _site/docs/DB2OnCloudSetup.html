@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/FHIR/assets/css/style.css?v=3fd9013749d31b943c30eb195a75dd9bba258037">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>IBM Server for HL7 FHIR | The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="IBM Server for HL7 FHIR" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<meta property="og:description" content="The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<link rel="canonical" href="https://ibm.github.io/FHIR/FHIR/docs/DB2OnCloudSetup.html" />
+<meta property="og:url" content="https://ibm.github.io/FHIR/FHIR/docs/DB2OnCloudSetup.html" />
+<meta property="og:site_name" content="IBM Server for HL7 FHIR" />
+<script type="application/ld+json">
+{"url":"https://ibm.github.io/FHIR/FHIR/docs/DB2OnCloudSetup.html","headline":"IBM Server for HL7 FHIR","description":"The IBM Server for HL7 FHIR is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.","@type":"WebPage","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">IBM Server for HL7 FHIR</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/FHIR/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="forkme_banner" href="https://github.com/IBM/FHIR">View on GitHub</a>
+      </li>
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Guides
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+          </div>
+        </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Java Docs
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+           Downloads
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="https://github.com/IBM/FHIR/zipball/gh-pages">... as a .zip file</a>
+            <a class="dropdown-item" href="https://github.com/IBM/FHIR/tarball/gh-pages">...  as a tar.gz file</a>
+        </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+   
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <!--
+  
+---
+
+Copyright:
+
+  years: 2019
+lastupdated: "2019-09-10"
+
+---
+
+-->
+<h2 id="using-db2-for-persistence">Using DB2 For Persistence</h2>
+<h3 id="create-a-db2-instance">Create a DB2 Instance</h3>
+<p>Log in to your IBM Cloud account <a href="https://cloud.ibm.com/">https://cloud.ibm.com/</a>.</p>
+<p>Click <code>Create resource</code>.</p>
+<p>Choose DB2 (transactional).</p>
+<p>Select the instance size. Flex is the best choice for a basic production workload.</p>
+<p>You can use the Lite plan for development or evaluation workloads. This plan has a limit of 5 concurrent connections, so the FHIR server connection-pool will need to be sized accordingly to avoid failures.</p>
+<h3 id="scale-the-instance">Scale the Instance</h3>
+<p>If you chose Flex, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time. Scaling the instance requires a reboot.</p>
+<h3 id="create-the-administrator-credential">Create the Administrator Credential</h3>
+<p>The administrator will be BLUADMIN but you need to create a credential. Open the <code>Service credentials</code> panel for the DB2 instance resource you just created. If you don't yet have any service credentials in the table at the bottom of the page, create a new one by clicking the <code>New credential (+)</code> button. Any name will do.</p>
+<p>To access the credential, select View Credentials for the entry you just created. The result will be a block of JSON full of secrets (blanked out here):</p>
+<pre><code>{
+  &quot;hostname&quot;: &quot;dashdb-txn-flex-.***********.services.dal.bluemix.net&quot;,
+  &quot;password&quot;: &quot;bluadmin-password-very-secret&quot;,
+  &quot;https_url&quot;: &quot;https://dashdb-txn-flex-************.services.dal.bluemix.net:8443&quot;,
+  &quot;port&quot;: 50000,
+  &quot;ssldsn&quot;: &quot;DATABASE=BLUDB;HOSTNAME=dashdb-txn-flex-************.services.dal.bluemix.net;PORT=50001;PROTOCOL=TCPIP;UID=bluadmin;PWD=bluadmin-password-very-secret;Security=SSL;&quot;,
+  &quot;host&quot;: &quot;dashdb-txn-flex-************.services.dal.bluemix.net&quot;,
+  &quot;jdbcurl&quot;: &quot;jdbc:db2://dashdb-txn-flex-************.services.dal.bluemix.net:50000/BLUDB&quot;,
+  &quot;uri&quot;: &quot;db2://bluadmin:bluadmin-password-very-secret@dashdb-txn-flex-************.services.dal.bluemix.net:50000/BLUDB&quot;,
+  &quot;db&quot;: &quot;BLUDB&quot;,
+  &quot;dsn&quot;: &quot;DATABASE=BLUDB;HOSTNAME=dashdb-txn-flex-************.services.dal.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=bluadmin;PWD=bluadmin-password-very-secret;&quot;,
+  &quot;username&quot;: &quot;bluadmin&quot;,
+  &quot;ssljdbcurl&quot;: &quot;jdbc:db2://dashdb-txn-flex-************.services.dal.bluemix.net:50001/BLUDB:sslConnection=true;&quot;
+}
+</code></pre>
+<p>These properties will be needed to deploy and manage the FHIR schema.</p>
+<h3 id="fhirserver-user-and-api-key">FHIRSERVER User and API Key</h3>
+<p>The BLUADMIN user is used to deploy the initial schema objects (tables, indexes, stored procedures etc). Following the least-privilege principle, the FHIR server itself does not use BLUADMIN. The FHIR server uses an API Key associated with an IAM Service Id. This Service Id is mapped to a DB2 user which is granted explicit privileges to the tables and stored procedures.</p>
+<pre><code>    API KEY -------&gt; Service Id -------&gt; DB2 User ------&gt; SELECT/UPDATE/EXECUTE etc Privileges
+ (FHIR Config)          (IAM)              (DB2)                          (DB2)
+</code></pre>
+<p>On the IBM Cloud console, select Manage / Access (IAM).</p>
+<p>Select the Service IDs panel: <a href="https://cloud.ibm.com/iam/serviceids">https://cloud.ibm.com/iam/serviceids</a>.</p>
+<p>Wait for the table to populate. If you do not yet have an appropriate service id, click <code>Create (+)</code></p>
+<p>Specify a meaningful name and description. After creating the Service ID, record the ID value which will start with <code>ServiceId-...</code>.</p>
+<p>Select the API keys tab on the Service ID management page. Note that this is not the <code>IBM Cloud API keys</code> on the left.</p>
+<p>Select Create (+) to add a new API key. Copy or download the key. If you mess up and don't retain a copy, don't panic - you can simply delete the API key and create a new one. API keys are designed to support rolling so you can add as many as you need and delete others if you need to revoke access for any reason.</p>
+<p>The API key will be used in the database configuration section of the fhir-server-config.json file.</p>
+<p>Before the API key can be used, we need to create a DB2 user and associate it with the new ServiceId.</p>
+<p>Navigate to the IBM Cloud DB2 resource page for your instance and select Manage. Click Open Console to access the IBM Db2 on Cloud console.</p>
+<p>Select SETTINGS &gt; Manage Users.</p>
+<p>Click Add. This opens a panel on the right-hand side.</p>
+<p>Select Add IBMid User at the top.</p>
+<p>User ID: FHIRSERVER
+IBMid: paste the ServiceId-... value from the Service Id created previously.</p>
+<p>The page forces the value to lower-case, so <code>ServiceId</code> becomes <code>serviceid</code>. Don't be alarmed, it still works.</p>
+<p>Do NOT select Administrator. We want the FHIRSERVER user to be a plain user with minimal privileges.</p>
+<p>Click Create.</p>
+<p>You should now be able to connect to the database as the FHIRSERVER user using only the API key created above.</p>
+<h3 id="testing-the-connection">Testing the Connection</h3>
+<p>The DB2 driver jar contains a main which can be executed to test the connection - very convenient for checking the API-key/Service-Id/DB2-User-Id configuration is correct.</p>
+<pre><code>java -cp /path/to/db2jcc4.jar com.ibm.db2.jcc.DB2Jcc  -url &quot;jdbc:db2://&lt;DB2-HOSTNAME&gt;:50001/BLUDB:apiKey=&lt;API-KEY&gt;;securityMechanism=15;sslConnection=true;sslTrustStoreLocation=/path/to/truststore.jks;sslTrustStorePassword=&lt;TRUSTSTORE-PASSWORD&gt;;&quot;
+
+
+        &lt;DB-HOSTNAME&gt;: the hostname of your DB2 service from the Service Credentials page
+            &lt;API-KEY&gt;: the API key value created in the previous section
+&lt;TRUSTSTORE-PASSWORD&gt;: the password for your truststore
+
+</code></pre>
+<p>Notes:</p>
+<ol>
+<li>Don't forget the trailing <code>;</code> in the URL. Some of the documented examples don't include it, but it is required in order for the connection to work, although this may be fixed in a future driver release. This only affects this test URL, not the actual FHIR server configuration.</li>
+<li>When using an API Key, no username needs to be provided. This is because the API Key maps to a ServiceId, and that ServiceId is mapped to the DB2 user.</li>
+</ol>
+<h3 id="configuring-a-liberty-datasource-with-api-key">Configuring a Liberty Datasource with API Key</h3>
+<p>The FHIR export feature utilizes Java Batch (JSR-352) provided by the batch-1.0 feature in Liberty Profile. The JPA persistence layer can be configured to use DB2 as follows:</p>
+<p>Create a DB2 user (e.g. FHIRBATCH) and associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges). Using a valid API-KEY for the given ServiceId, configure a new datasource and the Java Batch persistence layer as follows:</p>
+<pre><code>
+    &lt;dataSource id=&quot;fhirbatchDS&quot; jndiName=&quot;jdbc/fhirbatchDB&quot;&gt;
+        &lt;jdbcDriver libraryRef=&quot;fhirSharedLib&quot;/&gt;
+        &lt;properties.db2.jcc
+            serverName=&quot;dashdb-txn-flex-************.services.dal.bluemix.net&quot;
+            portNumber=&quot;50001&quot;
+            apiKey=&quot;&lt;API-KEY&gt;&quot;
+            securityMechanism=&quot;15&quot;
+            pluginName=&quot;IBMIAMauth&quot;
+            databaseName=&quot;BLUDB&quot;
+            currentSchema=&quot;JBATCH&quot;
+            driverType=&quot;4&quot; sslConnection=&quot;true&quot; sslTrustStoreLocation=&quot;resources/security/dbTruststore.jks&quot; sslTrustStorePassword=&quot;&lt;TRUSTSTORE-PASSWORD&gt;&quot;/&gt;
+    &lt;/dataSource&gt;
+    
+    &lt;batchPersistence jobStoreRef=&quot;BatchDatabaseStore&quot; /&gt;
+    &lt;databaseStore id=&quot;BatchDatabaseStore&quot; dataSourceRef=&quot;fhirbatchDS&quot; schema=&quot;JBATCH&quot; tablePrefix=&quot;&quot; /&gt;
+</code></pre>
+<h3 id="configuring-fhir-datasource">Configuring FHIR Datasource</h3>
+<p>The FHIR server uses a proxy datasource mechanism, allowing new datasources to be added at runtime without requiring a (Liberty Profile) server restart. To configure a FHIR tenant datasource using an API-KEY, use the following template:</p>
+<pre><code>        &quot;persistence&quot;: {
+            &quot;datasources&quot;: {
+                &quot;default&quot;: {
+                    &quot;tenantKey&quot;: &quot;&quot;,
+                    &quot;type&quot;: &quot;db2&quot;,
+                    &quot;connectionProperties&quot;: {
+                        &quot;serverName&quot;: &quot;dashdb-txn-flex-************.services.dal.bluemix.net&quot;,
+                        &quot;portNumber&quot;: 50001,
+                        &quot;databaseName&quot;: &quot;BLUDB&quot;,
+                        &quot;apiKey&quot;: &quot;&lt;API-KEY&gt;&quot;,
+                        &quot;securityMechanism&quot;: 15,
+                        &quot;pluginName&quot;: &quot;IBMIAMauth&quot;,
+                        &quot;currentSchema&quot;: &quot;FHIRDATA&quot;,
+                        &quot;driverType&quot;: 4,
+                        &quot;sslConnection&quot;: true,
+                        &quot;sslTrustStoreLocation&quot;: &quot;resources/security/dbTruststore.jks&quot;,
+                        &quot;sslTrustStorePassword&quot;: &quot;change-password&quot;
+                    }
+                }
+            }
+        }
+</code></pre>
+<p>Note that no username properties are given, because the authentication module only requires the API-KEY.</p>
+<h3 id="ssl-certificate">SSL Certificate</h3>
+<p>The DB2 certificate should be added to the Liberty Profile truststore. <em>Be sure to use the same Java runtime that Liberty Profile uses when manipulating any keystores.</em></p>
+<h3 id="encrypt-secrets">Encrypt Secrets</h3>
+<p>All passwords including apiKey values should be encrypted using the Liberty Profile securityUtility.</p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">IBM Server for HL7 FHIR maintained by <a href="https://github.com/IBM">IBM</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+        
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
