@@ -26,14 +26,13 @@ lastupdated: "2019-09-04"
   * [4.2 Notification Service](#42-notification-service)
   * [4.3 Persistence interceptors](#43-persistence-interceptors)
   * [4.4 Resource validation](#44-resource-validation)
-  * [4.5 Encryption and decryption of requests and responses](#45-encryption-and-decryption-of-requests-and-responses)
-  * [4.6 “Update/Create” feature](#46-updatecreate-feature)
-  * [4.7 FHIR client API](#47-fhir-client-api)
-  * [4.8 FHIR command-line interface (fhir-cli)](#48-fhir-command-line-interface-fhir-cli)
-  * [4.9 Using local references within request bundles](#49-using-local-references-within-request-bundles)
-  * [4.10 Multi-tenancy](#410-multi-tenancy)
-  * [4.11 Extended operations](#411-extended-operations)
-  * [4.12 CADF audit logging service](#412-CADF-audit-logging-service)
+  * [4.5 “Update/Create” feature](#45-updatecreate-feature)
+  * [4.6 FHIR client API](#46-fhir-client-api)
+  * [4.7 FHIR command-line interface (fhir-cli)](#47-fhir-command-line-interface-fhir-cli)
+  * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
+  * [4.9 Multi-tenancy](#49-multi-tenancy)
+  * [4.10 Extended operations](#410-extended-operations)
+  * [4.11 CADF audit logging service](#411-CADF-audit-logging-service)
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
@@ -206,13 +205,7 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
             "truststoreLocation":"resources/security/fhirTruststore.jks",
             "truststorePassword":"{xor}change-me=",
             "userDefinedSchematronEnabled":true
-        },
-        "encryption":{
-            "enabled":false,
-            "keystoreLocation":"resources/security/fhirkeys.jceks",
-            "keystorePassword":"{xor}change-me=",
-            "keyPassword":"{xor}change-me="
-        },
+        }
     …
     }
 }
@@ -220,7 +213,7 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
 
 To enable the encryption feature, you would set the “enabled” field within the “encryption” sub-structure to true.
 
-Throughout this document, we use a path notation to refer to property names. For example, the name of the `enabled` property in the preceding example would be `fhirServer/encryption/enabled`. This refers to the fact that the `enabled` field exists within the `encryption` field within the `fhirServer` field.
+Throughout this document, we use a path notation to refer to property names. For example, the name of the `enabled` property in the preceding example would be `fhirServer/test/enabled`. This refers to the fact that the `enabled` field exists within the `test` field within the `fhirServer` field.
 
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
@@ -1167,88 +1160,7 @@ and then we could modify the user-defined schematron rule as follows:
 
 By doing this, we have a much more flexible user-defined validation mechanism that allows us to apply rules only when 'http://ibm.com/fhir/profile/partner' is present in the instance.
 
-## 4.5 Encryption and decryption of requests and responses
-The FHIR server is equipped with a servlet filter that can be configured to perform encryption and decryption of REST API requests and responses. This provides an extra level of security beyond the use of the HTTPS transport layer alone.
-
-### 4.5.1 Required setup
-Before you can use this feature, the JVM that is used to run the liberty server will need to be configured to support 256-bit AES encryption. To configure the JVM to support 256-bit AES encryption, complete the following steps:
-
-1.	Within the `${JAVA_HOME}/jre/lib/security/java.security` file, update the `security.provider` entries to add the the first two entries in the following list, and then update the ordinal numbers associated with the remaining entries as needed:
-
-    **`security.provider.1=com.ibm.fips.jsse.IBMJSSEFIPSProvider`**
-    **`security.provider.2=com.ibm.crypto.fips.provider.IBMJCEFIPS`**
-    `security.provider.3=com.ibm.security.jgss.IBMJGSSProvider`
-    `security.provider.4=sun.security.provider.Sun`
-    `security.provider.5=com.ibm.crypto.provider.IBMJCE`
-    `security.provider.6=com.ibm.jsse2.IBMJSSEProvider2`
-    `security.provider.7=com.ibm.security.cert.IBMCertPath`
-    `security.provider.8=com.ibm.security.sasl.IBMSASL`
-    `security.provider.9=com.ibm.xml.crypto.IBMXMLCryptoProvider`
-    `security.provider.10=com.ibm.xml.enc.IBMXMLEncProvider`
-    `security.provider.11=com.ibm.security.jgss.mech.spnego.IBMSPNEGO`
-
-2.	Download `unrestrictedpolicyfiles.zip` from the following location: https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=jcesdk&lang=en_US. The compressed file contain two JAR files: `US_export_policy.jar` and `local_policy.jar`. Within the `${JAVA_HOME}/jre/lib/security` directory, replace the existing copy of those two files with the downloaded versions.
-
-Note that the compressed file for the FHIR server installation ships with a version of the IBM&reg; Java 8 SDK that is already configured to support encryption.
-
-### 4.5.2 Use case
-A REST API client encrypts the body of the HTTP request (perhaps via a JAX-RS WriterInterceptor implementation), and sets the following http headers in the request:
-*	Content-Encoding – this request header should be set to the value `aescbc256` to indicate that the body is encrypted with the AES algorithm (in CBC mode) using a 256-bit encryption key.
-*	AES-Salt – this request header should be set to the 16-byte initialization vector (IV) used to encrypt the body. This byte sequence should be specified in 2-digit hex format.
-
-    Example: `000102030405060708090a0b0c0d0e0f`
-
-    Note: this value can be obtained by calling the `Cipher.getIV()` method after initializing the Cipher object with the encryption key.
-*	Accept-Encoding – this request header should be set to `aescbc256` if the API consumer wants the response body to be encrypted (using the same encryption key). The server will set the AES-Salt response header to the 16-byte IV used to encrypt the response body, similar to the way in which the API consumer sets it in the request.
-
-### 4.5.3 Request processing
-The encryption key is generated by the deployer of the FHIR server, and is shared with the API consumer (that is, both parties must use the same 256-bit AES encryption key; see [Section 4.5.5 Configuration](#455-configuration) for details).
-
-For incoming requests, if the servlet filter detects that the request body is encrypted (by examining the `Content-Encoding` and `AES-Salt` header values) it will decrypt the request body using the `AES/CBC/PKCS5Padding` algorthm (IBMJCEFIPS provider) along with the configured 256-bit encryption key and the IV found in the `AES-Salt` request header of the HTTP request, and then will provide the decrypted data to downstream filters and servlets (for example, the JAX-RS servlet) via the input stream.
-
-### 4.5.4 Response processing
-On the response path, if the `Accept-Encoding` header is set in the request and contains the string `aescbc256`, the servlet filter encrypts the response body using the same encryption algorithm, configured encryption key and a randomly-generated IV. The IV will be specified in the `AES-Salt` response header.
-
-The encrypted response data is then transmitted by the servlet container back to the API consumer, which decrypts the response body (perhaps via a JAX-RS ReaderInterceptor implementation), using the shared encryption key and the IV obtained from the `AES-Salt` header found in the HTTP response.
-
-### 4.5.5 Configuration
-The configuration of the encryption feature consists of the generation of an encryption key, plus the definition of a few properties in the `fhir-server-config.json` file.
-
-#### 4.5.5.1 Generate encryption key
-In order to enable the encryption feature, you'll need to generate an AES 256-bit encryption key and store it within a keystore file. This keystore file is then configured with the FHIR server and should also be shared with API consumers that need to use the encryption feature (API consumers will need to use the same encryption key).
-
-You can generate the encryption key and store it in a keystore file by using a keytool command of the following form:
-
-```
-keytool -genseckey -keystore <keystore-filename> -storetype jceks
-   -storepass <keystore-password> -keyalg AES -keysize 256
-   -alias fhirEncryptionKey -keypass <key-password>
-```
-
-When generating the encryption key and keystore file, the `storetype` should be set to `jceks`, the alias should be set to `fhirEncryptionKey`, the key algorithm must be `AES`, and the key size must be `256` (bits). You can choose any value you want for the `keystore-filename`, `keystore-password`, and `key-password` values.
-
-#### 4.5.5.2 Configuration properties
-
-In addition to generating the encryption key and storing it within the keystore file, you also need to define a set of configuration properties like the following within the `fhir-server-config.json` file:
-
-```
-{
-    "fhirServer":{
-        ...
-        "encryption":{
-            "enabled":true,
-            "keystoreLocation":"resources/security/fhirkeys.jceks",
-            "keystorePassword":"{xor}change-me=",
-            "keyPassword":"{xor}change-me="
-        }
-        …
-    }
-}
-```
-
-Be sure to use your own values for the keystore location, keystore password and key password entries. Also be sure to encode the password entries with the liberty `securityUtility` command.
-
-## 4.6 “Update/Create” feature
+## 4.5 “Update/Create” feature
 Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
 
 The FHIR specification defines optional behavior for the _update_ operation where it can create a new resource if a non-existent resource is specified in the invocation. The FHIR server supports this optional behavior via the `fhirServer/persistence/common/updateCreateEnabled` configuration parameter. If this configuration parameter is set to `true` (the default), then the _update_ operation will create a new resource if it is invoked with a resource containing a non-existent id. If the option is set to false, then the optional behavior is disabled and an error would be returned.
@@ -1268,15 +1180,15 @@ The following example shows the JSON for enabling _update_ operations to create 
 }
 ```
 
-## 4.7 FHIR client API
-### 4.7.1 Overview
+## 4.6 FHIR client API
+### 4.6.1 Overview
 Along with the FHIR server, we also offer a high-level Java API that can be used to invoke the FHIR REST APIs. The FHIR Client API is based on the JAX-RS 2.0 standard and provides several capabilities that make it an attractive client API for use with the FHIR server:
 *	Easily configured via properties.
 *	Supports the use of an SSL transport (HTTPS:) along with the ability to configure a client truststore file.
 *	Can be configured to perform client certificate-based authentication as an alternative to basic authentication.
 *	Supports encryption of REST API payloads, working in concert with the FHIR server.
 
-### 4.7.2 Maven coordinates
+### 4.6.2 Maven coordinates
 The FHIR Client API can be found on the WHC Nexus artifact server. In order to use the FHIR Client API within your own application, you'll need to specify the `fhir-client` artifact as a dependency within your `pom.xml` file, as in the following example:
 
 ```
@@ -1292,14 +1204,14 @@ where `${fhir.server.version}` is one of:
 *	`1.1.0-SNAPSHOT` (associated with the 'release-1.1.x' branch)
 *	`1.0.0-SNAPSHOT` (associated with the 'release-1.0.x' branch)
 
-### 4.7.3 Sample
+### 4.6.3 Sample
 Within the master branch of the FHIR Git repository, you can find the “fhir-client-sample” project which provides a stand-alone sample application that uses the FHIR client API.
 
-## 4.8 FHIR command-line interface (fhir-cli)
+## 4.7 FHIR command-line interface (fhir-cli)
 The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [our Artifactory server](
 https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/fhir/fhir-cli/).
 
-### 4.8.1 Installing fhir-cli
+### 4.7.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
 
 1.	Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Artifactory.
@@ -1314,12 +1226,12 @@ unzip fhir-cli.zip
 export PATH=$PATH:/mydir/fhir-cli
 ```
 
-### 4.8.2 Configuring fhir-cli
+### 4.7.2 Configuring fhir-cli
 The fhir-cli tool requires a properties file containing various configuration properties, such as the base endpoint URL, the username and password for basic authentication, amd so forth. The properties contained in this file are the same properties supported by the FHIR client API. The fhir-cli tool comes with a sample properties file named `fhir-cli.properties` which contains a collection of default property settings.
 
 Using the sample properties file as a guide, you can create your own properties file to reflect the required endpoint configuration associated with the FHIR server endpoint that you would like to access. In the examples that follow, we'll refer to this file as `my-fhir-cli.properties`, although you can name the file anything you'd like.
 
-### 4.8.3 Running fhir-cli
+### 4.7.3 Running fhir-cli
 The fhir-cli tool comes with two shell scripts: `fhir-cli` (Linux&reg;) and `fhir-cli.bat` (Windows&trade;). In the examples that follow, we'll use `<fhir-cli-home>` as the location of the fhir-cli tool (that is, the `/mydir/fhir-cli` directory mentioned in preceding section).
 
 The following examples illustrate how to invoke the fhir-cli tool:
@@ -1468,14 +1380,14 @@ Response resource:
 }
 ```
 
-## 4.9 Using local references within request bundles
+## 4.8 Using local references within request bundles
 Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v1/Patient/12345`, or a relative URL (for example, `“Patient/12345”`).
 
 In order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been process (that is, before the new `Patient` resource is created).
 
 Thankfully, the HL7 FHIR specification defines a way to express a dependency between two resources within a request bundle by using a _local reference_<sup id="a6">[6](#f6)</sup>. In the following example, a request bundle contains a `POST` request to create a new `Patient` resource, along with a `POST` request to create a new `Observation` resource that references that `Patient`:
 
-#### 4.9.0.1 Example 1: Observation references Patient via local reference
+#### 4.8.0.1 Example 1: Observation references Patient via local reference
 ```
 {
     "resourceType" : "Bundle",
@@ -1511,7 +1423,7 @@ In order to reference a resource via a local reference, you must first define a 
 
 After you define a local identifier for the referenced resource, you can then define one or more references to that resource by using the local identifier instead of an external identifier. In the preceding example, you can see that the Observation's `subject.reference` field specifies the Patient's local identifier as specified in the `fullUrl` field of the Patient's request entry.
 
-### 4.9.1 Processing rules
+### 4.8.1 Processing rules
 There is really only one main rule related to the use of local references within a request bundle:
 
 A local identifier must be defined via a request entry's `fullUrl` field before that local identifier can be used in a local reference.
@@ -1522,7 +1434,7 @@ If, however, those entries were reversed, the FHIR server returns an error when 
 
 The following example also satisfies the rule:
 
-#### 4.9.1.1 Example 2: Observation (PUT) appears before Patient (POST)
+#### 4.8.1.1 Example 2: Observation (PUT) appears before Patient (POST)
 ```
 {
     "resourceType" : "Bundle",
@@ -1563,7 +1475,7 @@ For example, in Example 1 from [Section 4.9.0.1](#4901-example-1-observation-ref
 
 Then when the FHIR server processes the POST request for the `Observation`, it detects the use of the local reference and substitutes the corresponding external reference for it before creating the new `Observation` resource. Here is an example of a response bundle for the request bundle depicted in Example 1 in which we can see that the Observation's `subject.reference` field now contains a proper external reference to the newly-created `Patient` resource:
 
-#### 4.9.1.2 Example 3: Response bundle for Example 1
+#### 4.8.1.2 Example 3: Response bundle for Example 1
 ```
 {
     "resourceType" : "Bundle",
@@ -1602,10 +1514,10 @@ Then when the FHIR server processes the POST request for the `Observation`, it d
 }
 ```
 
-## 4.10 Multi-tenancy
+## 4.9 Multi-tenancy
 The FHIR server includes features that allow a single instance of the server to simultaneously support multiple tenants. A tenant is defined as a group of one or more FHIR REST API consumers that share a FHIR server configuration along with one or more data stores associated with that configuration. A tenant could be a single application using the FHIR REST API, or it could be a group of applications belonging to a single customer. The main idea behind multi-tenancy is that each tenant can experience its own customized FHIR server runtime behavior and its data can be physically isolated from other tenants' data for increased security and privacy.
 
-### 4.10.1 Specifying the tenant id
+### 4.9.1 Specifying the tenant id
 To support multi-tenancy, the FHIR server must know which tenant an incoming REST API request is intended for. To provide the tenant id to the FHIR server, a REST API consumer must set a request header in each REST API request. The name of this request header is itself configurable by setting the `fhirServer/core/tenantIdHeaderName` configuration property in the FHIR server's global configuration file (located at `$⁠{server.config.dir}/config/default/fhir-server-config.json`). The following example shows the default setting for this configuration parameter:
 ```
 
@@ -1637,7 +1549,7 @@ This would be useful in an environment where the applications might already be u
 	`X-WHCLSF-tenant-id: acme`
 
 
-### 4.10.2 Configuration properties
+### 4.9.2 Configuration properties
 The FHIR server allows a deployer to configure a subset of the supported configuration properties on a tenant-specific basis. For example, one tenant might want to enable virtual resources, but another tenant might want to explicitly disable it for security reasons.
 
 For example, the following configuration properties can be specified on a tenant-specific basis:
@@ -1650,7 +1562,7 @@ When the FHIR server needs to retrieve any of the tenant-specific configuration 
 
     An incoming REST API request specifying the `acme` tenant would not be allowed to create an instance of a virtual resource type, and would result in a `400 “Bad Request”` response. Now suppose the deployer then changes the value of that property to true within the `acme` tenant's `fhir-server-config.json` file. A subsequent REST API request attempting to create an instance of a virtual resource type would then succeed since the FHIR server now sees the value of that property as true.
 
-#### 4.10.2.1 Examples
+#### 4.9.2.1 Examples
 This section contains an example of the FHIR server's global configuration, along with two tenant-specific configurations. The global configuration contains non-tenant specific configuration parameters (that is, configuration parameters that are not resolved or used on a tenant-specific basis), as well as default values for tenant-specific configuration parameters.
 
 ##### Global configuration (default)
@@ -1662,12 +1574,6 @@ This section contains an example of the FHIR server's global configuration, alon
         "core":{
             "userDefinedSchematronEnabled":false,
             "tenantIdHeaderName":"X-FHIR-TENANT-ID"
-        },
-        "encryption":{
-            "enabled":false,
-            "keystoreLocation":"resources/security/fhirkeys.jceks",
-            "keystorePassword":"{xor}change-me=",
-            "keyPassword":"{xor}change-me="
         },
         "virtualResources":{
             "enabled":false,
@@ -1748,7 +1654,7 @@ In the preceding examples, you can see that in the global configuration, the use
 
 For the `Quality Pharmaceuticals, Inc.` tenant, the user-defined validation feature is disabled, and the virtual resources feature is enabled (with any virtual resource type allowed). Note that because the user-defined validation feature is disabled by default within the global configuration, we didn't need to explicitly set that configuration parameter in the `Quality Pharmaceuticals` configuration file.
 
-### 4.10.3 Search parameters
+### 4.9.3 Search parameters
 The FHIR server allows deployers to define search parameters on a tenant-specific basis. This allows each tenant that shares an instance of the FHIR server while maintaining the ability to have their own set of search parameters.
 
 To configure tenant-specific search parameters, create a file called `extension-search-parameters.json` and place it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters to be used by the `qpharma` tenant.
@@ -1759,7 +1665,7 @@ If a tenant-specific extension-search-parameters.json does not exist, the server
 
 The FHIR server caches search parameters in memory (organized first by tenant id, then by resource type and search parameter name). Any updates to a tenant's `extension-search-parameters.json` file will cause the FHIR server to re-load the tenant's search parameters and refresh the information stored in the cache, without requiring a server re-start. This allows the deployer to deploy a new tenant's `extension-search-parameters.json` or update an existing file without re-starting the FHIR server and any subsequent requests processed by the FHIR server after the updates have been made will use the updated search parameters. However, it is important to note that this process will not re-index already-created resources that are stored on the FHIR Server. One technique for updating the indices for a given resource type is to `read` and `update` each resource instance with itself, triggering search parameter extraction (and creating a new version of each resource).
 
-#### 4.10.3.1 Filtering of search parameters
+#### 4.9.3.1 Filtering of search parameters
 The FHIR server supports the filtering of built-in search parameters (that is, search parameters defined by the HL7 FHIR specification for each resource type). The default behavior of the FHIR server is to consider all built-in search parameters when storing resources or performing search results, but you can configure inclusion filters to restrict the FHIR server's view to specific search parameters on a resource type basis. This filtering feature does not apply to user-defined search parameters in the extension-search-parameters.json file. User-defined search parameters are always included in the FHIR server's view regardless of the configured inclusion filters.
 
 Why would you want to filter built-in search parameters? The answer lies in how search parameters are used by the FHIR server. When the FHIR server processes a _create_ or _update_ operation, it stores the resource contents in the datastore, along with search index information that is used by the FHIR server when performing search operations. The search index information stored for a particular resource instance is driven by the search parameters defined for that resource type. Therefore if you are storing a resource whose type has a lot of built-in search parameters defined for it (e.g. `Patient`), then you could potentially be storing a lot of search index information for each resource.
@@ -1784,7 +1690,7 @@ The `fhirServer/searchParameterFilter` property is a JSON map where the key repr
 
 The following sections presents several examples.
 
-##### 4.10.3.1.1 Example 1
+##### 4.9.3.1.1 Example 1
 In the following example a single inclusion rule uses wildcards to instruct the FHIR server to include any search parameter for any resource type. This example also describes the default behavior of the FHIR server when the `fhirServer/searchParameterFilter` configuration property is not set:
 
 ```
@@ -1797,7 +1703,7 @@ In the following example a single inclusion rule uses wildcards to instruct the 
     }
 }
 ```
-##### 4.10.3.1.2 Example 2
+##### 4.9.3.1.2 Example 2
 In the following example inclusion rules are specified for a few specific resource types, and then wildcards are used to include search parameters for the remaining resource types:
 
 ```
@@ -1818,7 +1724,7 @@ For Device resources, only the `patient` and `organization` search parameters ar
 
 Note that if this example did not include the last inclusion rule, then no other resource type's built-in search parameters would be included.
 
-##### 4.10.3.1.3 Summary of the inclusion rules and filtering algorithm
+##### 4.9.3.1.3 Summary of the inclusion rules and filtering algorithm
 
 Here are some rules about the rules:
 
@@ -1836,28 +1742,28 @@ This is how the filtering algorithm works:
 
 3.	Using the search parameter names associated with the rule retrieved in Step 1, the FHIR server will apply the rule to each built-in search parameter defined for that resource type.If the search parameter's name is found within the inclusion rule's list of search parameter names or the inclusion rule's list of names includes the wildcard (`“*”`), then the search parameter will be included in the FHIR server's view of search parameters for that resource type.
 
-## 4.11 Extended operations
+## 4.10 Extended operations
 In addition to the standard REST API (create, update, search, and so forth), the IBM Server for HL7 FHIR supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
 
-### 4.11.1 Packaged operations
+### 4.10.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate` and `$document` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
 
 No other extended operations are packaged with the server at this time, but you can extend the server with your own operations.
 
-#### 4.11.1.1 $validate
+#### 4.10.1.1 $validate
 The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type.
 
 https://www.hl7.org/fhir/r4/resource-operations.html#validate
 
-#### 4.11.1.2 $document
+#### 4.10.1.2 $document
 The `$document` operation generates a fully bundled document from a composition resource.
 
 https://www.hl7.org/fhir/r4/composition-operations.html#document
 
-#### 4.11.1.3 $healthcheck
+#### 4.10.1.3 $healthcheck
 The `$healthcheck` operation returns the health of the FHIR server and its datastore. In the default JDBC persistence layer, this operation creates a connection to the configured database and return its status. The operations returns `200 OK` when healthy. Otherwise, it returns an HTTP error code and an `OperationOutcome` with one or more issues.
 
-### 4.11.2 Custom operations
+### 4.10.2 Custom operations
 In addition to the provided operations, the FHIR server supports user-provided custom operations through a Java Service Provider Interface (SPI).
 
 To contribute an operation:
@@ -1869,7 +1775,7 @@ To contribute an operation:
 
 After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
 
-## 4.12 CADF audit logging service 
+## 4.11 CADF audit logging service 
 The CADF audit logging service pushs FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)]( https://www.dmtf.org/standards/cadf) standard format to IBM Cloud Event Streams service, these FHIR operations include create, read, update, delete, version read, history, search, validate, custom operation, meta and bundle, these operations are mapped to CADF actions as following: 
 
 | FHIR Operation                 | CADF Action   |
@@ -1882,10 +1788,10 @@ The CADF audit logging service pushs FHIR server audit events for FHIR operation
 
 Each FHIR create, update, delete, bundle or custom operation triggers 2 CADF events - begins with an event with "pending" outcome and ends with an event with "success" or "failure" outcome; All the other FHIR operations only trigger 1 CADF event with either "success" or "failure" outcome. 
 
-### 4.12.1 Enable CADF audit logging service
+### 4.11.1 Enable CADF audit logging service
 Please refer to the properties names started wtih fhirServer/audit/ in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure CADF audit logging service.
 
-### 4.12.2 Event Streams configuation of CADF audit logging service
+### 4.11.2 Event Streams configuation of CADF audit logging service
 The CADF audit logging service gets event streams service credential from env variable EVENT_STREAMS_AUDIT_BINDING with values like this: 
 ```
     {
@@ -1919,7 +1825,7 @@ And then in the YAML file for your Kubernetes deployment, specify the environmen
 ```			  
 please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-binding for detailed instruction if need.
 
-### 4.12.3 Query CADF events in COS
+### 4.11.3 Query CADF events in COS
 [Waston studio stream flow]( https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-big-data-log-analytics#create-a-streams-flow-source ) can be created to push those FHIR Audit CADF events from Event Streams service to COS bucket(e.g fhir-audit-dev0) in CSV format; Another option is to configure Event Streams(Kafka) S3 connect to push those CADF events to COS bucket(e.g, fhir-audit-dev0) but in raw CADF json format.
 A service instance of the [IBM Cloud SQL Query]( https://www.ibm.com/cloud/blog/analyzing-data-with-ibm-cloud-sql-query ) service can be created to allow you to query those CADF audit events in COS with SQL queries, before you run sql query, you'd better create a COS bucket to store your query results, otherwise, the query results will be stored in a bucket which is automatically created by the SQL query service.
 
@@ -1961,10 +1867,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/jsonParserLenient`|boolean|A boolean flag which indicates whether the FHIRJsonParser will be lenient with respect to element cardinality (singleton vs array) and string values for numbers/booleans.|
 |`fhirServer/core/jsonParserValidating`|boolean|A boolean flag which indicates whether the FHIRJsonParser will do limited validation during the parse including checking for missing required fields and unrecognized fields.|
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [Section 4.10.3.1 Filtering of search parameters](#41031-filtering-of-search-parameters) for more information.|
-|`fhirServer/encryption/enabled`|boolean|A boolean flag which indicates whether or not the encryption feature is enabled. See [Section 4.5 Encryption/decryption of requests and responses](#45-encryption-and-decryption-of-requests-and-responses) for more information.|
-|`fhirServer/encryption/keystoreLocation`|string|The name of the keystore file that contains the FHIR server's encryption key.|
-|`fhirServer/encryption/keystorePassword`|string|The password associated with the encryption keystore file.|
-|`fhirServer/encryption/keyPassword`|string|The password associated with the encryption key within the encryption keystore file.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
@@ -1996,10 +1898,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/jsonParserLenient`|false|
 |`fhirServer/core/jsonParserValidating`|true|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
-|`fhirServer/encryption/enabled`|false|
-|`fhirServer/encryption/keystoreLocation`|`resources/security/fhirkeys.jceks`|
-|`fhirServer/encryption/keystorePassword`|""|
-|`fhirServer/encryption/keyPassword`|""|
 |`fhirServer/notifications/common/includeResourceTypes`|["*"]|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
@@ -2030,10 +1928,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/jsonParserLenient`|Y|Y|
 |`fhirServer/core/jsonParserValidating`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
-|`fhirServer/encryption/enabled`|N|N|
-|`fhirServer/encryption/keystoreLocation`|N|N|
-|`fhirServer/encryption/keystorePassword`|N|N|
-|`fhirServer/encryption/keyPassword`|N|N|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|
 |`fhirServer/notifications/kafka/enabled`|Y|Y|

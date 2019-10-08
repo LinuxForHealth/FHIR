@@ -31,23 +31,7 @@ public class ConfigurationServiceTest {
     public void testLoadConfiguration() throws Exception {
         PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
         assertNotNull(pg);
-        
-        // Validate the "encryption" property group.
-        PropertyGroup encryptionProps = pg.getPropertyGroup("fhirServer/encryption");
-        assertNotNull(encryptionProps);
-        Boolean enabled = encryptionProps.getBooleanProperty("enabled");
-        assertNotNull(enabled);
-        assertEquals(Boolean.FALSE, enabled);
-        String ksLoc = encryptionProps.getStringProperty("keystoreLocation");
-        assertNotNull(ksLoc);
-        assertEquals("resources/security/fhirkeys.jceks", ksLoc);
-        String ksPassword = encryptionProps.getStringProperty("keystorePassword");
-        assertNotNull(ksPassword);
-        assertEquals("change-password", ksPassword);
-        String keyPassword = encryptionProps.getStringProperty("keyPassword");
-        assertNotNull(keyPassword);
-        assertEquals("change-password", keyPassword);
-        
+                
         // Validate retrieval of an array of strings.
         Object[] allowableCustomTypes = pg.getArrayProperty("fhirServer/virtualResources/allowableResourceTypes");
         assertNotNull(allowableCustomTypes);

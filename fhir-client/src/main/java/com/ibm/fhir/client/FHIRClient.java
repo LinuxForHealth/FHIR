@@ -95,33 +95,6 @@ public interface FHIRClient {
     public static final String PROPNAME_KEYSTORE_KEY_PASSWORD = "fhirclient.keystore.key.password";
 
     /**
-     * Indicates whether or not the REST API request and response payloads should be encrypted.
-     * Valid values are "true" and "false" (the default).  If enabled, then the rest of the encryption-related
-     * properties are required as well.
-     */
-    public static final String PROPNAME_ENCRYPTION_ENABLED    = "fhirclient.encryption.enabled";
-    
-    /**
-     * The name of the JCEKS-type keystore that contains the client's AES 256-bit encryption key.
-     */
-    public static final String PROPNAME_ENCRYPTION_KSLOC      = "fhirclient.encryption.keystore.location";
-    
-    /**
-     * The password associated with the keystore that contains the encryption key.
-     */
-    public static final String PROPNAME_ENCRYPTION_KSPW       = "fhirclient.encryption.keystore.password";
-    
-    /**
-     * The password associated with the encryption key within the keystore.
-     */
-    public static final String PROPNAME_ENCRYPTION_KEYPW      = "fhirclient.encryption.key.password";
-    
-    /**
-     * The name of the alias under which the encryption key is stored within the encryption key keystore file.
-     */
-    public static final String ENCRYPTION_KEY_ALIAS = "fhirEncryptionKey";
-    
-    /**
      * Indicates whether or not to enable to CXF Logging feature which will log all request and response messages
      * at a level of INFO
      */

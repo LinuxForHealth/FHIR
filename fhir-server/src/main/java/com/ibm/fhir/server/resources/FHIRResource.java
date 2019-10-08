@@ -3692,10 +3692,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         extentions.add(extension);
 
         extension = Extension.builder().url(EXTENSION_URL
-                + "/encryptionEnabled").value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_ENCRYPTION).getBooleanProperty("enabled", Boolean.FALSE))).build();
-        extentions.add(extension);
-
-        extension = Extension.builder().url(EXTENSION_URL
                 + "/userDefinedSchematronEnabled").value(com.ibm.fhir.model.type.Boolean.of(isUserDefinedSchematronEnabled())).build();
         extentions.add(extension);
 
