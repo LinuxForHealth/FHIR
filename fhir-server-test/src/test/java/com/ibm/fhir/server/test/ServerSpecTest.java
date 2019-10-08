@@ -24,7 +24,6 @@ import javax.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBException;
 
 import org.testng.annotations.Test;
 
@@ -147,7 +146,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
 
     // Test: create an invalid patient
     @Test(groups = { "server-spec" })
-    public void testCreatePatientErrorInvalidResource() throws JAXBException {
+    public void testCreatePatientErrorInvalidResource() throws Exception {
         WebTarget target = getWebTarget();
         
         JsonObject patient = BUILDER_FACTORY.createObjectBuilder().add("resourceType", "Patient")
@@ -324,7 +323,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     
     // Test: create an invalid observation
     @Test(groups = { "server-spec" })
-    public void testCreateObservationErrorInvalidResource() throws JAXBException {
+    public void testCreateObservationErrorInvalidResource() throws Exception {
         WebTarget target = getWebTarget();
         
         
@@ -339,7 +338,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
 
     // Test: include incorrect resource type in request body.
     @Test(groups = { "server-spec" })
-    public void testCreatePatientErrorInvalidResourceType() throws JAXBException {
+    public void testCreatePatientErrorInvalidResourceType() throws Exception {
         WebTarget target = getWebTarget();
 
         // Build an Observation, then try to call the 'create patient' API.

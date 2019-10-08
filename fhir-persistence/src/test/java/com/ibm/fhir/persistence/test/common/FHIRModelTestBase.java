@@ -27,7 +27,6 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
-import javax.xml.bind.JAXBException;
 
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -65,8 +64,7 @@ public class FHIRModelTestBase {
      * @param fileName
      *            the name of the file containing the mock resource (e.g. "testdata/Patient1.json")
      * @return the de-serialized mock resource
-     * @throws FileNotFoundException
-     * @throws JAXBException
+     * @throws Exception
      */
     public static <T extends Resource> T readResource(Class<T> resourceClass, String fileName) throws Exception {
 
