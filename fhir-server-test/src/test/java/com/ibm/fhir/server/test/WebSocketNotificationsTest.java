@@ -69,6 +69,8 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
         assertEquals(event.getResourceId(), responsePatient.getId().getValue());
         assertResourceEquals(patient, responsePatient);
+        
+        endpoint.close();
     }
 
     /**
@@ -103,6 +105,8 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
         assertEquals(event.getResourceId(), responseObs.getId().getValue());
         assertResourceEquals(observation, responseObs);
+        
+        endpoint.close();
     }
 
     /**
@@ -140,5 +144,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         assertEquals(event.getResourceId(), responseObservation.getId().getValue());
         assertNotNull(responseObservation);
         assertResourceEquals(observation, responseObservation);
+        
+        endpoint.close();
     }
 }

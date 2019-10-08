@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -19,8 +20,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonReaderFactory;
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.ClientEndpointConfig.Configurator;
 import javax.websocket.CloseReason;
@@ -36,9 +35,7 @@ import com.ibm.fhir.notification.util.FHIRNotificationUtil;
 
 public class FHIRNotificationServiceClientEndpoint extends Endpoint {
 
-    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-
-    private Session session = null;
+    private Session initSession = null;
 
     private List<String> events = null;
 
@@ -56,22 +53,23 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     }
 
     public void onOpen(Session session, EndpointConfig config) {
+        
         System.out.println(">>> Session opened: " + session.getId());
-        this.session = session;
+        System.out.println(">>> Idle Timeout: " + session.getMaxIdleTimeout());
 
-        session.addMessageHandler(new MessageHandler.Whole<java.io.InputStream>() {
+        session.addMessageHandler(new MessageHandler.Whole<Reader>() {
 
             /*
              * The code is changed from <code>session.addMessageHandler(new MessageHandler.Whole<String>()</code> which
-             * parses the IO Stream Bytes to String.
+             * parses the Reader to String.
              */
             @Override
-            public void onMessage(java.io.InputStream in) {
+            public void onMessage(Reader in) {
 
-                try (InputStreamReader isr = new InputStreamReader(in); BufferedReader br = new BufferedReader(isr);) {
-                    // The following lines code, can further be broken down using for each. 
+                try (BufferedReader br = new BufferedReader(in);) {
+                    // The following lines code, can further be broken down using for each.
                     String text = br.lines().collect(Collectors.joining("\n"));
-                 
+
                     System.out.println(">>> Received message: " + text);
                     // Receive raw message string for better performance, we found that using
                     // FHIRNotificationUtil.toNotificationEvent here could cost up to 10 seconds
@@ -84,8 +82,8 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
                     System.out.println("IO Exception closing the readers");
                     e1.printStackTrace();
                 } finally {
-                    //JsonReader is already closed here. 
-                    
+                    // JsonReader is already closed here.
+
                     try {
                         in.close();
                     } catch (IOException e) {
@@ -132,14 +130,6 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         return latch;
     }
 
-    public void close() {
-        try {
-            session.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) throws Exception {
         int limit = 5;
         int timeout = 5;
@@ -155,7 +145,7 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
                 ClientEndpointConfig.Builder.create().configurator(new Configurator() {
                     public void beforeRequest(Map<String, List<String>> headers) {
                         String encoding =
-                                Base64.getEncoder().encodeToString("fhiruser:fhiruser".getBytes());
+                                Base64.getEncoder().encodeToString("fhiruser:change-password".getBytes());
                         List<String> values = new ArrayList<String>();
                         values.add("Basic " + encoding);
                         headers.put("Authorization", values);
@@ -209,6 +199,26 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
             System.out.println("    lastUpdated:   " + notifyEvent.getLastUpdated());
             System.out.println("    resourceId:    " + notifyEvent.getResourceId());
             System.out.println("");
+        }
+    }
+
+    /**
+     * @param session
+     */
+    public void setSession(Session session) {
+        System.out.println(">>> Session created: " + session.getId());
+        this.initSession = session;
+    }
+
+    /**
+     * close
+     */
+    public void close() {
+        try {
+            initSession.close();
+        } catch (IOException e) {
+            System.err.println(">>> Issue closing the session");
+            e.printStackTrace();
         }
     }
 }
