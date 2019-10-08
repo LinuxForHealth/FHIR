@@ -55,15 +55,6 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>FHIRAesEncryptionFilter</filter-name>
-        <filter-class>com.ibm.fhir.server.filter.enc.FHIRAesEncryptionFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FHIRAesEncryptionFilter</filter-name>
-        <servlet-name>FHIRRestServlet</servlet-name>
-    </filter-mapping>
-
-    <filter>
         <filter-name>FHIRRestFilter</filter-name>
         <filter-class>com.ibm.fhir.server.filter.rest.FHIRRestServletFilter</filter-class>
     </filter>
