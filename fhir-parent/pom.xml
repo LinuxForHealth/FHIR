@@ -20,11 +20,6 @@
         <jacoco.plugin.version>0.8.2</jacoco.plugin.version>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <m2e.wtp.activation>false</m2e.wtp.activation>
-        <m2e.jaxrs.activation>false</m2e.jaxrs.activation>
-        <m2e.jpa.activation>false</m2e.jpa.activation>
-        <m2e.jsf.activation>false</m2e.jsf.activation>
-        <m2e.cdi.activation>true</m2e.cdi.activation>
         <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
         <my.maven.jar.plugin>3.1.2</my.maven.jar.plugin>
     </properties>
@@ -412,36 +407,6 @@
                     <configuration></configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-checkstyle-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [3.0.0,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>check</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <execute />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco.plugin.version}</version>
@@ -570,7 +535,50 @@
             <properties>
                 <my.maven.war.plugin>2.6</my.maven.war.plugin>
                 <my.maven.jar.plugin>2.6</my.maven.jar.plugin>
+                <!--
+                m2e plugin was deactivated and has unintended side effects.
+                these settings are left here for historic purposes. 
+                <m2e.wtp.activation>false</m2e.wtp.activation>-->
+                <m2e.jaxrs.activation>false</m2e.jaxrs.activation>
+                <m2e.jpa.activation>false</m2e.jpa.activation>
+                <m2e.jsf.activation>false</m2e.jsf.activation>
+                <m2e.cdi.activation>true</m2e.cdi.activation>
             </properties>
+            <build>
+                <plugins>
+                    <!-- This Lifecycle is limited to Eclipse only -->
+                    <plugin>
+                        <groupId>org.eclipse.m2e</groupId>
+                        <artifactId>lifecycle-mapping</artifactId>
+                        <version>1.0.0</version>
+                        <configuration>
+                            <lifecycleMappingMetadata>
+                                <pluginExecutions>
+                                    <pluginExecution>
+                                        <pluginExecutionFilter>
+                                            <groupId>
+                                                org.apache.maven.plugins
+                                            </groupId>
+                                            <artifactId>
+                                                maven-checkstyle-plugin
+                                            </artifactId>
+                                            <versionRange>
+                                                [3.0.0,)
+                                            </versionRange>
+                                            <goals>
+                                                <goal>check</goal>
+                                            </goals>
+                                        </pluginExecutionFilter>
+                                        <action>
+                                            <execute />
+                                        </action>
+                                    </pluginExecution>
+                                </pluginExecutions>
+                            </lifecycleMappingMetadata>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
 
         <profile>
