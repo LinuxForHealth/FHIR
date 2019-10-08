@@ -12,7 +12,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.bind.JAXBException;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -125,7 +124,7 @@ public class SimpleRouterTest extends FHIRServerTestBase {
         assertNotNull(response.getLastModified().getValue());
     }
 
-    private void printBundle(String method, String bundleType, Bundle bundle) throws JAXBException, FHIRException {
+    private void printBundle(String method, String bundleType, Bundle bundle) throws FHIRException {
         if (debug) {
             System.out.println(method + " " + bundleType + " bundle contents:\n" + writeResource(bundle, Format.JSON));
         }

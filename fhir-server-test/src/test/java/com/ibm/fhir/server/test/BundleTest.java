@@ -24,7 +24,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.bind.JAXBException;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -2564,7 +2563,7 @@ public class BundleTest extends FHIRServerTestBase {
         return false;
     }
 
-    private void printBundle(String method, String bundleType, Bundle bundle) throws JAXBException, FHIRException {
+    private void printBundle(String method, String bundleType, Bundle bundle) throws FHIRException {
         if (debug) {
             System.out.println(method + " " + bundleType + " bundle contents:\n"
                     + writeResource(bundle, Format.JSON, prettyPrint));

@@ -18,7 +18,6 @@ import java.util.UUID;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBException;
 
 import org.testng.annotations.Test;
 
@@ -428,7 +427,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
         return parametersBuilder.build();
     }
 
-    private Response sendRequest(Parameters parameters) throws JAXBException, FHIRException {
+    private Response sendRequest(Parameters parameters) throws FHIRException {
         FHIRGenerator.generator(Format.JSON, false).generate(parameters, System.out);
         System.out.println();
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);

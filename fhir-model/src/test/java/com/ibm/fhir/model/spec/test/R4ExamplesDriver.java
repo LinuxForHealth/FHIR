@@ -7,14 +7,12 @@
 package com.ibm.fhir.model.spec.test;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.xml.bind.JAXBException;
 
 import com.ibm.fhir.examples.ExamplesUtil;
 import com.ibm.fhir.model.format.Format;
@@ -24,6 +22,7 @@ import com.ibm.fhir.model.resource.Resource;
 
 /**
  * Run through all the examples from the R4 specification
+ * 
  * @author rarnold
  *
  */
@@ -51,13 +50,14 @@ public class R4ExamplesDriver {
     private int testCount;
     private int successCount;
     Exception firstException = null;
-    
+
     public static enum TestType {
         ALL, MINIMAL, SPEC, IBM
     }
 
     /**
      * Setter for the processor
+     * 
      * @param p
      */
     public void setProcessor(IExampleProcessor p) {
@@ -66,6 +66,7 @@ public class R4ExamplesDriver {
 
     /**
      * Setter for the validation processor
+     * 
      * @param p
      */
     public void setValidator(IExampleProcessor p) {
@@ -73,22 +74,27 @@ public class R4ExamplesDriver {
     }
 
     /**
-     * Use the minimal file set by default for our tests. This avoids issues with memory 
-     * constraints on the build containers.
+     * Use the minimal file set by default for our tests. This avoids issues with memory constraints on the build
+     * containers.
+     * 
      * @throws Exception
      */
     public void processAllExamples() throws Exception {
         // Allow the build to override the default so we can really test everything
-        String ttValue = System.getProperty(this.getClass().getName() + ".testType", TestType.MINIMAL.toString());
-        String ttFormat = System.getProperty(this.getClass().getName() + ".format", Format.JSON.toString());
+        String ttValue = System.getProperty(this.getClass().getName()
+                + ".testType", TestType.MINIMAL.toString());
+        String ttFormat =
+                System.getProperty(this.getClass().getName() + ".format", Format.JSON.toString());
         TestType tt = TestType.valueOf(ttValue);
         Format format = Format.valueOf(ttFormat);
         processExamples(tt, format);
     }
-    
+
     /**
      * Process each of the examples we find in the SPEC_EXAMPLES path
-     * @param testType select between all or minimal file sets for the test
+     * 
+     * @param testType
+     *            select between all or minimal file sets for the test
      * @throws Exception
      */
     public void processExamples(TestType testType, Format format) throws Exception {
@@ -103,19 +109,19 @@ public class R4ExamplesDriver {
         default:
             throw new IllegalArgumentException("Format '" + testType + "' is not supported.");
         }
-        
+
         String filename;
         switch (testType) {
-        case ALL: 
+        case ALL:
             filename = dir + ALL_FILE_INDEX;
             break;
-        case MINIMAL: 
+        case MINIMAL:
             filename = dir + MINIMAL_FILE_INDEX;
             break;
-        case SPEC: 
+        case SPEC:
             filename = dir + SPEC_FILE_INDEX;
             break;
-        case IBM: 
+        case IBM:
             filename = dir + IBM_FILE_INDEX;
             break;
         default:
@@ -131,8 +137,9 @@ public class R4ExamplesDriver {
     }
 
     /**
-     * Process the index file. Filename can be a resource on the classpath, or
-     * a file from the file-system if prefixed with "file:..."
+     * Process the index file. Filename can be a resource on the classpath, or a file from the file-system if prefixed
+     * with "file:..."
+     * 
      * @param filename
      * @throws Exception
      */
@@ -184,8 +191,7 @@ public class R4ExamplesDriver {
             if (firstException != null) {
                 throw firstException;
             }
-        }
-        finally {
+        } finally {
             if (testCount > 0) {
                 long elapsed = (System.nanoTime() - start) / 1000000;
 
@@ -194,8 +200,8 @@ public class R4ExamplesDriver {
 
                 // We count overall success if we successfully process the resource,
                 // or if we got an expected exception earlier on
-                logger.info("Overall success rate = " + successCount + "/" + testCount + " = " 
-                        + (100*successCount / testCount) + "%. Took " + elapsed + " ms");
+                logger.info("Overall success rate = " + successCount + "/" + testCount + " = "
+                        + (100 * successCount / testCount) + "%. Took " + elapsed + " ms");
             }
             for (ExampleProcessorException error : errors) {
                 logger.warning(error.toString());
@@ -203,17 +209,19 @@ public class R4ExamplesDriver {
         }
     }
 
-    public void processExample(String file, Expectation expectation) throws ExampleProcessorException {
+    public void processExample(String file, Expectation expectation)
+        throws ExampleProcessorException {
         processExample(file, Format.JSON, expectation);
     }
 
     /**
-     * Process the example file. If jsonFile is prefixed with "file:" then the file
-     * will be read from the filesystem, otherwise it will be treated as a resource
-     * on the classpath.
+     * Process the example file. If jsonFile is prefixed with "file:" then the file will be read from the filesystem,
+     * otherwise it will be treated as a resource on the classpath.
+     * 
      * @param jsonFile
      */
-    public void processExample(String file, Format format, Expectation expectation) throws ExampleProcessorException {
+    public void processExample(String file, Format format, Expectation expectation)
+        throws ExampleProcessorException {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Processing: " + file);
         } else {
@@ -232,34 +240,32 @@ public class R4ExamplesDriver {
                 // If we parsed the resource successfully but expected it to fail, it's a failed
                 // test, so we don't try and process it any further
                 actual = Expectation.OK;
-                ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual);
+                ExampleProcessorException error =
+                        new ExampleProcessorException(file, expectation, actual);
                 if (firstException == null) {
                     firstException = error;
                 }
                 throw error;
-            }
-            else {
+            } else {
                 // validate and process the example
                 actual = processExample(file, resource, expectation);
             }
-        }
-        catch (ExampleProcessorException e) {
+        } catch (ExampleProcessorException e) {
             throw e;
-        }
-        catch (FHIRParserException fpx) {
+        } catch (FHIRParserException fpx) {
             actual = Expectation.PARSE;
             if (expectation == Expectation.PARSE) {
                 // successful test, even though we won't be able to validate/process
                 successCount++;
-            }
-            else {
+            } else {
                 // oops, hit an unexpected parse error
                 logger.severe("readResource(" + file + ") unexpected failure: " + fpx.getMessage()
-                + ", " + fpx.getPath());
+                        + ", " + fpx.getPath());
 
                 // continue processing the other files, but capture the first exception so we can fail the test
                 // if needed
-                ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual, fpx);
+                ExampleProcessorException error =
+                        new ExampleProcessorException(file, expectation, actual, fpx);
                 if (firstException == null) {
                     firstException = fpx;
                 }
@@ -268,7 +274,8 @@ public class R4ExamplesDriver {
         } catch (Exception e) {
             // continue processing the other files, but capture the first exception so we can fail the test
             // if needed
-            ExampleProcessorException error = new ExampleProcessorException(file, expectation, Expectation.PARSE, e);
+            ExampleProcessorException error =
+                    new ExampleProcessorException(file, expectation, Expectation.PARSE, e);
             if (firstException == null) {
                 firstException = e;
             }
@@ -281,10 +288,14 @@ public class R4ExamplesDriver {
 
     /**
      * Process the example resource
-     * @param file so we know the name of the file if there's a problem
-     * @param resource the parsed object
+     * 
+     * @param file
+     *            so we know the name of the file if there's a problem
+     * @param resource
+     *            the parsed object
      */
-    protected Expectation processExample(String file, Resource resource, Expectation expectation) throws ExampleProcessorException {
+    protected Expectation processExample(String file, Resource resource, Expectation expectation)
+        throws ExampleProcessorException {
         Expectation actual = Expectation.OK;
         if (validator != null) {
             try {
@@ -294,14 +305,14 @@ public class R4ExamplesDriver {
                     // this is a problem, because we expected validation to fail
                     resource = null; // prevent processing
                     logger.severe("validateResource(" + file + ") should've failed but didn't");
-                    ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual);
+                    ExampleProcessorException error =
+                            new ExampleProcessorException(file, expectation, actual);
                     if (firstException == null) {
                         firstException = error;
                     }
                     throw error;
                 }
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 // validation failed
                 actual = Expectation.VALIDATION;
                 resource = null; // stop any further processing
@@ -309,13 +320,14 @@ public class R4ExamplesDriver {
                 if (expectation == Expectation.VALIDATION) {
                     // we expected an error, and we got it...so that's a success
                     successCount++;
-                }
-                else {
+                } else {
                     // oops, hit an unexpected validation error
-                    logger.severe("validateResource(" + file + ") unexpected failure: " + x.getMessage());
+                    logger.severe("validateResource(" + file + ") unexpected failure: "
+                            + x.getMessage());
 
                     // continue processing the other files
-                    ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual, x);
+                    ExampleProcessorException error =
+                            new ExampleProcessorException(file, expectation, actual, x);
                     if (firstException == null) {
                         firstException = x;
                     }
@@ -332,31 +344,31 @@ public class R4ExamplesDriver {
                 if (expectation == Expectation.PROCESS) {
                     // this is a problem, because we expected validation to fail
                     logger.severe("processResource(" + file + ") should've failed but didn't");
-                    ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual);
+                    ExampleProcessorException error =
+                            new ExampleProcessorException(file, expectation, actual);
                     if (firstException == null) {
                         firstException = error;
                     }
                     throw error;
-                }
-                else {
+                } else {
                     // processed the resource successfully, and didn't expect an error
                     successCount++;
                 }
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 // say in which phase we failed
                 actual = Expectation.PROCESS;
 
                 if (expectation == Expectation.PROCESS) {
                     // we expected an error, and we got it...so that's a success
                     successCount++;
-                }
-                else {
+                } else {
                     // processing error, but didn't expect it
-                    logger.log(Level.SEVERE, "processResource(" + file + ") unexpected failure: ", x);
+                    logger.log(Level.SEVERE, "processResource(" + file
+                            + ") unexpected failure: ", x);
 
                     // continue processing the other files
-                    ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual, x);
+                    ExampleProcessorException error =
+                            new ExampleProcessorException(file, expectation, actual, x);
                     if (firstException == null) {
                         firstException = x;
                     }
@@ -370,16 +382,15 @@ public class R4ExamplesDriver {
     }
 
     /**
-     * This function reads the contents of a mock resource from the specified file, 
-     * then de-serializes that into a Resource.
+     * This function reads the contents of a mock resource from the specified file, then de-serializes that into a
+     * Resource.
      * 
      * @param resourceClass
      *            the class associated with the resource type (e.g. Patient.class)
      * @param fileName
      *            the name of the file containing the mock resource (e.g. "testdata/Patient1.json")
      * @return the de-serialized mock resource
-     * @throws FileNotFoundException
-     * @throws JAXBException
+     * @throws Exception
      */
     public Resource readResource(String fileName, Format format) throws Exception {
 
