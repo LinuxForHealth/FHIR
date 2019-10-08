@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/FHIR/assets/css/style.css?v=582069fc2de091946f00b3ce4c319188a7bf4f6f">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>{} | IBM Server for HL7 FHIR</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="{}" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The {{ site.title }} is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<meta property="og:description" content="The {{ site.title }} is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability." />
+<link rel="canonical" href="http://localhost:4000/FHIR/README.html" />
+<meta property="og:url" content="http://localhost:4000/FHIR/README.html" />
+<meta property="og:site_name" content="IBM Server for HL7 FHIR" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/FHIR/README.html","headline":"{}","description":"The {{ site.title }} is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.","@type":"WebPage","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">IBM Server for HL7 FHIR</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/FHIR/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="forkme_banner" href="https://github.com/prb112/FHIR">View on GitHub</a>
+      </li>
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Guides
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+              <a class="dropdown-item" href="/FHIR/javadocs/1.0.0">
+                Guide 1
+              </a>
+            
+              <a class="dropdown-item" href="/FHIR/javadocs/2.0.1">
+                Guide 2
+              </a>
+            
+              <a class="dropdown-item" href="/FHIR/javadocs/3.0.2">
+                Guide 3
+              </a>
+            
+          </div>
+        </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Java Docs
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
+            <a class="dropdown-item" href="/FHIR/javadocs/1.0.0">
+              1.0.0
+            </a>
+          
+            <a class="dropdown-item" href="/FHIR/javadocs/2.0.1">
+              2.0.1
+            </a>
+          
+            <a class="dropdown-item" href="/FHIR/javadocs/3.0.2">
+              3.0.2
+            </a>
+          
+            <a class="dropdown-item" href="/FHIR/javadocs/4.0.0">
+              4.0.0
+            </a>
+          
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+           Downloads
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="https://github.com/prb112/FHIR/zipball/gh-pages">... as a .zip file</a>
+            <a class="dropdown-item" href="https://github.com/prb112/FHIR/tarball/gh-pages">...  as a tar.gz file</a>
+        </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+   
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <nav id="navbar" class="collapse navbar-collapse">
+<ul class="dropdown-menu">>
+<pre><code>&lt;li&gt;
+  &lt;a href=&quot;javadocs//FHIR/javadocs/1.0.0&quot;&gt;
+    1.0.0
+  &lt;/a&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+  &lt;a href=&quot;javadocs//FHIR/javadocs/2.0.1&quot;&gt;
+    2.0.1
+  &lt;/a&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+  &lt;a href=&quot;javadocs//FHIR/javadocs/3.0.2&quot;&gt;
+    3.0.2
+  &lt;/a&gt;
+&lt;/li&gt;
+
+&lt;li&gt;
+  &lt;a href=&quot;javadocs//FHIR/javadocs/4.0.0&quot;&gt;
+    4.0.0
+  &lt;/a&gt;
+&lt;/li&gt;
+</code></pre>
+</ul>
+</nav>
+<!-- This loops through the paginated posts -->
+<!-- Pagination links -->
+<div class="pagination">
+<pre><code>&lt;span class=&quot;previous&quot;&gt;Previous&lt;/span&gt;
+</code></pre>
+  <span class="page_number ">
+    Page:  of 
+  </span>
+<pre><code>&lt;span class=&quot;next &quot;&gt;Next&lt;/span&gt;
+</code></pre>
+</div>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">IBM Server for HL7 FHIR maintained by <a href="https://github.com/prb112">prb112</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+        
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
