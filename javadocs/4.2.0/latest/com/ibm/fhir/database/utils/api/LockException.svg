@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="210px" preserveAspectRatio="none" style="width:242px;height:210px;" version="1.1" viewBox="0 0 242 210" width="242px" zoomAndPan="magnify"><defs><filter height="300%" id="f1vzigqs2g4ayh" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[8eaabb3cdc563895a2ef41d3b859b3f3]
+class com.ibm.fhir.database.utils.api.LockException--><a href="LockException.html" target="_top" title="LockException.html" xlink:actuate="onRequest" xlink:href="LockException.html" xlink:show="new" xlink:title="LockException.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1vzigqs2g4ayh)" height="71.5469" id="com.ibm.fhir.database.utils.api.LockException" style="stroke: #A80036; stroke-width: 1.5;" width="225" x="6" y="106"/><ellipse cx="41.25" cy="124.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M44.2188,130.6094 Q43.6406,130.9063 43,131.0469 Q42.3594,131.2031 41.6563,131.2031 Q39.1563,131.2031 37.8281,129.5625 Q36.5156,127.9063 36.5156,124.7813 Q36.5156,121.6563 37.8281,120 Q39.1563,118.3438 41.6563,118.3438 Q42.3594,118.3438 43,118.5 Q43.6563,118.6563 44.2188,118.9531 L44.2188,121.6719 Q43.5938,121.0938 43,120.8281 Q42.4063,120.5469 41.7813,120.5469 Q40.4375,120.5469 39.75,121.625 Q39.0625,122.6875 39.0625,124.7813 Q39.0625,126.875 39.75,127.9531 Q40.4375,129.0156 41.7813,129.0156 Q42.4063,129.0156 43,128.75 Q43.5938,128.4688 44.2188,127.8906 L44.2188,130.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="100" x="83.75" y="123.9951">LockException</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="148" x="59.75" y="136.5791">com.ibm.fhir.database.utils.api</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="230" y1="143.9375" y2="143.9375"/><ellipse cx="17" cy="154.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="199" x="26" y="158.1479">LockException(Throwable, boolean)</text><ellipse cx="17" cy="167.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="122" x="26" y="170.9526">isDeadlock(): boolean</text></a><!--MD5=[225e2fa8f301a14e1bb91a8eb82fd44b]
+class com.ibm.fhir.database.utils.api.DataAccessException--><a href="DataAccessException.html" target="_top" title="DataAccessException.html" xlink:actuate="onRequest" xlink:href="DataAccessException.html" xlink:show="new" xlink:title="DataAccessException.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1vzigqs2g4ayh)" height="37.9375" id="com.ibm.fhir.database.utils.api.DataAccessException" style="stroke: #A80036; stroke-width: 1.5;" width="182" x="27.5" y="8"/><ellipse cx="42.5" cy="26.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M45.4688,32.6094 Q44.8906,32.9063 44.25,33.0469 Q43.6094,33.2031 42.9063,33.2031 Q40.4063,33.2031 39.0781,31.5625 Q37.7656,29.9063 37.7656,26.7813 Q37.7656,23.6563 39.0781,22 Q40.4063,20.3438 42.9063,20.3438 Q43.6094,20.3438 44.25,20.5 Q44.9063,20.6563 45.4688,20.9531 L45.4688,23.6719 Q44.8438,23.0938 44.25,22.8281 Q43.6563,22.5469 43.0313,22.5469 Q41.6875,22.5469 41,23.625 Q40.3125,24.6875 40.3125,26.7813 Q40.3125,28.875 41,29.9531 Q41.6875,31.0156 43.0313,31.0156 Q43.6563,31.0156 44.25,30.75 Q44.8438,30.4688 45.4688,29.8906 L45.4688,32.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="150" x="56.5" y="25.9951">DataAccessException</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="148" x="57.5" y="38.5791">com.ibm.fhir.database.utils.api</text></a><!--MD5=[a62c12220075e9f74465df7aae4946f4]
+reverse link com.ibm.fhir.database.utils.api.DataAccessException to com.ibm.fhir.database.utils.api.LockException--><path d="M118.5,66.5888 C118.5,79.3573 118.5,93.4348 118.5,105.935 " fill="none" id="com.ibm.fhir.database.utils.api.DataAccessException&lt;-com.ibm.fhir.database.utils.api.LockException" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="111.5001,66.2484,118.5,46.2484,125.5001,66.2484,111.5001,66.2484" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="31.5" y="197.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[33332f588380231be2b283c8e40cee3d]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>LockException\n<size:10>com.ibm.fhir.database.utils.api" as com.ibm.fhir.database.utils.api.LockException [[LockException.html]] {
+        +LockException(Throwable, boolean)
+        +isDeadlock(): boolean
+    }
+
+    class "<size:14>DataAccessException\n<size:10>com.ibm.fhir.database.utils.api" as com.ibm.fhir.database.utils.api.DataAccessException [[DataAccessException.html]]
+
+    com.ibm.fhir.database.utils.api.DataAccessException <|- - com.ibm.fhir.database.utils.api.LockException
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.7+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

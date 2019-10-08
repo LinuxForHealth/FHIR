@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="109px" preserveAspectRatio="none" style="width:489px;height:109px;" version="1.1" viewBox="0 0 489 109" width="489px" zoomAndPan="magnify"><defs><filter height="300%" id="f1loubq8a1iotp" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[03c4734ab6b5ef13bc179a4cc4899428]
+class com.ibm.fhir.persistence.util.FHIRPersistenceUtil--><a href="FHIRPersistenceUtil.html" target="_top" title="FHIRPersistenceUtil.html" xlink:actuate="onRequest" xlink:href="FHIRPersistenceUtil.html" xlink:show="new" xlink:title="FHIRPersistenceUtil.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1loubq8a1iotp)" height="72.1758" id="com.ibm.fhir.persistence.util.FHIRPersistenceUtil" style="stroke: #A80036; stroke-width: 1.5;" width="471" x="7" y="7"/><ellipse cx="168.75" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M171.2231,32.2759 Q170.6421,32.5747 170.0029,32.7241 Q169.3638,32.8735 168.6582,32.8735 Q166.1514,32.8735 164.8315,31.2217 Q163.5117,29.5698 163.5117,26.4487 Q163.5117,23.3193 164.8315,21.6675 Q166.1514,20.0156 168.6582,20.0156 Q169.3638,20.0156 170.0112,20.165 Q170.6587,20.3145 171.2231,20.6133 L171.2231,23.3359 Q170.5923,22.7549 169.9988,22.4851 Q169.4053,22.2153 168.7744,22.2153 Q167.4297,22.2153 166.7449,23.282 Q166.0601,24.3486 166.0601,26.4487 Q166.0601,28.5405 166.7449,29.6072 Q167.4297,30.6738 168.7744,30.6738 Q169.4053,30.6738 169.9988,30.4041 Q170.5923,30.1343 171.2231,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="131" x="193.25" y="25.5352">FHIRPersistenceUtil</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="139" x="189.25" y="38.1563">com.ibm.fhir.persistence.util</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="477" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="445" x="27" y="59.9004">parseHistoryParameters(Map&lt;String, List&lt;String&gt;&gt;, boolean): FHIRHistoryContext</text><ellipse cx="18" cy="69.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="274" x="27" y="72.8555">createDeletedResourceMarker(Resource): Resource</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="151.5" y="95.8438">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[a3cd7e6bbd94b29ba95df5ce325993dd]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRPersistenceUtil\n<size:10>com.ibm.fhir.persistence.util" as com.ibm.fhir.persistence.util.FHIRPersistenceUtil [[FHIRPersistenceUtil.html]] {
+        {static} +parseHistoryParameters(Map<String, List<String>>, boolean): FHIRHistoryContext
+        {static} +createDeletedResourceMarker(Resource): Resource
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

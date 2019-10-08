@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="237px" preserveAspectRatio="none" style="width:463px;height:237px;" version="1.1" viewBox="0 0 463 237" width="463px" zoomAndPan="magnify"><defs><filter height="300%" id="fahiv1153zgfo" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[acdd7aeeabbbd58780ff3b6f7304738a]
+class com.ibm.fhir.database.utils.model.NopObject--><a href="NopObject.html" target="_top" title="NopObject.html" xlink:actuate="onRequest" xlink:href="NopObject.html" xlink:show="new" xlink:title="NopObject.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fahiv1153zgfo)" height="98.0859" id="com.ibm.fhir.database.utils.model.NopObject" style="stroke: #A80036; stroke-width: 1.5;" width="446" x="6" y="106"/><ellipse cx="141.75" cy="125.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M144.2231,131.2759 Q143.6421,131.5747 143.0029,131.7241 Q142.3638,131.8735 141.6582,131.8735 Q139.1514,131.8735 137.8315,130.2217 Q136.5117,128.5698 136.5117,125.4487 Q136.5117,122.3193 137.8315,120.6675 Q139.1514,119.0156 141.6582,119.0156 Q142.3638,119.0156 143.0112,119.165 Q143.6587,119.3145 144.2231,119.6133 L144.2231,122.3359 Q143.5923,121.7549 142.9988,121.4851 Q142.4053,121.2153 141.7744,121.2153 Q140.4297,121.2153 139.7449,122.282 Q139.0601,123.3486 139.0601,125.4487 Q139.0601,127.5405 139.7449,128.6072 Q140.4297,129.6738 141.7744,129.6738 Q142.4053,129.6738 142.9988,129.4041 Q143.5923,129.1343 144.2231,128.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="72" x="209.25" y="124.5352">NopObject</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="166" x="162.25" y="137.1563">com.ibm.fhir.database.utils.model</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="451" y1="144.2656" y2="144.2656"/><ellipse cx="17" cy="155.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="135" x="26" y="158.9004">NopObject(String, String)</text><ellipse cx="17" cy="168.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="161" x="26" y="171.8555">apply(IDatabaseAdapter): void</text><ellipse cx="17" cy="181.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="158" x="26" y="184.8105">drop(IDatabaseAdapter): void</text><ellipse cx="17" cy="194.1309" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="420" x="26" y="197.7656">applyTx(IDatabaseAdapter, ITransactionProvider, IVersionHistoryService): void</text></a><!--MD5=[37ad94e878ea8ca2b27676e9b95b5c74]
+class com.ibm.fhir.database.utils.model.BaseObject--><a href="BaseObject.html" target="_top" title="BaseObject.html" xlink:actuate="onRequest" xlink:href="BaseObject.html" xlink:show="new" xlink:title="BaseObject.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fahiv1153zgfo)" height="38.2656" id="com.ibm.fhir.database.utils.model.BaseObject" style="stroke: #A80036; stroke-width: 1.5;" width="198" x="130" y="8"/><ellipse cx="145" cy="27.1328" fill="#A9DCDF" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M145.1133,22.731 L143.9595,27.8027 L146.2754,27.8027 Z M143.6191,20.4897 L146.6157,20.4897 L149.9609,32.8828 L147.5122,32.8828 L146.7485,29.8198 L143.4697,29.8198 L142.7227,32.8828 L140.2739,32.8828 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="75" x="204.5" y="26.5352">BaseObject</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="166" x="159" y="39.1563">com.ibm.fhir.database.utils.model</text></a><!--MD5=[8a6e900e71160677bc628345876995e5]
+reverse link com.ibm.fhir.database.utils.model.BaseObject to com.ibm.fhir.database.utils.model.NopObject--><path d="M229,66.4693 C229,78.9024 229,92.7909 229,105.8136 " fill="none" id="com.ibm.fhir.database.utils.model.BaseObject&lt;-com.ibm.fhir.database.utils.model.NopObject" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="222.0001,66.1629,229,46.1629,236.0001,66.1629,222.0001,66.1629" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="144" y="223.668">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[6917d379a51acb417c75612cd0e059f1]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>NopObject\n<size:10>com.ibm.fhir.database.utils.model" as com.ibm.fhir.database.utils.model.NopObject [[NopObject.html]] {
+        +NopObject(String, String)
+        +apply(IDatabaseAdapter): void
+        +drop(IDatabaseAdapter): void
+        +applyTx(IDatabaseAdapter, ITransactionProvider, IVersionHistoryService): void
+    }
+
+    abstract class "<size:14>BaseObject\n<size:10>com.ibm.fhir.database.utils.model" as com.ibm.fhir.database.utils.model.BaseObject [[BaseObject.html]]
+
+    com.ibm.fhir.database.utils.model.BaseObject <|- - com.ibm.fhir.database.utils.model.NopObject
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

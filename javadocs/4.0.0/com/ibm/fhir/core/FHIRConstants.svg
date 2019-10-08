@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="96px" preserveAspectRatio="none" style="width:206px;height:96px;" version="1.1" viewBox="0 0 206 96" width="206px" zoomAndPan="magnify"><defs><filter height="300%" id="f1n2lqk0f8iclr" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e7d1805cf43ed480791db0a61b891aef]
+class com.ibm.fhir.core.FHIRConstants--><a href="FHIRConstants.html" target="_top" title="FHIRConstants.html" xlink:actuate="onRequest" xlink:href="FHIRConstants.html" xlink:show="new" xlink:title="FHIRConstants.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1n2lqk0f8iclr)" height="59.2207" id="com.ibm.fhir.core.FHIRConstants" style="stroke: #A80036; stroke-width: 1.5;" width="188" x="7" y="7"/><ellipse cx="47.2" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M49.6731,32.2759 Q49.0921,32.5747 48.4529,32.7241 Q47.8138,32.8735 47.1082,32.8735 Q44.6014,32.8735 43.2815,31.2217 Q41.9617,29.5698 41.9617,26.4487 Q41.9617,23.3193 43.2815,21.6675 Q44.6014,20.0156 47.1082,20.0156 Q47.8138,20.0156 48.4612,20.165 Q49.1087,20.3145 49.6731,20.6133 L49.6731,23.3359 Q49.0423,22.7549 48.4488,22.4851 Q47.8553,22.2153 47.2244,22.2153 Q45.8797,22.2153 45.1949,23.282 Q44.5101,24.3486 44.5101,26.4487 Q44.5101,28.5405 45.1949,29.6072 Q45.8797,30.6738 47.2244,30.6738 Q47.8553,30.6738 48.4488,30.4041 Q49.0423,30.1343 49.6731,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="100" x="66.8" y="25.5352">FHIRConstants</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="85" x="74.3" y="38.1563">com.ibm.fhir.core</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="194" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="162" x="27" y="59.9004">FHIR_LOGGING_GROUP: String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="10" y="82.8887">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[0d0a654f6438eebde895a784e41213d4]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRConstants\n<size:10>com.ibm.fhir.core" as com.ibm.fhir.core.FHIRConstants [[FHIRConstants.html]] {
+        {static} +FHIR_LOGGING_GROUP: String
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

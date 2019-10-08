@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="210px" preserveAspectRatio="none" style="width:291px;height:210px;" version="1.1" viewBox="0 0 291 210" width="291px" zoomAndPan="magnify"><defs><filter height="300%" id="fn7ttjs98psj" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[fb34b8f4513e4bb79f159291ba4a1d67]
+class com.ibm.fhir.database.utils.api.DuplicateNameException--><a href="DuplicateNameException.html" target="_top" title="DuplicateNameException.html" xlink:actuate="onRequest" xlink:href="DuplicateNameException.html" xlink:show="new" xlink:title="DuplicateNameException.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fn7ttjs98psj)" height="71.5469" id="com.ibm.fhir.database.utils.api.DuplicateNameException" style="stroke: #A80036; stroke-width: 1.5;" width="274" x="6" y="106"/><ellipse cx="52.25" cy="124.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M55.2188,130.6094 Q54.6406,130.9063 54,131.0469 Q53.3594,131.2031 52.6563,131.2031 Q50.1563,131.2031 48.8281,129.5625 Q47.5156,127.9063 47.5156,124.7813 Q47.5156,121.6563 48.8281,120 Q50.1563,118.3438 52.6563,118.3438 Q53.3594,118.3438 54,118.5 Q54.6563,118.6563 55.2188,118.9531 L55.2188,121.6719 Q54.5938,121.0938 54,120.8281 Q53.4063,120.5469 52.7813,120.5469 Q51.4375,120.5469 50.75,121.625 Q50.0625,122.6875 50.0625,124.7813 Q50.0625,126.875 50.75,127.9531 Q51.4375,129.0156 52.7813,129.0156 Q53.4063,129.0156 54,128.75 Q54.5938,128.4688 55.2188,127.8906 L55.2188,130.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="173" x="72.75" y="123.9951">DuplicateNameException</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="148" x="85.25" y="136.5791">com.ibm.fhir.database.utils.api</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="279" y1="143.9375" y2="143.9375"/><ellipse cx="17" cy="154.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="206" x="26" y="158.1479">DuplicateNameException(Throwable)</text><ellipse cx="17" cy="167.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="248" x="26" y="170.9526">DuplicateNameException(String, Throwable)</text></a><!--MD5=[225e2fa8f301a14e1bb91a8eb82fd44b]
+class com.ibm.fhir.database.utils.api.DataAccessException--><a href="DataAccessException.html" target="_top" title="DataAccessException.html" xlink:actuate="onRequest" xlink:href="DataAccessException.html" xlink:show="new" xlink:title="DataAccessException.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fn7ttjs98psj)" height="37.9375" id="com.ibm.fhir.database.utils.api.DataAccessException" style="stroke: #A80036; stroke-width: 1.5;" width="182" x="52" y="8"/><ellipse cx="67" cy="26.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M69.9688,32.6094 Q69.3906,32.9063 68.75,33.0469 Q68.1094,33.2031 67.4063,33.2031 Q64.9063,33.2031 63.5781,31.5625 Q62.2656,29.9063 62.2656,26.7813 Q62.2656,23.6563 63.5781,22 Q64.9063,20.3438 67.4063,20.3438 Q68.1094,20.3438 68.75,20.5 Q69.4063,20.6563 69.9688,20.9531 L69.9688,23.6719 Q69.3438,23.0938 68.75,22.8281 Q68.1563,22.5469 67.5313,22.5469 Q66.1875,22.5469 65.5,23.625 Q64.8125,24.6875 64.8125,26.7813 Q64.8125,28.875 65.5,29.9531 Q66.1875,31.0156 67.5313,31.0156 Q68.1563,31.0156 68.75,30.75 Q69.3438,30.4688 69.9688,29.8906 L69.9688,32.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="150" x="81" y="25.9951">DataAccessException</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="148" x="82" y="38.5791">com.ibm.fhir.database.utils.api</text></a><!--MD5=[51dd2facdf11ab9c9fe3d7eed1a03bf7]
+reverse link com.ibm.fhir.database.utils.api.DataAccessException to com.ibm.fhir.database.utils.api.DuplicateNameException--><path d="M143,66.5888 C143,79.3573 143,93.4348 143,105.935 " fill="none" id="com.ibm.fhir.database.utils.api.DataAccessException&lt;-com.ibm.fhir.database.utils.api.DuplicateNameException" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="136.0001,66.2484,143,46.2484,150.0001,66.2484,136.0001,66.2484" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="56" y="197.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[b2263e0a0c4de07236ed92774e5724fb]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>DuplicateNameException\n<size:10>com.ibm.fhir.database.utils.api" as com.ibm.fhir.database.utils.api.DuplicateNameException [[DuplicateNameException.html]] {
+        +DuplicateNameException(Throwable)
+        +DuplicateNameException(String, Throwable)
+    }
+
+    class "<size:14>DataAccessException\n<size:10>com.ibm.fhir.database.utils.api" as com.ibm.fhir.database.utils.api.DataAccessException [[DataAccessException.html]]
+
+    com.ibm.fhir.database.utils.api.DataAccessException <|- - com.ibm.fhir.database.utils.api.DuplicateNameException
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.7+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="210px" preserveAspectRatio="none" style="width:216px;height:210px;" version="1.1" viewBox="0 0 216 210" width="216px" zoomAndPan="magnify"><defs><filter height="300%" id="fugp0ljwlwuk6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[eed7cd411de8c923f51401a1a15a5d46]
+class com.ibm.fhir.server.FHIRApplication--><a href="FHIRApplication.html" target="_top" title="FHIRApplication.html" xlink:actuate="onRequest" xlink:href="FHIRApplication.html" xlink:show="new" xlink:title="FHIRApplication.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fugp0ljwlwuk6)" height="71.5469" id="com.ibm.fhir.server.FHIRApplication" style="stroke: #A80036; stroke-width: 1.5;" width="199" x="6" y="106"/><ellipse cx="48.45" cy="124.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M51.4188,130.6094 Q50.8406,130.9063 50.2,131.0469 Q49.5594,131.2031 48.8563,131.2031 Q46.3563,131.2031 45.0281,129.5625 Q43.7156,127.9063 43.7156,124.7813 Q43.7156,121.6563 45.0281,120 Q46.3563,118.3438 48.8563,118.3438 Q49.5594,118.3438 50.2,118.5 Q50.8563,118.6563 51.4188,118.9531 L51.4188,121.6719 Q50.7938,121.0938 50.2,120.8281 Q49.6063,120.5469 48.9813,120.5469 Q47.6375,120.5469 46.95,121.625 Q46.2625,122.6875 46.2625,124.7813 Q46.2625,126.875 46.95,127.9531 Q47.6375,129.0156 48.9813,129.0156 Q49.6063,129.0156 50.2,128.75 Q50.7938,128.4688 51.4188,127.8906 L51.4188,130.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="106" x="68.55" y="123.9951">FHIRApplication</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="95" x="74.05" y="136.5791">com.ibm.fhir.server</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="204" y1="143.9375" y2="143.9375"/><ellipse cx="17" cy="154.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="173" x="26" y="158.1479">getClasses(): Set&lt;Class&lt;?&gt;&gt;</text><ellipse cx="17" cy="167.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="167" x="26" y="170.9526">getSingletons(): Set&lt;Object&gt;</text></a><!--MD5=[069a77b7ca6be6cc038b0552d3a37c96]
+class javax.ws.rs.core.Application--><rect fill="#FEFECE" filter="url(#fugp0ljwlwuk6)" height="37.9375" id="javax.ws.rs.core.Application" style="stroke: #A80036; stroke-width: 1.5;" width="110" x="50.5" y="8"/><ellipse cx="65.5" cy="26.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M68.4688,32.6094 Q67.8906,32.9063 67.25,33.0469 Q66.6094,33.2031 65.9063,33.2031 Q63.4063,33.2031 62.0781,31.5625 Q60.7656,29.9063 60.7656,26.7813 Q60.7656,23.6563 62.0781,22 Q63.4063,20.3438 65.9063,20.3438 Q66.6094,20.3438 67.25,20.5 Q67.9063,20.6563 68.4688,20.9531 L68.4688,23.6719 Q67.8438,23.0938 67.25,22.8281 Q66.6563,22.5469 66.0313,22.5469 Q64.6875,22.5469 64,23.625 Q63.3125,24.6875 63.3125,26.7813 Q63.3125,28.875 64,29.9531 Q64.6875,31.0156 66.0313,31.0156 Q66.6563,31.0156 67.25,30.75 Q67.8438,30.4688 68.4688,29.8906 L68.4688,32.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="75" x="81" y="25.9951">Application</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="78" x="79.5" y="38.5791">javax.ws.rs.core</text><!--MD5=[cb3bc8fc35ca1288c4d79ed648d023b4]
+reverse link javax.ws.rs.core.Application to com.ibm.fhir.server.FHIRApplication--><path d="M105.5,66.5888 C105.5,79.3573 105.5,93.4348 105.5,105.935 " fill="none" id="javax.ws.rs.core.Application&lt;-com.ibm.fhir.server.FHIRApplication" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="98.5001,66.2484,105.5,46.2484,112.5001,66.2484,98.5001,66.2484" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="18.5" y="197.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[f340aa192d608ce6bdcbd692f782cf46]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRApplication\n<size:10>com.ibm.fhir.server" as com.ibm.fhir.server.FHIRApplication [[FHIRApplication.html]] {
+        +getClasses(): Set<Class<?>>
+        +getSingletons(): Set<Object>
+    }
+
+    class "<size:14>Application\n<size:10>javax.ws.rs.core" as javax.ws.rs.core.Application
+
+    javax.ws.rs.core.Application <|- - com.ibm.fhir.server.FHIRApplication
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.7+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="96px" preserveAspectRatio="none" style="width:213px;height:96px;" version="1.1" viewBox="0 0 213 96" width="213px" zoomAndPan="magnify"><defs><filter height="300%" id="f62xppftb8939" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[80a3ac4af06667651a4ac0a727123ee0]
+class com.ibm.fhir.database.utils.query.HavingClause--><a href="HavingClause.html" target="_top" title="HavingClause.html" xlink:actuate="onRequest" xlink:href="HavingClause.html" xlink:show="new" xlink:title="HavingClause.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f62xppftb8939)" height="59.2207" id="com.ibm.fhir.database.utils.query.HavingClause" style="stroke: #A80036; stroke-width: 1.5;" width="195" x="7" y="7"/><ellipse cx="22" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M24.4731,32.2759 Q23.8921,32.5747 23.2529,32.7241 Q22.6138,32.8735 21.9082,32.8735 Q19.4014,32.8735 18.0815,31.2217 Q16.7617,29.5698 16.7617,26.4487 Q16.7617,23.3193 18.0815,21.6675 Q19.4014,20.0156 21.9082,20.0156 Q22.6138,20.0156 23.2612,20.165 Q23.9087,20.3145 24.4731,20.6133 L24.4731,23.3359 Q23.8423,22.7549 23.2488,22.4851 Q22.6553,22.2153 22.0244,22.2153 Q20.6797,22.2153 19.9949,23.282 Q19.3101,24.3486 19.3101,26.4487 Q19.3101,28.5405 19.9949,29.6072 Q20.6797,30.6738 22.0244,30.6738 Q22.6553,30.6738 23.2488,30.4041 Q23.8423,30.1343 24.4731,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="93" x="71" y="25.5352">HavingClause</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="163" x="36" y="38.1563">com.ibm.fhir.database.utils.query</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="201" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="138" x="27" y="59.9004">addPredicate(String): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="13.5" y="82.8887">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[98ca48fe8c216c3c91c87b449b31a490]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>HavingClause\n<size:10>com.ibm.fhir.database.utils.query" as com.ibm.fhir.database.utils.query.HavingClause [[HavingClause.html]] {
+        +addPredicate(String): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

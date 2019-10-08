@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="268px" preserveAspectRatio="none" style="width:228px;height:268px;" version="1.1" viewBox="0 0 228 268" width="228px" zoomAndPan="magnify"><defs><filter height="300%" id="fr29jxmsrte6v" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[999ae50d010aab7e41551ea976e9b69e]
+class com.ibm.fhir.path.function.ToBooleanFunction--><a href="ToBooleanFunction.html" target="_top" title="ToBooleanFunction.html" xlink:actuate="onRequest" xlink:href="ToBooleanFunction.html" xlink:show="new" xlink:title="ToBooleanFunction.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fr29jxmsrte6v)" height="84.3516" id="com.ibm.fhir.path.function.ToBooleanFunction" style="stroke: #A80036; stroke-width: 1.5;" width="167" x="28" y="152"/><ellipse cx="43" cy="170.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M45.9688,176.6094 Q45.3906,176.9063 44.75,177.0469 Q44.1094,177.2031 43.4063,177.2031 Q40.9063,177.2031 39.5781,175.5625 Q38.2656,173.9063 38.2656,170.7813 Q38.2656,167.6563 39.5781,166 Q40.9063,164.3438 43.4063,164.3438 Q44.1094,164.3438 44.75,164.5 Q45.4063,164.6563 45.9688,164.9531 L45.9688,167.6719 Q45.3438,167.0938 44.75,166.8281 Q44.1563,166.5469 43.5313,166.5469 Q42.1875,166.5469 41.5,167.625 Q40.8125,168.6875 40.8125,170.7813 Q40.8125,172.875 41.5,173.9531 Q42.1875,175.0156 43.5313,175.0156 Q44.1563,175.0156 44.75,174.75 Q45.3438,174.4688 45.9688,173.8906 L45.9688,176.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="135" x="57" y="169.9951">ToBooleanFunction</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="128" x="60.5" y="182.5791">com.ibm.fhir.path.function</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="29" x2="194" y1="189.9375" y2="189.9375"/><ellipse cx="39" cy="200.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="101" x="48" y="204.1479">getName(): String</text><ellipse cx="39" cy="213.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="92" x="48" y="216.9526">getMinArity(): int</text><ellipse cx="39" cy="226.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="95" x="48" y="229.7573">getMaxArity(): int</text></a><!--MD5=[5655413027f34780dbf373b9f45b979c]
+class com.ibm.fhir.path.function.FHIRPathAbstractFunction--><a href="FHIRPathAbstractFunction.html" target="_top" title="FHIRPathAbstractFunction.html" xlink:actuate="onRequest" xlink:href="FHIRPathAbstractFunction.html" xlink:show="new" xlink:title="FHIRPathAbstractFunction.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fr29jxmsrte6v)" height="84.3516" id="com.ibm.fhir.path.function.FHIRPathAbstractFunction" style="stroke: #A80036; stroke-width: 1.5;" width="211" x="6" y="8"/><ellipse cx="21" cy="26.9688" fill="#A9DCDF" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M21.1094,22.3125 L19.9531,27.3906 L22.2813,27.3906 L21.1094,22.3125 Z M19.625,20.0781 L22.6094,20.0781 L25.9688,32.4688 L23.5156,32.4688 L22.75,29.4063 L19.4688,29.4063 L18.7188,32.4688 L16.2813,32.4688 L19.625,20.0781 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="179" x="35" y="25.9951">FHIRPathAbstractFunction</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="128" x="60.5" y="38.5791">com.ibm.fhir.path.function</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="216" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="101" x="26" y="60.1479">getName(): String</text><ellipse cx="17" cy="69.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="92" x="26" y="72.9526">getMinArity(): int</text><ellipse cx="17" cy="82.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="95" x="26" y="85.7573">getMaxArity(): int</text></a><!--MD5=[283b892856e9935ef443e22e6815e964]
+reverse link com.ibm.fhir.path.function.FHIRPathAbstractFunction to com.ibm.fhir.path.function.ToBooleanFunction--><path d="M111.5,112.2896 C111.5,125.5826 111.5,139.3254 111.5,151.6606 " fill="none" id="com.ibm.fhir.path.function.FHIRPathAbstractFunction&lt;-com.ibm.fhir.path.function.ToBooleanFunction" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="104.5001,112.0379,111.5,92.0379,118.5001,112.0378,104.5001,112.0379" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="24.5" y="255.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[eb880446e9ee850f89c432bd7f7cf271]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ToBooleanFunction\n<size:10>com.ibm.fhir.path.function" as com.ibm.fhir.path.function.ToBooleanFunction [[ToBooleanFunction.html]] {
+        +getName(): String
+        +getMinArity(): int
+        +getMaxArity(): int
+    }
+
+    abstract class "<size:14>FHIRPathAbstractFunction\n<size:10>com.ibm.fhir.path.function" as com.ibm.fhir.path.function.FHIRPathAbstractFunction [[FHIRPathAbstractFunction.html]] {
+        {abstract} +getName(): String
+        {abstract} +getMinArity(): int
+        {abstract} +getMaxArity(): int
+    }
+
+    com.ibm.fhir.path.function.FHIRPathAbstractFunction <|- - com.ibm.fhir.path.function.ToBooleanFunction
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.7+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

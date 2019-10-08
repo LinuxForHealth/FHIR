@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="232px" preserveAspectRatio="none" style="width:353px;height:232px;" version="1.1" viewBox="0 0 353 232" width="353px" zoomAndPan="magnify"><defs><filter height="300%" id="fl3g6rw3wsh5c" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e2692727d096f686e0de77c9cdb9df01]
+class com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater--><a href="CodeSystemsCacheUpdater.html" target="_top" title="CodeSystemsCacheUpdater.html" xlink:actuate="onRequest" xlink:href="CodeSystemsCacheUpdater.html" xlink:show="new" xlink:title="CodeSystemsCacheUpdater.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fl3g6rw3wsh5c)" height="72.1758" id="com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater" style="stroke: #A80036; stroke-width: 1.5;" width="336" x="6" y="127"/><ellipse cx="75.75" cy="146.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M78.2231,152.2759 Q77.6421,152.5747 77.0029,152.7241 Q76.3638,152.8735 75.6582,152.8735 Q73.1514,152.8735 71.8315,151.2217 Q70.5117,149.5698 70.5117,146.4487 Q70.5117,143.3193 71.8315,141.6675 Q73.1514,140.0156 75.6582,140.0156 Q76.3638,140.0156 77.0112,140.165 Q77.6587,140.3145 78.2231,140.6133 L78.2231,143.3359 Q77.5923,142.7549 76.9988,142.4851 Q76.4053,142.2153 75.7744,142.2153 Q74.4297,142.2153 73.7449,143.282 Q73.0601,144.3486 73.0601,146.4487 Q73.0601,148.5405 73.7449,149.6072 Q74.4297,150.6738 75.7744,150.6738 Q76.4053,150.6738 76.9988,150.4041 Q77.5923,150.1343 78.2231,149.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="188" x="96.25" y="145.5352">CodeSystemsCacheUpdater</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="162" x="109.25" y="158.1563">com.ibm.fhir.persistence.jdbc.util</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="341" y1="165.2656" y2="165.2656"/><ellipse cx="17" cy="176.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="310" x="26" y="179.9004">CodeSystemsCacheUpdater(String, Map&lt;String, Integer&gt;)</text><ellipse cx="17" cy="189.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="170" x="26" y="192.8555">commitCacheCandidates(): void</text></a><!--MD5=[827bb0e3978e462e2ed723d877b5dd22]
+class com.ibm.fhir.persistence.jdbc.util.CacheUpdater--><a href="CacheUpdater.html" target="_top" title="CacheUpdater.html" xlink:actuate="onRequest" xlink:href="CacheUpdater.html" xlink:show="new" xlink:title="CacheUpdater.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fl3g6rw3wsh5c)" height="59.2207" id="com.ibm.fhir.persistence.jdbc.util.CacheUpdater" style="stroke: #A80036; stroke-width: 1.5;" width="196" x="76" y="8"/><ellipse cx="91.9" cy="27.1328" fill="#A9DCDF" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M92.0133,22.731 L90.8595,27.8027 L93.1754,27.8027 Z M90.5191,20.4897 L93.5157,20.4897 L96.8609,32.8828 L94.4122,32.8828 L93.6485,29.8198 L90.3697,29.8198 L89.6227,32.8828 L87.1739,32.8828 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="97" x="138.6" y="26.5352">CacheUpdater</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="162" x="106.1" y="39.1563">com.ibm.fhir.persistence.jdbc.util</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="77" x2="271" y1="46.2656" y2="46.2656"/><ellipse cx="87" cy="57.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="170" x="96" y="60.9004">commitCacheCandidates(): void</text></a><!--MD5=[e8a9eab21f6edb81a05bb3ed09e245bb]
+reverse link com.ibm.fhir.persistence.jdbc.util.CacheUpdater to com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater--><path d="M174,87.5049 C174,100.6211 174,114.5128 174,126.7555 " fill="none" id="com.ibm.fhir.persistence.jdbc.util.CacheUpdater&lt;-com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="167.0001,87.2418,174,67.2417,181.0001,87.2417,167.0001,87.2418" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="89" y="218.668">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[1afeadfb0e609056b82094f7adfeb227]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>CodeSystemsCacheUpdater\n<size:10>com.ibm.fhir.persistence.jdbc.util" as com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater [[CodeSystemsCacheUpdater.html]] {
+        +CodeSystemsCacheUpdater(String, Map<String, Integer>)
+        +commitCacheCandidates(): void
+    }
+
+    abstract class "<size:14>CacheUpdater\n<size:10>com.ibm.fhir.persistence.jdbc.util" as com.ibm.fhir.persistence.jdbc.util.CacheUpdater [[CacheUpdater.html]] {
+        {abstract} +commitCacheCandidates(): void
+    }
+
+    com.ibm.fhir.persistence.jdbc.util.CacheUpdater <|- - com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

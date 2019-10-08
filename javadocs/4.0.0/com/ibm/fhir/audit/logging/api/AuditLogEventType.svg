@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="285px" preserveAspectRatio="none" style="width:249px;height:285px;" version="1.1" viewBox="0 0 249 285" width="249px" zoomAndPan="magnify"><defs><filter height="300%" id="f1s2wmgt3k4r7k" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[f6f712394ac281d356a1f8a57ac415f4]
+class com.ibm.fhir.audit.logging.api.AuditLogEventType--><a href="AuditLogEventType.html" target="_top" title="AuditLogEventType.html" xlink:actuate="onRequest" xlink:href="AuditLogEventType.html" xlink:show="new" xlink:title="AuditLogEventType.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1s2wmgt3k4r7k)" height="248.5918" id="com.ibm.fhir.audit.logging.api.AuditLogEventType" style="stroke: #A80036; stroke-width: 1.5;" width="231" x="7" y="7"/><ellipse cx="45.85" cy="26.1328" fill="#EB937F" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M49.4643,32.6328 L41.7445,32.6328 L41.7445,20.2397 L49.4643,20.2397 L49.4643,22.3979 L44.1933,22.3979 L44.1933,25.0708 L48.9662,25.0708 L48.9662,27.229 L44.1933,27.229 L44.1933,30.4746 L49.4643,30.4746 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="132" x="72.15" y="25.5352">AuditLogEventType</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="146" x="65.15" y="38.1563">com.ibm.fhir.audit.logging.api</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="237" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="72" x="27" y="59.9004">FHIR_CREATE</text><ellipse cx="18" cy="69.2207" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="73" x="27" y="72.8555">FHIR_UPDATE</text><ellipse cx="18" cy="82.1758" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="67" x="27" y="85.8105">FHIR_PATCH</text><ellipse cx="18" cy="95.1309" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="69" x="27" y="98.7656">FHIR_DELETE</text><ellipse cx="18" cy="108.0859" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="59" x="27" y="111.7207">FHIR_READ</text><ellipse cx="18" cy="121.041" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="66" x="27" y="124.6758">FHIR_VREAD</text><ellipse cx="18" cy="133.9961" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="77" x="27" y="137.6309">FHIR_HISTORY</text><ellipse cx="18" cy="146.9512" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="73" x="27" y="150.5859">FHIR_SEARCH</text><ellipse cx="18" cy="159.9063" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="72" x="27" y="163.541">FHIR_BUNDLE</text><ellipse cx="18" cy="172.8613" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="83" x="27" y="176.4961">FHIR_VALIDATE</text><ellipse cx="18" cy="185.8164" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="91" x="27" y="189.4512">FHIR_METADATA</text><ellipse cx="18" cy="198.7715" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="103" x="27" y="202.4063">FHIR_CONFIGDATA</text><ellipse cx="18" cy="211.7266" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="93" x="27" y="215.3613">FHIR_OPERATION</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="237" y1="221.6816" y2="221.6816"/><ellipse cx="18" cy="232.6816" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="74" x="27" y="236.3164">value(): String</text><ellipse cx="18" cy="245.6367" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="205" x="27" y="249.2715">fromValue(String): AuditLogEventType</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="31.5" y="272.2598">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[6e7784556148dea9cfe398e85a136844]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    enum "<size:14>AuditLogEventType\n<size:10>com.ibm.fhir.audit.logging.api" as com.ibm.fhir.audit.logging.api.AuditLogEventType [[AuditLogEventType.html]] {
+        {static} +FHIR_CREATE
+        {static} +FHIR_UPDATE
+        {static} +FHIR_PATCH
+        {static} +FHIR_DELETE
+        {static} +FHIR_READ
+        {static} +FHIR_VREAD
+        {static} +FHIR_HISTORY
+        {static} +FHIR_SEARCH
+        {static} +FHIR_BUNDLE
+        {static} +FHIR_VALIDATE
+        {static} +FHIR_METADATA
+        {static} +FHIR_CONFIGDATA
+        {static} +FHIR_OPERATION
+        +value(): String
+        {static} +fromValue(String): AuditLogEventType
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

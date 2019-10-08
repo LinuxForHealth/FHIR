@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="231px" preserveAspectRatio="none" style="width:270px;height:231px;" version="1.1" viewBox="0 0 270 231" width="270px" zoomAndPan="magnify"><defs><filter height="300%" id="f5ll508mmepzo" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[817c13af309ea073a0f551e21ddbfca2]
+class com.ibm.fhir.notification.websocket.impl.FHIRNotificationSubscriberImpl--><a href="FHIRNotificationSubscriberImpl.html" target="_top" title="FHIRNotificationSubscriberImpl.html" xlink:actuate="onRequest" xlink:href="FHIRNotificationSubscriberImpl.html" xlink:show="new" xlink:title="FHIRNotificationSubscriberImpl.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f5ll508mmepzo)" height="71.5469" id="com.ibm.fhir.notification.websocket.impl.FHIRNotificationSubscriberImpl" style="stroke: #A80036; stroke-width: 1.5;" width="253" x="6" y="127"/><ellipse cx="26.4" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M29.3688,151.6094 Q28.7906,151.9063 28.15,152.0469 Q27.5094,152.2031 26.8063,152.2031 Q24.3063,152.2031 22.9781,150.5625 Q21.6656,148.9063 21.6656,145.7813 Q21.6656,142.6563 22.9781,141 Q24.3063,139.3438 26.8063,139.3438 Q27.5094,139.3438 28.15,139.5 Q28.8063,139.6563 29.3688,139.9531 L29.3688,142.6719 Q28.7438,142.0938 28.15,141.8281 Q27.5563,141.5469 26.9313,141.5469 Q25.5875,141.5469 24.9,142.625 Q24.2125,143.6875 24.2125,145.7813 Q24.2125,147.875 24.9,148.9531 Q25.5875,150.0156 26.9313,150.0156 Q27.5563,150.0156 28.15,149.75 Q28.7438,149.4688 29.3688,148.8906 L29.3688,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="209" x="41.6" y="144.9951">FHIRNotificationSubscriberImpl</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="194" x="49.1" y="157.5791">com.ibm.fhir.notification.websocket.impl</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="258" y1="164.9375" y2="164.9375"/><ellipse cx="17" cy="175.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="227" x="26" y="179.1479">FHIRNotificationSubscriberImpl(Session)</text><ellipse cx="17" cy="188.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="188" x="26" y="191.9526">notify(FHIRNotificationEvent): void</text></a><!--MD5=[2e5ad173f9550cc0bb85af14670d51fa]
+class com.ibm.fhir.notification.FHIRNotificationSubscriber--><a href="../../FHIRNotificationSubscriber.html" target="_top" title="../../FHIRNotificationSubscriber.html" xlink:actuate="onRequest" xlink:href="../../FHIRNotificationSubscriber.html" xlink:show="new" xlink:title="../../FHIRNotificationSubscriber.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f5ll508mmepzo)" height="58.7422" id="com.ibm.fhir.notification.FHIRNotificationSubscriber" style="stroke: #A80036; stroke-width: 1.5;" width="214" x="25.5" y="8"/><ellipse cx="40.95" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M36.8719,22.7344 L36.8719,20.5781 L44.2625,20.5781 L44.2625,22.7344 L41.7938,22.7344 L41.7938,30.8125 L44.2625,30.8125 L44.2625,32.9688 L36.8719,32.9688 L36.8719,30.8125 L39.3406,30.8125 L39.3406,22.7344 L36.8719,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="181" x="55.05" y="25.9951">FHIRNotificationSubscriber</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="117" x="87.05" y="38.5791">com.ibm.fhir.notification</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="26.5" x2="238.5" y1="45.9375" y2="45.9375"/><ellipse cx="36.5" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="188" x="45.5" y="60.1479">notify(FHIRNotificationEvent): void</text></a><!--MD5=[9e248e0cb0629576cc744715f90745ab]
+reverse link com.ibm.fhir.notification.FHIRNotificationSubscriber to com.ibm.fhir.notification.websocket.impl.FHIRNotificationSubscriberImpl--><path d="M132.5,87.5049 C132.5,100.6211 132.5,114.5128 132.5,126.7555 " fill="none" id="com.ibm.fhir.notification.FHIRNotificationSubscriber&lt;-com.ibm.fhir.notification.websocket.impl.FHIRNotificationSubscriberImpl" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="125.5001,87.2418,132.5,67.2417,139.5001,87.2417,125.5001,87.2418" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="45.5" y="218.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[7ddc551ba56c748510ffc1f47dc58672]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRNotificationSubscriberImpl\n<size:10>com.ibm.fhir.notification.websocket.impl" as com.ibm.fhir.notification.websocket.impl.FHIRNotificationSubscriberImpl [[FHIRNotificationSubscriberImpl.html]] {
+        +FHIRNotificationSubscriberImpl(Session)
+        +notify(FHIRNotificationEvent): void
+    }
+
+    interface "<size:14>FHIRNotificationSubscriber\n<size:10>com.ibm.fhir.notification" as com.ibm.fhir.notification.FHIRNotificationSubscriber [[../../FHIRNotificationSubscriber.html]] {
+        {abstract} +notify(FHIRNotificationEvent): void
+    }
+
+    com.ibm.fhir.notification.FHIRNotificationSubscriber <|.. com.ibm.fhir.notification.websocket.impl.FHIRNotificationSubscriberImpl
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.7+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

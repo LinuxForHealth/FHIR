@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="108px" preserveAspectRatio="none" style="width:447px;height:108px;" version="1.1" viewBox="0 0 447 108" width="447px" zoomAndPan="magnify"><defs><filter height="300%" id="f1psk5sgqoxx9i" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[995a14c6a2b11f7109a6f3eb06a9cc42]
+class com.ibm.fhir.persistence.jdbc.util.UriModifierUtil--><a href="UriModifierUtil.html" target="_top" title="UriModifierUtil.html" xlink:actuate="onRequest" xlink:href="UriModifierUtil.html" xlink:show="new" xlink:title="UriModifierUtil.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1psk5sgqoxx9i)" height="71.5469" id="com.ibm.fhir.persistence.jdbc.util.UriModifierUtil" style="stroke: #A80036; stroke-width: 1.5;" width="429" x="7" y="7"/><ellipse cx="138.25" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M141.2188,31.6094 Q140.6406,31.9063 140,32.0469 Q139.3594,32.2031 138.6563,32.2031 Q136.1563,32.2031 134.8281,30.5625 Q133.5156,28.9063 133.5156,25.7813 Q133.5156,22.6563 134.8281,21 Q136.1563,19.3438 138.6563,19.3438 Q139.3594,19.3438 140,19.5 Q140.6563,19.6563 141.2188,19.9531 L141.2188,22.6719 Q140.5938,22.0938 140,21.8281 Q139.4063,21.5469 138.7813,21.5469 Q137.4375,21.5469 136.75,22.625 Q136.0625,23.6875 136.0625,25.7813 Q136.0625,27.875 136.75,28.9531 Q137.4375,30.0156 138.7813,30.0156 Q139.4063,30.0156 140,29.75 Q140.5938,29.4688 141.2188,28.8906 L141.2188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="93" x="191.25" y="24.9951">UriModifierUtil</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="158" x="158.75" y="37.5791">com.ibm.fhir.persistence.jdbc.util</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="435" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="403" x="27" y="59.1479">generateAboveValuesQuery(String, StringBuilder, String): List&lt;String&gt;</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="312" x="27" y="71.9526">generateBelowValuesQuery(StringBuilder, String): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="128.5" y="94.8291">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[d267b03c478a92f9d639c0d65ad0563d]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>UriModifierUtil\n<size:10>com.ibm.fhir.persistence.jdbc.util" as com.ibm.fhir.persistence.jdbc.util.UriModifierUtil [[UriModifierUtil.html]] {
+        {static} +generateAboveValuesQuery(String, StringBuilder, String): List<String>
+        {static} +generateBelowValuesQuery(StringBuilder, String): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.6+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

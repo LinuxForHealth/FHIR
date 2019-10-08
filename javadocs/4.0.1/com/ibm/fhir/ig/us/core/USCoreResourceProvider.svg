@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="219px" preserveAspectRatio="none" style="width:320px;height:219px;" version="1.1" viewBox="0 0 320 219" width="320px" zoomAndPan="magnify"><defs><filter height="300%" id="fpx74n4rissv0" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[03c019b15b161a673501ad9b7a1c0510]
+class com.ibm.fhir.ig.us.core.USCoreResourceProvider--><a href="USCoreResourceProvider.html" target="_top" title="USCoreResourceProvider.html" xlink:actuate="onRequest" xlink:href="USCoreResourceProvider.html" xlink:show="new" xlink:title="USCoreResourceProvider.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fpx74n4rissv0)" height="59.2207" id="com.ibm.fhir.ig.us.core.USCoreResourceProvider" style="stroke: #A80036; stroke-width: 1.5;" width="303" x="6" y="127"/><ellipse cx="67.75" cy="146.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M70.2231,152.2759 Q69.6421,152.5747 69.0029,152.7241 Q68.3638,152.8735 67.6582,152.8735 Q65.1514,152.8735 63.8315,151.2217 Q62.5117,149.5698 62.5117,146.4487 Q62.5117,143.3193 63.8315,141.6675 Q65.1514,140.0156 67.6582,140.0156 Q68.3638,140.0156 69.0112,140.165 Q69.6587,140.3145 70.2231,140.6133 L70.2231,143.3359 Q69.5923,142.7549 68.9988,142.4851 Q68.4053,142.2153 67.7744,142.2153 Q66.4297,142.2153 65.7449,143.282 Q65.0601,144.3486 65.0601,146.4487 Q65.0601,148.5405 65.7449,149.6072 Q66.4297,150.6738 67.7744,150.6738 Q68.4053,150.6738 68.9988,150.4041 Q69.5923,150.1343 70.2231,149.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="171" x="88.25" y="145.5352">USCoreResourceProvider</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="111" x="118.25" y="158.1563">com.ibm.fhir.ig.us.core</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="308" y1="165.2656" y2="165.2656"/><ellipse cx="17" cy="176.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="277" x="26" y="179.9004">getResources(): Collection&lt;FHIRRegistryResource&gt;</text></a><!--MD5=[509afb3451867307ebbf23388aa0004a]
+class com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider--><a href="../../../registry/spi/FHIRRegistryResourceProvider.html" target="_top" title="../../../registry/spi/FHIRRegistryResourceProvider.html" xlink:actuate="onRequest" xlink:href="../../../registry/spi/FHIRRegistryResourceProvider.html" xlink:show="new" xlink:title="../../../registry/spi/FHIRRegistryResourceProvider.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fpx74n4rissv0)" height="59.2207" id="com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider" style="stroke: #A80036; stroke-width: 1.5;" width="303" x="6" y="8"/><ellipse cx="50.25" cy="27.1328" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M46.6777,23.3979 L46.6777,21.2397 L54.0571,21.2397 L54.0571,23.3979 L51.5918,23.3979 L51.5918,31.4746 L54.0571,31.4746 L54.0571,33.6328 L46.6777,33.6328 L46.6777,31.4746 L49.1431,31.4746 L49.1431,23.3979 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="206" x="70.75" y="26.5352">FHIRRegistryResourceProvider</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="118" x="114.75" y="39.1563">com.ibm.fhir.registry.spi</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="308" y1="46.2656" y2="46.2656"/><ellipse cx="17" cy="57.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="277" x="26" y="60.9004">getResources(): Collection&lt;FHIRRegistryResource&gt;</text></a><!--MD5=[33ddcf61a7a0f6c85d30d32d5fce65d0]
+reverse link com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider to com.ibm.fhir.ig.us.core.USCoreResourceProvider--><path d="M157.5,87.3288 C157.5,100.7348 157.5,114.8139 157.5,126.7447 " fill="none" id="com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider&lt;-com.ibm.fhir.ig.us.core.USCoreResourceProvider" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="150.5001,87.2218,157.5,67.2218,164.5001,87.2217,150.5001,87.2218" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="72.5" y="205.668">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[4a0117d7076060de6d99de9bdeff96ee]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>USCoreResourceProvider\n<size:10>com.ibm.fhir.ig.us.core" as com.ibm.fhir.ig.us.core.USCoreResourceProvider [[USCoreResourceProvider.html]] {
+        +getResources(): Collection<FHIRRegistryResource>
+    }
+
+    interface "<size:14>FHIRRegistryResourceProvider\n<size:10>com.ibm.fhir.registry.spi" as com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider [[../../../registry/spi/FHIRRegistryResourceProvider.html]] {
+        {abstract} +getResources(): Collection<FHIRRegistryResource>
+    }
+
+    com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider <|.. com.ibm.fhir.ig.us.core.USCoreResourceProvider
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

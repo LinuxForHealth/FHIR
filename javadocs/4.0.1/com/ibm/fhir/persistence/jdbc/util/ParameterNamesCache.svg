@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="187px" preserveAspectRatio="none" style="width:353px;height:187px;" version="1.1" viewBox="0 0 353 187" width="353px" zoomAndPan="magnify"><defs><filter height="300%" id="fiex3dbruc0kb" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[86b2fb13ce75d10279ff48a3d4b86778]
+class com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache--><a href="ParameterNamesCache.html" target="_top" title="ParameterNamesCache.html" xlink:actuate="onRequest" xlink:href="ParameterNamesCache.html" xlink:show="new" xlink:title="ParameterNamesCache.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fiex3dbruc0kb)" height="149.9063" id="com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache" style="stroke: #A80036; stroke-width: 1.5;" width="335" x="7" y="7"/><ellipse cx="89.25" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M91.7231,32.2759 Q91.1421,32.5747 90.5029,32.7241 Q89.8638,32.8735 89.1582,32.8735 Q86.6514,32.8735 85.3315,31.2217 Q84.0117,29.5698 84.0117,26.4487 Q84.0117,23.3193 85.3315,21.6675 Q86.6514,20.0156 89.1582,20.0156 Q89.8638,20.0156 90.5112,20.165 Q91.1587,20.3145 91.7231,20.6133 L91.7231,23.3359 Q91.0923,22.7549 90.4988,22.4851 Q89.9053,22.2153 89.2744,22.2153 Q87.9297,22.2153 87.2449,23.282 Q86.5601,24.3486 86.5601,26.4487 Q86.5601,28.5405 87.2449,29.6072 Q87.9297,30.6738 89.2744,30.6738 Q89.9053,30.6738 90.4988,30.4041 Q91.0923,30.1343 91.7231,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="158" x="111.75" y="25.5352">ParameterNamesCache</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="162" x="109.75" y="38.1563">com.ibm.fhir.persistence.jdbc.util</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="341" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="195" x="27" y="59.9004">getParameterNameId(String): Integer</text><ellipse cx="18" cy="69.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="263" x="27" y="72.8555">putParameterNameId(String, String, Integer): void</text><ellipse cx="18" cy="82.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="309" x="27" y="85.8105">putParameterNameIds(String, Map&lt;String, Integer&gt;): void</text><ellipse cx="18" cy="95.1309" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="233" x="27" y="98.7656">getCacheNameForTenantDatastore(): String</text><ellipse cx="18" cy="108.0859" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="159" x="27" y="111.7207">dumpCacheContents(): String</text><ellipse cx="18" cy="121.041" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="267" x="27" y="124.6758">reportCacheDiscrepancies(ParameterDAO): String</text><ellipse cx="18" cy="133.9961" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="108" x="27" y="137.6309">isEnabled(): boolean</text><ellipse cx="18" cy="146.9512" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="138" x="27" y="150.5859">setEnabled(boolean): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="83.5" y="173.5742">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[12d14ad6f7ee3917c14e60c21116cf46]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ParameterNamesCache\n<size:10>com.ibm.fhir.persistence.jdbc.util" as com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache [[ParameterNamesCache.html]] {
+        {static} +getParameterNameId(String): Integer
+        {static} +putParameterNameId(String, String, Integer): void
+        {static} +putParameterNameIds(String, Map<String, Integer>): void
+        {static} +getCacheNameForTenantDatastore(): String
+        {static} +dumpCacheContents(): String
+        {static} +reportCacheDiscrepancies(ParameterDAO): String
+        {static} +isEnabled(): boolean
+        {static} +setEnabled(boolean): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

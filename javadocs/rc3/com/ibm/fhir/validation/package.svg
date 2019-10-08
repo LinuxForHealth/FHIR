@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="218px" preserveAspectRatio="none" style="width:392px;height:218px;" version="1.1" viewBox="0 0 392 218" width="392px" zoomAndPan="magnify"><defs><filter height="300%" id="fjjrd1qfzy2eo" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--cluster com.ibm.fhir.validation--><polygon fill="#FFFFFF" filter="url(#fjjrd1qfzy2eo)" points="14,16,185,16,192,38.4883,370,38.4883,370,177,14,177,14,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="192" y1="38.4883" y2="38.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="165" x="18" y="31.5352">com.ibm.fhir.validation</text><!--class com.ibm.fhir.validation.FHIRValidator--><a href="FHIRValidator.html" target="_top" xlink:actuate="onRequest" xlink:show="new" xlink:title="FHIRValidator.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fjjrd1qfzy2eo)" height="125.7305" id="com.ibm.fhir.validation.FHIRValidator" style="stroke: #A80036; stroke-width: 1.5;" width="340" x="22" y="43"/><ellipse cx="148.75" cy="59" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M151.2231,65.1431 Q150.6421,65.4419 150.0029,65.5913 Q149.3638,65.7407 148.6582,65.7407 Q146.1514,65.7407 144.8315,64.0889 Q143.5117,62.437 143.5117,59.3159 Q143.5117,56.1865 144.8315,54.5347 Q146.1514,52.8828 148.6582,52.8828 Q149.3638,52.8828 150.0112,53.0322 Q150.6587,53.1816 151.2231,53.4805 L151.2231,56.2031 Q150.5923,55.6221 149.9988,55.3523 Q149.4053,55.0825 148.7744,55.0825 Q147.4297,55.0825 146.7449,56.1492 Q146.0601,57.2158 146.0601,59.3159 Q146.0601,61.4077 146.7449,62.4744 Q147.4297,63.541 148.7744,63.541 Q149.4053,63.541 149.9988,63.2712 Q150.5923,63.0015 151.2231,62.4204 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="78" x="169.25" y="63.5352">FHIRValidator</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="361" y1="75" y2="75"/><ellipse cx="33" cy="86.9775" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="85" x="42" y="89.6348">DEBUG: boolean</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="361" y1="95.9551" y2="95.9551"/><ellipse cx="33" cy="107.9326" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="217" x="42" y="110.5898">validate(Resource, String...): List&lt;Issue&gt;</text><ellipse cx="33" cy="120.8877" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="266" x="42" y="123.5449">validate(Resource, boolean, String...): List&lt;Issue&gt;</text><ellipse cx="33" cy="133.8428" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="265" x="42" y="136.5">validate(EvaluationContext, String...): List&lt;Issue&gt;</text><ellipse cx="33" cy="146.7979" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="314" x="42" y="149.4551">validate(EvaluationContext, boolean, String...): List&lt;Issue&gt;</text><ellipse cx="33" cy="159.7529" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="133" x="42" y="162.4102">validator(): FHIRValidator</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="107" y="204.668">UMLDoclet 2.0.5, PlantUML 1.2019.08</text><!--
+@startuml
+    namespace com.ibm.fhir.validation {
+
+        class FHIRValidator [[FHIRValidator.html]] {
+            {static} +DEBUG: boolean
+            +validate(Resource, String...): List<Issue>
+            +validate(Resource, boolean, String...): List<Issue>
+            +validate(EvaluationContext, String...): List<Issue>
+            +validate(EvaluationContext, boolean, String...): List<Issue>
+            {static} +validator(): FHIRValidator
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.5, PlantUML 1.2019.08
+@enduml
+
+PlantUML version 1.2019.08(Sat Jul 13 15:25:14 EDT 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+OS Version: 10.14.6
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="231px" preserveAspectRatio="none" style="width:226px;height:231px;" version="1.1" viewBox="0 0 226 231" width="226px" zoomAndPan="magnify"><defs><filter height="300%" id="fzy08tk406opi" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[59517a1c75bf254fcfa1d919925fe2c9]
+class com.ibm.fhir.database.utils.common.LogFormatter--><a href="LogFormatter.html" target="_top" title="LogFormatter.html" xlink:actuate="onRequest" xlink:href="LogFormatter.html" xlink:show="new" xlink:title="LogFormatter.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fzy08tk406opi)" height="71.5469" id="com.ibm.fhir.database.utils.common.LogFormatter" style="stroke: #A80036; stroke-width: 1.5;" width="209" x="6" y="127"/><ellipse cx="21" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M23.9688,151.6094 Q23.3906,151.9063 22.75,152.0469 Q22.1094,152.2031 21.4063,152.2031 Q18.9063,152.2031 17.5781,150.5625 Q16.2656,148.9063 16.2656,145.7813 Q16.2656,142.6563 17.5781,141 Q18.9063,139.3438 21.4063,139.3438 Q22.1094,139.3438 22.75,139.5 Q23.4063,139.6563 23.9688,139.9531 L23.9688,142.6719 Q23.3438,142.0938 22.75,141.8281 Q22.1563,141.5469 21.5313,141.5469 Q20.1875,141.5469 19.5,142.625 Q18.8125,143.6875 18.8125,145.7813 Q18.8125,147.875 19.5,148.9531 Q20.1875,150.0156 21.5313,150.0156 Q22.1563,150.0156 22.75,149.75 Q23.3438,149.4688 23.9688,148.8906 L23.9688,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="92" x="77.5" y="144.9951">LogFormatter</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="177" x="35" y="157.5791">com.ibm.fhir.database.utils.common</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="214" y1="164.9375" y2="164.9375"/><ellipse cx="17" cy="175.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="147" x="26" y="179.1479">format(LogRecord): String</text><ellipse cx="17" cy="188.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="90" x="26" y="191.9526">init(String): void</text></a><!--MD5=[675e0b8b543756757eccc83d4e06d1c4]
+class java.util.logging.Formatter--><a href="https://docs.oracle.com/javase/8/docs/api/java/util/logging/Formatter.html?is-external=true" target="_top" title="https://docs.oracle.com/javase/8/docs/api/java/util/logging/Formatter.html?is-external=true" xlink:actuate="onRequest" xlink:href="https://docs.oracle.com/javase/8/docs/api/java/util/logging/Formatter.html?is-external=true" xlink:show="new" xlink:title="https://docs.oracle.com/javase/8/docs/api/java/util/logging/Formatter.html?is-external=true" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fzy08tk406opi)" height="58.7422" id="java.util.logging.Formatter" style="stroke: #A80036; stroke-width: 1.5;" width="173" x="24" y="8"/><ellipse cx="69.25" cy="26.9688" fill="#A9DCDF" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M69.3594,22.3125 L68.2031,27.3906 L70.5313,27.3906 L69.3594,22.3125 Z M67.875,20.0781 L70.8594,20.0781 L74.2188,32.4688 L71.7656,32.4688 L71,29.4063 L67.7188,29.4063 L66.9688,32.4688 L64.5313,32.4688 L67.875,20.0781 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="67" x="93.25" y="25.9951">Formatter</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="89.75" y="38.5791">java.util.logging</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="25" x2="196" y1="45.9375" y2="45.9375"/><ellipse cx="35" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="147" x="44" y="60.1479">format(LogRecord): String</text></a><!--MD5=[153bfd44b94ae29ef9cacbe92092f8a1]
+reverse link java.util.logging.Formatter to com.ibm.fhir.database.utils.common.LogFormatter--><path d="M110.5,87.5049 C110.5,100.6211 110.5,114.5128 110.5,126.7555 " fill="none" id="java.util.logging.Formatter&lt;-com.ibm.fhir.database.utils.common.LogFormatter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="103.5001,87.2418,110.5,67.2417,117.5001,87.2417,103.5001,87.2418" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="23.5" y="218.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[3d0f1bed9d4f3c1166b02c1205e78eb5]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>LogFormatter\n<size:10>com.ibm.fhir.database.utils.common" as com.ibm.fhir.database.utils.common.LogFormatter [[LogFormatter.html]] {
+        +format(LogRecord): String
+        {static} +init(String): void
+    }
+
+    abstract class "<size:14>Formatter\n<size:10>java.util.logging" as java.util.logging.Formatter [[https://docs.oracle.com/javase/8/docs/api/java/util/logging/Formatter.html?is-external=true]] {
+        {abstract} +format(LogRecord): String
+    }
+
+    java.util.logging.Formatter <|- - com.ibm.fhir.database.utils.common.LogFormatter
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

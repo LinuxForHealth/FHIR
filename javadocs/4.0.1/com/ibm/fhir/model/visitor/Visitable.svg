@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="122px" preserveAspectRatio="none" style="width:209px;height:122px;" version="1.1" viewBox="0 0 209 122" width="209px" zoomAndPan="magnify"><defs><filter height="300%" id="fuibkceq4nw99" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[bd619ca2cc2b470971b08d710b8cc585]
+class com.ibm.fhir.model.visitor.Visitable--><a href="Visitable.html" target="_top" title="Visitable.html" xlink:actuate="onRequest" xlink:href="Visitable.html" xlink:show="new" xlink:title="Visitable.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fuibkceq4nw99)" height="85.1309" id="com.ibm.fhir.model.visitor.Visitable" style="stroke: #A80036; stroke-width: 1.5;" width="191" x="7" y="7"/><ellipse cx="36.4" cy="26.1328" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M32.8277,22.3979 L32.8277,20.2397 L40.2071,20.2397 L40.2071,22.3979 L37.7418,22.3979 L37.7418,30.4746 L40.2071,30.4746 L40.2071,32.6328 L32.8277,32.6328 L32.8277,30.4746 L35.2931,30.4746 L35.2931,22.3979 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="58" x="88.1" y="25.5352">Visitable</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="127" x="53.6" y="38.1563">com.ibm.fhir.model.visitor</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="197" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="165" x="27" y="59.9004">accept(String, int, Visitor): void</text><ellipse cx="18" cy="69.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="145" x="27" y="72.8555">accept(String, Visitor): void</text><ellipse cx="18" cy="82.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="107" x="27" y="85.8105">accept(Visitor): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="11.5" y="108.7988">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[13f50ad0b3049cf70a201c858d3c102a]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    interface "<size:14>Visitable\n<size:10>com.ibm.fhir.model.visitor" as com.ibm.fhir.model.visitor.Visitable [[Visitable.html]] {
+        {abstract} +accept(String, int, Visitor): void
+        +accept(String, Visitor): void
+        +accept(Visitor): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="232px" preserveAspectRatio="none" style="width:305px;height:232px;" version="1.1" viewBox="0 0 305 232" width="305px" zoomAndPan="magnify"><defs><filter height="300%" id="fczw2pab3o66t" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[013a24eae91696482d848bb7794a8cf0]
+class com.ibm.fhir.database.utils.version.AddVersionDAO--><a href="AddVersionDAO.html" target="_top" title="AddVersionDAO.html" xlink:actuate="onRequest" xlink:href="AddVersionDAO.html" xlink:show="new" xlink:title="AddVersionDAO.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fczw2pab3o66t)" height="72.1758" id="com.ibm.fhir.database.utils.version.AddVersionDAO" style="stroke: #A80036; stroke-width: 1.5;" width="288" x="6" y="127"/><ellipse cx="60.25" cy="146.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M62.7231,152.2759 Q62.1421,152.5747 61.5029,152.7241 Q60.8638,152.8735 60.1582,152.8735 Q57.6514,152.8735 56.3315,151.2217 Q55.0117,149.5698 55.0117,146.4487 Q55.0117,143.3193 56.3315,141.6675 Q57.6514,140.0156 60.1582,140.0156 Q60.8638,140.0156 61.5112,140.165 Q62.1587,140.3145 62.7231,140.6133 L62.7231,143.3359 Q62.0923,142.7549 61.4988,142.4851 Q60.9053,142.2153 60.2744,142.2153 Q58.9297,142.2153 58.2449,143.282 Q57.5601,144.3486 57.5601,146.4487 Q57.5601,148.5405 58.2449,149.6072 Q58.9297,150.6738 60.2744,150.6738 Q60.9053,150.6738 61.4988,150.4041 Q62.0923,150.1343 62.7231,149.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="111" x="110.75" y="145.5352">AddVersionDAO</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="171" x="80.75" y="158.1563">com.ibm.fhir.database.utils.version</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="293" y1="165.2656" y2="165.2656"/><ellipse cx="17" cy="176.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="262" x="26" y="179.9004">AddVersionDAO(String, String, String, String, int)</text><ellipse cx="17" cy="189.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="232" x="26" y="192.8555">run(IDatabaseTranslator, Connection): void</text></a><!--MD5=[a6c3f5e8fad2a12b9c0e8873425ea717]
+class com.ibm.fhir.database.utils.api.IDatabaseStatement--><a href="../api/IDatabaseStatement.html" target="_top" title="../api/IDatabaseStatement.html" xlink:actuate="onRequest" xlink:href="../api/IDatabaseStatement.html" xlink:show="new" xlink:title="../api/IDatabaseStatement.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fczw2pab3o66t)" height="59.2207" id="com.ibm.fhir.database.utils.api.IDatabaseStatement" style="stroke: #A80036; stroke-width: 1.5;" width="258" x="21" y="8"/><ellipse cx="70.25" cy="27.1328" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M66.6777,23.3979 L66.6777,21.2397 L74.0571,21.2397 L74.0571,23.3979 L71.5918,23.3979 L71.5918,31.4746 L74.0571,31.4746 L74.0571,33.6328 L66.6777,33.6328 L66.6777,31.4746 L69.1431,31.4746 L69.1431,23.3979 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="136" x="98.25" y="26.5352">IDatabaseStatement</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="151" x="90.75" y="39.1563">com.ibm.fhir.database.utils.api</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="22" x2="278" y1="46.2656" y2="46.2656"/><ellipse cx="32" cy="57.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="232" x="41" y="60.9004">run(IDatabaseTranslator, Connection): void</text></a><!--MD5=[da8bea10e46020ac84807ea64e289e25]
+reverse link com.ibm.fhir.database.utils.api.IDatabaseStatement to com.ibm.fhir.database.utils.version.AddVersionDAO--><path d="M150,87.5049 C150,100.6211 150,114.5128 150,126.7555 " fill="none" id="com.ibm.fhir.database.utils.api.IDatabaseStatement&lt;-com.ibm.fhir.database.utils.version.AddVersionDAO" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="143.0001,87.2418,150,67.2417,157.0001,87.2417,143.0001,87.2418" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="65" y="218.668">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[b00be819c15177da6f2d8d876f5e3743]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>AddVersionDAO\n<size:10>com.ibm.fhir.database.utils.version" as com.ibm.fhir.database.utils.version.AddVersionDAO [[AddVersionDAO.html]] {
+        +AddVersionDAO(String, String, String, String, int)
+        +run(IDatabaseTranslator, Connection): void
+    }
+
+    interface "<size:14>IDatabaseStatement\n<size:10>com.ibm.fhir.database.utils.api" as com.ibm.fhir.database.utils.api.IDatabaseStatement [[../api/IDatabaseStatement.html]] {
+        {abstract} +run(IDatabaseTranslator, Connection): void
+    }
+
+    com.ibm.fhir.database.utils.api.IDatabaseStatement <|.. com.ibm.fhir.database.utils.version.AddVersionDAO
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

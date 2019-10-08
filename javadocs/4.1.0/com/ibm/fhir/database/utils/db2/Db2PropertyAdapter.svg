@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="210px" preserveAspectRatio="none" style="width:232px;height:210px;" version="1.1" viewBox="0 0 232 210" width="232px" zoomAndPan="magnify"><defs><filter height="300%" id="f1t54ofgklfkjn" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[ecbac1c7a1c870195563901d5dec07d4]
+class com.ibm.fhir.database.utils.db2.Db2PropertyAdapter--><a href="Db2PropertyAdapter.html" target="_top" title="Db2PropertyAdapter.html" xlink:actuate="onRequest" xlink:href="Db2PropertyAdapter.html" xlink:show="new" xlink:title="Db2PropertyAdapter.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1t54ofgklfkjn)" height="71.5469" id="com.ibm.fhir.database.utils.db2.Db2PropertyAdapter" style="stroke: #A80036; stroke-width: 1.5;" width="215" x="6" y="106"/><ellipse cx="34.95" cy="124.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M37.9188,130.6094 Q37.3406,130.9063 36.7,131.0469 Q36.0594,131.2031 35.3563,131.2031 Q32.8563,131.2031 31.5281,129.5625 Q30.2156,127.9063 30.2156,124.7813 Q30.2156,121.6563 31.5281,120 Q32.8563,118.3438 35.3563,118.3438 Q36.0594,118.3438 36.7,118.5 Q37.3563,118.6563 37.9188,118.9531 L37.9188,121.6719 Q37.2938,121.0938 36.7,120.8281 Q36.1063,120.5469 35.4813,120.5469 Q34.1375,120.5469 33.45,121.625 Q32.7625,122.6875 32.7625,124.7813 Q32.7625,126.875 33.45,127.9531 Q34.1375,129.0156 35.4813,129.0156 Q36.1063,129.0156 36.7,128.75 Q37.2938,128.4688 37.9188,127.8906 L37.9188,130.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="141" x="57.55" y="123.9951">Db2PropertyAdapter</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="152" x="52.05" y="136.5791">com.ibm.fhir.database.utils.db2</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="220" y1="143.9375" y2="143.9375"/><ellipse cx="17" cy="154.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="181" x="26" y="158.1479">Db2PropertyAdapter(Properties)</text><ellipse cx="17" cy="167.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="189" x="26" y="170.9526">fillIAMProperties(Properties): void</text></a><!--MD5=[be7fe6a871a85ad1a6ff8e970ad02e8f]
+class com.ibm.fhir.database.utils.common.JdbcPropertyAdapter--><a href="../common/JdbcPropertyAdapter.html" target="_top" title="../common/JdbcPropertyAdapter.html" xlink:actuate="onRequest" xlink:href="../common/JdbcPropertyAdapter.html" xlink:show="new" xlink:title="../common/JdbcPropertyAdapter.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1t54ofgklfkjn)" height="37.9375" id="com.ibm.fhir.database.utils.common.JdbcPropertyAdapter" style="stroke: #A80036; stroke-width: 1.5;" width="209" x="9" y="8"/><ellipse cx="24" cy="26.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M26.9688,32.6094 Q26.3906,32.9063 25.75,33.0469 Q25.1094,33.2031 24.4063,33.2031 Q21.9063,33.2031 20.5781,31.5625 Q19.2656,29.9063 19.2656,26.7813 Q19.2656,23.6563 20.5781,22 Q21.9063,20.3438 24.4063,20.3438 Q25.1094,20.3438 25.75,20.5 Q26.4063,20.6563 26.9688,20.9531 L26.9688,23.6719 Q26.3438,23.0938 25.75,22.8281 Q25.1563,22.5469 24.5313,22.5469 Q23.1875,22.5469 22.5,23.625 Q21.8125,24.6875 21.8125,26.7813 Q21.8125,28.875 22.5,29.9531 Q23.1875,31.0156 24.5313,31.0156 Q25.1563,31.0156 25.75,30.75 Q26.3438,30.4688 26.9688,29.8906 L26.9688,32.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="141" x="56" y="25.9951">JdbcPropertyAdapter</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="177" x="38" y="38.5791">com.ibm.fhir.database.utils.common</text></a><!--MD5=[31b4ad782df689ef7508f78221e690cb]
+reverse link com.ibm.fhir.database.utils.common.JdbcPropertyAdapter to com.ibm.fhir.database.utils.db2.Db2PropertyAdapter--><path d="M113.5,66.5888 C113.5,79.3573 113.5,93.4348 113.5,105.935 " fill="none" id="com.ibm.fhir.database.utils.common.JdbcPropertyAdapter&lt;-com.ibm.fhir.database.utils.db2.Db2PropertyAdapter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="106.5001,66.2484,113.5,46.2484,120.5001,66.2484,106.5001,66.2484" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="26.5" y="197.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[aef0f06b20881581b6e9beac692e3072]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>Db2PropertyAdapter\n<size:10>com.ibm.fhir.database.utils.db2" as com.ibm.fhir.database.utils.db2.Db2PropertyAdapter [[Db2PropertyAdapter.html]] {
+        +Db2PropertyAdapter(Properties)
+        +fillIAMProperties(Properties): void
+    }
+
+    class "<size:14>JdbcPropertyAdapter\n<size:10>com.ibm.fhir.database.utils.common" as com.ibm.fhir.database.utils.common.JdbcPropertyAdapter [[../common/JdbcPropertyAdapter.html]]
+
+    com.ibm.fhir.database.utils.common.JdbcPropertyAdapter <|- - com.ibm.fhir.database.utils.db2.Db2PropertyAdapter
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.6+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

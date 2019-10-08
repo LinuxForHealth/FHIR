@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="135px" preserveAspectRatio="none" style="width:258px;height:135px;" version="1.1" viewBox="0 0 258 135" width="258px" zoomAndPan="magnify"><defs><filter height="300%" id="f1qcclu2ym3evd" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[11309176d3d679fdb8799d74ff9f6f53]
+class com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry--><a href="FHIRPathFunctionRegistry.html" target="_top" title="FHIRPathFunctionRegistry.html" xlink:actuate="onRequest" xlink:href="FHIRPathFunctionRegistry.html" xlink:show="new" xlink:title="FHIRPathFunctionRegistry.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1qcclu2ym3evd)" height="98.0859" id="com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry" style="stroke: #A80036; stroke-width: 1.5;" width="240" x="7" y="7"/><ellipse cx="36.4" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M38.8731,32.2759 Q38.2921,32.5747 37.6529,32.7241 Q37.0138,32.8735 36.3082,32.8735 Q33.8014,32.8735 32.4815,31.2217 Q31.1617,29.5698 31.1617,26.4487 Q31.1617,23.3193 32.4815,21.6675 Q33.8014,20.0156 36.3082,20.0156 Q37.0138,20.0156 37.6612,20.165 Q38.3087,20.3145 38.8731,20.6133 L38.8731,23.3359 Q38.2423,22.7549 37.6488,22.4851 Q37.0553,22.2153 36.4244,22.2153 Q35.0797,22.2153 34.3949,23.282 Q33.7101,24.3486 33.7101,26.4487 Q33.7101,28.5405 34.3949,29.6072 Q35.0797,30.6738 36.4244,30.6738 Q37.0553,30.6738 37.6488,30.4041 Q38.2423,30.1343 38.8731,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="176" x="53.6" y="25.5352">FHIRPathFunctionRegistry</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="169" x="57.1" y="38.1563">com.ibm.fhir.path.function.registry</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="246" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="214" x="27" y="59.9004">getInstance(): FHIRPathFunctionRegistry</text><ellipse cx="18" cy="69.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="173" x="27" y="72.8555">register(FHIRPathFunction): void</text><ellipse cx="18" cy="82.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="204" x="27" y="85.8105">getFunction(String): FHIRPathFunction</text><ellipse cx="18" cy="95.1309" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="180" x="27" y="98.7656">getFunctionNames(): Set&lt;String&gt;</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="36" y="121.7539">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[1c23e5bad2bdc2e7601d8baca08fa7ec]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRPathFunctionRegistry\n<size:10>com.ibm.fhir.path.function.registry" as com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry [[FHIRPathFunctionRegistry.html]] {
+        {static} +getInstance(): FHIRPathFunctionRegistry
+        +register(FHIRPathFunction): void
+        +getFunction(String): FHIRPathFunction
+        +getFunctionNames(): Set<String>
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

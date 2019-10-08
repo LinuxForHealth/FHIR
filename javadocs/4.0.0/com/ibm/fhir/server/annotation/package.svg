@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="140px" preserveAspectRatio="none" style="width:270px;height:140px;" version="1.1" viewBox="0 0 270 140" width="270px" zoomAndPan="magnify"><defs><filter height="300%" id="f6m8fu6jaw09x" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[17bd84b2556ea13c176f69ae2d4fa08b]
+cluster com.ibm.fhir.server.annotation--><polygon fill="#FFFFFF" filter="url(#f6m8fu6jaw09x)" points="14,16,238,16,245,38.4883,248,38.4883,248,99,14,99,14,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="245" y1="38.4883" y2="38.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="218" x="18" y="31.5352">com.ibm.fhir.server.annotation</text><!--MD5=[cbaf24864e53df080a25cb2a88026cea]
+class com.ibm.fhir.server.annotation.PATCH--><a href="PATCH.html" target="_top" title="PATCH.html" xlink:actuate="onRequest" xlink:href="PATCH.html" xlink:show="new" xlink:title="PATCH.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f6m8fu6jaw09x)" height="48" id="com.ibm.fhir.server.annotation.PATCH" style="stroke: #A80036; stroke-width: 1.5;" width="72" x="95" y="43"/><ellipse cx="110" cy="59" fill="#E3664A" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M112.0767,59.2261 Q112.0767,58.2881 111.6533,57.7568 Q111.23,57.2256 110.4912,57.2256 Q109.7524,57.2256 109.3333,57.7568 Q108.9141,58.2881 108.9141,59.2261 Q108.9141,60.1724 109.3333,60.7036 Q109.7524,61.2349 110.4912,61.2349 Q111.23,61.2349 111.6533,60.7036 Q112.0767,60.1724 112.0767,59.2261 Z M113.6206,62.6294 L111.9937,62.6294 L111.9937,61.9487 Q111.6782,62.3887 111.2507,62.592 Q110.8232,62.7954 110.2256,62.7954 Q108.8643,62.7954 108.03,61.8159 Q107.1958,60.8364 107.1958,59.2261 Q107.1958,57.624 108.0259,56.6487 Q108.856,55.6733 110.2256,55.6733 Q110.8149,55.6733 111.2632,55.8767 Q111.7114,56.0801 111.9937,56.4702 L111.9937,56.1299 Q111.9937,55.001 111.3752,54.3867 Q110.7568,53.7725 109.6113,53.7725 Q107.8848,53.7725 106.7932,55.2915 Q105.7017,56.8105 105.7017,59.2427 Q105.7017,61.791 106.9634,63.2976 Q108.2251,64.8042 110.3252,64.8042 Q110.9893,64.8042 111.6118,64.6091 Q112.2344,64.4141 112.8071,64.0239 L113.5708,65.4849 Q112.8984,65.9414 112.1057,66.1697 Q111.313,66.3979 110.4082,66.3979 Q107.5029,66.3979 105.7764,64.4639 Q104.0498,62.5298 104.0498,59.2427 Q104.0498,56.0303 105.6021,54.1003 Q107.1543,52.1704 109.7109,52.1704 Q111.5205,52.1704 112.5706,53.262 Q113.6206,54.3535 113.6206,56.2378 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="40" x="124" y="63.5352">PATCH</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="96" x2="166" y1="75" y2="75"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="96" x2="166" y1="83" y2="83"/></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="46" y="126.668">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[c012c2389039c9ca9baf3745f30b4110]
+@startuml
+    namespace com.ibm.fhir.server.annotation {
+
+        annotation PATCH [[PATCH.html]]
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

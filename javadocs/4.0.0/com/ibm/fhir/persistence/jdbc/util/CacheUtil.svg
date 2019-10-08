@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="130px" preserveAspectRatio="none" style="width:613px;height:130px;" version="1.1" viewBox="0 0 613 130" width="613px" zoomAndPan="magnify"><defs><filter height="300%" id="fsh0ftprikpho" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[eb3db8742a94ba0eab6668b0ea47630f]
+class com.ibm.fhir.persistence.jdbc.util.CacheUtil--><a href="CacheUtil.html" target="_top" title="CacheUtil.html" xlink:actuate="onRequest" xlink:href="CacheUtil.html" xlink:show="new" xlink:title="CacheUtil.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fsh0ftprikpho)" height="93.1309" id="com.ibm.fhir.persistence.jdbc.util.CacheUtil" style="stroke: #A80036; stroke-width: 1.5;" width="595" x="7" y="7"/><ellipse cx="219.25" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M221.7231,32.2759 Q221.1421,32.5747 220.5029,32.7241 Q219.8638,32.8735 219.1582,32.8735 Q216.6514,32.8735 215.3315,31.2217 Q214.0117,29.5698 214.0117,26.4487 Q214.0117,23.3193 215.3315,21.6675 Q216.6514,20.0156 219.1582,20.0156 Q219.8638,20.0156 220.5112,20.165 Q221.1587,20.3145 221.7231,20.6133 L221.7231,23.3359 Q221.0923,22.7549 220.4988,22.4851 Q219.9053,22.2153 219.2744,22.2153 Q217.9297,22.2153 217.2449,23.282 Q216.5601,24.3486 216.5601,26.4487 Q216.5601,28.5405 217.2449,29.6072 Q217.9297,30.6738 219.2744,30.6738 Q219.9053,30.6738 220.4988,30.4041 Q221.0923,30.1343 221.7231,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="65" x="288.25" y="25.5352">CacheUtil</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="162" x="239.75" y="38.1563">com.ibm.fhir.persistence.jdbc.util</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="601" y1="45.2656" y2="45.2656"/><polygon fill="none" points="18,51.2656,22,55.2656,18,59.2656,14,55.2656" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="84" x="27" y="59.9004">NEWLINE: String</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="601" y1="66.2207" y2="66.2207"/><ellipse cx="18" cy="77.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="569" x="27" y="80.8555">dumpCacheContents(String, ConcurrentHashMap&lt;String, ConcurrentHashMap&lt;String, Integer&gt;&gt;): String</text><ellipse cx="18" cy="90.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="553" x="27" y="93.8105">reportCacheDiscrepancies(String, ConcurrentHashMap&lt;String, Integer&gt;, Map&lt;String, Integer&gt;): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="213.5" y="116.7988">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[a89d10e7f9feb5d57948721b4714a19f]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>CacheUtil\n<size:10>com.ibm.fhir.persistence.jdbc.util" as com.ibm.fhir.persistence.jdbc.util.CacheUtil [[CacheUtil.html]] {
+        {static} #NEWLINE: String
+        {static} +dumpCacheContents(String, ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>): String
+        {static} +reportCacheDiscrepancies(String, ConcurrentHashMap<String, Integer>, Map<String, Integer>): String
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

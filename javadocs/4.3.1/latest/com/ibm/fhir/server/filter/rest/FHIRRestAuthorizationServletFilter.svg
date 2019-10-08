@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="243px" preserveAspectRatio="none" style="width:382px;height:243px;" version="1.1" viewBox="0 0 382 243" width="382px" zoomAndPan="magnify"><defs><filter height="300%" id="f1glg2zt4rcggx" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[5fd8b52fbbd27c7cfa2341e87ee3dc67]
+class com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter--><a href="FHIRRestAuthorizationServletFilter.html" target="_top" title="FHIRRestAuthorizationServletFilter.html" xlink:actuate="onRequest" xlink:href="FHIRRestAuthorizationServletFilter.html" xlink:show="new" xlink:title="FHIRRestAuthorizationServletFilter.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1glg2zt4rcggx)" height="84.3516" id="com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter" style="stroke: #A80036; stroke-width: 1.5;" width="365" x="6" y="127"/><ellipse cx="67.25" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M70.2188,151.6094 Q69.6406,151.9063 69,152.0469 Q68.3594,152.2031 67.6563,152.2031 Q65.1563,152.2031 63.8281,150.5625 Q62.5156,148.9063 62.5156,145.7813 Q62.5156,142.6563 63.8281,141 Q65.1563,139.3438 67.6563,139.3438 Q68.3594,139.3438 69,139.5 Q69.6563,139.6563 70.2188,139.9531 L70.2188,142.6719 Q69.5938,142.0938 69,141.8281 Q68.4063,141.5469 67.7813,141.5469 Q66.4375,141.5469 65.75,142.625 Q65.0625,143.6875 65.0625,145.7813 Q65.0625,147.875 65.75,148.9531 Q66.4375,150.0156 67.7813,150.0156 Q68.4063,150.0156 69,149.75 Q69.5938,149.4688 70.2188,148.8906 L70.2188,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="234" x="87.75" y="144.9951">FHIRRestAuthorizationServletFilter</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="142" x="133.75" y="157.5791">com.ibm.fhir.server.filter.rest</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="370" y1="164.9375" y2="164.9375"/><ellipse cx="17" cy="175.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="339" x="26" y="179.1479">doFilter(ServletRequest, ServletResponse, FilterChain): void</text><ellipse cx="17" cy="188.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="120" x="26" y="191.9526">init(FilterConfig): void</text><ellipse cx="17" cy="201.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="82" x="26" y="204.7573">destroy(): void</text></a><!--MD5=[d672c91649925597ea207111a41a203e]
+class javax.servlet.Filter--><rect fill="#FEFECE" filter="url(#f1glg2zt4rcggx)" height="58.7422" id="javax.servlet.Filter" style="stroke: #A80036; stroke-width: 1.5;" width="365" x="6" y="8"/><ellipse cx="153.25" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M149.1719,22.7344 L149.1719,20.5781 L156.5625,20.5781 L156.5625,22.7344 L154.0938,22.7344 L154.0938,30.8125 L156.5625,30.8125 L156.5625,32.9688 L149.1719,32.9688 L149.1719,30.8125 L151.6406,30.8125 L151.6406,22.7344 L149.1719,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="33" x="188.25" y="25.9951">Filter</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="62" x="173.75" y="38.5791">javax.servlet</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="370" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="339" x="26" y="60.1479">doFilter(ServletRequest, ServletResponse, FilterChain): void</text><!--MD5=[ffe6bf2a51bd31b5f32992c2987e120f]
+reverse link javax.servlet.Filter to com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter--><path d="M188.5,87.138 C188.5,100.225 188.5,114.2196 188.5,126.8691 " fill="none" id="javax.servlet.Filter&lt;-com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="181.5001,87.0112,188.5,67.0112,195.5001,87.0111,181.5001,87.0112" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="101.5" y="230.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[07ab66b05e038cb943c48041fd2eb8e4]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRRestAuthorizationServletFilter\n<size:10>com.ibm.fhir.server.filter.rest" as com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter [[FHIRRestAuthorizationServletFilter.html]] {
+        +doFilter(ServletRequest, ServletResponse, FilterChain): void
+        +init(FilterConfig): void
+        +destroy(): void
+    }
+
+    interface "<size:14>Filter\n<size:10>javax.servlet" as javax.servlet.Filter {
+        {abstract} +doFilter(ServletRequest, ServletResponse, FilterChain): void
+    }
+
+    javax.servlet.Filter <|.. com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

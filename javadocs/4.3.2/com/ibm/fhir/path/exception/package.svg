@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="285px" preserveAspectRatio="none" style="width:291px;height:285px;" version="1.1" viewBox="0 0 291 285" width="291px" zoomAndPan="magnify"><defs><filter height="300%" id="f1g13wyfeww8ds" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e823faae428690818f0583f3ebb30075]
+cluster com.ibm.fhir.path.exception--><polygon fill="#FFFFFF" filter="url(#f1g13wyfeww8ds)" points="14,124,241,124,248,146.2969,268,146.2969,268,245,14,245,14,124" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="248" y1="146.2969" y2="146.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="221" x="18" y="138.9951">com.ibm.fhir.path.exception</text><!--MD5=[45a9bf29fc979cb07d88174345e9bd53]
+cluster com.ibm.fhir.exception--><polygon fill="#FFFFFF" filter="url(#f1g13wyfeww8ds)" points="72,16,259,16,266,38.2969,269,38.2969,269,99,72,99,72,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="72" x2="266" y1="38.2969" y2="38.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="181" x="76" y="30.9951">com.ibm.fhir.exception</text><!--MD5=[244afc7aa5c4d9f9d79ee6a4e3a0af05]
+class com.ibm.fhir.path.exception.FHIRPathException--><a href="FHIRPathException.html" target="_top" title="FHIRPathException.html" xlink:actuate="onRequest" xlink:href="FHIRPathException.html" xlink:show="new" xlink:title="FHIRPathException.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1g13wyfeww8ds)" height="86.4141" id="com.ibm.fhir.path.exception.FHIRPathException" style="stroke: #A80036; stroke-width: 1.5;" width="238" x="22" y="151"/><ellipse cx="78.25" cy="167" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M81.2188,172.6406 Q80.6406,172.9375 80,173.0781 Q79.3594,173.2344 78.6563,173.2344 Q76.1563,173.2344 74.8281,171.5938 Q73.5156,169.9375 73.5156,166.8125 Q73.5156,163.6875 74.8281,162.0313 Q76.1563,160.375 78.6563,160.375 Q79.3594,160.375 80,160.5313 Q80.6563,160.6875 81.2188,160.9844 L81.2188,163.7031 Q80.5938,163.125 80,162.8594 Q79.4063,162.5781 78.7813,162.5781 Q77.4375,162.5781 76.75,163.6563 Q76.0625,164.7188 76.0625,166.8125 Q76.0625,168.9063 76.75,169.9844 Q77.4375,171.0469 78.7813,171.0469 Q79.4063,171.0469 80,170.7813 Q80.5938,170.5 81.2188,169.9219 L81.2188,172.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="117" x="98.75" y="171.1543">FHIRPathException</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="259" y1="183" y2="183"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="259" y1="191" y2="191"/><ellipse cx="33" cy="202" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="145" x="42" y="205.2104">FHIRPathException(String)</text><ellipse cx="33" cy="214.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="212" x="42" y="218.0151">FHIRPathException(String, Throwable)</text><ellipse cx="33" cy="227.6094" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="170" x="42" y="230.8198">FHIRPathException(Throwable)</text></a><!--MD5=[b5c89e21eabd4f477d1a02bde30ee3ff]
+class com.ibm.fhir.exception.FHIRException--><a href="../../exception/FHIRException.html" target="_top" title="../../exception/FHIRException.html" xlink:actuate="onRequest" xlink:href="../../exception/FHIRException.html" xlink:show="new" xlink:title="../../exception/FHIRException.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1g13wyfeww8ds)" height="48" id="com.ibm.fhir.exception.FHIRException" style="stroke: #A80036; stroke-width: 1.5;" width="120" x="81" y="43"/><ellipse cx="96" cy="59" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M98.9688,64.6406 Q98.3906,64.9375 97.75,65.0781 Q97.1094,65.2344 96.4063,65.2344 Q93.9063,65.2344 92.5781,63.5938 Q91.2656,61.9375 91.2656,58.8125 Q91.2656,55.6875 92.5781,54.0313 Q93.9063,52.375 96.4063,52.375 Q97.1094,52.375 97.75,52.5313 Q98.4063,52.6875 98.9688,52.9844 L98.9688,55.7031 Q98.3438,55.125 97.75,54.8594 Q97.1563,54.5781 96.5313,54.5781 Q95.1875,54.5781 94.5,55.6563 Q93.8125,56.7188 93.8125,58.8125 Q93.8125,60.9063 94.5,61.9844 Q95.1875,63.0469 96.5313,63.0469 Q97.1563,63.0469 97.75,62.7813 Q98.3438,62.5 98.9688,61.9219 L98.9688,64.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="88" x="110" y="63.1543">FHIRException</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="82" x2="200" y1="75" y2="75"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="82" x2="200" y1="83" y2="83"/></a><!--MD5=[a1b143b123a5062a6d028e1fc5c2e285]
+reverse link com.ibm.fhir.exception.FHIRException to com.ibm.fhir.path.exception.FHIRPathException--><path d="M141,111.2782 C141,124.1161 141,138.1115 141,150.8776 " fill="none" id="com.ibm.fhir.exception.FHIRException&lt;-com.ibm.fhir.path.exception.FHIRPathException" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="134.0001,111.1867,141,91.1867,148.0001,111.1866,134.0001,111.1867" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="54.5" y="272.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[6ac6389a63e3b3e1e3bcb54f5c4c8afd]
+@startuml
+    namespace com.ibm.fhir.path.exception {
+
+        class FHIRPathException [[FHIRPathException.html]] {
+            +FHIRPathException(String)
+            +FHIRPathException(String, Throwable)
+            +FHIRPathException(Throwable)
+        }
+
+        com.ibm.fhir.exception.FHIRException <|- - FHIRPathException
+    }
+
+    namespace com.ibm.fhir.exception {
+        class FHIRException [[../../exception/FHIRException.html]] {
+        }
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

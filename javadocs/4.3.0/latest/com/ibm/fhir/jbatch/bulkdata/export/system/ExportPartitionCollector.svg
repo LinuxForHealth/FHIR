@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="239px" preserveAspectRatio="none" style="width:260px;height:239px;" version="1.1" viewBox="0 0 260 239" width="260px" zoomAndPan="magnify"><defs><filter height="300%" id="f1xbsuqu3ueory" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[f2820938bdc66d2fba69c218ac84d369]
+class com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionCollector--><a href="ExportPartitionCollector.html" target="_top" title="ExportPartitionCollector.html" xlink:actuate="onRequest" xlink:href="ExportPartitionCollector.html" xlink:show="new" xlink:title="ExportPartitionCollector.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1xbsuqu3ueory)" height="79.5469" id="com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionCollector" style="stroke: #A80036; stroke-width: 1.5;" width="243" x="6" y="127"/><ellipse cx="21" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M23.9688,151.6094 Q23.3906,151.9063 22.75,152.0469 Q22.1094,152.2031 21.4063,152.2031 Q18.9063,152.2031 17.5781,150.5625 Q16.2656,148.9063 16.2656,145.7813 Q16.2656,142.6563 17.5781,141 Q18.9063,139.3438 21.4063,139.3438 Q22.1094,139.3438 22.75,139.5 Q23.4063,139.6563 23.9688,139.9531 L23.9688,142.6719 Q23.3438,142.0938 22.75,141.8281 Q22.1563,141.5469 21.5313,141.5469 Q20.1875,141.5469 19.5,142.625 Q18.8125,143.6875 18.8125,145.7813 Q18.8125,147.875 19.5,148.9531 Q20.1875,150.0156 21.5313,150.0156 Q22.1563,150.0156 22.75,149.75 Q23.3438,149.4688 23.9688,148.8906 L23.9688,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="161" x="60" y="144.9951">ExportPartitionCollector</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="211" x="35" y="157.5791">com.ibm.fhir.jbatch.bulkdata.export.system</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="248" y1="164.9375" y2="164.9375"/><polygon fill="none" points="17,171.9375,13,177.9375,21,177.9375" style="stroke: #1963A0; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="120" x="26" y="179.1479">stepCtx: StepContext</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="248" y1="185.7422" y2="185.7422"/><ellipse cx="17" cy="196.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="190" x="26" y="199.9526">collectPartitionData(): Serializable</text></a><!--MD5=[ec278b7c5a58ff604a92c6ce1079f2ad]
+class javax.batch.api.partition.PartitionCollector--><rect fill="#FEFECE" filter="url(#f1xbsuqu3ueory)" height="58.7422" id="javax.batch.api.partition.PartitionCollector" style="stroke: #A80036; stroke-width: 1.5;" width="216" x="19.5" y="8"/><ellipse cx="64.75" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M60.6719,22.7344 L60.6719,20.5781 L68.0625,20.5781 L68.0625,22.7344 L65.5938,22.7344 L65.5938,30.8125 L68.0625,30.8125 L68.0625,32.9688 L60.6719,32.9688 L60.6719,30.8125 L63.1406,30.8125 L63.1406,22.7344 L60.6719,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="117" x="85.25" y="25.9951">PartitionCollector</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="116" x="85.75" y="38.5791">javax.batch.api.partition</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="20.5" x2="234.5" y1="45.9375" y2="45.9375"/><ellipse cx="30.5" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="190" x="39.5" y="60.1479">collectPartitionData(): Serializable</text><!--MD5=[855e4824ca4910f6bd514021fe2175cc]
+reverse link javax.batch.api.partition.PartitionCollector to com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionCollector--><path d="M127.5,87.2729 C127.5,100.2935 127.5,114.1689 127.5,126.6328 " fill="none" id="javax.batch.api.partition.PartitionCollector&lt;-com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionCollector" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="120.5001,87.21,127.5,67.2099,134.5001,87.2099,120.5001,87.21" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="40.5" y="226.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[766d5fd9a27cbec8c334654cd4dfad5b]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ExportPartitionCollector\n<size:10>com.ibm.fhir.jbatch.bulkdata.export.system" as com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionCollector [[ExportPartitionCollector.html]] {
+        ~stepCtx: StepContext
+        +collectPartitionData(): Serializable
+    }
+
+    interface "<size:14>PartitionCollector\n<size:10>javax.batch.api.partition" as javax.batch.api.partition.PartitionCollector {
+        {abstract} +collectPartitionData(): Serializable
+    }
+
+    javax.batch.api.partition.PartitionCollector <|.. com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionCollector
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.7+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

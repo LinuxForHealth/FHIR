@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="95px" preserveAspectRatio="none" style="width:219px;height:95px;" version="1.1" viewBox="0 0 219 95" width="219px" zoomAndPan="magnify"><defs><filter height="300%" id="fv1gfbiqkk60w" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[13d7e6bc67d2a4919cceb922a63d1028]
+class com.ibm.fhir.database.utils.model.IDataModel--><a href="IDataModel.html" target="_top" title="IDataModel.html" xlink:actuate="onRequest" xlink:href="IDataModel.html" xlink:show="new" xlink:title="IDataModel.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fv1gfbiqkk60w)" height="58.7422" id="com.ibm.fhir.database.utils.model.IDataModel" style="stroke: #A80036; stroke-width: 1.5;" width="201" x="7" y="7"/><ellipse cx="24.25" cy="25.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M20.1719,21.7344 L20.1719,19.5781 L27.5625,19.5781 L27.5625,21.7344 L25.0938,21.7344 L25.0938,29.8125 L27.5625,29.8125 L27.5625,31.9688 L20.1719,31.9688 L20.1719,29.8125 L22.6406,29.8125 L22.6406,21.7344 L20.1719,21.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="77" x="82.25" y="24.9951">IDataModel</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="164" x="38.75" y="37.5791">com.ibm.fhir.database.utils.model</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="207" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="175" x="27" y="59.1479">findTable(String, String): Table</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="14.5" y="82.0244">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[7cbc121c35fc891264ff6b95ea617714]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    interface "<size:14>IDataModel\n<size:10>com.ibm.fhir.database.utils.model" as com.ibm.fhir.database.utils.model.IDataModel [[IDataModel.html]] {
+        {abstract} +findTable(String, String): Table
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="108px" preserveAspectRatio="none" style="width:198px;height:108px;" version="1.1" viewBox="0 0 198 108" width="198px" zoomAndPan="magnify"><defs><filter height="300%" id="fnftwvwccxlg0" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[65ee15dde457ca6dc2b4974664cbbce1]
+class com.ibm.fhir.path.TypeInfo--><a href="TypeInfo.html" target="_top" title="TypeInfo.html" xlink:actuate="onRequest" xlink:href="TypeInfo.html" xlink:show="new" xlink:title="TypeInfo.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fnftwvwccxlg0)" height="71.5469" id="com.ibm.fhir.path.TypeInfo" style="stroke: #A80036; stroke-width: 1.5;" width="161" x="12.5" y="7"/><ellipse cx="46.85" cy="25.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M42.7719,21.7344 L42.7719,19.5781 L50.1625,19.5781 L50.1625,21.7344 L47.6938,21.7344 L47.6938,29.8125 L50.1625,29.8125 L50.1625,31.9688 L42.7719,31.9688 L42.7719,29.8125 L45.2406,29.8125 L45.2406,21.7344 L42.7719,21.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="59" x="78.65" y="24.9951">TypeInfo</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="86" x="65.15" y="37.5791">com.ibm.fhir.path</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="13.5" x2="172.5" y1="44.9375" y2="44.9375"/><ellipse cx="23.5" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="135" x="32.5" y="59.1479">getNamespace(): String</text><ellipse cx="23.5" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="101" x="32.5" y="71.9526">getName(): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="0" y="94.8291">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[35843760b8c685d13fff2413d69732e1]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    interface "<size:14>TypeInfo\n<size:10>com.ibm.fhir.path" as com.ibm.fhir.path.TypeInfo [[TypeInfo.html]] {
+        +getNamespace(): String
+        +getName(): String
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

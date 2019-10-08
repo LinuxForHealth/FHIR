@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="75px" preserveAspectRatio="none" style="width:201px;height:75px;" version="1.1" viewBox="0 0 201 75" width="201px" zoomAndPan="magnify"><defs><filter height="300%" id="f11a4z95g5gyt2" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e9bacbaf4457ee3c70471fec02e38552]
+class com.ibm.fhir.model.annotation.Required--><a href="Required.html" target="_top" title="Required.html" xlink:actuate="onRequest" xlink:href="Required.html" xlink:show="new" xlink:title="Required.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f11a4z95g5gyt2)" height="38.2656" id="com.ibm.fhir.model.annotation.Required" style="stroke: #A80036; stroke-width: 1.5;" width="182" x="7" y="7"/><ellipse cx="22" cy="26.1328" fill="#E3664A" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M24.0767,26.3589 Q24.0767,25.4209 23.6533,24.8896 Q23.23,24.3584 22.4912,24.3584 Q21.7524,24.3584 21.3333,24.8896 Q20.9141,25.4209 20.9141,26.3589 Q20.9141,27.3052 21.3333,27.8364 Q21.7524,28.3677 22.4912,28.3677 Q23.23,28.3677 23.6533,27.8364 Q24.0767,27.3052 24.0767,26.3589 Z M25.6206,29.7622 L23.9937,29.7622 L23.9937,29.0815 Q23.6782,29.5215 23.2507,29.7249 Q22.8232,29.9282 22.2256,29.9282 Q20.8643,29.9282 20.03,28.9487 Q19.1958,27.9692 19.1958,26.3589 Q19.1958,24.7568 20.0259,23.7815 Q20.856,22.8062 22.2256,22.8062 Q22.8149,22.8062 23.2632,23.0095 Q23.7114,23.2129 23.9937,23.603 L23.9937,23.2627 Q23.9937,22.1338 23.3752,21.5195 Q22.7568,20.9053 21.6113,20.9053 Q19.8848,20.9053 18.7932,22.4243 Q17.7017,23.9434 17.7017,26.3755 Q17.7017,28.9238 18.9634,30.4304 Q20.2251,31.937 22.3252,31.937 Q22.9893,31.937 23.6118,31.7419 Q24.2344,31.5469 24.8071,31.1567 L25.5708,32.6177 Q24.8984,33.0742 24.1057,33.3025 Q23.313,33.5308 22.4082,33.5308 Q19.5029,33.5308 17.7764,31.5967 Q16.0498,29.6626 16.0498,26.3755 Q16.0498,23.1631 17.6021,21.2332 Q19.1543,19.3032 21.7109,19.3032 Q23.5205,19.3032 24.5706,20.3948 Q25.6206,21.4863 25.6206,23.3706 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="62" x="80" y="25.5352">Required</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="150" x="36" y="38.1563">com.ibm.fhir.model.annotation</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="7" y="61.9336">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[a36c20ff39ac88595a4cd3f7d7eee47b]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    annotation "<size:14>Required\n<size:10>com.ibm.fhir.model.annotation" as com.ibm.fhir.model.annotation.Required [[Required.html]]
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

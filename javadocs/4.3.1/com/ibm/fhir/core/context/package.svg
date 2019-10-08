@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="267px" preserveAspectRatio="none" style="width:256px;height:267px;" version="1.1" viewBox="0 0 256 267" width="256px" zoomAndPan="magnify"><defs><filter height="300%" id="f17h60u6uxbq02" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[603cd63fb6752d682771e6b9a49ca87a]
+cluster com.ibm.fhir.core.context--><polygon fill="#FFFFFF" filter="url(#f17h60u6uxbq02)" points="14,16,224,16,231,38.2969,234,38.2969,234,227,14,227,14,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="231" y1="38.2969" y2="38.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="204" x="18" y="30.9951">com.ibm.fhir.core.context</text><!--MD5=[ca073168413cf65f0d15c3628d3ab788]
+class com.ibm.fhir.core.context.FHIRPagingContext--><a href="FHIRPagingContext.html" target="_top" title="FHIRPagingContext.html" xlink:actuate="onRequest" xlink:href="FHIRPagingContext.html" xlink:show="new" xlink:title="FHIRPagingContext.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f17h60u6uxbq02)" height="176.0469" id="com.ibm.fhir.core.context.FHIRPagingContext" style="stroke: #A80036; stroke-width: 1.5;" width="194" x="27" y="43"/><ellipse cx="61.8" cy="59" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M57.7219,54.7656 L57.7219,52.6094 L65.1125,52.6094 L65.1125,54.7656 L62.6438,54.7656 L62.6438,62.8438 L65.1125,62.8438 L65.1125,65 L57.7219,65 L57.7219,62.8438 L60.1906,62.8438 L60.1906,54.7656 L57.7219,54.7656 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="118" x="80.2" y="63.1543">FHIRPagingContext</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="28" x2="220" y1="75" y2="75"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="28" x2="220" y1="83" y2="83"/><ellipse cx="38" cy="94" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="145" x="47" y="97.2104">getLastPageNumber(): int</text><ellipse cx="38" cy="106.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="121" x="47" y="110.0151">getPageNumber(): int</text><ellipse cx="38" cy="119.6094" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="99" x="47" y="122.8198">getPageSize(): int</text><ellipse cx="38" cy="132.4141" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="109" x="47" y="135.6245">getTotalCount(): int</text><ellipse cx="38" cy="145.2188" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="168" x="47" y="148.4292">setLastPageNumber(int): void</text><ellipse cx="38" cy="158.0234" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="144" x="47" y="161.2339">setPageNumber(int): void</text><ellipse cx="38" cy="170.8281" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="122" x="47" y="174.0386">setPageSize(int): void</text><ellipse cx="38" cy="183.6328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="132" x="47" y="186.8433">setTotalCount(int): void</text><ellipse cx="38" cy="196.4375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="112" x="47" y="199.6479">isLenient(): boolean</text><ellipse cx="38" cy="209.2422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="143" x="47" y="212.4526">setLenient(boolean): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="37" y="254.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[0cacc7cc8e723ac8aca40d597f9ab7b8]
+@startuml
+    namespace com.ibm.fhir.core.context {
+
+        interface FHIRPagingContext [[FHIRPagingContext.html]] {
+            {abstract} +getLastPageNumber(): int
+            {abstract} +getPageNumber(): int
+            {abstract} +getPageSize(): int
+            {abstract} +getTotalCount(): int
+            {abstract} +setLastPageNumber(int): void
+            {abstract} +setPageNumber(int): void
+            {abstract} +setPageSize(int): void
+            {abstract} +setTotalCount(int): void
+            {abstract} +isLenient(): boolean
+            {abstract} +setLenient(boolean): void
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.7+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

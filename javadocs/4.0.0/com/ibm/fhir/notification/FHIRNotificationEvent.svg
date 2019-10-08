@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="238px" preserveAspectRatio="none" style="width:231px;height:238px;" version="1.1" viewBox="0 0 231 238" width="231px" zoomAndPan="magnify"><defs><filter height="300%" id="f8ohwq4nlp4oz" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[8647e719ef87889be590fabc17b84c27]
+class com.ibm.fhir.notification.FHIRNotificationEvent--><a href="FHIRNotificationEvent.html" target="_top" title="FHIRNotificationEvent.html" xlink:actuate="onRequest" xlink:href="FHIRNotificationEvent.html" xlink:show="new" xlink:title="FHIRNotificationEvent.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f8ohwq4nlp4oz)" height="201.7266" id="com.ibm.fhir.notification.FHIRNotificationEvent" style="stroke: #A80036; stroke-width: 1.5;" width="213" x="7" y="7"/><ellipse cx="37.3" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M39.7731,32.2759 Q39.1921,32.5747 38.5529,32.7241 Q37.9138,32.8735 37.2082,32.8735 Q34.7014,32.8735 33.3815,31.2217 Q32.0617,29.5698 32.0617,26.4487 Q32.0617,23.3193 33.3815,21.6675 Q34.7014,20.0156 37.2082,20.0156 Q37.9138,20.0156 38.5612,20.165 Q39.2087,20.3145 39.7731,20.6133 L39.7731,23.3359 Q39.1423,22.7549 38.5488,22.4851 Q37.9553,22.2153 37.3244,22.2153 Q35.9797,22.2153 35.2949,23.282 Q34.6101,24.3486 34.6101,26.4487 Q34.6101,28.5405 35.2949,29.6072 Q35.9797,30.6738 37.3244,30.6738 Q37.9553,30.6738 38.5488,30.4041 Q39.1423,30.1343 39.7731,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="147" x="54.7" y="25.5352">FHIRNotificationEvent</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="120" x="68.2" y="38.1563">com.ibm.fhir.notification</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="219" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="123" x="27" y="59.9004">getResourceId(): String</text><ellipse cx="18" cy="69.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="145" x="27" y="72.8555">setResourceId(String): void</text><ellipse cx="18" cy="82.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="130" x="27" y="85.8105">getLastUpdated(): String</text><ellipse cx="18" cy="95.1309" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="152" x="27" y="98.7656">setLastUpdated(String): void</text><ellipse cx="18" cy="108.0859" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="109" x="27" y="111.7207">getLocation(): String</text><ellipse cx="18" cy="121.041" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="131" x="27" y="124.6758">setLocation(String): void</text><ellipse cx="18" cy="133.9961" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="143" x="27" y="137.6309">getOperationType(): String</text><ellipse cx="18" cy="146.9512" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="165" x="27" y="150.5859">setOperationType(String): void</text><ellipse cx="18" cy="159.9063" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="131" x="27" y="163.541">getResource(): Resource</text><ellipse cx="18" cy="172.8613" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="153" x="27" y="176.4961">setResource(Resource): void</text><ellipse cx="18" cy="185.8164" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="165" x="27" y="189.4512">getHttpHeaders(): HttpHeaders</text><ellipse cx="18" cy="198.7715" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="187" x="27" y="202.4063">setHttpHeaders(HttpHeaders): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="22.5" y="225.3945">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[54a3c80de86abc81bc07584ebbbb63fe]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRNotificationEvent\n<size:10>com.ibm.fhir.notification" as com.ibm.fhir.notification.FHIRNotificationEvent [[FHIRNotificationEvent.html]] {
+        +getResourceId(): String
+        +setResourceId(String): void
+        +getLastUpdated(): String
+        +setLastUpdated(String): void
+        +getLocation(): String
+        +setLocation(String): void
+        +getOperationType(): String
+        +setOperationType(String): void
+        +getResource(): Resource
+        +setResource(Resource): void
+        +getHttpHeaders(): HttpHeaders
+        +setHttpHeaders(HttpHeaders): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

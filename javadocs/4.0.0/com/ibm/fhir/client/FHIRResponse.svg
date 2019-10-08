@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="200px" preserveAspectRatio="none" style="width:206px;height:200px;" version="1.1" viewBox="0 0 206 200" width="206px" zoomAndPan="magnify"><defs><filter height="300%" id="f1gnsxyz7d7f5y" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[4613f0b0c0365e331cfa014aec42db5a]
+class com.ibm.fhir.client.FHIRResponse--><a href="FHIRResponse.html" target="_top" title="FHIRResponse.html" xlink:actuate="onRequest" xlink:href="FHIRResponse.html" xlink:show="new" xlink:title="FHIRResponse.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1gnsxyz7d7f5y)" height="162.8613" id="com.ibm.fhir.client.FHIRResponse" style="stroke: #A80036; stroke-width: 1.5;" width="188" x="7" y="7"/><ellipse cx="48.55" cy="26.1328" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M44.9777,22.3979 L44.9777,20.2397 L52.3571,20.2397 L52.3571,22.3979 L49.8918,22.3979 L49.8918,30.4746 L52.3571,30.4746 L52.3571,32.6328 L44.9777,32.6328 L44.9777,30.4746 L47.4431,30.4746 L47.4431,22.3979 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="97" x="68.45" y="25.5352">FHIRResponse</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="91" x="71.45" y="38.1563">com.ibm.fhir.client</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="194" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="78" x="27" y="59.9004">getStatus(): int</text><ellipse cx="18" cy="69.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="109" x="27" y="72.8555">getLocation(): String</text><ellipse cx="18" cy="82.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="113" x="27" y="85.8105">getLocationURI(): URI</text><ellipse cx="18" cy="95.1309" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="136" x="27" y="98.7656">getLastModified(): Instant</text><ellipse cx="18" cy="108.0859" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="89" x="27" y="111.7207">getETag(): String</text><ellipse cx="18" cy="121.041" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="142" x="27" y="124.6758">getResource(Class&lt;T&gt;): T</text><ellipse cx="18" cy="133.9961" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="135" x="27" y="137.6309">getResponse(): Response</text><ellipse cx="18" cy="146.9512" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="162" x="27" y="150.5859">parseLocation(String): String[]</text><ellipse cx="18" cy="159.9063" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="99" x="27" y="163.541">isEmpty(): boolean</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="10" y="186.5293">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[c1636baa28c7b6a5fd0c7e4ecc624705]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    interface "<size:14>FHIRResponse\n<size:10>com.ibm.fhir.client" as com.ibm.fhir.client.FHIRResponse [[FHIRResponse.html]] {
+        {abstract} +getStatus(): int
+        {abstract} +getLocation(): String
+        {abstract} +getLocationURI(): URI
+        {abstract} +getLastModified(): Instant
+        {abstract} +getETag(): String
+        {abstract} +getResource(Class<T>): T
+        {abstract} +getResponse(): Response
+        {abstract} +parseLocation(String): String[]
+        {abstract} +isEmpty(): boolean
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

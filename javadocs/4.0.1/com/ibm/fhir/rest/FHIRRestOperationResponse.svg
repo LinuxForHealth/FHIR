@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="251px" preserveAspectRatio="none" style="width:371px;height:251px;" version="1.1" viewBox="0 0 371 251" width="371px" zoomAndPan="magnify"><defs><filter height="300%" id="f1ognochtoolad" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[3dc277680fc2dee49e7932d58a56b2b8]
+class com.ibm.fhir.rest.FHIRRestOperationResponse--><a href="FHIRRestOperationResponse.html" target="_top" title="FHIRRestOperationResponse.html" xlink:actuate="onRequest" xlink:href="FHIRRestOperationResponse.html" xlink:show="new" xlink:title="FHIRRestOperationResponse.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1ognochtoolad)" height="214.6816" id="com.ibm.fhir.rest.FHIRRestOperationResponse" style="stroke: #A80036; stroke-width: 1.5;" width="353" x="7" y="7"/><ellipse cx="81.75" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M84.2231,32.2759 Q83.6421,32.5747 83.0029,32.7241 Q82.3638,32.8735 81.6582,32.8735 Q79.1514,32.8735 77.8315,31.2217 Q76.5117,29.5698 76.5117,26.4487 Q76.5117,23.3193 77.8315,21.6675 Q79.1514,20.0156 81.6582,20.0156 Q82.3638,20.0156 83.0112,20.165 Q83.6587,20.3145 84.2231,20.6133 L84.2231,23.3359 Q83.5923,22.7549 82.9988,22.4851 Q82.4053,22.2153 81.7744,22.2153 Q80.4297,22.2153 79.7449,23.282 Q79.0601,24.3486 79.0601,26.4487 Q79.0601,28.5405 79.7449,29.6072 Q80.4297,30.6738 81.7744,30.6738 Q82.4053,30.6738 82.9988,30.4041 Q83.5923,30.1343 84.2231,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="195" x="102.25" y="25.5352">FHIRRestOperationResponse</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="83" x="158.25" y="38.1563">com.ibm.fhir.rest</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="359" y1="45.2656" y2="45.2656"/><ellipse cx="18" cy="56.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="161" x="27" y="59.9004">FHIRRestOperationResponse()</text><ellipse cx="18" cy="69.2207" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="274" x="27" y="72.8555">FHIRRestOperationResponse(Status, URI, Resource)</text><ellipse cx="18" cy="82.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="327" x="27" y="85.8105">FHIRRestOperationResponse(Status, URI, OperationOutcome)</text><ellipse cx="18" cy="95.1309" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="97" x="27" y="98.7656">getStatus(): Status</text><ellipse cx="18" cy="108.0859" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="119" x="27" y="111.7207">setStatus(Status): void</text><ellipse cx="18" cy="121.041" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="113" x="27" y="124.6758">getLocationURI(): URI</text><ellipse cx="18" cy="133.9961" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="135" x="27" y="137.6309">setLocationURI(URI): void</text><ellipse cx="18" cy="146.9512" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="131" x="27" y="150.5859">getResource(): Resource</text><ellipse cx="18" cy="159.9063" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="153" x="27" y="163.541">setResource(Resource): void</text><ellipse cx="18" cy="172.8613" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="154" x="27" y="176.4961">getPrevResource(): Resource</text><ellipse cx="18" cy="185.8164" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="176" x="27" y="189.4512">setPrevResource(Resource): void</text><ellipse cx="18" cy="198.7715" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="237" x="27" y="202.4063">getOperationOutcome(): OperationOutcome</text><ellipse cx="18" cy="211.7266" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="259" x="27" y="215.3613">setOperationOutcome(OperationOutcome): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="182" x="92.5" y="238.3496">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[c956bffa053870953267c047b0938fdd]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRRestOperationResponse\n<size:10>com.ibm.fhir.rest" as com.ibm.fhir.rest.FHIRRestOperationResponse [[FHIRRestOperationResponse.html]] {
+        +FHIRRestOperationResponse()
+        +FHIRRestOperationResponse(Status, URI, Resource)
+        +FHIRRestOperationResponse(Status, URI, OperationOutcome)
+        +getStatus(): Status
+        +setStatus(Status): void
+        +getLocationURI(): URI
+        +setLocationURI(URI): void
+        +getResource(): Resource
+        +setResource(Resource): void
+        +getPrevResource(): Resource
+        +setPrevResource(Resource): void
+        +getOperationOutcome(): OperationOutcome
+        +setOperationOutcome(OperationOutcome): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 05:24:54 EST 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.4+11
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

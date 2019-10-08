@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="177px" preserveAspectRatio="none" style="width:260px;height:177px;" version="1.1" viewBox="0 0 260 177" width="260px" zoomAndPan="magnify"><defs><filter height="300%" id="flge32h4nc3pz" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e87c53c35e275af8efa99807a8aac2a6]
+cluster com.ibm.fhir.model.format--><polygon fill="#FFFFFF" filter="url(#flge32h4nc3pz)" points="14,16,228,16,235,38.2969,238,38.2969,238,137,14,137,14,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="235" y1="38.2969" y2="38.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="208" x="18" y="30.9951">com.ibm.fhir.model.format</text><!--MD5=[9d91259244334e251da868586708f9b9]
+class com.ibm.fhir.model.format.Format--><a href="Format.html" target="_top" title="Format.html" xlink:actuate="onRequest" xlink:href="Format.html" xlink:show="new" xlink:title="Format.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#flge32h4nc3pz)" height="86.4141" id="com.ibm.fhir.model.format.Format" style="stroke: #A80036; stroke-width: 1.5;" width="76" x="88" y="43"/><ellipse cx="103" cy="59" fill="#EB937F" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M107.1094,65 L99.3906,65 L99.3906,52.6094 L107.1094,52.6094 L107.1094,54.7656 L101.8438,54.7656 L101.8438,57.4375 L106.6094,57.4375 L106.6094,59.5938 L101.8438,59.5938 L101.8438,62.8438 L107.1094,62.8438 L107.1094,65 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="44" x="117" y="63.1543">Format</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="89" x2="163" y1="75" y2="75"/><ellipse cx="99" cy="86" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="28" x="108" y="89.2104">JSON</text><ellipse cx="99" cy="98.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="22" x="108" y="102.0151">XML</text><ellipse cx="99" cy="111.6094" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="21" x="108" y="114.8198">RDF</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="89" x2="163" y1="121.4141" y2="121.4141"/></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="39" y="164.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[f387b4277f7e3b6eaa8f7a2043051fa0]
+@startuml
+    namespace com.ibm.fhir.model.format {
+
+        enum Format [[Format.html]] {
+            {static} +JSON
+            {static} +XML
+            {static} +RDF
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.7+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

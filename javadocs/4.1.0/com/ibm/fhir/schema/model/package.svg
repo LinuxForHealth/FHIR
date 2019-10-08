@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="190px" preserveAspectRatio="none" style="width:383px;height:190px;" version="1.1" viewBox="0 0 383 190" width="383px" zoomAndPan="magnify"><defs><filter height="300%" id="fnart3c6xr6n5" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[4306958c9611cda7c0159a0a7e8d4ecf]
+cluster com.ibm.fhir.schema.model--><polygon fill="#FFFFFF" filter="url(#fnart3c6xr6n5)" points="14,16,237,16,244,38.2969,361,38.2969,361,150,14,150,14,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="244" y1="38.2969" y2="38.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="217" x="18" y="30.9951">com.ibm.fhir.schema.model</text><!--MD5=[25ef26ee1b1193f3f4caa50b6c39fa09]
+class com.ibm.fhir.schema.model.DbType--><a href="DbType.html" target="_top" title="DbType.html" xlink:actuate="onRequest" xlink:href="DbType.html" xlink:show="new" xlink:title="DbType.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fnart3c6xr6n5)" height="99.2188" id="com.ibm.fhir.schema.model.DbType" style="stroke: #A80036; stroke-width: 1.5;" width="145" x="207.5" y="43"/><ellipse cx="252.75" cy="59" fill="#EB937F" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M256.8594,65 L249.1406,65 L249.1406,52.6094 L256.8594,52.6094 L256.8594,54.7656 L251.5938,54.7656 L251.5938,57.4375 L256.3594,57.4375 L256.3594,59.5938 L251.5938,59.5938 L251.5938,62.8438 L256.8594,62.8438 L256.8594,65 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="46" x="273.25" y="63.1543">DbType</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="208.5" x2="351.5" y1="75" y2="75"/><ellipse cx="218.5" cy="86" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="37" x="227.5" y="89.2104">DERBY</text><ellipse cx="218.5" cy="98.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="23" x="227.5" y="102.0151">DB2</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="208.5" x2="351.5" y1="108.6094" y2="108.6094"/><ellipse cx="218.5" cy="119.6094" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="80" x="227.5" y="122.8198">value(): String</text><ellipse cx="218.5" cy="132.4141" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="119" x="227.5" y="135.6245">from(String): DbType</text></a><!--MD5=[90f1a3ebdbb12461549633c18760a7c8]
+class com.ibm.fhir.schema.model.ResourceType--><a href="ResourceType.html" target="_top" title="ResourceType.html" xlink:actuate="onRequest" xlink:href="ResourceType.html" xlink:show="new" xlink:title="ResourceType.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fnart3c6xr6n5)" height="99.2188" id="com.ibm.fhir.schema.model.ResourceType" style="stroke: #A80036; stroke-width: 1.5;" width="150" x="22" y="43"/><ellipse cx="50.5" cy="59" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M53.4688,64.6406 Q52.8906,64.9375 52.25,65.0781 Q51.6094,65.2344 50.9063,65.2344 Q48.4063,65.2344 47.0781,63.5938 Q45.7656,61.9375 45.7656,58.8125 Q45.7656,55.6875 47.0781,54.0313 Q48.4063,52.375 50.9063,52.375 Q51.6094,52.375 52.25,52.5313 Q52.9063,52.6875 53.4688,52.9844 L53.4688,55.7031 Q52.8438,55.125 52.25,54.8594 Q51.6563,54.5781 51.0313,54.5781 Q49.6875,54.5781 49,55.6563 Q48.3125,56.7188 48.3125,58.8125 Q48.3125,60.9063 49,61.9844 Q49.6875,63.0469 51.0313,63.0469 Q51.6563,63.0469 52.25,62.7813 Q52.8438,62.5 53.4688,61.9219 L53.4688,64.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="88" x="67.5" y="63.1543">ResourceType</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="171" y1="75" y2="75"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="171" y1="83" y2="83"/><ellipse cx="33" cy="94" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="68" x="42" y="97.2104">getId(): long</text><ellipse cx="33" cy="106.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="91" x="42" y="110.0151">setId(long): void</text><ellipse cx="33" cy="119.6094" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="101" x="42" y="122.8198">getName(): String</text><ellipse cx="33" cy="132.4141" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="124" x="42" y="135.6245">setName(String): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="100.5" y="177.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[6bc314c6826c241a6591acf0838a3ce2]
+@startuml
+    namespace com.ibm.fhir.schema.model {
+
+        enum DbType [[DbType.html]] {
+            {static} +DERBY
+            {static} +DB2
+            +value(): String
+            {static} +from(String): DbType
+        }
+
+        class ResourceType [[ResourceType.html]] {
+            +getId(): long
+            +setId(long): void
+            +getName(): String
+            +setName(String): void
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.6+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
