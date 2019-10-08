@@ -28,6 +28,7 @@ import java.util.Properties;
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.ClientEndpointConfig.Configurator;
 import javax.websocket.ContainerProvider;
+import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -243,7 +244,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                     headers.put("Authorization", values);
                 }
             }).build();
-
+            
             String webSocketURL = getWebSocketURL();
             if (webSocketURL.startsWith("wss")) {
                 String tsLoc = getAbsoluteFilename(getTsLocation());
@@ -268,12 +269,10 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                 sslEngineConfigurator.setHostVerificationEnabled(false);
                 config.getUserProperties().put(PROPNAME_SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
                 
-                // Enabled Tracing for Testing Only in the limited WebSocket Notification Tests
-                config.getUserProperties().put(TyrusWebSocketEngine.TRACING_TYPE, "ALL");
-                config.getUserProperties().put(TyrusWebSocketEngine.TRACING_THRESHOLD, "TRACE");
             }
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            container.connectToServer(endpoint, config, new URI(webSocketURL));
+            Session session = container.connectToServer(endpoint, config, new URI(webSocketURL));
+            endpoint.setSession(session);
             return endpoint;
         } catch (Exception e) {
             e.printStackTrace();
