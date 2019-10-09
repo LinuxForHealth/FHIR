@@ -845,16 +845,9 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 
                 List<FHIRPathNode> values = entry.getValue();
                 for (FHIRPathNode value : values) {
-                    if (!value.isElementNode()) {
-                        // log and continue
-                        if (log.isLoggable(Level.FINE)) {
-                            log.fine("Unable to extract value from " + value.path() +
-                                    "; search parameter value extraction can only be performed on Elements.");
-                        }
-                        continue;
-                    }
+                    Object elementOrNode = value.isElementNode() ? value.asElementNode().element() : value;
 
-                    List<Parameter> parameters = processor.process(entry.getKey(), value.asElementNode().element());
+                    List<Parameter> parameters = processor.process(entry.getKey(), elementOrNode);
                     for (Parameter p : parameters) {
                         p.setType(Type.fromValue(type));
                         p.setResourceId(resourceDTO.getId());
