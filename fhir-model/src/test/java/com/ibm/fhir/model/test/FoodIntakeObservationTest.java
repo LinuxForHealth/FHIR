@@ -11,9 +11,9 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.type.ObservationStatus;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.ObservationStatus;
 
 public class FoodIntakeObservationTest {
     private static final String SYSTEM_SNOMED_CT = "http://snomed.info/sct";
