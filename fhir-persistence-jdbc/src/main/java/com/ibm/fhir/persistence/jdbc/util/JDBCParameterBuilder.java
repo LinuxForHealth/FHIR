@@ -29,6 +29,8 @@ import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.resource.SubstanceSpecification;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
@@ -340,7 +342,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.lang.String value) throws FHIRPersistenceProcessorException {
-        String methodName = "process(SearchParameter, String)";
+        String methodName = "process(SearchParameter,java.lang.String)";
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
@@ -362,7 +364,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
     @Override
     public List<Parameter> process(SearchParameter parameter, com.ibm.fhir.model.type.String value) throws FHIRPersistenceProcessorException {
-        String methodName = "process(SearchParameter,String)";
+        String methodName = "process(SearchParameter,com.ibm.fhir.model.type.String)";
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
@@ -1187,6 +1189,29 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.fhir.persistence.util.Processor#process(com.ibm.fhir.model.resource.
+     * SearchParameter, com.ibm.fhir.model.type.Url)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, Url value) throws FHIRPersistenceProcessorException {
+        String methodName = "process(SearchParameter,Url)";
+        log.entering(CLASSNAME, methodName);
+        List<Parameter> parameters = new ArrayList<>();
+        try {
+            Parameter p = new Parameter();
+            p.setName(parameter.getCode().getValue());
+            p.setValueString(value.getValue());
+            parameters.add(p);
+            return parameters;
+        } catch (Exception e) {
+            throw buildCodeOnlyNewException(parameter, e);
+        } finally {
+            log.exiting(CLASSNAME, methodName);
+        }
+    }
+
     @Override
     public List<Parameter> process(SearchParameter parameter, Uuid value) {
         return buildUnsupportedTypeResponse(value.getClass());
@@ -1309,17 +1334,30 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
      */
     @Override
     public List<Parameter> process(SearchParameter parameter, Canonical value) throws FHIRPersistenceProcessorException {
-        return buildUnsupportedTypeResponse(value.getClass());
+        String methodName = "process(SearchParameter,Canonical)";
+        log.entering(CLASSNAME, methodName);
+        List<Parameter> parameters = new ArrayList<>();
+        try {
+
+            Parameter p = new Parameter();
+            p.setName(parameter.getCode().getValue());
+            p.setValueString(value.getValue());
+            parameters.add(p);
+            return parameters;
+        } catch (Exception e) {
+            throw buildCodeOnlyNewException(parameter, e);
+        } finally {
+            log.exiting(CLASSNAME, methodName);
+        }
     }
 
     /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.persistence.util.Processor#process(com.ibm.fhir.model.resource.
-     * SearchParameter, com.ibm.fhir.model.type.Url)
+     * Workarounds for https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=24917
      */
-    @Override
-    public List<Parameter> process(SearchParameter parameter, Url value) throws FHIRPersistenceProcessorException {
-        return buildUnsupportedTypeResponse(value.getClass());
+    public List<Parameter> process(SearchParameter parameter, StructureDefinition.Context value) throws FHIRPersistenceProcessorException {
+        return process(parameter, value.getType());
     }
-
+    public List<Parameter> process(SearchParameter parameter, SubstanceSpecification.Code value) throws FHIRPersistenceProcessorException {
+        return process(parameter, value.getCode());
+    }
 }
