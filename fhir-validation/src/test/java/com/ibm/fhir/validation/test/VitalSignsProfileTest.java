@@ -7,7 +7,6 @@
 package com.ibm.fhir.validation.test;
 
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.validation.util.ConstraintGenerator;
 import com.ibm.fhir.validation.util.ProfileSupport;
@@ -17,7 +16,7 @@ public class VitalSignsProfileTest {
     public static void main(String[] args) {
         StructureDefinition vitalSignsProfile = ProfileSupport.getProfile(VITAL_SIGNS_PROFILE_URL);
         ConstraintGenerator generator = new ConstraintGenerator();
-        for (Constraint constraint : generator.generate(vitalSignsProfile, Observation.class)) {
+        for (Constraint constraint : generator.generate(vitalSignsProfile)) {
             System.out.println(constraint);
         }
     }

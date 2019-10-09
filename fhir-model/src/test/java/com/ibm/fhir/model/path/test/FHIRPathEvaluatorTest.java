@@ -67,6 +67,7 @@ public class FHIRPathEvaluatorTest {
         Patient patient = Patient.builder()
                 .id(id)
                 .active(Boolean.TRUE)
+                .deceased(Boolean.FALSE)
                 .multipleBirth(Integer.of(2))
                 .meta(meta)
                 .name(name)
@@ -89,7 +90,7 @@ public class FHIRPathEvaluatorTest {
         EvaluationContext evaluationContext = new EvaluationContext(patient);
         
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "Patient.name.given.first().as(System.String)");
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "Patient.deceased.exists() and Patient.deceased != false");
         
         System.out.println("result: " + result);
     }
