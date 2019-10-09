@@ -1,6 +1,6 @@
 layout: default
-title: IBM Server for HL7 FHIR
-permalink: /maintainers
+title: List of Maintainers
+permalink: /maintainers/
 ---
 
 # MAINTAINERS
