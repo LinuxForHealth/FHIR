@@ -71,7 +71,9 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
 public interface Processor<T> {
     T process(SearchParameter parameter, Object value) throws FHIRPersistenceProcessorException;
 
-    T process(SearchParameter parameter, String value) throws FHIRPersistenceProcessorException;
+    T process(SearchParameter parameter, java.lang.String value) throws FHIRPersistenceProcessorException;
+
+    T process(SearchParameter parameter, com.ibm.fhir.model.type.String value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, Address value) throws FHIRPersistenceProcessorException;
 
@@ -83,7 +85,9 @@ public interface Processor<T> {
 
     T process(SearchParameter parameter, Base64Binary value) throws FHIRPersistenceProcessorException;
 
-    T process(SearchParameter parameter, Boolean value) throws FHIRPersistenceProcessorException;
+    T process(SearchParameter parameter, java.lang.Boolean value) throws FHIRPersistenceProcessorException;
+
+    T process(SearchParameter parameter, com.ibm.fhir.model.type.Boolean value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, Code value) throws FHIRPersistenceProcessorException;
 
@@ -117,6 +121,8 @@ public interface Processor<T> {
 
     T process(SearchParameter parameter, java.lang.Integer value) throws FHIRPersistenceProcessorException;
 
+    T process(SearchParameter parameter, com.ibm.fhir.model.type.Integer value) throws FHIRPersistenceProcessorException;
+
     T process(SearchParameter parameter, Markdown value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, Meta value) throws FHIRPersistenceProcessorException;
@@ -147,8 +153,6 @@ public interface Processor<T> {
 
     T process(SearchParameter parameter, Signature value) throws FHIRPersistenceProcessorException;
 
-    T process(SearchParameter parameter, com.ibm.fhir.model.type.String value) throws FHIRPersistenceProcessorException;
-
     T process(SearchParameter parameter, Time value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, Timing value) throws FHIRPersistenceProcessorException;
@@ -173,8 +177,6 @@ public interface Processor<T> {
 
     T process(SearchParameter parameter, FHIRPathStringValue value) throws FHIRPersistenceProcessorException;
 
-    T process(SearchParameter parameter, ZonedDateTime value) throws FHIRPersistenceProcessorException;
-
     T process(SearchParameter parameter, FHIRPathTimeValue value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, FHIRPathResourceNode value) throws FHIRPersistenceProcessorException;
@@ -185,11 +187,13 @@ public interface Processor<T> {
 
     T process(SearchParameter parameter, FHIRPathBooleanValue value) throws FHIRPersistenceProcessorException;
 
+    T process(SearchParameter parameter, FHIRPathQuantityNode value) throws FHIRPersistenceProcessorException;
+
+    T process(SearchParameter parameter, ZonedDateTime value) throws FHIRPersistenceProcessorException;
+
     T process(SearchParameter parameter, LocalDate value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, YearMonth value) throws FHIRPersistenceProcessorException;
-
-    T process(SearchParameter parameter, FHIRPathQuantityNode value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, Year value) throws FHIRPersistenceProcessorException;
 

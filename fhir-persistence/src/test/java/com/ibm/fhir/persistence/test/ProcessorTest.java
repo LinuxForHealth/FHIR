@@ -417,5 +417,15 @@ public class ProcessorTest {
         public String process(SearchParameter parameter, BigDecimal value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, BigDecimal)";
         }
+
+        @Override
+        public String process(SearchParameter parameter, com.ibm.fhir.model.type.Boolean value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, com.ibm.fhir.model.type.Boolean)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, com.ibm.fhir.model.type.Integer value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, com.ibm.fhir.model.type.Integer)";
+        }
     }
 }

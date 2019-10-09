@@ -6,19 +6,21 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.examples.ExamplesUtil;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Resource;
@@ -27,6 +29,7 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompositionStatus;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 
@@ -39,6 +42,8 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
 
     protected Basic savedResource;
     protected Composition composition;
+    protected FHIRParser jsonParser = FHIRParser.parser(Format.JSON);
+    protected FHIRParser xmlParser = FHIRParser.parser(Format.XML);
 
     @AfterClass
     public void removeTenant() throws Exception {
@@ -53,7 +58,9 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      * Modifies the resource in-place and saves it to {@code savedResource}.
      */
     protected void saveBasicResource(Basic resource) throws FHIRPersistenceException, Exception {
-        persistence.create(getDefaultPersistenceContext(), resource);
+        SingleResourceResult<Basic> result = persistence.create(getDefaultPersistenceContext(), resource);
+        assertTrue(result.isSuccess());
+        resource = result.getResource();
         assertNotNull(resource);
         assertNotNull(resource.getId());
         assertNotNull(resource.getId().getValue());
@@ -62,7 +69,9 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
         assertEquals("1", resource.getMeta().getVersionId().getValue());
         
         // update the resource to verify that historical versions won't be returned in search results
-        persistence.update(getDefaultPersistenceContext(), resource.getId().getValue(), resource);
+        result = persistence.update(getDefaultPersistenceContext(), resource.getId().getValue(), resource);
+        assertTrue(result.isSuccess());
+        resource = result.getResource();
         assertNotNull(resource);
         assertNotNull(resource.getId());
         assertNotNull(resource.getId().getValue());
@@ -148,20 +157,25 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      * Create a Composition with a reference to savedResource for chained search tests. 
      * @throws Exception
      */
-    @Test
     protected Composition createCompositionReferencingSavedResource() throws Exception {
-    	
-    	Reference ref = Reference.builder()
-    			.reference(com.ibm.fhir.model.type.String.of("Basic/" + savedResource.getId().getValue()))
-    			.build();
-    	
-    	composition = Composition.builder()
-    	        .status(CompositionStatus.builder().value(CompositionStatus.ValueSet.PRELIMINARY).build())
-    	        .category(CodeableConcept.builder().text(com.ibm.fhir.model.type.String.of("test")).build())
-    	        .date(DateTime.of("2019"))
-    	        .author(Arrays.asList(ref)).title(com.ibm.fhir.model.type.String.of("TEST")).build();
-    	
-        persistence.create(getDefaultPersistenceContext(), composition);
+        
+        Reference ref = Reference.builder()
+                .reference(com.ibm.fhir.model.type.String.of("Basic/" + savedResource.getId().getValue()))
+                .build();
+        
+        composition = Composition.builder()
+                .subject(ref)
+                .status(CompositionStatus.builder().value(CompositionStatus.ValueSet.PRELIMINARY).build())
+                .type(CodeableConcept.builder().text(string("test")).build())
+                .category(CodeableConcept.builder().text(string("test")).build())
+                .date(DateTime.of("2019"))
+                .author(Reference.builder().display(string("Some Guy")).build())
+                .title(string("TEST"))
+                .build();
+        
+        SingleResourceResult<Composition> result = persistence.create(getDefaultPersistenceContext(), composition);
+        assertTrue(result.isSuccess());
+        composition = result.getResource();
         assertNotNull(composition);
         assertNotNull(composition.getId());
         assertNotNull(composition.getId().getValue());
@@ -170,7 +184,9 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
         assertEquals("1", composition.getMeta().getVersionId().getValue());
         
         // update the resource to verify that historical versions won't be returned in search results
-        persistence.update(getDefaultPersistenceContext(), composition.getId().getValue(), composition);
+        result = persistence.update(getDefaultPersistenceContext(), composition.getId().getValue(), composition);
+        assertTrue(result.isSuccess());
+        composition = result.getResource();
         assertNotNull(composition);
         assertNotNull(composition.getId());
         assertNotNull(composition.getId().getValue());
@@ -197,5 +213,20 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
     protected void assertSearchDoesntReturnComposition(String searchParamName, String queryValue) throws Exception {
         assertFalse("Unexpected resource was returned from the search",
             searchReturnsResource(searchParamName, queryValue, composition));
+    }
+    
+    public <T extends Resource> T readResource(String fileName) throws Exception {
+
+        // Use the filename suffix to determine the format that we're reading, defaulting to JSON
+        Format fmt = (fileName.endsWith(".xml") ? Format.XML : Format.JSON);
+        switch(fmt) {
+        case RDF:
+            throw new IllegalArgumentException("RDF format is not supported");
+        case XML:
+            return xmlParser.parse(ExamplesUtil.reader(fileName));
+        case JSON:
+        default:
+            return jsonParser.parse(ExamplesUtil.reader(fileName));
+        }
     }
 }

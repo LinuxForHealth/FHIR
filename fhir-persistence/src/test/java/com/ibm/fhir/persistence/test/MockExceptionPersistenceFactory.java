@@ -16,6 +16,10 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  */
 public class MockExceptionPersistenceFactory implements FHIRPersistenceFactory {
     
+    /**
+     * Always throws a NullPointerException 
+     */
+    @SuppressWarnings("null")
     public MockExceptionPersistenceFactory() {
         String a = null;
         a.toString();

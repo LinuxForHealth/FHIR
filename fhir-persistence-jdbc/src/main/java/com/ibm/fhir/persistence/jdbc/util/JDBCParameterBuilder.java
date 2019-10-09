@@ -337,7 +337,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     }
 
     @Override
-    public List<Parameter> process(SearchParameter parameter, String value) throws FHIRPersistenceProcessorException {
+    public List<Parameter> process(SearchParameter parameter, java.lang.String value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter, String)";
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
@@ -477,13 +477,35 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.lang.Boolean value) throws FHIRPersistenceProcessorException {
-        String methodName = "process(SearchParameter,Boolean)";
+        String methodName = "process(SearchParameter,java.lang.Boolean)";
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
             p.setName(parameter.getCode().getValue());
             if (value) {
+                p.setValueCode("true");
+            } else {
+                p.setValueCode("false");
+            }
+            parameters.add(p);
+            return parameters;
+        } catch (Exception e) {
+            throw buildCodeOnlyNewException(parameter, e);
+        } finally {
+            log.exiting(CLASSNAME, methodName);
+        }
+    }
+    
+    @Override
+    public List<Parameter> process(SearchParameter parameter, com.ibm.fhir.model.type.Boolean value) throws FHIRPersistenceProcessorException {
+        String methodName = "process(SearchParameter,com.ibm.fhir.model.type.Boolean)";
+        log.entering(CLASSNAME, methodName);
+        List<Parameter> parameters = new ArrayList<>();
+        try {
+            Parameter p = new Parameter();
+            p.setName(parameter.getCode().getValue());
+            if (value.getValue()) {
                 p.setValueCode("true");
             } else {
                 p.setValueCode("false");
@@ -826,7 +848,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.lang.Integer value) throws FHIRPersistenceProcessorException {
-        String methodName = "process(SearchParameter,Integer)";
+        String methodName = "process(SearchParameter,java.lang.Integer)";
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
@@ -834,6 +856,25 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             p.setName(parameter.getCode().getValue());
             // TODO: consider moving integer values to separate column so they can be searched different from decimals
             p.setValueNumber(new BigDecimal(value));
+            parameters.add(p);
+            return parameters;
+        } catch (Exception e) {
+            throw buildCodeOnlyNewException(parameter, e);
+        } finally {
+            log.exiting(CLASSNAME, methodName);
+        }
+    }
+
+    @Override
+    public List<Parameter> process(SearchParameter parameter, com.ibm.fhir.model.type.Integer value) throws FHIRPersistenceProcessorException {
+        String methodName = "process(SearchParameter,com.ibm.fhir.model.type.Integer)";
+        log.entering(CLASSNAME, methodName);
+        List<Parameter> parameters = new ArrayList<>();
+        try {
+            Parameter p = new Parameter();
+            p.setName(parameter.getCode().getValue());
+            // TODO: consider moving integer values to separate column so they can be searched different from decimals
+            p.setValueNumber(new BigDecimal(value.getValue()));
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
