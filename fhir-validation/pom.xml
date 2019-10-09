@@ -65,6 +65,7 @@
                                     <goal>copy-dependencies</goal>
                                 </goals>
                                 <configuration>
+                                    <includeScope>compile</includeScope>
                                     <outputDirectory>${project.build.directory}/jars</outputDirectory>
                                 </configuration>
                             </execution>
