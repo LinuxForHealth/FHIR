@@ -29,6 +29,7 @@ import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -64,6 +65,7 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
@@ -88,6 +90,8 @@ public interface Processor<T> {
     T process(SearchParameter parameter, java.lang.Boolean value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, com.ibm.fhir.model.type.Boolean value) throws FHIRPersistenceProcessorException;
+
+    T process(SearchParameter parameter, Canonical value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, Code value) throws FHIRPersistenceProcessorException;
 
@@ -162,6 +166,8 @@ public interface Processor<T> {
     T process(SearchParameter parameter, UnsignedInt value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, Uri value) throws FHIRPersistenceProcessorException;
+
+    T process(SearchParameter parameter, Url value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, UsageContext value) throws FHIRPersistenceProcessorException;
 

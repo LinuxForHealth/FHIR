@@ -34,6 +34,7 @@ import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -69,6 +70,7 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
@@ -102,8 +104,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     }
 
     private List<Parameter> buildUnsupportedTypeResponse(Class<?> cls) {
-        if (log.isLoggable(Level.FINEST)) {
-            log.finest(String.format("The processing of %s is unsupported", cls.getName()));
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("The processing of %s is unsupported", cls.getName()));
         }
         return Collections.emptyList();
     }
@@ -969,13 +971,13 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             if (value.getStart() == null || value.getStart().getValue() == null) {
                 p.setValueDateStart(SMALLEST_TIMESTAMP);
             } else {
-                java.time.Instant startInst = java.time.Instant.from(value.getStart().getValue());
+                java.time.Instant startInst = QueryBuilderUtil.getInstant(value.getStart());
                 p.setValueDateStart(Timestamp.from(startInst));
             }
             if (value.getEnd() == null || value.getEnd().getValue() == null) {
                 p.setValueDateEnd(LARGEST_TIMESTAMP);
             } else {
-                java.time.Instant endInst = java.time.Instant.from(value.getEnd().getValue());
+                java.time.Instant endInst = QueryBuilderUtil.getInstant(value.getEnd());
                 p.setValueDateEnd(Timestamp.from(endInst));
             }
             parameters.add(p);
@@ -1297,6 +1299,26 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
      */
     @Override
     public List<Parameter> process(SearchParameter parameter, UsageContext value) throws FHIRPersistenceProcessorException {
+        return buildUnsupportedTypeResponse(value.getClass());
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.fhir.persistence.util.Processor#process(com.ibm.fhir.model.resource.
+     * SearchParameter, com.ibm.fhir.model.type.Canonical)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, Canonical value) throws FHIRPersistenceProcessorException {
+        return buildUnsupportedTypeResponse(value.getClass());
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.ibm.fhir.persistence.util.Processor#process(com.ibm.fhir.model.resource.
+     * SearchParameter, com.ibm.fhir.model.type.Url)
+     */
+    @Override
+    public List<Parameter> process(SearchParameter parameter, Url value) throws FHIRPersistenceProcessorException {
         return buildUnsupportedTypeResponse(value.getClass());
     }
 

@@ -33,6 +33,7 @@ import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -68,6 +69,7 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.code.AccountStatus;
@@ -426,6 +428,16 @@ public class ProcessorTest {
         @Override
         public String process(SearchParameter parameter, com.ibm.fhir.model.type.Integer value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, com.ibm.fhir.model.type.Integer)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, Canonical value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, Canonical)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, Url value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, Url)";
         }
     }
 }

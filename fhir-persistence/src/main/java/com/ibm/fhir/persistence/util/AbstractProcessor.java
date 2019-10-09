@@ -12,7 +12,6 @@ import java.text.ParseException;
 
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Quantity;
@@ -27,7 +26,8 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
             if (Code.class.isAssignableFrom(valueType)) {
                 // handle subclasses of Code just like Code
                 valueType = Code.class;
-            } else if (valueType == Duration.class) {
+            } else if (Quantity.class.isAssignableFrom(valueType)) {
+                // handle subclasses of Quantity just like Quantity
                 valueType = Quantity.class;
             } else if (valueType == Extension.class) {
                 value = getValue((Extension) value);
