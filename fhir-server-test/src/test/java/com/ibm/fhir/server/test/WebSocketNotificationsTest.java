@@ -40,6 +40,8 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
      */
     @Test(groups = { "websocket-notifications" }, singleThreaded = true)
     public void testCreatePatient() throws Exception {
+        // Wait 5 seconds to make sure we don't receive any old event from previous test.
+        Thread.sleep(5000);
         FHIRNotificationServiceClientEndpoint endpoint = getWebsocketClientEndpoint();
         assertNotNull(endpoint);
 
@@ -78,6 +80,8 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
      */
     @Test(groups = { "websocket-notifications" }, dependsOnMethods = { "testCreatePatient" }, singleThreaded = true)
     public void testCreateObservation() throws Exception {
+        // Wait 5 seconds to make sure we don't receive any old event from previous test.
+        Thread.sleep(5000);
         FHIRNotificationServiceClientEndpoint endpoint = getWebsocketClientEndpoint();
 
         WebTarget target = getWebTarget();
@@ -114,6 +118,8 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
      */
     @Test(groups = { "websocket-notifications" }, dependsOnMethods = { "testCreateObservation" },  singleThreaded = true)
     public void testUpdateObservation() throws Exception {
+        // Wait 5 seconds to make sure we don't receive any old event from previous test.
+        Thread.sleep(5000);
         FHIRNotificationServiceClientEndpoint endpoint = getWebsocketClientEndpoint();
 
         WebTarget target = getWebTarget();
