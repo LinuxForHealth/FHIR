@@ -16,7 +16,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/boolean').valueBoolean",
+                "expression": "Basic.extension.where(url='http://example.org/boolean').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/boolean']/f:valueBoolean",
                 "xpathUsage": "normal"
             }
@@ -35,7 +35,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/integer').valueInteger",
+                "expression": "Basic.extension.where(url='http://example.org/integer').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/integer']/f:valueInteger",
                 "xpathUsage": "normal"
             }
@@ -54,7 +54,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/string').valueString",
+                "expression": "Basic.extension.where(url='http://example.org/string').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/string']/f:valueString",
                 "xpathUsage": "normal"
             }
@@ -73,7 +73,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/code').valueCode",
+                "expression": "Basic.extension.where(url='http://example.org/code').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/code']/f:valueCode",
                 "xpathUsage": "normal"
             }
@@ -92,7 +92,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/decimal').valueDecimal",
+                "expression": "Basic.extension.where(url='http://example.org/decimal').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/decimal']/f:valueDecimal",
                 "xpathUsage": "normal"
             }
@@ -111,7 +111,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/uri').valueUri",
+                "expression": "Basic.extension.where(url='http://example.org/uri').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/uri']/f:valueUri",
                 "xpathUsage": "normal"
             }
@@ -130,7 +130,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/instant').valueInstant",
+                "expression": "Basic.extension.where(url='http://example.org/instant').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/instant']/f:valueInstant",
                 "xpathUsage": "normal"
             }
@@ -149,7 +149,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/date').valueDate",
+                "expression": "Basic.extension.where(url='http://example.org/date').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/date']/f:valueDate",
                 "xpathUsage": "normal"
             }
@@ -168,7 +168,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/dateTime').valueDateTime",
+                "expression": "Basic.extension.where(url='http://example.org/dateTime').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/dateTime']/f:valueDateTime",
                 "xpathUsage": "normal"
             }
@@ -187,7 +187,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Period').valuePeriod",
+                "expression": "Basic.extension.where(url='http://example.org/Period').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Period']/f:valuePeriod",
                 "xpathUsage": "normal"
             }
@@ -206,7 +206,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Timing').valueTiming",
+                "expression": "Basic.extension.where(url='http://example.org/Timing').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Timing']/f:valueTiming",
                 "xpathUsage": "normal"
             }
@@ -225,7 +225,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Quantity').valueQuantity",
+                "expression": "Basic.extension.where(url='http://example.org/Quantity').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Quantity']/f:valueQuantity",
                 "xpathUsage": "normal"
             }
@@ -244,7 +244,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Reference').valueReference",
+                "expression": "Basic.extension.where(url='http://example.org/Reference').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Reference']/f:valueReference",
                 "xpathUsage": "normal"
             }
@@ -263,7 +263,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Coding').valueCoding",
+                "expression": "Basic.extension.where(url='http://example.org/Coding').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Coding']/f:valueCoding",
                 "xpathUsage": "normal"
             }
@@ -282,7 +282,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/CodeableConcept').valueCodeableConcept",
+                "expression": "Basic.extension.where(url='http://example.org/CodeableConcept').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/CodeableConcept']/f:valueCodeableConcept",
                 "xpathUsage": "normal"
             }
@@ -301,7 +301,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Identifier').valueIdentifier",
+                "expression": "Basic.extension.where(url='http://example.org/Identifier').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Identifier']/f:valueIdentifier",
                 "xpathUsage": "normal"
             }
@@ -320,7 +320,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Period-noStart').valuePeriod",
+                "expression": "Basic.extension.where(url='http://example.org/Period-noStart').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Period-noStart']/f:valuePeriod",
                 "xpathUsage": "normal"
             }
@@ -339,7 +339,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Period-noEnd').valuePeriod",
+                "expression": "Basic.extension.where(url='http://example.org/Period-noEnd').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Period-noEnd']/f:valuePeriod",
                 "xpathUsage": "normal"
             }
@@ -358,7 +358,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Period-noStartOrEnd').valuePeriod",
+                "expression": "Basic.extension.where(url='http://example.org/Period-noStartOrEnd').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Period-noStartOrEnd']/f:valuePeriod",
                 "xpathUsage": "normal"
             }
@@ -377,7 +377,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Timing-eventsOnly').valuePeriod",
+                "expression": "Basic.extension.where(url='http://example.org/Timing-eventsOnly').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Timing-eventsOnly']/f:valuePeriod",
                 "xpathUsage": "normal"
             }
@@ -396,17 +396,17 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Timing-boundQuantity').valueTiming",
+                "expression": "Basic.extension.where(url='http://example.org/Timing-boundQuantity').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Timing-boundQuantity']/f:valueTiming",
                 "xpathUsage": "normal"
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Basic-Timing-boundRange",
+            "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundRange",
             "resource": {
                 "resourceType": "SearchParameter",
-                "id": "Basic-Basic-Timing-boundRange",
-                "url": "http://ibm.com/fhir/SearchParameter/Basic-Basic-Timing-boundRange",
+                "id": "Basic-Timing-boundRange",
+                "url": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundRange",
                 "name": "Basic-Timing-boundRange",
                 "status": "active",
                 "description": "test param",
@@ -415,27 +415,27 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Basic-Timing-boundRange').valueTiming",
+                "expression": "Basic.extension.where(url='http://example.org/Basic-Timing-boundRange').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/Basic-Timing-boundRange']/f:valueTiming",
                 "xpathUsage": "normal"
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Basic-Timing-boundPeriod",
+            "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundPeriod",
             "resource": {
                 "resourceType": "SearchParameter",
-                "id": "Basic-Basic-Timing-boundPeriod",
-                "url": "http://ibm.com/fhir/SearchParameter/Basic-Basic-Timing-boundPeriod",
-                "name": "Basic-Timing-boundPeriod",
+                "id": "Basic-Timing-boundPeriod",
+                "url": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundPeriod",
+                "name": "Timing-boundPeriod",
                 "status": "active",
                 "description": "test param",
-                "code": "Basic-Timing-boundPeriod",
+                "code": "Timing-boundPeriod",
                 "base": [
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/Basic-Timing-boundPeriod').valueTiming",
-                "xpath": "f:Basic/f:extension[@url='http://example.org/Basic-Timing-boundPeriod']/f:valueTiming",
+                "expression": "Basic.extension.where(url='http://example.org/Timing-boundPeriod').value",
+                "xpath": "f:Basic/f:extension[@url='http://example.org/Timing-boundPeriod']/f:valueTiming",
                 "xpathUsage": "normal"
             }
         },
@@ -453,7 +453,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/missing-instant').valueInstant",
+                "expression": "Basic.extension.where(url='http://example.org/missing-instant').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/missing-instant']/f:valueInstant",
                 "xpathUsage": "normal"
             }
@@ -472,7 +472,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/missing-date').valueDate",
+                "expression": "Basic.extension.where(url='http://example.org/missing-date').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/missing-date']/f:valueDate",
                 "xpathUsage": "normal"
             }
@@ -491,7 +491,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/missing-dateTime').valueDateTime",
+                "expression": "Basic.extension.where(url='http://example.org/missing-dateTime').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/missing-dateTime']/f:valueDateTime",
                 "xpathUsage": "normal"
             }
@@ -510,7 +510,7 @@
                     "Basic"
                 ],
                 "type": "date",
-                "expression": "Basic.extension.where(url='http://example.org/missing-Period').valuePeriod",
+                "expression": "Basic.extension.where(url='http://example.org/missing-Period').value",
                 "xpath": "f:Basic/f:extension[@url='http://example.org/missing-Period']/f:valuePeriod",
                 "xpathUsage": "normal"
             }

@@ -152,10 +152,8 @@ public class ValueTypesR4Impl implements IValueTypes {
                 valueTypesList.addAll(tenantValueTypes.get(hash(resourceType, code)));
 
             } catch (Exception e) {
-                if (log.isLoggable(Level.FINEST)) {
-                    // If there is an exception here, it's most likely in the file. 
-                    log.finest("Did not find the tenant value for [" + tenantId + "][" + resourceType.getSimpleName() + "][" + code + "]");
-                }
+                // If there is an exception here, it's most likely in the file. 
+                log.log(Level.INFO, "Did not find the tenant value for [" + tenantId + "][" + resourceType.getSimpleName() + "][" + code + "]", e);
             }
         }
     }

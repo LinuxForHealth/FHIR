@@ -478,7 +478,7 @@ public class SearchUtil {
 
             // Outputs the Expression and the Name of the SearchParameter
             if (log.isLoggable(Level.FINEST)) {
-                // Issue 202: switched to using Code
+                // This used to "name" but now correctly uses "code"
                 log.finest(String.format(EXTRACT_PARAMETERS_LOGGING, parameter.getCode().getValue(), expression.getValue()));
             }
 

@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 import java.util.Properties;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
@@ -45,61 +44,5 @@ public class JDBCNormSearchDateTest extends AbstractSearchDateTest {
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchDateTest#testCreateBasicResource()
-     */
-    @Override
-    @Test
-    public void testCreateBasicResource() throws Exception {
-        super.testCreateBasicResource();
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchDateTest#testSearchDate_date()
-     */
-    @Override
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchDate_date() throws Exception {
-        // TODO Auto-generated method stub
-        super.testSearchDate_date();
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchDateTest#testSearchDate_date()
-     */
-    @Override
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchDate_dateTime() throws Exception {
-        // TODO Auto-generated method stub
-        super.testSearchDate_dateTime();
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchDateTest#testSearchDate_Period()
-     */
-    @Override
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchDate_Period() throws Exception {
-        super.testSearchDate_Period();
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchDateTest#testSearchDate_Period_NoStart()
-     */
-    @Override
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchDate_Period_NoStart() throws Exception {
-        super.testSearchDate_Period_NoStart();
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchDateTest#testSearchDate_Period_NoEnd()
-     */
-    @Override
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchDate_Period_NoEnd() throws Exception {
-        super.testSearchDate_Period_NoEnd();
     }
 }

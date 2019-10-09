@@ -50,30 +50,29 @@
       }
     },
     {
-      "url": "http://example.org/PeriodNoEnd",
+      "url": "http://example.org/Period-noEnd",
       "valuePeriod": {
         "start": "2018-10-29T17:12:00-04:00"
       }
     },
     {
-      "url": "http://example.org/PeriodNoStart",
+      "url": "http://example.org/Period-noStart",
       "valuePeriod": {
         "end": "2018-10-29T17:18:00-04:00"
       }
     },
     {
-      "url": "http://example.org/PeriodNoStartOrEnd",
+      "url": "http://example.org/Period-noStartOrEnd",
       "valuePeriod": {
         "_start": {
           "extension": [{
             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-            "value": "masked"
+            "valueString": "masked"
           }]
         }
       }
     },
     {
-      "__comment": "the specified scheduling details are ignored and only the outer limits matter",
       "url": "http://example.org/TimingEventsOnly",
       "valueTiming": {
         "event": [
@@ -85,11 +84,10 @@
       }
     },
     {
-      "__comment": "the specified scheduling details are ignored and only the outer limits matter",
-      "url": "http://example.org/TimingBoundsQuantity",
+      "url": "http://example.org/TimingBoundsDuration",
       "valueTiming": {
         "repeat": {
-          "boundsQuantity": {
+          "boundsDuration": {
             "value": 25,
             "unit": "days",
             "system": "http://unitsofmeasure.org",
@@ -97,18 +95,17 @@
           },
           "count": 3,
           "duration": 5,
-          "durationUnits": "h",
+          "durationUnit": "h",
           "frequency": 3,
           "frequencyMax": 5,
           "period": 1,
           "periodMax": 2,
-          "periodUnits": "h",
-          "when": "AC"
+          "periodUnit": "h",
+          "when": ["AC"]
         }
       }
     },
     {
-      "__comment": "the specified scheduling details are ignored and only the outer limits matter",
       "url": "http://example.org/TimingBoundsRange",
       "valueTiming": {
         "repeat": {
@@ -128,18 +125,17 @@
           },
           "count": 3,
           "duration": 5,
-          "durationUnits": "h",
+          "durationUnit": "h",
           "frequency": 3,
           "frequencyMax": 5,
           "period": 1,
           "periodMax": 2,
-          "periodUnits": "h",
-          "when": "AC"
+          "periodUnit": "h",
+          "when": ["AC"]
         }
       }
     },
     {
-      "__comment": "the specified scheduling details are ignored and only the outer limits matter",
       "url": "http://example.org/TimingBoundsPeriod",
       "valueTiming": {
         "repeat": {
@@ -149,13 +145,13 @@
           },
           "count": 3,
           "duration": 5,
-          "durationUnits": "h",
+          "durationUnit": "h",
           "frequency": 3,
           "frequencyMax": 5,
           "period": 1,
           "periodMax": 2,
-          "periodUnits": "h",
-          "when": "AC"
+          "periodUnit": "h",
+          "when": ["AC"]
         }
       }
     }
