@@ -16,4 +16,12 @@
             <fileMode>0755</fileMode>
         </fileSet>
     </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>true</useProjectArtifact>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+            <outputDirectory>.</outputDirectory>
+        </dependencySet>
+    </dependencySets>
 </assembly>
