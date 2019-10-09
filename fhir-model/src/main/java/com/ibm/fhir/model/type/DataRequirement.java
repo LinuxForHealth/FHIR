@@ -19,8 +19,9 @@ import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.FHIRAllTypes;
-import com.ibm.fhir.model.type.SortDirection;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.FHIRAllTypes;
+import com.ibm.fhir.model.type.code.SortDirection;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 

@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.type.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueSeverity;
 
 public class FHIRHealthcheckOperationTest extends FHIRServerTestBase {    
     @Test

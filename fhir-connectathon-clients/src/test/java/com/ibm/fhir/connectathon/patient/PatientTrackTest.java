@@ -16,7 +16,6 @@ import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.bind.JAXBException;
 
 import org.testng.annotations.Test;
 
@@ -29,14 +28,14 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
+import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.RestfulCapabilityMode;
-import com.ibm.fhir.model.type.TypeRestfulInteraction;
+import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
+import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
@@ -275,7 +274,7 @@ public class PatientTrackTest extends FHIRModelTestBase {
         return patient;
     }
 
-    private void displayResource(String msg, Resource resource) throws JAXBException, FHIRException {
+    private void displayResource(String msg, Resource resource) throws FHIRException {
         String s = writeResource(resource, Format.JSON);
         log(msg);
         log(s);

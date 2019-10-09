@@ -12,7 +12,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.bind.JAXBException;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,15 +20,15 @@ import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.MedicationAdministration;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.type.BundleType;
-import com.ibm.fhir.model.type.HTTPVerb;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 
 /**
  * This class provides a simple test involving a transaction bundle containing 3
@@ -125,7 +124,7 @@ public class SimpleRouterTest extends FHIRServerTestBase {
         assertNotNull(response.getLastModified().getValue());
     }
 
-    private void printBundle(String method, String bundleType, Bundle bundle) throws JAXBException, FHIRException {
+    private void printBundle(String method, String bundleType, Bundle bundle) throws FHIRException {
         if (debug) {
             System.out.println(method + " " + bundleType + " bundle contents:\n" + writeResource(bundle, Format.JSON));
         }

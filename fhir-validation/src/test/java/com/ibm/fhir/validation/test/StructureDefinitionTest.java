@@ -11,8 +11,8 @@ import java.util.List;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class StructureDefinitionTest {

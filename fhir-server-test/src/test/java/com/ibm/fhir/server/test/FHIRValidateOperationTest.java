@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.type.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueSeverity;
 
 public class FHIRValidateOperationTest extends FHIRServerTestBase {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);

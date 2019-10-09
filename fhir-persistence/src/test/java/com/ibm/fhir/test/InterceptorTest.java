@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;

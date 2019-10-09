@@ -26,9 +26,9 @@ import com.ibm.fhir.model.resource.MedicationAdministration;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.HTTPVerb;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 
 /**
  * This class tests delete interactions.

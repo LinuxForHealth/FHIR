@@ -20,18 +20,6 @@
             "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
             "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
         },
-        "encryption": {
-            "enabled": false,
-            "keystoreLocation": "resources/security/fhirkeys.jceks",
-            "keystorePassword": "change-password",
-            "keyPassword": "change-password"
-        },
-        "virtualResources": {
-            "enabled": false,
-            "allowableResourceTypes": [
-                "*"
-            ]
-        },
         "notifications": {
             "common": {
                 "__comment_includeResourceTypes": [

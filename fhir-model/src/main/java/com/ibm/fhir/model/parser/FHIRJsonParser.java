@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Stack;
 import java.util.StringJoiner;
 
+import javax.annotation.Generated;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonNumber;
@@ -34,11 +35,13 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
 import com.ibm.fhir.model.type.*;
+import com.ibm.fhir.model.type.code.*;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.util.ElementFilter;
 
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FHIRJsonParser implements FHIRParser {
     public static boolean DEBUG = false;
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
@@ -58,6 +61,8 @@ public class FHIRJsonParser implements FHIRParser {
         try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingInputStream(in), StandardCharsets.UTF_8)) {
             JsonObject jsonObject = jsonReader.readObject();
             return parseAndFilter(jsonObject, elementsToInclude);
+        } catch (FHIRParserException e) {
+            throw e;
         } catch (Exception e) {
             throw new FHIRParserException(e.getMessage(), getPath(), e);
         }
@@ -72,6 +77,8 @@ public class FHIRJsonParser implements FHIRParser {
         try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingReader(reader))) {
             JsonObject jsonObject = jsonReader.readObject();
             return parseAndFilter(jsonObject, elementsToInclude);
+        } catch (FHIRParserException e) {
+            throw e;
         } catch (Exception e) {
             throw new FHIRParserException(e.getMessage(), getPath(), e);
         }

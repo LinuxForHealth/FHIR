@@ -14,9 +14,8 @@ import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.IssueType;
-import com.ibm.fhir.model.type.OperationParameterUse;
-import com.ibm.fhir.model.type.ResourceType;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.context.FHIROperationContext;
@@ -107,7 +106,7 @@ public abstract class AbstractOperation implements FHIROperation {
     protected List<String> getResourceTypeNames() {
         List<String> resourceTypeNames = new ArrayList<String>();
         OperationDefinition definition = getDefinition();
-        for (ResourceType type : definition.getResource()) {
+        for (com.ibm.fhir.model.type.code.ResourceType type : definition.getResource()) {
             resourceTypeNames.add(type.getValue());
         }
         return resourceTypeNames;

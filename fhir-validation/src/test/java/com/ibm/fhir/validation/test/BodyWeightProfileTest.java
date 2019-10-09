@@ -24,9 +24,9 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.ObservationStatus;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class BodyWeightProfileTest {

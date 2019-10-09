@@ -306,11 +306,11 @@ public class CodeGenerator {
         cb._import("java.time.Year");
         cb._import("java.time.YearMonth");
         cb._import("java.time.ZonedDateTime");
-        
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
+        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
@@ -1485,9 +1485,7 @@ public class CodeGenerator {
                     path.equals(basePath) && 
                     !"ElementDefinition".equals(name) && 
                     !isProfiledType(name)) {
-                if (isResource(structureDefinition)) {
-                    imports.add("com.ibm.fhir.model.type.BindingStrength");
-                }
+                imports.add("com.ibm.fhir.model.type.code.BindingStrength");
                 imports.add("com.ibm.fhir.model.annotation.Binding");
             }
             
@@ -1501,9 +1499,11 @@ public class CodeGenerator {
                 definition = structureDefinitionMap.get(camelCase(fieldType));
             }
             
-            if (isResource(structureDefinition) && (isDataType(definition)) || hasRequiredBinding(elementDefinition)) {
+            if (isResource(structureDefinition) && isDataType(definition)) {
                 imports.add("com.ibm.fhir.model.type." + fieldType);
-            }
+            } else if (hasRequiredBinding(elementDefinition)) {
+                imports.add("com.ibm.fhir.model.type.code." + fieldType);
+            } 
             
             if (isProhibited(elementDefinition)) {
                 imports.add("com.ibm.fhir.model.util.ValidationSupport");
@@ -1751,6 +1751,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb._import("javax.annotation.Generated");
         cb._import("javax.xml.stream.XMLStreamException");
         cb._import("javax.xml.stream.XMLStreamReader");
         
@@ -1760,6 +1761,7 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
+        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
@@ -1767,6 +1769,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRXMLParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         
@@ -2122,6 +2125,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb._import("javax.annotation.Generated");
         cb._import("javax.json.Json");
         cb._import("javax.json.JsonArray");
         cb._import("javax.json.JsonNumber");
@@ -2137,6 +2141,7 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
+        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
@@ -2144,6 +2149,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRJsonParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
@@ -2173,6 +2179,8 @@ public class CodeGenerator {
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingInputStream(in), StandardCharsets.UTF_8)")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
+            ._catch("FHIRParserException e")
+                ._throw("e")
             ._catch("Exception e")
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
@@ -2193,6 +2201,8 @@ public class CodeGenerator {
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingReader(reader))")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
+            ._catch("FHIRParserException e")
+                ._throw("e")
             ._catch("Exception e")
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
@@ -2585,13 +2595,20 @@ public class CodeGenerator {
                 valueSet = tokens[0];
                 
                 CodeBuilder cb = new CodeBuilder();
-                String packageName = "com.ibm.fhir.model.type";
+                String packageName = "com.ibm.fhir.model.type.code";
                 cb.lines(HEADER).newLine();
                 cb._package(packageName).newLine();
+                
+                cb._import("com.ibm.fhir.model.type.Code");
+                cb._import("com.ibm.fhir.model.type.Extension");
+                cb._import("com.ibm.fhir.model.type.String").newLine();
                 
                 cb._import("java.util.Collection");
                 cb._import("java.util.Objects").newLine();
                 
+                cb._import("javax.annotation.Generated").newLine();
+                
+                cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
                 cb._class(mods("public"), bindingName, "Code");
                 
                 List<JsonObject> concepts = getConcepts(valueSet);
@@ -2654,11 +2671,11 @@ public class CodeGenerator {
                 
                 cb.method(mods("public"), "Builder", "toBuilder")
                     .assign("Builder builder", "new Builder()")
-                    .assign("builder.id", "id")
-                    .invoke("builder.extension", "addAll", args("extension"))
-                    .assign("builder.value", "value")
+                    .invoke("builder", "id", args("id"))
+                    .invoke("builder", "extension", args("extension"))
+                    .invoke("builder", "value", args("value"))
                     ._return("builder")
-                .end().newLine();                
+                .end().newLine();
                 
                 cb.method(mods("public", "static"), "Builder", "builder")
                     ._return(_new("Builder"))
@@ -2687,11 +2704,11 @@ public class CodeGenerator {
                 
                 cb.override();
                 cb.method(mods("public"), "Builder", "value", args("java.lang.String value"))
-                    ._return("(Builder) super.value(ValueSet.from(value).value())")
+                    ._return("(value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this")
                 .end().newLine();
                 
                 cb.method(mods("public"), "Builder", "value", args("ValueSet value"))
-                    ._return("(Builder) super.value(value.value())")
+                    ._return("(value != null) ? (Builder) super.value(value.value()) : this")
                 .end().newLine();
                 
                 cb.override();

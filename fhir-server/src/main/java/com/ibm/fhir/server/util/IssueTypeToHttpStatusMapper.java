@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueType;
 
 public class IssueTypeToHttpStatusMapper {
     /**

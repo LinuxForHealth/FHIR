@@ -35,13 +35,13 @@ import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.DocumentReferenceStatus;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.DocumentReferenceStatus;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
