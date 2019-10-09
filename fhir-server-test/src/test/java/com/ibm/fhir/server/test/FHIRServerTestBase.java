@@ -277,7 +277,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
             int count = 10;
             while ( !session.isOpen() && count > 0) {
                 System.out.println(">>> " + count + " waiting");
-                Thread.currentThread().sleep(1000l);
+                Thread.sleep(1000l);
                 count--;
             }
             
