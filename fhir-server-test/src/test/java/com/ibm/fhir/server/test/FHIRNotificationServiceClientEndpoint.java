@@ -218,11 +218,15 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
      * @return
      */
     public FHIRNotificationEvent checkForEvent(String eventId) {
-        for (String eventString : getEvents()) {
+        
+        System.out.println(" >>> event total - " + events.size());
+        
+        for (String eventString : events) {
             FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(eventString);
             System.out.println(" >>> event - " + event.getResourceId());
             
             if (eventId.compareTo(event.getResourceId()) == 0) {
+                
                 return event;
             }
         }
