@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -212,21 +213,25 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     }
 
     /**
-     * check for event. 
+     * check for event.
      * 
      * @param eventId
      * @return
      */
     public FHIRNotificationEvent checkForEvent(String eventId) {
-        
+
         System.out.println(" >>> event total - " + events.size());
-        
-        for (String eventString : events) {
+
+        Iterator<String> eventIter = events.iterator();
+        while (eventIter.hasNext()) {
+            String eventString = eventIter.next();
+
             FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(eventString);
             System.out.println(" >>> event - " + event.getResourceId());
-            
+
             if (eventId.compareTo(event.getResourceId()) == 0) {
-                
+                // Wipe out the current value if it matches (and is the first one
+                eventIter.remove();
                 return event;
             }
         }
