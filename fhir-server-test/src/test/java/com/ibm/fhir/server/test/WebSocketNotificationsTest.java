@@ -8,7 +8,6 @@ package com.ibm.fhir.server.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
@@ -54,6 +53,19 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     public void shutdown() {
         endpoint.close();
     }
+    
+    public FHIRNotificationEvent getEvent(String id) throws InterruptedException {
+        FHIRNotificationEvent event = null;
+        int checkCount = 30;
+        while(event != null && checkCount > 0) {
+            // Only if null, we're going to wait. 
+            endpoint.getLatch().await(1, TimeUnit.SECONDS);
+            event = endpoint.checkForEvent(id);
+            checkCount--;
+        }
+        assertNotNull(event);
+        return event;
+    }
 
     /**
      * Create a Patient, then make sure we can retrieve it.
@@ -78,16 +90,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatient = responsePatient;
 
-        FHIRNotificationEvent event = endpoint.checkForEvent(responsePatient.getId().getValue());
-        int checkCount = 30;
-        while(event != null && checkCount > 0) {
-            // Only if null, we're going to wait. 
-            endpoint.getLatch().await(1, TimeUnit.SECONDS);
-            event = endpoint.checkForEvent(responsePatient.getId().getValue());
-            checkCount--;
-        }
-        assertTrue(event != null);
-
+        FHIRNotificationEvent event = getEvent(responsePatient.getId().getValue());
         assertEquals(event.getResourceId(), responsePatient.getId().getValue());
         assertResourceEquals(patient, responsePatient);
         
@@ -115,15 +118,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         Observation responseObs = response.readEntity(Observation.class);
         savedCreatedObservation = responseObs;
 
-        FHIRNotificationEvent event = endpoint.checkForEvent(savedCreatedObservation.getId().getValue());
-        int checkCount = 30;
-        while(event != null && checkCount > 0) {
-            // Only if null, we're going to wait. 
-            endpoint.getLatch().await(1, TimeUnit.SECONDS);
-            event = endpoint.checkForEvent(savedCreatedObservation.getId().getValue());
-            checkCount--;
-        }
-        assertTrue(event != null);
+        FHIRNotificationEvent event = getEvent(savedCreatedObservation.getId().getValue());
 
         assertEquals(event.getResourceId(), responseObs.getId().getValue());
         assertResourceEquals(observation, responseObs);
@@ -154,17 +149,8 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
         Observation responseObservation = response.readEntity(Observation.class);
 
-        FHIRNotificationEvent event = endpoint.checkForEvent(responseObservation.getId().getValue());
-        int checkCount = 30;
-        while(event != null && checkCount > 0) {
-            // Only if null, we're going to wait. 
-            endpoint.getLatch().await(1, TimeUnit.SECONDS);
-            event = endpoint.checkForEvent(responseObservation.getId().getValue());
-            checkCount--;
-        }
+        FHIRNotificationEvent event = getEvent(responseObservation.getId().getValue());
         
-        assertTrue(event != null);
-
         assertEquals(event.getResourceId(), responseObservation.getId().getValue());
         assertNotNull(responseObservation);
         assertResourceEquals(observation, responseObservation);
