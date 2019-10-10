@@ -34,7 +34,7 @@ import com.ibm.fhir.model.util.ModelSupport;
  * @author lmsurpre
  * @param <T> The type to copy. Only visitables of this type should be visited.
  */
-public class CopyingVisitor<T extends Visitable> extends AbstractVisitor {
+public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     private final Stack<BuilderWrapper> builderStack = new Stack<>();
     private Stack<ListWrapper> listStack = new Stack<>();
     private Object result;
@@ -56,13 +56,8 @@ public class CopyingVisitor<T extends Visitable> extends AbstractVisitor {
         return (T)result;
     }
     
-    @Override
-    public boolean preVisit(Element element) {
-        return true;
-    }
-    @Override
-    public boolean preVisit(Resource resource) {
-        return true;
+    public CopyingVisitor() {
+        super(true);
     }
     
     /**

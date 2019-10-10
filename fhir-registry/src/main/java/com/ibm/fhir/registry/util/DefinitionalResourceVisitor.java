@@ -36,13 +36,15 @@ import com.ibm.fhir.model.resource.TerminologyCapabilities;
 import com.ibm.fhir.model.resource.TestScript;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.visitor.AbstractVisitor;
+import com.ibm.fhir.model.visitor.DefaultVisitor;
 
-public class DefinitionalResourceVisitor extends AbstractVisitor {
+public class DefinitionalResourceVisitor extends DefaultVisitor {
     private String url;
     private String version;
     
-    public DefinitionalResourceVisitor() { }
+    public DefinitionalResourceVisitor() {
+        super(true);
+    }
     
     public String getUrl() {
         return url;

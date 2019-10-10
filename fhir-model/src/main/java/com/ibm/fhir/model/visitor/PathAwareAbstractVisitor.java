@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
 
-public abstract class PathAwareAbstractVisitor extends AbstractVisitor implements PathAwareVisitor {
+public abstract class PathAwareAbstractVisitor extends DefaultVisitor implements PathAwareVisitor {
     public static boolean DEBUG = false;
     
     private final Stack<String> pathStack = new Stack<>();
@@ -50,6 +50,10 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor implement
         if (DEBUG) {
             System.out.println(getPath());
         }
+    }
+    
+    public PathAwareAbstractVisitor() {
+        super(true);
     }
     
     @Override

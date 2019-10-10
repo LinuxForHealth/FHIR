@@ -306,17 +306,60 @@ public class CodeGenerator {
         cb._import("java.time.Year");
         cb._import("java.time.YearMonth");
         cb._import("java.time.ZonedDateTime");
+        cb._import("javax.annotation.Generated");
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
-        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
         cb.newLine();
         
-        cb._class(mods("public", "abstract"), "AbstractVisitor", null, implementsInterfaces("Visitor"));
+        cb.javadocStart();
+        cb.javadoc("DefaultVisitor provides a default implementation of the Visitor interface which uses the");
+        cb.javadoc("value of the passed {@code visitChildren} boolean to control whether or not to");
+        cb.javadoc("visit the children of the Resource or Element being visited.");
+        cb.javadoc("");
+        cb.javadoc("Subclasses can override the default behavior in a number of places, including:");
+        cb.javadoc("<ul>",false);
+        cb.javadoc("<li>preVisit methods to control whether a given Resource or Element gets visited",false);
+        cb.javadoc("<li>visitStart methods to provide setup behavior prior to the visit",false);
+        cb.javadoc("<li>defaultAction methods to perform some common action on all visited Resources and Elements",false);
+        cb.javadoc("<li>specific visit methods to perform unique behavior that varies by the type being visited",false);
+        cb.javadoc("<li>visitEnd methods to provide initial cleanup behavior after a Resource or Element has been visited",false);
+        cb.javadoc("<li>postVisit methods to provide final cleanup behavior after a Resource or Element has been visited",false);
+        cb.javadoc("</ul>",false);
+        cb.javadocEnd();
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
+        cb._class(mods("public"), "DefaultVisitor", null, implementsInterfaces("Visitor"));
+        
+        cb.decl(mods("protected"), "boolean", "visitChildren");
+        
+        cb.javadocStart();
+        cb.javadoc("Subclasses can override this method to provide a default action for all Resource visit methods.");
+        cb.javadocReturn("whether to visit the children of this resource; returns the value of the {@code visitChildren} boolean by default");
+        cb.javadocEnd();
+        cb.method(mods("protected"), "boolean", "defaultAction", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
+        cb._return("visitChildren");
+        cb.end();
+        cb.javadocStart();
+        cb.javadoc("Subclasses can override this method to provide a default action for all Element visit methods.");
+        cb.javadocReturn("whether to visit the children of this resource; returns the value of the {@code visitChildren} boolean by default");
+        cb.javadocEnd();
+        cb.method(mods("protected"), "boolean", "defaultAction", params("java.lang.String elementName", "int elementIndex", "Element element"));
+        cb._return("visitChildren");
+        cb.end();
+        cb.newLine();
+        
+        cb.javadocStart();
+        cb.javadocParam("visitChildren", "Whether to visit children of a Resource or Element by default. " +
+                        "Note that subclasses may override the visit methods and/or the defaultAction methods " +
+                        "and decide whether to use the passed boolean or not.");
+        cb.javadocEnd();
+        cb.constructor(mods("public"), "DefaultVisitor", params("boolean visitChildren"));
+        cb.assign(_this("visitChildren"), "visitChildren");
+        cb.end().newLine();
         
         cb.override();
         cb.method(mods("public"), "boolean", "preVisit", params("Element element"))._return("true").end().newLine();
@@ -351,15 +394,40 @@ public class CodeGenerator {
         Collections.sort(generatedClassNames);
         
         for (String className : generatedClassNames) {
-            if (isPrimitiveSubtype(className)) {
+            if (isBackboneSubtype(className)) {
                 continue;
             }
             String paramName = camelCase(className).replace(".", "");
             if (SourceVersion.isKeyword(paramName)) {
                 paramName = "_" + paramName;
             }
+            
+            // keep this null if the current class isn't a subtype
+            String supertype = null;
+            if (isStringSubtype(className)) {
+                supertype = "String";
+            } else if (isIntegerSubtype(className)) {
+                supertype = "Integer";
+            } else if (isUriSubtype(className)) {
+                supertype = "Uri";
+            } else if (isQuantitySubtype(className)) {
+                supertype = "Quantity";
+            }
+            
+            if (supertype != null) {
+                cb.javadocStart();
+                cb.javadoc("Delegates to {@link #visit(elementName, elementIndex, com.ibm.fhir.model.type." + supertype + ")}");
+                cb.javadocReturn("{@inheritDoc}");
+                cb.javadocEnd();
+            }
             cb.override();
-            cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName))._return("true").end().newLine();
+            cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName));
+            if (supertype != null) {
+                cb._return("visit(elementName, elementIndex, (com.ibm.fhir.model.type." + supertype + ") " + paramName + ")");
+            } else {
+                cb._return("defaultAction(elementName, elementIndex, " + paramName + ")");
+            }
+            cb.end().newLine();
         }
 
         cb.override();
@@ -394,7 +462,7 @@ public class CodeGenerator {
 
         cb._end();
         
-        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/AbstractVisitor.java");
+        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/DefaultVisitor.java");
 
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(cb.toString());
@@ -2793,6 +2861,7 @@ public class CodeGenerator {
         cb._import("java.time.Year");
         cb._import("java.time.YearMonth");
         cb._import("java.time.ZonedDateTime");
+        cb._import("javax.annotation.Generated");
         
         cb.newLine();
         
@@ -2803,9 +2872,33 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.type.String");
         cb.newLine();
         
+        cb.javadocStart();
+        cb.javadoc("Visitor interface for visiting FHIR model objects that implement Visitable.");
+        cb.javadoc("");
+        cb.javadoc("Each model object can accept a visitor and contains logic for invoking the corresponding visit method for itself and all its members.");
+        cb.javadoc("");
+        cb.javadoc("At each level, the visitor can control traversal by returning true or false as indicated in the following snippet:");
+        cb.javadoc("<pre>", false);
+        cb.javadoc("if (visitor.preVisit(this)) {");
+        cb.javadoc("    visitor.visitStart(elementName, elementIndex, this);");
+        cb.javadoc("    if (visitor.visit(elementName, elementIndex, this)) {");
+        cb.javadoc("        // visit children");
+        cb.javadoc("    }");
+        cb.javadoc("    visitor.visitEnd(elementName, elementIndex, this);");
+        cb.javadoc("    visitor.postVisit(this);");
+        cb.javadoc("}");
+        cb.javadoc("</pre>", false);
+        cb.javadocEnd();
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._interface(mods("public"), "Visitor");
         
+        cb.javadocStart();
+        cb.javadoc("@return true if this Element should be visited; otherwise false");
+        cb.javadocEnd();
         cb.abstractMethod(mods(), "boolean", "preVisit", params("Element element"));
+        cb.javadocStart();
+        cb.javadoc("@return true if this Resource should be visited; otherwise false");
+        cb.javadocEnd();
         cb.abstractMethod(mods(), "boolean", "preVisit", params("Resource resource"));
         cb.abstractMethod(mods(), "void", "postVisit", params("Element element"));
         cb.abstractMethod(mods(), "void", "postVisit", params("Resource resource"));
@@ -2819,13 +2912,16 @@ public class CodeGenerator {
         Collections.sort(generatedClassNames);
         
         for (String className : generatedClassNames) {
-            if (isPrimitiveSubtype(className)) {
+            if (isBackboneSubtype(className)) {
                 continue;
             }
             String paramName = camelCase(className).replace(".", "");
             if (SourceVersion.isKeyword(paramName)) {
                 paramName = "_" + paramName;
             }
+            cb.javadocStart();
+            cb.javadoc("@return true if the children of this " + paramName + " should be visited; otherwise false");
+            cb.javadocEnd();
             cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName));
         }
 
@@ -3284,6 +3380,14 @@ public class CodeGenerator {
         }
         List<JsonObject> types = getTypes(elementDefinition);
         return !types.isEmpty() && "BackboneElement".equals(types.get(0).getString("code", null));
+    }
+    
+    private boolean isBackboneSubtype(String className) {
+        if (className.startsWith("com.ibm.fhir.model.type")) {
+            className = className.substring("com.ibm.fhir.model.type".length());
+        }
+        return className.contains(".");
+        
     }
 
     private boolean isBase64Binary(JsonObject structureDefinition) {

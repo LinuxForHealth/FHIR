@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import javax.annotation.Generated;
 
 import com.ibm.fhir.model.resource.*;
 import com.ibm.fhir.model.type.*;
@@ -19,8 +20,32 @@ import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 
+/**
+ * Visitor interface for visiting FHIR model objects that implement Visitable.
+ * 
+ * Each model object can accept a visitor and contains logic for invoking the corresponding visit method for itself and all its members.
+ * 
+ * At each level, the visitor can control traversal by returning true or false as indicated in the following snippet:
+ * <pre>
+ * if (visitor.preVisit(this)) {
+ *     visitor.visitStart(elementName, elementIndex, this);
+ *     if (visitor.visit(elementName, elementIndex, this)) {
+ *         // visit children
+ *     }
+ *     visitor.visitEnd(elementName, elementIndex, this);
+ *     visitor.postVisit(this);
+ * }
+ * </pre>
+ */
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public interface Visitor {
+    /**
+     * @return true if this Element should be visited; otherwise false
+     */
     boolean preVisit(Element element);
+    /**
+     * @return true if this Resource should be visited; otherwise false
+     */
     boolean preVisit(Resource resource);
     void postVisit(Element element);
     void postVisit(Resource resource);
@@ -30,681 +55,853 @@ public interface Visitor {
     void visitEnd(java.lang.String elementName, int elementIndex, Element element);
     void visitEnd(java.lang.String elementName, int elementIndex, Resource resource);
     void visitEnd(java.lang.String elementName, java.util.List<? extends Visitable> visitables, Class<?> type);
+    /**
+     * @return true if the children of this account should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Account account);
-    boolean visit(java.lang.String elementName, int elementIndex, Account.Coverage accountCoverage);
-    boolean visit(java.lang.String elementName, int elementIndex, Account.Guarantor accountGuarantor);
+    /**
+     * @return true if the children of this activityDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ActivityDefinition activityDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, ActivityDefinition.DynamicValue activityDefinitionDynamicValue);
-    boolean visit(java.lang.String elementName, int elementIndex, ActivityDefinition.Participant activityDefinitionParticipant);
+    /**
+     * @return true if the children of this address should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Address address);
+    /**
+     * @return true if the children of this adverseEvent should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, AdverseEvent adverseEvent);
-    boolean visit(java.lang.String elementName, int elementIndex, AdverseEvent.SuspectEntity adverseEventSuspectEntity);
-    boolean visit(java.lang.String elementName, int elementIndex, AdverseEvent.SuspectEntity.Causality adverseEventSuspectEntityCausality);
+    /**
+     * @return true if the children of this age should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Age age);
+    /**
+     * @return true if the children of this allergyIntolerance should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, AllergyIntolerance allergyIntolerance);
-    boolean visit(java.lang.String elementName, int elementIndex, AllergyIntolerance.Reaction allergyIntoleranceReaction);
+    /**
+     * @return true if the children of this annotation should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Annotation annotation);
+    /**
+     * @return true if the children of this appointment should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Appointment appointment);
-    boolean visit(java.lang.String elementName, int elementIndex, Appointment.Participant appointmentParticipant);
+    /**
+     * @return true if the children of this appointmentResponse should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, AppointmentResponse appointmentResponse);
+    /**
+     * @return true if the children of this attachment should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Attachment attachment);
+    /**
+     * @return true if the children of this auditEvent should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, AuditEvent auditEvent);
-    boolean visit(java.lang.String elementName, int elementIndex, AuditEvent.Agent auditEventAgent);
-    boolean visit(java.lang.String elementName, int elementIndex, AuditEvent.Agent.Network auditEventAgentNetwork);
-    boolean visit(java.lang.String elementName, int elementIndex, AuditEvent.Entity auditEventEntity);
-    boolean visit(java.lang.String elementName, int elementIndex, AuditEvent.Entity.Detail auditEventEntityDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, AuditEvent.Source auditEventSource);
+    /**
+     * @return true if the children of this backboneElement should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, BackboneElement backboneElement);
+    /**
+     * @return true if the children of this base64Binary should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Base64Binary base64Binary);
+    /**
+     * @return true if the children of this basic should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Basic basic);
+    /**
+     * @return true if the children of this binary should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Binary binary);
+    /**
+     * @return true if the children of this biologicallyDerivedProduct should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, BiologicallyDerivedProduct biologicallyDerivedProduct);
-    boolean visit(java.lang.String elementName, int elementIndex, BiologicallyDerivedProduct.Collection biologicallyDerivedProductCollection);
-    boolean visit(java.lang.String elementName, int elementIndex, BiologicallyDerivedProduct.Manipulation biologicallyDerivedProductManipulation);
-    boolean visit(java.lang.String elementName, int elementIndex, BiologicallyDerivedProduct.Processing biologicallyDerivedProductProcessing);
-    boolean visit(java.lang.String elementName, int elementIndex, BiologicallyDerivedProduct.Storage biologicallyDerivedProductStorage);
+    /**
+     * @return true if the children of this bodyStructure should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, BodyStructure bodyStructure);
+    /**
+     * @return true if the children of this _boolean should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Boolean _boolean);
+    /**
+     * @return true if the children of this bundle should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Bundle bundle);
-    boolean visit(java.lang.String elementName, int elementIndex, Bundle.Entry bundleEntry);
-    boolean visit(java.lang.String elementName, int elementIndex, Bundle.Entry.Request bundleEntryRequest);
-    boolean visit(java.lang.String elementName, int elementIndex, Bundle.Entry.Response bundleEntryResponse);
-    boolean visit(java.lang.String elementName, int elementIndex, Bundle.Entry.Search bundleEntrySearch);
-    boolean visit(java.lang.String elementName, int elementIndex, Bundle.Link bundleLink);
+    /**
+     * @return true if the children of this canonical should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Canonical canonical);
+    /**
+     * @return true if the children of this capabilityStatement should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement capabilityStatement);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Document capabilityStatementDocument);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Implementation capabilityStatementImplementation);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Messaging capabilityStatementMessaging);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Messaging.Endpoint capabilityStatementMessagingEndpoint);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Messaging.SupportedMessage capabilityStatementMessagingSupportedMessage);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Rest capabilityStatementRest);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Rest.Interaction capabilityStatementRestInteraction);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Rest.Resource capabilityStatementRestResource);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Rest.Resource.Interaction capabilityStatementRestResourceInteraction);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Rest.Resource.Operation capabilityStatementRestResourceOperation);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Rest.Resource.SearchParam capabilityStatementRestResourceSearchParam);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Rest.Security capabilityStatementRestSecurity);
-    boolean visit(java.lang.String elementName, int elementIndex, CapabilityStatement.Software capabilityStatementSoftware);
+    /**
+     * @return true if the children of this carePlan should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CarePlan carePlan);
-    boolean visit(java.lang.String elementName, int elementIndex, CarePlan.Activity carePlanActivity);
-    boolean visit(java.lang.String elementName, int elementIndex, CarePlan.Activity.Detail carePlanActivityDetail);
+    /**
+     * @return true if the children of this careTeam should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CareTeam careTeam);
-    boolean visit(java.lang.String elementName, int elementIndex, CareTeam.Participant careTeamParticipant);
+    /**
+     * @return true if the children of this catalogEntry should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CatalogEntry catalogEntry);
-    boolean visit(java.lang.String elementName, int elementIndex, CatalogEntry.RelatedEntry catalogEntryRelatedEntry);
+    /**
+     * @return true if the children of this chargeItem should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ChargeItem chargeItem);
-    boolean visit(java.lang.String elementName, int elementIndex, ChargeItem.Performer chargeItemPerformer);
+    /**
+     * @return true if the children of this chargeItemDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ChargeItemDefinition chargeItemDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, ChargeItemDefinition.Applicability chargeItemDefinitionApplicability);
-    boolean visit(java.lang.String elementName, int elementIndex, ChargeItemDefinition.PropertyGroup chargeItemDefinitionPropertyGroup);
-    boolean visit(java.lang.String elementName, int elementIndex, ChargeItemDefinition.PropertyGroup.PriceComponent chargeItemDefinitionPropertyGroupPriceComponent);
+    /**
+     * @return true if the children of this claim should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Claim claim);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Accident claimAccident);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.CareTeam claimCareTeam);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Diagnosis claimDiagnosis);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Insurance claimInsurance);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Item claimItem);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Item.Detail claimItemDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Item.Detail.SubDetail claimItemDetailSubDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Payee claimPayee);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Procedure claimProcedure);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.Related claimRelated);
-    boolean visit(java.lang.String elementName, int elementIndex, Claim.SupportingInfo claimSupportingInfo);
+    /**
+     * @return true if the children of this claimResponse should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse claimResponse);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.AddItem claimResponseAddItem);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.AddItem.Detail claimResponseAddItemDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.AddItem.Detail.SubDetail claimResponseAddItemDetailSubDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.Error claimResponseError);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.Insurance claimResponseInsurance);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.Item claimResponseItem);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.Item.Adjudication claimResponseItemAdjudication);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.Item.Detail claimResponseItemDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.Item.Detail.SubDetail claimResponseItemDetailSubDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.Payment claimResponsePayment);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.ProcessNote claimResponseProcessNote);
-    boolean visit(java.lang.String elementName, int elementIndex, ClaimResponse.Total claimResponseTotal);
+    /**
+     * @return true if the children of this clinicalImpression should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ClinicalImpression clinicalImpression);
-    boolean visit(java.lang.String elementName, int elementIndex, ClinicalImpression.Finding clinicalImpressionFinding);
-    boolean visit(java.lang.String elementName, int elementIndex, ClinicalImpression.Investigation clinicalImpressionInvestigation);
+    /**
+     * @return true if the children of this code should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Code code);
+    /**
+     * @return true if the children of this codeSystem should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CodeSystem codeSystem);
-    boolean visit(java.lang.String elementName, int elementIndex, CodeSystem.Concept codeSystemConcept);
-    boolean visit(java.lang.String elementName, int elementIndex, CodeSystem.Concept.Designation codeSystemConceptDesignation);
-    boolean visit(java.lang.String elementName, int elementIndex, CodeSystem.Concept.Property codeSystemConceptProperty);
-    boolean visit(java.lang.String elementName, int elementIndex, CodeSystem.Filter codeSystemFilter);
-    boolean visit(java.lang.String elementName, int elementIndex, CodeSystem.Property codeSystemProperty);
+    /**
+     * @return true if the children of this codeableConcept should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CodeableConcept codeableConcept);
+    /**
+     * @return true if the children of this coding should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Coding coding);
+    /**
+     * @return true if the children of this communication should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Communication communication);
-    boolean visit(java.lang.String elementName, int elementIndex, Communication.Payload communicationPayload);
+    /**
+     * @return true if the children of this communicationRequest should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CommunicationRequest communicationRequest);
-    boolean visit(java.lang.String elementName, int elementIndex, CommunicationRequest.Payload communicationRequestPayload);
+    /**
+     * @return true if the children of this compartmentDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CompartmentDefinition compartmentDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, CompartmentDefinition.Resource compartmentDefinitionResource);
+    /**
+     * @return true if the children of this composition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Composition composition);
-    boolean visit(java.lang.String elementName, int elementIndex, Composition.Attester compositionAttester);
-    boolean visit(java.lang.String elementName, int elementIndex, Composition.Event compositionEvent);
-    boolean visit(java.lang.String elementName, int elementIndex, Composition.RelatesTo compositionRelatesTo);
-    boolean visit(java.lang.String elementName, int elementIndex, Composition.Section compositionSection);
+    /**
+     * @return true if the children of this conceptMap should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ConceptMap conceptMap);
-    boolean visit(java.lang.String elementName, int elementIndex, ConceptMap.Group conceptMapGroup);
-    boolean visit(java.lang.String elementName, int elementIndex, ConceptMap.Group.Element conceptMapGroupElement);
-    boolean visit(java.lang.String elementName, int elementIndex, ConceptMap.Group.Element.Target conceptMapGroupElementTarget);
-    boolean visit(java.lang.String elementName, int elementIndex, ConceptMap.Group.Element.Target.DependsOn conceptMapGroupElementTargetDependsOn);
-    boolean visit(java.lang.String elementName, int elementIndex, ConceptMap.Group.Unmapped conceptMapGroupUnmapped);
+    /**
+     * @return true if the children of this condition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Condition condition);
-    boolean visit(java.lang.String elementName, int elementIndex, Condition.Evidence conditionEvidence);
-    boolean visit(java.lang.String elementName, int elementIndex, Condition.Stage conditionStage);
+    /**
+     * @return true if the children of this consent should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Consent consent);
-    boolean visit(java.lang.String elementName, int elementIndex, Consent.Policy consentPolicy);
-    boolean visit(java.lang.String elementName, int elementIndex, Consent.Provision consentProvision);
-    boolean visit(java.lang.String elementName, int elementIndex, Consent.Provision.Actor consentProvisionActor);
-    boolean visit(java.lang.String elementName, int elementIndex, Consent.Provision.Data consentProvisionData);
-    boolean visit(java.lang.String elementName, int elementIndex, Consent.Verification consentVerification);
+    /**
+     * @return true if the children of this contactDetail should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ContactDetail contactDetail);
+    /**
+     * @return true if the children of this contactPoint should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ContactPoint contactPoint);
+    /**
+     * @return true if the children of this contract should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Contract contract);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.ContentDefinition contractContentDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Friendly contractFriendly);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Legal contractLegal);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Rule contractRule);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Signer contractSigner);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term contractTerm);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.Action contractTermAction);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.Action.Subject contractTermActionSubject);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.Asset contractTermAsset);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.Asset.Context contractTermAssetContext);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.Asset.ValuedItem contractTermAssetValuedItem);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.Offer contractTermOffer);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.Offer.Answer contractTermOfferAnswer);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.Offer.Party contractTermOfferParty);
-    boolean visit(java.lang.String elementName, int elementIndex, Contract.Term.SecurityLabel contractTermSecurityLabel);
+    /**
+     * @return true if the children of this contributor should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Contributor contributor);
+    /**
+     * @return true if the children of this count should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Count count);
+    /**
+     * @return true if the children of this coverage should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Coverage coverage);
-    boolean visit(java.lang.String elementName, int elementIndex, Coverage.Class coverageClass);
-    boolean visit(java.lang.String elementName, int elementIndex, Coverage.CostToBeneficiary coverageCostToBeneficiary);
-    boolean visit(java.lang.String elementName, int elementIndex, Coverage.CostToBeneficiary.Exception coverageCostToBeneficiaryException);
+    /**
+     * @return true if the children of this coverageEligibilityRequest should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityRequest coverageEligibilityRequest);
-    boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityRequest.Insurance coverageEligibilityRequestInsurance);
-    boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityRequest.Item coverageEligibilityRequestItem);
-    boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityRequest.Item.Diagnosis coverageEligibilityRequestItemDiagnosis);
-    boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityRequest.SupportingInfo coverageEligibilityRequestSupportingInfo);
+    /**
+     * @return true if the children of this coverageEligibilityResponse should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityResponse coverageEligibilityResponse);
-    boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityResponse.Error coverageEligibilityResponseError);
-    boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityResponse.Insurance coverageEligibilityResponseInsurance);
-    boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityResponse.Insurance.Item coverageEligibilityResponseInsuranceItem);
-    boolean visit(java.lang.String elementName, int elementIndex, CoverageEligibilityResponse.Insurance.Item.Benefit coverageEligibilityResponseInsuranceItemBenefit);
+    /**
+     * @return true if the children of this dataRequirement should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DataRequirement dataRequirement);
-    boolean visit(java.lang.String elementName, int elementIndex, DataRequirement.CodeFilter dataRequirementCodeFilter);
-    boolean visit(java.lang.String elementName, int elementIndex, DataRequirement.DateFilter dataRequirementDateFilter);
-    boolean visit(java.lang.String elementName, int elementIndex, DataRequirement.Sort dataRequirementSort);
+    /**
+     * @return true if the children of this date should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Date date);
+    /**
+     * @return true if the children of this dateTime should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DateTime dateTime);
+    /**
+     * @return true if the children of this decimal should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Decimal decimal);
+    /**
+     * @return true if the children of this detectedIssue should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DetectedIssue detectedIssue);
-    boolean visit(java.lang.String elementName, int elementIndex, DetectedIssue.Evidence detectedIssueEvidence);
-    boolean visit(java.lang.String elementName, int elementIndex, DetectedIssue.Mitigation detectedIssueMitigation);
+    /**
+     * @return true if the children of this device should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Device device);
-    boolean visit(java.lang.String elementName, int elementIndex, Device.DeviceName deviceDeviceName);
-    boolean visit(java.lang.String elementName, int elementIndex, Device.Property deviceProperty);
-    boolean visit(java.lang.String elementName, int elementIndex, Device.Specialization deviceSpecialization);
-    boolean visit(java.lang.String elementName, int elementIndex, Device.UdiCarrier deviceUdiCarrier);
-    boolean visit(java.lang.String elementName, int elementIndex, Device.Version deviceVersion);
+    /**
+     * @return true if the children of this deviceDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DeviceDefinition deviceDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, DeviceDefinition.Capability deviceDefinitionCapability);
-    boolean visit(java.lang.String elementName, int elementIndex, DeviceDefinition.DeviceName deviceDefinitionDeviceName);
-    boolean visit(java.lang.String elementName, int elementIndex, DeviceDefinition.Material deviceDefinitionMaterial);
-    boolean visit(java.lang.String elementName, int elementIndex, DeviceDefinition.Property deviceDefinitionProperty);
-    boolean visit(java.lang.String elementName, int elementIndex, DeviceDefinition.Specialization deviceDefinitionSpecialization);
-    boolean visit(java.lang.String elementName, int elementIndex, DeviceDefinition.UdiDeviceIdentifier deviceDefinitionUdiDeviceIdentifier);
+    /**
+     * @return true if the children of this deviceMetric should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DeviceMetric deviceMetric);
-    boolean visit(java.lang.String elementName, int elementIndex, DeviceMetric.Calibration deviceMetricCalibration);
+    /**
+     * @return true if the children of this deviceRequest should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DeviceRequest deviceRequest);
-    boolean visit(java.lang.String elementName, int elementIndex, DeviceRequest.Parameter deviceRequestParameter);
+    /**
+     * @return true if the children of this deviceUseStatement should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DeviceUseStatement deviceUseStatement);
+    /**
+     * @return true if the children of this diagnosticReport should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DiagnosticReport diagnosticReport);
-    boolean visit(java.lang.String elementName, int elementIndex, DiagnosticReport.Media diagnosticReportMedia);
+    /**
+     * @return true if the children of this distance should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Distance distance);
+    /**
+     * @return true if the children of this documentManifest should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DocumentManifest documentManifest);
-    boolean visit(java.lang.String elementName, int elementIndex, DocumentManifest.Related documentManifestRelated);
+    /**
+     * @return true if the children of this documentReference should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DocumentReference documentReference);
-    boolean visit(java.lang.String elementName, int elementIndex, DocumentReference.Content documentReferenceContent);
-    boolean visit(java.lang.String elementName, int elementIndex, DocumentReference.Context documentReferenceContext);
-    boolean visit(java.lang.String elementName, int elementIndex, DocumentReference.RelatesTo documentReferenceRelatesTo);
+    /**
+     * @return true if the children of this domainResource should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, DomainResource domainResource);
+    /**
+     * @return true if the children of this dosage should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Dosage dosage);
-    boolean visit(java.lang.String elementName, int elementIndex, Dosage.DoseAndRate dosageDoseAndRate);
+    /**
+     * @return true if the children of this duration should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Duration duration);
+    /**
+     * @return true if the children of this effectEvidenceSynthesis should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, EffectEvidenceSynthesis effectEvidenceSynthesis);
-    boolean visit(java.lang.String elementName, int elementIndex, EffectEvidenceSynthesis.Certainty effectEvidenceSynthesisCertainty);
-    boolean visit(java.lang.String elementName, int elementIndex, EffectEvidenceSynthesis.Certainty.CertaintySubcomponent effectEvidenceSynthesisCertaintyCertaintySubcomponent);
-    boolean visit(java.lang.String elementName, int elementIndex, EffectEvidenceSynthesis.EffectEstimate effectEvidenceSynthesisEffectEstimate);
-    boolean visit(java.lang.String elementName, int elementIndex, EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate effectEvidenceSynthesisEffectEstimatePrecisionEstimate);
-    boolean visit(java.lang.String elementName, int elementIndex, EffectEvidenceSynthesis.ResultsByExposure effectEvidenceSynthesisResultsByExposure);
-    boolean visit(java.lang.String elementName, int elementIndex, EffectEvidenceSynthesis.SampleSize effectEvidenceSynthesisSampleSize);
+    /**
+     * @return true if the children of this element should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Element element);
+    /**
+     * @return true if the children of this elementDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition elementDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition.Base elementDefinitionBase);
-    boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition.Binding elementDefinitionBinding);
-    boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition.Constraint elementDefinitionConstraint);
-    boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition.Example elementDefinitionExample);
-    boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition.Mapping elementDefinitionMapping);
-    boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition.Slicing elementDefinitionSlicing);
-    boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition.Slicing.Discriminator elementDefinitionSlicingDiscriminator);
-    boolean visit(java.lang.String elementName, int elementIndex, ElementDefinition.Type elementDefinitionType);
+    /**
+     * @return true if the children of this encounter should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Encounter encounter);
-    boolean visit(java.lang.String elementName, int elementIndex, Encounter.ClassHistory encounterClassHistory);
-    boolean visit(java.lang.String elementName, int elementIndex, Encounter.Diagnosis encounterDiagnosis);
-    boolean visit(java.lang.String elementName, int elementIndex, Encounter.Hospitalization encounterHospitalization);
-    boolean visit(java.lang.String elementName, int elementIndex, Encounter.Location encounterLocation);
-    boolean visit(java.lang.String elementName, int elementIndex, Encounter.Participant encounterParticipant);
-    boolean visit(java.lang.String elementName, int elementIndex, Encounter.StatusHistory encounterStatusHistory);
+    /**
+     * @return true if the children of this endpoint should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Endpoint endpoint);
+    /**
+     * @return true if the children of this enrollmentRequest should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, EnrollmentRequest enrollmentRequest);
+    /**
+     * @return true if the children of this enrollmentResponse should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, EnrollmentResponse enrollmentResponse);
+    /**
+     * @return true if the children of this episodeOfCare should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, EpisodeOfCare episodeOfCare);
-    boolean visit(java.lang.String elementName, int elementIndex, EpisodeOfCare.Diagnosis episodeOfCareDiagnosis);
-    boolean visit(java.lang.String elementName, int elementIndex, EpisodeOfCare.StatusHistory episodeOfCareStatusHistory);
+    /**
+     * @return true if the children of this eventDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, EventDefinition eventDefinition);
+    /**
+     * @return true if the children of this evidence should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Evidence evidence);
+    /**
+     * @return true if the children of this evidenceVariable should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, EvidenceVariable evidenceVariable);
-    boolean visit(java.lang.String elementName, int elementIndex, EvidenceVariable.Characteristic evidenceVariableCharacteristic);
+    /**
+     * @return true if the children of this exampleScenario should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario exampleScenario);
-    boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario.Actor exampleScenarioActor);
-    boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario.Instance exampleScenarioInstance);
-    boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario.Instance.ContainedInstance exampleScenarioInstanceContainedInstance);
-    boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario.Instance.Version exampleScenarioInstanceVersion);
-    boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario.Process exampleScenarioProcess);
-    boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario.Process.Step exampleScenarioProcessStep);
-    boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario.Process.Step.Alternative exampleScenarioProcessStepAlternative);
-    boolean visit(java.lang.String elementName, int elementIndex, ExampleScenario.Process.Step.Operation exampleScenarioProcessStepOperation);
+    /**
+     * @return true if the children of this explanationOfBenefit should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit explanationOfBenefit);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Accident explanationOfBenefitAccident);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.AddItem explanationOfBenefitAddItem);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.AddItem.Detail explanationOfBenefitAddItemDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.AddItem.Detail.SubDetail explanationOfBenefitAddItemDetailSubDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.BenefitBalance explanationOfBenefitBenefitBalance);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.BenefitBalance.Financial explanationOfBenefitBenefitBalanceFinancial);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.CareTeam explanationOfBenefitCareTeam);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Diagnosis explanationOfBenefitDiagnosis);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Insurance explanationOfBenefitInsurance);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Item explanationOfBenefitItem);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Item.Adjudication explanationOfBenefitItemAdjudication);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Item.Detail explanationOfBenefitItemDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Item.Detail.SubDetail explanationOfBenefitItemDetailSubDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Payee explanationOfBenefitPayee);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Payment explanationOfBenefitPayment);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Procedure explanationOfBenefitProcedure);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.ProcessNote explanationOfBenefitProcessNote);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Related explanationOfBenefitRelated);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.SupportingInfo explanationOfBenefitSupportingInfo);
-    boolean visit(java.lang.String elementName, int elementIndex, ExplanationOfBenefit.Total explanationOfBenefitTotal);
+    /**
+     * @return true if the children of this expression should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Expression expression);
+    /**
+     * @return true if the children of this extension should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Extension extension);
+    /**
+     * @return true if the children of this familyMemberHistory should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, FamilyMemberHistory familyMemberHistory);
-    boolean visit(java.lang.String elementName, int elementIndex, FamilyMemberHistory.Condition familyMemberHistoryCondition);
+    /**
+     * @return true if the children of this flag should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Flag flag);
+    /**
+     * @return true if the children of this goal should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Goal goal);
-    boolean visit(java.lang.String elementName, int elementIndex, Goal.Target goalTarget);
+    /**
+     * @return true if the children of this graphDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, GraphDefinition graphDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, GraphDefinition.Link graphDefinitionLink);
-    boolean visit(java.lang.String elementName, int elementIndex, GraphDefinition.Link.Target graphDefinitionLinkTarget);
-    boolean visit(java.lang.String elementName, int elementIndex, GraphDefinition.Link.Target.Compartment graphDefinitionLinkTargetCompartment);
+    /**
+     * @return true if the children of this group should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Group group);
-    boolean visit(java.lang.String elementName, int elementIndex, Group.Characteristic groupCharacteristic);
-    boolean visit(java.lang.String elementName, int elementIndex, Group.Member groupMember);
+    /**
+     * @return true if the children of this guidanceResponse should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, GuidanceResponse guidanceResponse);
+    /**
+     * @return true if the children of this healthcareService should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, HealthcareService healthcareService);
-    boolean visit(java.lang.String elementName, int elementIndex, HealthcareService.AvailableTime healthcareServiceAvailableTime);
-    boolean visit(java.lang.String elementName, int elementIndex, HealthcareService.Eligibility healthcareServiceEligibility);
-    boolean visit(java.lang.String elementName, int elementIndex, HealthcareService.NotAvailable healthcareServiceNotAvailable);
+    /**
+     * @return true if the children of this humanName should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, HumanName humanName);
+    /**
+     * @return true if the children of this id should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Id id);
+    /**
+     * @return true if the children of this identifier should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Identifier identifier);
+    /**
+     * @return true if the children of this imagingStudy should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ImagingStudy imagingStudy);
-    boolean visit(java.lang.String elementName, int elementIndex, ImagingStudy.Series imagingStudySeries);
-    boolean visit(java.lang.String elementName, int elementIndex, ImagingStudy.Series.Instance imagingStudySeriesInstance);
-    boolean visit(java.lang.String elementName, int elementIndex, ImagingStudy.Series.Performer imagingStudySeriesPerformer);
+    /**
+     * @return true if the children of this immunization should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Immunization immunization);
-    boolean visit(java.lang.String elementName, int elementIndex, Immunization.Education immunizationEducation);
-    boolean visit(java.lang.String elementName, int elementIndex, Immunization.Performer immunizationPerformer);
-    boolean visit(java.lang.String elementName, int elementIndex, Immunization.ProtocolApplied immunizationProtocolApplied);
-    boolean visit(java.lang.String elementName, int elementIndex, Immunization.Reaction immunizationReaction);
+    /**
+     * @return true if the children of this immunizationEvaluation should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ImmunizationEvaluation immunizationEvaluation);
+    /**
+     * @return true if the children of this immunizationRecommendation should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ImmunizationRecommendation immunizationRecommendation);
-    boolean visit(java.lang.String elementName, int elementIndex, ImmunizationRecommendation.Recommendation immunizationRecommendationRecommendation);
-    boolean visit(java.lang.String elementName, int elementIndex, ImmunizationRecommendation.Recommendation.DateCriterion immunizationRecommendationRecommendationDateCriterion);
+    /**
+     * @return true if the children of this implementationGuide should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide implementationGuide);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Definition implementationGuideDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Definition.Grouping implementationGuideDefinitionGrouping);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Definition.Page implementationGuideDefinitionPage);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Definition.Parameter implementationGuideDefinitionParameter);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Definition.Resource implementationGuideDefinitionResource);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Definition.Template implementationGuideDefinitionTemplate);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.DependsOn implementationGuideDependsOn);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Global implementationGuideGlobal);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Manifest implementationGuideManifest);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Manifest.Page implementationGuideManifestPage);
-    boolean visit(java.lang.String elementName, int elementIndex, ImplementationGuide.Manifest.Resource implementationGuideManifestResource);
+    /**
+     * @return true if the children of this instant should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Instant instant);
+    /**
+     * @return true if the children of this insurancePlan should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan insurancePlan);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Contact insurancePlanContact);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Coverage insurancePlanCoverage);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Coverage.Benefit insurancePlanCoverageBenefit);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Coverage.Benefit.Limit insurancePlanCoverageBenefitLimit);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Plan insurancePlanPlan);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Plan.GeneralCost insurancePlanPlanGeneralCost);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Plan.SpecificCost insurancePlanPlanSpecificCost);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Plan.SpecificCost.Benefit insurancePlanPlanSpecificCostBenefit);
-    boolean visit(java.lang.String elementName, int elementIndex, InsurancePlan.Plan.SpecificCost.Benefit.Cost insurancePlanPlanSpecificCostBenefitCost);
+    /**
+     * @return true if the children of this integer should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Integer integer);
+    /**
+     * @return true if the children of this invoice should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Invoice invoice);
-    boolean visit(java.lang.String elementName, int elementIndex, Invoice.LineItem invoiceLineItem);
-    boolean visit(java.lang.String elementName, int elementIndex, Invoice.LineItem.PriceComponent invoiceLineItemPriceComponent);
-    boolean visit(java.lang.String elementName, int elementIndex, Invoice.Participant invoiceParticipant);
+    /**
+     * @return true if the children of this library should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Library library);
+    /**
+     * @return true if the children of this linkage should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Linkage linkage);
-    boolean visit(java.lang.String elementName, int elementIndex, Linkage.Item linkageItem);
+    /**
+     * @return true if the children of this list should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, List list);
-    boolean visit(java.lang.String elementName, int elementIndex, List.Entry listEntry);
+    /**
+     * @return true if the children of this location should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Location location);
-    boolean visit(java.lang.String elementName, int elementIndex, Location.HoursOfOperation locationHoursOfOperation);
-    boolean visit(java.lang.String elementName, int elementIndex, Location.Position locationPosition);
+    /**
+     * @return true if the children of this markdown should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Markdown markdown);
+    /**
+     * @return true if the children of this marketingStatus should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MarketingStatus marketingStatus);
+    /**
+     * @return true if the children of this measure should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Measure measure);
-    boolean visit(java.lang.String elementName, int elementIndex, Measure.Group measureGroup);
-    boolean visit(java.lang.String elementName, int elementIndex, Measure.Group.Population measureGroupPopulation);
-    boolean visit(java.lang.String elementName, int elementIndex, Measure.Group.Stratifier measureGroupStratifier);
-    boolean visit(java.lang.String elementName, int elementIndex, Measure.Group.Stratifier.Component measureGroupStratifierComponent);
-    boolean visit(java.lang.String elementName, int elementIndex, Measure.SupplementalData measureSupplementalData);
+    /**
+     * @return true if the children of this measureReport should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MeasureReport measureReport);
-    boolean visit(java.lang.String elementName, int elementIndex, MeasureReport.Group measureReportGroup);
-    boolean visit(java.lang.String elementName, int elementIndex, MeasureReport.Group.Population measureReportGroupPopulation);
-    boolean visit(java.lang.String elementName, int elementIndex, MeasureReport.Group.Stratifier measureReportGroupStratifier);
-    boolean visit(java.lang.String elementName, int elementIndex, MeasureReport.Group.Stratifier.Stratum measureReportGroupStratifierStratum);
-    boolean visit(java.lang.String elementName, int elementIndex, MeasureReport.Group.Stratifier.Stratum.Component measureReportGroupStratifierStratumComponent);
-    boolean visit(java.lang.String elementName, int elementIndex, MeasureReport.Group.Stratifier.Stratum.Population measureReportGroupStratifierStratumPopulation);
+    /**
+     * @return true if the children of this media should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Media media);
+    /**
+     * @return true if the children of this medication should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Medication medication);
-    boolean visit(java.lang.String elementName, int elementIndex, Medication.Batch medicationBatch);
-    boolean visit(java.lang.String elementName, int elementIndex, Medication.Ingredient medicationIngredient);
+    /**
+     * @return true if the children of this medicationAdministration should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicationAdministration medicationAdministration);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationAdministration.Dosage medicationAdministrationDosage);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationAdministration.Performer medicationAdministrationPerformer);
+    /**
+     * @return true if the children of this medicationDispense should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicationDispense medicationDispense);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationDispense.Performer medicationDispensePerformer);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationDispense.Substitution medicationDispenseSubstitution);
+    /**
+     * @return true if the children of this medicationKnowledge should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge medicationKnowledge);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.AdministrationGuidelines medicationKnowledgeAdministrationGuidelines);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.AdministrationGuidelines.Dosage medicationKnowledgeAdministrationGuidelinesDosage);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics medicationKnowledgeAdministrationGuidelinesPatientCharacteristics);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Cost medicationKnowledgeCost);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.DrugCharacteristic medicationKnowledgeDrugCharacteristic);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Ingredient medicationKnowledgeIngredient);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Kinetics medicationKnowledgeKinetics);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.MedicineClassification medicationKnowledgeMedicineClassification);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.MonitoringProgram medicationKnowledgeMonitoringProgram);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Monograph medicationKnowledgeMonograph);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Packaging medicationKnowledgePackaging);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Regulatory medicationKnowledgeRegulatory);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Regulatory.MaxDispense medicationKnowledgeRegulatoryMaxDispense);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Regulatory.Schedule medicationKnowledgeRegulatorySchedule);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.Regulatory.Substitution medicationKnowledgeRegulatorySubstitution);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationKnowledge.RelatedMedicationKnowledge medicationKnowledgeRelatedMedicationKnowledge);
+    /**
+     * @return true if the children of this medicationRequest should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicationRequest medicationRequest);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationRequest.DispenseRequest medicationRequestDispenseRequest);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationRequest.DispenseRequest.InitialFill medicationRequestDispenseRequestInitialFill);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicationRequest.Substitution medicationRequestSubstitution);
+    /**
+     * @return true if the children of this medicationStatement should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicationStatement medicationStatement);
+    /**
+     * @return true if the children of this medicinalProduct should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProduct medicinalProduct);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProduct.ManufacturingBusinessOperation medicinalProductManufacturingBusinessOperation);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProduct.Name medicinalProductName);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProduct.Name.CountryLanguage medicinalProductNameCountryLanguage);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProduct.Name.NamePart medicinalProductNameNamePart);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProduct.SpecialDesignation medicinalProductSpecialDesignation);
+    /**
+     * @return true if the children of this medicinalProductAuthorization should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductAuthorization medicinalProductAuthorization);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductAuthorization.JurisdictionalAuthorization medicinalProductAuthorizationJurisdictionalAuthorization);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductAuthorization.Procedure medicinalProductAuthorizationProcedure);
+    /**
+     * @return true if the children of this medicinalProductContraindication should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductContraindication medicinalProductContraindication);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductContraindication.OtherTherapy medicinalProductContraindicationOtherTherapy);
+    /**
+     * @return true if the children of this medicinalProductIndication should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIndication medicinalProductIndication);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIndication.OtherTherapy medicinalProductIndicationOtherTherapy);
+    /**
+     * @return true if the children of this medicinalProductIngredient should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIngredient medicinalProductIngredient);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIngredient.SpecifiedSubstance medicinalProductIngredientSpecifiedSubstance);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIngredient.SpecifiedSubstance.Strength medicinalProductIngredientSpecifiedSubstanceStrength);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength medicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductIngredient.Substance medicinalProductIngredientSubstance);
+    /**
+     * @return true if the children of this medicinalProductInteraction should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductInteraction medicinalProductInteraction);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductInteraction.Interactant medicinalProductInteractionInteractant);
+    /**
+     * @return true if the children of this medicinalProductManufactured should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductManufactured medicinalProductManufactured);
+    /**
+     * @return true if the children of this medicinalProductPackaged should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPackaged medicinalProductPackaged);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPackaged.BatchIdentifier medicinalProductPackagedBatchIdentifier);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPackaged.PackageItem medicinalProductPackagedPackageItem);
+    /**
+     * @return true if the children of this medicinalProductPharmaceutical should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPharmaceutical medicinalProductPharmaceutical);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPharmaceutical.Characteristics medicinalProductPharmaceuticalCharacteristics);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPharmaceutical.RouteOfAdministration medicinalProductPharmaceuticalRouteOfAdministration);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies medicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies);
-    boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod medicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod);
+    /**
+     * @return true if the children of this medicinalProductUndesirableEffect should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MedicinalProductUndesirableEffect medicinalProductUndesirableEffect);
+    /**
+     * @return true if the children of this messageDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MessageDefinition messageDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, MessageDefinition.AllowedResponse messageDefinitionAllowedResponse);
-    boolean visit(java.lang.String elementName, int elementIndex, MessageDefinition.Focus messageDefinitionFocus);
+    /**
+     * @return true if the children of this messageHeader should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MessageHeader messageHeader);
-    boolean visit(java.lang.String elementName, int elementIndex, MessageHeader.Destination messageHeaderDestination);
-    boolean visit(java.lang.String elementName, int elementIndex, MessageHeader.Response messageHeaderResponse);
-    boolean visit(java.lang.String elementName, int elementIndex, MessageHeader.Source messageHeaderSource);
+    /**
+     * @return true if the children of this meta should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Meta meta);
+    /**
+     * @return true if the children of this metadataResource should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MetadataResource metadataResource);
+    /**
+     * @return true if the children of this molecularSequence should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence molecularSequence);
-    boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence.Quality molecularSequenceQuality);
-    boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence.Quality.Roc molecularSequenceQualityRoc);
-    boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence.ReferenceSeq molecularSequenceReferenceSeq);
-    boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence.Repository molecularSequenceRepository);
-    boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence.StructureVariant molecularSequenceStructureVariant);
-    boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence.StructureVariant.Inner molecularSequenceStructureVariantInner);
-    boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence.StructureVariant.Outer molecularSequenceStructureVariantOuter);
-    boolean visit(java.lang.String elementName, int elementIndex, MolecularSequence.Variant molecularSequenceVariant);
+    /**
+     * @return true if the children of this money should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Money money);
+    /**
+     * @return true if the children of this moneyQuantity should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, MoneyQuantity moneyQuantity);
+    /**
+     * @return true if the children of this namingSystem should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, NamingSystem namingSystem);
-    boolean visit(java.lang.String elementName, int elementIndex, NamingSystem.UniqueId namingSystemUniqueId);
+    /**
+     * @return true if the children of this narrative should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Narrative narrative);
+    /**
+     * @return true if the children of this nutritionOrder should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, NutritionOrder nutritionOrder);
-    boolean visit(java.lang.String elementName, int elementIndex, NutritionOrder.EnteralFormula nutritionOrderEnteralFormula);
-    boolean visit(java.lang.String elementName, int elementIndex, NutritionOrder.EnteralFormula.Administration nutritionOrderEnteralFormulaAdministration);
-    boolean visit(java.lang.String elementName, int elementIndex, NutritionOrder.OralDiet nutritionOrderOralDiet);
-    boolean visit(java.lang.String elementName, int elementIndex, NutritionOrder.OralDiet.Nutrient nutritionOrderOralDietNutrient);
-    boolean visit(java.lang.String elementName, int elementIndex, NutritionOrder.OralDiet.Texture nutritionOrderOralDietTexture);
-    boolean visit(java.lang.String elementName, int elementIndex, NutritionOrder.Supplement nutritionOrderSupplement);
+    /**
+     * @return true if the children of this observation should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Observation observation);
-    boolean visit(java.lang.String elementName, int elementIndex, Observation.Component observationComponent);
-    boolean visit(java.lang.String elementName, int elementIndex, Observation.ReferenceRange observationReferenceRange);
+    /**
+     * @return true if the children of this observationDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ObservationDefinition observationDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, ObservationDefinition.QualifiedInterval observationDefinitionQualifiedInterval);
-    boolean visit(java.lang.String elementName, int elementIndex, ObservationDefinition.QuantitativeDetails observationDefinitionQuantitativeDetails);
+    /**
+     * @return true if the children of this oid should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Oid oid);
+    /**
+     * @return true if the children of this operationDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, OperationDefinition operationDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, OperationDefinition.Overload operationDefinitionOverload);
-    boolean visit(java.lang.String elementName, int elementIndex, OperationDefinition.Parameter operationDefinitionParameter);
-    boolean visit(java.lang.String elementName, int elementIndex, OperationDefinition.Parameter.Binding operationDefinitionParameterBinding);
-    boolean visit(java.lang.String elementName, int elementIndex, OperationDefinition.Parameter.ReferencedFrom operationDefinitionParameterReferencedFrom);
+    /**
+     * @return true if the children of this operationOutcome should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, OperationOutcome operationOutcome);
-    boolean visit(java.lang.String elementName, int elementIndex, OperationOutcome.Issue operationOutcomeIssue);
+    /**
+     * @return true if the children of this organization should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Organization organization);
-    boolean visit(java.lang.String elementName, int elementIndex, Organization.Contact organizationContact);
+    /**
+     * @return true if the children of this organizationAffiliation should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, OrganizationAffiliation organizationAffiliation);
+    /**
+     * @return true if the children of this parameterDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ParameterDefinition parameterDefinition);
+    /**
+     * @return true if the children of this parameters should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Parameters parameters);
-    boolean visit(java.lang.String elementName, int elementIndex, Parameters.Parameter parametersParameter);
+    /**
+     * @return true if the children of this patient should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Patient patient);
-    boolean visit(java.lang.String elementName, int elementIndex, Patient.Communication patientCommunication);
-    boolean visit(java.lang.String elementName, int elementIndex, Patient.Contact patientContact);
-    boolean visit(java.lang.String elementName, int elementIndex, Patient.Link patientLink);
+    /**
+     * @return true if the children of this paymentNotice should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, PaymentNotice paymentNotice);
+    /**
+     * @return true if the children of this paymentReconciliation should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, PaymentReconciliation paymentReconciliation);
-    boolean visit(java.lang.String elementName, int elementIndex, PaymentReconciliation.Detail paymentReconciliationDetail);
-    boolean visit(java.lang.String elementName, int elementIndex, PaymentReconciliation.ProcessNote paymentReconciliationProcessNote);
+    /**
+     * @return true if the children of this period should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Period period);
+    /**
+     * @return true if the children of this person should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Person person);
-    boolean visit(java.lang.String elementName, int elementIndex, Person.Link personLink);
+    /**
+     * @return true if the children of this planDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, PlanDefinition planDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, PlanDefinition.Action planDefinitionAction);
-    boolean visit(java.lang.String elementName, int elementIndex, PlanDefinition.Action.Condition planDefinitionActionCondition);
-    boolean visit(java.lang.String elementName, int elementIndex, PlanDefinition.Action.DynamicValue planDefinitionActionDynamicValue);
-    boolean visit(java.lang.String elementName, int elementIndex, PlanDefinition.Action.Participant planDefinitionActionParticipant);
-    boolean visit(java.lang.String elementName, int elementIndex, PlanDefinition.Action.RelatedAction planDefinitionActionRelatedAction);
-    boolean visit(java.lang.String elementName, int elementIndex, PlanDefinition.Goal planDefinitionGoal);
-    boolean visit(java.lang.String elementName, int elementIndex, PlanDefinition.Goal.Target planDefinitionGoalTarget);
+    /**
+     * @return true if the children of this population should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Population population);
+    /**
+     * @return true if the children of this positiveInt should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, PositiveInt positiveInt);
+    /**
+     * @return true if the children of this practitioner should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Practitioner practitioner);
-    boolean visit(java.lang.String elementName, int elementIndex, Practitioner.Qualification practitionerQualification);
+    /**
+     * @return true if the children of this practitionerRole should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, PractitionerRole practitionerRole);
-    boolean visit(java.lang.String elementName, int elementIndex, PractitionerRole.AvailableTime practitionerRoleAvailableTime);
-    boolean visit(java.lang.String elementName, int elementIndex, PractitionerRole.NotAvailable practitionerRoleNotAvailable);
+    /**
+     * @return true if the children of this procedure should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Procedure procedure);
-    boolean visit(java.lang.String elementName, int elementIndex, Procedure.FocalDevice procedureFocalDevice);
-    boolean visit(java.lang.String elementName, int elementIndex, Procedure.Performer procedurePerformer);
+    /**
+     * @return true if the children of this prodCharacteristic should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ProdCharacteristic prodCharacteristic);
+    /**
+     * @return true if the children of this productShelfLife should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ProductShelfLife productShelfLife);
+    /**
+     * @return true if the children of this provenance should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Provenance provenance);
-    boolean visit(java.lang.String elementName, int elementIndex, Provenance.Agent provenanceAgent);
-    boolean visit(java.lang.String elementName, int elementIndex, Provenance.Entity provenanceEntity);
+    /**
+     * @return true if the children of this quantity should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Quantity quantity);
+    /**
+     * @return true if the children of this questionnaire should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Questionnaire questionnaire);
-    boolean visit(java.lang.String elementName, int elementIndex, Questionnaire.Item questionnaireItem);
-    boolean visit(java.lang.String elementName, int elementIndex, Questionnaire.Item.AnswerOption questionnaireItemAnswerOption);
-    boolean visit(java.lang.String elementName, int elementIndex, Questionnaire.Item.EnableWhen questionnaireItemEnableWhen);
-    boolean visit(java.lang.String elementName, int elementIndex, Questionnaire.Item.Initial questionnaireItemInitial);
+    /**
+     * @return true if the children of this questionnaireResponse should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, QuestionnaireResponse questionnaireResponse);
-    boolean visit(java.lang.String elementName, int elementIndex, QuestionnaireResponse.Item questionnaireResponseItem);
-    boolean visit(java.lang.String elementName, int elementIndex, QuestionnaireResponse.Item.Answer questionnaireResponseItemAnswer);
+    /**
+     * @return true if the children of this range should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Range range);
+    /**
+     * @return true if the children of this ratio should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Ratio ratio);
+    /**
+     * @return true if the children of this reference should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Reference reference);
+    /**
+     * @return true if the children of this relatedArtifact should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, RelatedArtifact relatedArtifact);
+    /**
+     * @return true if the children of this relatedPerson should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, RelatedPerson relatedPerson);
-    boolean visit(java.lang.String elementName, int elementIndex, RelatedPerson.Communication relatedPersonCommunication);
+    /**
+     * @return true if the children of this requestGroup should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, RequestGroup requestGroup);
-    boolean visit(java.lang.String elementName, int elementIndex, RequestGroup.Action requestGroupAction);
-    boolean visit(java.lang.String elementName, int elementIndex, RequestGroup.Action.Condition requestGroupActionCondition);
-    boolean visit(java.lang.String elementName, int elementIndex, RequestGroup.Action.RelatedAction requestGroupActionRelatedAction);
+    /**
+     * @return true if the children of this researchDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ResearchDefinition researchDefinition);
+    /**
+     * @return true if the children of this researchElementDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ResearchElementDefinition researchElementDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, ResearchElementDefinition.Characteristic researchElementDefinitionCharacteristic);
+    /**
+     * @return true if the children of this researchStudy should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ResearchStudy researchStudy);
-    boolean visit(java.lang.String elementName, int elementIndex, ResearchStudy.Arm researchStudyArm);
-    boolean visit(java.lang.String elementName, int elementIndex, ResearchStudy.Objective researchStudyObjective);
+    /**
+     * @return true if the children of this researchSubject should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ResearchSubject researchSubject);
+    /**
+     * @return true if the children of this resource should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Resource resource);
+    /**
+     * @return true if the children of this riskAssessment should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, RiskAssessment riskAssessment);
-    boolean visit(java.lang.String elementName, int elementIndex, RiskAssessment.Prediction riskAssessmentPrediction);
+    /**
+     * @return true if the children of this riskEvidenceSynthesis should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, RiskEvidenceSynthesis riskEvidenceSynthesis);
-    boolean visit(java.lang.String elementName, int elementIndex, RiskEvidenceSynthesis.Certainty riskEvidenceSynthesisCertainty);
-    boolean visit(java.lang.String elementName, int elementIndex, RiskEvidenceSynthesis.Certainty.CertaintySubcomponent riskEvidenceSynthesisCertaintyCertaintySubcomponent);
-    boolean visit(java.lang.String elementName, int elementIndex, RiskEvidenceSynthesis.RiskEstimate riskEvidenceSynthesisRiskEstimate);
-    boolean visit(java.lang.String elementName, int elementIndex, RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate riskEvidenceSynthesisRiskEstimatePrecisionEstimate);
-    boolean visit(java.lang.String elementName, int elementIndex, RiskEvidenceSynthesis.SampleSize riskEvidenceSynthesisSampleSize);
+    /**
+     * @return true if the children of this sampledData should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SampledData sampledData);
+    /**
+     * @return true if the children of this schedule should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Schedule schedule);
+    /**
+     * @return true if the children of this searchParameter should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SearchParameter searchParameter);
-    boolean visit(java.lang.String elementName, int elementIndex, SearchParameter.Component searchParameterComponent);
+    /**
+     * @return true if the children of this serviceRequest should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ServiceRequest serviceRequest);
+    /**
+     * @return true if the children of this signature should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Signature signature);
+    /**
+     * @return true if the children of this simpleQuantity should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SimpleQuantity simpleQuantity);
+    /**
+     * @return true if the children of this slot should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Slot slot);
+    /**
+     * @return true if the children of this specimen should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Specimen specimen);
-    boolean visit(java.lang.String elementName, int elementIndex, Specimen.Collection specimenCollection);
-    boolean visit(java.lang.String elementName, int elementIndex, Specimen.Container specimenContainer);
-    boolean visit(java.lang.String elementName, int elementIndex, Specimen.Processing specimenProcessing);
+    /**
+     * @return true if the children of this specimenDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SpecimenDefinition specimenDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, SpecimenDefinition.TypeTested specimenDefinitionTypeTested);
-    boolean visit(java.lang.String elementName, int elementIndex, SpecimenDefinition.TypeTested.Container specimenDefinitionTypeTestedContainer);
-    boolean visit(java.lang.String elementName, int elementIndex, SpecimenDefinition.TypeTested.Container.Additive specimenDefinitionTypeTestedContainerAdditive);
-    boolean visit(java.lang.String elementName, int elementIndex, SpecimenDefinition.TypeTested.Handling specimenDefinitionTypeTestedHandling);
+    /**
+     * @return true if the children of this string should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, String string);
+    /**
+     * @return true if the children of this structureDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, StructureDefinition structureDefinition);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureDefinition.Context structureDefinitionContext);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureDefinition.Differential structureDefinitionDifferential);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureDefinition.Mapping structureDefinitionMapping);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureDefinition.Snapshot structureDefinitionSnapshot);
+    /**
+     * @return true if the children of this structureMap should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, StructureMap structureMap);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureMap.Group structureMapGroup);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureMap.Group.Input structureMapGroupInput);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureMap.Group.Rule structureMapGroupRule);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureMap.Group.Rule.Dependent structureMapGroupRuleDependent);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureMap.Group.Rule.Source structureMapGroupRuleSource);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureMap.Group.Rule.Target structureMapGroupRuleTarget);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureMap.Group.Rule.Target.Parameter structureMapGroupRuleTargetParameter);
-    boolean visit(java.lang.String elementName, int elementIndex, StructureMap.Structure structureMapStructure);
+    /**
+     * @return true if the children of this subscription should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Subscription subscription);
-    boolean visit(java.lang.String elementName, int elementIndex, Subscription.Channel subscriptionChannel);
+    /**
+     * @return true if the children of this substance should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Substance substance);
-    boolean visit(java.lang.String elementName, int elementIndex, Substance.Ingredient substanceIngredient);
-    boolean visit(java.lang.String elementName, int elementIndex, Substance.Instance substanceInstance);
+    /**
+     * @return true if the children of this substanceAmount should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SubstanceAmount substanceAmount);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceAmount.ReferenceRange substanceAmountReferenceRange);
+    /**
+     * @return true if the children of this substanceNucleicAcid should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SubstanceNucleicAcid substanceNucleicAcid);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceNucleicAcid.Subunit substanceNucleicAcidSubunit);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceNucleicAcid.Subunit.Linkage substanceNucleicAcidSubunitLinkage);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceNucleicAcid.Subunit.Sugar substanceNucleicAcidSubunitSugar);
+    /**
+     * @return true if the children of this substancePolymer should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SubstancePolymer substancePolymer);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstancePolymer.MonomerSet substancePolymerMonomerSet);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstancePolymer.MonomerSet.StartingMaterial substancePolymerMonomerSetStartingMaterial);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstancePolymer.Repeat substancePolymerRepeat);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstancePolymer.Repeat.RepeatUnit substancePolymerRepeatRepeatUnit);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation substancePolymerRepeatRepeatUnitDegreeOfPolymerisation);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation substancePolymerRepeatRepeatUnitStructuralRepresentation);
+    /**
+     * @return true if the children of this substanceProtein should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SubstanceProtein substanceProtein);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceProtein.Subunit substanceProteinSubunit);
+    /**
+     * @return true if the children of this substanceReferenceInformation should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SubstanceReferenceInformation substanceReferenceInformation);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceReferenceInformation.Classification substanceReferenceInformationClassification);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceReferenceInformation.Gene substanceReferenceInformationGene);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceReferenceInformation.GeneElement substanceReferenceInformationGeneElement);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceReferenceInformation.Target substanceReferenceInformationTarget);
+    /**
+     * @return true if the children of this substanceSourceMaterial should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SubstanceSourceMaterial substanceSourceMaterial);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSourceMaterial.FractionDescription substanceSourceMaterialFractionDescription);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSourceMaterial.Organism substanceSourceMaterialOrganism);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSourceMaterial.Organism.Author substanceSourceMaterialOrganismAuthor);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSourceMaterial.Organism.Hybrid substanceSourceMaterialOrganismHybrid);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSourceMaterial.Organism.OrganismGeneral substanceSourceMaterialOrganismOrganismGeneral);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSourceMaterial.PartDescription substanceSourceMaterialPartDescription);
+    /**
+     * @return true if the children of this substanceSpecification should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification substanceSpecification);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Code substanceSpecificationCode);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Moiety substanceSpecificationMoiety);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Name substanceSpecificationName);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Name.Official substanceSpecificationNameOfficial);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Property substanceSpecificationProperty);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Relationship substanceSpecificationRelationship);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Structure substanceSpecificationStructure);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Structure.Isotope substanceSpecificationStructureIsotope);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Structure.Isotope.MolecularWeight substanceSpecificationStructureIsotopeMolecularWeight);
-    boolean visit(java.lang.String elementName, int elementIndex, SubstanceSpecification.Structure.Representation substanceSpecificationStructureRepresentation);
+    /**
+     * @return true if the children of this supplyDelivery should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SupplyDelivery supplyDelivery);
-    boolean visit(java.lang.String elementName, int elementIndex, SupplyDelivery.SuppliedItem supplyDeliverySuppliedItem);
+    /**
+     * @return true if the children of this supplyRequest should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, SupplyRequest supplyRequest);
-    boolean visit(java.lang.String elementName, int elementIndex, SupplyRequest.Parameter supplyRequestParameter);
+    /**
+     * @return true if the children of this task should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Task task);
-    boolean visit(java.lang.String elementName, int elementIndex, Task.Input taskInput);
-    boolean visit(java.lang.String elementName, int elementIndex, Task.Output taskOutput);
-    boolean visit(java.lang.String elementName, int elementIndex, Task.Restriction taskRestriction);
+    /**
+     * @return true if the children of this terminologyCapabilities should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities terminologyCapabilities);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.Closure terminologyCapabilitiesClosure);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.CodeSystem terminologyCapabilitiesCodeSystem);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.CodeSystem.Version terminologyCapabilitiesCodeSystemVersion);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.CodeSystem.Version.Filter terminologyCapabilitiesCodeSystemVersionFilter);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.Expansion terminologyCapabilitiesExpansion);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.Expansion.Parameter terminologyCapabilitiesExpansionParameter);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.Implementation terminologyCapabilitiesImplementation);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.Software terminologyCapabilitiesSoftware);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.Translation terminologyCapabilitiesTranslation);
-    boolean visit(java.lang.String elementName, int elementIndex, TerminologyCapabilities.ValidateCode terminologyCapabilitiesValidateCode);
+    /**
+     * @return true if the children of this testReport should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, TestReport testReport);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Participant testReportParticipant);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Setup testReportSetup);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Setup.Action testReportSetupAction);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Setup.Action.Assert testReportSetupActionAssert);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Setup.Action.Operation testReportSetupActionOperation);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Teardown testReportTeardown);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Teardown.Action testReportTeardownAction);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Test testReportTest);
-    boolean visit(java.lang.String elementName, int elementIndex, TestReport.Test.Action testReportTestAction);
+    /**
+     * @return true if the children of this testScript should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, TestScript testScript);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Destination testScriptDestination);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Fixture testScriptFixture);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Metadata testScriptMetadata);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Metadata.Capability testScriptMetadataCapability);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Metadata.Link testScriptMetadataLink);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Origin testScriptOrigin);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Setup testScriptSetup);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Setup.Action testScriptSetupAction);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Setup.Action.Assert testScriptSetupActionAssert);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Setup.Action.Operation testScriptSetupActionOperation);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Setup.Action.Operation.RequestHeader testScriptSetupActionOperationRequestHeader);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Teardown testScriptTeardown);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Teardown.Action testScriptTeardownAction);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Test testScriptTest);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Test.Action testScriptTestAction);
-    boolean visit(java.lang.String elementName, int elementIndex, TestScript.Variable testScriptVariable);
+    /**
+     * @return true if the children of this time should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Time time);
+    /**
+     * @return true if the children of this timing should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Timing timing);
-    boolean visit(java.lang.String elementName, int elementIndex, Timing.Repeat timingRepeat);
+    /**
+     * @return true if the children of this triggerDefinition should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, TriggerDefinition triggerDefinition);
+    /**
+     * @return true if the children of this unsignedInt should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, UnsignedInt unsignedInt);
+    /**
+     * @return true if the children of this uri should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Uri uri);
+    /**
+     * @return true if the children of this url should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Url url);
+    /**
+     * @return true if the children of this usageContext should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, UsageContext usageContext);
+    /**
+     * @return true if the children of this uuid should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Uuid uuid);
+    /**
+     * @return true if the children of this valueSet should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, ValueSet valueSet);
-    boolean visit(java.lang.String elementName, int elementIndex, ValueSet.Compose valueSetCompose);
-    boolean visit(java.lang.String elementName, int elementIndex, ValueSet.Compose.Include valueSetComposeInclude);
-    boolean visit(java.lang.String elementName, int elementIndex, ValueSet.Compose.Include.Concept valueSetComposeIncludeConcept);
-    boolean visit(java.lang.String elementName, int elementIndex, ValueSet.Compose.Include.Concept.Designation valueSetComposeIncludeConceptDesignation);
-    boolean visit(java.lang.String elementName, int elementIndex, ValueSet.Compose.Include.Filter valueSetComposeIncludeFilter);
-    boolean visit(java.lang.String elementName, int elementIndex, ValueSet.Expansion valueSetExpansion);
-    boolean visit(java.lang.String elementName, int elementIndex, ValueSet.Expansion.Contains valueSetExpansionContains);
-    boolean visit(java.lang.String elementName, int elementIndex, ValueSet.Expansion.Parameter valueSetExpansionParameter);
+    /**
+     * @return true if the children of this verificationResult should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, VerificationResult verificationResult);
-    boolean visit(java.lang.String elementName, int elementIndex, VerificationResult.Attestation verificationResultAttestation);
-    boolean visit(java.lang.String elementName, int elementIndex, VerificationResult.PrimarySource verificationResultPrimarySource);
-    boolean visit(java.lang.String elementName, int elementIndex, VerificationResult.Validator verificationResultValidator);
+    /**
+     * @return true if the children of this visionPrescription should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, VisionPrescription visionPrescription);
-    boolean visit(java.lang.String elementName, int elementIndex, VisionPrescription.LensSpecification visionPrescriptionLensSpecification);
-    boolean visit(java.lang.String elementName, int elementIndex, VisionPrescription.LensSpecification.Prism visionPrescriptionLensSpecificationPrism);
+    /**
+     * @return true if the children of this xhtml should be visited; otherwise false
+     */
     boolean visit(java.lang.String elementName, int elementIndex, Xhtml xhtml);
     void visit(java.lang.String elementName, byte[] value);
     void visit(java.lang.String elementName, BigDecimal value);
