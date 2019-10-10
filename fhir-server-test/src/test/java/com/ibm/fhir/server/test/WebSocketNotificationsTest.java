@@ -78,9 +78,14 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatient = responsePatient;
 
-        endpoint.getLatch().await(5, TimeUnit.SECONDS);
-
         FHIRNotificationEvent event = endpoint.checkForEvent(responsePatient.getId().getValue());
+        int checkCount = 30;
+        while(event != null && checkCount > 0) {
+            // Only if null, we're going to wait. 
+            endpoint.getLatch().await(1, TimeUnit.SECONDS);
+            event = endpoint.checkForEvent(responsePatient.getId().getValue());
+            checkCount--;
+        }
         assertTrue(event != null);
 
         assertEquals(event.getResourceId(), responsePatient.getId().getValue());
@@ -110,9 +115,14 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         Observation responseObs = response.readEntity(Observation.class);
         savedCreatedObservation = responseObs;
 
-        endpoint.getLatch().await(5, TimeUnit.SECONDS);
-
         FHIRNotificationEvent event = endpoint.checkForEvent(savedCreatedObservation.getId().getValue());
+        int checkCount = 30;
+        while(event != null && checkCount > 0) {
+            // Only if null, we're going to wait. 
+            endpoint.getLatch().await(1, TimeUnit.SECONDS);
+            event = endpoint.checkForEvent(savedCreatedObservation.getId().getValue());
+            checkCount--;
+        }
         assertTrue(event != null);
 
         assertEquals(event.getResourceId(), responseObs.getId().getValue());
@@ -144,9 +154,15 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
         Observation responseObservation = response.readEntity(Observation.class);
 
-        endpoint.getLatch().await(5, TimeUnit.SECONDS);
-
         FHIRNotificationEvent event = endpoint.checkForEvent(responseObservation.getId().getValue());
+        int checkCount = 30;
+        while(event != null && checkCount > 0) {
+            // Only if null, we're going to wait. 
+            endpoint.getLatch().await(1, TimeUnit.SECONDS);
+            event = endpoint.checkForEvent(responseObservation.getId().getValue());
+            checkCount--;
+        }
+        
         assertTrue(event != null);
 
         assertEquals(event.getResourceId(), responseObservation.getId().getValue());
