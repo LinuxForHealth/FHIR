@@ -29,13 +29,15 @@ import com.ibm.fhir.model.plugin.generator.ModelGenerator;
  * The phase is initialize. To find a list of phases -
  * https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference
  * 
- * Run the following to setup the plugin: <code>
+ * Run the following to setup the plugin: 
+ * <pre>
  * mvn clean package install -f fhir-tools/pom.xml
- * </code>
+ * </pre>
  * 
- * Run the following to create/update the classes in the fhir-model project: <code> 
+ * Run the following to create/update the classes in the fhir-model project: 
+ * <pre> 
  * mvn com.ibm.fhir:fhir-tools:generate-model -f ./fhir-model/pom.xml
- * </code>
+ * </pre>
  * 
  * @author PBastide
  * 

@@ -592,8 +592,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
                 telecom.setName(parameter.getCode().getValue());
                 telecom.setValueCode(value.getValue().getValue());
                 if (value.getSystem() != null && value.getSystem().getValue() != null) {
-                    // <code> according to spec, this should be "http://hl7.org/fhir/contact-point-system/" +
-                    // ContactPoint.use</code>
+                    // <pre> according to spec, this should be "http://hl7.org/fhir/contact-point-system/" +
+                    // ContactPoint.use</pre>
                     telecom.setValueSystem(value.getSystem().getValue());
                 }
                 parameters.add(telecom);

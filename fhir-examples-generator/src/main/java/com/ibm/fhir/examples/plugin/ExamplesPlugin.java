@@ -27,13 +27,15 @@ import com.ibm.fhir.examples.ExamplesGenerator;
  * The phase is initialize. To find a list of phases -
  * https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference
  * 
- * Run the following to setup the plugin: <code>
+ * Run the following to setup the plugin: 
+ * <pre>
  * mvn clean package install -f fhir-examples-generator/pom.xml
- * </code>
+ * </pre>
  * 
- * Run the following to create/update the classes in the fhir-model project: <code> 
+ * Run the following to create/update the classes in the fhir-model project: 
+ * <pre> 
  * mvn com.ibm.fhir:fhir-examples-generator:generate-examples -f ./fhir-parent/pom.xml
- * </code>
+ * </pre>
  * 
  * @author PBastide
  * 

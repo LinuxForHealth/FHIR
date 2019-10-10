@@ -329,7 +329,7 @@ public class SearchUtil {
         } else {
             // The current tenant doesn't have any filter rules defined, so
             // we'll just fabricate one that includes all search parameters:
-            // <code>{ "*": ["*"] }</code>
+            // <pre>{ "*": ["*"] }</pre>
             List<String> list = new ArrayList<>();
             list.add(SearchConstants.WILDCARD);
             result.put(SearchConstants.WILDCARD, list);

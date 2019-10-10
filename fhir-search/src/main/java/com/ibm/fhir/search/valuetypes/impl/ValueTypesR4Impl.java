@@ -167,8 +167,12 @@ public class ValueTypesR4Impl implements IValueTypes {
     public Map<String, Set<Class<?>>> load(InputStream in) {
         Map<String, Set<Class<?>>> tmp = new HashMap<>();
         /*
-         * Format <br/> <code>{ "value-types": "default", "mappings": [{ "resourceType": "", "name": "",
-         * "targetClasses": [] }] }</code>
+         * Format <br/> <pre>
+         * { "value-types": "default", 
+         * 		"mappings": [{ "resourceType": "", "name": "",
+         * 		"targetClasses": [] }] 
+         * }
+         * </pre>
          */
 
         if (in != null) {
