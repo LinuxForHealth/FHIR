@@ -58,7 +58,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         FHIRNotificationEvent event = null;
         int checkCount = 30;
         while(event == null && checkCount > 0) {
-            // Only if null, we're going to wait. 
+            // Only if null, we're going to wait.
             endpoint.getLatch().await(1, TimeUnit.SECONDS);
             event = endpoint.checkForEvent(id);
             checkCount--;
