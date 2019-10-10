@@ -47,7 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "ipn-1",
     level = "Rule",
     location = "(base)",
-    description = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
+    description = "The organization SHALL at least have a name or an identifier, and possibly more than one",
     expression = "(identifier.count() + name.count()) > 0"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

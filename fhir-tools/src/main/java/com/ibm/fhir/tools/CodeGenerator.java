@@ -251,7 +251,7 @@ public class CodeGenerator {
             generateCodeSubtypeClasses(structureDefinition, basePath);
         }
         generateVisitorInterface(basePath);
-        generateAbstractVisitorClass(basePath);
+        generateDefaultVisitorClass(basePath);
         generateJsonParser(basePath);
         generateXMLParser(basePath);
         generateModelClassesFile(basePath);
@@ -293,7 +293,7 @@ public class CodeGenerator {
         }
     }
 
-    private void generateAbstractVisitorClass(String basePath) {
+    private void generateDefaultVisitorClass(String basePath) {
         CodeBuilder cb = new CodeBuilder();
         
         String packageName = "com.ibm.fhir.model.visitor";
@@ -337,17 +337,10 @@ public class CodeGenerator {
         cb.decl(mods("protected"), "boolean", "visitChildren");
         
         cb.javadocStart();
-        cb.javadoc("Subclasses can override this method to provide a default action for all Resource visit methods.");
+        cb.javadoc("Subclasses can override this method to provide a default action for all visit methods.");
         cb.javadocReturn("whether to visit the children of this resource; returns the value of the {@code visitChildren} boolean by default");
         cb.javadocEnd();
-        cb.method(mods("protected"), "boolean", "defaultAction", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
-        cb._return("visitChildren");
-        cb.end();
-        cb.javadocStart();
-        cb.javadoc("Subclasses can override this method to provide a default action for all Element visit methods.");
-        cb.javadocReturn("whether to visit the children of this resource; returns the value of the {@code visitChildren} boolean by default");
-        cb.javadocEnd();
-        cb.method(mods("protected"), "boolean", "defaultAction", params("java.lang.String elementName", "int elementIndex", "Element element"));
+        cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", "Visitable visitable"));
         cb._return("visitChildren");
         cb.end();
         cb.newLine();
@@ -394,7 +387,7 @@ public class CodeGenerator {
         Collections.sort(generatedClassNames);
         
         for (String className : generatedClassNames) {
-            if (isBackboneSubtype(className)) {
+            if (isNestedType(className)) {
                 continue;
             }
             String paramName = camelCase(className).replace(".", "");
@@ -402,31 +395,18 @@ public class CodeGenerator {
                 paramName = "_" + paramName;
             }
             
-            // keep this null if the current class isn't a subtype
-            String supertype = null;
-            if (isStringSubtype(className)) {
-                supertype = "String";
-            } else if (isIntegerSubtype(className)) {
-                supertype = "Integer";
-            } else if (isUriSubtype(className)) {
-                supertype = "Uri";
-            } else if (isQuantitySubtype(className)) {
-                supertype = "Quantity";
+            String supertype = superClassMap.get(className);
+            if (supertype == null) {
+                supertype = "Visitable";
             }
             
-            if (supertype != null) {
-                cb.javadocStart();
-                cb.javadoc("Delegates to {@link #visit(elementName, elementIndex, com.ibm.fhir.model.type." + supertype + ")}");
-                cb.javadocReturn("{@inheritDoc}");
-                cb.javadocEnd();
-            }
+            cb.javadocStart();
+            cb.javadoc("Delegates to {@link #visit(elementName, elementIndex, " + supertype + ")}");
+            cb.javadocReturn("{@inheritDoc}");
+            cb.javadocEnd();
             cb.override();
             cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName));
-            if (supertype != null) {
-                cb._return("visit(elementName, elementIndex, (com.ibm.fhir.model.type." + supertype + ") " + paramName + ")");
-            } else {
-                cb._return("defaultAction(elementName, elementIndex, " + paramName + ")");
-            }
+            cb._return("visit(elementName, elementIndex, (" + supertype + ") " + paramName + ")");
             cb.end().newLine();
         }
 
@@ -2908,11 +2888,17 @@ public class CodeGenerator {
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Element element"));
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type"));
+        cb.newLine();
+        
+        cb.javadocStart();
+        cb.javadocReturn("true if the children of this visitable should be visited; otherwise false");
+        cb.javadocEnd();
+        cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", "Visitable visitable"));
         
         Collections.sort(generatedClassNames);
         
         for (String className : generatedClassNames) {
-            if (isBackboneSubtype(className)) {
+            if (isNestedType(className)) {
                 continue;
             }
             String paramName = camelCase(className).replace(".", "");
@@ -2920,7 +2906,7 @@ public class CodeGenerator {
                 paramName = "_" + paramName;
             }
             cb.javadocStart();
-            cb.javadoc("@return true if the children of this " + paramName + " should be visited; otherwise false");
+            cb.javadocReturn("true if the children of this " + paramName + " should be visited; otherwise false");
             cb.javadocEnd();
             cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName));
         }
@@ -3382,12 +3368,16 @@ public class CodeGenerator {
         return !types.isEmpty() && "BackboneElement".equals(types.get(0).getString("code", null));
     }
     
-    private boolean isBackboneSubtype(String className) {
-        if (className.startsWith("com.ibm.fhir.model.type")) {
-            className = className.substring("com.ibm.fhir.model.type".length());
-        }
-        return className.contains(".");
-        
+    /**
+     * Whether the classNameWithoutPackage implies this is a nested type or not.
+     * For example:
+     * <ul>
+     * <li>"Bundle" returns false
+     * <li>"Bundle.Entry" returns true
+     * </ul>
+     */
+    private boolean isNestedType(String classNameWithoutpackage) {
+        return classNameWithoutpackage.contains(".");
     }
 
     private boolean isBase64Binary(JsonObject structureDefinition) {

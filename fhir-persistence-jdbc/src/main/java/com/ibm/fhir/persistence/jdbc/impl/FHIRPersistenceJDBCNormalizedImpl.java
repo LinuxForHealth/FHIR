@@ -65,7 +65,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
-import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuilder2;
+import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.QueryBuilderUtil;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
@@ -843,7 +843,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                     log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", expression: " + expression);
                 }
                 
-                JDBCParameterBuilder2 parameterBuilder = new JDBCParameterBuilder2(code);
+                JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(code);
                 
                 List<FHIRPathNode> values = entry.getValue();
                 
