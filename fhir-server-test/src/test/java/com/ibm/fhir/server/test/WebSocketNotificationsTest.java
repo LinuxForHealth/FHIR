@@ -44,9 +44,6 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         target = getWebTarget();
         endpoint = getWebsocketClientEndpoint();
         assertNotNull(endpoint);
-        
-        // This Latch looks at the total messages
-        endpoint.getLatch().await(30, TimeUnit.SECONDS);
     }
     
     @AfterClass
