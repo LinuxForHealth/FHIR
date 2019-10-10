@@ -24,7 +24,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 /**
  * BulkExport Job Instance Request
  * 
- * <code>
+ * <pre>
  * {
     "applicationName": "fhir-bulkimportexport-webapp",
     "moduleName": "fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war",
@@ -39,7 +39,7 @@ import com.ibm.fhir.exception.FHIROperationException;
         "cos.srvinst.id": "crn:v1:bluemix:public:cloud-object-storage:global:a/<>::",
         "fhir.search.fromdate": "2019-08-01"
     }
-    }</code>
+    }</pre>
  * 
  * 
  * @author pbastide

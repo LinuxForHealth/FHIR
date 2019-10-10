@@ -33,9 +33,7 @@ public class PropertyGroup {
     /**
      * This constant represents the separator character used within a hierarchical property name. 
      * Example: 
-     * <code>
-     *     fhir-server/server-core/truststoreLocation 
-     * </code>
+     * <code>fhir-server/server-core/truststoreLocation</code>
      */
     public static final String PATH_ELEMENT_SEPARATOR = "/";
 
@@ -341,7 +339,7 @@ public class PropertyGroup {
      * This function will find the JSON "sub object" rooted at "this.jsonObj" that is associated with the specified
      * hierarchical property name. 
      * <p>For example, consider the following JSON structure: 
-     * <code>
+     * <pre>
      * { 
      *     "level1":{ 
      *         "level2":{
@@ -349,7 +347,7 @@ public class PropertyGroup {
      *         } 
      *     } 
      * } 
-     * </code> 
+     * </pre> 
      * If this function was invoked with a property name of "level1/level2/myProperty", 
      * then the result will be the JsonObject associated with the "level2" field within the JSON
      * structure above.

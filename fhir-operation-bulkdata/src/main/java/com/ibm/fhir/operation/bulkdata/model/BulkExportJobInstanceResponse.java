@@ -30,7 +30,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 /**
  * BulkImportJob's JSON response
  * 
- * <code>
+ * <pre>
  *  {
    “jobName”: “BulkImportJob”,
    “instanceId”: 9,
@@ -51,7 +51,7 @@ import com.ibm.fhir.exception.FHIROperationException;
        }
    ]
     }
- *  </code>
+ *  </pre>
  * 
  * @author pbastide
  *
