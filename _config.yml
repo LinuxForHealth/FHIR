@@ -6,7 +6,7 @@ description: >-
   of the <a href="https://www.hl7.org/fhir/r4/http.html">HL7 FHIR specification</a> with 
   a focus on performance and configurability.
 baseurl: ""
-url: "https://ibm.github.io/FHIR" 
+url: "https://ibm.github.io/fhir" 
 
 # Build settings
 plugins:
@@ -27,6 +27,7 @@ plugins:
   - jemoji
   - jekyll-mentions
   - jekyll-include-cache
+  - jekyll-redirect-from
 
 source: . 
 destination: _site

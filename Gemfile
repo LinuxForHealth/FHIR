@@ -29,5 +29,6 @@ gem "jekyll-avatar", group: :jekyll_plugins
 gem "jemoji", group: :jekyll_plugins
 gem "jekyll-mentions", group: :jekyll_plugins
 gem "jekyll-include-cache", group: :jekyll_plugins
+gem 'jekyll-redirect-from', group: :jekyll_plugins
 
 # EOF
