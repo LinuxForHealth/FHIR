@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Canonical;
@@ -55,10 +56,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class NutritionOrder extends DomainResource {
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
     private final List<Uri> instantiates;
     @Required
+    @Summary
     @Binding(
         bindingName = "NutritionOrderStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -67,6 +71,7 @@ public class NutritionOrder extends DomainResource {
     )
     private final NutritionOrderStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "NutritiionOrderIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -75,10 +80,13 @@ public class NutritionOrder extends DomainResource {
     )
     private final NutritionOrderIntent intent;
     @Required
+    @Summary
     private final Reference patient;
     private final Reference encounter;
     @Required
+    @Summary
     private final DateTime dateTime;
+    @Summary
     private final Reference orderer;
     private final List<Reference> allergyIntolerance;
     @Binding(
@@ -1162,6 +1170,7 @@ public class NutritionOrder extends DomainResource {
      * Diet given orally in contrast to enteral (tube) feeding.
      */
     public static class OralDiet extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "OralDiet",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1179,6 +1188,7 @@ public class NutritionOrder extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/consistency-type"
         )
         private final List<CodeableConcept> fluidConsistencyType;
+        @Summary
         private final String instruction;
 
         private volatile int hashCode;
@@ -2204,6 +2214,7 @@ public class NutritionOrder extends DomainResource {
      * Oral nutritional products given in order to add further nutritional value to the patient's diet.
      */
     public static class Supplement extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "SupplementType",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -2214,6 +2225,7 @@ public class NutritionOrder extends DomainResource {
         private final String productName;
         private final List<Timing> schedule;
         private final SimpleQuantity quantity;
+        @Summary
         private final String instruction;
 
         private volatile int hashCode;
@@ -2589,6 +2601,7 @@ public class NutritionOrder extends DomainResource {
      * the oral cavity.
      */
     public static class EnteralFormula extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "EnteralFormulaType",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -2615,6 +2628,7 @@ public class NutritionOrder extends DomainResource {
         private final CodeableConcept routeofAdministration;
         private final List<Administration> administration;
         private final SimpleQuantity maxVolumeToDeliver;
+        @Summary
         private final String administrationInstruction;
 
         private volatile int hashCode;

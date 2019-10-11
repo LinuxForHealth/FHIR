@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -43,7 +44,9 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Medication extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "MedicationFormalRepresentation",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -51,6 +54,7 @@ public class Medication extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
     private final CodeableConcept code;
+    @Summary
     @Binding(
         bindingName = "MedicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -58,6 +62,7 @@ public class Medication extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-status|4.0.0"
     )
     private final MedicationStatus status;
+    @Summary
     private final Reference manufacturer;
     @Binding(
         bindingName = "MedicationForm",
@@ -66,6 +71,7 @@ public class Medication extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-form-codes"
     )
     private final CodeableConcept form;
+    @Summary
     private final Ratio amount;
     private final List<Ingredient> ingredient;
     private final Batch batch;

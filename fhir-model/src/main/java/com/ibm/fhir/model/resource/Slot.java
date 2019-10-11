@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -38,19 +39,23 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Slot extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "service-category",
         strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
+    @Summary
     @Binding(
         bindingName = "service-type",
         strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
+    @Summary
     @Binding(
         bindingName = "specialty",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -58,6 +63,7 @@ public class Slot extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
+    @Summary
     @Binding(
         bindingName = "appointment-type",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -65,8 +71,10 @@ public class Slot extends DomainResource {
     )
     private final CodeableConcept appointmentType;
     @Required
+    @Summary
     private final Reference schedule;
     @Required
+    @Summary
     @Binding(
         bindingName = "SlotStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -75,8 +83,10 @@ public class Slot extends DomainResource {
     )
     private final SlotStatus status;
     @Required
+    @Summary
     private final Instant start;
     @Required
+    @Summary
     private final Instant end;
     private final Boolean overbooked;
     private final String comment;

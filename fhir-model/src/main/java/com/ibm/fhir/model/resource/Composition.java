@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -65,8 +66,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Composition extends DomainResource {
+    @Summary
     private final Identifier identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "CompositionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -75,6 +78,7 @@ public class Composition extends DomainResource {
     )
     private final CompositionStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "DocumentType",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -82,6 +86,7 @@ public class Composition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/doc-typecodes"
     )
     private final CodeableConcept type;
+    @Summary
     @Binding(
         bindingName = "DocumentCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -89,14 +94,20 @@ public class Composition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
     )
     private final List<CodeableConcept> category;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
     @Required
+    @Summary
     private final DateTime date;
     @Required
+    @Summary
     private final List<Reference> author;
     @Required
+    @Summary
     private final String title;
+    @Summary
     @Binding(
         bindingName = "DocumentConfidentiality",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -105,8 +116,10 @@ public class Composition extends DomainResource {
     )
     private final DocumentConfidentiality confidentiality;
     private final List<Attester> attester;
+    @Summary
     private final Reference custodian;
     private final List<RelatesTo> relatesTo;
+    @Summary
     private final List<Event> event;
     private final List<Section> section;
 
@@ -1621,6 +1634,7 @@ public class Composition extends DomainResource {
      * The clinical service, such as a colonoscopy or an appendectomy, being documented.
      */
     public static class Event extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "DocumentEventType",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1628,7 +1642,9 @@ public class Composition extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
         )
         private final List<CodeableConcept> code;
+        @Summary
         private final Period period;
+        @Summary
         private final List<Reference> detail;
 
         private volatile int hashCode;

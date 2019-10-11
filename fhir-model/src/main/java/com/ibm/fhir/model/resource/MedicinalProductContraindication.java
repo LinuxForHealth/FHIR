@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -36,12 +37,19 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductContraindication extends DomainResource {
+    @Summary
     private final List<Reference> subject;
+    @Summary
     private final CodeableConcept disease;
+    @Summary
     private final CodeableConcept diseaseStatus;
+    @Summary
     private final List<CodeableConcept> comorbidity;
+    @Summary
     private final List<Reference> therapeuticIndication;
+    @Summary
     private final List<OtherTherapy> otherTherapy;
+    @Summary
     private final List<Population> population;
 
     private volatile int hashCode;
@@ -665,8 +673,10 @@ public class MedicinalProductContraindication extends DomainResource {
      */
     public static class OtherTherapy extends BackboneElement {
         @Required
+        @Summary
         private final CodeableConcept therapyRelationshipType;
         @Required
+        @Summary
         @Choice({ CodeableConcept.class, Reference.class })
         private final Element medication;
 

@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -67,13 +68,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RequestGroup extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
     private final List<Reference> basedOn;
     private final List<Reference> replaces;
+    @Summary
     private final Identifier groupIdentifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "RequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -82,6 +88,7 @@ public class RequestGroup extends DomainResource {
     )
     private final RequestStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "RequestIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -89,6 +96,7 @@ public class RequestGroup extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
     private final RequestIntent intent;
+    @Summary
     @Binding(
         bindingName = "RequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -96,6 +104,7 @@ public class RequestGroup extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final RequestPriority priority;
+    @Summary
     private final CodeableConcept code;
     private final Reference subject;
     private final Reference encounter;
@@ -1169,7 +1178,9 @@ public class RequestGroup extends DomainResource {
     public static class Action extends BackboneElement {
         private final String prefix;
         private final String title;
+        @Summary
         private final String description;
+        @Summary
         private final String textEquivalent;
         @Binding(
             bindingName = "RequestPriority",

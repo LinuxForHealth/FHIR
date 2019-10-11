@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ContributorType;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -27,6 +28,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Contributor extends Element {
     @Required
+    @Summary
     @Binding(
         bindingName = "ContributorType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -35,7 +37,9 @@ public class Contributor extends Element {
     )
     private final ContributorType type;
     @Required
+    @Summary
     private final String name;
+    @Summary
     private final List<ContactDetail> contact;
 
     private volatile int hashCode;

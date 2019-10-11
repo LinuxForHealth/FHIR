@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Date;
@@ -41,6 +42,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class PaymentNotice extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "PaymentNoticeStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -51,15 +53,19 @@ public class PaymentNotice extends DomainResource {
     private final Reference request;
     private final Reference response;
     @Required
+    @Summary
     private final DateTime created;
     private final Reference provider;
     @Required
+    @Summary
     private final Reference payment;
     private final Date paymentDate;
     private final Reference payee;
     @Required
+    @Summary
     private final Reference recipient;
     @Required
+    @Summary
     private final Money amount;
     @Binding(
         bindingName = "PaymentStatus",

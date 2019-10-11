@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -43,11 +44,17 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Practitioner extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     private final List<HumanName> name;
+    @Summary
     private final List<ContactPoint> telecom;
+    @Summary
     private final List<Address> address;
+    @Summary
     @Binding(
         bindingName = "AdministrativeGender",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -55,6 +62,7 @@ public class Practitioner extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
     )
     private final AdministrativeGender gender;
+    @Summary
     private final Date birthDate;
     private final List<Attachment> photo;
     private final List<Qualification> qualification;

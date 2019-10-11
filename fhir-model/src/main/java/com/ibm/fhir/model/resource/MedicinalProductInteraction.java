@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -35,12 +36,19 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductInteraction extends DomainResource {
+    @Summary
     private final List<Reference> subject;
+    @Summary
     private final String description;
+    @Summary
     private final List<Interactant> interactant;
+    @Summary
     private final CodeableConcept type;
+    @Summary
     private final CodeableConcept effect;
+    @Summary
     private final CodeableConcept incidence;
+    @Summary
     private final CodeableConcept management;
 
     private volatile int hashCode;
@@ -604,6 +612,7 @@ public class MedicinalProductInteraction extends DomainResource {
      */
     public static class Interactant extends BackboneElement {
         @Required
+        @Summary
         @Choice({ Reference.class, CodeableConcept.class })
         private final Element item;
 

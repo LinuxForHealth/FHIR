@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -57,11 +58,16 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class QuestionnaireResponse extends DomainResource {
+    @Summary
     private final Identifier identifier;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> partOf;
+    @Summary
     private final Canonical questionnaire;
     @Required
+    @Summary
     @Binding(
         bindingName = "QuestionnaireResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -69,10 +75,15 @@ public class QuestionnaireResponse extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.0"
     )
     private final QuestionnaireResponseStatus status;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final DateTime authored;
+    @Summary
     private final Reference author;
+    @Summary
     private final Reference source;
     private final List<Item> item;
 

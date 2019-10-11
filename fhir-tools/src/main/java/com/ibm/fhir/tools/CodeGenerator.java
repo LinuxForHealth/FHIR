@@ -932,6 +932,9 @@ public class CodeGenerator {
                     if (isRequired(elementDefinition)) {
                         cb.annotation("Required");
                     }
+                    if (isSummary(elementDefinition)) {
+                        cb.annotation("Summary");
+                    }
                     if (isChoiceElement(elementDefinition)) {
                         String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                         cb.annotation("Choice", "{ " + types + " }");
@@ -1516,6 +1519,10 @@ public class CodeGenerator {
             if (isRequired(elementDefinition)) {
                 imports.add("com.ibm.fhir.model.util.ValidationSupport");
                 imports.add("com.ibm.fhir.model.annotation.Required");
+            }
+            
+            if (isSummary(elementDefinition)) {
+                imports.add("com.ibm.fhir.model.annotation.Summary");
             }
             
             if (isChoiceElement(elementDefinition)) {
@@ -3510,6 +3517,10 @@ public class CodeGenerator {
     
     private boolean isRequired(JsonObject elementDefinition) {
         return getMin(elementDefinition) > 0;
+    }
+    
+    private boolean isSummary(JsonObject elementDefinition) {
+        return elementDefinition.getBoolean("isSummary", false);
     }
     
     private boolean isResource(JsonObject structureDefinition) {

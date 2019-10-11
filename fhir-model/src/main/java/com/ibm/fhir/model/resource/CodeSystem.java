@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -68,12 +69,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CodeSystem extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -81,12 +88,18 @@ public class CodeSystem extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -96,8 +109,11 @@ public class CodeSystem extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Summary
     private final Boolean caseSensitive;
+    @Summary
     private final Canonical valueSet;
+    @Summary
     @Binding(
         bindingName = "CodeSystemHierarchyMeaning",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -105,9 +121,12 @@ public class CodeSystem extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.0"
     )
     private final CodeSystemHierarchyMeaning hierarchyMeaning;
+    @Summary
     private final Boolean compositional;
+    @Summary
     private final Boolean versionNeeded;
     @Required
+    @Summary
     @Binding(
         bindingName = "CodeSystemContentMode",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -115,9 +134,13 @@ public class CodeSystem extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.0"
     )
     private final CodeSystemContentMode content;
+    @Summary
     private final Canonical supplements;
+    @Summary
     private final UnsignedInt count;
+    @Summary
     private final List<Filter> filter;
+    @Summary
     private final List<Property> property;
     private final List<Concept> concept;
 
@@ -1425,9 +1448,12 @@ public class CodeSystem extends DomainResource {
      */
     public static class Filter extends BackboneElement {
         @Required
+        @Summary
         private final Code code;
+        @Summary
         private final String description;
         @Required
+        @Summary
         @Binding(
             bindingName = "FilterOperator",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1436,6 +1462,7 @@ public class CodeSystem extends DomainResource {
         )
         private final List<FilterOperator> operator;
         @Required
+        @Summary
         private final String value;
 
         private volatile int hashCode;
@@ -1792,10 +1819,14 @@ public class CodeSystem extends DomainResource {
      */
     public static class Property extends BackboneElement {
         @Required
+        @Summary
         private final Code code;
+        @Summary
         private final Uri uri;
+        @Summary
         private final String description;
         @Required
+        @Summary
         @Binding(
             bindingName = "PropertyType",
             strength = BindingStrength.ValueSet.REQUIRED,

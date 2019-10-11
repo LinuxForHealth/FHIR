@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -55,9 +56,12 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationAdministration extends DomainResource {
     private final List<Identifier> identifier;
+    @Summary
     private final List<Uri> instantiates;
+    @Summary
     private final List<Reference> partOf;
     @Required
+    @Summary
     @Binding(
         bindingName = "MedicationAdministrationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -80,6 +84,7 @@ public class MedicationAdministration extends DomainResource {
     )
     private final CodeableConcept category;
     @Required
+    @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -89,12 +94,15 @@ public class MedicationAdministration extends DomainResource {
     )
     private final Element medication;
     @Required
+    @Summary
     private final Reference subject;
     private final Reference context;
     private final List<Reference> supportingInformation;
     @Required
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element effective;
+    @Summary
     private final List<Performer> performer;
     @Binding(
         bindingName = "MedicationAdministrationReason",
@@ -1279,6 +1287,7 @@ public class MedicationAdministration extends DomainResource {
         )
         private final CodeableConcept function;
         @Required
+        @Summary
         private final Reference actor;
 
         private volatile int hashCode;

@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -65,13 +66,20 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageDefinition extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
+    @Summary
     private final List<Canonical> replaces;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -79,13 +87,20 @@ public class MessageDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
     @Required
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -93,11 +108,15 @@ public class MessageDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
     private final List<CodeableConcept> jurisdiction;
+    @Summary
     private final Markdown purpose;
     private final Markdown copyright;
+    @Summary
     private final Canonical base;
+    @Summary
     private final List<Canonical> parent;
     @Required
+    @Summary
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
@@ -106,6 +125,7 @@ public class MessageDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
     private final Element event;
+    @Summary
     @Binding(
         bindingName = "MessageSignificanceCategory",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -113,6 +133,7 @@ public class MessageDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.0.0"
     )
     private final MessageSignificanceCategory category;
+    @Summary
     private final List<Focus> focus;
     @Binding(
         bindingName = "messageheader-response-request",
@@ -1408,6 +1429,7 @@ public class MessageDefinition extends DomainResource {
      */
     public static class Focus extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1417,6 +1439,7 @@ public class MessageDefinition extends DomainResource {
         private final ResourceType code;
         private final Canonical profile;
         @Required
+        @Summary
         private final UnsignedInt min;
         private final String max;
 

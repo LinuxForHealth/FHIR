@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Boolean;
@@ -55,6 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AuditEvent extends DomainResource {
     @Required
+    @Summary
     @Binding(
         bindingName = "AuditEventType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -62,6 +64,7 @@ public class AuditEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-type"
     )
     private final Coding type;
+    @Summary
     @Binding(
         bindingName = "AuditEventSubType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -69,6 +72,7 @@ public class AuditEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-sub-type"
     )
     private final List<Coding> subtype;
+    @Summary
     @Binding(
         bindingName = "AuditEventAction",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -78,7 +82,9 @@ public class AuditEvent extends DomainResource {
     private final AuditEventAction action;
     private final Period period;
     @Required
+    @Summary
     private final Instant recorded;
+    @Summary
     @Binding(
         bindingName = "AuditEventOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -86,7 +92,9 @@ public class AuditEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.0.0"
     )
     private final AuditEventOutcome outcome;
+    @Summary
     private final String outcomeDesc;
+    @Summary
     @Binding(
         bindingName = "AuditPurposeOfUse",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -858,10 +866,12 @@ public class AuditEvent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
         private final List<CodeableConcept> role;
+        @Summary
         private final Reference who;
         private final String altId;
         private final String name;
         @Required
+        @Summary
         private final Boolean requestor;
         private final Reference location;
         private final List<Uri> policy;
@@ -1761,6 +1771,7 @@ public class AuditEvent extends DomainResource {
     public static class Source extends BackboneElement {
         private final String site;
         @Required
+        @Summary
         private final Reference observer;
         @Binding(
             bindingName = "AuditEventSourceType",
@@ -2086,6 +2097,7 @@ public class AuditEvent extends DomainResource {
      * Specific instances of data or objects that have been accessed.
      */
     public static class Entity extends BackboneElement {
+        @Summary
         private final Reference what;
         @Binding(
             bindingName = "AuditEventEntityType",
@@ -2115,8 +2127,10 @@ public class AuditEvent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
         )
         private final List<Coding> securityLabel;
+        @Summary
         private final String name;
         private final String description;
+        @Summary
         private final Base64Binary query;
         private final List<Detail> detail;
 

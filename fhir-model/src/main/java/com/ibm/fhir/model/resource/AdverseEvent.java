@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -40,8 +41,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AdverseEvent extends DomainResource {
+    @Summary
     private final Identifier identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "AdverseEventActuality",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -49,6 +52,7 @@ public class AdverseEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.0.0"
     )
     private final AdverseEventActuality actuality;
+    @Summary
     @Binding(
         bindingName = "AdverseEventCategory",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -56,6 +60,7 @@ public class AdverseEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     @Binding(
         bindingName = "AdverseEventType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -64,13 +69,21 @@ public class AdverseEvent extends DomainResource {
     )
     private final CodeableConcept event;
     @Required
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final DateTime date;
+    @Summary
     private final DateTime detected;
+    @Summary
     private final DateTime recordedDate;
+    @Summary
     private final List<Reference> resultingCondition;
+    @Summary
     private final Reference location;
+    @Summary
     @Binding(
         bindingName = "AdverseEventSeriousness",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -78,6 +91,7 @@ public class AdverseEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-seriousness"
     )
     private final CodeableConcept seriousness;
+    @Summary
     @Binding(
         bindingName = "AdverseEventSeverity",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -85,6 +99,7 @@ public class AdverseEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.0.0"
     )
     private final CodeableConcept severity;
+    @Summary
     @Binding(
         bindingName = "AdverseEventOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -92,11 +107,17 @@ public class AdverseEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.0.0"
     )
     private final CodeableConcept outcome;
+    @Summary
     private final Reference recorder;
+    @Summary
     private final List<Reference> contributor;
+    @Summary
     private final List<SuspectEntity> suspectEntity;
+    @Summary
     private final List<Reference> subjectMedicalHistory;
+    @Summary
     private final List<Reference> referenceDocument;
+    @Summary
     private final List<Reference> study;
 
     private volatile int hashCode;
@@ -1195,7 +1216,9 @@ public class AdverseEvent extends DomainResource {
      */
     public static class SuspectEntity extends BackboneElement {
         @Required
+        @Summary
         private final Reference instance;
+        @Summary
         private final List<Causality> causality;
 
         private volatile int hashCode;
@@ -1482,6 +1505,7 @@ public class AdverseEvent extends DomainResource {
          * Information on the possible cause of the event.
          */
         public static class Causality extends BackboneElement {
+            @Summary
             @Binding(
                 bindingName = "AdverseEventCausalityAssessment",
                 strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1489,8 +1513,11 @@ public class AdverseEvent extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-causality-assess"
             )
             private final CodeableConcept assessment;
+            @Summary
             private final String productRelatedness;
+            @Summary
             private final Reference author;
+            @Summary
             @Binding(
                 bindingName = "AdverseEventCausalityMethod",
                 strength = BindingStrength.ValueSet.EXAMPLE,

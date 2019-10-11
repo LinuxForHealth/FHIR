@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -45,6 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
     @Required
+    @Summary
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
@@ -53,13 +55,20 @@ public class MessageHeader extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
     private final Element event;
+    @Summary
     private final List<Destination> destination;
+    @Summary
     private final Reference sender;
+    @Summary
     private final Reference enterer;
+    @Summary
     private final Reference author;
     @Required
+    @Summary
     private final Source source;
+    @Summary
     private final Reference responsible;
+    @Summary
     @Binding(
         bindingName = "EventReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -67,8 +76,11 @@ public class MessageHeader extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/message-reason-encounter"
     )
     private final CodeableConcept reason;
+    @Summary
     private final Response response;
+    @Summary
     private final List<Reference> focus;
+    @Summary
     private final Canonical definition;
 
     private volatile int hashCode;
@@ -783,10 +795,14 @@ public class MessageHeader extends DomainResource {
      * The destination application which the message is intended for.
      */
     public static class Destination extends BackboneElement {
+        @Summary
         private final String name;
+        @Summary
         private final Reference target;
         @Required
+        @Summary
         private final Url endpoint;
+        @Summary
         private final Reference receiver;
 
         private volatile int hashCode;
@@ -1116,11 +1132,16 @@ public class MessageHeader extends DomainResource {
      * The source application from which this message originated.
      */
     public static class Source extends BackboneElement {
+        @Summary
         private final String name;
+        @Summary
         private final String software;
+        @Summary
         private final String version;
+        @Summary
         private final ContactPoint contact;
         @Required
+        @Summary
         private final Url endpoint;
 
         private volatile int hashCode;
@@ -1480,8 +1501,10 @@ public class MessageHeader extends DomainResource {
      */
     public static class Response extends BackboneElement {
         @Required
+        @Summary
         private final Id identifier;
         @Required
+        @Summary
         @Binding(
             bindingName = "ResponseType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1489,6 +1512,7 @@ public class MessageHeader extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.0"
         )
         private final ResponseType code;
+        @Summary
         private final Reference details;
 
         private volatile int hashCode;

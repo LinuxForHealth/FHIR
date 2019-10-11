@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Date;
@@ -36,8 +37,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Basic extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "BasicResourceType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -45,8 +48,11 @@ public class Basic extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/basic-resource-type"
     )
     private final CodeableConcept code;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Date created;
+    @Summary
     private final Reference author;
 
     private volatile int hashCode;

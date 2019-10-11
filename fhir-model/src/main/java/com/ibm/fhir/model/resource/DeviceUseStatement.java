@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -42,9 +43,12 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceUseStatement extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Reference> basedOn;
     @Required
+    @Summary
     @Binding(
         bindingName = "DeviceUseStatementStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -53,16 +57,25 @@ public class DeviceUseStatement extends DomainResource {
     )
     private final DeviceUseStatementStatus status;
     @Required
+    @Summary
     private final Reference subject;
+    @Summary
     private final List<Reference> derivedFrom;
+    @Summary
     @Choice({ Timing.class, Period.class, DateTime.class })
     private final Element timing;
+    @Summary
     private final DateTime recordedOn;
+    @Summary
     private final Reference source;
     @Required
+    @Summary
     private final Reference device;
+    @Summary
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
+    @Summary
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.ValueSet.EXAMPLE,

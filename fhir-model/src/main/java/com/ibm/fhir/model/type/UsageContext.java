@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -26,6 +27,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class UsageContext extends Element {
     @Required
+    @Summary
     @Binding(
         bindingName = "UsageContextType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -34,6 +36,7 @@ public class UsageContext extends Element {
     )
     private final Coding code;
     @Required
+    @Summary
     @Choice({ CodeableConcept.class, Quantity.class, Range.class, Reference.class })
     @Binding(
         bindingName = "UsageContextValue",

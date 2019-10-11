@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -45,6 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class PaymentReconciliation extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "PaymentReconciliationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -52,9 +54,12 @@ public class PaymentReconciliation extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
     private final PaymentReconciliationStatus status;
+    @Summary
     private final Period period;
     @Required
+    @Summary
     private final DateTime created;
+    @Summary
     private final Reference paymentIssuer;
     private final Reference request;
     private final Reference requestor;
@@ -67,8 +72,10 @@ public class PaymentReconciliation extends DomainResource {
     private final RemittanceOutcome outcome;
     private final String disposition;
     @Required
+    @Summary
     private final Date paymentDate;
     @Required
+    @Summary
     private final Money paymentAmount;
     private final Identifier paymentIdentifier;
     private final List<Detail> detail;

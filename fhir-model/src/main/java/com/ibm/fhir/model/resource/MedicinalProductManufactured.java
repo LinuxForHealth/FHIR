@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
@@ -34,13 +35,20 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductManufactured extends DomainResource {
     @Required
+    @Summary
     private final CodeableConcept manufacturedDoseForm;
+    @Summary
     private final CodeableConcept unitOfPresentation;
     @Required
+    @Summary
     private final Quantity quantity;
+    @Summary
     private final List<Reference> manufacturer;
+    @Summary
     private final List<Reference> ingredient;
+    @Summary
     private final ProdCharacteristic physicalCharacteristics;
+    @Summary
     private final List<CodeableConcept> otherCharacteristics;
 
     private volatile int hashCode;

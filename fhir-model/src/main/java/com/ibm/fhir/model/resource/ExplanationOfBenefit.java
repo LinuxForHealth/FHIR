@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -58,6 +59,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ExplanationOfBenefit extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ExplanationOfBenefitStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -66,6 +68,7 @@ public class ExplanationOfBenefit extends DomainResource {
     )
     private final ExplanationOfBenefitStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "ClaimType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -81,6 +84,7 @@ public class ExplanationOfBenefit extends DomainResource {
     )
     private final CodeableConcept subType;
     @Required
+    @Summary
     @Binding(
         bindingName = "Use",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -89,14 +93,19 @@ public class ExplanationOfBenefit extends DomainResource {
     )
     private final Use use;
     @Required
+    @Summary
     private final Reference patient;
+    @Summary
     private final Period billablePeriod;
     @Required
+    @Summary
     private final DateTime created;
     private final Reference enterer;
     @Required
+    @Summary
     private final Reference insurer;
     @Required
+    @Summary
     private final Reference provider;
     @Binding(
         bindingName = "ProcessPriority",
@@ -128,6 +137,7 @@ public class ExplanationOfBenefit extends DomainResource {
     private final Reference claim;
     private final Reference claimResponse;
     @Required
+    @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -144,11 +154,13 @@ public class ExplanationOfBenefit extends DomainResource {
     private final List<Procedure> procedure;
     private final PositiveInt precedence;
     @Required
+    @Summary
     private final List<Insurance> insurance;
     private final Accident accident;
     private final List<Item> item;
     private final List<AddItem> addItem;
     private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
+    @Summary
     private final List<Total> total;
     private final Payment payment;
     @Binding(
@@ -4386,8 +4398,10 @@ public class ExplanationOfBenefit extends DomainResource {
      */
     public static class Insurance extends BackboneElement {
         @Required
+        @Summary
         private final Boolean focal;
         @Required
+        @Summary
         private final Reference coverage;
         private final List<String> preAuthRef;
 
@@ -10359,6 +10373,7 @@ public class ExplanationOfBenefit extends DomainResource {
      */
     public static class Total extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "Adjudication",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -10367,6 +10382,7 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final CodeableConcept category;
         @Required
+        @Summary
         private final Money amount;
 
         private volatile int hashCode;

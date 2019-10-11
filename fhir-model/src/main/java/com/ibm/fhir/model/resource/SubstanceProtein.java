@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -38,9 +39,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceProtein extends DomainResource {
+    @Summary
     private final CodeableConcept sequenceType;
+    @Summary
     private final Integer numberOfSubunits;
+    @Summary
     private final List<String> disulfideLinkage;
+    @Summary
     private final List<Subunit> subunit;
 
     private volatile int hashCode;
@@ -555,13 +560,21 @@ public class SubstanceProtein extends DomainResource {
      * decreasing molecular weight; subunits that have identical sequences will be repeated multiple times.
      */
     public static class Subunit extends BackboneElement {
+        @Summary
         private final Integer subunit;
+        @Summary
         private final String sequence;
+        @Summary
         private final Integer length;
+        @Summary
         private final Attachment sequenceAttachment;
+        @Summary
         private final Identifier nTerminalModificationId;
+        @Summary
         private final String nTerminalModification;
+        @Summary
         private final Identifier cTerminalModificationId;
+        @Summary
         private final String cTerminalModification;
 
         private volatile int hashCode;

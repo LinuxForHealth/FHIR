@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -37,14 +38,21 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductPharmaceutical extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     private final CodeableConcept administrableDoseForm;
+    @Summary
     private final CodeableConcept unitOfPresentation;
+    @Summary
     private final List<Reference> ingredient;
+    @Summary
     private final List<Reference> device;
+    @Summary
     private final List<Characteristics> characteristics;
     @Required
+    @Summary
     private final List<RouteOfAdministration> routeOfAdministration;
 
     private volatile int hashCode;
@@ -680,7 +688,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      */
     public static class Characteristics extends BackboneElement {
         @Required
+        @Summary
         private final CodeableConcept code;
+        @Summary
         private final CodeableConcept status;
 
         private volatile int hashCode;
@@ -947,12 +957,19 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      */
     public static class RouteOfAdministration extends BackboneElement {
         @Required
+        @Summary
         private final CodeableConcept code;
+        @Summary
         private final Quantity firstDose;
+        @Summary
         private final Quantity maxSingleDose;
+        @Summary
         private final Quantity maxDosePerDay;
+        @Summary
         private final Ratio maxDosePerTreatmentPeriod;
+        @Summary
         private final Duration maxTreatmentPeriod;
+        @Summary
         private final List<TargetSpecies> targetSpecies;
 
         private volatile int hashCode;
@@ -1408,7 +1425,9 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          */
         public static class TargetSpecies extends BackboneElement {
             @Required
+            @Summary
             private final CodeableConcept code;
+            @Summary
             private final List<WithdrawalPeriod> withdrawalPeriod;
 
             private volatile int hashCode;
@@ -1694,9 +1713,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              */
             public static class WithdrawalPeriod extends BackboneElement {
                 @Required
+                @Summary
                 private final CodeableConcept tissue;
                 @Required
+                @Summary
                 private final Quantity value;
+                @Summary
                 private final String supportingInformation;
 
                 private volatile int hashCode;

@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -47,8 +48,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Invoice extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "InvoiceStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -57,16 +60,22 @@ public class Invoice extends DomainResource {
     )
     private final InvoiceStatus status;
     private final String cancelledReason;
+    @Summary
     private final CodeableConcept type;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference recipient;
+    @Summary
     private final DateTime date;
     private final List<Participant> participant;
     private final Reference issuer;
     private final Reference account;
     private final List<LineItem> lineItem;
     private final List<Invoice.LineItem.PriceComponent> totalPriceComponent;
+    @Summary
     private final Money totalNet;
+    @Summary
     private final Money totalGross;
     private final Markdown paymentTerms;
     private final List<Annotation> note;

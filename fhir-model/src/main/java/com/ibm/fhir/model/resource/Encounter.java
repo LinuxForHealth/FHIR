@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -42,8 +43,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Encounter extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "EncounterStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -53,6 +56,7 @@ public class Encounter extends DomainResource {
     private final EncounterStatus status;
     private final List<StatusHistory> statusHistory;
     @Required
+    @Summary
     @Binding(
         bindingName = "EncounterClass",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -61,6 +65,7 @@ public class Encounter extends DomainResource {
     )
     private final Coding clazz;
     private final List<ClassHistory> classHistory;
+    @Summary
     @Binding(
         bindingName = "EncounterType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -68,6 +73,7 @@ public class Encounter extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-type"
     )
     private final List<CodeableConcept> type;
+    @Summary
     @Binding(
         bindingName = "EncounterServiceType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -82,13 +88,18 @@ public class Encounter extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActPriority"
     )
     private final CodeableConcept priority;
+    @Summary
     private final Reference subject;
+    @Summary
     private final List<Reference> episodeOfCare;
     private final List<Reference> basedOn;
+    @Summary
     private final List<Participant> participant;
+    @Summary
     private final List<Reference> appointment;
     private final Period period;
     private final Duration length;
+    @Summary
     @Binding(
         bindingName = "EncounterReason",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -96,7 +107,9 @@ public class Encounter extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-reason"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
+    @Summary
     private final List<Diagnosis> diagnosis;
     private final List<Reference> account;
     private final Hospitalization hospitalization;
@@ -1990,6 +2003,7 @@ public class Encounter extends DomainResource {
      * The list of people responsible for providing the service.
      */
     public static class Participant extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "ParticipantType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1998,6 +2012,7 @@ public class Encounter extends DomainResource {
         )
         private final List<CodeableConcept> type;
         private final Period period;
+        @Summary
         private final Reference individual;
 
         private volatile int hashCode;
@@ -2310,6 +2325,7 @@ public class Encounter extends DomainResource {
      */
     public static class Diagnosis extends BackboneElement {
         @Required
+        @Summary
         private final Reference condition;
         @Binding(
             bindingName = "DiagnosisRole",

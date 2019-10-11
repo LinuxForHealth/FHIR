@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -42,12 +43,16 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class GuidanceResponse extends DomainResource {
+    @Summary
     private final Identifier requestIdentifier;
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Choice({ Uri.class, Canonical.class, CodeableConcept.class })
     private final Element module;
     @Required
+    @Summary
     @Binding(
         bindingName = "GuidanceResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,

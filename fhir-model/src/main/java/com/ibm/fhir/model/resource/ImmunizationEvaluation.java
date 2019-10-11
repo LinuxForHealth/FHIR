@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -43,6 +44,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ImmunizationEvaluation extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ImmunizationEvaluationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -51,10 +53,12 @@ public class ImmunizationEvaluation extends DomainResource {
     )
     private final ImmunizationEvaluationStatus status;
     @Required
+    @Summary
     private final Reference patient;
     private final DateTime date;
     private final Reference authority;
     @Required
+    @Summary
     @Binding(
         bindingName = "EvaluationTargetDisease",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -63,8 +67,10 @@ public class ImmunizationEvaluation extends DomainResource {
     )
     private final CodeableConcept targetDisease;
     @Required
+    @Summary
     private final Reference immunizationEvent;
     @Required
+    @Summary
     @Binding(
         bindingName = "EvaluationDoseStatus",
         strength = BindingStrength.ValueSet.EXAMPLE,

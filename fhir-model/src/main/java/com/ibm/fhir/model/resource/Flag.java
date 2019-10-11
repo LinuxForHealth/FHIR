@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
@@ -36,8 +37,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Flag extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "FlagStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -45,6 +48,7 @@ public class Flag extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.0"
     )
     private final FlagStatus status;
+    @Summary
     @Binding(
         bindingName = "FlagCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -53,6 +57,7 @@ public class Flag extends DomainResource {
     )
     private final List<CodeableConcept> category;
     @Required
+    @Summary
     @Binding(
         bindingName = "FlagCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -61,9 +66,13 @@ public class Flag extends DomainResource {
     )
     private final CodeableConcept code;
     @Required
+    @Summary
     private final Reference subject;
+    @Summary
     private final Period period;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final Reference author;
 
     private volatile int hashCode;

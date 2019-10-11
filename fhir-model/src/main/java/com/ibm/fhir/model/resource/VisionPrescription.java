@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -46,6 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class VisionPrescription extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "VisionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -54,15 +56,20 @@ public class VisionPrescription extends DomainResource {
     )
     private final VisionStatus status;
     @Required
+    @Summary
     private final DateTime created;
     @Required
+    @Summary
     private final Reference patient;
     private final Reference encounter;
     @Required
+    @Summary
     private final DateTime dateWritten;
     @Required
+    @Summary
     private final Reference prescriber;
     @Required
+    @Summary
     private final List<LensSpecification> lensSpecification;
 
     private volatile int hashCode;
@@ -687,6 +694,7 @@ public class VisionPrescription extends DomainResource {
      */
     public static class LensSpecification extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "VisionProduct",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -695,6 +703,7 @@ public class VisionPrescription extends DomainResource {
         )
         private final CodeableConcept product;
         @Required
+        @Summary
         @Binding(
             bindingName = "VisionEyes",
             strength = BindingStrength.ValueSet.REQUIRED,

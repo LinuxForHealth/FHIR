@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -42,8 +43,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceMetric extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "MetricType",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -51,6 +54,7 @@ public class DeviceMetric extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
     )
     private final CodeableConcept type;
+    @Summary
     @Binding(
         bindingName = "MetricUnit",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -58,8 +62,11 @@ public class DeviceMetric extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
     )
     private final CodeableConcept unit;
+    @Summary
     private final Reference source;
+    @Summary
     private final Reference parent;
+    @Summary
     @Binding(
         bindingName = "DeviceMetricOperationalStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -67,6 +74,7 @@ public class DeviceMetric extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/metric-operational-status|4.0.0"
     )
     private final DeviceMetricOperationalStatus operationalStatus;
+    @Summary
     @Binding(
         bindingName = "DeviceMetricColor",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -75,6 +83,7 @@ public class DeviceMetric extends DomainResource {
     )
     private final DeviceMetricColor color;
     @Required
+    @Summary
     @Binding(
         bindingName = "DeviceMetricCategory",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -82,7 +91,9 @@ public class DeviceMetric extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/metric-category|4.0.0"
     )
     private final DeviceMetricCategory category;
+    @Summary
     private final Timing measurementPeriod;
+    @Summary
     private final List<Calibration> calibration;
 
     private volatile int hashCode;
@@ -773,6 +784,7 @@ public class DeviceMetric extends DomainResource {
      * Describes the calibrations that have been performed or that are required to be performed.
      */
     public static class Calibration extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "DeviceMetricCalibrationType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -780,6 +792,7 @@ public class DeviceMetric extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.0.0"
         )
         private final DeviceMetricCalibrationType type;
+        @Summary
         @Binding(
             bindingName = "DeviceMetricCalibrationState",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -787,6 +800,7 @@ public class DeviceMetric extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.0.0"
         )
         private final DeviceMetricCalibrationState state;
+        @Summary
         private final Instant time;
 
         private volatile int hashCode;

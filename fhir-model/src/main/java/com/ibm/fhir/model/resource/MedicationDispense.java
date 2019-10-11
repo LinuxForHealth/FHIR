@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -56,6 +57,7 @@ public class MedicationDispense extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> partOf;
     @Required
+    @Summary
     @Binding(
         bindingName = "MedicationDispenseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -79,6 +81,7 @@ public class MedicationDispense extends DomainResource {
     )
     private final CodeableConcept category;
     @Required
+    @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -87,6 +90,7 @@ public class MedicationDispense extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
     private final Element medication;
+    @Summary
     private final Reference subject;
     private final Reference context;
     private final List<Reference> supportingInformation;
@@ -102,6 +106,7 @@ public class MedicationDispense extends DomainResource {
     private final CodeableConcept type;
     private final SimpleQuantity quantity;
     private final SimpleQuantity daysSupply;
+    @Summary
     private final DateTime whenPrepared;
     private final DateTime whenHandedOver;
     private final Reference destination;

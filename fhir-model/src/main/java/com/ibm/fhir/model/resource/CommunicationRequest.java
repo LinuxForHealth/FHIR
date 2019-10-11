@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -46,11 +47,16 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CommunicationRequest extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> replaces;
+    @Summary
     private final Identifier groupIdentifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "CommunicationRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -71,6 +77,7 @@ public class CommunicationRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/communication-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     @Binding(
         bindingName = "CommunicationPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -78,6 +85,7 @@ public class CommunicationRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final CommunicationPriority priority;
+    @Summary
     private final Boolean doNotPerform;
     @Binding(
         bindingName = "CommunicationMedium",
@@ -88,14 +96,20 @@ public class CommunicationRequest extends DomainResource {
     private final List<CodeableConcept> medium;
     private final Reference subject;
     private final List<Reference> about;
+    @Summary
     private final Reference encounter;
     private final List<Payload> payload;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element occurrence;
+    @Summary
     private final DateTime authoredOn;
+    @Summary
     private final Reference requester;
     private final List<Reference> recipient;
+    @Summary
     private final Reference sender;
+    @Summary
     @Binding(
         bindingName = "CommunicationReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -103,6 +117,7 @@ public class CommunicationRequest extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActReason"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
 

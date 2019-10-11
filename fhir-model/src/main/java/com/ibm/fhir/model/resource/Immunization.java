@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -56,6 +57,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Immunization extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ImmunizationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -71,6 +73,7 @@ public class Immunization extends DomainResource {
     )
     private final CodeableConcept statusReason;
     @Required
+    @Summary
     @Binding(
         bindingName = "VaccineCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -79,12 +82,15 @@ public class Immunization extends DomainResource {
     )
     private final CodeableConcept vaccineCode;
     @Required
+    @Summary
     private final Reference patient;
     private final Reference encounter;
     @Required
+    @Summary
     @Choice({ DateTime.class, String.class })
     private final Element occurrence;
     private final DateTime recorded;
+    @Summary
     private final Boolean primarySource;
     @Binding(
         bindingName = "ImmunizationReportOrigin",
@@ -112,7 +118,9 @@ public class Immunization extends DomainResource {
     )
     private final CodeableConcept route;
     private final SimpleQuantity doseQuantity;
+    @Summary
     private final List<Performer> performer;
+    @Summary
     private final List<Annotation> note;
     @Binding(
         bindingName = "ImmunizationReason",
@@ -122,6 +130,7 @@ public class Immunization extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
+    @Summary
     private final Boolean isSubpotent;
     @Binding(
         bindingName = "SubpotentReason",
@@ -1553,6 +1562,7 @@ public class Immunization extends DomainResource {
      * Indicates who performed the immunization event.
      */
     public static class Performer extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "ImmunizationFunction",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1561,6 +1571,7 @@ public class Immunization extends DomainResource {
         )
         private final CodeableConcept function;
         @Required
+        @Summary
         private final Reference actor;
 
         private volatile int hashCode;

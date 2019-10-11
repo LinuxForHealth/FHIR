@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -50,11 +51,15 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CompartmentDefinition extends DomainResource {
     @Required
+    @Summary
     private final Uri url;
+    @Summary
     private final String version;
     @Required
+    @Summary
     private final String name;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -62,14 +67,20 @@ public class CompartmentDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
     private final Markdown purpose;
     @Required
+    @Summary
     @Binding(
         bindingName = "CompartmentType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -78,7 +89,9 @@ public class CompartmentDefinition extends DomainResource {
     )
     private final CompartmentType code;
     @Required
+    @Summary
     private final Boolean search;
+    @Summary
     private final List<Resource> resource;
 
     private volatile int hashCode;
@@ -926,6 +939,7 @@ public class CompartmentDefinition extends DomainResource {
      */
     public static class Resource extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -933,6 +947,7 @@ public class CompartmentDefinition extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )
         private final ResourceType code;
+        @Summary
         private final List<String> param;
         private final String documentation;
 

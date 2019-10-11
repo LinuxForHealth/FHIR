@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Decimal;
@@ -118,8 +119,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Bundle extends Resource {
+    @Summary
     private final Identifier identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "BundleType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -127,10 +130,15 @@ public class Bundle extends Resource {
         valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.0.0"
     )
     private final BundleType type;
+    @Summary
     private final Instant timestamp;
+    @Summary
     private final UnsignedInt total;
+    @Summary
     private final List<Link> link;
+    @Summary
     private final List<Entry> entry;
+    @Summary
     private final Signature signature;
 
     private volatile int hashCode;
@@ -559,8 +567,10 @@ public class Bundle extends Resource {
      */
     public static class Link extends BackboneElement {
         @Required
+        @Summary
         private final String relation;
         @Required
+        @Summary
         private final Uri url;
 
         private volatile int hashCode;
@@ -834,11 +844,17 @@ public class Bundle extends Resource {
      * history only).
      */
     public static class Entry extends BackboneElement {
+        @Summary
         private final List<Bundle.Link> link;
+        @Summary
         private final Uri fullUrl;
+        @Summary
         private final Resource resource;
+        @Summary
         private final Search search;
+        @Summary
         private final Request request;
+        @Summary
         private final Response response;
 
         private volatile int hashCode;
@@ -1254,6 +1270,7 @@ public class Bundle extends Resource {
          * Information about the search process that lead to the creation of this entry.
          */
         public static class Search extends BackboneElement {
+            @Summary
             @Binding(
                 bindingName = "SearchEntryMode",
                 strength = BindingStrength.ValueSet.REQUIRED,
@@ -1261,6 +1278,7 @@ public class Bundle extends Resource {
                 valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.0.0"
             )
             private final SearchEntryMode mode;
+            @Summary
             private final Decimal score;
 
             private volatile int hashCode;
@@ -1523,6 +1541,7 @@ public class Bundle extends Resource {
          */
         public static class Request extends BackboneElement {
             @Required
+            @Summary
             @Binding(
                 bindingName = "HTTPVerb",
                 strength = BindingStrength.ValueSet.REQUIRED,
@@ -1531,10 +1550,15 @@ public class Bundle extends Resource {
             )
             private final HTTPVerb method;
             @Required
+            @Summary
             private final Uri url;
+            @Summary
             private final String ifNoneMatch;
+            @Summary
             private final Instant ifModifiedSince;
+            @Summary
             private final String ifMatch;
+            @Summary
             private final String ifNoneExist;
 
             private volatile int hashCode;
@@ -1941,10 +1965,15 @@ public class Bundle extends Resource {
          */
         public static class Response extends BackboneElement {
             @Required
+            @Summary
             private final String status;
+            @Summary
             private final Uri location;
+            @Summary
             private final String etag;
+            @Summary
             private final Instant lastModified;
+            @Summary
             private final Resource outcome;
 
             private volatile int hashCode;

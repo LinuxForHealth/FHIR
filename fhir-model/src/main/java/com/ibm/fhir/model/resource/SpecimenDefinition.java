@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -43,7 +44,9 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SpecimenDefinition extends DomainResource {
+    @Summary
     private final Identifier identifier;
+    @Summary
     @Binding(
         bindingName = "CollectedSpecimenType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -51,6 +54,7 @@ public class SpecimenDefinition extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
     )
     private final CodeableConcept typeCollected;
+    @Summary
     @Binding(
         bindingName = "PreparePatient",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -58,7 +62,9 @@ public class SpecimenDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/prepare-patient-prior-specimen-collection"
     )
     private final List<CodeableConcept> patientPreparation;
+    @Summary
     private final String timeAspect;
+    @Summary
     @Binding(
         bindingName = "SpecimenCollection",
         strength = BindingStrength.ValueSet.EXAMPLE,

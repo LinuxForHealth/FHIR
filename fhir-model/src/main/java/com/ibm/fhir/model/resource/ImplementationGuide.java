@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -75,12 +76,17 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImplementationGuide extends DomainResource {
     @Required
+    @Summary
     private final Uri url;
+    @Summary
     private final String version;
     @Required
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -88,12 +94,18 @@ public class ImplementationGuide extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -103,7 +115,9 @@ public class ImplementationGuide extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown copyright;
     @Required
+    @Summary
     private final Id packageId;
+    @Summary
     @Binding(
         bindingName = "SPDXLicense",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -112,6 +126,7 @@ public class ImplementationGuide extends DomainResource {
     )
     private final SPDXLicense license;
     @Required
+    @Summary
     @Binding(
         bindingName = "FHIRVersion",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -119,7 +134,9 @@ public class ImplementationGuide extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
     )
     private final List<FHIRVersion> fhirVersion;
+    @Summary
     private final List<DependsOn> dependsOn;
+    @Summary
     private final List<Global> global;
     private final Definition definition;
     private final Manifest manifest;
@@ -1233,8 +1250,11 @@ public class ImplementationGuide extends DomainResource {
      */
     public static class DependsOn extends BackboneElement {
         @Required
+        @Summary
         private final Canonical uri;
+        @Summary
         private final Id packageId;
+        @Summary
         private final String version;
 
         private volatile int hashCode;
@@ -1532,6 +1552,7 @@ public class ImplementationGuide extends DomainResource {
      */
     public static class Global extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1540,6 +1561,7 @@ public class ImplementationGuide extends DomainResource {
         )
         private final ResourceType type;
         @Required
+        @Summary
         private final Canonical profile;
 
         private volatile int hashCode;
@@ -3918,8 +3940,10 @@ public class ImplementationGuide extends DomainResource {
      * Information about an assembled implementation guide, created by the publication tooling.
      */
     public static class Manifest extends BackboneElement {
+        @Summary
         private final Url rendering;
         @Required
+        @Summary
         private final List<Resource> resource;
         private final List<Page> page;
         private final List<String> image;
@@ -4374,6 +4398,7 @@ public class ImplementationGuide extends DomainResource {
          */
         public static class Resource extends BackboneElement {
             @Required
+            @Summary
             private final Reference reference;
             @Choice({ Boolean.class, Canonical.class })
             private final Element example;

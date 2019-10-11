@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -77,12 +78,17 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationDefinition extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final String version;
     @Required
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -91,6 +97,7 @@ public class OperationDefinition extends DomainResource {
     )
     private final PublicationStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "OperationKind",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -98,12 +105,18 @@ public class OperationDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.0"
     )
     private final OperationKind kind;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -112,11 +125,15 @@ public class OperationDefinition extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
+    @Summary
     private final Boolean affectsState;
     @Required
+    @Summary
     private final Code code;
     private final Markdown comment;
+    @Summary
     private final Canonical base;
+    @Summary
     @Binding(
         bindingName = "ResourceType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -125,10 +142,13 @@ public class OperationDefinition extends DomainResource {
     )
     private final List<ResourceType> resource;
     @Required
+    @Summary
     private final Boolean system;
     @Required
+    @Summary
     private final Boolean type;
     @Required
+    @Summary
     private final Boolean instance;
     private final Canonical inputProfile;
     private final Canonical outputProfile;

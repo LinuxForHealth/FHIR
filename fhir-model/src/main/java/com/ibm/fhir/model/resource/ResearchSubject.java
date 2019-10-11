@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
@@ -36,8 +37,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ResearchSubject extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ResearchSubjectStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -45,10 +48,13 @@ public class ResearchSubject extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.0.0"
     )
     private final ResearchSubjectStatus status;
+    @Summary
     private final Period period;
     @Required
+    @Summary
     private final Reference study;
     @Required
+    @Summary
     private final Reference individual;
     private final String assignedArm;
     private final String actualArm;

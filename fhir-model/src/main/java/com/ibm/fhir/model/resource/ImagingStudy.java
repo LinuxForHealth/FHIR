@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -44,8 +45,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImagingStudy extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ImagingStudyStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -53,6 +56,7 @@ public class ImagingStudy extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.0"
     )
     private final ImagingStudyStatus status;
+    @Summary
     @Binding(
         bindingName = "ImagingModality",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -61,16 +65,27 @@ public class ImagingStudy extends DomainResource {
     )
     private final List<Coding> modality;
     @Required
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final DateTime started;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final Reference referrer;
+    @Summary
     private final List<Reference> interpreter;
+    @Summary
     private final List<Reference> endpoint;
+    @Summary
     private final UnsignedInt numberOfSeries;
+    @Summary
     private final UnsignedInt numberOfInstances;
+    @Summary
     private final Reference procedureReference;
+    @Summary
     @Binding(
         bindingName = "ImagingProcedureCode",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -78,7 +93,9 @@ public class ImagingStudy extends DomainResource {
         valueSet = "http://www.rsna.org/RadLex_Playbook.aspx"
     )
     private final List<CodeableConcept> procedureCode;
+    @Summary
     private final Reference location;
+    @Summary
     @Binding(
         bindingName = "ImagingReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -86,9 +103,13 @@ public class ImagingStudy extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
+    @Summary
     private final List<Annotation> note;
+    @Summary
     private final String description;
+    @Summary
     private final List<Series> series;
 
     private volatile int hashCode;
@@ -1250,9 +1271,12 @@ public class ImagingStudy extends DomainResource {
      */
     public static class Series extends BackboneElement {
         @Required
+        @Summary
         private final Id uid;
+        @Summary
         private final UnsignedInt number;
         @Required
+        @Summary
         @Binding(
             bindingName = "ImagingModality",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1260,9 +1284,13 @@ public class ImagingStudy extends DomainResource {
             valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
         )
         private final Coding modality;
+        @Summary
         private final String description;
+        @Summary
         private final UnsignedInt numberOfInstances;
+        @Summary
         private final List<Reference> endpoint;
+        @Summary
         @Binding(
             bindingName = "BodySite",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1270,6 +1298,7 @@ public class ImagingStudy extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
         private final Coding bodySite;
+        @Summary
         @Binding(
             bindingName = "Laterality",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1277,8 +1306,11 @@ public class ImagingStudy extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/bodysite-laterality"
         )
         private final Coding laterality;
+        @Summary
         private final List<Reference> specimen;
+        @Summary
         private final DateTime started;
+        @Summary
         private final List<Performer> performer;
         private final List<Instance> instance;
 
@@ -1955,6 +1987,7 @@ public class ImagingStudy extends DomainResource {
          * Indicates who or what performed the series and how they were involved.
          */
         public static class Performer extends BackboneElement {
+            @Summary
             @Binding(
                 bindingName = "EventPerformerFunction",
                 strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1963,6 +1996,7 @@ public class ImagingStudy extends DomainResource {
             )
             private final CodeableConcept function;
             @Required
+            @Summary
             private final Reference actor;
 
             private volatile int hashCode;

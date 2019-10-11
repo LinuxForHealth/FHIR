@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -40,11 +41,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CatalogEntry extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     private final CodeableConcept type;
     @Required
+    @Summary
     private final Boolean orderable;
     @Required
+    @Summary
     private final Reference referencedItem;
     private final List<Identifier> additionalIdentifier;
     private final List<CodeableConcept> classification;

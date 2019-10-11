@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -57,6 +58,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class CoverageEligibilityResponse extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "EligibilityResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -65,6 +67,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     )
     private final EligibilityResponseStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "EligibilityResponsePurpose",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -73,15 +76,19 @@ public class CoverageEligibilityResponse extends DomainResource {
     )
     private final List<EligibilityResponsePurpose> purpose;
     @Required
+    @Summary
     private final Reference patient;
     @Choice({ Date.class, Period.class })
     private final Element serviced;
     @Required
+    @Summary
     private final DateTime created;
     private final Reference requestor;
     @Required
+    @Summary
     private final Reference request;
     @Required
+    @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -91,6 +98,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     private final RemittanceOutcome outcome;
     private final String disposition;
     @Required
+    @Summary
     private final Reference insurer;
     private final List<Insurance> insurance;
     private final String preAuthRef;
@@ -993,6 +1001,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      */
     public static class Insurance extends BackboneElement {
         @Required
+        @Summary
         private final Reference coverage;
         private final Boolean inforce;
         private final Period benefitPeriod;

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -37,21 +38,37 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductAuthorization extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Reference subject;
+    @Summary
     private final List<CodeableConcept> country;
+    @Summary
     private final List<CodeableConcept> jurisdiction;
+    @Summary
     private final CodeableConcept status;
+    @Summary
     private final DateTime statusDate;
+    @Summary
     private final DateTime restoreDate;
+    @Summary
     private final Period validityPeriod;
+    @Summary
     private final Period dataExclusivityPeriod;
+    @Summary
     private final DateTime dateOfFirstAuthorization;
+    @Summary
     private final DateTime internationalBirthDate;
+    @Summary
     private final CodeableConcept legalBasis;
+    @Summary
     private final List<JurisdictionalAuthorization> jurisdictionalAuthorization;
+    @Summary
     private final Reference holder;
+    @Summary
     private final Reference regulator;
+    @Summary
     private final Procedure procedure;
 
     private volatile int hashCode;
@@ -936,10 +953,15 @@ public class MedicinalProductAuthorization extends DomainResource {
      * Authorization in areas within a country.
      */
     public static class JurisdictionalAuthorization extends BackboneElement {
+        @Summary
         private final List<Identifier> identifier;
+        @Summary
         private final CodeableConcept country;
+        @Summary
         private final List<CodeableConcept> jurisdiction;
+        @Summary
         private final CodeableConcept legalStatusOfSupply;
+        @Summary
         private final Period validityPeriod;
 
         private volatile int hashCode;
@@ -1331,11 +1353,15 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The regulatory procedure for granting or amending a marketing authorization.
      */
     public static class Procedure extends BackboneElement {
+        @Summary
         private final Identifier identifier;
         @Required
+        @Summary
         private final CodeableConcept type;
+        @Summary
         @Choice({ Period.class, DateTime.class })
         private final Element date;
+        @Summary
         private final List<MedicinalProductAuthorization.Procedure> application;
 
         private volatile int hashCode;

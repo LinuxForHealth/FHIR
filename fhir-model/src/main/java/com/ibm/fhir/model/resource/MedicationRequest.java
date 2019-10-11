@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -54,6 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class MedicationRequest extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "MedicationRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -69,6 +71,7 @@ public class MedicationRequest extends DomainResource {
     )
     private final CodeableConcept statusReason;
     @Required
+    @Summary
     @Binding(
         bindingName = "MedicationRequestIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -83,6 +86,7 @@ public class MedicationRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     @Binding(
         bindingName = "MedicationRequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -90,10 +94,13 @@ public class MedicationRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final MedicationRequestPriority priority;
+    @Summary
     private final Boolean doNotPerform;
+    @Summary
     @Choice({ Boolean.class, Reference.class })
     private final Element reported;
     @Required
+    @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -103,12 +110,16 @@ public class MedicationRequest extends DomainResource {
     )
     private final Element medication;
     @Required
+    @Summary
     private final Reference subject;
     private final Reference encounter;
     private final List<Reference> supportingInformation;
+    @Summary
     private final DateTime authoredOn;
+    @Summary
     private final Reference requester;
     private final Reference performer;
+    @Summary
     @Binding(
         bindingName = "MedicationRequestPerformerType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -125,9 +136,13 @@ public class MedicationRequest extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final Identifier groupIdentifier;
     @Binding(
         bindingName = "MedicationRequestCourseOfTherapy",

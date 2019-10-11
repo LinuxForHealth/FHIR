@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -54,9 +55,12 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Group extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
     @Required
+    @Summary
     @Binding(
         bindingName = "GroupType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -65,15 +69,20 @@ public class Group extends DomainResource {
     )
     private final GroupType type;
     @Required
+    @Summary
     private final Boolean actual;
+    @Summary
     @Binding(
         bindingName = "GroupKind",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Kind of particular resource; e.g. cow, syringe, lake, etc."
     )
     private final CodeableConcept code;
+    @Summary
     private final String name;
+    @Summary
     private final UnsignedInt quantity;
+    @Summary
     private final Reference managingEntity;
     private final List<Characteristic> characteristic;
     private final List<Member> member;

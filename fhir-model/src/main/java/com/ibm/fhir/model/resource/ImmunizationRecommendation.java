@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -49,13 +50,17 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationRecommendation extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     private final Reference patient;
     @Required
+    @Summary
     private final DateTime date;
     private final Reference authority;
     @Required
+    @Summary
     private final List<Recommendation> recommendation;
 
     private volatile int hashCode;
@@ -571,6 +576,7 @@ public class ImmunizationRecommendation extends DomainResource {
      * Vaccine administration recommendations.
      */
     public static class Recommendation extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "VaccineCode",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -578,6 +584,7 @@ public class ImmunizationRecommendation extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
         )
         private final List<CodeableConcept> vaccineCode;
+        @Summary
         @Binding(
             bindingName = "TargetDisease",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -585,6 +592,7 @@ public class ImmunizationRecommendation extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-target-disease"
         )
         private final CodeableConcept targetDisease;
+        @Summary
         @Binding(
             bindingName = "VaccineCode",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -593,6 +601,7 @@ public class ImmunizationRecommendation extends DomainResource {
         )
         private final List<CodeableConcept> contraindicatedVaccineCode;
         @Required
+        @Summary
         @Binding(
             bindingName = "ImmunizationRecommendationStatus",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -600,6 +609,7 @@ public class ImmunizationRecommendation extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-status"
         )
         private final CodeableConcept forecastStatus;
+        @Summary
         @Binding(
             bindingName = "ImmunizationRecommendationReason",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -610,6 +620,7 @@ public class ImmunizationRecommendation extends DomainResource {
         private final List<DateCriterion> dateCriterion;
         private final String description;
         private final String series;
+        @Summary
         @Choice({ PositiveInt.class, String.class })
         private final Element doseNumber;
         @Choice({ PositiveInt.class, String.class })

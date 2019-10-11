@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -54,6 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ClaimResponse extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ClaimResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -62,6 +64,7 @@ public class ClaimResponse extends DomainResource {
     )
     private final ClaimResponseStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "ClaimType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -77,6 +80,7 @@ public class ClaimResponse extends DomainResource {
     )
     private final CodeableConcept subType;
     @Required
+    @Summary
     @Binding(
         bindingName = "Use",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -85,14 +89,19 @@ public class ClaimResponse extends DomainResource {
     )
     private final Use use;
     @Required
+    @Summary
     private final Reference patient;
     @Required
+    @Summary
     private final DateTime created;
     @Required
+    @Summary
     private final Reference insurer;
     private final Reference requestor;
+    @Summary
     private final Reference request;
     @Required
+    @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -113,6 +122,7 @@ public class ClaimResponse extends DomainResource {
     private final List<Item> item;
     private final List<AddItem> addItem;
     private final List<ClaimResponse.Item.Adjudication> adjudication;
+    @Summary
     private final List<Total> total;
     private final Payment payment;
     @Binding(
@@ -5161,6 +5171,7 @@ public class ClaimResponse extends DomainResource {
      */
     public static class Total extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "Adjudication",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -5169,6 +5180,7 @@ public class ClaimResponse extends DomainResource {
         )
         private final CodeableConcept category;
         @Required
+        @Summary
         private final Money amount;
 
         private volatile int hashCode;

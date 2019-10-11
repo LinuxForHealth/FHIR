@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -48,10 +49,12 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Provenance extends DomainResource {
     @Required
+    @Summary
     private final List<Reference> target;
     @Choice({ Period.class, DateTime.class })
     private final Element occurred;
     @Required
+    @Summary
     private final Instant recorded;
     private final List<Uri> policy;
     private final Reference location;
@@ -845,6 +848,7 @@ public class Provenance extends DomainResource {
      * taking place.
      */
     public static class Agent extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "ProvenanceAgentType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -860,6 +864,7 @@ public class Provenance extends DomainResource {
         )
         private final List<CodeableConcept> role;
         @Required
+        @Summary
         private final Reference who;
         private final Reference onBehalfOf;
 
@@ -1212,6 +1217,7 @@ public class Provenance extends DomainResource {
      */
     public static class Entity extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "ProvenanceEntityRole",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1220,6 +1226,7 @@ public class Provenance extends DomainResource {
         )
         private final ProvenanceEntityRole role;
         @Required
+        @Summary
         private final Reference what;
         private final List<Provenance.Agent> agent;
 

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -64,6 +65,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class List extends DomainResource {
     private final java.util.List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ListStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -72,6 +74,7 @@ public class List extends DomainResource {
     )
     private final ListStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "ListMode",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -79,7 +82,9 @@ public class List extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.0"
     )
     private final ListMode mode;
+    @Summary
     private final String title;
+    @Summary
     @Binding(
         bindingName = "ListPurpose",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -87,9 +92,12 @@ public class List extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/list-example-codes"
     )
     private final CodeableConcept code;
+    @Summary
     private final Reference subject;
     private final Reference encounter;
+    @Summary
     private final DateTime date;
+    @Summary
     private final Reference source;
     @Binding(
         bindingName = "ListOrder",

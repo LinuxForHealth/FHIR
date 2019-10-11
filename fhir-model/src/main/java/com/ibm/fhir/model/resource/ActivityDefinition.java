@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -68,13 +69,19 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ActivityDefinition extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     private final String subtitle;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -82,6 +89,7 @@ public class ActivityDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -91,11 +99,17 @@ public class ActivityDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
     private final Element subject;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -108,6 +122,7 @@ public class ActivityDefinition extends DomainResource {
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
+    @Summary
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
@@ -122,6 +137,7 @@ public class ActivityDefinition extends DomainResource {
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
     private final List<Canonical> library;
+    @Summary
     @Binding(
         bindingName = "ActivityDefinitionKind",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -130,6 +146,7 @@ public class ActivityDefinition extends DomainResource {
     )
     private final ActivityDefinitionKind kind;
     private final Canonical profile;
+    @Summary
     @Binding(
         bindingName = "ActivityDefinitionType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -151,6 +168,7 @@ public class ActivityDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final RequestPriority priority;
+    @Summary
     private final Boolean doNotPerform;
     @Choice({ Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class })
     private final Element timing;

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -39,26 +40,46 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProduct extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final CodeableConcept type;
+    @Summary
     private final Coding domain;
+    @Summary
     private final CodeableConcept combinedPharmaceuticalDoseForm;
+    @Summary
     private final CodeableConcept legalStatusOfSupply;
+    @Summary
     private final CodeableConcept additionalMonitoringIndicator;
+    @Summary
     private final List<String> specialMeasures;
+    @Summary
     private final CodeableConcept paediatricUseIndicator;
+    @Summary
     private final List<CodeableConcept> productClassification;
+    @Summary
     private final List<MarketingStatus> marketingStatus;
+    @Summary
     private final List<Reference> pharmaceuticalProduct;
+    @Summary
     private final List<Reference> packagedMedicinalProduct;
+    @Summary
     private final List<Reference> attachedDocument;
+    @Summary
     private final List<Reference> masterFile;
+    @Summary
     private final List<Reference> contact;
+    @Summary
     private final List<Reference> clinicalTrial;
     @Required
+    @Summary
     private final List<Name> name;
+    @Summary
     private final List<Identifier> crossReference;
+    @Summary
     private final List<ManufacturingBusinessOperation> manufacturingBusinessOperation;
+    @Summary
     private final List<SpecialDesignation> specialDesignation;
 
     private volatile int hashCode;
@@ -1274,8 +1295,11 @@ public class MedicinalProduct extends DomainResource {
      */
     public static class Name extends BackboneElement {
         @Required
+        @Summary
         private final String productName;
+        @Summary
         private final List<NamePart> namePart;
+        @Summary
         private final List<CountryLanguage> countryLanguage;
 
         private volatile int hashCode;
@@ -1612,8 +1636,10 @@ public class MedicinalProduct extends DomainResource {
          */
         public static class NamePart extends BackboneElement {
             @Required
+            @Summary
             private final String part;
             @Required
+            @Summary
             private final Coding type;
 
             private volatile int hashCode;
@@ -1883,9 +1909,12 @@ public class MedicinalProduct extends DomainResource {
          */
         public static class CountryLanguage extends BackboneElement {
             @Required
+            @Summary
             private final CodeableConcept country;
+            @Summary
             private final CodeableConcept jurisdiction;
             @Required
+            @Summary
             private final CodeableConcept language;
 
             private volatile int hashCode;
@@ -2186,11 +2215,17 @@ public class MedicinalProduct extends DomainResource {
      * An operation applied to the product, for manufacturing or adminsitrative purpose.
      */
     public static class ManufacturingBusinessOperation extends BackboneElement {
+        @Summary
         private final CodeableConcept operationType;
+        @Summary
         private final Identifier authorisationReferenceNumber;
+        @Summary
         private final DateTime effectiveDate;
+        @Summary
         private final CodeableConcept confidentialityIndicator;
+        @Summary
         private final List<Reference> manufacturer;
+        @Summary
         private final Reference regulator;
 
         private volatile int hashCode;
@@ -2593,13 +2628,20 @@ public class MedicinalProduct extends DomainResource {
      * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
      */
     public static class SpecialDesignation extends BackboneElement {
+        @Summary
         private final List<Identifier> identifier;
+        @Summary
         private final CodeableConcept type;
+        @Summary
         private final CodeableConcept intendedUse;
+        @Summary
         @Choice({ CodeableConcept.class, Reference.class })
         private final Element indication;
+        @Summary
         private final CodeableConcept status;
+        @Summary
         private final DateTime date;
+        @Summary
         private final CodeableConcept species;
 
         private volatile int hashCode;

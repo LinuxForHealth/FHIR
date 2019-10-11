@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -54,6 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Claim extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ClaimStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -62,6 +64,7 @@ public class Claim extends DomainResource {
     )
     private final ClaimStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "ClaimType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -77,6 +80,7 @@ public class Claim extends DomainResource {
     )
     private final CodeableConcept subType;
     @Required
+    @Summary
     @Binding(
         bindingName = "Use",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -85,15 +89,21 @@ public class Claim extends DomainResource {
     )
     private final Use use;
     @Required
+    @Summary
     private final Reference patient;
+    @Summary
     private final Period billablePeriod;
     @Required
+    @Summary
     private final DateTime created;
     private final Reference enterer;
+    @Summary
     private final Reference insurer;
     @Required
+    @Summary
     private final Reference provider;
     @Required
+    @Summary
     @Binding(
         bindingName = "ProcessPriority",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -119,6 +129,7 @@ public class Claim extends DomainResource {
     private final List<Diagnosis> diagnosis;
     private final List<Procedure> procedure;
     @Required
+    @Summary
     private final List<Insurance> insurance;
     private final Accident accident;
     private final List<Item> item;
@@ -3709,11 +3720,14 @@ public class Claim extends DomainResource {
      */
     public static class Insurance extends BackboneElement {
         @Required
+        @Summary
         private final PositiveInt sequence;
         @Required
+        @Summary
         private final Boolean focal;
         private final Identifier identifier;
         @Required
+        @Summary
         private final Reference coverage;
         private final String businessArrangement;
         private final List<String> preAuthRef;

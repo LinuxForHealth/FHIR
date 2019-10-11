@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
@@ -47,7 +48,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Device extends DomainResource {
     private final List<Identifier> identifier;
     private final Reference definition;
+    @Summary
     private final List<UdiCarrier> udiCarrier;
+    @Summary
     @Binding(
         bindingName = "FHIRDeviceStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -87,6 +90,7 @@ public class Device extends DomainResource {
     private final Reference location;
     private final Uri url;
     private final List<Annotation> note;
+    @Summary
     private final List<CodeableConcept> safety;
     private final Reference parent;
 
@@ -1420,10 +1424,13 @@ public class Device extends DomainResource {
      * jurisdictions it could have been sold.
      */
     public static class UdiCarrier extends BackboneElement {
+        @Summary
         private final String deviceIdentifier;
         private final Uri issuer;
         private final Uri jurisdiction;
+        @Summary
         private final Base64Binary carrierAIDC;
+        @Summary
         private final String carrierHRF;
         @Binding(
             bindingName = "UDIEntryType",

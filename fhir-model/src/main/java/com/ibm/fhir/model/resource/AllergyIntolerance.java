@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -63,7 +64,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AllergyIntolerance extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "AllergyIntoleranceClinicalStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -71,6 +74,7 @@ public class AllergyIntolerance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.0.0"
     )
     private final CodeableConcept clinicalStatus;
+    @Summary
     @Binding(
         bindingName = "AllergyIntoleranceVerificationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -78,6 +82,7 @@ public class AllergyIntolerance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.0.0"
     )
     private final CodeableConcept verificationStatus;
+    @Summary
     @Binding(
         bindingName = "AllergyIntoleranceType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -85,6 +90,7 @@ public class AllergyIntolerance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.0.0"
     )
     private final AllergyIntoleranceType type;
+    @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCategory",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -92,6 +98,7 @@ public class AllergyIntolerance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.0.0"
     )
     private final List<AllergyIntoleranceCategory> category;
+    @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCriticality",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -99,6 +106,7 @@ public class AllergyIntolerance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.0.0"
     )
     private final AllergyIntoleranceCriticality criticality;
+    @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -107,12 +115,14 @@ public class AllergyIntolerance extends DomainResource {
     )
     private final CodeableConcept code;
     @Required
+    @Summary
     private final Reference patient;
     private final Reference encounter;
     @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
     private final Element onset;
     private final DateTime recordedDate;
     private final Reference recorder;
+    @Summary
     private final Reference asserter;
     private final DateTime lastOccurrence;
     private final List<Annotation> note;

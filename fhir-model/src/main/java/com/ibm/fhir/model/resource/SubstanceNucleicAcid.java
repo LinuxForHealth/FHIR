@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -35,10 +36,15 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceNucleicAcid extends DomainResource {
+    @Summary
     private final CodeableConcept sequenceType;
+    @Summary
     private final Integer numberOfSubunits;
+    @Summary
     private final String areaOfHybridisation;
+    @Summary
     private final CodeableConcept oligoNucleotideType;
+    @Summary
     private final List<Subunit> subunit;
 
     private volatile int hashCode;
@@ -537,13 +543,21 @@ public class SubstanceNucleicAcid extends DomainResource {
      * subunits that have identical sequences will be repeated multiple times.
      */
     public static class Subunit extends BackboneElement {
+        @Summary
         private final Integer subunit;
+        @Summary
         private final String sequence;
+        @Summary
         private final Integer length;
+        @Summary
         private final Attachment sequenceAttachment;
+        @Summary
         private final CodeableConcept fivePrime;
+        @Summary
         private final CodeableConcept threePrime;
+        @Summary
         private final List<Linkage> linkage;
+        @Summary
         private final List<Sugar> sugar;
 
         private volatile int hashCode;
@@ -1045,9 +1059,13 @@ public class SubstanceNucleicAcid extends DomainResource {
          * The linkages between sugar residues will also be captured.
          */
         public static class Linkage extends BackboneElement {
+            @Summary
             private final String connectivity;
+            @Summary
             private final Identifier identifier;
+            @Summary
             private final String name;
+            @Summary
             private final String residueSite;
 
             private volatile int hashCode;
@@ -1377,8 +1395,11 @@ public class SubstanceNucleicAcid extends DomainResource {
          * 5.3.6.8.1 Sugar ID (Mandatory).
          */
         public static class Sugar extends BackboneElement {
+            @Summary
             private final Identifier identifier;
+            @Summary
             private final String name;
+            @Summary
             private final String residueSite;
 
             private volatile int hashCode;

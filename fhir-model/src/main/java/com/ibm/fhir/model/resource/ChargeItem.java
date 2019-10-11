@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Canonical;
@@ -50,10 +51,12 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ChargeItem extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     private final List<Uri> definitionUri;
     private final List<Canonical> definitionCanonical;
     @Required
+    @Summary
     @Binding(
         bindingName = "ChargeItemStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -63,6 +66,7 @@ public class ChargeItem extends DomainResource {
     private final ChargeItemStatus status;
     private final List<Reference> partOf;
     @Required
+    @Summary
     @Binding(
         bindingName = "ChargeItemCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -71,15 +75,20 @@ public class ChargeItem extends DomainResource {
     )
     private final CodeableConcept code;
     @Required
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference context;
+    @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
     private final List<Performer> performer;
     private final Reference performingOrganization;
     private final Reference requestingOrganization;
     private final Reference costCenter;
+    @Summary
     private final Quantity quantity;
+    @Summary
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -90,7 +99,9 @@ public class ChargeItem extends DomainResource {
     private final Decimal factorOverride;
     private final Money priceOverride;
     private final String overrideReason;
+    @Summary
     private final Reference enterer;
+    @Summary
     private final DateTime enteredDate;
     @Binding(
         bindingName = "ChargeItemReason",
@@ -108,6 +119,7 @@ public class ChargeItem extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
     private final Element product;
+    @Summary
     private final List<Reference> account;
     private final List<Annotation> note;
     private final List<Reference> supportingInformation;

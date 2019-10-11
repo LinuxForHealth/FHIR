@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -41,6 +42,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class EpisodeOfCare extends DomainResource {
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "EpisodeOfCareStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -49,6 +51,7 @@ public class EpisodeOfCare extends DomainResource {
     )
     private final EpisodeOfCareStatus status;
     private final List<StatusHistory> statusHistory;
+    @Summary
     @Binding(
         bindingName = "EpisodeOfCareType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -56,10 +59,14 @@ public class EpisodeOfCare extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/episodeofcare-type"
     )
     private final List<CodeableConcept> type;
+    @Summary
     private final List<Diagnosis> diagnosis;
     @Required
+    @Summary
     private final Reference patient;
+    @Summary
     private final Reference managingOrganization;
+    @Summary
     private final Period period;
     private final List<Reference> referralRequest;
     private final Reference careManager;
@@ -1176,7 +1183,9 @@ public class EpisodeOfCare extends DomainResource {
      */
     public static class Diagnosis extends BackboneElement {
         @Required
+        @Summary
         private final Reference condition;
+        @Summary
         @Binding(
             bindingName = "DiagnosisRole",
             strength = BindingStrength.ValueSet.PREFERRED,
@@ -1184,6 +1193,7 @@ public class EpisodeOfCare extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/diagnosis-role"
         )
         private final CodeableConcept role;
+        @Summary
         private final PositiveInt rank;
 
         private volatile int hashCode;

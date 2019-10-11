@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -45,8 +46,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Coverage extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "CoverageStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -54,6 +57,7 @@ public class Coverage extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
     private final CoverageStatus status;
+    @Summary
     @Binding(
         bindingName = "CoverageType",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -61,11 +65,16 @@ public class Coverage extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/coverage-type"
     )
     private final CodeableConcept type;
+    @Summary
     private final Reference policyHolder;
+    @Summary
     private final Reference subscriber;
+    @Summary
     private final String subscriberId;
     @Required
+    @Summary
     private final Reference beneficiary;
+    @Summary
     private final String dependent;
     @Binding(
         bindingName = "Relationship",
@@ -74,11 +83,15 @@ public class Coverage extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/subscriber-relationship"
     )
     private final CodeableConcept relationship;
+    @Summary
     private final Period period;
     @Required
+    @Summary
     private final List<Reference> payor;
     private final List<Class> clazz;
+    @Summary
     private final PositiveInt order;
+    @Summary
     private final String network;
     private final List<CostToBeneficiary> costToBeneficiary;
     private final Boolean subrogation;
@@ -1050,6 +1063,7 @@ public class Coverage extends DomainResource {
      */
     public static class Class extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "CoverageClass",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1058,7 +1072,9 @@ public class Coverage extends DomainResource {
         )
         private final CodeableConcept type;
         @Required
+        @Summary
         private final String value;
+        @Summary
         private final String name;
 
         private volatile int hashCode;
@@ -1361,6 +1377,7 @@ public class Coverage extends DomainResource {
      * have been included on the health card.
      */
     public static class CostToBeneficiary extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "CopayTypes",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1369,6 +1386,7 @@ public class Coverage extends DomainResource {
         )
         private final CodeableConcept type;
         @Required
+        @Summary
         @Choice({ SimpleQuantity.class, Money.class })
         private final Element value;
         private final List<Exception> exception;
@@ -1693,6 +1711,7 @@ public class Coverage extends DomainResource {
          */
         public static class Exception extends BackboneElement {
             @Required
+            @Summary
             @Binding(
                 bindingName = "CoverageFinancialException",
                 strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1700,6 +1719,7 @@ public class Coverage extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/coverage-financial-exception"
             )
             private final CodeableConcept type;
+            @Summary
             private final Period period;
 
             private volatile int hashCode;

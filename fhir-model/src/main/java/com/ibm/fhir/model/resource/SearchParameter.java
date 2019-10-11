@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -69,12 +70,16 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SearchParameter extends DomainResource {
     @Required
+    @Summary
     private final Uri url;
+    @Summary
     private final String version;
     @Required
+    @Summary
     private final String name;
     private final Canonical derivedFrom;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -82,13 +87,20 @@ public class SearchParameter extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     @Required
+    @Summary
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -98,8 +110,10 @@ public class SearchParameter extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     @Required
+    @Summary
     private final Code code;
     @Required
+    @Summary
     @Binding(
         bindingName = "ResourceType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -108,6 +122,7 @@ public class SearchParameter extends DomainResource {
     )
     private final List<ResourceType> base;
     @Required
+    @Summary
     @Binding(
         bindingName = "SearchParamType",
         strength = BindingStrength.ValueSet.REQUIRED,

@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -59,10 +60,12 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RiskAssessment extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     private final Reference basedOn;
     private final Reference parent;
     @Required
+    @Summary
     @Binding(
         bindingName = "RiskAssessmentStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -70,19 +73,26 @@ public class RiskAssessment extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
     private final RiskAssessmentStatus status;
+    @Summary
     @Binding(
         bindingName = "RiskAssessmentMethod",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The mechanism or algorithm used to make the assessment; e.g. TIMI, PRISM, Cardiff Type 2 diabetes, etc."
     )
     private final CodeableConcept method;
+    @Summary
     private final CodeableConcept code;
     @Required
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element occurrence;
+    @Summary
     private final Reference condition;
+    @Summary
     private final Reference performer;
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;

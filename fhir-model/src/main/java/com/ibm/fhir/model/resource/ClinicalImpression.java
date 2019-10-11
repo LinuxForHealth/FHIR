@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -46,8 +47,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpression extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     @Binding(
         bindingName = "ClinicalImpressionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -61,21 +64,29 @@ public class ClinicalImpression extends DomainResource {
         description = "Codes identifying the reason for the current state of a clinical impression."
     )
     private final CodeableConcept statusReason;
+    @Summary
     @Binding(
         bindingName = "ClinicalImpressionCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Identifies categories of clinical impressions.  This is a place-holder only.  It may be removed."
     )
     private final CodeableConcept code;
+    @Summary
     private final String description;
     @Required
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element effective;
+    @Summary
     private final DateTime date;
+    @Summary
     private final Reference assessor;
     private final Reference previous;
+    @Summary
     private final List<Reference> problem;
     private final List<Investigation> investigation;
     private final List<Uri> protocol;

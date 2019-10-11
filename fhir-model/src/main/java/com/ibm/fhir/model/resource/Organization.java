@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -63,8 +64,11 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Organization extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     @Binding(
         bindingName = "OrganizationType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -72,10 +76,12 @@ public class Organization extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/organization-type"
     )
     private final List<CodeableConcept> type;
+    @Summary
     private final String name;
     private final List<String> alias;
     private final List<ContactPoint> telecom;
     private final List<Address> address;
+    @Summary
     private final Reference partOf;
     private final List<Contact> contact;
     private final List<Reference> endpoint;

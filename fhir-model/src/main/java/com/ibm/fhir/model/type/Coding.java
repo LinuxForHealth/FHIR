@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -19,10 +20,15 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Coding extends Element {
+    @Summary
     private final Uri system;
+    @Summary
     private final String version;
+    @Summary
     private final Code code;
+    @Summary
     private final String display;
+    @Summary
     private final Boolean userSelected;
 
     private volatile int hashCode;

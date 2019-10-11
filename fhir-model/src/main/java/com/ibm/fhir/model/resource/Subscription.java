@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.ContactPoint;
@@ -42,6 +43,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Subscription extends DomainResource {
     @Required
+    @Summary
     @Binding(
         bindingName = "SubscriptionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -49,14 +51,20 @@ public class Subscription extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.0"
     )
     private final SubscriptionStatus status;
+    @Summary
     private final List<ContactPoint> contact;
+    @Summary
     private final Instant end;
     @Required
+    @Summary
     private final String reason;
     @Required
+    @Summary
     private final String criteria;
+    @Summary
     private final String error;
     @Required
+    @Summary
     private final Channel channel;
 
     private volatile int hashCode;
@@ -619,6 +627,7 @@ public class Subscription extends DomainResource {
      */
     public static class Channel extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "SubscriptionChannelType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -626,7 +635,9 @@ public class Subscription extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.0"
         )
         private final SubscriptionChannelType type;
+        @Summary
         private final Url endpoint;
+        @Summary
         @Binding(
             bindingName = "MimeType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -634,6 +645,7 @@ public class Subscription extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
         )
         private final Code payload;
+        @Summary
         private final List<String> header;
 
         private volatile int hashCode;

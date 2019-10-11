@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationOutcome extends DomainResource {
     @Required
+    @Summary
     private final List<Issue> issue;
 
     private volatile int hashCode;
@@ -403,6 +405,7 @@ public class OperationOutcome extends DomainResource {
      */
     public static class Issue extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "IssueSeverity",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -411,6 +414,7 @@ public class OperationOutcome extends DomainResource {
         )
         private final IssueSeverity severity;
         @Required
+        @Summary
         @Binding(
             bindingName = "IssueType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -418,6 +422,7 @@ public class OperationOutcome extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.0"
         )
         private final IssueType code;
+        @Summary
         @Binding(
             bindingName = "IssueDetails",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -425,8 +430,11 @@ public class OperationOutcome extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/operation-outcome"
         )
         private final CodeableConcept details;
+        @Summary
         private final String diagnostics;
+        @Summary
         private final List<String> location;
+        @Summary
         private final List<String> expression;
 
         private volatile int hashCode;

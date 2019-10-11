@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -131,11 +132,16 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CapabilityStatement extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -143,13 +149,19 @@ public class CapabilityStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
     @Required
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -160,6 +172,7 @@ public class CapabilityStatement extends DomainResource {
     private final Markdown purpose;
     private final Markdown copyright;
     @Required
+    @Summary
     @Binding(
         bindingName = "CapabilityStatementKind",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -167,11 +180,16 @@ public class CapabilityStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.0"
     )
     private final CapabilityStatementKind kind;
+    @Summary
     private final List<Canonical> instantiates;
+    @Summary
     private final List<Canonical> imports;
+    @Summary
     private final Software software;
+    @Summary
     private final Implementation implementation;
     @Required
+    @Summary
     @Binding(
         bindingName = "FHIRVersion",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -180,6 +198,7 @@ public class CapabilityStatement extends DomainResource {
     )
     private final FHIRVersion fhirVersion;
     @Required
+    @Summary
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -187,6 +206,7 @@ public class CapabilityStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
     private final List<Code> format;
+    @Summary
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -194,9 +214,13 @@ public class CapabilityStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
     private final List<Code> patchFormat;
+    @Summary
     private final List<Canonical> implementationGuide;
+    @Summary
     private final List<Rest> rest;
+    @Summary
     private final List<Messaging> messaging;
+    @Summary
     private final List<Document> document;
 
     private volatile int hashCode;
@@ -1605,8 +1629,11 @@ public class CapabilityStatement extends DomainResource {
      */
     public static class Software extends BackboneElement {
         @Required
+        @Summary
         private final String name;
+        @Summary
         private final String version;
+        @Summary
         private final DateTime releaseDate;
 
         private volatile int hashCode;
@@ -1905,8 +1932,11 @@ public class CapabilityStatement extends DomainResource {
      */
     public static class Implementation extends BackboneElement {
         @Required
+        @Summary
         private final String description;
+        @Summary
         private final Url url;
+        @Summary
         private final Reference custodian;
 
         private volatile int hashCode;
@@ -2208,6 +2238,7 @@ public class CapabilityStatement extends DomainResource {
      */
     public static class Rest extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "RestfulCapabilityMode",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -2216,10 +2247,13 @@ public class CapabilityStatement extends DomainResource {
         )
         private final RestfulCapabilityMode mode;
         private final Markdown documentation;
+        @Summary
         private final Security security;
+        @Summary
         private final List<Resource> resource;
         private final List<Interaction> interaction;
         private final List<CapabilityStatement.Rest.Resource.SearchParam> searchParam;
+        @Summary
         private final List<CapabilityStatement.Rest.Resource.Operation> operation;
         private final List<Canonical> compartment;
 
@@ -2777,7 +2811,9 @@ public class CapabilityStatement extends DomainResource {
          * Information about security implementation from an interface perspective - what a client needs to know.
          */
         public static class Security extends BackboneElement {
+            @Summary
             private final Boolean cors;
+            @Summary
             @Binding(
                 bindingName = "RestfulSecurityService",
                 strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -3095,6 +3131,7 @@ public class CapabilityStatement extends DomainResource {
          */
         public static class Resource extends BackboneElement {
             @Required
+            @Summary
             @Binding(
                 bindingName = "ResourceType",
                 strength = BindingStrength.ValueSet.REQUIRED,
@@ -3102,7 +3139,9 @@ public class CapabilityStatement extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
             )
             private final ResourceType type;
+            @Summary
             private final Canonical profile;
+            @Summary
             private final List<Canonical> supportedProfile;
             private final Markdown documentation;
             private final List<Interaction> interaction;
@@ -3141,6 +3180,7 @@ public class CapabilityStatement extends DomainResource {
             private final List<String> searchInclude;
             private final List<String> searchRevInclude;
             private final List<SearchParam> searchParam;
+            @Summary
             private final List<Operation> operation;
 
             private volatile int hashCode;
@@ -4669,8 +4709,10 @@ public class CapabilityStatement extends DomainResource {
              */
             public static class Operation extends BackboneElement {
                 @Required
+                @Summary
                 private final String name;
                 @Required
+                @Summary
                 private final Canonical definition;
                 private final Markdown documentation;
 
@@ -5263,6 +5305,7 @@ public class CapabilityStatement extends DomainResource {
         private final List<Endpoint> endpoint;
         private final UnsignedInt reliableCache;
         private final Markdown documentation;
+        @Summary
         private final List<SupportedMessage> supportedMessage;
 
         private volatile int hashCode;
@@ -5906,6 +5949,7 @@ public class CapabilityStatement extends DomainResource {
          */
         public static class SupportedMessage extends BackboneElement {
             @Required
+            @Summary
             @Binding(
                 bindingName = "EventCapabilityMode",
                 strength = BindingStrength.ValueSet.REQUIRED,
@@ -5914,6 +5958,7 @@ public class CapabilityStatement extends DomainResource {
             )
             private final EventCapabilityMode mode;
             @Required
+            @Summary
             private final Canonical definition;
 
             private volatile int hashCode;
@@ -6184,6 +6229,7 @@ public class CapabilityStatement extends DomainResource {
      */
     public static class Document extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "DocumentMode",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -6193,6 +6239,7 @@ public class CapabilityStatement extends DomainResource {
         private final DocumentMode mode;
         private final Markdown documentation;
         @Required
+        @Summary
         private final Canonical profile;
 
         private volatile int hashCode;

@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -64,13 +65,19 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Measure extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     private final String subtitle;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -78,6 +85,7 @@ public class Measure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -87,11 +95,17 @@ public class Measure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
     private final Element subject;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -104,6 +118,7 @@ public class Measure extends DomainResource {
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
+    @Summary
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
@@ -118,7 +133,9 @@ public class Measure extends DomainResource {
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
     private final List<Canonical> library;
+    @Summary
     private final Markdown disclaimer;
+    @Summary
     @Binding(
         bindingName = "MeasureScoring",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -126,6 +143,7 @@ public class Measure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/measure-scoring"
     )
     private final CodeableConcept scoring;
+    @Summary
     @Binding(
         bindingName = "CompositeMeasureScoring",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -133,6 +151,7 @@ public class Measure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/composite-measure-scoring"
     )
     private final CodeableConcept compositeScoring;
+    @Summary
     @Binding(
         bindingName = "MeasureType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -140,10 +159,15 @@ public class Measure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/measure-type"
     )
     private final List<CodeableConcept> type;
+    @Summary
     private final String riskAdjustment;
+    @Summary
     private final String rateAggregation;
+    @Summary
     private final Markdown rationale;
+    @Summary
     private final Markdown clinicalRecommendationStatement;
+    @Summary
     @Binding(
         bindingName = "MeasureImprovementNotation",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -151,7 +175,9 @@ public class Measure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.0"
     )
     private final CodeableConcept improvementNotation;
+    @Summary
     private final List<Markdown> definition;
+    @Summary
     private final Markdown guidance;
     private final List<Group> group;
     private final List<SupplementalData> supplementalData;

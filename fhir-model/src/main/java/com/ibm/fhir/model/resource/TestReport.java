@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
@@ -57,9 +58,12 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TestReport extends DomainResource {
+    @Summary
     private final Identifier identifier;
+    @Summary
     private final String name;
     @Required
+    @Summary
     @Binding(
         bindingName = "TestReportStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -68,8 +72,10 @@ public class TestReport extends DomainResource {
     )
     private final TestReportStatus status;
     @Required
+    @Summary
     private final Reference testScript;
     @Required
+    @Summary
     @Binding(
         bindingName = "TestReportResult",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -77,8 +83,11 @@ public class TestReport extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/report-result-codes|4.0.0"
     )
     private final TestReportResult result;
+    @Summary
     private final Decimal score;
+    @Summary
     private final String tester;
+    @Summary
     private final DateTime issued;
     private final List<Participant> participant;
     private final Setup setup;

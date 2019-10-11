@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -42,7 +43,9 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Substance extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "FHIRSubstanceStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -50,6 +53,7 @@ public class Substance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/substance-status|4.0.0"
     )
     private final FHIRSubstanceStatus status;
+    @Summary
     @Binding(
         bindingName = "SubstanceCategory",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -58,6 +62,7 @@ public class Substance extends DomainResource {
     )
     private final List<CodeableConcept> category;
     @Required
+    @Summary
     @Binding(
         bindingName = "SubstanceCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -65,8 +70,11 @@ public class Substance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
     )
     private final CodeableConcept code;
+    @Summary
     private final String description;
+    @Summary
     private final List<Instance> instance;
+    @Summary
     private final List<Ingredient> ingredient;
 
     private volatile int hashCode;
@@ -676,8 +684,11 @@ public class Substance extends DomainResource {
      * Substance may be used to describe a kind of substance, or a specific package/container of the substance: an instance.
      */
     public static class Instance extends BackboneElement {
+        @Summary
         private final Identifier identifier;
+        @Summary
         private final DateTime expiry;
+        @Summary
         private final SimpleQuantity quantity;
 
         private volatile int hashCode;
@@ -967,8 +978,10 @@ public class Substance extends DomainResource {
      * A substance can be composed of other substances.
      */
     public static class Ingredient extends BackboneElement {
+        @Summary
         private final Ratio quantity;
         @Required
+        @Summary
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SubstanceIngredient",

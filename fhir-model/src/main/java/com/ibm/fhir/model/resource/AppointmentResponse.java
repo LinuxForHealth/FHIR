@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
@@ -45,11 +46,14 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AppointmentResponse extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Required
+    @Summary
     private final Reference appointment;
     private final Instant start;
     private final Instant end;
+    @Summary
     @Binding(
         bindingName = "ParticipantType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -57,8 +61,10 @@ public class AppointmentResponse extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
     )
     private final List<CodeableConcept> participantType;
+    @Summary
     private final Reference actor;
     @Required
+    @Summary
     @Binding(
         bindingName = "ParticipantStatus",
         strength = BindingStrength.ValueSet.REQUIRED,

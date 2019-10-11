@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -22,12 +23,17 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MarketingStatus extends BackboneElement {
     @Required
+    @Summary
     private final CodeableConcept country;
+    @Summary
     private final CodeableConcept jurisdiction;
     @Required
+    @Summary
     private final CodeableConcept status;
     @Required
+    @Summary
     private final Period dateRange;
+    @Summary
     private final DateTime restoreDate;
 
     private volatile int hashCode;

@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
@@ -111,13 +112,19 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StructureMap extends DomainResource {
     @Required
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
     @Required
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -125,12 +132,18 @@ public class StructureMap extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -140,9 +153,12 @@ public class StructureMap extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Summary
     private final List<Structure> structure;
+    @Summary
     private final List<Canonical> _import;
     @Required
+    @Summary
     private final List<Group> group;
 
     private volatile int hashCode;
@@ -1200,8 +1216,10 @@ public class StructureMap extends DomainResource {
      */
     public static class Structure extends BackboneElement {
         @Required
+        @Summary
         private final Canonical url;
         @Required
+        @Summary
         @Binding(
             bindingName = "StructureMapModelMode",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1209,6 +1227,7 @@ public class StructureMap extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.0"
         )
         private final StructureMapModelMode mode;
+        @Summary
         private final String alias;
         private final String documentation;
 
@@ -1541,9 +1560,12 @@ public class StructureMap extends DomainResource {
      */
     public static class Group extends BackboneElement {
         @Required
+        @Summary
         private final Id name;
+        @Summary
         private final Id _extends;
         @Required
+        @Summary
         @Binding(
             bindingName = "StructureMapGroupTypeMode",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1551,10 +1573,13 @@ public class StructureMap extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.0.0"
         )
         private final StructureMapGroupTypeMode typeMode;
+        @Summary
         private final String documentation;
         @Required
+        @Summary
         private final List<Input> input;
         @Required
+        @Summary
         private final List<Rule> rule;
 
         private volatile int hashCode;
@@ -1997,9 +2022,12 @@ public class StructureMap extends DomainResource {
          */
         public static class Input extends BackboneElement {
             @Required
+            @Summary
             private final Id name;
+            @Summary
             private final String type;
             @Required
+            @Summary
             @Binding(
                 bindingName = "StructureMapInputMode",
                 strength = BindingStrength.ValueSet.REQUIRED,
@@ -2338,11 +2366,16 @@ public class StructureMap extends DomainResource {
          */
         public static class Rule extends BackboneElement {
             @Required
+            @Summary
             private final Id name;
             @Required
+            @Summary
             private final List<Source> source;
+            @Summary
             private final List<Target> target;
+            @Summary
             private final List<StructureMap.Group.Rule> rule;
+            @Summary
             private final List<Dependent> dependent;
             private final String documentation;
 
@@ -2818,13 +2851,20 @@ public class StructureMap extends DomainResource {
              */
             public static class Source extends BackboneElement {
                 @Required
+                @Summary
                 private final Id context;
+                @Summary
                 private final Integer min;
+                @Summary
                 private final String max;
+                @Summary
                 private final String type;
+                @Summary
                 @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
                 private final Element defaultValue;
+                @Summary
                 private final String element;
+                @Summary
                 @Binding(
                     bindingName = "StructureMapSourceListMode",
                     strength = BindingStrength.ValueSet.REQUIRED,
@@ -2832,9 +2872,13 @@ public class StructureMap extends DomainResource {
                     valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.0.0"
                 )
                 private final StructureMapSourceListMode listMode;
+                @Summary
                 private final Id variable;
+                @Summary
                 private final String condition;
+                @Summary
                 private final String check;
+                @Summary
                 private final String logMessage;
 
                 private volatile int hashCode;
@@ -3438,7 +3482,9 @@ public class StructureMap extends DomainResource {
              * Content to create because of this mapping rule.
              */
             public static class Target extends BackboneElement {
+                @Summary
                 private final Id context;
+                @Summary
                 @Binding(
                     bindingName = "StructureMapContextType",
                     strength = BindingStrength.ValueSet.REQUIRED,
@@ -3446,8 +3492,11 @@ public class StructureMap extends DomainResource {
                     valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.0.0"
                 )
                 private final StructureMapContextType contextType;
+                @Summary
                 private final String element;
+                @Summary
                 private final Id variable;
+                @Summary
                 @Binding(
                     bindingName = "StructureMapTargetListMode",
                     strength = BindingStrength.ValueSet.REQUIRED,
@@ -3455,7 +3504,9 @@ public class StructureMap extends DomainResource {
                     valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.0.0"
                 )
                 private final List<StructureMapTargetListMode> listMode;
+                @Summary
                 private final Id listRuleId;
+                @Summary
                 @Binding(
                     bindingName = "StructureMapTransform",
                     strength = BindingStrength.ValueSet.REQUIRED,
@@ -3463,6 +3514,7 @@ public class StructureMap extends DomainResource {
                     valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.0.0"
                 )
                 private final StructureMapTransform transform;
+                @Summary
                 private final List<Parameter> parameter;
 
                 private volatile int hashCode;
@@ -3947,6 +3999,7 @@ public class StructureMap extends DomainResource {
                  */
                 public static class Parameter extends BackboneElement {
                     @Required
+                    @Summary
                     @Choice({ Id.class, String.class, Boolean.class, Integer.class, Decimal.class })
                     private final Element value;
 
@@ -4193,8 +4246,10 @@ public class StructureMap extends DomainResource {
              */
             public static class Dependent extends BackboneElement {
                 @Required
+                @Summary
                 private final Id name;
                 @Required
+                @Summary
                 private final List<String> variable;
 
                 private volatile int hashCode;

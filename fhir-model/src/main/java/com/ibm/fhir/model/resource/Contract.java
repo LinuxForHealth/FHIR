@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -57,9 +58,12 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Contract extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     private final Uri url;
+    @Summary
     private final String version;
+    @Summary
     @Binding(
         bindingName = "ContractStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -83,7 +87,9 @@ public class Contract extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/contract-content-derivative"
     )
     private final CodeableConcept contentDerivative;
+    @Summary
     private final DateTime issued;
+    @Summary
     private final Period applies;
     @Binding(
         bindingName = "ContractExpiration",
@@ -92,11 +98,14 @@ public class Contract extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/contract-expiration-type"
     )
     private final CodeableConcept expirationType;
+    @Summary
     private final List<Reference> subject;
     private final List<Reference> authority;
     private final List<Reference> domain;
     private final List<Reference> site;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     private final String subtitle;
     private final List<String> alias;
@@ -110,6 +119,7 @@ public class Contract extends DomainResource {
     private final CodeableConcept scope;
     @Choice({ CodeableConcept.class, Reference.class })
     private final Element topic;
+    @Summary
     @Binding(
         bindingName = "ContractType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -117,6 +127,7 @@ public class Contract extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/contract-type"
     )
     private final CodeableConcept type;
+    @Summary
     @Binding(
         bindingName = "ContractSubtype",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -2241,8 +2252,11 @@ public class Contract extends DomainResource {
      * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
      */
     public static class Term extends BackboneElement {
+        @Summary
         private final Identifier identifier;
+        @Summary
         private final DateTime issued;
+        @Summary
         private final Period applies;
         @Choice({ CodeableConcept.class, Reference.class })
         private final Element topic;
@@ -2260,6 +2274,7 @@ public class Contract extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/contract-term-subtype"
         )
         private final CodeableConcept subType;
+        @Summary
         private final String text;
         private final List<SecurityLabel> securityLabel;
         @Required
@@ -3353,6 +3368,7 @@ public class Contract extends DomainResource {
         public static class Offer extends BackboneElement {
             private final List<Identifier> identifier;
             private final List<Party> party;
+            @Summary
             private final Reference topic;
             @Binding(
                 bindingName = "ContractTermType",

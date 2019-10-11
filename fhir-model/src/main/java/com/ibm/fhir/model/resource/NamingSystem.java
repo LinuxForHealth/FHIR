@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -67,8 +68,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class NamingSystem extends DomainResource {
     @Required
+    @Summary
     private final String name;
     @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -77,6 +80,7 @@ public class NamingSystem extends DomainResource {
     )
     private final PublicationStatus status;
     @Required
+    @Summary
     @Binding(
         bindingName = "NamingSystemType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -85,8 +89,11 @@ public class NamingSystem extends DomainResource {
     )
     private final NamingSystemType kind;
     @Required
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final String responsible;
     @Binding(
@@ -97,7 +104,9 @@ public class NamingSystem extends DomainResource {
     )
     private final CodeableConcept type;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -107,6 +116,7 @@ public class NamingSystem extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final String usage;
     @Required
+    @Summary
     private final List<UniqueId> uniqueId;
 
     private volatile int hashCode;
@@ -935,6 +945,7 @@ public class NamingSystem extends DomainResource {
      */
     public static class UniqueId extends BackboneElement {
         @Required
+        @Summary
         @Binding(
             bindingName = "NamingSystemIdentifierType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -943,6 +954,7 @@ public class NamingSystem extends DomainResource {
         )
         private final NamingSystemIdentifierType type;
         @Required
+        @Summary
         private final String value;
         private final Boolean preferred;
         private final String comment;

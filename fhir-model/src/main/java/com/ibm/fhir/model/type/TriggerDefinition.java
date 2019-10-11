@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.TriggerType;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -51,6 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TriggerDefinition extends Element {
     @Required
+    @Summary
     @Binding(
         bindingName = "TriggerType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -58,10 +60,14 @@ public class TriggerDefinition extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.0.0"
     )
     private final TriggerType type;
+    @Summary
     private final String name;
+    @Summary
     @Choice({ Timing.class, Reference.class, Date.class, DateTime.class })
     private final Element timing;
+    @Summary
     private final List<DataRequirement> data;
+    @Summary
     private final Expression condition;
 
     private volatile int hashCode;

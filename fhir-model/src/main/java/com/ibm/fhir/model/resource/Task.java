@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
@@ -92,12 +93,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Task extends DomainResource {
     private final List<Identifier> identifier;
+    @Summary
     private final Canonical instantiatesCanonical;
+    @Summary
     private final Uri instantiatesUri;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final Identifier groupIdentifier;
+    @Summary
     private final List<Reference> partOf;
     @Required
+    @Summary
     @Binding(
         bindingName = "TaskStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -105,12 +112,14 @@ public class Task extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/task-status|4.0.0"
     )
     private final TaskStatus status;
+    @Summary
     @Binding(
         bindingName = "TaskStatusReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes to identify the reason for current status.  These will typically be specific to a particular workflow."
     )
     private final CodeableConcept statusReason;
+    @Summary
     @Binding(
         bindingName = "TaskBusinessStatus",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -118,6 +127,7 @@ public class Task extends DomainResource {
     )
     private final CodeableConcept businessStatus;
     @Required
+    @Summary
     @Binding(
         bindingName = "TaskIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -132,6 +142,7 @@ public class Task extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final TaskPriority priority;
+    @Summary
     @Binding(
         bindingName = "TaskCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -139,13 +150,20 @@ public class Task extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/task-code"
     )
     private final CodeableConcept code;
+    @Summary
     private final String description;
+    @Summary
     private final Reference focus;
+    @Summary
     private final Reference _for;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final Period executionPeriod;
     private final DateTime authoredOn;
+    @Summary
     private final DateTime lastModified;
+    @Summary
     private final Reference requester;
     @Binding(
         bindingName = "TaskPerformerType",
@@ -154,7 +172,9 @@ public class Task extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
     )
     private final List<CodeableConcept> performerType;
+    @Summary
     private final Reference owner;
+    @Summary
     private final Reference location;
     @Binding(
         bindingName = "TaskReason",
