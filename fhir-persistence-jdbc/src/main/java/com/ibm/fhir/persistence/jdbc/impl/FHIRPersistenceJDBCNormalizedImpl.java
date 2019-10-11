@@ -849,17 +849,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 
                 for (FHIRPathNode value : values) {
                     if (value.isElementNode()) {
+                        // parameterBuilder aggregates the results for later retrieval
                         value.asElementNode().element().accept(parameterBuilder);
-                        List<Parameter> parameters = parameterBuilder.getResult();
-                        for (Parameter p : parameters) {
-                            p.setType(Type.fromValue(type));
-                            p.setResourceId(resourceDTO.getId());
-                            p.setResourceType(fhirResource.getClass().getSimpleName());
-                            allParameters.add(p);
-                            if (log.isLoggable(Level.FINE)) {
-                                log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
-                            }
-                        }
                     } else if (value.isPrimitiveValue()){
                         Parameter p = processPrimitiveValue(value.asPrimitiveValue());
                         p.setName(code);
@@ -877,6 +868,17 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                                     "; search parameter value extraction can only be performed on Elements and primitive values.");
                         }
                         continue;
+                    }
+                }
+                // retrieve the list of parameters built from all the FHIRPathElementNode values 
+                List<Parameter> parameters = parameterBuilder.getResult();
+                for (Parameter p : parameters) {
+                    p.setType(Type.fromValue(type));
+                    p.setResourceId(resourceDTO.getId());
+                    p.setResourceType(fhirResource.getClass().getSimpleName());
+                    allParameters.add(p);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                     }
                 }
             }

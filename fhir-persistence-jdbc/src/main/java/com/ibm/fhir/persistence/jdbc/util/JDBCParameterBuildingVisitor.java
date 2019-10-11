@@ -35,6 +35,9 @@ import com.ibm.fhir.persistence.jdbc.dto.Parameter.TimeType;
 
 /**
  * This class is the JDBC persistence layer implementation for transforming SearchParameters into Parameter Data Transfer Objects.
+ * 
+ * <p>Call {@code Element.accept} with this visitor to add zero to many Parameters to the result list and invoke {@code getResult} 
+ * to get the current list of extracted Parameter objects.
  */
 public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     private static final Logger log = Logger.getLogger(JDBCParameterBuildingVisitor.class.getName());
