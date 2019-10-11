@@ -31,6 +31,10 @@ plugins:
 
 source: . 
 destination: _site
+show_drafts: false
+future: false
+
+markdown: kramdown
 
 paginate: 5
 paginate_path: "blog/:num"
@@ -58,7 +62,11 @@ include:
   - CONTRIBUTING.md
   - README.md  
   - _posts/index.md
-  
+
+gems: 
+  - jekyll-redirect-from
+  - jekyll-sitemap  
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
