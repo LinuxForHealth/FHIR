@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -55,13 +56,14 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class MedicationDispense extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "MedicationDispenseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept specifying the state of the dispense event.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.0.0"
     )
+    @Required
     private final MedicationDispenseStatus status;
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -78,7 +80,7 @@ public class MedicationDispense extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-category"
     )
     private final CodeableConcept category;
-    @Required
+    @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -86,7 +88,9 @@ public class MedicationDispense extends DomainResource {
         description = "A coded concept identifying which substance or product can be dispensed.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
+    @Required
     private final Element medication;
+    @Summary
     private final Reference subject;
     private final Reference context;
     private final List<Reference> supportingInformation;
@@ -102,6 +106,7 @@ public class MedicationDispense extends DomainResource {
     private final CodeableConcept type;
     private final SimpleQuantity quantity;
     private final SimpleQuantity daysSupply;
+    @Summary
     private final DateTime whenPrepared;
     private final DateTime whenHandedOver;
     private final Reference destination;

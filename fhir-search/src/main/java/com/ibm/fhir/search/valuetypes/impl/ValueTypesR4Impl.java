@@ -102,7 +102,8 @@ public class ValueTypesR4Impl implements IValueTypes {
             return (valueTypes.contains(com.ibm.fhir.model.type.Integer.class) || valueTypes.contains(UnsignedInt.class)
                     || valueTypes.contains(PositiveInt.class) || valueTypes.contains(Count.class));
         } catch (Exception e) {
-            throw new FHIRSearchException(String.format(EXCEPTION, queryParm.getName(), resourceType.getSimpleName()), e);
+            throw new FHIRSearchException(String.format(EXCEPTION, queryParm.getName(), resourceType.getSimpleName()),
+                    e);
         }
     }
 
@@ -137,25 +138,25 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     /**
-     * adds value types for tenants to a list by resource and code. 
+     * adds value types for tenants to a list by resource and code.
      * 
      * @param valueTypesList
      */
-    public void addingValueTypesForTenantToListByResourceAndCode(Set<Class<?>> valueTypesList, Class<?> resourceType, String code) {
+    public void addingValueTypesForTenantToListByResourceAndCode(Set<Class<?>> valueTypesList, Class<?> resourceType,
+            String code) {
         // Check the Tenant Specific Cache
         String tenantId = FHIRRequestContext.get().getTenantId();
         if (tenantId != null) {
-            
+
             try {
-            
+
                 Map<String, Set<Class<?>>> tenantValueTypes = cache.getCachedObjectForTenant(tenantId);
                 valueTypesList.addAll(tenantValueTypes.get(hash(resourceType, code)));
 
             } catch (Exception e) {
-                if (log.isLoggable(Level.FINEST)) {
-                    // If there is an exception here, it's most likely in the file. 
-                    log.finest("Did not find the tenant value for [" + tenantId + "][" + resourceType.getSimpleName() + "][" + code + "]");
-                }
+                // If there is an exception here, it's most likely in the file.
+                log.log(Level.INFO, "Did not find the tenant value for [" + tenantId + "]["
+                        + resourceType.getSimpleName() + "][" + code + "]", e);
             }
         }
     }
@@ -169,8 +170,8 @@ public class ValueTypesR4Impl implements IValueTypes {
     public Map<String, Set<Class<?>>> load(InputStream in) {
         Map<String, Set<Class<?>>> tmp = new HashMap<>();
         /*
-         * Format <br/> <code>{ "value-types": "default", "mappings": [{ "resourceType": "", "name": "",
-         * "targetClasses": [] }] }</code>
+         * Format <br/> <pre> { "value-types": "default", "mappings": [{ "resourceType":
+         * "", "name": "", "targetClasses": [] }] } </pre>
          */
 
         if (in != null) {
@@ -244,9 +245,13 @@ public class ValueTypesR4Impl implements IValueTypes {
 
     /*
      * finds the class, and adds if valid.
+     * 
      * @param clzs
+     * 
      * @param pkg
+     * 
      * @param clzVal
+     * 
      * @return indicates found class
      */
     public static boolean processClass(Set<Class<?>> clzs, String pkg, String clzVal) {
@@ -274,8 +279,8 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     /**
-     * hash is a contract that generates an expected output used in tools to generate the properties file, and to
-     * facilitate the fast lookup.
+     * hash is a contract that generates an expected output used in tools to
+     * generate the properties file, and to facilitate the fast lookup.
      * 
      * @param resourceType
      * @param code

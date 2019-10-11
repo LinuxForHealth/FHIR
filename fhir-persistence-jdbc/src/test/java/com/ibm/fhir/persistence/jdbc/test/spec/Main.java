@@ -40,6 +40,7 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  *   java com.ibm.fhir.persistence.jdbc.test.spec.Main
  *   --parse
  *   --validate
+ *   --derby
  *   --expectation OK
  *   --file-name file:/path/to/foo.json
  *   --file-name file:/path/to/bar.json
@@ -51,6 +52,7 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  *   java com.ibm.fhir.persistence.jdbc.test.spec.Main
  *   --parse
  *   --validate
+ *   --derby
  *   --index-file file:/path/to/my/index.txt
  * 
  */

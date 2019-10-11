@@ -329,7 +329,7 @@ public class SearchUtil {
         } else {
             // The current tenant doesn't have any filter rules defined, so
             // we'll just fabricate one that includes all search parameters:
-            // <code>{ "*": ["*"] }</code>
+            // <pre>{ "*": ["*"] }</pre>
             List<String> list = new ArrayList<>();
             list.add(SearchConstants.WILDCARD);
             result.put(SearchConstants.WILDCARD, list);
@@ -478,7 +478,7 @@ public class SearchUtil {
 
             // Outputs the Expression and the Name of the SearchParameter
             if (log.isLoggable(Level.FINEST)) {
-                // Issue 202: switched to using Code
+                // This used to "name" but now correctly uses "code"
                 log.finest(String.format(EXTRACT_PARAMETERS_LOGGING, parameter.getCode().getValue(), expression.getValue()));
             }
 
@@ -698,6 +698,10 @@ public class SearchUtil {
             case TOKEN: {
                 // token
                 // [parameter]=[system]|[code]
+                /* TODO: start enforcing this:
+                 * "For token parameters on elements of type ContactPoint, uri, or boolean, 
+                 * the presence of the pipe symbol SHALL NOT be used - only the [parameter]=[code] form is allowed
+                 */
                 String[] parts = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
                 if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));

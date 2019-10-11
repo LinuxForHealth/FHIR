@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -46,16 +47,19 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DiagnosticReport extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     private final List<Reference> basedOn;
-    @Required
+    @Summary
     @Binding(
         bindingName = "DiagnosticReportStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the diagnostic report.",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.0"
     )
+    @Required
     private final DiagnosticReportStatus status;
+    @Summary
     @Binding(
         bindingName = "DiagnosticServiceSection",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -63,24 +67,32 @@ public class DiagnosticReport extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
     )
     private final List<CodeableConcept> category;
-    @Required
+    @Summary
     @Binding(
         bindingName = "DiagnosticReportCodes",
         strength = BindingStrength.ValueSet.PREFERRED,
         description = "Codes that describe Diagnostic Reports.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-codes"
     )
+    @Required
     private final CodeableConcept code;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element effective;
+    @Summary
     private final Instant issued;
+    @Summary
     private final List<Reference> performer;
+    @Summary
     private final List<Reference> resultsInterpreter;
     private final List<Reference> specimen;
     private final List<Reference> result;
     private final List<Reference> imagingStudy;
+    @Summary
     private final List<Media> media;
     private final String conclusion;
     @Binding(
@@ -1214,6 +1226,7 @@ public class DiagnosticReport extends DomainResource {
      */
     public static class Media extends BackboneElement {
         private final String comment;
+        @Summary
         @Required
         private final Reference link;
 

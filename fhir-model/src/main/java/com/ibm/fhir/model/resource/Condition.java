@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -80,7 +81,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Condition extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "ConditionClinicalStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -88,6 +91,7 @@ public class Condition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.0.0"
     )
     private final CodeableConcept clinicalStatus;
+    @Summary
     @Binding(
         bindingName = "ConditionVerificationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -109,6 +113,7 @@ public class Condition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/condition-severity"
     )
     private final CodeableConcept severity;
+    @Summary
     @Binding(
         bindingName = "ConditionKind",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -116,6 +121,7 @@ public class Condition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
     private final CodeableConcept code;
+    @Summary
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -123,15 +129,21 @@ public class Condition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final List<CodeableConcept> bodySite;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
     private final Element onset;
     @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
     private final Element abatement;
+    @Summary
     private final DateTime recordedDate;
+    @Summary
     private final Reference recorder;
+    @Summary
     private final Reference asserter;
     private final List<Stage> stage;
     private final List<Evidence> evidence;
@@ -1451,6 +1463,7 @@ public class Condition extends DomainResource {
      * confirmed or refuted the condition.
      */
     public static class Evidence extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "ManifestationOrSymptom",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1458,6 +1471,7 @@ public class Condition extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/manifestation-or-symptom"
         )
         private final List<CodeableConcept> code;
+        @Summary
         private final List<Reference> detail;
 
         private volatile int hashCode;

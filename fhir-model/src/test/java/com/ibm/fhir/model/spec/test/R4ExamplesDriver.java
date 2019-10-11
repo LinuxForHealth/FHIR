@@ -52,7 +52,17 @@ public class R4ExamplesDriver {
     Exception firstException = null;
 
     public static enum TestType {
-        ALL, MINIMAL, SPEC, IBM
+        ALL("ALL"), MINIMAL("MINIMAL"), SPEC("SPEC"), IBM("IBM");
+        
+        private String type; 
+        
+        TestType(String type){
+            this.type = type;
+        }
+        
+        public String getType() {
+            return type;
+        }
     }
 
     /**

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
@@ -36,15 +37,18 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Flag extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "FlagStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.0"
     )
+    @Required
     private final FlagStatus status;
+    @Summary
     @Binding(
         bindingName = "FlagCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -52,18 +56,23 @@ public class Flag extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/flag-category"
     )
     private final List<CodeableConcept> category;
-    @Required
+    @Summary
     @Binding(
         bindingName = "FlagCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Detail codes identifying specific flagged issues.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-code"
     )
+    @Required
     private final CodeableConcept code;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Period period;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final Reference author;
 
     private volatile int hashCode;

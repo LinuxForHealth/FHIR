@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -37,13 +38,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductPharmaceutical extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Required
     private final CodeableConcept administrableDoseForm;
+    @Summary
     private final CodeableConcept unitOfPresentation;
+    @Summary
     private final List<Reference> ingredient;
+    @Summary
     private final List<Reference> device;
+    @Summary
     private final List<Characteristics> characteristics;
+    @Summary
     @Required
     private final List<RouteOfAdministration> routeOfAdministration;
 
@@ -679,8 +687,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * Characteristics e.g. a products onset of action.
      */
     public static class Characteristics extends BackboneElement {
+        @Summary
         @Required
         private final CodeableConcept code;
+        @Summary
         private final CodeableConcept status;
 
         private volatile int hashCode;
@@ -946,13 +956,20 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * The path by which the pharmaceutical product is taken into or makes contact with the body.
      */
     public static class RouteOfAdministration extends BackboneElement {
+        @Summary
         @Required
         private final CodeableConcept code;
+        @Summary
         private final Quantity firstDose;
+        @Summary
         private final Quantity maxSingleDose;
+        @Summary
         private final Quantity maxDosePerDay;
+        @Summary
         private final Ratio maxDosePerTreatmentPeriod;
+        @Summary
         private final Duration maxTreatmentPeriod;
+        @Summary
         private final List<TargetSpecies> targetSpecies;
 
         private volatile int hashCode;
@@ -1407,8 +1424,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * A species for which this route applies.
          */
         public static class TargetSpecies extends BackboneElement {
+            @Summary
             @Required
             private final CodeableConcept code;
+            @Summary
             private final List<WithdrawalPeriod> withdrawalPeriod;
 
             private volatile int hashCode;
@@ -1693,10 +1712,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              * A species specific time during which consumption of animal product is not appropriate.
              */
             public static class WithdrawalPeriod extends BackboneElement {
+                @Summary
                 @Required
                 private final CodeableConcept tissue;
+                @Summary
                 @Required
                 private final Quantity value;
+                @Summary
                 private final String supportingInformation;
 
                 private volatile int hashCode;

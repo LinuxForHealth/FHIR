@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -29,6 +30,8 @@ import javax.websocket.MessageHandler;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
+import org.glassfish.tyrus.core.CloseReasons;
+
 import com.ibm.fhir.notification.FHIRNotificationEvent;
 import com.ibm.fhir.notification.util.FHIRNotificationUtil;
 
@@ -39,19 +42,13 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     private ConcurrentLinkedQueue<String> events = new ConcurrentLinkedQueue<>();
 
     private CountDownLatch latch = null;
-    private int limit = 1;
 
     public FHIRNotificationServiceClientEndpoint() {
-        this(1);
-    }
-
-    public FHIRNotificationServiceClientEndpoint(int limit) {
         latch = new CountDownLatch(1);
-        this.limit = limit;
     }
 
     public void onOpen(Session session, EndpointConfig config) {
-        
+
         System.out.println(">>> Session opened: " + session.getId());
         System.out.println(">>> Idle Timeout: " + session.getMaxIdleTimeout());
 
@@ -73,9 +70,7 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
                     // FHIRNotificationUtil.toNotificationEvent here could cost up to 10 seconds
                     // for each message during integration test of the CI pipeline.
                     events.add(text);
-                    if (events.size() >= limit) {
-                        close();
-                    }
+
                 } catch (IOException e1) {
                     System.out.println("IO Exception closing the readers");
                     e1.printStackTrace();
@@ -108,8 +103,21 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         latch.countDown();
     }
 
+    /**
+     * close
+     */
+    public void close() {
+        try {
+            // Forcing the close of the system.
+            initSession.close(CloseReasons.GOING_AWAY.getCloseReason());
+        } catch (IOException e) {
+            System.err.println(">>> Issue closing the session");
+            e.printStackTrace();
+        }
+    }
+
     public FHIRNotificationEvent getFirstEvent() {
-        
+
         if (!events.isEmpty()) {
             return FHIRNotificationUtil.toNotificationEvent(events.remove());
         }
@@ -118,10 +126,6 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
 
     public List<String> getEvents() {
         return events.stream().collect(Collectors.toList());
-    }
-
-    public int getLimit() {
-        return limit;
     }
 
     public CountDownLatch getLatch() {
@@ -137,7 +141,7 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
         System.out.println("");
 
         FHIRNotificationServiceClientEndpoint endpoint =
-                new FHIRNotificationServiceClientEndpoint(limit);
+                new FHIRNotificationServiceClientEndpoint();
 
         ClientEndpointConfig config =
                 ClientEndpointConfig.Builder.create().configurator(new Configurator() {
@@ -209,14 +213,29 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
     }
 
     /**
-     * close
+     * check for event.
+     * 
+     * @param eventId
+     * @return
      */
-    public void close() {
-        try {
-            initSession.close();
-        } catch (IOException e) {
-            System.err.println(">>> Issue closing the session");
-            e.printStackTrace();
+    public FHIRNotificationEvent checkForEvent(String eventId) {
+
+        System.out.println(" >>> event total - " + events.size());
+
+        Iterator<String> eventIter = events.iterator();
+        while (eventIter.hasNext()) {
+            String eventString = eventIter.next();
+
+            FHIRNotificationEvent event = FHIRNotificationUtil.toNotificationEvent(eventString);
+            System.out.println(" >>> event - " + event.getResourceId());
+
+            if (eventId.compareTo(event.getResourceId()) == 0) {
+                // Wipe out the current value if it matches (and is the first one)
+                eventIter.remove();
+                return event;
+            }
         }
+        return null;
     }
+
 }

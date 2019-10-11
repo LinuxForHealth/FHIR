@@ -20,11 +20,21 @@
         <classes>
             <class name="com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
+            
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchDateTest" />
+<!--
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchNumberTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchQuantityTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchReferenceTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchStringTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchTokenTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchURITest" />
+-->
         </classes>
     </test>
 </suite>
-        
-<!--             
+
+<!--
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryChainedParmTest" />
@@ -50,11 +60,4 @@
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryIncludeTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormSearchAllTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchDateTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchNumberTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchQuantityTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchReferenceTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchStringTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchTokenTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchURITest" />
- -->
+            -->

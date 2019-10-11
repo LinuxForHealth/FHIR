@@ -13,6 +13,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.ParameterUse;
@@ -25,26 +26,33 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ParameterDefinition extends Element {
+    @Summary
     private final Code name;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ParameterUse",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Whether the parameter is input or output.",
         valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.0"
     )
-    private final ParameterUse use;
-    private final Integer min;
-    private final String max;
-    private final String documentation;
     @Required
+    private final ParameterUse use;
+    @Summary
+    private final Integer min;
+    @Summary
+    private final String max;
+    @Summary
+    private final String documentation;
+    @Summary
     @Binding(
         bindingName = "FHIRAllTypes",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
         valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
     )
+    @Required
     private final FHIRAllTypes type;
+    @Summary
     private final Canonical profile;
 
     private volatile int hashCode;

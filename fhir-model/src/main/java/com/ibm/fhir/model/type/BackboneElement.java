@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.util.ValidationSupport;
 
 /**
@@ -20,6 +21,7 @@ import com.ibm.fhir.model.util.ValidationSupport;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public abstract class BackboneElement extends Element {
+    @Summary
     protected final List<Extension> modifierExtension;
 
     protected BackboneElement(Builder builder) {

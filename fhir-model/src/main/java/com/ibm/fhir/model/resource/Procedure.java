@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -46,19 +47,26 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Procedure extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ProcedureStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the procedure.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
     )
+    @Required
     private final ProcedureStatus status;
+    @Summary
     @Binding(
         bindingName = "ProcedureNegationReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -66,6 +74,7 @@ public class Procedure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-not-performed-reason"
     )
     private final CodeableConcept statusReason;
+    @Summary
     @Binding(
         bindingName = "ProcedureCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -73,6 +82,7 @@ public class Procedure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-category"
     )
     private final CodeableConcept category;
+    @Summary
     @Binding(
         bindingName = "ProcedureCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -80,15 +90,23 @@ public class Procedure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
     private final CodeableConcept code;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class, String.class, Age.class, Range.class })
     private final Element performed;
+    @Summary
     private final Reference recorder;
+    @Summary
     private final Reference asserter;
+    @Summary
     private final List<Performer> performer;
+    @Summary
     private final Reference location;
+    @Summary
     @Binding(
         bindingName = "ProcedureReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -96,7 +114,9 @@ public class Procedure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
+    @Summary
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -104,6 +124,7 @@ public class Procedure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final List<CodeableConcept> bodySite;
+    @Summary
     @Binding(
         bindingName = "ProcedureOutcome",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1701,6 +1722,7 @@ public class Procedure extends DomainResource {
      * Limited to "real" people rather than equipment.
      */
     public static class Performer extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "ProcedurePerformerRole",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1708,6 +1730,7 @@ public class Procedure extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
         )
         private final CodeableConcept function;
+        @Summary
         @Required
         private final Reference actor;
         private final Reference onBehalfOf;

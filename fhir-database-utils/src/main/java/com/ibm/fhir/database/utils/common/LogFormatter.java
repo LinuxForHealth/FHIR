@@ -26,11 +26,6 @@ import java.util.logging.Logger;
  *
  */
 public class LogFormatter extends Formatter {
-    /**
-     * Copyright Add or Change the 2nd year when the source has changed more
-     * than 5% for example (C) COPYRIGHT 2005, 2007
-     */
-    static final String COPYRIGHT = "(C) Copyright IBM Corp. 2015 All Rights Reserved"; //$NON-NLS-1$
 
     private static final String ISO_TIME = "yyyy-MM-dd HH:mm:ss.SSS";
     /**

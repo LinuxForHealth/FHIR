@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -38,8 +39,11 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class BodyStructure extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     @Binding(
         bindingName = "BodyStructureCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -47,6 +51,7 @@ public class BodyStructure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/bodystructure-code"
     )
     private final CodeableConcept morphology;
+    @Summary
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -61,8 +66,10 @@ public class BodyStructure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/bodystructure-relative-location"
     )
     private final List<CodeableConcept> locationQualifier;
+    @Summary
     private final String description;
     private final List<Attachment> image;
+    @Summary
     @Required
     private final Reference patient;
 

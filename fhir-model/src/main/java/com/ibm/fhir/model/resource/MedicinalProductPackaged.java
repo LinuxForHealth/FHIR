@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -38,14 +39,23 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductPackaged extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Reference> subject;
+    @Summary
     private final String description;
+    @Summary
     private final CodeableConcept legalStatusOfSupply;
+    @Summary
     private final List<MarketingStatus> marketingStatus;
+    @Summary
     private final Reference marketingAuthorization;
+    @Summary
     private final List<Reference> manufacturer;
+    @Summary
     private final List<BatchIdentifier> batchIdentifier;
+    @Summary
     @Required
     private final List<PackageItem> packageItem;
 
@@ -760,8 +770,10 @@ public class MedicinalProductPackaged extends DomainResource {
      * Batch numbering.
      */
     public static class BatchIdentifier extends BackboneElement {
+        @Summary
         @Required
         private final Identifier outerPackaging;
+        @Summary
         private final Identifier immediatePackaging;
 
         private volatile int hashCode;
@@ -1027,19 +1039,31 @@ public class MedicinalProductPackaged extends DomainResource {
      * A packaging item, as a contained for medicine, possibly with other packaging items within.
      */
     public static class PackageItem extends BackboneElement {
+        @Summary
         private final List<Identifier> identifier;
+        @Summary
         @Required
         private final CodeableConcept type;
+        @Summary
         @Required
         private final Quantity quantity;
+        @Summary
         private final List<CodeableConcept> material;
+        @Summary
         private final List<CodeableConcept> alternateMaterial;
+        @Summary
         private final List<Reference> device;
+        @Summary
         private final List<Reference> manufacturedItem;
+        @Summary
         private final List<MedicinalProductPackaged.PackageItem> packageItem;
+        @Summary
         private final ProdCharacteristic physicalCharacteristics;
+        @Summary
         private final List<CodeableConcept> otherCharacteristics;
+        @Summary
         private final List<ProductShelfLife> shelfLifeStorage;
+        @Summary
         private final List<Reference> manufacturer;
 
         private volatile int hashCode;

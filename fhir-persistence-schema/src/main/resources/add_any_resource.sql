@@ -22,7 +22,7 @@
 -- p_write_rep_log: flag indicating if a row should be written to the replication log table
 -- o_resource_id: output field returning the newly assigned resource_id value
 -- ----------------------------------------------------------------------------
-    ( IN p_resource_type                 VARCHAR( 32 OCTETS),
+    ( IN p_resource_type                 VARCHAR( 36 OCTETS),
       IN p_logical_id                    VARCHAR(255 OCTETS), 
       IN p_payload                          BLOB(2147483647),
       IN p_last_updated                TIMESTAMP,

@@ -38,6 +38,7 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.path.FHIRPathNode;
+import com.ibm.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Id;
@@ -64,12 +65,12 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
-import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuilder;
+import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
+import com.ibm.fhir.persistence.jdbc.util.QueryBuilderUtil;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
-import com.ibm.fhir.persistence.util.Processor;
 import com.ibm.fhir.replication.api.util.ReplicationUtil;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -828,7 +829,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         String expression;
         
         List<Parameter> allParameters = new ArrayList<>();
-        Processor<List<Parameter>> processor = new JDBCParameterBuilder();
         
         try {
             map = SearchUtil.extractParameterValues(fhirResource);
@@ -843,10 +843,17 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                     log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", expression: " + expression);
                 }
                 
+                JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(code);
+                
                 List<FHIRPathNode> values = entry.getValue();
-                for (Object value : values) {
-                    List<Parameter> parameters = processor.process(entry.getKey(), value);
-                    for (Parameter p : parameters) {
+                
+                for (FHIRPathNode value : values) {
+                    if (value.isElementNode()) {
+                        // parameterBuilder aggregates the results for later retrieval
+                        value.asElementNode().element().accept(parameterBuilder);
+                    } else if (value.isPrimitiveValue()){
+                        Parameter p = processPrimitiveValue(value.asPrimitiveValue());
+                        p.setName(code);
                         p.setType(Type.fromValue(type));
                         p.setResourceId(resourceDTO.getId());
                         p.setResourceType(fhirResource.getClass().getSimpleName());
@@ -854,6 +861,24 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                         if (log.isLoggable(Level.FINE)) {
                             log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                         }
+                    } else {
+                        // log and continue
+                        if (log.isLoggable(Level.FINE)) {
+                            log.fine("Unable to extract value from " + value.path() +
+                                    "; search parameter value extraction can only be performed on Elements and primitive values.");
+                        }
+                        continue;
+                    }
+                }
+                // retrieve the list of parameters built from all the FHIRPathElementNode values 
+                List<Parameter> parameters = parameterBuilder.getResult();
+                for (Parameter p : parameters) {
+                    p.setType(Type.fromValue(type));
+                    p.setResourceId(resourceDTO.getId());
+                    p.setResourceType(fhirResource.getClass().getSimpleName());
+                    allParameters.add(p);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                     }
                 }
             }
@@ -862,6 +887,31 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             log.exiting(CLASSNAME, METHODNAME);
         }
         return allParameters;
+    }
+
+    /**
+     * Create a Parameter DTO from the primitive value.
+     * Note: this method only sets the value; 
+     * caller is responsible for setting all other fields on the created Parameter.
+     */
+    private Parameter processPrimitiveValue(FHIRPathPrimitiveValue primitiveValue) {
+        Parameter p = new Parameter();
+        if (primitiveValue.isBooleanValue()) {
+            if (primitiveValue.asBooleanValue()._boolean()) {
+                p.setValueCode("true");
+            } else {
+                p.setValueCode("false");
+            }
+        } else if (primitiveValue.isDateTimeValue()) {
+            p.setValueDate(Timestamp.from(QueryBuilderUtil.getInstantFromPartial(primitiveValue.asDateTimeValue().dateTime())));
+        } else if (primitiveValue.isStringValue()) {
+            p.setValueString(primitiveValue.asStringValue().string());
+        } else if (primitiveValue.isTimeValue()) {
+            p.setValueDate(Timestamp.from(QueryBuilderUtil.getInstantFromPartial(primitiveValue.asTimeValue().time())));
+        } else if (primitiveValue.isNumberValue()) {
+            p.setValueNumber(primitiveValue.asNumberValue().decimal());
+        }
+        return p;
     }
 
 }

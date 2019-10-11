@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.util.ValidationSupport;
+import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A string that may contain Github Flavored Markdown syntax for optional processing by a mark down presentation engine
@@ -39,6 +40,21 @@ public class Markdown extends String {
 
     public static String string(java.lang.String value) {
         return Markdown.builder().value(value).build();
+    }
+
+    @Override
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+        if (visitor.preVisit(this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
+                // visit children
+                accept(id, "id", visitor);
+                accept(extension, "extension", visitor, Extension.class);
+                accept(value, "value", visitor);
+            }
+            visitor.visitEnd(elementName, elementIndex, this);
+            visitor.postVisit(this);
+        }
     }
 
     @Override

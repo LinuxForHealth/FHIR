@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -68,27 +69,38 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SearchParameter extends DomainResource {
+    @Summary
     @Required
     private final Uri url;
+    @Summary
     private final String version;
+    @Summary
     @Required
     private final String name;
     private final Canonical derivedFrom;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     @Required
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -97,23 +109,26 @@ public class SearchParameter extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
+    @Summary
     @Required
     private final Code code;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ResourceType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
     )
-    private final List<ResourceType> base;
     @Required
+    private final List<ResourceType> base;
+    @Summary
     @Binding(
         bindingName = "SearchParamType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Data types allowed to be used for search parameters.",
         valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.0"
     )
+    @Required
     private final SearchParamType type;
     private final String expression;
     private final String xpath;

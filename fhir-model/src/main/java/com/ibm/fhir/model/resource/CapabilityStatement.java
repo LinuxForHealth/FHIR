@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -131,25 +132,36 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CapabilityStatement extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     @Required
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -159,34 +171,42 @@ public class CapabilityStatement extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
-    @Required
+    @Summary
     @Binding(
         bindingName = "CapabilityStatementKind",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "How a capability statement is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.0"
     )
-    private final CapabilityStatementKind kind;
-    private final List<Canonical> instantiates;
-    private final List<Canonical> imports;
-    private final Software software;
-    private final Implementation implementation;
     @Required
+    private final CapabilityStatementKind kind;
+    @Summary
+    private final List<Canonical> instantiates;
+    @Summary
+    private final List<Canonical> imports;
+    @Summary
+    private final Software software;
+    @Summary
+    private final Implementation implementation;
+    @Summary
     @Binding(
         bindingName = "FHIRVersion",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "All published FHIR Versions.",
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
     )
-    private final FHIRVersion fhirVersion;
     @Required
+    private final FHIRVersion fhirVersion;
+    @Summary
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
+    @Required
     private final List<Code> format;
+    @Summary
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -194,9 +214,13 @@ public class CapabilityStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
     private final List<Code> patchFormat;
+    @Summary
     private final List<Canonical> implementationGuide;
+    @Summary
     private final List<Rest> rest;
+    @Summary
     private final List<Messaging> messaging;
+    @Summary
     private final List<Document> document;
 
     private volatile int hashCode;
@@ -1604,9 +1628,12 @@ public class CapabilityStatement extends DomainResource {
      * capabilities of a particular software version, independent of an installation.
      */
     public static class Software extends BackboneElement {
+        @Summary
         @Required
         private final String name;
+        @Summary
         private final String version;
+        @Summary
         private final DateTime releaseDate;
 
         private volatile int hashCode;
@@ -1904,9 +1931,12 @@ public class CapabilityStatement extends DomainResource {
      * installation, rather than the capabilities of a software program.
      */
     public static class Implementation extends BackboneElement {
+        @Summary
         @Required
         private final String description;
+        @Summary
         private final Url url;
+        @Summary
         private final Reference custodian;
 
         private volatile int hashCode;
@@ -2207,19 +2237,23 @@ public class CapabilityStatement extends DomainResource {
      * A definition of the restful capabilities of the solution, if any.
      */
     public static class Rest extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "RestfulCapabilityMode",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The mode of a RESTful capability statement.",
             valueSet = "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.0.0"
         )
+        @Required
         private final RestfulCapabilityMode mode;
         private final Markdown documentation;
+        @Summary
         private final Security security;
+        @Summary
         private final List<Resource> resource;
         private final List<Interaction> interaction;
         private final List<CapabilityStatement.Rest.Resource.SearchParam> searchParam;
+        @Summary
         private final List<CapabilityStatement.Rest.Resource.Operation> operation;
         private final List<Canonical> compartment;
 
@@ -2777,7 +2811,9 @@ public class CapabilityStatement extends DomainResource {
          * Information about security implementation from an interface perspective - what a client needs to know.
          */
         public static class Security extends BackboneElement {
+            @Summary
             private final Boolean cors;
+            @Summary
             @Binding(
                 bindingName = "RestfulSecurityService",
                 strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -3094,15 +3130,18 @@ public class CapabilityStatement extends DomainResource {
          * A specification of the restful capabilities of the solution for a specific resource type.
          */
         public static class Resource extends BackboneElement {
-            @Required
+            @Summary
             @Binding(
                 bindingName = "ResourceType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
             )
+            @Required
             private final ResourceType type;
+            @Summary
             private final Canonical profile;
+            @Summary
             private final List<Canonical> supportedProfile;
             private final Markdown documentation;
             private final List<Interaction> interaction;
@@ -3141,6 +3180,7 @@ public class CapabilityStatement extends DomainResource {
             private final List<String> searchInclude;
             private final List<String> searchRevInclude;
             private final List<SearchParam> searchParam;
+            @Summary
             private final List<Operation> operation;
 
             private volatile int hashCode;
@@ -4042,13 +4082,13 @@ public class CapabilityStatement extends DomainResource {
              * Identifies a restful operation supported by the solution.
              */
             public static class Interaction extends BackboneElement {
-                @Required
                 @Binding(
                     bindingName = "TypeRestfulInteraction",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Operations supported by REST at the type or instance level.",
                     valueSet = "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.0.0"
                 )
+                @Required
                 private final TypeRestfulInteraction code;
                 private final Markdown documentation;
 
@@ -4321,13 +4361,13 @@ public class CapabilityStatement extends DomainResource {
                 @Required
                 private final String name;
                 private final Canonical definition;
-                @Required
                 @Binding(
                     bindingName = "SearchParamType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Data types allowed to be used for search parameters.",
                     valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.0"
                 )
+                @Required
                 private final SearchParamType type;
                 private final Markdown documentation;
 
@@ -4668,8 +4708,10 @@ public class CapabilityStatement extends DomainResource {
              * definition of the operation for details about how to invoke the operation, and the parameters.
              */
             public static class Operation extends BackboneElement {
+                @Summary
                 @Required
                 private final String name;
+                @Summary
                 @Required
                 private final Canonical definition;
                 private final Markdown documentation;
@@ -4984,13 +5026,13 @@ public class CapabilityStatement extends DomainResource {
          * A specification of restful operations supported by the system.
          */
         public static class Interaction extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "SystemRestfulInteraction",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Operations supported by REST at the system level.",
                 valueSet = "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.0.0"
             )
+            @Required
             private final SystemRestfulInteraction code;
             private final Markdown documentation;
 
@@ -5263,6 +5305,7 @@ public class CapabilityStatement extends DomainResource {
         private final List<Endpoint> endpoint;
         private final UnsignedInt reliableCache;
         private final Markdown documentation;
+        @Summary
         private final List<SupportedMessage> supportedMessage;
 
         private volatile int hashCode;
@@ -5626,13 +5669,13 @@ public class CapabilityStatement extends DomainResource {
          * An endpoint (network accessible address) to which messages and/or replies are to be sent.
          */
         public static class Endpoint extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "MessageTransport",
                 strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "The protocol used for message transport.",
                 valueSet = "http://hl7.org/fhir/ValueSet/message-transport"
             )
+            @Required
             private final Coding protocol;
             @Required
             private final Url address;
@@ -5905,14 +5948,16 @@ public class CapabilityStatement extends DomainResource {
          * References to message definitions for messages this system can send or receive.
          */
         public static class SupportedMessage extends BackboneElement {
-            @Required
+            @Summary
             @Binding(
                 bindingName = "EventCapabilityMode",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The mode of a message capability statement.",
                 valueSet = "http://hl7.org/fhir/ValueSet/event-capability-mode|4.0.0"
             )
+            @Required
             private final EventCapabilityMode mode;
+            @Summary
             @Required
             private final Canonical definition;
 
@@ -6183,15 +6228,17 @@ public class CapabilityStatement extends DomainResource {
      * A document definition.
      */
     public static class Document extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "DocumentMode",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Whether the application produces or consumes documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-mode|4.0.0"
         )
+        @Required
         private final DocumentMode mode;
         private final Markdown documentation;
+        @Summary
         @Required
         private final Canonical profile;
 

@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -53,21 +54,23 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClaimResponse extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ClaimResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
-    private final ClaimResponseStatus status;
     @Required
+    private final ClaimResponseStatus status;
+    @Summary
     @Binding(
         bindingName = "ClaimType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The type or discipline-style of the claim.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-type"
     )
+    @Required
     private final CodeableConcept type;
     @Binding(
         bindingName = "ClaimSubType",
@@ -76,29 +79,35 @@ public class ClaimResponse extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/claim-subtype"
     )
     private final CodeableConcept subType;
-    @Required
+    @Summary
     @Binding(
         bindingName = "Use",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Claim, preauthorization, predetermination.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.0"
     )
+    @Required
     private final Use use;
+    @Summary
     @Required
     private final Reference patient;
+    @Summary
     @Required
     private final DateTime created;
+    @Summary
     @Required
     private final Reference insurer;
     private final Reference requestor;
+    @Summary
     private final Reference request;
-    @Required
+    @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The result of the claim processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
     )
+    @Required
     private final RemittanceOutcome outcome;
     private final String disposition;
     private final String preAuthRef;
@@ -113,6 +122,7 @@ public class ClaimResponse extends DomainResource {
     private final List<Item> item;
     private final List<AddItem> addItem;
     private final List<ClaimResponse.Item.Adjudication> adjudication;
+    @Summary
     private final List<Total> total;
     private final Payment payment;
     @Binding(
@@ -1896,13 +1906,13 @@ public class ClaimResponse extends DomainResource {
          * simple product or service then this is the result of the adjudication of this item.
          */
         public static class Adjudication extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "Adjudication",
                 strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "The adjudication codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
             )
+            @Required
             private final CodeableConcept category;
             @Binding(
                 bindingName = "AdjudicationReason",
@@ -2984,13 +2994,13 @@ public class ClaimResponse extends DomainResource {
         private final List<PositiveInt> detailSequence;
         private final List<PositiveInt> subdetailSequence;
         private final List<Reference> provider;
-        @Required
         @Binding(
             bindingName = "ServiceProduct",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Allowable service and product codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
         )
+        @Required
         private final CodeableConcept productOrService;
         @Binding(
             bindingName = "Modifiers",
@@ -4021,13 +4031,13 @@ public class ClaimResponse extends DomainResource {
          * The second-tier service adjudications for payor added services.
          */
         public static class Detail extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ServiceProduct",
                 strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Allowable service and product codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
             )
+            @Required
             private final CodeableConcept productOrService;
             @Binding(
                 bindingName = "Modifiers",
@@ -4615,13 +4625,13 @@ public class ClaimResponse extends DomainResource {
              * The third-tier service adjudications for payor added services.
              */
             public static class SubDetail extends BackboneElement {
-                @Required
                 @Binding(
                     bindingName = "ServiceProduct",
                     strength = BindingStrength.ValueSet.EXAMPLE,
                     description = "Allowable service and product codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
                 )
+                @Required
                 private final CodeableConcept productOrService;
                 @Binding(
                     bindingName = "Modifiers",
@@ -5160,14 +5170,16 @@ public class ClaimResponse extends DomainResource {
      * Categorized monetary totals for the adjudication.
      */
     public static class Total extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "Adjudication",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The adjudication codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
         )
+        @Required
         private final CodeableConcept category;
+        @Summary
         @Required
         private final Money amount;
 
@@ -5441,13 +5453,13 @@ public class ClaimResponse extends DomainResource {
      * Payment details for the adjudication of the claim.
      */
     public static class Payment extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "PaymentType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The type (partial, complete) of the payment.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-paymenttype"
         )
+        @Required
         private final CodeableConcept type;
         private final Money adjustment;
         @Binding(
@@ -6576,13 +6588,13 @@ public class ClaimResponse extends DomainResource {
         private final PositiveInt itemSequence;
         private final PositiveInt detailSequence;
         private final PositiveInt subDetailSequence;
-        @Required
         @Binding(
             bindingName = "AdjudicationError",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The adjudication error codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication-error"
         )
+        @Required
         private final CodeableConcept code;
 
         private volatile int hashCode;

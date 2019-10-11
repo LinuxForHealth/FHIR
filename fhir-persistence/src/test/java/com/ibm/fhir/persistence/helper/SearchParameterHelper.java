@@ -42,7 +42,14 @@ public class SearchParameterHelper {
         List<ResourceType> base = new ArrayList<>();
         base.add(ResourceType.PATIENT);
 
-        return SearchParameter.builder().url(Uri.of(dummyUri)).name(string(name)).status(PublicationStatus.ACTIVE).description(Markdown.of(description)).code(Code.of(code)).base(base).type(SearchParamType.STRING).build();
+        return SearchParameter.builder()
+                              .url(Uri.of(dummyUri)).name(string(name))
+                              .status(PublicationStatus.ACTIVE)
+                              .description(Markdown.of(description))
+                              .code(Code.of(code))
+                              .base(base)
+                              .type(SearchParamType.STRING)
+                              .build();
 
     }
 
