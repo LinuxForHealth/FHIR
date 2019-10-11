@@ -13,6 +13,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -23,19 +24,26 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RelatedArtifact extends Element {
-    @Required
+    @Summary
     @Binding(
         bindingName = "RelatedArtifactType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of relationship to the related artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.0.0"
     )
+    @Required
     private final RelatedArtifactType type;
+    @Summary
     private final String label;
+    @Summary
     private final String display;
+    @Summary
     private final Markdown citation;
+    @Summary
     private final Url url;
+    @Summary
     private final Attachment document;
+    @Summary
     private final Canonical resource;
 
     private volatile int hashCode;

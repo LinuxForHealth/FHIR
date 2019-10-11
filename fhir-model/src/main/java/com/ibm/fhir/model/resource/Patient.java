@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -57,10 +58,15 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Patient extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     private final List<HumanName> name;
+    @Summary
     private final List<ContactPoint> telecom;
+    @Summary
     @Binding(
         bindingName = "AdministrativeGender",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -68,9 +74,12 @@ public class Patient extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
     )
     private final AdministrativeGender gender;
+    @Summary
     private final Date birthDate;
+    @Summary
     @Choice({ Boolean.class, DateTime.class })
     private final Element deceased;
+    @Summary
     private final List<Address> address;
     @Binding(
         bindingName = "MaritalStatus",
@@ -85,7 +94,9 @@ public class Patient extends DomainResource {
     private final List<Contact> contact;
     private final List<Communication> communication;
     private final List<Reference> generalPractitioner;
+    @Summary
     private final Reference managingOrganization;
+    @Summary
     private final List<Link> link;
 
     private volatile int hashCode;
@@ -1566,7 +1577,6 @@ public class Patient extends DomainResource {
      * A language which may be used to communicate with the patient about his or her health.
      */
     public static class Communication extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.ValueSet.PREFERRED,
@@ -1574,6 +1584,7 @@ public class Patient extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )
+        @Required
         private final CodeableConcept language;
         private final Boolean preferred;
 
@@ -1844,15 +1855,17 @@ public class Patient extends DomainResource {
      * Link to another patient resource that concerns the same actual patient.
      */
     public static class Link extends BackboneElement {
+        @Summary
         @Required
         private final Reference other;
-        @Required
+        @Summary
         @Binding(
             bindingName = "LinkType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of link between this patient resource and another patient resource.",
             valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.0.0"
         )
+        @Required
         private final LinkType type;
 
         private volatile int hashCode;

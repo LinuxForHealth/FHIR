@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.ContactPoint;
@@ -41,21 +42,28 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Subscription extends DomainResource {
-    @Required
+    @Summary
     @Binding(
         bindingName = "SubscriptionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of a subscription.",
         valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.0"
     )
+    @Required
     private final SubscriptionStatus status;
+    @Summary
     private final List<ContactPoint> contact;
+    @Summary
     private final Instant end;
+    @Summary
     @Required
     private final String reason;
+    @Summary
     @Required
     private final String criteria;
+    @Summary
     private final String error;
+    @Summary
     @Required
     private final Channel channel;
 
@@ -618,15 +626,18 @@ public class Subscription extends DomainResource {
      * Details where to send notifications when resources are received that meet the criteria.
      */
     public static class Channel extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "SubscriptionChannelType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of method used to execute a subscription.",
             valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.0"
         )
+        @Required
         private final SubscriptionChannelType type;
+        @Summary
         private final Url endpoint;
+        @Summary
         @Binding(
             bindingName = "MimeType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -634,6 +645,7 @@ public class Subscription extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
         )
         private final Code payload;
+        @Summary
         private final List<String> header;
 
         private volatile int hashCode;

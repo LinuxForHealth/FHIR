@@ -83,7 +83,7 @@ import com.ibm.fhir.persistence.util.AbstractProcessor;
 /**
  * This class is the JDBC persistence layer implementation for transforming SearchParameters into Parameter DTOs for
  * persistence.
- * 
+ *
  * @author markd
  *
  */
@@ -101,7 +101,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 23:59:59.999999");
 
     private FHIRPersistenceProcessorException buildCodeOnlyNewException(SearchParameter parameter, Exception e) {
-        // Issue 202: changed to Code
+        // this used to use "SearchParameter.name" but now properly uses "SearchParameter.code"
         return new FHIRPersistenceProcessorException(String.format(EXCEPTION_MSG_NAME_ONLY, parameter.getCode().getValue()), e);
     }
 
@@ -500,7 +500,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             log.exiting(CLASSNAME, methodName);
         }
     }
-    
+
     @Override
     public List<Parameter> process(SearchParameter parameter, com.ibm.fhir.model.type.Boolean value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,com.ibm.fhir.model.type.Boolean)";
@@ -592,8 +592,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
                 telecom.setName(parameter.getCode().getValue());
                 telecom.setValueCode(value.getValue().getValue());
                 if (value.getSystem() != null && value.getSystem().getValue() != null) {
-                    // <pre> according to spec, this should be "http://hl7.org/fhir/contact-point-system/" +
-                    // ContactPoint.use</pre>
+                    // according to spec, this should be
+                    // "http://hl7.org/fhir/contact-point-system/" + ContactPoint.use
                     telecom.setValueSystem(value.getSystem().getValue());
                 }
                 parameters.add(telecom);
@@ -639,7 +639,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     /**
      * Configure the date values in the parameter based on the model {@link DateTime} and the type of date it
      * represents.
-     * 
+     *
      * @param p
      * @param instant
      */
@@ -656,28 +656,28 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     }
 
     /**
-     * Set the date values on the {@link Parameter}, adjusting the end time slightly to make it exclusive
-     * 
+     * Set the date values on the {@link Parameter}, adjusting the end time slightly to make it exclusive (which is a TODO to fix).
+     *
      * @param p
      * @param start
      * @param end
      */
     private void setDateValues(Parameter p, java.time.Instant start, java.time.Instant end) {
-        // TODO: (which is a * TODO to fix).
         Timestamp startTime = Timestamp.from(start);
         p.setValueDateStart(startTime);
         p.setValueDate(startTime);
         p.setTimeType(TimeType.UNKNOWN);
 
         Timestamp implicitEndExclusive = Timestamp.from(end);
-        Timestamp implicitEndInclusive = convertToExlusiveEnd(implicitEndExclusive);
+        // TODO: Is it possible to avoid this by using <= or BETWEEN instead of < when constructing the query?
+        Timestamp implicitEndInclusive = convertToInclusiveEnd(implicitEndExclusive);
         p.setValueDateEnd(implicitEndInclusive);
     }
 
     /**
      * Configure the date values in the parameter based on the model {@link Date} which again might be partial
      * (Year/YearMonth/LocalDate)
-     * 
+     *
      * @param p
      * @param date
      */
@@ -689,15 +689,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
     /**
      * Convert a period's end timestamp from an exclusive end timestamp to an inclusive one
-     * 
+     *
      * @param exlusiveEndTime
      * @return inclusiveEndTime
      */
-    private Timestamp convertToExlusiveEnd(Timestamp exlusiveEndTime) {
-        // Our current db2 normalized schema uses the db2 default of 6 decimal places (1000 nanoseconds) for fractional
-        // seconds.
-        // TODO: Derby too. This is pretty ugly so it's a action to use < instead of <= or BETWEEN when constructing the
-        // query.
+    private Timestamp convertToInclusiveEnd(Timestamp exlusiveEndTime) {
+        // Our current schema uses the db2/derby default of 6 decimal places (1000 nanoseconds) for fractional seconds.
         return Timestamp.from(exlusiveEndTime.toInstant().minusNanos(1000));
     }
 
@@ -764,7 +761,6 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             if (value.getText() != null) {
                 p = new Parameter();
-                p = new Parameter();
                 p.setName(paramname);
                 p.setValueString(value.getText().getValue());
 
@@ -772,7 +768,6 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             }
 
             if (value.getUse() != null) {
-                p = new Parameter();
                 p = new Parameter();
                 p.setName(paramname);
                 p.setValueString(value.getUse().getValue());
@@ -891,7 +886,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     /**
      *
      * Parameter Name = postition Value = System|code = Longitude|Latitude
-     * 
+     *
      * @throws FHIRPersistenceProcessorException
      */
     @Override

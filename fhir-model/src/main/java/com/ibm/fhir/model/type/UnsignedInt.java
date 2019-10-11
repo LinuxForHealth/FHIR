@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.util.ValidationSupport;
+import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An integer with a value that is not negative (e.g. &gt;= 0)
@@ -48,6 +49,21 @@ public class UnsignedInt extends Integer {
 
     public static Integer integer(java.lang.String value) {
         return UnsignedInt.builder().value(value).build();
+    }
+
+    @Override
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+        if (visitor.preVisit(this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
+                // visit children
+                accept(id, "id", visitor);
+                accept(extension, "extension", visitor, Extension.class);
+                accept(value, "value", visitor);
+            }
+            visitor.visitEnd(elementName, elementIndex, this);
+            visitor.postVisit(this);
+        }
     }
 
     @Override

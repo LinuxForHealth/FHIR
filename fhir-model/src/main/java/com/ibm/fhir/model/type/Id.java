@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.util.ValidationSupport;
+import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Any combination of letters, numerals, "-" and ".", with a length limit of 64 characters. (This might be an integer, an 
@@ -40,6 +41,21 @@ public class Id extends String {
 
     public static String string(java.lang.String value) {
         return Id.builder().value(value).build();
+    }
+
+    @Override
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+        if (visitor.preVisit(this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
+                // visit children
+                accept(id, "id", visitor);
+                accept(extension, "extension", visitor, Extension.class);
+                accept(value, "value", visitor);
+            }
+            visitor.visitEnd(elementName, elementIndex, this);
+            visitor.postVisit(this);
+        }
     }
 
     @Override

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -41,33 +42,41 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Endpoint extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "EndpointStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the endpoint.",
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.0.0"
     )
-    private final EndpointStatus status;
     @Required
+    private final EndpointStatus status;
+    @Summary
     @Binding(
         bindingName = "endpoint-contype",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-connection-type"
     )
+    @Required
     private final Coding connectionType;
+    @Summary
     private final String name;
+    @Summary
     private final Reference managingOrganization;
     private final List<ContactPoint> contact;
+    @Summary
     private final Period period;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PayloadType",
         strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-payload-type"
     )
+    @Required
     private final List<CodeableConcept> payloadType;
+    @Summary
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -75,6 +84,7 @@ public class Endpoint extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
     private final List<Code> payloadMimeType;
+    @Summary
     @Required
     private final Url address;
     private final List<String> header;

@@ -13,6 +13,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -29,6 +30,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Attachment extends Element {
+    @Summary
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -36,6 +38,7 @@ public class Attachment extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
     private final Code contentType;
+    @Summary
     @Binding(
         bindingName = "Language",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -45,10 +48,15 @@ public class Attachment extends Element {
     )
     private final Code language;
     private final Base64Binary data;
+    @Summary
     private final Url url;
+    @Summary
     private final UnsignedInt size;
+    @Summary
     private final Base64Binary hash;
+    @Summary
     private final String title;
+    @Summary
     private final DateTime creation;
 
     private volatile int hashCode;

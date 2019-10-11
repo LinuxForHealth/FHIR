@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -101,25 +102,37 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ValueSet extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -127,6 +140,7 @@ public class ValueSet extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
     private final List<CodeableConcept> jurisdiction;
+    @Summary
     private final Boolean immutable;
     private final Markdown purpose;
     private final Markdown copyright;
@@ -1121,8 +1135,11 @@ public class ValueSet extends DomainResource {
      * specified code system(s) that the value set draws from. This is also known as the Content Logical Definition (CLD).
      */
     public static class Compose extends BackboneElement {
+        @Summary
         private final Date lockedDate;
+        @Summary
         private final Boolean inactive;
+        @Summary
         @Required
         private final List<Include> include;
         private final List<ValueSet.Compose.Include> exclude;
@@ -1501,10 +1518,14 @@ public class ValueSet extends DomainResource {
          * Include one or more codes from a code system or other value set(s).
          */
         public static class Include extends BackboneElement {
+            @Summary
             private final Uri system;
+            @Summary
             private final String version;
             private final List<Concept> concept;
+            @Summary
             private final List<Filter> filter;
+            @Summary
             private final List<Canonical> valueSet;
 
             private volatile int hashCode;
@@ -2562,16 +2583,19 @@ public class ValueSet extends DomainResource {
              * system, or on filters defined by the system. If multiple filters are specified, they SHALL all be true.
              */
             public static class Filter extends BackboneElement {
+                @Summary
                 @Required
                 private final Code property;
-                @Required
+                @Summary
                 @Binding(
                     bindingName = "FilterOperator",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The kind of operation to perform as a part of a property based filter.",
                     valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
                 )
+                @Required
                 private final FilterOperator op;
+                @Summary
                 @Required
                 private final String value;
 

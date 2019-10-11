@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -37,10 +38,15 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceReferenceInformation extends DomainResource {
+    @Summary
     private final String comment;
+    @Summary
     private final List<Gene> gene;
+    @Summary
     private final List<GeneElement> geneElement;
+    @Summary
     private final List<Classification> classification;
+    @Summary
     private final List<Target> target;
 
     private volatile int hashCode;
@@ -581,8 +587,11 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      */
     public static class Gene extends BackboneElement {
+        @Summary
         private final CodeableConcept geneSequenceOrigin;
+        @Summary
         private final CodeableConcept gene;
+        @Summary
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -892,8 +901,11 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      */
     public static class GeneElement extends BackboneElement {
+        @Summary
         private final CodeableConcept type;
+        @Summary
         private final Identifier element;
+        @Summary
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -1203,9 +1215,13 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      */
     public static class Classification extends BackboneElement {
+        @Summary
         private final CodeableConcept domain;
+        @Summary
         private final CodeableConcept classification;
+        @Summary
         private final List<CodeableConcept> subtype;
+        @Summary
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -1566,14 +1582,22 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      */
     public static class Target extends BackboneElement {
+        @Summary
         private final Identifier target;
+        @Summary
         private final CodeableConcept type;
+        @Summary
         private final CodeableConcept interaction;
+        @Summary
         private final CodeableConcept organism;
+        @Summary
         private final CodeableConcept organismType;
+        @Summary
         @Choice({ Quantity.class, Range.class, String.class })
         private final Element amount;
+        @Summary
         private final CodeableConcept amountType;
+        @Summary
         private final List<Reference> source;
 
         private volatile int hashCode;

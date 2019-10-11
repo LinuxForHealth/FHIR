@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
@@ -35,6 +36,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EnrollmentRequest extends DomainResource {
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "EnrollmentRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -36,12 +37,18 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductIngredient extends DomainResource {
+    @Summary
     private final Identifier identifier;
+    @Summary
     @Required
     private final CodeableConcept role;
+    @Summary
     private final Boolean allergenicIndicator;
+    @Summary
     private final List<Reference> manufacturer;
+    @Summary
     private final List<SpecifiedSubstance> specifiedSubstance;
+    @Summary
     private final Substance substance;
 
     private volatile int hashCode;
@@ -582,11 +589,15 @@ public class MedicinalProductIngredient extends DomainResource {
      * A specified substance that comprises this ingredient.
      */
     public static class SpecifiedSubstance extends BackboneElement {
+        @Summary
         @Required
         private final CodeableConcept code;
+        @Summary
         @Required
         private final CodeableConcept group;
+        @Summary
         private final CodeableConcept confidentiality;
+        @Summary
         private final List<Strength> strength;
 
         private volatile int hashCode;
@@ -936,13 +947,20 @@ public class MedicinalProductIngredient extends DomainResource {
          * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
          */
         public static class Strength extends BackboneElement {
+            @Summary
             @Required
             private final Ratio presentation;
+            @Summary
             private final Ratio presentationLowLimit;
+            @Summary
             private final Ratio concentration;
+            @Summary
             private final Ratio concentrationLowLimit;
+            @Summary
             private final String measurementPoint;
+            @Summary
             private final List<CodeableConcept> country;
+            @Summary
             private final List<ReferenceStrength> referenceStrength;
 
             private volatile int hashCode;
@@ -1411,11 +1429,16 @@ public class MedicinalProductIngredient extends DomainResource {
              * Strength expressed in terms of a reference substance.
              */
             public static class ReferenceStrength extends BackboneElement {
+                @Summary
                 private final CodeableConcept substance;
+                @Summary
                 @Required
                 private final Ratio strength;
+                @Summary
                 private final Ratio strengthLowLimit;
+                @Summary
                 private final String measurementPoint;
+                @Summary
                 private final List<CodeableConcept> country;
 
                 private volatile int hashCode;
@@ -1796,8 +1819,10 @@ public class MedicinalProductIngredient extends DomainResource {
      * The ingredient substance.
      */
     public static class Substance extends BackboneElement {
+        @Summary
         @Required
         private final CodeableConcept code;
+        @Summary
         private final List<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength;
 
         private volatile int hashCode;

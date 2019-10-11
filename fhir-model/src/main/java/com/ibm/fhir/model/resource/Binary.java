@@ -12,6 +12,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Id;
@@ -28,14 +29,16 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Binary extends Resource {
-    @Required
+    @Summary
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
+    @Required
     private final Code contentType;
+    @Summary
     private final Reference securityContext;
     private final Base64Binary data;
 

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -48,7 +49,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CareTeam extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "CareTeamStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -56,6 +59,7 @@ public class CareTeam extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.0.0"
     )
     private final CareTeamStatus status;
+    @Summary
     @Binding(
         bindingName = "CareTeamCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -63,9 +67,13 @@ public class CareTeam extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/care-team-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     private final String name;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final Period period;
     private final List<Participant> participant;
     @Binding(
@@ -76,6 +84,7 @@ public class CareTeam extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
+    @Summary
     private final List<Reference> managingOrganization;
     private final List<ContactPoint> telecom;
     private final List<Annotation> note;
@@ -952,6 +961,7 @@ public class CareTeam extends DomainResource {
      * Identifies all people and organizations who are expected to be involved in the care team.
      */
     public static class Participant extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "CareTeamParticipantRole",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -959,7 +969,9 @@ public class CareTeam extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
         )
         private final List<CodeableConcept> role;
+        @Summary
         private final Reference member;
+        @Summary
         private final Reference onBehalfOf;
         private final Period period;
 

@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -55,15 +56,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationAdministration extends DomainResource {
     private final List<Identifier> identifier;
+    @Summary
     private final List<Uri> instantiates;
+    @Summary
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "MedicationAdministrationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A set of codes indicating the current status of a MedicationAdministration.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.0.0"
     )
+    @Required
     private final MedicationAdministrationStatus status;
     @Binding(
         bindingName = "MedicationAdministrationNegationReason",
@@ -79,7 +83,7 @@ public class MedicationAdministration extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-category"
     )
     private final CodeableConcept category;
-    @Required
+    @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -87,14 +91,18 @@ public class MedicationAdministration extends DomainResource {
         description = "Codes identifying substance or product that can be administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
+    @Required
     private final Element medication;
+    @Summary
     @Required
     private final Reference subject;
     private final Reference context;
     private final List<Reference> supportingInformation;
-    @Required
+    @Summary
     @Choice({ DateTime.class, Period.class })
+    @Required
     private final Element effective;
+    @Summary
     private final List<Performer> performer;
     @Binding(
         bindingName = "MedicationAdministrationReason",
@@ -1278,6 +1286,7 @@ public class MedicationAdministration extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/med-admin-perform-function"
         )
         private final CodeableConcept function;
+        @Summary
         @Required
         private final Reference actor;
 

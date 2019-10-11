@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -66,27 +67,33 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class NamingSystem extends DomainResource {
+    @Summary
     @Required
     private final String name;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
-    private final PublicationStatus status;
     @Required
+    private final PublicationStatus status;
+    @Summary
     @Binding(
         bindingName = "NamingSystemType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the purpose of the naming system.",
         valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.0.0"
     )
+    @Required
     private final NamingSystemType kind;
+    @Summary
     @Required
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final String responsible;
     @Binding(
@@ -97,7 +104,9 @@ public class NamingSystem extends DomainResource {
     )
     private final CodeableConcept type;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -106,6 +115,7 @@ public class NamingSystem extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final String usage;
+    @Summary
     @Required
     private final List<UniqueId> uniqueId;
 
@@ -934,14 +944,16 @@ public class NamingSystem extends DomainResource {
      * Indicates how the system may be identified when referenced in electronic exchange.
      */
     public static class UniqueId extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "NamingSystemIdentifierType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Identifies the style of unique identifier used to identify a namespace.",
             valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.0"
         )
+        @Required
         private final NamingSystemIdentifierType type;
+        @Summary
         @Required
         private final String value;
         private final Boolean preferred;

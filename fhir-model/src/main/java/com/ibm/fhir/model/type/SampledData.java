@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -21,13 +22,19 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SampledData extends Element {
+    @Summary
     @Required
     private final SimpleQuantity origin;
+    @Summary
     @Required
     private final Decimal period;
+    @Summary
     private final Decimal factor;
+    @Summary
     private final Decimal lowerLimit;
+    @Summary
     private final Decimal upperLimit;
+    @Summary
     @Required
     private final PositiveInt dimensions;
     private final String data;

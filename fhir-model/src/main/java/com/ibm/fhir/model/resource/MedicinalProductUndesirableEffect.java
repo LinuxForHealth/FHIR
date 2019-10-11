@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
@@ -31,10 +32,15 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductUndesirableEffect extends DomainResource {
+    @Summary
     private final List<Reference> subject;
+    @Summary
     private final CodeableConcept symptomConditionEffect;
+    @Summary
     private final CodeableConcept classification;
+    @Summary
     private final CodeableConcept frequencyOfOccurrence;
+    @Summary
     private final List<Population> population;
 
     private volatile int hashCode;

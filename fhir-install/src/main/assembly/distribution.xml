@@ -78,9 +78,6 @@
             <includes>
                 <include>${project.groupId}:fhir-persistence-proxy:*</include>
             </includes>
-            <excludes>
-                <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
-            </excludes>
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>

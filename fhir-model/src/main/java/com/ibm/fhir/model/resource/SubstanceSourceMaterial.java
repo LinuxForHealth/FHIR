@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -40,18 +41,31 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceSourceMaterial extends DomainResource {
+    @Summary
     private final CodeableConcept sourceMaterialClass;
+    @Summary
     private final CodeableConcept sourceMaterialType;
+    @Summary
     private final CodeableConcept sourceMaterialState;
+    @Summary
     private final Identifier organismId;
+    @Summary
     private final String organismName;
+    @Summary
     private final List<Identifier> parentSubstanceId;
+    @Summary
     private final List<String> parentSubstanceName;
+    @Summary
     private final List<CodeableConcept> countryOfOrigin;
+    @Summary
     private final List<String> geographicalLocation;
+    @Summary
     private final CodeableConcept developmentStage;
+    @Summary
     private final List<FractionDescription> fractionDescription;
+    @Summary
     private final Organism organism;
+    @Summary
     private final List<PartDescription> partDescription;
 
     private volatile int hashCode;
@@ -937,7 +951,9 @@ public class SubstanceSourceMaterial extends DomainResource {
      * Group 1 levels.
      */
     public static class FractionDescription extends BackboneElement {
+        @Summary
         private final String fraction;
+        @Summary
         private final CodeableConcept materialType;
 
         private volatile int hashCode;
@@ -1201,13 +1217,21 @@ public class SubstanceSourceMaterial extends DomainResource {
      * Leaf.
      */
     public static class Organism extends BackboneElement {
+        @Summary
         private final CodeableConcept family;
+        @Summary
         private final CodeableConcept genus;
+        @Summary
         private final CodeableConcept species;
+        @Summary
         private final CodeableConcept intraspecificType;
+        @Summary
         private final String intraspecificDescription;
+        @Summary
         private final List<Author> author;
+        @Summary
         private final Hybrid hybrid;
+        @Summary
         private final OrganismGeneral organismGeneral;
 
         private volatile int hashCode;
@@ -1680,7 +1704,9 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 4.9.13.6.1 Author type (Conditional).
          */
         public static class Author extends BackboneElement {
+            @Summary
             private final CodeableConcept authorType;
+            @Summary
             private final String authorDescription;
 
             private volatile int hashCode;
@@ -1950,10 +1976,15 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 4.9.13.8.1 Hybrid species maternal organism ID (Optional).
          */
         public static class Hybrid extends BackboneElement {
+            @Summary
             private final String maternalOrganismId;
+            @Summary
             private final String maternalOrganismName;
+            @Summary
             private final String paternalOrganismId;
+            @Summary
             private final String paternalOrganismName;
+            @Summary
             private final CodeableConcept hybridType;
 
             private volatile int hashCode;
@@ -2317,9 +2348,13 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 4.9.13.7.1 Kingdom (Conditional).
          */
         public static class OrganismGeneral extends BackboneElement {
+            @Summary
             private final CodeableConcept kingdom;
+            @Summary
             private final CodeableConcept phylum;
+            @Summary
             private final CodeableConcept clazz;
+            @Summary
             private final CodeableConcept order;
 
             private volatile int hashCode;
@@ -2641,7 +2676,9 @@ public class SubstanceSourceMaterial extends DomainResource {
      * To do.
      */
     public static class PartDescription extends BackboneElement {
+        @Summary
         private final CodeableConcept part;
+        @Summary
         private final CodeableConcept partLocation;
 
         private volatile int hashCode;

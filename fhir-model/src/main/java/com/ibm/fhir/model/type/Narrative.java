@@ -38,13 +38,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Narrative extends Element {
-    @Required
     @Binding(
         bindingName = "NarrativeStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of a resource narrative.",
         valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.0.0"
     )
+    @Required
     private final NarrativeStatus status;
     @Required
     private final Xhtml div;

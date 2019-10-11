@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -60,6 +61,7 @@ public class DeviceDefinition extends DomainResource {
     private final CodeableConcept type;
     private final List<Specialization> specialization;
     private final List<String> version;
+    @Summary
     @Binding(
         bindingName = "Safety",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -77,6 +79,7 @@ public class DeviceDefinition extends DomainResource {
     private final Uri onlineInformation;
     private final List<Annotation> note;
     private final Quantity quantity;
+    @Summary
     private final Reference parentDevice;
     private final List<Material> material;
 
@@ -1662,13 +1665,13 @@ public class DeviceDefinition extends DomainResource {
     public static class DeviceName extends BackboneElement {
         @Required
         private final String name;
-        @Required
         @Binding(
             bindingName = "DeviceNameType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
         )
+        @Required
         private final DeviceNameType type;
 
         private volatile int hashCode;

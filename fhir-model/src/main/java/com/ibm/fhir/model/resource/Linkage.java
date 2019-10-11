@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -43,8 +44,11 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Linkage extends DomainResource {
+    @Summary
     private final Boolean active;
+    @Summary
     private final Reference author;
+    @Summary
     @Required
     private final List<Item> item;
 
@@ -479,14 +483,16 @@ public class Linkage extends DomainResource {
      * be evaluated within the collection of linked items.
      */
     public static class Item extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "LinkageType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Used to distinguish different roles a resource can play within a set of linked resources.",
             valueSet = "http://hl7.org/fhir/ValueSet/linkage-type|4.0.0"
         )
+        @Required
         private final LinkageType type;
+        @Summary
         @Required
         private final Reference resource;
 

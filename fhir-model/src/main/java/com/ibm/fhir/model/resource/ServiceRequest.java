@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -57,28 +58,37 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ServiceRequest extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> replaces;
+    @Summary
     private final Identifier requisition;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ServiceRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of a service order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
-    private final ServiceRequestStatus status;
     @Required
+    private final ServiceRequestStatus status;
+    @Summary
     @Binding(
         bindingName = "ServiceRequestIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of service request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
+    @Required
     private final ServiceRequestIntent intent;
+    @Summary
     @Binding(
         bindingName = "ServiceRequestCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -86,6 +96,7 @@ public class ServiceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/servicerequest-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     @Binding(
         bindingName = "ServiceRequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -93,7 +104,9 @@ public class ServiceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final ServiceRequestPriority priority;
+    @Summary
     private final Boolean doNotPerform;
+    @Summary
     @Binding(
         bindingName = "ServiceRequestCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -101,6 +114,7 @@ public class ServiceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
     private final CodeableConcept code;
+    @Summary
     @Binding(
         bindingName = "OrderDetail",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -108,13 +122,18 @@ public class ServiceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/servicerequest-orderdetail"
     )
     private final List<CodeableConcept> orderDetail;
+    @Summary
     @Choice({ Quantity.class, Ratio.class, Range.class })
     private final Element quantity;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
+    @Summary
     @Choice({ Boolean.class, CodeableConcept.class })
     @Binding(
         bindingName = "ProcedureAsNeededReason",
@@ -123,8 +142,11 @@ public class ServiceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-as-needed-reason"
     )
     private final Element asNeeded;
+    @Summary
     private final DateTime authoredOn;
+    @Summary
     private final Reference requester;
+    @Summary
     @Binding(
         bindingName = "ServiceRequestParticipantRole",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -132,7 +154,9 @@ public class ServiceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
     )
     private final CodeableConcept performerType;
+    @Summary
     private final List<Reference> performer;
+    @Summary
     @Binding(
         bindingName = "ServiceRequestLocation",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -140,7 +164,9 @@ public class ServiceRequest extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType"
     )
     private final List<CodeableConcept> locationCode;
+    @Summary
     private final List<Reference> locationReference;
+    @Summary
     @Binding(
         bindingName = "ServiceRequestReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -148,10 +174,13 @@ public class ServiceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
     private final List<Reference> insurance;
     private final List<Reference> supportingInfo;
+    @Summary
     private final List<Reference> specimen;
+    @Summary
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -160,6 +189,7 @@ public class ServiceRequest extends DomainResource {
     )
     private final List<CodeableConcept> bodySite;
     private final List<Annotation> note;
+    @Summary
     private final String patientInstruction;
     private final List<Reference> relevantHistory;
 

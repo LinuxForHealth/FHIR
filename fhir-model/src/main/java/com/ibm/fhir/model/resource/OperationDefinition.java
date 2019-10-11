@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -77,33 +78,45 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationDefinition extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final String version;
+    @Summary
     @Required
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
-    private final PublicationStatus status;
     @Required
+    private final PublicationStatus status;
+    @Summary
     @Binding(
         bindingName = "OperationKind",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Whether an operation is a normal operation or a query.",
         valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.0"
     )
+    @Required
     private final OperationKind kind;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -112,11 +125,15 @@ public class OperationDefinition extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
+    @Summary
     private final Boolean affectsState;
+    @Summary
     @Required
     private final Code code;
     private final Markdown comment;
+    @Summary
     private final Canonical base;
+    @Summary
     @Binding(
         bindingName = "ResourceType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -124,10 +141,13 @@ public class OperationDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
     )
     private final List<ResourceType> resource;
+    @Summary
     @Required
     private final Boolean system;
+    @Summary
     @Required
     private final Boolean type;
+    @Summary
     @Required
     private final Boolean instance;
     private final Canonical inputProfile;
@@ -1432,13 +1452,13 @@ public class OperationDefinition extends DomainResource {
     public static class Parameter extends BackboneElement {
         @Required
         private final Code name;
-        @Required
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "OperationParameterUse",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Whether an operation parameter is an input or an output parameter.",
             valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.0"
         )
+        @Required
         private final OperationParameterUse use;
         @Required
         private final Integer min;
@@ -2086,13 +2106,13 @@ public class OperationDefinition extends DomainResource {
          * Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).
          */
         public static class Binding extends BackboneElement {
-            @Required
             @com.ibm.fhir.model.annotation.Binding(
                 bindingName = "BindingStrength",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Indication of the degree of conformance expectations associated with a binding.",
                 valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.0"
             )
+            @Required
             private final BindingStrength strength;
             @Required
             private final Canonical valueSet;
