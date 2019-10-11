@@ -16,7 +16,6 @@ import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.bind.JAXBException;
 
 import org.testng.annotations.Test;
 
@@ -275,7 +274,7 @@ public class PatientTrackTest extends FHIRModelTestBase {
         return patient;
     }
 
-    private void displayResource(String msg, Resource resource) throws JAXBException, FHIRException {
+    private void displayResource(String msg, Resource resource) throws FHIRException {
         String s = writeResource(resource, Format.JSON);
         log(msg);
         log(s);

@@ -844,8 +844,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 }
                 
                 List<FHIRPathNode> values = entry.getValue();
-                for (Object value : values) {
-                    List<Parameter> parameters = processor.process(entry.getKey(), value);
+                for (FHIRPathNode value : values) {
+                    Object elementOrNode = value.isElementNode() ? value.asElementNode().element() : value;
+
+                    List<Parameter> parameters = processor.process(entry.getKey(), elementOrNode);
                     for (Parameter p : parameters) {
                         p.setType(Type.fromValue(type));
                         p.setResourceId(resourceDTO.getId());

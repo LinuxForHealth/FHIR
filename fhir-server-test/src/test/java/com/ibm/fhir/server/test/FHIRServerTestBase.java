@@ -272,6 +272,15 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
             }
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             Session session = container.connectToServer(endpoint, config, new URI(webSocketURL));
+            
+            // Add a Delay
+            int count = 10;
+            while ( !session.isOpen() && count > 0) {
+                System.out.println(">>> " + count + " waiting");
+                Thread.sleep(1000l);
+                count--;
+            }
+            
             endpoint.setSession(session);
             return endpoint;
         } catch (Exception e) {

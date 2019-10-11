@@ -6,12 +6,9 @@
 
 package com.ibm.fhir.core;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.security.Key;
@@ -22,14 +19,10 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Date;
-import java.util.Objects;
 import java.util.TimeZone;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.io.IOUtils;
 
 /**
  * A collection of miscellaneous utility functions used by the various fhir-*
@@ -45,13 +38,6 @@ public class FHIRUtilities {
         public SimpleDateFormat initialValue() {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             format.setTimeZone(TimeZone.getTimeZone("GMT"));
-            return format;
-        }
-    };
-    private static final ThreadLocal<SimpleDateFormat> calendarSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
-        @Override
-        public SimpleDateFormat initialValue() {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             return format;
         }
     };
@@ -152,7 +138,6 @@ public class FHIRUtilities {
         return s != null && s.startsWith("{xor}");
     }
 
-
     /**
      * For R4 model, generate a sql timestamp
      * 
@@ -174,10 +159,6 @@ public class FHIRUtilities {
 
     public static String formatTimestamp(Date date) {
         return timestampSimpleDateFormat.get().format(date);
-    }
-
-    public static String formatCalendar(Timestamp timestamp) {
-        return calendarSimpleDateFormat.get().format(timestamp);
     }
 
     /**
@@ -243,63 +224,6 @@ public class FHIRUtilities {
                 is.close();
             }
         }
-    }
-
-    /**
-     * Determines whether or not the passed byte array was previously gzip
-     * compressed.
-     * 
-     * @param inputBytes - A byte array
-     * @return boolean - true if the input stream is gzip compressed; false
-     *         otherwise.
-     */
-    public static boolean isGzipCompressed(byte[] inputBytes) {
-        int head = ((int) inputBytes[0] & 0xff) | ((inputBytes[1] << 8) & 0xff00);
-        return (GZIPInputStream.GZIP_MAGIC == head);
-    }
-
-    /**
-     * Performs a gzip compression of the passed byte array.
-     * 
-     * @param input - Any byte array
-     * @return byte[] - A gzip'd byte array representation of the input byte array.
-     * @throws IOException
-     * 
-     */
-    public static byte[] gzipCompress(byte[] input) throws IOException {
-
-        Objects.requireNonNull(input, "input cannot be null");
-
-        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
-        GZIPOutputStream gzip;
-
-        gzip = new GZIPOutputStream(byteOutputStream);
-        gzip.write(input);
-        gzip.close();
-
-        return byteOutputStream.toByteArray();
-    }
-
-    /**
-     * Decompresses a previously gzip'd compressed byte array. If the input byte
-     * array is not gzip compressed, the input byte array is returned.
-     * 
-     * @param compressedInput - A byte array previously created by a gzip
-     *                        compression.
-     * @return byte[] - The decompressed bytes.
-     * @throws IOException
-     * 
-     */
-    public static byte[] gzipDecompress(byte[] compressedInput) throws IOException {
-        byte[] output = compressedInput;
-        Objects.requireNonNull(compressedInput, "compressedInput cannot be null");
-        if (isGzipCompressed(compressedInput)) {
-            try (GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(compressedInput))) {
-                output = IOUtils.toByteArray(gzip);
-            }
-        }
-
-        return output;
     }
 
 }

@@ -20,8 +20,11 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Location;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
@@ -759,7 +762,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             log.fine("isDateSearch=" + isDateSearch + "  isDateRangeSearch=" + isDateRangeSearch);
         }
         if (!isDateSearch && !isDateRangeSearch) {
-            throw new IllegalArgumentException("Cannot process query parameter '" + queryParm.getName() + "' as a date.");
+            throw new FHIRPersistenceException("Cannot process query parameter '" + queryParm.getName() + "' as a date.").withIssue(
+                    Issue.builder()
+                         .code(IssueType.INVALID)
+                         .severity(IssueSeverity.WARNING)
+                         .build()
+                    );
         }
 
         // Build this piece of the segment:

@@ -20,7 +20,7 @@ import com.ibm.fhir.operation.bulkdata.processor.impl.DummyImportExportImpl;
  * The BulkDataFactory enables the tenant specific lookup of the 'dummy' or 'cos' implementations. 
  * By default the 'dummy' is available, unless otherwise specified in the bulkdata.json. 
  * 
- * <code>"implementation_type" : "cos"  </code>
+ * <pre>"implementation_type" : "cos"  </pre>
  * 
  * @author pbastide
  *
