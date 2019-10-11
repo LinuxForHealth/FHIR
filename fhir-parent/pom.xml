@@ -660,8 +660,16 @@
             </build>
         </profile>
         <profile>
-            <id>all-tests</id>
+            <id>model-all-tests</id>
             <properties>
+                <!-- for the fhir-model project -->
+                <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
+            </properties>
+        </profile>
+        <profile>
+            <id>jdbc-all-tests</id>
+            <properties>
+                <!-- for the fhir-persistence-jdbc -->
                 <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
             </properties>
         </profile>
