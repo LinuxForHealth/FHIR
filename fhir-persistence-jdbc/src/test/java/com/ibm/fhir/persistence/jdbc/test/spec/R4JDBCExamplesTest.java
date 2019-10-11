@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
+import com.ibm.fhir.model.spec.test.R4ExamplesDriver.TestType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -25,11 +26,11 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     // The Derby database instance used for the persistence tests
     private DerbyFhirDatabase database;
-	
+    
     private Properties properties;
 
     public R4JDBCExamplesTest() throws Exception {
-    	this.properties = readTestProperties("test.normalized.properties");
+        this.properties = readTestProperties("test.normalized.properties");
     }
     
     @BeforeSuite
@@ -39,19 +40,26 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         
         System.out.println("Processing examples:");
     }
-	
+    
     @Test(groups = { "jdbc-seed" })
     public void perform() throws Exception {
-    	
-    	R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
-    	    () -> createPersistenceContext(),
-    	    () -> createHistoryPersistenceContext());
-    	
-    	// The driver will iterate over all the JSON examples in the R4 specification, parse
-    	// the resource and call the processor.
-    	R4ExamplesDriver driver = new R4ExamplesDriver();
-    	driver.setProcessor(processor);
-    	driver.processAllExamples();
+        
+        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
+            () -> createPersistenceContext(),
+            () -> createHistoryPersistenceContext());
+        
+        // Overriding the JDBC ALL to Minimal. 
+        // Unless the profile tells us differently 
+        String testType = System.getProperty("com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest", TestType.MINIMAL.toString());
+        System.setProperty("com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType", testType);
+        
+        
+        
+        // The driver will iterate over all the JSON examples in the R4 specification, parse
+        // the resource and call the processor.
+        R4ExamplesDriver driver = new R4ExamplesDriver();
+        driver.setProcessor(processor);
+        driver.processAllExamples();
     }
 
     /**
@@ -59,13 +67,13 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
      * @return
      */
     protected FHIRPersistenceContext createPersistenceContext() {
-    	try {
-    		return getDefaultPersistenceContext();
-    	}
-    	catch (Exception x) {
-    		// because we're used as a lambda supplier, need to avoid a checked exception
-    		throw new IllegalStateException(x);
-    	}
+        try {
+            return getDefaultPersistenceContext();
+        }
+        catch (Exception x) {
+            // because we're used as a lambda supplier, need to avoid a checked exception
+            throw new IllegalStateException(x);
+        }
     }
 
     /**
@@ -83,22 +91,22 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         }
     }
 
-	@Override
-	public FHIRPersistence getPersistenceImpl() throws Exception {
-		return new FHIRPersistenceJDBCNormalizedImpl(this.properties, database);
-	}
-
-	@Override
-    public void bootstrapDatabase() throws Exception {
-	    // Create the derby database
-	    this.database = new DerbyFhirDatabase();
+    @Override
+    public FHIRPersistence getPersistenceImpl() throws Exception {
+        return new FHIRPersistenceJDBCNormalizedImpl(this.properties, database);
     }
 
-	@AfterClass
-	public void shutdown() throws Exception {
-	    System.out.println("Shutting down database");
-	    if (this.database != null) {
+    @Override
+    public void bootstrapDatabase() throws Exception {
+        // Create the derby database
+        this.database = new DerbyFhirDatabase();
+    }
+
+    @AfterClass
+    public void shutdown() throws Exception {
+        System.out.println("Shutting down database");
+        if (this.database != null) {
             this.database.close();
-	    }
-	}
+        }
+    }
 }
