@@ -14,14 +14,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Period;

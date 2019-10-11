@@ -452,7 +452,7 @@ public class CodeGenerator {
     }
 
     private void generateAcceptMethod(JsonObject structureDefinition, String className, String path, CodeBuilder cb) {
-        if (isAbstract(structureDefinition) || isPrimitiveSubtype(structureDefinition)) {
+        if (isAbstract(structureDefinition) || isCodeSubtype(className) || isNestedType(className)) {
             return;
         }
         
@@ -796,7 +796,7 @@ public class CodeGenerator {
         cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
         
-        generateImports(structureDefinition, cb);
+        generateImports(structureDefinition, className, cb);
     
         String path = getElementDefinitions(structureDefinition).get(0).getString("path");
         generateClass(structureDefinition, Collections.singletonList(path), cb, false);
@@ -1466,7 +1466,7 @@ public class CodeGenerator {
         }
     }
     
-    private void generateImports(JsonObject structureDefinition, CodeBuilder cb) {
+    private void generateImports(JsonObject structureDefinition, String className, CodeBuilder cb) {
         String name = structureDefinition.getString("name");
                 
         Set<String> imports = new HashSet<>();
@@ -1481,7 +1481,7 @@ public class CodeGenerator {
         if ("Resource".equals(name) || "Element".equals(name)) {
             imports.add("com.ibm.fhir.model.visitor.AbstractVisitable");
         }
-        if (!isAbstract(structureDefinition) && !isPrimitiveSubtype(structureDefinition)) {
+        if (!isAbstract(structureDefinition) && !isCodeSubtype(className)) {
             imports.add("com.ibm.fhir.model.visitor.Visitor");
         }
         
