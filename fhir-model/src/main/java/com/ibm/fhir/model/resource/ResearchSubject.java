@@ -39,7 +39,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ResearchSubject extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "ResearchSubjectStatus",
@@ -47,14 +46,15 @@ public class ResearchSubject extends DomainResource {
         description = "Indicates the progression of a study subject through a study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.0.0"
     )
+    @Required
     private final ResearchSubjectStatus status;
     @Summary
     private final Period period;
-    @Required
     @Summary
+    @Required
     private final Reference study;
-    @Required
     @Summary
+    @Required
     private final Reference individual;
     private final String assignedArm;
     private final String actualArm;

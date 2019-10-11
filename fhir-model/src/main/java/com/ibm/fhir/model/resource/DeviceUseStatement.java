@@ -47,7 +47,6 @@ public class DeviceUseStatement extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     private final List<Reference> basedOn;
-    @Required
     @Summary
     @Binding(
         bindingName = "DeviceUseStatementStatus",
@@ -55,9 +54,10 @@ public class DeviceUseStatement extends DomainResource {
         description = "A coded concept indicating the current status of the Device Usage.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.0.0"
     )
-    private final DeviceUseStatementStatus status;
     @Required
+    private final DeviceUseStatementStatus status;
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final List<Reference> derivedFrom;
@@ -68,8 +68,8 @@ public class DeviceUseStatement extends DomainResource {
     private final DateTime recordedOn;
     @Summary
     private final Reference source;
-    @Required
     @Summary
+    @Required
     private final Reference device;
     @Summary
     private final List<CodeableConcept> reasonCode;

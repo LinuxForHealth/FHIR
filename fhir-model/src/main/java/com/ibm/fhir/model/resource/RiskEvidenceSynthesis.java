@@ -67,7 +67,6 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -75,6 +74,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final DateTime date;
@@ -126,13 +126,13 @@ public class RiskEvidenceSynthesis extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/study-type"
     )
     private final CodeableConcept studyType;
-    @Required
     @Summary
+    @Required
     private final Reference population;
     @Summary
     private final Reference exposure;
-    @Required
     @Summary
+    @Required
     private final Reference outcome;
     private final SampleSize sampleSize;
     @Summary

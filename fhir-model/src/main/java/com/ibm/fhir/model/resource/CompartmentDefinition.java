@@ -50,15 +50,14 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CompartmentDefinition extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final Uri url;
     @Summary
     private final String version;
-    @Required
     @Summary
-    private final String name;
     @Required
+    private final String name;
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -66,6 +65,7 @@ public class CompartmentDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -79,7 +79,6 @@ public class CompartmentDefinition extends DomainResource {
     @Summary
     private final List<UsageContext> useContext;
     private final Markdown purpose;
-    @Required
     @Summary
     @Binding(
         bindingName = "CompartmentType",
@@ -87,9 +86,10 @@ public class CompartmentDefinition extends DomainResource {
         description = "Which type a compartment definition describes.",
         valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.0"
     )
-    private final CompartmentType code;
     @Required
+    private final CompartmentType code;
     @Summary
+    @Required
     private final Boolean search;
     @Summary
     private final List<Resource> resource;
@@ -938,7 +938,6 @@ public class CompartmentDefinition extends DomainResource {
      * Information about how a resource is related to the compartment.
      */
     public static class Resource extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "ResourceType",
@@ -946,6 +945,7 @@ public class CompartmentDefinition extends DomainResource {
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )
+        @Required
         private final ResourceType code;
         @Summary
         private final List<String> param;

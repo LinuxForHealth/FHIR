@@ -41,7 +41,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EpisodeOfCare extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "EpisodeOfCareStatus",
@@ -49,6 +48,7 @@ public class EpisodeOfCare extends DomainResource {
         description = "The status of the episode of care.",
         valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.0"
     )
+    @Required
     private final EpisodeOfCareStatus status;
     private final List<StatusHistory> statusHistory;
     @Summary
@@ -61,8 +61,8 @@ public class EpisodeOfCare extends DomainResource {
     private final List<CodeableConcept> type;
     @Summary
     private final List<Diagnosis> diagnosis;
-    @Required
     @Summary
+    @Required
     private final Reference patient;
     @Summary
     private final Reference managingOrganization;
@@ -905,13 +905,13 @@ public class EpisodeOfCare extends DomainResource {
      * resource).
      */
     public static class StatusHistory extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "EpisodeOfCareStatus",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The status of the episode of care.",
             valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.0"
         )
+        @Required
         private final EpisodeOfCareStatus status;
         @Required
         private final Period period;
@@ -1182,8 +1182,8 @@ public class EpisodeOfCare extends DomainResource {
      * The list of diagnosis relevant to this episode of care.
      */
     public static class Diagnosis extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Reference condition;
         @Summary
         @Binding(

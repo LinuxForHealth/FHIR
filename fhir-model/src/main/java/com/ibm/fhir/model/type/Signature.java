@@ -28,7 +28,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Signature extends Element {
-    @Required
     @Summary
     @Binding(
         bindingName = "SignatureType",
@@ -36,12 +35,13 @@ public class Signature extends Element {
         description = "An indication of the reason that an entity signed the object.",
         valueSet = "http://hl7.org/fhir/ValueSet/signature-type"
     )
+    @Required
     private final List<Coding> type;
-    @Required
     @Summary
+    @Required
     private final Instant when;
-    @Required
     @Summary
+    @Required
     private final Reference who;
     @Summary
     private final Reference onBehalfOf;

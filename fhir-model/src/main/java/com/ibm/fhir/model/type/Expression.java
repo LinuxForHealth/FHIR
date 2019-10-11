@@ -36,7 +36,6 @@ public class Expression extends Element {
     private final String description;
     @Summary
     private final Id name;
-    @Required
     @Summary
     @Binding(
         bindingName = "ExpressionLanguage",
@@ -45,6 +44,7 @@ public class Expression extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/expression-language",
         maxValueSet = "http://www.rfc-editor.org/bcp/bcp13.txt"
     )
+    @Required
     private final Code language;
     @Summary
     private final String expression;

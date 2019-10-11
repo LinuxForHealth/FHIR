@@ -39,7 +39,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Basic extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "BasicResourceType",
@@ -47,6 +46,7 @@ public class Basic extends DomainResource {
         description = "Codes for identifying types of resources not yet defined by FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/basic-resource-type"
     )
+    @Required
     private final CodeableConcept code;
     @Summary
     private final Reference subject;

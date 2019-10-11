@@ -42,7 +42,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Subscription extends DomainResource {
-    @Required
     @Summary
     @Binding(
         bindingName = "SubscriptionStatus",
@@ -50,21 +49,22 @@ public class Subscription extends DomainResource {
         description = "The status of a subscription.",
         valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.0"
     )
+    @Required
     private final SubscriptionStatus status;
     @Summary
     private final List<ContactPoint> contact;
     @Summary
     private final Instant end;
-    @Required
     @Summary
+    @Required
     private final String reason;
-    @Required
     @Summary
+    @Required
     private final String criteria;
     @Summary
     private final String error;
-    @Required
     @Summary
+    @Required
     private final Channel channel;
 
     private volatile int hashCode;
@@ -626,7 +626,6 @@ public class Subscription extends DomainResource {
      * Details where to send notifications when resources are received that meet the criteria.
      */
     public static class Channel extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "SubscriptionChannelType",
@@ -634,6 +633,7 @@ public class Subscription extends DomainResource {
             description = "The type of method used to execute a subscription.",
             valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.0"
         )
+        @Required
         private final SubscriptionChannelType type;
         @Summary
         private final Url endpoint;

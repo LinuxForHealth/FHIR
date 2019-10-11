@@ -68,7 +68,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -76,6 +75,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final DateTime date;
@@ -127,17 +127,17 @@ public class EffectEvidenceSynthesis extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/study-type"
     )
     private final CodeableConcept studyType;
-    @Required
     @Summary
+    @Required
     private final Reference population;
-    @Required
     @Summary
+    @Required
     private final Reference exposure;
-    @Required
     @Summary
+    @Required
     private final Reference exposureAlternative;
-    @Required
     @Summary
+    @Required
     private final Reference outcome;
     private final SampleSize sampleSize;
     private final List<ResultsByExposure> resultsByExposure;

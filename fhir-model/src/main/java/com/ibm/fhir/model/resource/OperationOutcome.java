@@ -37,8 +37,8 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationOutcome extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final List<Issue> issue;
 
     private volatile int hashCode;
@@ -404,7 +404,6 @@ public class OperationOutcome extends DomainResource {
      * An error, warning, or information message that results from a system action.
      */
     public static class Issue extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "IssueSeverity",
@@ -412,8 +411,8 @@ public class OperationOutcome extends DomainResource {
             description = "How the issue affects the success of the action.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.0"
         )
-        private final IssueSeverity severity;
         @Required
+        private final IssueSeverity severity;
         @Summary
         @Binding(
             bindingName = "IssueType",
@@ -421,6 +420,7 @@ public class OperationOutcome extends DomainResource {
             description = "A code that describes the type of issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.0"
         )
+        @Required
         private final IssueType code;
         @Summary
         @Binding(

@@ -50,7 +50,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Invoice extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "InvoiceStatus",
@@ -58,6 +57,7 @@ public class Invoice extends DomainResource {
         description = "Codes identifying the lifecycle stage of an Invoice.",
         valueSet = "http://hl7.org/fhir/ValueSet/invoice-status|4.0.0"
     )
+    @Required
     private final InvoiceStatus status;
     private final String cancelledReason;
     @Summary
@@ -1266,8 +1266,8 @@ public class Invoice extends DomainResource {
      */
     public static class LineItem extends BackboneElement {
         private final PositiveInt sequence;
-        @Required
         @Choice({ Reference.class, CodeableConcept.class })
+        @Required
         private final Element chargeItem;
         private final List<PriceComponent> priceComponent;
 
@@ -1604,13 +1604,13 @@ public class Invoice extends DomainResource {
          * the Invoice as to how the prices have been calculated.
          */
         public static class PriceComponent extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "InvoicePriceComponentType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
                 valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.0"
             )
+            @Required
             private final InvoicePriceComponentType type;
             private final CodeableConcept code;
             private final Decimal factor;

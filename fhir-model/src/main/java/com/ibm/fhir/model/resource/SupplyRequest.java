@@ -72,7 +72,6 @@ public class SupplyRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final RequestPriority priority;
-    @Required
     @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -81,9 +80,10 @@ public class SupplyRequest extends DomainResource {
         description = "The item that was requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
     )
-    private final Element item;
     @Required
+    private final Element item;
     @Summary
+    @Required
     private final Quantity quantity;
     private final List<Parameter> parameter;
     @Summary

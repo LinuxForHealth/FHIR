@@ -52,15 +52,15 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ImmunizationRecommendation extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
+    @Required
     private final Reference patient;
-    @Required
     @Summary
+    @Required
     private final DateTime date;
     private final Reference authority;
-    @Required
     @Summary
+    @Required
     private final List<Recommendation> recommendation;
 
     private volatile int hashCode;
@@ -600,7 +600,6 @@ public class ImmunizationRecommendation extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
         )
         private final List<CodeableConcept> contraindicatedVaccineCode;
-        @Required
         @Summary
         @Binding(
             bindingName = "ImmunizationRecommendationStatus",
@@ -608,6 +607,7 @@ public class ImmunizationRecommendation extends DomainResource {
             description = "The patient's status with respect to a vaccination protocol.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-status"
         )
+        @Required
         private final CodeableConcept forecastStatus;
         @Summary
         @Binding(
@@ -1335,13 +1335,13 @@ public class ImmunizationRecommendation extends DomainResource {
          * Vaccine date recommendations. For example, earliest date to administer, latest date to administer, etc.
          */
         public static class DateCriterion extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ImmunizationRecommendationDateCriterion",
                 strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Classifies date criterion with respect to conveying information about a patient's vaccination status (e.g. due date, latest to give date, etc.).",
                 valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-date-criterion"
             )
+            @Required
             private final CodeableConcept code;
             @Required
             private final DateTime value;

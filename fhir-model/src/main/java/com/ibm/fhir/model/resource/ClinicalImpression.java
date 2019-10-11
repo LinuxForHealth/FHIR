@@ -49,7 +49,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ClinicalImpression extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "ClinicalImpressionStatus",
@@ -57,6 +56,7 @@ public class ClinicalImpression extends DomainResource {
         description = "The workflow state of a clinical impression.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.0.0"
     )
+    @Required
     private final ClinicalImpressionStatus status;
     @Binding(
         bindingName = "ClinicalImpressionStatusReason",
@@ -73,8 +73,8 @@ public class ClinicalImpression extends DomainResource {
     private final CodeableConcept code;
     @Summary
     private final String description;
-    @Required
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference encounter;
@@ -1247,13 +1247,13 @@ public class ClinicalImpression extends DomainResource {
      * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
      */
     public static class Investigation extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "InvestigationGroupType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A name/code for a set of investigations.",
             valueSet = "http://hl7.org/fhir/ValueSet/investigation-sets"
         )
+        @Required
         private final CodeableConcept code;
         private final List<Reference> item;
 

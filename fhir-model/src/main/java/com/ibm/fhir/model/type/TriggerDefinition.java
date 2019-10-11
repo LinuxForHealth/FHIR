@@ -51,7 +51,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TriggerDefinition extends Element {
-    @Required
     @Summary
     @Binding(
         bindingName = "TriggerType",
@@ -59,6 +58,7 @@ public class TriggerDefinition extends Element {
         description = "The type of trigger.",
         valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.0.0"
     )
+    @Required
     private final TriggerType type;
     @Summary
     private final String name;

@@ -78,7 +78,6 @@ public class RequestGroup extends DomainResource {
     private final List<Reference> replaces;
     @Summary
     private final Identifier groupIdentifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "RequestStatus",
@@ -86,8 +85,8 @@ public class RequestGroup extends DomainResource {
         description = "Codes identifying the lifecycle stage of a request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
-    private final RequestStatus status;
     @Required
+    private final RequestStatus status;
     @Summary
     @Binding(
         bindingName = "RequestIntent",
@@ -95,6 +94,7 @@ public class RequestGroup extends DomainResource {
         description = "Codes indicating the degree of authority/intentionality associated with a request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
+    @Required
     private final RequestIntent intent;
     @Summary
     @Binding(
@@ -2161,13 +2161,13 @@ public class RequestGroup extends DomainResource {
          * An expression that describes applicability criteria, or start/stop conditions for the action.
          */
         public static class Condition extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ActionConditionKind",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The kind of condition for the action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.0"
             )
+            @Required
             private final ActionConditionKind kind;
             private final Expression expression;
 
@@ -2436,13 +2436,13 @@ public class RequestGroup extends DomainResource {
         public static class RelatedAction extends BackboneElement {
             @Required
             private final Id actionId;
-            @Required
             @Binding(
                 bindingName = "ActionRelationshipType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines the types of relationships between actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.0"
             )
+            @Required
             private final ActionRelationshipType relationship;
             @Choice({ Duration.class, Range.class })
             private final Element offset;

@@ -50,7 +50,6 @@ public class DiagnosticReport extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     private final List<Reference> basedOn;
-    @Required
     @Summary
     @Binding(
         bindingName = "DiagnosticReportStatus",
@@ -58,6 +57,7 @@ public class DiagnosticReport extends DomainResource {
         description = "The status of the diagnostic report.",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.0"
     )
+    @Required
     private final DiagnosticReportStatus status;
     @Summary
     @Binding(
@@ -67,7 +67,6 @@ public class DiagnosticReport extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
     )
     private final List<CodeableConcept> category;
-    @Required
     @Summary
     @Binding(
         bindingName = "DiagnosticReportCodes",
@@ -75,6 +74,7 @@ public class DiagnosticReport extends DomainResource {
         description = "Codes that describe Diagnostic Reports.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-codes"
     )
+    @Required
     private final CodeableConcept code;
     @Summary
     private final Reference subject;
@@ -1226,8 +1226,8 @@ public class DiagnosticReport extends DomainResource {
      */
     public static class Media extends BackboneElement {
         private final String comment;
-        @Required
         @Summary
+        @Required
         private final Reference link;
 
         private volatile int hashCode;

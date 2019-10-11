@@ -112,7 +112,6 @@ public class ValueSet extends DomainResource {
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -120,6 +119,7 @@ public class ValueSet extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -1139,8 +1139,8 @@ public class ValueSet extends DomainResource {
         private final Date lockedDate;
         @Summary
         private final Boolean inactive;
-        @Required
         @Summary
+        @Required
         private final List<Include> include;
         private final List<ValueSet.Compose.Include> exclude;
 
@@ -2583,10 +2583,9 @@ public class ValueSet extends DomainResource {
              * system, or on filters defined by the system. If multiple filters are specified, they SHALL all be true.
              */
             public static class Filter extends BackboneElement {
-                @Required
                 @Summary
-                private final Code property;
                 @Required
+                private final Code property;
                 @Summary
                 @Binding(
                     bindingName = "FilterOperator",
@@ -2594,9 +2593,10 @@ public class ValueSet extends DomainResource {
                     description = "The kind of operation to perform as a part of a property based filter.",
                     valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
                 )
-                private final FilterOperator op;
                 @Required
+                private final FilterOperator op;
                 @Summary
+                @Required
                 private final String value;
 
                 private volatile int hashCode;

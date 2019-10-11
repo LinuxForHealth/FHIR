@@ -78,8 +78,8 @@ public class MolecularSequence extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/sequence-type|4.0.0"
     )
     private final SequenceType type;
-    @Required
     @Summary
+    @Required
     private final Integer coordinateSystem;
     @Summary
     private final Reference patient;
@@ -2013,7 +2013,6 @@ public class MolecularSequence extends DomainResource {
      * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
      */
     public static class Quality extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "qualityType",
@@ -2021,6 +2020,7 @@ public class MolecularSequence extends DomainResource {
             description = "Type for quality report.",
             valueSet = "http://hl7.org/fhir/ValueSet/quality-type|4.0.0"
         )
+        @Required
         private final QualityType type;
         @Summary
         @Binding(
@@ -3318,7 +3318,6 @@ public class MolecularSequence extends DomainResource {
      * target's observedSeq.
      */
     public static class Repository extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "repositoryType",
@@ -3326,6 +3325,7 @@ public class MolecularSequence extends DomainResource {
             description = "Type for access of external URI.",
             valueSet = "http://hl7.org/fhir/ValueSet/repository-type|4.0.0"
         )
+        @Required
         private final RepositoryType type;
         @Summary
         private final Uri url;

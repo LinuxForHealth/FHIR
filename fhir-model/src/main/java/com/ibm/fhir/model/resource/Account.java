@@ -44,7 +44,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Account extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "AccountStatus",
@@ -52,6 +51,7 @@ public class Account extends DomainResource {
         description = "Indicates whether the account is available to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/account-status|4.0.0"
     )
+    @Required
     private final AccountStatus status;
     @Summary
     @Binding(
@@ -819,8 +819,8 @@ public class Account extends DomainResource {
      * the account.
      */
     public static class Coverage extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Reference coverage;
         @Summary
         private final PositiveInt priority;

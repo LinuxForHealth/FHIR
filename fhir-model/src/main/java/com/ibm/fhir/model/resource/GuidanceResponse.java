@@ -47,11 +47,10 @@ public class GuidanceResponse extends DomainResource {
     private final Identifier requestIdentifier;
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Choice({ Uri.class, Canonical.class, CodeableConcept.class })
-    private final Element module;
     @Required
+    private final Element module;
     @Summary
     @Binding(
         bindingName = "GuidanceResponseStatus",
@@ -59,6 +58,7 @@ public class GuidanceResponse extends DomainResource {
         description = "The status of a guidance response.",
         valueSet = "http://hl7.org/fhir/ValueSet/guidance-response-status|4.0.0"
     )
+    @Required
     private final GuidanceResponseStatus status;
     private final Reference subject;
     private final Reference encounter;

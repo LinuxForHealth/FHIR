@@ -78,7 +78,6 @@ public class ResearchElementDefinition extends DomainResource {
     @Summary
     private final String shortTitle;
     private final String subtitle;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -86,6 +85,7 @@ public class ResearchElementDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -136,7 +136,6 @@ public class ResearchElementDefinition extends DomainResource {
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
     private final List<Canonical> library;
-    @Required
     @Summary
     @Binding(
         bindingName = "ResearchElementType",
@@ -144,6 +143,7 @@ public class ResearchElementDefinition extends DomainResource {
         description = "The possible types of research elements (E.g. Population, Exposure, Outcome).",
         valueSet = "http://hl7.org/fhir/ValueSet/research-element-type|4.0.0"
     )
+    @Required
     private final ResearchElementType type;
     @Binding(
         bindingName = "VariableType",
@@ -152,8 +152,8 @@ public class ResearchElementDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.0"
     )
     private final VariableType variableType;
-    @Required
     @Summary
+    @Required
     private final List<Characteristic> characteristic;
 
     private volatile int hashCode;
@@ -1817,9 +1817,9 @@ public class ResearchElementDefinition extends DomainResource {
      * semantics.
      */
     public static class Characteristic extends BackboneElement {
-        @Required
         @Summary
         @Choice({ CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class })
+        @Required
         private final Element definition;
         private final List<UsageContext> usageContext;
         private final Boolean exclude;

@@ -60,7 +60,6 @@ public class MedicationAdministration extends DomainResource {
     private final List<Uri> instantiates;
     @Summary
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "MedicationAdministrationStatus",
@@ -68,6 +67,7 @@ public class MedicationAdministration extends DomainResource {
         description = "A set of codes indicating the current status of a MedicationAdministration.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.0.0"
     )
+    @Required
     private final MedicationAdministrationStatus status;
     @Binding(
         bindingName = "MedicationAdministrationNegationReason",
@@ -83,7 +83,6 @@ public class MedicationAdministration extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-category"
     )
     private final CodeableConcept category;
-    @Required
     @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -92,15 +91,16 @@ public class MedicationAdministration extends DomainResource {
         description = "Codes identifying substance or product that can be administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
-    private final Element medication;
     @Required
+    private final Element medication;
     @Summary
+    @Required
     private final Reference subject;
     private final Reference context;
     private final List<Reference> supportingInformation;
-    @Required
     @Summary
     @Choice({ DateTime.class, Period.class })
+    @Required
     private final Element effective;
     @Summary
     private final List<Performer> performer;
@@ -1286,8 +1286,8 @@ public class MedicationAdministration extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/med-admin-perform-function"
         )
         private final CodeableConcept function;
-        @Required
         @Summary
+        @Required
         private final Reference actor;
 
         private volatile int hashCode;

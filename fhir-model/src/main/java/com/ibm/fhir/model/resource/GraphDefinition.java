@@ -60,10 +60,9 @@ public class GraphDefinition extends DomainResource {
     private final Uri url;
     @Summary
     private final String version;
-    @Required
     @Summary
-    private final String name;
     @Required
+    private final String name;
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -71,6 +70,7 @@ public class GraphDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -92,7 +92,6 @@ public class GraphDefinition extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
-    @Required
     @Summary
     @Binding(
         bindingName = "ResourceType",
@@ -100,6 +99,7 @@ public class GraphDefinition extends DomainResource {
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
     )
+    @Required
     private final ResourceType start;
     private final Canonical profile;
     private final List<Link> link;
@@ -1397,13 +1397,13 @@ public class GraphDefinition extends DomainResource {
          * Potential target for the link.
          */
         public static class Target extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ResourceType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
             )
+            @Required
             private final ResourceType type;
             private final String params;
             private final Canonical profile;
@@ -1805,29 +1805,29 @@ public class GraphDefinition extends DomainResource {
              * Compartment Consistency Rules.
              */
             public static class Compartment extends BackboneElement {
-                @Required
                 @Binding(
                     bindingName = "GraphCompartmentUse",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Defines how a compartment rule is used.",
                     valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.0.0"
                 )
-                private final GraphCompartmentUse use;
                 @Required
+                private final GraphCompartmentUse use;
                 @Binding(
                     bindingName = "CompartmentCode",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Identifies a compartment.",
                     valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.0"
                 )
-                private final CompartmentCode code;
                 @Required
+                private final CompartmentCode code;
                 @Binding(
                     bindingName = "GraphCompartmentRule",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "How a compartment must be linked.",
                     valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.0.0"
                 )
+                @Required
                 private final GraphCompartmentRule rule;
                 private final String expression;
                 private final String description;

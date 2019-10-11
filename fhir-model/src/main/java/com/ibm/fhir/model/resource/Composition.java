@@ -68,7 +68,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Composition extends DomainResource {
     @Summary
     private final Identifier identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "CompositionStatus",
@@ -76,8 +75,8 @@ public class Composition extends DomainResource {
         description = "The workflow/clinical status of the composition.",
         valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.0"
     )
-    private final CompositionStatus status;
     @Required
+    private final CompositionStatus status;
     @Summary
     @Binding(
         bindingName = "DocumentType",
@@ -85,6 +84,7 @@ public class Composition extends DomainResource {
         description = "Type of a composition.",
         valueSet = "http://hl7.org/fhir/ValueSet/doc-typecodes"
     )
+    @Required
     private final CodeableConcept type;
     @Summary
     @Binding(
@@ -98,14 +98,14 @@ public class Composition extends DomainResource {
     private final Reference subject;
     @Summary
     private final Reference encounter;
-    @Required
     @Summary
+    @Required
     private final DateTime date;
-    @Required
     @Summary
+    @Required
     private final List<Reference> author;
-    @Required
     @Summary
+    @Required
     private final String title;
     @Summary
     @Binding(
@@ -1045,13 +1045,13 @@ public class Composition extends DomainResource {
      * A participant who has attested to the accuracy of the composition/document.
      */
     public static class Attester extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "CompositionAttestationMode",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The way in which a person authenticated a composition.",
             valueSet = "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.0.0"
         )
+        @Required
         private final CompositionAttestationMode mode;
         private final DateTime time;
         private final Reference party;
@@ -1350,16 +1350,16 @@ public class Composition extends DomainResource {
      * Relationships that this composition has with other compositions or documents that already exist.
      */
     public static class RelatesTo extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "DocumentRelationshipType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relationship between documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
         )
-        private final DocumentRelationshipType code;
         @Required
+        private final DocumentRelationshipType code;
         @Choice({ Identifier.class, Reference.class })
+        @Required
         private final Element target;
 
         private volatile int hashCode;

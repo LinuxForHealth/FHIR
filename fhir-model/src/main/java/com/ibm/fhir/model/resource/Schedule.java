@@ -64,8 +64,8 @@ public class Schedule extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
-    @Required
     @Summary
+    @Required
     private final List<Reference> actor;
     @Summary
     private final Period planningHorizon;

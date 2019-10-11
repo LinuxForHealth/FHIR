@@ -47,7 +47,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ImagingStudy extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "ImagingStudyStatus",
@@ -55,6 +54,7 @@ public class ImagingStudy extends DomainResource {
         description = "The status of the ImagingStudy.",
         valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.0"
     )
+    @Required
     private final ImagingStudyStatus status;
     @Summary
     @Binding(
@@ -64,8 +64,8 @@ public class ImagingStudy extends DomainResource {
         valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
     )
     private final List<Coding> modality;
-    @Required
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference encounter;
@@ -1270,12 +1270,11 @@ public class ImagingStudy extends DomainResource {
      * Each study has one or more series of images or other content.
      */
     public static class Series extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Id uid;
         @Summary
         private final UnsignedInt number;
-        @Required
         @Summary
         @Binding(
             bindingName = "ImagingModality",
@@ -1283,6 +1282,7 @@ public class ImagingStudy extends DomainResource {
             description = "Type of acquired data in the instance.",
             valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
         )
+        @Required
         private final Coding modality;
         @Summary
         private final String description;
@@ -1995,8 +1995,8 @@ public class ImagingStudy extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/series-performer-function"
             )
             private final CodeableConcept function;
-            @Required
             @Summary
+            @Required
             private final Reference actor;
 
             private volatile int hashCode;
@@ -2264,13 +2264,13 @@ public class ImagingStudy extends DomainResource {
         public static class Instance extends BackboneElement {
             @Required
             private final Id uid;
-            @Required
             @Binding(
                 bindingName = "sopClass",
                 strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "The sopClass for the instance.",
                 valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1"
             )
+            @Required
             private final Coding sopClass;
             private final UnsignedInt number;
             private final String title;

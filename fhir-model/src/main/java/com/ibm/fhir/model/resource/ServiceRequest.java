@@ -70,7 +70,6 @@ public class ServiceRequest extends DomainResource {
     private final List<Reference> replaces;
     @Summary
     private final Identifier requisition;
-    @Required
     @Summary
     @Binding(
         bindingName = "ServiceRequestStatus",
@@ -78,8 +77,8 @@ public class ServiceRequest extends DomainResource {
         description = "The status of a service order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
-    private final ServiceRequestStatus status;
     @Required
+    private final ServiceRequestStatus status;
     @Summary
     @Binding(
         bindingName = "ServiceRequestIntent",
@@ -87,6 +86,7 @@ public class ServiceRequest extends DomainResource {
         description = "The kind of service request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
+    @Required
     private final ServiceRequestIntent intent;
     @Summary
     @Binding(
@@ -125,8 +125,8 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Choice({ Quantity.class, Ratio.class, Range.class })
     private final Element quantity;
-    @Required
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference encounter;

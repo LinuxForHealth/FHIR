@@ -56,7 +56,6 @@ public class MetadataResource extends DomainResource {
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -64,6 +63,7 @@ public class MetadataResource extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;

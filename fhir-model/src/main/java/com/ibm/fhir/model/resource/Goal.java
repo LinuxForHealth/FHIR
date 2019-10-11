@@ -58,7 +58,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Goal extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "GoalLifecycleStatus",
@@ -66,6 +65,7 @@ public class Goal extends DomainResource {
         description = "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.0.0"
     )
+    @Required
     private final GoalLifecycleStatus lifecycleStatus;
     @Summary
     @Binding(
@@ -91,7 +91,6 @@ public class Goal extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/goal-priority"
     )
     private final CodeableConcept priority;
-    @Required
     @Summary
     @Binding(
         bindingName = "GoalDescription",
@@ -99,9 +98,10 @@ public class Goal extends DomainResource {
         description = "Codes providing the details of a particular goal.  This will generally be system or implementation guide-specific.  In many systems, only the text element will be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
-    private final CodeableConcept description;
     @Required
+    private final CodeableConcept description;
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     @Choice({ Date.class, CodeableConcept.class })

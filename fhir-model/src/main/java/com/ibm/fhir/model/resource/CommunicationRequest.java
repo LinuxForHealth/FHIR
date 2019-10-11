@@ -55,7 +55,6 @@ public class CommunicationRequest extends DomainResource {
     private final List<Reference> replaces;
     @Summary
     private final Identifier groupIdentifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "CommunicationRequestStatus",
@@ -63,6 +62,7 @@ public class CommunicationRequest extends DomainResource {
         description = "The status of the communication request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
+    @Required
     private final CommunicationRequestStatus status;
     @Binding(
         bindingName = "CommunicationRequestStatusReason",
@@ -1356,8 +1356,8 @@ public class CommunicationRequest extends DomainResource {
      * Text, attachment(s), or resource(s) to be communicated to the recipient.
      */
     public static class Payload extends BackboneElement {
-        @Required
         @Choice({ String.class, Attachment.class, Reference.class })
+        @Required
         private final Element content;
 
         private volatile int hashCode;

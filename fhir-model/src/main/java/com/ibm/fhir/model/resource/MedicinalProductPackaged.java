@@ -55,8 +55,8 @@ public class MedicinalProductPackaged extends DomainResource {
     private final List<Reference> manufacturer;
     @Summary
     private final List<BatchIdentifier> batchIdentifier;
-    @Required
     @Summary
+    @Required
     private final List<PackageItem> packageItem;
 
     private volatile int hashCode;
@@ -770,8 +770,8 @@ public class MedicinalProductPackaged extends DomainResource {
      * Batch numbering.
      */
     public static class BatchIdentifier extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Identifier outerPackaging;
         @Summary
         private final Identifier immediatePackaging;
@@ -1041,11 +1041,11 @@ public class MedicinalProductPackaged extends DomainResource {
     public static class PackageItem extends BackboneElement {
         @Summary
         private final List<Identifier> identifier;
-        @Required
         @Summary
+        @Required
         private final CodeableConcept type;
-        @Required
         @Summary
+        @Required
         private final Quantity quantity;
         @Summary
         private final List<CodeableConcept> material;

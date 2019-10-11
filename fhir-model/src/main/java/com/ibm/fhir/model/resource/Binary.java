@@ -29,7 +29,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Binary extends Resource {
-    @Required
     @Summary
     @Binding(
         bindingName = "MimeType",
@@ -37,6 +36,7 @@ public class Binary extends Resource {
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
     )
+    @Required
     private final Code contentType;
     @Summary
     private final Reference securityContext;

@@ -1962,8 +1962,8 @@ public class MedicationKnowledge extends DomainResource {
      * Identifies a particular constituent of interest in the product.
      */
     public static class Ingredient extends BackboneElement {
-        @Required
         @Choice({ CodeableConcept.class, Reference.class })
+        @Required
         private final Element item;
         private final Boolean isActive;
         private final Ratio strength;
@@ -3468,8 +3468,8 @@ public class MedicationKnowledge extends DomainResource {
          * gender, etc.).
          */
         public static class PatientCharacteristics extends BackboneElement {
-            @Required
             @Choice({ CodeableConcept.class, SimpleQuantity.class })
+            @Required
             private final Element characteristic;
             private final List<String> value;
 

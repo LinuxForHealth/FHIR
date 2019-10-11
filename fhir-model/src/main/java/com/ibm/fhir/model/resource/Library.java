@@ -71,7 +71,6 @@ public class Library extends DomainResource {
     @Summary
     private final String title;
     private final String subtitle;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -79,10 +78,10 @@ public class Library extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
-    @Required
     @Summary
     @Binding(
         bindingName = "LibraryType",
@@ -90,6 +89,7 @@ public class Library extends DomainResource {
         description = "The type of knowledge asset this library contains.",
         valueSet = "http://hl7.org/fhir/ValueSet/library-type"
     )
+    @Required
     private final CodeableConcept type;
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(

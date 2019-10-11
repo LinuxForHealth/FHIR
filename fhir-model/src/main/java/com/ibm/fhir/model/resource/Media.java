@@ -53,7 +53,6 @@ public class Media extends DomainResource {
     private final List<Reference> basedOn;
     @Summary
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "MediaStatus",
@@ -61,6 +60,7 @@ public class Media extends DomainResource {
         description = "Codes identifying the lifecycle stage of an event.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
     )
+    @Required
     private final MediaStatus status;
     @Summary
     @Binding(
@@ -125,8 +125,8 @@ public class Media extends DomainResource {
     private final PositiveInt frames;
     @Summary
     private final Decimal duration;
-    @Required
     @Summary
+    @Required
     private final Attachment content;
     private final List<Annotation> note;
 

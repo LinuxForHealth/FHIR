@@ -1852,13 +1852,13 @@ public class Device extends DomainResource {
     public static class DeviceName extends BackboneElement {
         @Required
         private final String name;
-        @Required
         @Binding(
             bindingName = "DeviceNameType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
         )
+        @Required
         private final DeviceNameType type;
 
         private volatile int hashCode;

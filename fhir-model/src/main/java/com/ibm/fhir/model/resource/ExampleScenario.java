@@ -61,7 +61,6 @@ public class ExampleScenario extends DomainResource {
     private final String version;
     @Summary
     private final String name;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -69,6 +68,7 @@ public class ExampleScenario extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -1127,13 +1127,13 @@ public class ExampleScenario extends DomainResource {
     public static class Actor extends BackboneElement {
         @Required
         private final String actorId;
-        @Required
         @Binding(
             bindingName = "ExampleScenarioActorType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of actor - system or human.",
             valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.0.0"
         )
+        @Required
         private final ExampleScenarioActorType type;
         private final String name;
         private final Markdown description;
@@ -1468,13 +1468,13 @@ public class ExampleScenario extends DomainResource {
     public static class Instance extends BackboneElement {
         @Required
         private final String resourceId;
-        @Required
         @Binding(
             bindingName = "FHIRResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of resource.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )
+        @Required
         private final FHIRResourceType resourceType;
         private final String name;
         private final Markdown description;
@@ -2449,8 +2449,8 @@ public class ExampleScenario extends DomainResource {
      * Each major process - a group of operations.
      */
     public static class Process extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final String title;
         private final Markdown description;
         private final Markdown preConditions;

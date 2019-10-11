@@ -69,7 +69,6 @@ public class ResearchDefinition extends DomainResource {
     private final String title;
     private final String shortTitle;
     private final String subtitle;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -77,6 +76,7 @@ public class ResearchDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -127,8 +127,8 @@ public class ResearchDefinition extends DomainResource {
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
     private final List<Canonical> library;
-    @Required
     @Summary
+    @Required
     private final Reference population;
     @Summary
     private final Reference exposure;

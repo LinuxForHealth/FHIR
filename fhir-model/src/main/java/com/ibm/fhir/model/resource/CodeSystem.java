@@ -79,7 +79,6 @@ public class CodeSystem extends DomainResource {
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -87,6 +86,7 @@ public class CodeSystem extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -125,7 +125,6 @@ public class CodeSystem extends DomainResource {
     private final Boolean compositional;
     @Summary
     private final Boolean versionNeeded;
-    @Required
     @Summary
     @Binding(
         bindingName = "CodeSystemContentMode",
@@ -133,6 +132,7 @@ public class CodeSystem extends DomainResource {
         description = "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.0"
     )
+    @Required
     private final CodeSystemContentMode content;
     @Summary
     private final Canonical supplements;
@@ -1447,12 +1447,11 @@ public class CodeSystem extends DomainResource {
      * A filter that can be used in a value set compose statement when selecting concepts using a filter.
      */
     public static class Filter extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Code code;
         @Summary
         private final String description;
-        @Required
         @Summary
         @Binding(
             bindingName = "FilterOperator",
@@ -1460,9 +1459,10 @@ public class CodeSystem extends DomainResource {
             description = "The kind of operation to perform as a part of a property based filter.",
             valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
         )
-        private final List<FilterOperator> operator;
         @Required
+        private final List<FilterOperator> operator;
         @Summary
+        @Required
         private final String value;
 
         private volatile int hashCode;
@@ -1818,14 +1818,13 @@ public class CodeSystem extends DomainResource {
      * A property defines an additional slot through which additional information can be provided about a concept.
      */
     public static class Property extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Code code;
         @Summary
         private final Uri uri;
         @Summary
         private final String description;
-        @Required
         @Summary
         @Binding(
             bindingName = "PropertyType",
@@ -1833,6 +1832,7 @@ public class CodeSystem extends DomainResource {
             description = "The type of a property value.",
             valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.0.0"
         )
+        @Required
         private final PropertyType type;
 
         private volatile int hashCode;
@@ -2949,8 +2949,8 @@ public class CodeSystem extends DomainResource {
         public static class Property extends BackboneElement {
             @Required
             private final Code code;
-            @Required
             @Choice({ Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class })
+            @Required
             private final Element value;
 
             private volatile int hashCode;

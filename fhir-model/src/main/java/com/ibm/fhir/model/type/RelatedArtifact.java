@@ -24,7 +24,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RelatedArtifact extends Element {
-    @Required
     @Summary
     @Binding(
         bindingName = "RelatedArtifactType",
@@ -32,6 +31,7 @@ public class RelatedArtifact extends Element {
         description = "The type of relationship to the related artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.0.0"
     )
+    @Required
     private final RelatedArtifactType type;
     @Summary
     private final String label;

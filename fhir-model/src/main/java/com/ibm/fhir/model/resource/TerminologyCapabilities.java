@@ -97,7 +97,6 @@ public class TerminologyCapabilities extends DomainResource {
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -105,11 +104,12 @@ public class TerminologyCapabilities extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
-    @Required
     @Summary
+    @Required
     private final DateTime date;
     @Summary
     private final String publisher;
@@ -129,7 +129,6 @@ public class TerminologyCapabilities extends DomainResource {
     private final Markdown purpose;
     @Summary
     private final Markdown copyright;
-    @Required
     @Summary
     @Binding(
         bindingName = "CapabilityStatementKind",
@@ -137,6 +136,7 @@ public class TerminologyCapabilities extends DomainResource {
         description = "How a capability statement is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.0"
     )
+    @Required
     private final CapabilityStatementKind kind;
     @Summary
     private final Software software;
@@ -1341,8 +1341,8 @@ public class TerminologyCapabilities extends DomainResource {
      * capabilities of a particular software version, independent of an installation.
      */
     public static class Software extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final String name;
         @Summary
         private final String version;
@@ -1611,8 +1611,8 @@ public class TerminologyCapabilities extends DomainResource {
      * particular installation, rather than the capabilities of a software program.
      */
     public static class Implementation extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final String description;
         @Summary
         private final Url url;

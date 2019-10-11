@@ -69,8 +69,8 @@ public class BodyStructure extends DomainResource {
     @Summary
     private final String description;
     private final List<Attachment> image;
-    @Required
     @Summary
+    @Required
     private final Reference patient;
 
     private volatile int hashCode;

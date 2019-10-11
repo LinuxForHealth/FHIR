@@ -59,7 +59,6 @@ public class Group extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     private final Boolean active;
-    @Required
     @Summary
     @Binding(
         bindingName = "GroupType",
@@ -67,9 +66,10 @@ public class Group extends DomainResource {
         description = "Types of resources that are part of group.",
         valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.0.0"
     )
-    private final GroupType type;
     @Required
+    private final GroupType type;
     @Summary
+    @Required
     private final Boolean actual;
     @Summary
     @Binding(
@@ -772,20 +772,20 @@ public class Group extends DomainResource {
      * Identifies traits whose presence r absence is shared by members of the group.
      */
     public static class Characteristic extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "GroupCharacteristicKind",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "List of characteristics used to describe group members; e.g. gender, age, owner, location, etc."
         )
-        private final CodeableConcept code;
         @Required
+        private final CodeableConcept code;
         @Choice({ CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class })
         @Binding(
             bindingName = "GroupCharacteristicValue",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Value of descriptive member characteristic; e.g. red, male, pneumonia, Caucasian, etc."
         )
+        @Required
         private final Element value;
         @Required
         private final Boolean exclude;

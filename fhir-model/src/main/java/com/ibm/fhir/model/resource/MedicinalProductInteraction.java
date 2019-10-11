@@ -611,9 +611,9 @@ public class MedicinalProductInteraction extends DomainResource {
      * The specific medication, food or laboratory test that interacts.
      */
     public static class Interactant extends BackboneElement {
-        @Required
         @Summary
         @Choice({ Reference.class, CodeableConcept.class })
+        @Required
         private final Element item;
 
         private volatile int hashCode;

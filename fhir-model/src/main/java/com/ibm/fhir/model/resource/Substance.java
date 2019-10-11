@@ -61,7 +61,6 @@ public class Substance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/substance-category"
     )
     private final List<CodeableConcept> category;
-    @Required
     @Summary
     @Binding(
         bindingName = "SubstanceCode",
@@ -69,6 +68,7 @@ public class Substance extends DomainResource {
         description = "Substance codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
     )
+    @Required
     private final CodeableConcept code;
     @Summary
     private final String description;
@@ -980,7 +980,6 @@ public class Substance extends DomainResource {
     public static class Ingredient extends BackboneElement {
         @Summary
         private final Ratio quantity;
-        @Required
         @Summary
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
@@ -989,6 +988,7 @@ public class Substance extends DomainResource {
             description = "Substance Ingredient codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
         )
+        @Required
         private final Element substance;
 
         private volatile int hashCode;

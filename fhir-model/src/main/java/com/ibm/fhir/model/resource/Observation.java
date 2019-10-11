@@ -81,7 +81,6 @@ public class Observation extends DomainResource {
     private final List<Reference> basedOn;
     @Summary
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "ObservationStatus",
@@ -89,6 +88,7 @@ public class Observation extends DomainResource {
         description = "Codes providing the status of an observation.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
+    @Required
     private final ObservationStatus status;
     @Binding(
         bindingName = "ObservationCategory",
@@ -97,7 +97,6 @@ public class Observation extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
     )
     private final List<CodeableConcept> category;
-    @Required
     @Summary
     @Binding(
         bindingName = "ObservationCode",
@@ -105,6 +104,7 @@ public class Observation extends DomainResource {
         description = "Codes identifying names of simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
+    @Required
     private final CodeableConcept code;
     @Summary
     private final Reference subject;
@@ -1976,7 +1976,6 @@ public class Observation extends DomainResource {
      * pressure measurement and multiple component observations for genetics observations.
      */
     public static class Component extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "ObservationCode",
@@ -1984,6 +1983,7 @@ public class Observation extends DomainResource {
             description = "Codes identifying names of simple observations.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
         )
+        @Required
         private final CodeableConcept code;
         @Summary
         @Choice({ Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class })

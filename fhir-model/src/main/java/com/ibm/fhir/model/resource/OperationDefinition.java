@@ -82,12 +82,11 @@ public class OperationDefinition extends DomainResource {
     private final Uri url;
     @Summary
     private final String version;
-    @Required
     @Summary
+    @Required
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -95,8 +94,8 @@ public class OperationDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
-    private final PublicationStatus status;
     @Required
+    private final PublicationStatus status;
     @Summary
     @Binding(
         bindingName = "OperationKind",
@@ -104,6 +103,7 @@ public class OperationDefinition extends DomainResource {
         description = "Whether an operation is a normal operation or a query.",
         valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.0"
     )
+    @Required
     private final OperationKind kind;
     @Summary
     private final Boolean experimental;
@@ -127,8 +127,8 @@ public class OperationDefinition extends DomainResource {
     private final Markdown purpose;
     @Summary
     private final Boolean affectsState;
-    @Required
     @Summary
+    @Required
     private final Code code;
     private final Markdown comment;
     @Summary
@@ -141,14 +141,14 @@ public class OperationDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
     )
     private final List<ResourceType> resource;
-    @Required
     @Summary
+    @Required
     private final Boolean system;
-    @Required
     @Summary
+    @Required
     private final Boolean type;
-    @Required
     @Summary
+    @Required
     private final Boolean instance;
     private final Canonical inputProfile;
     private final Canonical outputProfile;
@@ -1452,13 +1452,13 @@ public class OperationDefinition extends DomainResource {
     public static class Parameter extends BackboneElement {
         @Required
         private final Code name;
-        @Required
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "OperationParameterUse",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Whether an operation parameter is an input or an output parameter.",
             valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.0"
         )
+        @Required
         private final OperationParameterUse use;
         @Required
         private final Integer min;
@@ -2106,13 +2106,13 @@ public class OperationDefinition extends DomainResource {
          * Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).
          */
         public static class Binding extends BackboneElement {
-            @Required
             @com.ibm.fhir.model.annotation.Binding(
                 bindingName = "BindingStrength",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Indication of the degree of conformance expectations associated with a binding.",
                 valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.0"
             )
+            @Required
             private final BindingStrength strength;
             @Required
             private final Canonical valueSet;

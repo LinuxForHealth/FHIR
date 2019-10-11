@@ -50,7 +50,6 @@ public class DocumentReference extends DomainResource {
     private final Identifier masterIdentifier;
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "DocumentReferenceStatus",
@@ -58,6 +57,7 @@ public class DocumentReference extends DomainResource {
         description = "The status of the document reference.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
     )
+    @Required
     private final DocumentReferenceStatus status;
     @Summary
     @Binding(
@@ -103,8 +103,8 @@ public class DocumentReference extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
     private final List<CodeableConcept> securityLabel;
-    @Required
     @Summary
+    @Required
     private final List<Content> content;
     @Summary
     private final Context context;
@@ -1057,7 +1057,6 @@ public class DocumentReference extends DomainResource {
      * Relationships that this document has with other document references that already exist.
      */
     public static class RelatesTo extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "DocumentRelationshipType",
@@ -1065,9 +1064,10 @@ public class DocumentReference extends DomainResource {
             description = "The type of relationship between documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
         )
-        private final DocumentRelationshipType code;
         @Required
+        private final DocumentRelationshipType code;
         @Summary
+        @Required
         private final Reference target;
 
         private volatile int hashCode;
@@ -1336,8 +1336,8 @@ public class DocumentReference extends DomainResource {
      * The document and format referenced. There may be multiple content element repetitions, each with a different format.
      */
     public static class Content extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Attachment attachment;
         @Summary
         @Binding(

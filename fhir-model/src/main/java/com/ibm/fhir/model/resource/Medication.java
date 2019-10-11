@@ -677,8 +677,8 @@ public class Medication extends DomainResource {
      * Identifies a particular constituent of interest in the product.
      */
     public static class Ingredient extends BackboneElement {
-        @Required
         @Choice({ CodeableConcept.class, Reference.class })
+        @Required
         private final Element item;
         private final Boolean isActive;
         private final Ratio strength;

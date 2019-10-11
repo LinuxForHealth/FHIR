@@ -174,8 +174,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ElementDefinition extends BackboneElement {
-    @Required
     @Summary
+    @Required
     private final String path;
     @Summary
     @com.ibm.fhir.model.annotation.Binding(
@@ -1971,7 +1971,6 @@ public class ElementDefinition extends BackboneElement {
         private final String description;
         @Summary
         private final Boolean ordered;
-        @Required
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "SlicingRules",
@@ -1979,6 +1978,7 @@ public class ElementDefinition extends BackboneElement {
             description = "How slices are interpreted when evaluating an instance.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.0.0"
         )
+        @Required
         private final SlicingRules rules;
 
         private volatile int hashCode;
@@ -2335,7 +2335,6 @@ public class ElementDefinition extends BackboneElement {
          * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
          */
         public static class Discriminator extends BackboneElement {
-            @Required
             @Summary
             @com.ibm.fhir.model.annotation.Binding(
                 bindingName = "DiscriminatorType",
@@ -2343,9 +2342,10 @@ public class ElementDefinition extends BackboneElement {
                 description = "How an element value is interpreted when discrimination is evaluated.",
                 valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.0.0"
             )
-            private final DiscriminatorType type;
             @Required
+            private final DiscriminatorType type;
             @Summary
+            @Required
             private final String path;
 
             private volatile int hashCode;
@@ -2619,14 +2619,14 @@ public class ElementDefinition extends BackboneElement {
      * of the element, it will be same.
      */
     public static class Base extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final String path;
-        @Required
         @Summary
+        @Required
         private final UnsignedInt min;
-        @Required
         @Summary
+        @Required
         private final String max;
 
         private volatile int hashCode;
@@ -2931,7 +2931,6 @@ public class ElementDefinition extends BackboneElement {
      * The data type or resource that the value of this element is permitted to be.
      */
     public static class Type extends BackboneElement {
-        @Required
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "FHIRDefinedTypeExt",
@@ -2939,6 +2938,7 @@ public class ElementDefinition extends BackboneElement {
             description = "Either a resource or a data type, including logical model types.",
             valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
         )
+        @Required
         private final Uri code;
         @Summary
         private final List<Canonical> profile;
@@ -3406,12 +3406,12 @@ public class ElementDefinition extends BackboneElement {
      * A sample value for this element demonstrating the type of information that would typically be found in the element.
      */
     public static class Example extends BackboneElement {
-        @Required
         @Summary
-        private final String label;
         @Required
+        private final String label;
         @Summary
         @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
+        @Required
         private final Element value;
 
         private volatile int hashCode;
@@ -3732,12 +3732,11 @@ public class ElementDefinition extends BackboneElement {
      * context of the instance.
      */
     public static class Constraint extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Id key;
         @Summary
         private final String requirements;
-        @Required
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "ConstraintSeverity",
@@ -3745,9 +3744,10 @@ public class ElementDefinition extends BackboneElement {
             description = "SHALL applications comply with this constraint?",
             valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.0.0"
         )
-        private final ConstraintSeverity severity;
         @Required
+        private final ConstraintSeverity severity;
         @Summary
+        @Required
         private final String human;
         @Summary
         private final String expression;
@@ -4181,7 +4181,6 @@ public class ElementDefinition extends BackboneElement {
      * uri).
      */
     public static class Binding extends BackboneElement {
-        @Required
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "BindingStrength",
@@ -4189,6 +4188,7 @@ public class ElementDefinition extends BackboneElement {
             description = "Indication of the degree of conformance expectations associated with a binding.",
             valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.0"
         )
+        @Required
         private final BindingStrength strength;
         @Summary
         private final String description;
@@ -4489,8 +4489,8 @@ public class ElementDefinition extends BackboneElement {
      * Identifies a concept from an external specification that roughly corresponds to this element.
      */
     public static class Mapping extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Id identity;
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
@@ -4500,8 +4500,8 @@ public class ElementDefinition extends BackboneElement {
             valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
         )
         private final Code language;
-        @Required
         @Summary
+        @Required
         private final String map;
         @Summary
         private final String comment;

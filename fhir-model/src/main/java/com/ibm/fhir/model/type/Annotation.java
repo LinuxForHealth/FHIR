@@ -27,8 +27,8 @@ public class Annotation extends Element {
     private final Element author;
     @Summary
     private final DateTime time;
-    @Required
     @Summary
+    @Required
     private final Markdown text;
 
     private volatile int hashCode;

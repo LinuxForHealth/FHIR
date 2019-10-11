@@ -57,7 +57,6 @@ public class Communication extends DomainResource {
     @Summary
     private final List<Reference> partOf;
     private final List<Reference> inResponseTo;
-    @Required
     @Summary
     @Binding(
         bindingName = "CommunicationStatus",
@@ -65,6 +64,7 @@ public class Communication extends DomainResource {
         description = "The status of the communication.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
     )
+    @Required
     private final CommunicationStatus status;
     @Summary
     @Binding(
@@ -1452,8 +1452,8 @@ public class Communication extends DomainResource {
      * Text, attachment(s), or resource(s) that was communicated to the recipient.
      */
     public static class Payload extends BackboneElement {
-        @Required
         @Choice({ String.class, Attachment.class, Reference.class })
+        @Required
         private final Element content;
 
         private volatile int hashCode;

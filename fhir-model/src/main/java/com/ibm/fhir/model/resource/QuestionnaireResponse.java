@@ -66,7 +66,6 @@ public class QuestionnaireResponse extends DomainResource {
     private final List<Reference> partOf;
     @Summary
     private final Canonical questionnaire;
-    @Required
     @Summary
     @Binding(
         bindingName = "QuestionnaireResponseStatus",
@@ -74,6 +73,7 @@ public class QuestionnaireResponse extends DomainResource {
         description = "Lifecycle status of the questionnaire response.",
         valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.0"
     )
+    @Required
     private final QuestionnaireResponseStatus status;
     @Summary
     private final Reference subject;

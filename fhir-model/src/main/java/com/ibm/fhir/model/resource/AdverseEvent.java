@@ -43,7 +43,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class AdverseEvent extends DomainResource {
     @Summary
     private final Identifier identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "AdverseEventActuality",
@@ -51,6 +50,7 @@ public class AdverseEvent extends DomainResource {
         description = "Overall nature of the adverse event, e.g. real or potential.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.0.0"
     )
+    @Required
     private final AdverseEventActuality actuality;
     @Summary
     @Binding(
@@ -68,8 +68,8 @@ public class AdverseEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-type"
     )
     private final CodeableConcept event;
-    @Required
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference encounter;
@@ -1215,8 +1215,8 @@ public class AdverseEvent extends DomainResource {
      * Describes the entity that is suspected to have caused the adverse event.
      */
     public static class SuspectEntity extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Reference instance;
         @Summary
         private final List<Causality> causality;

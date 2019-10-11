@@ -45,7 +45,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class DeviceMetric extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "MetricType",
@@ -53,6 +52,7 @@ public class DeviceMetric extends DomainResource {
         description = "Describes the metric type.",
         valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
     )
+    @Required
     private final CodeableConcept type;
     @Summary
     @Binding(
@@ -82,7 +82,6 @@ public class DeviceMetric extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/metric-color|4.0.0"
     )
     private final DeviceMetricColor color;
-    @Required
     @Summary
     @Binding(
         bindingName = "DeviceMetricCategory",
@@ -90,6 +89,7 @@ public class DeviceMetric extends DomainResource {
         description = "Describes the category of the metric.",
         valueSet = "http://hl7.org/fhir/ValueSet/metric-category|4.0.0"
     )
+    @Required
     private final DeviceMetricCategory category;
     @Summary
     private final Timing measurementPeriod;

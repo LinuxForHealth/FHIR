@@ -49,8 +49,8 @@ public class RelatedPerson extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     private final Boolean active;
-    @Required
     @Summary
+    @Required
     private final Reference patient;
     @Summary
     @Binding(
@@ -906,7 +906,6 @@ public class RelatedPerson extends DomainResource {
      * A language which may be used to communicate with about the patient's health.
      */
     public static class Communication extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.ValueSet.PREFERRED,
@@ -914,6 +913,7 @@ public class RelatedPerson extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )
+        @Required
         private final CodeableConcept language;
         private final Boolean preferred;
 

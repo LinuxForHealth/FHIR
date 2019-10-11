@@ -929,9 +929,6 @@ public class CodeGenerator {
                 if (elementDefinition.getString("path").equals(basePath)) {
                     String fieldName = getFieldName(elementDefinition, path);
                     String fieldType = getFieldType(structureDefinition, elementDefinition);
-                    if (isRequired(elementDefinition)) {
-                        cb.annotation("Required");
-                    }
                     if (isSummary(elementDefinition)) {
                         cb.annotation("Summary");
                     }
@@ -940,6 +937,9 @@ public class CodeGenerator {
                         cb.annotation("Choice", "{ " + types + " }");
                     }
                     generateBindingAnnotation(structureDefinition, cb, className, elementDefinition);
+                    if (isRequired(elementDefinition)) {
+                        cb.annotation("Required");
+                    }
                     cb.field(mods(visibility, "final"), fieldType, fieldName);
                     if (isBackboneElement(elementDefinition)) {
                         nestedPaths.add(elementDefinition.getString("path"));

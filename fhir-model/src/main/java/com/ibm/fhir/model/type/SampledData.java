@@ -22,11 +22,11 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SampledData extends Element {
-    @Required
     @Summary
+    @Required
     private final SimpleQuantity origin;
-    @Required
     @Summary
+    @Required
     private final Decimal period;
     @Summary
     private final Decimal factor;
@@ -34,8 +34,8 @@ public class SampledData extends Element {
     private final Decimal lowerLimit;
     @Summary
     private final Decimal upperLimit;
-    @Required
     @Summary
+    @Required
     private final PositiveInt dimensions;
     private final String data;
 

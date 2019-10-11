@@ -54,7 +54,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationRequest extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "MedicationRequestStatus",
@@ -62,6 +61,7 @@ public class MedicationRequest extends DomainResource {
         description = "A coded concept specifying the state of the prescribing event. Describes the lifecycle of the prescription.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.0.0"
     )
+    @Required
     private final MedicationRequestStatus status;
     @Binding(
         bindingName = "MedicationRequestStatusReason",
@@ -70,7 +70,6 @@ public class MedicationRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-status-reason"
     )
     private final CodeableConcept statusReason;
-    @Required
     @Summary
     @Binding(
         bindingName = "MedicationRequestIntent",
@@ -78,6 +77,7 @@ public class MedicationRequest extends DomainResource {
         description = "The kind of medication order.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.0.0"
     )
+    @Required
     private final MedicationRequestIntent intent;
     @Binding(
         bindingName = "MedicationRequestCategory",
@@ -99,7 +99,6 @@ public class MedicationRequest extends DomainResource {
     @Summary
     @Choice({ Boolean.class, Reference.class })
     private final Element reported;
-    @Required
     @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -108,9 +107,10 @@ public class MedicationRequest extends DomainResource {
         description = "A coded concept identifying substance or product that can be ordered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
-    private final Element medication;
     @Required
+    private final Element medication;
     @Summary
+    @Required
     private final Reference subject;
     private final Reference encounter;
     private final List<Reference> supportingInformation;
@@ -2486,7 +2486,6 @@ public class MedicationRequest extends DomainResource {
      * substitution may be done.
      */
     public static class Substitution extends BackboneElement {
-        @Required
         @Choice({ Boolean.class, CodeableConcept.class })
         @Binding(
             bindingName = "MedicationRequestSubstitution",
@@ -2494,6 +2493,7 @@ public class MedicationRequest extends DomainResource {
             description = "Identifies the type of substitution allowed.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode"
         )
+        @Required
         private final Element allowed;
         @Binding(
             bindingName = "MedicationIntendedSubstitutionReason",

@@ -56,7 +56,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class MedicationDispense extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "MedicationDispenseStatus",
@@ -64,6 +63,7 @@ public class MedicationDispense extends DomainResource {
         description = "A coded concept specifying the state of the dispense event.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.0.0"
     )
+    @Required
     private final MedicationDispenseStatus status;
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -80,7 +80,6 @@ public class MedicationDispense extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-category"
     )
     private final CodeableConcept category;
-    @Required
     @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -89,6 +88,7 @@ public class MedicationDispense extends DomainResource {
         description = "A coded concept identifying which substance or product can be dispensed.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
+    @Required
     private final Element medication;
     @Summary
     private final Reference subject;

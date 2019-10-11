@@ -45,7 +45,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Encounter extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "EncounterStatus",
@@ -53,9 +52,9 @@ public class Encounter extends DomainResource {
         description = "Current state of the encounter.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.0"
     )
+    @Required
     private final EncounterStatus status;
     private final List<StatusHistory> statusHistory;
-    @Required
     @Summary
     @Binding(
         bindingName = "EncounterClass",
@@ -63,6 +62,7 @@ public class Encounter extends DomainResource {
         description = "Classification of the encounter.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode"
     )
+    @Required
     private final Coding clazz;
     private final List<ClassHistory> classHistory;
     @Summary
@@ -1445,13 +1445,13 @@ public class Encounter extends DomainResource {
      * historical versions of the resource, or even have the server store them.
      */
     public static class StatusHistory extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "EncounterStatus",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Current state of the encounter.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.0"
         )
+        @Required
         private final EncounterStatus status;
         @Required
         private final Period period;
@@ -1726,13 +1726,13 @@ public class Encounter extends DomainResource {
      * emergency to inpatient.
      */
     public static class ClassHistory extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "EncounterClass",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "Classification of the encounter.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode"
         )
+        @Required
         private final Coding clazz;
         @Required
         private final Period period;
@@ -2324,8 +2324,8 @@ public class Encounter extends DomainResource {
      * The list of diagnosis relevant to this encounter.
      */
     public static class Diagnosis extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Reference condition;
         @Binding(
             bindingName = "DiagnosisRole",

@@ -48,13 +48,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Provenance extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final List<Reference> target;
     @Choice({ Period.class, DateTime.class })
     private final Element occurred;
-    @Required
     @Summary
+    @Required
     private final Instant recorded;
     private final List<Uri> policy;
     private final Reference location;
@@ -863,8 +863,8 @@ public class Provenance extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
         private final List<CodeableConcept> role;
-        @Required
         @Summary
+        @Required
         private final Reference who;
         private final Reference onBehalfOf;
 
@@ -1216,7 +1216,6 @@ public class Provenance extends DomainResource {
      * An entity used in this activity.
      */
     public static class Entity extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "ProvenanceEntityRole",
@@ -1224,9 +1223,10 @@ public class Provenance extends DomainResource {
             description = "How an entity was used in an activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.0.0"
         )
-        private final ProvenanceEntityRole role;
         @Required
+        private final ProvenanceEntityRole role;
         @Summary
+        @Required
         private final Reference what;
         private final List<Provenance.Agent> agent;
 

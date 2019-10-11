@@ -95,7 +95,6 @@ public class PlanDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/plan-definition-type"
     )
     private final CodeableConcept type;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -103,6 +102,7 @@ public class PlanDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -1749,13 +1749,13 @@ public class PlanDefinition extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/goal-category"
         )
         private final CodeableConcept category;
-        @Required
         @Binding(
             bindingName = "GoalDescription",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Describes goals that can be achieved.",
             valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
         )
+        @Required
         private final CodeableConcept description;
         @Binding(
             bindingName = "GoalPriority",
@@ -3973,13 +3973,13 @@ public class PlanDefinition extends DomainResource {
          * An expression that describes applicability criteria or start/stop conditions for the action.
          */
         public static class Condition extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ActionConditionKind",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines the kinds of conditions that can appear on actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.0"
             )
+            @Required
             private final ActionConditionKind kind;
             private final Expression expression;
 
@@ -4248,13 +4248,13 @@ public class PlanDefinition extends DomainResource {
         public static class RelatedAction extends BackboneElement {
             @Required
             private final Id actionId;
-            @Required
             @Binding(
                 bindingName = "ActionRelationshipType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines the types of relationships between actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.0"
             )
+            @Required
             private final ActionRelationshipType relationship;
             @Choice({ Duration.class, Range.class })
             private final Element offset;
@@ -4563,13 +4563,13 @@ public class PlanDefinition extends DomainResource {
          * Indicates who should participate in performing the action described.
          */
         public static class Participant extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ActionParticipantType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The type of participant for the action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.0"
             )
+            @Required
             private final ActionParticipantType type;
             @Binding(
                 bindingName = "ActionParticipantRole",

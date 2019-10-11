@@ -219,19 +219,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StructureDefinition extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final Uri url;
     @Summary
     private final List<Identifier> identifier;
     @Summary
     private final String version;
-    @Required
     @Summary
+    @Required
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -239,6 +238,7 @@ public class StructureDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -278,7 +278,6 @@ public class StructureDefinition extends DomainResource {
     )
     private final FHIRVersion fhirVersion;
     private final List<Mapping> mapping;
-    @Required
     @Summary
     @Binding(
         bindingName = "StructureDefinitionKind",
@@ -286,15 +285,15 @@ public class StructureDefinition extends DomainResource {
         description = "Defines the type of structure that a definition is describing.",
         valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.0"
     )
-    private final StructureDefinitionKind kind;
     @Required
+    private final StructureDefinitionKind kind;
     @Summary
+    @Required
     private final Boolean _abstract;
     @Summary
     private final List<Context> context;
     @Summary
     private final List<String> contextInvariant;
-    @Required
     @Summary
     @Binding(
         bindingName = "FHIRDefinedTypeExt",
@@ -302,6 +301,7 @@ public class StructureDefinition extends DomainResource {
         description = "Either a resource or a data type, including logical model types.",
         valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
     )
+    @Required
     private final Uri type;
     @Summary
     private final Canonical baseDefinition;
@@ -2022,7 +2022,6 @@ public class StructureDefinition extends DomainResource {
      * Identifies the types of resource or data type elements to which the extension can be applied.
      */
     public static class Context extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "ExtensionContextType",
@@ -2030,9 +2029,10 @@ public class StructureDefinition extends DomainResource {
             description = "How an extension context is interpreted.",
             valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.0"
         )
-        private final ExtensionContextType type;
         @Required
+        private final ExtensionContextType type;
         @Summary
+        @Required
         private final String expression;
 
         private volatile int hashCode;

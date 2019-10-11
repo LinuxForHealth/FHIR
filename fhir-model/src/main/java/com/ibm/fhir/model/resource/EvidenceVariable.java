@@ -78,7 +78,6 @@ public class EvidenceVariable extends DomainResource {
     @Summary
     private final String shortTitle;
     private final String subtitle;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -86,6 +85,7 @@ public class EvidenceVariable extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final DateTime date;
@@ -131,8 +131,8 @@ public class EvidenceVariable extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.0"
     )
     private final EvidenceVariableType type;
-    @Required
     @Summary
+    @Required
     private final List<Characteristic> characteristic;
 
     private volatile int hashCode;
@@ -1578,9 +1578,9 @@ public class EvidenceVariable extends DomainResource {
      */
     public static class Characteristic extends BackboneElement {
         private final String description;
-        @Required
         @Summary
         @Choice({ Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class })
+        @Required
         private final Element definition;
         private final List<UsageContext> usageContext;
         private final Boolean exclude;

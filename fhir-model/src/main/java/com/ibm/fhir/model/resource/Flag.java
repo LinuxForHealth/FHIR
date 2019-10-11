@@ -39,7 +39,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Flag extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "FlagStatus",
@@ -47,6 +46,7 @@ public class Flag extends DomainResource {
         description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.0"
     )
+    @Required
     private final FlagStatus status;
     @Summary
     @Binding(
@@ -56,7 +56,6 @@ public class Flag extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/flag-category"
     )
     private final List<CodeableConcept> category;
-    @Required
     @Summary
     @Binding(
         bindingName = "FlagCode",
@@ -64,9 +63,10 @@ public class Flag extends DomainResource {
         description = "Detail codes identifying specific flagged issues.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-code"
     )
-    private final CodeableConcept code;
     @Required
+    private final CodeableConcept code;
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Period period;

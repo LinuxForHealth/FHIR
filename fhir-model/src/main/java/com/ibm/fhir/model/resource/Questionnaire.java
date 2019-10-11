@@ -169,7 +169,6 @@ public class Questionnaire extends DomainResource {
     @Summary
     private final String title;
     private final List<Canonical> derivedFrom;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -177,6 +176,7 @@ public class Questionnaire extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -1420,13 +1420,13 @@ public class Questionnaire extends DomainResource {
         private final List<Coding> code;
         private final String prefix;
         private final String text;
-        @Required
         @Binding(
             bindingName = "QuestionnaireItemType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Distinguishes groups from questions and display text and indicates data type for questions.",
             valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.0.0"
         )
+        @Required
         private final QuestionnaireItemType type;
         private final List<EnableWhen> enableWhen;
         @Binding(
@@ -2292,15 +2292,14 @@ public class Questionnaire extends DomainResource {
         public static class EnableWhen extends BackboneElement {
             @Required
             private final String question;
-            @Required
             @Binding(
                 bindingName = "QuestionnaireItemOperator",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The criteria by which a question is enabled.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.0.0"
             )
-            private final QuestionnaireItemOperator operator;
             @Required
+            private final QuestionnaireItemOperator operator;
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireQuestionOption3",
@@ -2308,6 +2307,7 @@ public class Questionnaire extends DomainResource {
                 description = "Allowed values to answer questions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )
+            @Required
             private final Element answer;
 
             private volatile int hashCode;
@@ -2624,7 +2624,6 @@ public class Questionnaire extends DomainResource {
          * One of the permitted answers for a "choice" or "open-choice" question.
          */
         public static class AnswerOption extends BackboneElement {
-            @Required
             @Choice({ Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireQuestionOption",
@@ -2632,6 +2631,7 @@ public class Questionnaire extends DomainResource {
                 description = "Allowed values to answer questions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )
+            @Required
             private final Element value;
             private final Boolean initialSelected;
 
@@ -2909,7 +2909,6 @@ public class Questionnaire extends DomainResource {
          * input.
          */
         public static class Initial extends BackboneElement {
-            @Required
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireQuestionOption2",
@@ -2917,6 +2916,7 @@ public class Questionnaire extends DomainResource {
                 description = "Allowed values to answer questions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )
+            @Required
             private final Element value;
 
             private volatile int hashCode;

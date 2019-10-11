@@ -28,7 +28,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ParameterDefinition extends Element {
     @Summary
     private final Code name;
-    @Required
     @Summary
     @Binding(
         bindingName = "ParameterUse",
@@ -36,6 +35,7 @@ public class ParameterDefinition extends Element {
         description = "Whether the parameter is input or output.",
         valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.0"
     )
+    @Required
     private final ParameterUse use;
     @Summary
     private final Integer min;
@@ -43,7 +43,6 @@ public class ParameterDefinition extends Element {
     private final String max;
     @Summary
     private final String documentation;
-    @Required
     @Summary
     @Binding(
         bindingName = "FHIRAllTypes",
@@ -51,6 +50,7 @@ public class ParameterDefinition extends Element {
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
         valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
     )
+    @Required
     private final FHIRAllTypes type;
     @Summary
     private final Canonical profile;

@@ -54,7 +54,6 @@ public class ResearchStudy extends DomainResource {
     private final List<Reference> protocol;
     @Summary
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "ResearchStudyStatus",
@@ -62,6 +61,7 @@ public class ResearchStudy extends DomainResource {
         description = "Codes that convey the current status of the research study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-status|4.0.0"
     )
+    @Required
     private final ResearchStudyStatus status;
     @Summary
     @Binding(

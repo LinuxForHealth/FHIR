@@ -71,7 +71,6 @@ public class CarePlan extends DomainResource {
     private final List<Reference> replaces;
     @Summary
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "CarePlanStatus",
@@ -79,8 +78,8 @@ public class CarePlan extends DomainResource {
         description = "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
-    private final CarePlanStatus status;
     @Required
+    private final CarePlanStatus status;
     @Summary
     @Binding(
         bindingName = "CarePlanIntent",
@@ -88,6 +87,7 @@ public class CarePlan extends DomainResource {
         description = "Codes indicating the degree of authority/intentionality associated with a care plan.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-plan-intent|4.0.0"
     )
+    @Required
     private final CarePlanIntent intent;
     @Summary
     @Binding(
@@ -101,8 +101,8 @@ public class CarePlan extends DomainResource {
     private final String title;
     @Summary
     private final String description;
-    @Required
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference encounter;
@@ -1908,13 +1908,13 @@ public class CarePlan extends DomainResource {
             private final List<CodeableConcept> reasonCode;
             private final List<Reference> reasonReference;
             private final List<Reference> goal;
-            @Required
             @Binding(
                 bindingName = "CarePlanActivityStatus",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Codes that reflect the current state of a care plan activity within its overall life cycle.",
                 valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.0.0"
             )
+            @Required
             private final CarePlanActivityStatus status;
             private final CodeableConcept statusReason;
             private final Boolean doNotPerform;

@@ -114,8 +114,8 @@ public class AllergyIntolerance extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-code"
     )
     private final CodeableConcept code;
-    @Required
     @Summary
+    @Required
     private final Reference patient;
     private final Reference encounter;
     @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
@@ -1055,13 +1055,13 @@ public class AllergyIntolerance extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
         )
         private final CodeableConcept substance;
-        @Required
         @Binding(
             bindingName = "Manifestation",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Clinical symptoms and/or signs that are observed or associated with an Adverse Reaction Event.",
             valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
         )
+        @Required
         private final List<CodeableConcept> manifestation;
         private final String description;
         private final DateTime onset;

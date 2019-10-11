@@ -34,13 +34,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductManufactured extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final CodeableConcept manufacturedDoseForm;
     @Summary
     private final CodeableConcept unitOfPresentation;
-    @Required
     @Summary
+    @Required
     private final Quantity quantity;
     @Summary
     private final List<Reference> manufacturer;

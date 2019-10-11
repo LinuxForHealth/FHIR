@@ -61,7 +61,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class MeasureReport extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "MeasureReportStatus",
@@ -69,8 +68,8 @@ public class MeasureReport extends DomainResource {
         description = "The status of the measure report.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.0.0"
     )
-    private final MeasureReportStatus status;
     @Required
+    private final MeasureReportStatus status;
     @Summary
     @Binding(
         bindingName = "MeasureReportType",
@@ -78,9 +77,10 @@ public class MeasureReport extends DomainResource {
         description = "The type of the measure report.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.0.0"
     )
-    private final MeasureReportType type;
     @Required
+    private final MeasureReportType type;
     @Summary
+    @Required
     private final Canonical measure;
     @Summary
     private final Reference subject;
@@ -88,8 +88,8 @@ public class MeasureReport extends DomainResource {
     private final DateTime date;
     @Summary
     private final Reference reporter;
-    @Required
     @Summary
+    @Required
     private final Period period;
     @Summary
     @Binding(

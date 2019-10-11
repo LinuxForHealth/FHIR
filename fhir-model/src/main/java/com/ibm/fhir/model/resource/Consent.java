@@ -85,7 +85,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Consent extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "ConsentState",
@@ -93,8 +92,8 @@ public class Consent extends DomainResource {
         description = "Indicates the state of the consent.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.0.0"
     )
-    private final ConsentState status;
     @Required
+    private final ConsentState status;
     @Summary
     @Binding(
         bindingName = "ConsentScope",
@@ -102,8 +101,8 @@ public class Consent extends DomainResource {
         description = "The four anticipated uses for the Consent Resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-scope"
     )
-    private final CodeableConcept scope;
     @Required
+    private final CodeableConcept scope;
     @Summary
     @Binding(
         bindingName = "ConsentCategory",
@@ -111,6 +110,7 @@ public class Consent extends DomainResource {
         description = "A classification of the type of consents found in a consent statement.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-category"
     )
+    @Required
     private final List<CodeableConcept> category;
     @Summary
     private final Reference patient;
@@ -1268,8 +1268,8 @@ public class Consent extends DomainResource {
      * or another authorized person.
      */
     public static class Verification extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Boolean verified;
         private final Reference verifiedWith;
         private final DateTime verificationDate;
@@ -2331,13 +2331,13 @@ public class Consent extends DomainResource {
          * 'admitting officers').
          */
         public static class Actor extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ConsentActorRole",
                 strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "How an actor is involved in the consent considerations.",
                 valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
             )
+            @Required
             private final CodeableConcept role;
             @Required
             private final Reference reference;
@@ -2610,7 +2610,6 @@ public class Consent extends DomainResource {
          * The resources controlled by this rule if specific resources are referenced.
          */
         public static class Data extends BackboneElement {
-            @Required
             @Summary
             @Binding(
                 bindingName = "ConsentDataMeaning",
@@ -2618,9 +2617,10 @@ public class Consent extends DomainResource {
                 description = "How a resource reference is interpreted when testing consent restrictions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.0.0"
             )
-            private final ConsentDataMeaning meaning;
             @Required
+            private final ConsentDataMeaning meaning;
             @Summary
+            @Required
             private final Reference reference;
 
             private volatile int hashCode;

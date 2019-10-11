@@ -64,7 +64,6 @@ public class RiskAssessment extends DomainResource {
     private final List<Identifier> identifier;
     private final Reference basedOn;
     private final Reference parent;
-    @Required
     @Summary
     @Binding(
         bindingName = "RiskAssessmentStatus",
@@ -72,6 +71,7 @@ public class RiskAssessment extends DomainResource {
         description = "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
+    @Required
     private final RiskAssessmentStatus status;
     @Summary
     @Binding(
@@ -82,8 +82,8 @@ public class RiskAssessment extends DomainResource {
     private final CodeableConcept method;
     @Summary
     private final CodeableConcept code;
-    @Required
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference encounter;

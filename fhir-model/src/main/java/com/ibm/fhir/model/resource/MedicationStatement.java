@@ -62,7 +62,6 @@ public class MedicationStatement extends DomainResource {
     private final List<Reference> basedOn;
     @Summary
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "MedicationStatementStatus",
@@ -70,6 +69,7 @@ public class MedicationStatement extends DomainResource {
         description = "A coded concept indicating the current status of a MedicationStatement.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.0.0"
     )
+    @Required
     private final MedicationStatementStatus status;
     @Binding(
         bindingName = "MedicationStatementStatusReason",
@@ -86,7 +86,6 @@ public class MedicationStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-category"
     )
     private final CodeableConcept category;
-    @Required
     @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -95,9 +94,10 @@ public class MedicationStatement extends DomainResource {
         description = "A coded concept identifying the substance or product being taken.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
-    private final Element medication;
     @Required
+    private final Element medication;
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference context;

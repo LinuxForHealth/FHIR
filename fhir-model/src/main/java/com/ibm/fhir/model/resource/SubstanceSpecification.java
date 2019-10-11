@@ -3773,8 +3773,8 @@ public class SubstanceSpecification extends DomainResource {
      * Names applicable to this substance.
      */
     public static class Name extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final String name;
         @Summary
         private final CodeableConcept type;

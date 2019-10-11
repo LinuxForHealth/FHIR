@@ -44,11 +44,11 @@ public class CatalogEntry extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     private final CodeableConcept type;
-    @Required
     @Summary
+    @Required
     private final Boolean orderable;
-    @Required
     @Summary
+    @Required
     private final Reference referencedItem;
     private final List<Identifier> additionalIdentifier;
     private final List<CodeableConcept> classification;
@@ -906,13 +906,13 @@ public class CatalogEntry extends DomainResource {
      * Used for example, to point to a substance, or to a device used to administer a medication.
      */
     public static class RelatedEntry extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "CatalogEntryRelationType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relations between entries.",
             valueSet = "http://hl7.org/fhir/ValueSet/relation-type|4.0.0"
         )
+        @Required
         private final CatalogEntryRelationType relationtype;
         @Required
         private final Reference item;

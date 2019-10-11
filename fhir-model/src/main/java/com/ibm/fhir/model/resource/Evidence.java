@@ -66,7 +66,6 @@ public class Evidence extends DomainResource {
     private final String title;
     private final String shortTitle;
     private final String subtitle;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -74,6 +73,7 @@ public class Evidence extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final DateTime date;
@@ -111,8 +111,8 @@ public class Evidence extends DomainResource {
     private final List<ContactDetail> reviewer;
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
-    @Required
     @Summary
+    @Required
     private final Reference exposureBackground;
     @Summary
     private final List<Reference> exposureVariant;

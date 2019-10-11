@@ -46,7 +46,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class DetectedIssue extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "DetectedIssueStatus",
@@ -54,6 +53,7 @@ public class DetectedIssue extends DomainResource {
         description = "Indicates the status of the identified issue.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
+    @Required
     private final DetectedIssueStatus status;
     @Summary
     @Binding(
@@ -1172,13 +1172,13 @@ public class DetectedIssue extends DomainResource {
      * reduce/eliminate the need for any action.
      */
     public static class Mitigation extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "DetectedIssueMitigationAction",
             strength = BindingStrength.ValueSet.PREFERRED,
             description = "Codes describing steps taken to resolve the issue or other circumstances that mitigate the risk associated with the issue; e.g. 'added concurrent therapy', 'prior therapy documented', etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action"
         )
+        @Required
         private final CodeableConcept action;
         private final DateTime date;
         private final Reference author;

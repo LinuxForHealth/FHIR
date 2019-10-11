@@ -53,7 +53,6 @@ public class VerificationResult extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-need"
     )
     private final CodeableConcept need;
-    @Required
     @Summary
     @Binding(
         bindingName = "status",
@@ -61,6 +60,7 @@ public class VerificationResult extends DomainResource {
         description = "The validation status of the target.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-status|4.0.0"
     )
+    @Required
     private final Status status;
     @Summary
     private final DateTime statusDate;

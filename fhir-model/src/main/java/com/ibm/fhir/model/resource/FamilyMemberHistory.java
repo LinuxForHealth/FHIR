@@ -69,7 +69,6 @@ public class FamilyMemberHistory extends DomainResource {
     private final List<Canonical> instantiatesCanonical;
     @Summary
     private final List<Uri> instantiatesUri;
-    @Required
     @Summary
     @Binding(
         bindingName = "FamilyHistoryStatus",
@@ -77,6 +76,7 @@ public class FamilyMemberHistory extends DomainResource {
         description = "A code that identifies the status of the family history record.",
         valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.0.0"
     )
+    @Required
     private final FamilyHistoryStatus status;
     @Summary
     @Binding(
@@ -86,14 +86,13 @@ public class FamilyMemberHistory extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/history-absent-reason"
     )
     private final CodeableConcept dataAbsentReason;
-    @Required
     @Summary
+    @Required
     private final Reference patient;
     @Summary
     private final DateTime date;
     @Summary
     private final String name;
-    @Required
     @Summary
     @Binding(
         bindingName = "FamilialRelationship",
@@ -101,6 +100,7 @@ public class FamilyMemberHistory extends DomainResource {
         description = "The nature of the relationship between the patient and the related person being described in the family member history.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-FamilyMember"
     )
+    @Required
     private final CodeableConcept relationship;
     @Summary
     @Binding(
@@ -1195,13 +1195,13 @@ public class FamilyMemberHistory extends DomainResource {
      * condition.
      */
     public static class Condition extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "ConditionCode",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Identification of the Condition or diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
+        @Required
         private final CodeableConcept code;
         @Binding(
             bindingName = "ConditionOutcome",

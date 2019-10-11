@@ -41,7 +41,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PaymentNotice extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "PaymentNoticeStatus",
@@ -49,23 +48,24 @@ public class PaymentNotice extends DomainResource {
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
+    @Required
     private final PaymentNoticeStatus status;
     private final Reference request;
     private final Reference response;
-    @Required
     @Summary
+    @Required
     private final DateTime created;
     private final Reference provider;
-    @Required
     @Summary
+    @Required
     private final Reference payment;
     private final Date paymentDate;
     private final Reference payee;
-    @Required
     @Summary
+    @Required
     private final Reference recipient;
-    @Required
     @Summary
+    @Required
     private final Money amount;
     @Binding(
         bindingName = "PaymentStatus",

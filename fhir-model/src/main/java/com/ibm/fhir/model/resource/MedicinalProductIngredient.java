@@ -39,8 +39,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class MedicinalProductIngredient extends DomainResource {
     @Summary
     private final Identifier identifier;
-    @Required
     @Summary
+    @Required
     private final CodeableConcept role;
     @Summary
     private final Boolean allergenicIndicator;
@@ -589,11 +589,11 @@ public class MedicinalProductIngredient extends DomainResource {
      * A specified substance that comprises this ingredient.
      */
     public static class SpecifiedSubstance extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final CodeableConcept code;
-        @Required
         @Summary
+        @Required
         private final CodeableConcept group;
         @Summary
         private final CodeableConcept confidentiality;
@@ -947,8 +947,8 @@ public class MedicinalProductIngredient extends DomainResource {
          * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
          */
         public static class Strength extends BackboneElement {
-            @Required
             @Summary
+            @Required
             private final Ratio presentation;
             @Summary
             private final Ratio presentationLowLimit;
@@ -1431,8 +1431,8 @@ public class MedicinalProductIngredient extends DomainResource {
             public static class ReferenceStrength extends BackboneElement {
                 @Summary
                 private final CodeableConcept substance;
-                @Required
                 @Summary
+                @Required
                 private final Ratio strength;
                 @Summary
                 private final Ratio strengthLowLimit;
@@ -1819,8 +1819,8 @@ public class MedicinalProductIngredient extends DomainResource {
      * The ingredient substance.
      */
     public static class Substance extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final CodeableConcept code;
         @Summary
         private final List<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength;

@@ -70,10 +70,9 @@ public class Slot extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0276"
     )
     private final CodeableConcept appointmentType;
-    @Required
     @Summary
-    private final Reference schedule;
     @Required
+    private final Reference schedule;
     @Summary
     @Binding(
         bindingName = "SlotStatus",
@@ -81,12 +80,13 @@ public class Slot extends DomainResource {
         description = "The free/busy status of the slot.",
         valueSet = "http://hl7.org/fhir/ValueSet/slotstatus|4.0.0"
     )
+    @Required
     private final SlotStatus status;
-    @Required
     @Summary
+    @Required
     private final Instant start;
-    @Required
     @Summary
+    @Required
     private final Instant end;
     private final Boolean overbooked;
     private final String comment;

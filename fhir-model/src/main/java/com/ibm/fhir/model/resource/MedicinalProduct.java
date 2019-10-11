@@ -72,8 +72,8 @@ public class MedicinalProduct extends DomainResource {
     private final List<Reference> contact;
     @Summary
     private final List<Reference> clinicalTrial;
-    @Required
     @Summary
+    @Required
     private final List<Name> name;
     @Summary
     private final List<Identifier> crossReference;
@@ -1294,8 +1294,8 @@ public class MedicinalProduct extends DomainResource {
      * The product's name, including full name and possibly coded parts.
      */
     public static class Name extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final String productName;
         @Summary
         private final List<NamePart> namePart;
@@ -1635,11 +1635,11 @@ public class MedicinalProduct extends DomainResource {
          * Coding words or phrases of the name.
          */
         public static class NamePart extends BackboneElement {
-            @Required
             @Summary
+            @Required
             private final String part;
-            @Required
             @Summary
+            @Required
             private final Coding type;
 
             private volatile int hashCode;
@@ -1908,13 +1908,13 @@ public class MedicinalProduct extends DomainResource {
          * Country where the name applies.
          */
         public static class CountryLanguage extends BackboneElement {
-            @Required
             @Summary
+            @Required
             private final CodeableConcept country;
             @Summary
             private final CodeableConcept jurisdiction;
-            @Required
             @Summary
+            @Required
             private final CodeableConcept language;
 
             private volatile int hashCode;

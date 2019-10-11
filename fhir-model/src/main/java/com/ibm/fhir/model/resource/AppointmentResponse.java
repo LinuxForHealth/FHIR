@@ -48,8 +48,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class AppointmentResponse extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
+    @Required
     private final Reference appointment;
     private final Instant start;
     private final Instant end;
@@ -63,7 +63,6 @@ public class AppointmentResponse extends DomainResource {
     private final List<CodeableConcept> participantType;
     @Summary
     private final Reference actor;
-    @Required
     @Summary
     @Binding(
         bindingName = "ParticipantStatus",
@@ -71,6 +70,7 @@ public class AppointmentResponse extends DomainResource {
         description = "The Participation status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.0"
     )
+    @Required
     private final ParticipantStatus participantStatus;
     private final String comment;
 

@@ -631,13 +631,13 @@ public class SpecimenDefinition extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
         )
         private final CodeableConcept type;
-        @Required
         @Binding(
             bindingName = "SpecimenContainedPreference",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Degree of preference of a type of conditioned specimen.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.0.0"
         )
+        @Required
         private final SpecimenContainedPreference preference;
         private final Container container;
         private final String requirement;
@@ -1643,7 +1643,6 @@ public class SpecimenDefinition extends DomainResource {
              * Citrate, EDTA.
              */
             public static class Additive extends BackboneElement {
-                @Required
                 @Choice({ CodeableConcept.class, Reference.class })
                 @Binding(
                     bindingName = "ContainerAdditive",
@@ -1651,6 +1650,7 @@ public class SpecimenDefinition extends DomainResource {
                     description = "Substance added to specimen container.",
                     valueSet = "http://terminology.hl7.org/ValueSet/v2-0371"
                 )
+                @Required
                 private final Element additive;
 
                 private volatile int hashCode;

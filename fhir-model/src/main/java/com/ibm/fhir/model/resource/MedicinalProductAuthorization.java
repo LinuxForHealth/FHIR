@@ -1355,8 +1355,8 @@ public class MedicinalProductAuthorization extends DomainResource {
     public static class Procedure extends BackboneElement {
         @Summary
         private final Identifier identifier;
-        @Required
         @Summary
+        @Required
         private final CodeableConcept type;
         @Summary
         @Choice({ Period.class, DateTime.class })

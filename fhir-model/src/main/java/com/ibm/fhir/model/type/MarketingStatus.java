@@ -22,16 +22,16 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MarketingStatus extends BackboneElement {
-    @Required
     @Summary
+    @Required
     private final CodeableConcept country;
     @Summary
     private final CodeableConcept jurisdiction;
-    @Required
     @Summary
+    @Required
     private final CodeableConcept status;
-    @Required
     @Summary
+    @Required
     private final Period dateRange;
     @Summary
     private final DateTime restoreDate;

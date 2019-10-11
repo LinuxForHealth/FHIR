@@ -151,19 +151,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TestScript extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final Uri url;
     @Summary
     private final Identifier identifier;
     @Summary
     private final String version;
-    @Required
     @Summary
+    @Required
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -171,6 +170,7 @@ public class TestScript extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -1475,13 +1475,13 @@ public class TestScript extends DomainResource {
     public static class Origin extends BackboneElement {
         @Required
         private final Integer index;
-        @Required
         @Binding(
             bindingName = "TestScriptProfileOriginType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of origin profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-origin-types"
         )
+        @Required
         private final Coding profile;
 
         private volatile int hashCode;
@@ -1752,13 +1752,13 @@ public class TestScript extends DomainResource {
     public static class Destination extends BackboneElement {
         @Required
         private final Integer index;
-        @Required
         @Binding(
             bindingName = "TestScriptProfileDestinationType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of destination profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-destination-types"
         )
+        @Required
         private final Coding profile;
 
         private volatile int hashCode;

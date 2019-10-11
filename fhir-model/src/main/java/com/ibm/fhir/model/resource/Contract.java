@@ -1827,13 +1827,13 @@ public class Contract extends DomainResource {
      * associated with and transformable into a Contract.
      */
     public static class ContentDefinition extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "ContractDefinitionType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Detailed codes for the definition of contracts.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-definition-type"
         )
+        @Required
         private final CodeableConcept type;
         @Binding(
             bindingName = "ContractDefinitionSubtype",
@@ -1844,13 +1844,13 @@ public class Contract extends DomainResource {
         private final CodeableConcept subType;
         private final Reference publisher;
         private final DateTime publicationDate;
-        @Required
         @Binding(
             bindingName = "ContractPublicationStatus",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Status of the publication of contract content.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.0.0"
         )
+        @Required
         private final ContractPublicationStatus publicationStatus;
         private final Markdown copyright;
 
@@ -2953,13 +2953,13 @@ public class Contract extends DomainResource {
          */
         public static class SecurityLabel extends BackboneElement {
             private final List<UnsignedInt> number;
-            @Required
             @Binding(
                 bindingName = "ContractSecurityClassification",
                 strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Codes for confidentiality protection.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-security-classification"
             )
+            @Required
             private final Coding classification;
             @Binding(
                 bindingName = "ContractSecurityCategory",
@@ -4025,13 +4025,13 @@ public class Contract extends DomainResource {
             public static class Party extends BackboneElement {
                 @Required
                 private final List<Reference> reference;
-                @Required
                 @Binding(
                     bindingName = "ContractPartyRole",
                     strength = BindingStrength.ValueSet.EXAMPLE,
                     description = "Codes for offer participant roles.",
                     valueSet = "http://hl7.org/fhir/ValueSet/contract-party-role"
                 )
+                @Required
                 private final CodeableConcept role;
 
                 private volatile int hashCode;
@@ -4322,8 +4322,8 @@ public class Contract extends DomainResource {
              * Response to offer text.
              */
             public static class Answer extends BackboneElement {
-                @Required
                 @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
+                @Required
                 private final Element value;
 
                 private volatile int hashCode;
@@ -6534,31 +6534,31 @@ public class Contract extends DomainResource {
          */
         public static class Action extends BackboneElement {
             private final Boolean doNotPerform;
-            @Required
             @Binding(
                 bindingName = "ContractAction",
                 strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Detailed codes for the contract action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-action"
             )
+            @Required
             private final CodeableConcept type;
             private final List<Subject> subject;
-            @Required
             @Binding(
                 bindingName = "ContractActionReason",
                 strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Detailed codes for the contract action reason.",
                 valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
             )
+            @Required
             private final CodeableConcept intent;
             private final List<String> linkId;
-            @Required
             @Binding(
                 bindingName = "ContractActionStatus",
                 strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Codes for the status of an term action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-actionstatus"
             )
+            @Required
             private final CodeableConcept status;
             private final Reference context;
             private final List<String> contextLinkId;
@@ -8035,13 +8035,13 @@ public class Contract extends DomainResource {
      * contract such as a notary or witness.
      */
     public static class Signer extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "ContractSignerType",
             strength = BindingStrength.ValueSet.PREFERRED,
             description = "List of parties who may be signing.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-signer-type"
         )
+        @Required
         private final Coding type;
         @Required
         private final Reference party;
@@ -8373,8 +8373,8 @@ public class Contract extends DomainResource {
      * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
      */
     public static class Friendly extends BackboneElement {
-        @Required
         @Choice({ Attachment.class, Reference.class })
+        @Required
         private final Element content;
 
         private volatile int hashCode;
@@ -8617,8 +8617,8 @@ public class Contract extends DomainResource {
      * List of Legal expressions or representations of this Contract.
      */
     public static class Legal extends BackboneElement {
-        @Required
         @Choice({ Attachment.class, Reference.class })
+        @Required
         private final Element content;
 
         private volatile int hashCode;
@@ -8859,8 +8859,8 @@ public class Contract extends DomainResource {
      * List of Computable Policy Rule Language Representations of this Contract.
      */
     public static class Rule extends BackboneElement {
-        @Required
         @Choice({ Attachment.class, Reference.class })
+        @Required
         private final Element content;
 
         private volatile int hashCode;

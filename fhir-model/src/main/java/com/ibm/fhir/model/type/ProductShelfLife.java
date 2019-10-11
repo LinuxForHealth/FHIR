@@ -26,11 +26,11 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class ProductShelfLife extends BackboneElement {
     @Summary
     private final Identifier identifier;
-    @Required
     @Summary
+    @Required
     private final CodeableConcept type;
-    @Required
     @Summary
+    @Required
     private final Quantity period;
     @Summary
     private final List<CodeableConcept> specialPrecautionsForStorage;

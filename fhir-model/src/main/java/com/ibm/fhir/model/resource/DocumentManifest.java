@@ -43,7 +43,6 @@ public class DocumentManifest extends DomainResource {
     private final Identifier masterIdentifier;
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "DocumentReferenceStatus",
@@ -51,6 +50,7 @@ public class DocumentManifest extends DomainResource {
         description = "The status of the document reference.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
     )
+    @Required
     private final DocumentReferenceStatus status;
     @Summary
     @Binding(
@@ -69,8 +69,8 @@ public class DocumentManifest extends DomainResource {
     private final Uri source;
     @Summary
     private final String description;
-    @Required
     @Summary
+    @Required
     private final List<Reference> content;
     private final List<Related> related;
 

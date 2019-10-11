@@ -69,16 +69,15 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SearchParameter extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final Uri url;
     @Summary
     private final String version;
-    @Required
     @Summary
+    @Required
     private final String name;
     private final Canonical derivedFrom;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -86,6 +85,7 @@ public class SearchParameter extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -95,8 +95,8 @@ public class SearchParameter extends DomainResource {
     private final String publisher;
     @Summary
     private final List<ContactDetail> contact;
-    @Required
     @Summary
+    @Required
     private final Markdown description;
     @Summary
     private final List<UsageContext> useContext;
@@ -109,10 +109,9 @@ public class SearchParameter extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
-    @Required
     @Summary
-    private final Code code;
     @Required
+    private final Code code;
     @Summary
     @Binding(
         bindingName = "ResourceType",
@@ -120,8 +119,8 @@ public class SearchParameter extends DomainResource {
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
     )
-    private final List<ResourceType> base;
     @Required
+    private final List<ResourceType> base;
     @Summary
     @Binding(
         bindingName = "SearchParamType",
@@ -129,6 +128,7 @@ public class SearchParameter extends DomainResource {
         description = "Data types allowed to be used for search parameters.",
         valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.0"
     )
+    @Required
     private final SearchParamType type;
     private final String expression;
     private final String xpath;

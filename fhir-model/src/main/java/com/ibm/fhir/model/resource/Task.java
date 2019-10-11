@@ -103,7 +103,6 @@ public class Task extends DomainResource {
     private final Identifier groupIdentifier;
     @Summary
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "TaskStatus",
@@ -111,6 +110,7 @@ public class Task extends DomainResource {
         description = "The current status of the task.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-status|4.0.0"
     )
+    @Required
     private final TaskStatus status;
     @Summary
     @Binding(
@@ -126,7 +126,6 @@ public class Task extends DomainResource {
         description = "The domain-specific business-contextual sub-state of the task.  For example: \"Blood drawn\", \"IV inserted\", \"Awaiting physician signature\", etc."
     )
     private final CodeableConcept businessStatus;
-    @Required
     @Summary
     @Binding(
         bindingName = "TaskIntent",
@@ -134,6 +133,7 @@ public class Task extends DomainResource {
         description = "Distinguishes whether the task is a proposal, plan or full order.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-intent|4.0.0"
     )
+    @Required
     private final TaskIntent intent;
     @Binding(
         bindingName = "TaskPriority",
@@ -1981,15 +1981,15 @@ public class Task extends DomainResource {
      * Additional information that may be needed in the execution of the task.
      */
     public static class Input extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "TaskInputParameterType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes to identify types of input parameters.  These will typically be specific to a particular workflow.  E.g. \"Comparison source\", \"Applicable consent\", \"Concomitent Medications\", etc."
         )
-        private final CodeableConcept type;
         @Required
+        private final CodeableConcept type;
         @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
+        @Required
         private final Element value;
 
         private volatile int hashCode;
@@ -2311,15 +2311,15 @@ public class Task extends DomainResource {
      * Outputs produced by the Task.
      */
     public static class Output extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "TaskOutputParameterType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes to identify types of input parameters.  These will typically be specific to a particular workflow.  E.g. \"Identified issues\", \"Preliminary results\", \"Filler order\", \"Final results\", etc."
         )
-        private final CodeableConcept type;
         @Required
+        private final CodeableConcept type;
         @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
+        @Required
         private final Element value;
 
         private volatile int hashCode;

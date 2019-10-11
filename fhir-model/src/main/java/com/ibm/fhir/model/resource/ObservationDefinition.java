@@ -53,7 +53,6 @@ public class ObservationDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
     )
     private final List<CodeableConcept> category;
-    @Required
     @Summary
     @Binding(
         bindingName = "ObservationCode",
@@ -61,6 +60,7 @@ public class ObservationDefinition extends DomainResource {
         description = "Codes identifying names of simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
+    @Required
     private final CodeableConcept code;
     @Summary
     private final List<Identifier> identifier;

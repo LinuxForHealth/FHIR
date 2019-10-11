@@ -111,19 +111,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StructureMap extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final Uri url;
     @Summary
     private final List<Identifier> identifier;
     @Summary
     private final String version;
-    @Required
     @Summary
+    @Required
     private final String name;
     @Summary
     private final String title;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -131,6 +130,7 @@ public class StructureMap extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -157,8 +157,8 @@ public class StructureMap extends DomainResource {
     private final List<Structure> structure;
     @Summary
     private final List<Canonical> _import;
-    @Required
     @Summary
+    @Required
     private final List<Group> group;
 
     private volatile int hashCode;
@@ -1215,10 +1215,9 @@ public class StructureMap extends DomainResource {
      * instances that are produced.
      */
     public static class Structure extends BackboneElement {
-        @Required
         @Summary
-        private final Canonical url;
         @Required
+        private final Canonical url;
         @Summary
         @Binding(
             bindingName = "StructureMapModelMode",
@@ -1226,6 +1225,7 @@ public class StructureMap extends DomainResource {
             description = "How the referenced structure is used in this mapping.",
             valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.0"
         )
+        @Required
         private final StructureMapModelMode mode;
         @Summary
         private final String alias;
@@ -1559,12 +1559,11 @@ public class StructureMap extends DomainResource {
      * Organizes the mapping into manageable chunks for human review/ease of maintenance.
      */
     public static class Group extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final Id name;
         @Summary
         private final Id _extends;
-        @Required
         @Summary
         @Binding(
             bindingName = "StructureMapGroupTypeMode",
@@ -1572,14 +1571,15 @@ public class StructureMap extends DomainResource {
             description = "If this is the default rule set to apply for the source type, or this combination of types.",
             valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.0.0"
         )
+        @Required
         private final StructureMapGroupTypeMode typeMode;
         @Summary
         private final String documentation;
-        @Required
         @Summary
+        @Required
         private final List<Input> input;
-        @Required
         @Summary
+        @Required
         private final List<Rule> rule;
 
         private volatile int hashCode;
@@ -2021,12 +2021,11 @@ public class StructureMap extends DomainResource {
          * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
          */
         public static class Input extends BackboneElement {
-            @Required
             @Summary
+            @Required
             private final Id name;
             @Summary
             private final String type;
-            @Required
             @Summary
             @Binding(
                 bindingName = "StructureMapInputMode",
@@ -2034,6 +2033,7 @@ public class StructureMap extends DomainResource {
                 description = "Mode for this instance of data.",
                 valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.0.0"
             )
+            @Required
             private final StructureMapInputMode mode;
             private final String documentation;
 
@@ -2365,11 +2365,11 @@ public class StructureMap extends DomainResource {
          * Transform Rule from source to target.
          */
         public static class Rule extends BackboneElement {
-            @Required
             @Summary
+            @Required
             private final Id name;
-            @Required
             @Summary
+            @Required
             private final List<Source> source;
             @Summary
             private final List<Target> target;
@@ -2850,8 +2850,8 @@ public class StructureMap extends DomainResource {
              * Source inputs to the mapping.
              */
             public static class Source extends BackboneElement {
-                @Required
                 @Summary
+                @Required
                 private final Id context;
                 @Summary
                 private final Integer min;
@@ -3998,9 +3998,9 @@ public class StructureMap extends DomainResource {
                  * Parameters to the transform.
                  */
                 public static class Parameter extends BackboneElement {
-                    @Required
                     @Summary
                     @Choice({ Id.class, String.class, Boolean.class, Integer.class, Decimal.class })
+                    @Required
                     private final Element value;
 
                     private volatile int hashCode;
@@ -4245,11 +4245,11 @@ public class StructureMap extends DomainResource {
              * Which other rules to apply in the context of this rule.
              */
             public static class Dependent extends BackboneElement {
-                @Required
                 @Summary
+                @Required
                 private final Id name;
-                @Required
                 @Summary
+                @Required
                 private final List<String> variable;
 
                 private volatile int hashCode;

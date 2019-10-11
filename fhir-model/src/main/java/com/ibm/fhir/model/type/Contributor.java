@@ -27,7 +27,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Contributor extends Element {
-    @Required
     @Summary
     @Binding(
         bindingName = "ContributorType",
@@ -35,9 +34,10 @@ public class Contributor extends Element {
         description = "The type of contributor.",
         valueSet = "http://hl7.org/fhir/ValueSet/contributor-type|4.0.0"
     )
-    private final ContributorType type;
     @Required
+    private final ContributorType type;
     @Summary
+    @Required
     private final String name;
     @Summary
     private final List<ContactDetail> contact;

@@ -40,8 +40,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class MedicinalProductPharmaceutical extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
+    @Required
     private final CodeableConcept administrableDoseForm;
     @Summary
     private final CodeableConcept unitOfPresentation;
@@ -51,8 +51,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     private final List<Reference> device;
     @Summary
     private final List<Characteristics> characteristics;
-    @Required
     @Summary
+    @Required
     private final List<RouteOfAdministration> routeOfAdministration;
 
     private volatile int hashCode;
@@ -687,8 +687,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * Characteristics e.g. a products onset of action.
      */
     public static class Characteristics extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final CodeableConcept code;
         @Summary
         private final CodeableConcept status;
@@ -956,8 +956,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * The path by which the pharmaceutical product is taken into or makes contact with the body.
      */
     public static class RouteOfAdministration extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final CodeableConcept code;
         @Summary
         private final Quantity firstDose;
@@ -1424,8 +1424,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * A species for which this route applies.
          */
         public static class TargetSpecies extends BackboneElement {
-            @Required
             @Summary
+            @Required
             private final CodeableConcept code;
             @Summary
             private final List<WithdrawalPeriod> withdrawalPeriod;
@@ -1712,11 +1712,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              * A species specific time during which consumption of animal product is not appropriate.
              */
             public static class WithdrawalPeriod extends BackboneElement {
-                @Required
                 @Summary
+                @Required
                 private final CodeableConcept tissue;
-                @Required
                 @Summary
+                @Required
                 private final Quantity value;
                 @Summary
                 private final String supportingInformation;

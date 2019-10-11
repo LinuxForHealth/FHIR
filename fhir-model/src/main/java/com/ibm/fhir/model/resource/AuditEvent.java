@@ -55,7 +55,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AuditEvent extends DomainResource {
-    @Required
     @Summary
     @Binding(
         bindingName = "AuditEventType",
@@ -63,6 +62,7 @@ public class AuditEvent extends DomainResource {
         description = "Type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-type"
     )
+    @Required
     private final Coding type;
     @Summary
     @Binding(
@@ -81,8 +81,8 @@ public class AuditEvent extends DomainResource {
     )
     private final AuditEventAction action;
     private final Period period;
-    @Required
     @Summary
+    @Required
     private final Instant recorded;
     @Summary
     @Binding(
@@ -870,8 +870,8 @@ public class AuditEvent extends DomainResource {
         private final Reference who;
         private final String altId;
         private final String name;
-        @Required
         @Summary
+        @Required
         private final Boolean requestor;
         private final Reference location;
         private final List<Uri> policy;
@@ -1770,8 +1770,8 @@ public class AuditEvent extends DomainResource {
      */
     public static class Source extends BackboneElement {
         private final String site;
-        @Required
         @Summary
+        @Required
         private final Reference observer;
         @Binding(
             bindingName = "AuditEventSourceType",
@@ -2648,8 +2648,8 @@ public class AuditEvent extends DomainResource {
         public static class Detail extends BackboneElement {
             @Required
             private final String type;
-            @Required
             @Choice({ String.class, Base64Binary.class })
+            @Required
             private final Element value;
 
             private volatile int hashCode;

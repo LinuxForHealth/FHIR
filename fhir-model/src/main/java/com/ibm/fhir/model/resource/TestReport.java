@@ -62,7 +62,6 @@ public class TestReport extends DomainResource {
     private final Identifier identifier;
     @Summary
     private final String name;
-    @Required
     @Summary
     @Binding(
         bindingName = "TestReportStatus",
@@ -70,11 +69,11 @@ public class TestReport extends DomainResource {
         description = "The current status of the test report.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-status-codes|4.0.0"
     )
+    @Required
     private final TestReportStatus status;
-    @Required
     @Summary
-    private final Reference testScript;
     @Required
+    private final Reference testScript;
     @Summary
     @Binding(
         bindingName = "TestReportResult",
@@ -82,6 +81,7 @@ public class TestReport extends DomainResource {
         description = "The reported execution result.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-result-codes|4.0.0"
     )
+    @Required
     private final TestReportResult result;
     @Summary
     private final Decimal score;
@@ -826,13 +826,13 @@ public class TestReport extends DomainResource {
      * A participant in the test execution, either the execution engine, a client, or a server.
      */
     public static class Participant extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "TestReportParticipantType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of participant.",
             valueSet = "http://hl7.org/fhir/ValueSet/report-participant-type|4.0.0"
         )
+        @Required
         private final TestReportParticipantType type;
         @Required
         private final Uri uri;
@@ -1649,13 +1649,13 @@ public class TestReport extends DomainResource {
              * The operation performed.
              */
             public static class Operation extends BackboneElement {
-                @Required
                 @Binding(
                     bindingName = "TestReportActionResult",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The results of executing an action.",
                     valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.0.0"
                 )
+                @Required
                 private final TestReportActionResult result;
                 private final Markdown message;
                 private final Uri detail;
@@ -1954,13 +1954,13 @@ public class TestReport extends DomainResource {
              * The results of the assertion performed on the previous operations.
              */
             public static class Assert extends BackboneElement {
-                @Required
                 @Binding(
                     bindingName = "TestReportActionResult",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The results of executing an action.",
                     valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.0.0"
                 )
+                @Required
                 private final TestReportActionResult result;
                 private final Markdown message;
                 private final String detail;

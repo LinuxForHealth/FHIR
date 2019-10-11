@@ -55,7 +55,6 @@ public class ChargeItem extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Uri> definitionUri;
     private final List<Canonical> definitionCanonical;
-    @Required
     @Summary
     @Binding(
         bindingName = "ChargeItemStatus",
@@ -63,9 +62,9 @@ public class ChargeItem extends DomainResource {
         description = "Codes identifying the lifecycle stage of a ChargeItem.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-status|4.0.0"
     )
+    @Required
     private final ChargeItemStatus status;
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "ChargeItemCode",
@@ -73,9 +72,10 @@ public class ChargeItem extends DomainResource {
         description = "Example set of codes that can be used for billing purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
     )
-    private final CodeableConcept code;
     @Required
+    private final CodeableConcept code;
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference context;

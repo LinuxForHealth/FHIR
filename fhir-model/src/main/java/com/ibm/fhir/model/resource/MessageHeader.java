@@ -45,7 +45,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
-    @Required
     @Summary
     @Choice({ Coding.class, Uri.class })
     @Binding(
@@ -54,6 +53,7 @@ public class MessageHeader extends DomainResource {
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
+    @Required
     private final Element event;
     @Summary
     private final List<Destination> destination;
@@ -63,8 +63,8 @@ public class MessageHeader extends DomainResource {
     private final Reference enterer;
     @Summary
     private final Reference author;
-    @Required
     @Summary
+    @Required
     private final Source source;
     @Summary
     private final Reference responsible;
@@ -799,8 +799,8 @@ public class MessageHeader extends DomainResource {
         private final String name;
         @Summary
         private final Reference target;
-        @Required
         @Summary
+        @Required
         private final Url endpoint;
         @Summary
         private final Reference receiver;
@@ -1140,8 +1140,8 @@ public class MessageHeader extends DomainResource {
         private final String version;
         @Summary
         private final ContactPoint contact;
-        @Required
         @Summary
+        @Required
         private final Url endpoint;
 
         private volatile int hashCode;
@@ -1500,10 +1500,9 @@ public class MessageHeader extends DomainResource {
      * Information about the message that this message is a response to. Only present if this message is a response.
      */
     public static class Response extends BackboneElement {
-        @Required
         @Summary
-        private final Id identifier;
         @Required
+        private final Id identifier;
         @Summary
         @Binding(
             bindingName = "ResponseType",
@@ -1511,6 +1510,7 @@ public class MessageHeader extends DomainResource {
             description = "The kind of response to a message.",
             valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.0"
         )
+        @Required
         private final ResponseType code;
         @Summary
         private final Reference details;

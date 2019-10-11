@@ -48,7 +48,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Coverage extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "CoverageStatus",
@@ -56,6 +55,7 @@ public class Coverage extends DomainResource {
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
+    @Required
     private final CoverageStatus status;
     @Summary
     @Binding(
@@ -71,8 +71,8 @@ public class Coverage extends DomainResource {
     private final Reference subscriber;
     @Summary
     private final String subscriberId;
-    @Required
     @Summary
+    @Required
     private final Reference beneficiary;
     @Summary
     private final String dependent;
@@ -85,8 +85,8 @@ public class Coverage extends DomainResource {
     private final CodeableConcept relationship;
     @Summary
     private final Period period;
-    @Required
     @Summary
+    @Required
     private final List<Reference> payor;
     private final List<Class> clazz;
     @Summary
@@ -1062,7 +1062,6 @@ public class Coverage extends DomainResource {
      * A suite of underwriter specific classifiers.
      */
     public static class Class extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "CoverageClass",
@@ -1070,9 +1069,10 @@ public class Coverage extends DomainResource {
             description = "The policy classifications, eg. Group, Plan, Class, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/coverage-class"
         )
-        private final CodeableConcept type;
         @Required
+        private final CodeableConcept type;
         @Summary
+        @Required
         private final String value;
         @Summary
         private final String name;
@@ -1385,9 +1385,9 @@ public class Coverage extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/coverage-copay-type"
         )
         private final CodeableConcept type;
-        @Required
         @Summary
         @Choice({ SimpleQuantity.class, Money.class })
+        @Required
         private final Element value;
         private final List<Exception> exception;
 
@@ -1710,7 +1710,6 @@ public class Coverage extends DomainResource {
          * A suite of codes indicating exceptions or reductions to patient costs and their effective periods.
          */
         public static class Exception extends BackboneElement {
-            @Required
             @Summary
             @Binding(
                 bindingName = "CoverageFinancialException",
@@ -1718,6 +1717,7 @@ public class Coverage extends DomainResource {
                 description = "The types of exceptions from the part or full value of financial obligations such as copays.",
                 valueSet = "http://hl7.org/fhir/ValueSet/coverage-financial-exception"
             )
+            @Required
             private final CodeableConcept type;
             @Summary
             private final Period period;

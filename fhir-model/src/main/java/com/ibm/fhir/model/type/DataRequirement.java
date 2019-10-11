@@ -46,7 +46,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DataRequirement extends Element {
-    @Required
     @Summary
     @Binding(
         bindingName = "FHIRAllTypes",
@@ -54,6 +53,7 @@ public class DataRequirement extends Element {
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
         valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
     )
+    @Required
     private final FHIRAllTypes type;
     @Summary
     private final List<Canonical> profile;
@@ -1289,10 +1289,9 @@ public class DataRequirement extends Element {
      * Specifies the order of the results to be returned.
      */
     public static class Sort extends BackboneElement {
-        @Required
         @Summary
-        private final String path;
         @Required
+        private final String path;
         @Summary
         @Binding(
             bindingName = "SortDirection",
@@ -1300,6 +1299,7 @@ public class DataRequirement extends Element {
             description = "The possible sort directions, ascending or descending.",
             valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.0.0"
         )
+        @Required
         private final SortDirection direction;
 
         private volatile int hashCode;

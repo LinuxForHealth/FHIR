@@ -78,7 +78,6 @@ public class MessageDefinition extends DomainResource {
     private final String title;
     @Summary
     private final List<Canonical> replaces;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -86,11 +85,12 @@ public class MessageDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
-    @Required
     @Summary
+    @Required
     private final DateTime date;
     @Summary
     private final String publisher;
@@ -115,7 +115,6 @@ public class MessageDefinition extends DomainResource {
     private final Canonical base;
     @Summary
     private final List<Canonical> parent;
-    @Required
     @Summary
     @Choice({ Coding.class, Uri.class })
     @Binding(
@@ -124,6 +123,7 @@ public class MessageDefinition extends DomainResource {
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
+    @Required
     private final Element event;
     @Summary
     @Binding(
@@ -1428,7 +1428,6 @@ public class MessageDefinition extends DomainResource {
      * message or two Account records for a merge.
      */
     public static class Focus extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "ResourceType",
@@ -1436,10 +1435,11 @@ public class MessageDefinition extends DomainResource {
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )
+        @Required
         private final ResourceType code;
         private final Canonical profile;
-        @Required
         @Summary
+        @Required
         private final UnsignedInt min;
         private final String max;
 

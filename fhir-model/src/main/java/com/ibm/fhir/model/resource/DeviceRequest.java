@@ -70,7 +70,6 @@ public class DeviceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
     private final DeviceRequestStatus status;
-    @Required
     @Summary
     @Binding(
         bindingName = "RequestIntent",
@@ -78,6 +77,7 @@ public class DeviceRequest extends DomainResource {
         description = "The kind of diagnostic request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
+    @Required
     private final RequestIntent intent;
     @Summary
     @Binding(
@@ -87,7 +87,6 @@ public class DeviceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final RequestPriority priority;
-    @Required
     @Summary
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
@@ -96,10 +95,11 @@ public class DeviceRequest extends DomainResource {
         description = "Codes for devices that can be requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
+    @Required
     private final Element code;
     private final List<Parameter> parameter;
-    @Required
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference encounter;

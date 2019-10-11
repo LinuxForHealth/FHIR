@@ -80,7 +80,6 @@ public class ActivityDefinition extends DomainResource {
     @Summary
     private final String title;
     private final String subtitle;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -88,6 +87,7 @@ public class ActivityDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -2377,13 +2377,13 @@ public class ActivityDefinition extends DomainResource {
      * Indicates who should participate in performing the action described.
      */
     public static class Participant extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "ActivityParticipantType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of participant in the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.0"
         )
+        @Required
         private final ActivityParticipantType type;
         @Binding(
             bindingName = "ActivityParticipantRole",

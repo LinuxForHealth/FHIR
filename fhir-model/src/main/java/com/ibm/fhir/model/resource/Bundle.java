@@ -121,7 +121,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Bundle extends Resource {
     @Summary
     private final Identifier identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "BundleType",
@@ -129,6 +128,7 @@ public class Bundle extends Resource {
         description = "Indicates the purpose of a bundle - how it is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.0.0"
     )
+    @Required
     private final BundleType type;
     @Summary
     private final Instant timestamp;
@@ -566,11 +566,11 @@ public class Bundle extends Resource {
      * A series of links that provide context to this bundle.
      */
     public static class Link extends BackboneElement {
-        @Required
         @Summary
+        @Required
         private final String relation;
-        @Required
         @Summary
+        @Required
         private final Uri url;
 
         private volatile int hashCode;
@@ -1540,7 +1540,6 @@ public class Bundle extends Resource {
          * shows how the entry was processed to create the version contained in the entry.
          */
         public static class Request extends BackboneElement {
-            @Required
             @Summary
             @Binding(
                 bindingName = "HTTPVerb",
@@ -1548,9 +1547,10 @@ public class Bundle extends Resource {
                 description = "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
                 valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.0.0"
             )
-            private final HTTPVerb method;
             @Required
+            private final HTTPVerb method;
             @Summary
+            @Required
             private final Uri url;
             @Summary
             private final String ifNoneMatch;
@@ -1964,8 +1964,8 @@ public class Bundle extends Resource {
          * or what the results of an operation where when returning history.
          */
         public static class Response extends BackboneElement {
-            @Required
             @Summary
+            @Required
             private final String status;
             @Summary
             private final Uri location;

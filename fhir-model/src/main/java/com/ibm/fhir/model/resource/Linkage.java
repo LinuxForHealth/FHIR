@@ -48,8 +48,8 @@ public class Linkage extends DomainResource {
     private final Boolean active;
     @Summary
     private final Reference author;
-    @Required
     @Summary
+    @Required
     private final List<Item> item;
 
     private volatile int hashCode;
@@ -483,7 +483,6 @@ public class Linkage extends DomainResource {
      * be evaluated within the collection of linked items.
      */
     public static class Item extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "LinkageType",
@@ -491,9 +490,10 @@ public class Linkage extends DomainResource {
             description = "Used to distinguish different roles a resource can play within a set of linked resources.",
             valueSet = "http://hl7.org/fhir/ValueSet/linkage-type|4.0.0"
         )
-        private final LinkageType type;
         @Required
+        private final LinkageType type;
         @Summary
+        @Required
         private final Reference resource;
 
         private volatile int hashCode;

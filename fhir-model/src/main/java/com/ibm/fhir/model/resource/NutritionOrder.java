@@ -61,7 +61,6 @@ public class NutritionOrder extends DomainResource {
     @Summary
     private final List<Uri> instantiatesUri;
     private final List<Uri> instantiates;
-    @Required
     @Summary
     @Binding(
         bindingName = "NutritionOrderStatus",
@@ -69,8 +68,8 @@ public class NutritionOrder extends DomainResource {
         description = "Codes identifying the lifecycle stage of the nutrition order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
-    private final NutritionOrderStatus status;
     @Required
+    private final NutritionOrderStatus status;
     @Summary
     @Binding(
         bindingName = "NutritiionOrderIntent",
@@ -78,13 +77,14 @@ public class NutritionOrder extends DomainResource {
         description = "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
-    private final NutritionOrderIntent intent;
     @Required
+    private final NutritionOrderIntent intent;
     @Summary
+    @Required
     private final Reference patient;
     private final Reference encounter;
-    @Required
     @Summary
+    @Required
     private final DateTime dateTime;
     @Summary
     private final Reference orderer;

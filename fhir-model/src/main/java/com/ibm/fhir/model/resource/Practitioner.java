@@ -842,13 +842,13 @@ public class Practitioner extends DomainResource {
      */
     public static class Qualification extends BackboneElement {
         private final List<Identifier> identifier;
-        @Required
         @Binding(
             bindingName = "Qualification",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Specific qualification the practitioner has to provide a service.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-2.7-0360"
         )
+        @Required
         private final CodeableConcept code;
         private final Period period;
         private final Reference issuer;

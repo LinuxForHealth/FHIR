@@ -57,7 +57,6 @@ public class Procedure extends DomainResource {
     private final List<Reference> basedOn;
     @Summary
     private final List<Reference> partOf;
-    @Required
     @Summary
     @Binding(
         bindingName = "ProcedureStatus",
@@ -65,6 +64,7 @@ public class Procedure extends DomainResource {
         description = "A code specifying the state of the procedure.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
     )
+    @Required
     private final ProcedureStatus status;
     @Summary
     @Binding(
@@ -90,8 +90,8 @@ public class Procedure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
     private final CodeableConcept code;
-    @Required
     @Summary
+    @Required
     private final Reference subject;
     @Summary
     private final Reference encounter;
@@ -1730,8 +1730,8 @@ public class Procedure extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
         )
         private final CodeableConcept function;
-        @Required
         @Summary
+        @Required
         private final Reference actor;
         private final Reference onBehalfOf;
 

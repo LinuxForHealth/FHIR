@@ -672,12 +672,12 @@ public class MedicinalProductContraindication extends DomainResource {
      * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
      */
     public static class OtherTherapy extends BackboneElement {
-        @Required
         @Summary
-        private final CodeableConcept therapyRelationshipType;
         @Required
+        private final CodeableConcept therapyRelationshipType;
         @Summary
         @Choice({ CodeableConcept.class, Reference.class })
+        @Required
         private final Element medication;
 
         private volatile int hashCode;

@@ -56,7 +56,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Immunization extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "ImmunizationStatus",
@@ -64,6 +63,7 @@ public class Immunization extends DomainResource {
         description = "A set of codes indicating the current status of an Immunization.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-status|4.0.0"
     )
+    @Required
     private final ImmunizationStatus status;
     @Binding(
         bindingName = "ImmunizationStatusReason",
@@ -72,7 +72,6 @@ public class Immunization extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-status-reason"
     )
     private final CodeableConcept statusReason;
-    @Required
     @Summary
     @Binding(
         bindingName = "VaccineCode",
@@ -80,14 +79,15 @@ public class Immunization extends DomainResource {
         description = "The code for vaccine product administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
     )
-    private final CodeableConcept vaccineCode;
     @Required
+    private final CodeableConcept vaccineCode;
     @Summary
+    @Required
     private final Reference patient;
     private final Reference encounter;
-    @Required
     @Summary
     @Choice({ DateTime.class, String.class })
+    @Required
     private final Element occurrence;
     private final DateTime recorded;
     @Summary
@@ -1570,8 +1570,8 @@ public class Immunization extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-function"
         )
         private final CodeableConcept function;
-        @Required
         @Summary
+        @Required
         private final Reference actor;
 
         private volatile int hashCode;
@@ -2460,8 +2460,8 @@ public class Immunization extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-target-disease"
         )
         private final List<CodeableConcept> targetDisease;
-        @Required
         @Choice({ PositiveInt.class, String.class })
+        @Required
         private final Element doseNumber;
         @Choice({ PositiveInt.class, String.class })
         private final Element seriesDoses;

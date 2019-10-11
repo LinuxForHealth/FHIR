@@ -67,10 +67,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class NamingSystem extends DomainResource {
-    @Required
     @Summary
-    private final String name;
     @Required
+    private final String name;
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -78,8 +77,8 @@ public class NamingSystem extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
-    private final PublicationStatus status;
     @Required
+    private final PublicationStatus status;
     @Summary
     @Binding(
         bindingName = "NamingSystemType",
@@ -87,9 +86,10 @@ public class NamingSystem extends DomainResource {
         description = "Identifies the purpose of the naming system.",
         valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.0.0"
     )
-    private final NamingSystemType kind;
     @Required
+    private final NamingSystemType kind;
     @Summary
+    @Required
     private final DateTime date;
     @Summary
     private final String publisher;
@@ -115,8 +115,8 @@ public class NamingSystem extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final String usage;
-    @Required
     @Summary
+    @Required
     private final List<UniqueId> uniqueId;
 
     private volatile int hashCode;
@@ -944,7 +944,6 @@ public class NamingSystem extends DomainResource {
      * Indicates how the system may be identified when referenced in electronic exchange.
      */
     public static class UniqueId extends BackboneElement {
-        @Required
         @Summary
         @Binding(
             bindingName = "NamingSystemIdentifierType",
@@ -952,9 +951,10 @@ public class NamingSystem extends DomainResource {
             description = "Identifies the style of unique identifier used to identify a namespace.",
             valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.0"
         )
-        private final NamingSystemIdentifierType type;
         @Required
+        private final NamingSystemIdentifierType type;
         @Summary
+        @Required
         private final String value;
         private final Boolean preferred;
         private final String comment;

@@ -45,7 +45,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PaymentReconciliation extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "PaymentReconciliationStatus",
@@ -53,11 +52,12 @@ public class PaymentReconciliation extends DomainResource {
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
+    @Required
     private final PaymentReconciliationStatus status;
     @Summary
     private final Period period;
-    @Required
     @Summary
+    @Required
     private final DateTime created;
     @Summary
     private final Reference paymentIssuer;
@@ -71,11 +71,11 @@ public class PaymentReconciliation extends DomainResource {
     )
     private final RemittanceOutcome outcome;
     private final String disposition;
-    @Required
     @Summary
+    @Required
     private final Date paymentDate;
-    @Required
     @Summary
+    @Required
     private final Money paymentAmount;
     private final Identifier paymentIdentifier;
     private final List<Detail> detail;
@@ -934,13 +934,13 @@ public class PaymentReconciliation extends DomainResource {
     public static class Detail extends BackboneElement {
         private final Identifier identifier;
         private final Identifier predecessor;
-        @Required
         @Binding(
             bindingName = "PaymentType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The reason for the amount: payment, adjustment, advance.",
             valueSet = "http://hl7.org/fhir/ValueSet/payment-type"
         )
+        @Required
         private final CodeableConcept type;
         private final Reference request;
         private final Reference submitter;

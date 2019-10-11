@@ -77,7 +77,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Appointment extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "AppointmentStatus",
@@ -85,6 +84,7 @@ public class Appointment extends DomainResource {
         description = "The free/busy status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.0.0"
     )
+    @Required
     private final AppointmentStatus status;
     @Summary
     @Binding(
@@ -1426,7 +1426,6 @@ public class Appointment extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.0.0"
         )
         private final ParticipantRequired required;
-        @Required
         @Summary
         @Binding(
             bindingName = "ParticipationStatus",
@@ -1434,6 +1433,7 @@ public class Appointment extends DomainResource {
             description = "The Participation status of an appointment.",
             valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.0"
         )
+        @Required
         private final ParticipationStatus status;
         private final Period period;
 

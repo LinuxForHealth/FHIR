@@ -43,7 +43,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationEvaluation extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "ImmunizationEvaluationStatus",
@@ -51,13 +50,13 @@ public class ImmunizationEvaluation extends DomainResource {
         description = "The status of the evaluation being done.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.0.0"
     )
-    private final ImmunizationEvaluationStatus status;
     @Required
+    private final ImmunizationEvaluationStatus status;
     @Summary
+    @Required
     private final Reference patient;
     private final DateTime date;
     private final Reference authority;
-    @Required
     @Summary
     @Binding(
         bindingName = "EvaluationTargetDisease",
@@ -65,11 +64,11 @@ public class ImmunizationEvaluation extends DomainResource {
         description = "The vaccine preventable disease the dose is being evaluated against.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-target-disease"
     )
+    @Required
     private final CodeableConcept targetDisease;
-    @Required
     @Summary
-    private final Reference immunizationEvent;
     @Required
+    private final Reference immunizationEvent;
     @Summary
     @Binding(
         bindingName = "EvaluationDoseStatus",
@@ -77,6 +76,7 @@ public class ImmunizationEvaluation extends DomainResource {
         description = "The status of the administered dose relative to the published recommendations for the target disease.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status"
     )
+    @Required
     private final CodeableConcept doseStatus;
     @Binding(
         bindingName = "EvaluationDoseStatusReason",

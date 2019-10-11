@@ -59,8 +59,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ChargeItemDefinition extends DomainResource {
-    @Required
     @Summary
+    @Required
     private final Uri url;
     @Summary
     private final List<Identifier> identifier;
@@ -74,7 +74,6 @@ public class ChargeItemDefinition extends DomainResource {
     private final List<Canonical> partOf;
     @Summary
     private final List<Canonical> replaces;
-    @Required
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
@@ -82,6 +81,7 @@ public class ChargeItemDefinition extends DomainResource {
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
@@ -2004,13 +2004,13 @@ public class ChargeItemDefinition extends DomainResource {
          * the Invoice of how the prices have been calculated.
          */
         public static class PriceComponent extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ChargeItemDefinitionPriceComponentType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
                 valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.0"
             )
+            @Required
             private final ChargeItemDefinitionPriceComponentType type;
             private final CodeableConcept code;
             private final Decimal factor;

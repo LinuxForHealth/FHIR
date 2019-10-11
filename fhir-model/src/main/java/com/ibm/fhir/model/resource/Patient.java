@@ -1577,7 +1577,6 @@ public class Patient extends DomainResource {
      * A language which may be used to communicate with the patient about his or her health.
      */
     public static class Communication extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.ValueSet.PREFERRED,
@@ -1585,6 +1584,7 @@ public class Patient extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )
+        @Required
         private final CodeableConcept language;
         private final Boolean preferred;
 
@@ -1855,10 +1855,9 @@ public class Patient extends DomainResource {
      * Link to another patient resource that concerns the same actual patient.
      */
     public static class Link extends BackboneElement {
-        @Required
         @Summary
-        private final Reference other;
         @Required
+        private final Reference other;
         @Summary
         @Binding(
             bindingName = "LinkType",
@@ -1866,6 +1865,7 @@ public class Patient extends DomainResource {
             description = "The type of link between this patient resource and another patient resource.",
             valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.0.0"
         )
+        @Required
         private final LinkType type;
 
         private volatile int hashCode;

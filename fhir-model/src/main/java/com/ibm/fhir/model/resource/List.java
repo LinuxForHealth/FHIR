@@ -64,7 +64,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class List extends DomainResource {
     private final java.util.List<Identifier> identifier;
-    @Required
     @Summary
     @Binding(
         bindingName = "ListStatus",
@@ -72,8 +71,8 @@ public class List extends DomainResource {
         description = "The current state of the list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-status|4.0.0"
     )
-    private final ListStatus status;
     @Required
+    private final ListStatus status;
     @Summary
     @Binding(
         bindingName = "ListMode",
@@ -81,6 +80,7 @@ public class List extends DomainResource {
         description = "The processing mode that applies to this list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.0"
     )
+    @Required
     private final ListMode mode;
     @Summary
     private final String title;
