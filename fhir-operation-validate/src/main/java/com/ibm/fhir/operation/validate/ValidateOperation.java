@@ -87,7 +87,7 @@ public class ValidateOperation extends AbstractOperation {
                 .text(Narrative.builder()
                     .status(NarrativeStatus.ADDITIONAL)
                     .div(xhtml(hasError? "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>ERROR</p></div>"
-                            : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>NoERROR</p></div>" ))
+                            : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No error</p></div>" ))
                     .build())
                 .issue(issues)
                 .build();
