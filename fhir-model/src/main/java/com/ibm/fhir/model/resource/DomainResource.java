@@ -14,7 +14,6 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;

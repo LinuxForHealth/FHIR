@@ -21,19 +21,16 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 
 /**
- * <p>DefaultVisitor provides a default implementation of the Visitor interface which uses the
+ * DefaultVisitor provides a default implementation of the Visitor interface which uses the
  * value of the passed {@code visitChildren} boolean to control whether or not to
  * visit the children of the Resource or Element being visited.
  * 
- * <p>By default, each visit method will delegate the call to the its parent type and so all visit
- * method calls lead to {@code visit(java.lang.String elementName, int elementIndex, Visitable visitable)}
- * 
- * <p>Subclasses can override the default behavior in a number of places, including:
+ * Subclasses can override the default behavior in a number of places, including:
  * <ul>
  * <li>preVisit methods to control whether a given Resource or Element gets visited
  * <li>visitStart methods to provide setup behavior prior to the visit
- * <li>supertype visit methods to perform common actions on all subtype visits
- * <li>subtype visit methods to perform behavior that is unique to the type being visited
+ * <li>defaultAction methods to perform some common action on all visited Resources and Elements
+ * <li>specific visit methods to perform unique behavior that varies by the type being visited
  * <li>visitEnd methods to provide initial cleanup behavior after a Resource or Element has been visited
  * <li>postVisit methods to provide final cleanup behavior after a Resource or Element has been visited
  * </ul>
@@ -41,6 +38,7 @@ import com.ibm.fhir.model.type.String;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DefaultVisitor implements Visitor {
     protected boolean visitChildren;
+
     /**
      * Subclasses can override this method to provide a default action for all visit methods.
      * @return
@@ -53,7 +51,7 @@ public class DefaultVisitor implements Visitor {
     /**
      * @param visitChildren
      *     Whether to visit children of a Resource or Element by default. Note that subclasses may override the visit methods 
-     *     and decide whether to use the passed boolean or not.
+     *     and/or the defaultAction methods and decide whether to use the passed boolean or not.
      */
     public DefaultVisitor(boolean visitChildren) {
         this.visitChildren = visitChildren;

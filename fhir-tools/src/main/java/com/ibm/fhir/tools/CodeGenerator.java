@@ -335,6 +335,7 @@ public class CodeGenerator {
         cb._class(mods("public"), "DefaultVisitor", null, implementsInterfaces("Visitor"));
         
         cb.decl(mods("protected"), "boolean", "visitChildren");
+        cb.newLine();
         
         cb.javadocStart();
         cb.javadoc("Subclasses can override this method to provide a default action for all visit methods.");
@@ -452,7 +453,7 @@ public class CodeGenerator {
     }
 
     private void generateAcceptMethod(JsonObject structureDefinition, String className, String path, CodeBuilder cb) {
-        if (isAbstract(structureDefinition) || isCodeSubtype(className) || isNestedType(className)) {
+        if (isAbstract(structureDefinition) || isCodeSubtype(className)) {
             return;
         }
         
@@ -547,8 +548,7 @@ public class CodeGenerator {
         List<String> requiredElementNames = new ArrayList<>();
                  
         for (JsonObject elementDefinition : elementDefinitions) {
-            String basePath = elementDefinition.getJsonObject("base").getString("path");
-            boolean declaredBy = elementDefinition.getString("path").equals(basePath) && !isProfiledType(className);
+            boolean declaredBy = isDeclaredBy(className, elementDefinition);
             
             String fieldName = getFieldName(elementDefinition, path);
             String fieldType = getFieldType(structureDefinition, elementDefinition);
@@ -730,6 +730,17 @@ public class CodeGenerator {
         cb.end();
         
         cb._end();
+    }
+
+    /**
+     * @param className The name of the class currently being generated
+     * @param elementDefinition
+     * @return true if the element specified by the ElementDefintion is declared by the class being generated
+     */
+    private boolean isDeclaredBy(String className, JsonObject elementDefinition) {
+        String basePath = elementDefinition.getJsonObject("base").getString("path");
+        boolean declaredBy = elementDefinition.getString("path").equals(basePath) && !isProfiledType(className);
+        return declaredBy;
     }
 
     private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String paramType, CodeBuilder cb) {
@@ -1521,7 +1532,7 @@ public class CodeGenerator {
                 imports.add("com.ibm.fhir.model.annotation.Required");
             }
             
-            if (isSummary(elementDefinition)) {
+            if (isSummary(elementDefinition) && isDeclaredBy(className, elementDefinition)) {
                 imports.add("com.ibm.fhir.model.annotation.Summary");
             }
             
@@ -1744,7 +1755,7 @@ public class CodeGenerator {
         List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
         for (JsonObject elementDefinition : elementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
-            boolean declaredBy = elementDefinition.getString("path").equals(basePath);            
+            boolean declaredBy = elementDefinition.getString("path").equals(basePath);
             if (declaredBy) {
                 String elementName = getElementName(elementDefinition, path);
                 String fieldName = getFieldName(elementName);
@@ -2882,16 +2893,19 @@ public class CodeGenerator {
         cb.javadocStart();
         cb.javadoc("@return true if this Element should be visited; otherwise false");
         cb.javadocEnd();
-        cb.abstractMethod(mods(), "boolean", "preVisit", params("Element element"));
+        cb.abstractMethod(mods(), "boolean", "preVisit", params("Element element")).newLine();
         cb.javadocStart();
         cb.javadoc("@return true if this Resource should be visited; otherwise false");
         cb.javadocEnd();
-        cb.abstractMethod(mods(), "boolean", "preVisit", params("Resource resource"));
+        cb.abstractMethod(mods(), "boolean", "preVisit", params("Resource resource")).newLine();
+        
         cb.abstractMethod(mods(), "void", "postVisit", params("Element element"));
         cb.abstractMethod(mods(), "void", "postVisit", params("Resource resource"));
+        cb.newLine();
         cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "int elementIndex", "Element element"));
         cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
         cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type"));
+        cb.newLine();
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Element element"));
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type"));
@@ -2916,6 +2930,7 @@ public class CodeGenerator {
             cb.javadocReturn("true if the children of this " + paramName + " should be visited; otherwise false");
             cb.javadocEnd();
             cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName));
+            cb.newLine();
         }
 
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "byte[] value"));
@@ -3467,10 +3482,6 @@ public class CodeGenerator {
         return "positiveInt".equals(structureDefinition.getString("name"));
     }
     
-    private boolean isPrimitiveSubtype(JsonObject structureDefinition) {
-        return isStringSubtype(structureDefinition) || isUriSubtype(structureDefinition) || isIntegerSubtype(structureDefinition);
-    }
-
     private boolean isPrimitiveSubtype(String className) {
         return isStringSubtype(className) || 
                 isCodeSubtype(className) || 
