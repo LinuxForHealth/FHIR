@@ -78,12 +78,16 @@ public class ValidateOperation extends AbstractOperation {
                             .build())
                         .build());
         }
+        
+        boolean hasError = issues.stream().anyMatch(issue -> IssueSeverity.ERROR.equals(issue.getSeverity())
+                || IssueSeverity.FATAL.equals(issue.getSeverity()));
                 
         OperationOutcome operationOutcome = OperationOutcome.builder()
-                .id(Id.of("NoError"))
+                .id(Id.of(hasError? "Error" : "NoError"))
                 .text(Narrative.builder()
                     .status(NarrativeStatus.ADDITIONAL)
-                    .div(xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No ERROR</p></div>"))
+                    .div(xhtml(hasError? "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>ERROR</p></div>"
+                            : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No error</p></div>" ))
                     .build())
                 .issue(issues)
                 .build();
