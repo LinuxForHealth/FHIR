@@ -5,24 +5,20 @@
   },
   "extension": [
     {
-      "__comment": "case- and accent-insensitive search against sequences of characters",
       "url": "http://example.org/string",
       "valueString": "testString"
     },
     {
-      "__comment": "case- and accent-insensitive search against sequences of characters",
       "url": "http://example.org/string",
       "valueString": "special testChars & : ; $ | , \\"
     },
     {
-      "__comment": "search on any elements in the address",
       "url": "http://example.org/Address",
       "valueAddress": {
         "text": "4025 S. Miami Blvd., Durham, NC 27703"
       }
     },
     {
-      "__comment": "Search on any element in the name",
       "url": "http://example.org/HumanName",
       "valueHumanName": {
         "text": "Topo Gigio"

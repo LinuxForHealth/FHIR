@@ -11,7 +11,6 @@ import java.util.Properties;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
@@ -25,11 +24,11 @@ public class JDBCNormSearchReferenceTest extends AbstractSearchReferenceTest {
     public JDBCNormSearchReferenceTest() throws Exception {
         this.testProps = readTestProperties("test.normalized.properties");
     }
-    
 
     @BeforeClass
-    public void setTenant() throws FHIRException {
+    public void setTenantAndCreateResources() throws Exception {
         FHIRRequestContext.get().setTenantId("reference");
+        super.createResources();
     }
 
     @Override

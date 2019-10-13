@@ -17,18 +17,11 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
  */
 public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 
+    protected Basic getBasicResource() throws Exception {
+        return readResource("json/ibm/basic/BasicString.json");
+    }
+
     @Test
-    public void testCreateBasicResource() throws Exception {
-        Basic resource = readResource(Basic.class, "BasicString.json");
-        saveBasicResource(resource);
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testCreateChainedBasicResource() throws Exception {
-        createCompositionReferencingSavedResource();
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchString_string() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "testString");
         
@@ -45,7 +38,7 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         // TODO add test for diacritics and other unusual characters
     }
     
-    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    @Test
     public void testSearchString_string_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.string:exact", "testString");
         
@@ -63,7 +56,7 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         // TODO add test for diacritics and other unusual characters
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchString_string_missing() throws Exception {
         assertSearchReturnsSavedResource("string:missing", "false");
         assertSearchDoesntReturnSavedResource("string:missing", "true");
@@ -72,25 +65,25 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-string:missing", "false");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchString_string_or() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "foo,testString,bar");
         assertSearchDoesntReturnSavedResource("string:exact", "foo\\,testString,bar");
         assertSearchDoesntReturnSavedResource("string:exact", "foo,testString\\,bar");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchString_string_escaping() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "special testChars & : ; \\$ \\| \\, \\\\");
         assertSearchReturnsSavedResource("string:contains", "& : ; \\$ \\| \\, \\\\");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" }, expectedExceptions = { FHIRSearchException.class })
+    @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchString_string_invalidEscaping() throws Exception {
         runQueryTest(Basic.class, persistence, "string", "\\", Integer.MAX_VALUE);
     }
     
-//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    @Test
 //    public void testSearchString_string_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.string:missing", "false");
 //        assertSearchDoesntReturnComposition("subject:Basic.string:missing", "true");

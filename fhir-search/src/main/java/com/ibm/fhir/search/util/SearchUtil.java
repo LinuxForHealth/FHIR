@@ -838,7 +838,7 @@ public class SearchUtil {
         return returnPrefix;
     }
 
-    private static boolean isSearchResultParameter(String name) {
+    public static boolean isSearchResultParameter(String name) {
         return SearchConstants.SEARCH_RESULT_PARAMETER_NAMES.contains(name);
     }
 
@@ -923,7 +923,7 @@ public class SearchUtil {
         }
     }
 
-    private static boolean isChainedParameter(String name) {
+    public static boolean isChainedParameter(String name) {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);
     }
 

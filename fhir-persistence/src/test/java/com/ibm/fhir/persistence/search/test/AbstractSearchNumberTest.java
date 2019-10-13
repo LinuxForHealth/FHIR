@@ -18,18 +18,11 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
  */
 public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
 
+    protected Basic getBasicResource() throws Exception {
+        return readResource("json/ibm/basic/BasicNumber.json");
+    }
+
     @Test
-    public void testCreateBasicResource() throws Exception {
-        Basic resource = readResource(Basic.class, "BasicNumber.json");
-        saveBasicResource(resource);
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testCreateChainedBasicResource() throws Exception {
-        createCompositionReferencingSavedResource();
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchNumber_integer() throws Exception {
         assertSearchReturnsSavedResource("integer", "12");
         assertSearchReturnsSavedResource("integer", "1.2e1");
@@ -45,20 +38,20 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("integer", "ap12");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" }, expectedExceptions = { FHIRPersistenceException.class })
+    @Test(expectedExceptions = { FHIRPersistenceException.class })
     public void testSearchNumber_integer_eb() throws Exception {
         assertSearchReturnsSavedResource("integer", "eb12");
     }
-    @Test(dependsOnMethods = { "testCreateBasicResource" }, expectedExceptions = { FHIRPersistenceException.class })
+    @Test(expectedExceptions = { FHIRPersistenceException.class })
     public void testSearchNumber_integer_sa() throws Exception {
         assertSearchReturnsSavedResource("integer", "sa12");
     }
-    @Test(dependsOnMethods = { "testCreateBasicResource" }, expectedExceptions = { FHIRSearchException.class })
+    @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchNumber_integer_invalidPrefix() throws Exception {
         assertSearchReturnsSavedResource("integer", "zz12");
     }
     
-    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    @Test
     public void testSearchNumber_integer_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.integer", "12");
         assertSearchReturnsComposition("subject:Basic.integer", "1.2e1");
@@ -74,7 +67,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsComposition("subject:Basic.integer", "ap12");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchNumber_integer_missing() throws Exception {
         assertSearchReturnsSavedResource("integer:missing", "false");
         assertSearchDoesntReturnSavedResource("integer:missing", "true");
@@ -84,7 +77,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
     }
     
 
-//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    @Test
 //    public void testSearchNumber_integer_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.integer:missing", "false");
 //        assertSearchDoesntReturnComposition("subject:Basic.integer:missing", "true");
@@ -93,7 +86,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
 //        assertSearchDoesntReturnComposition("subject:Basic.missing-integer:missing", "false");
 //    }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchNumber_decimal() throws Exception {
         assertSearchDoesntReturnSavedResource("decimal", "99");
         assertSearchDoesntReturnSavedResource("decimal", "99.98499");
@@ -185,12 +178,12 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("decimal", "eb100");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" }, expectedExceptions = { FHIRSearchException.class })
+    @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchNumber_decimal_invalidPrefix() throws Exception {
         assertSearchReturnsSavedResource("decimal", "zz99.99");
     }
     
-    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    @Test
     public void testSearchNumber_decimal_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.decimal", "99.99");
         assertSearchReturnsComposition("subject:Basic.decimal", "9999e-2");
@@ -206,7 +199,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsComposition("subject:Basic.decimal", "ap99.99");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchNumber_decimal_missing() throws Exception {
         assertSearchReturnsSavedResource("decimal:missing", "false");
         assertSearchDoesntReturnSavedResource("decimal:missing", "true");
@@ -215,7 +208,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-decimal:missing", "false");
     }
     
-//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    @Test
 //    public void testSearchNumber_decimal_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.decimal:missing", "false");
 //        assertSearchDoesntReturnComposition("subject:Basic.decimal:missing", "true");

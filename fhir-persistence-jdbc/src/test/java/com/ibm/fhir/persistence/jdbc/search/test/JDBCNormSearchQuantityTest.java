@@ -9,10 +9,8 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 import java.util.Properties;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
@@ -28,8 +26,9 @@ public class JDBCNormSearchQuantityTest extends AbstractSearchQuantityTest {
     }
 
     @BeforeClass
-    public void setTenant() throws FHIRException {
+    public void setTenantAndCreateResources() throws Exception {
         FHIRRequestContext.get().setTenantId("quantity");
+        super.createResources();
     }
 
     @Override
@@ -45,45 +44,5 @@ public class JDBCNormSearchQuantityTest extends AbstractSearchQuantityTest {
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchQuantityTest#testSearchQuantity_Quantity()
-     */
-    @Override
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchQuantity_Quantity() throws Exception {
-        // TODO Auto-generated method stub
-        super.testSearchQuantity_Quantity();
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchQuantityTest#testSearchQuantity_Quantity_withPrefixes()
-     */
-    @Override
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchQuantity_Quantity_withPrefixes() throws Exception {
-        // TODO Auto-generated method stub
-        super.testSearchQuantity_Quantity_withPrefixes();
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchQuantityTest#testCreateBasicResource()
-     */
-    @Override
-    @Test
-    public void testCreateBasicResource() throws Exception {
-        // TODO Auto-generated method stub
-        super.testCreateBasicResource();
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.search.test.AbstractSearchQuantityTest#testSearchQuantity_Range()
-     */
-    @Override
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testSearchQuantity_Range() throws Exception {
-        // TODO Auto-generated method stub
-        super.testSearchQuantity_Range();
     }
 }

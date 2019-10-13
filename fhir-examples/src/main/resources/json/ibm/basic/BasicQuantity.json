@@ -14,7 +14,7 @@
       }
     },
     {
-      "url": "http://example.org/QuantityNoDisplayUnit",
+      "url": "http://example.org/Quantity-noDisplayUnit",
       "valueQuantity": {
         "value": 1,
         "system": "http://snomed.info/sct",
@@ -22,20 +22,20 @@
       }
     },
     {
-      "url": "http://example.org/QuantityNoCode",
+      "url": "http://example.org/Quantity-noCode",
       "valueQuantity": {
         "value": 1,
         "unit": "eq"
       }
     },
     {
-      "url": "http://example.org/QuantityNoCodeOrUnit",
+      "url": "http://example.org/Quantity-noCodeOrUnit",
       "valueQuantity": {
         "value": 1
       }
     },
     {
-      "url": "http://example.org/QuantityLT",
+      "url": "http://example.org/Quantity-lessThan",
       "valueQuantity": {
         "value": 3,
         "unit": "lt",
@@ -43,7 +43,7 @@
       }
     },
     {
-      "url": "http://example.org/QuantityGT",
+      "url": "http://example.org/Quantity-greaterThan",
       "valueQuantity": {
         "value": 3,
         "unit": "gt",
@@ -51,7 +51,7 @@
       }
     },
     {
-      "url": "http://example.org/QuantityLTE",
+      "url": "http://example.org/Quantity-lessThanOrEqual",
       "valueQuantity": {
         "value": 3,
         "unit": "lte",
@@ -59,7 +59,7 @@
       }
     },
     {
-      "url": "http://example.org/QuantityGTE",
+      "url": "http://example.org/Quantity-greaterThanOrEqual",
       "valueQuantity": {
         "value": 3,
         "unit": "gte",
@@ -79,7 +79,7 @@
 	      "value": 10,
 	      "unit": "sec",
 	      "system": "http://unitsofmeasure.org",
-	      "code": "s"	    
+	      "code": "s"
 	    }
 	  }
     }

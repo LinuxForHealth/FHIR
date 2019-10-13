@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.test.common;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.InputStream;
@@ -41,9 +43,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     public abstract FHIRPersistence getPersistenceImpl() throws Exception;
 
     // A hook for subclasses to override and provide specific test database setup functionality if required.
-    public void bootstrapDatabase() throws Exception {
-
-    }
+    public void bootstrapDatabase() throws Exception {}
 
     // The following persistence context-related methods can be overridden in subclasses to
     // provide a more specific instance of the FHIRPersistenceContext if necessary.
@@ -111,6 +111,23 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     
     protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, FHIRPersistence persistence,  Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, queryString);
+        // ensure that all the query parameters were processed into search parameters (needed because the server ignores invalid params by default)
+        int expectedCount = 0;
+        for (String key : queryParms.keySet()) {
+            if (!SearchUtil.isSearchResultParameter(key)) {
+                expectedCount++;
+                String paramName = key;
+                if (SearchUtil.isChainedParameter(key)) {
+                    // ignore the chained part and just very the reference param is there
+                    paramName = key.split("\\.")[0];
+                }
+                // strip any modifiers
+                final String finalParamName = paramName.split(":")[0];
+                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getName().equals(finalParamName)), 
+                    "Search parameter '" + key + "' was not successfully parsed into a search parameter");
+            }
+        }
+        assertEquals(queryParms.keySet().size(), expectedCount);
         if (maxPageSize != null) {
             searchContext.setPageSize(maxPageSize);
         }
