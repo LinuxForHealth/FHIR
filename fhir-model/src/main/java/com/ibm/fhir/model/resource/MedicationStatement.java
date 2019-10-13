@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -55,16 +56,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationStatement extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "MedicationStatementStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept indicating the current status of a MedicationStatement.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.0.0"
     )
+    @Required
     private final MedicationStatementStatus status;
     @Binding(
         bindingName = "MedicationStatementStatusReason",
@@ -73,6 +78,7 @@ public class MedicationStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-status-codes"
     )
     private final List<CodeableConcept> statusReason;
+    @Summary
     @Binding(
         bindingName = "MedicationStatementCategory",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -80,7 +86,7 @@ public class MedicationStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-category"
     )
     private final CodeableConcept category;
-    @Required
+    @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -88,12 +94,17 @@ public class MedicationStatement extends DomainResource {
         description = "A coded concept identifying the substance or product being taken.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
+    @Required
     private final Element medication;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Reference context;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element effective;
+    @Summary
     private final DateTime dateAsserted;
     private final Reference informationSource;
     private final List<Reference> derivedFrom;

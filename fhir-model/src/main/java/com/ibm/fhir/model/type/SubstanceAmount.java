@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -24,10 +25,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceAmount extends BackboneElement {
+    @Summary
     @Choice({ Quantity.class, Range.class, String.class })
     private final Element amount;
+    @Summary
     private final CodeableConcept amountType;
+    @Summary
     private final String amountText;
+    @Summary
     private final ReferenceRange referenceRange;
 
     private volatile int hashCode;
@@ -369,7 +374,9 @@ public class SubstanceAmount extends BackboneElement {
      * Reference range of possible or expected values.
      */
     public static class ReferenceRange extends BackboneElement {
+        @Summary
         private final Quantity lowLimit;
+        @Summary
         private final Quantity highLimit;
 
         private volatile int hashCode;

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -37,20 +38,25 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Schedule extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     @Binding(
         bindingName = "service-category",
         strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
+    @Summary
     @Binding(
         bindingName = "service-type",
         strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
+    @Summary
     @Binding(
         bindingName = "specialty",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -58,8 +64,10 @@ public class Schedule extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
+    @Summary
     @Required
     private final List<Reference> actor;
+    @Summary
     private final Period planningHorizon;
     private final String comment;
 

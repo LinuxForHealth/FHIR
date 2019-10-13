@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -50,13 +51,14 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CoverageEligibilityRequest extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "EligibilityRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
+    @Required
     private final EligibilityRequestStatus status;
     @Binding(
         bindingName = "ProcessPriority",
@@ -65,22 +67,26 @@ public class CoverageEligibilityRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/process-priority"
     )
     private final CodeableConcept priority;
-    @Required
+    @Summary
     @Binding(
         bindingName = "EligibilityRequestPurpose",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the types of information being requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.0.0"
     )
+    @Required
     private final List<EligibilityRequestPurpose> purpose;
+    @Summary
     @Required
     private final Reference patient;
     @Choice({ Date.class, Period.class })
     private final Element serviced;
+    @Summary
     @Required
     private final DateTime created;
     private final Reference enterer;
     private final Reference provider;
+    @Summary
     @Required
     private final Reference insurer;
     private final Reference facility;

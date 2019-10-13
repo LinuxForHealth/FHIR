@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -45,16 +46,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentReference extends DomainResource {
+    @Summary
     private final Identifier masterIdentifier;
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "DocumentReferenceStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the document reference.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
     )
+    @Required
     private final DocumentReferenceStatus status;
+    @Summary
     @Binding(
         bindingName = "ReferredDocumentStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -62,6 +67,7 @@ public class DocumentReference extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.0"
     )
     private final ReferredDocumentStatus docStatus;
+    @Summary
     @Binding(
         bindingName = "DocumentC80Type",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -69,6 +75,7 @@ public class DocumentReference extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/c80-doc-typecodes"
     )
     private final CodeableConcept type;
+    @Summary
     @Binding(
         bindingName = "DocumentC80Class",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -76,13 +83,19 @@ public class DocumentReference extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
     )
     private final List<CodeableConcept> category;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Instant date;
+    @Summary
     private final List<Reference> author;
     private final Reference authenticator;
     private final Reference custodian;
+    @Summary
     private final List<RelatesTo> relatesTo;
+    @Summary
     private final String description;
+    @Summary
     @Binding(
         bindingName = "SecurityLabels",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -90,8 +103,10 @@ public class DocumentReference extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
     private final List<CodeableConcept> securityLabel;
+    @Summary
     @Required
     private final List<Content> content;
+    @Summary
     private final Context context;
 
     private volatile int hashCode;
@@ -1042,14 +1057,16 @@ public class DocumentReference extends DomainResource {
      * Relationships that this document has with other document references that already exist.
      */
     public static class RelatesTo extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "DocumentRelationshipType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relationship between documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
         )
+        @Required
         private final DocumentRelationshipType code;
+        @Summary
         @Required
         private final Reference target;
 
@@ -1319,8 +1336,10 @@ public class DocumentReference extends DomainResource {
      * The document and format referenced. There may be multiple content element repetitions, each with a different format.
      */
     public static class Content extends BackboneElement {
+        @Summary
         @Required
         private final Attachment attachment;
+        @Summary
         @Binding(
             bindingName = "DocumentFormat",
             strength = BindingStrength.ValueSet.PREFERRED,
@@ -1602,6 +1621,7 @@ public class DocumentReference extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
         )
         private final List<CodeableConcept> event;
+        @Summary
         private final Period period;
         @Binding(
             bindingName = "DocumentC80FacilityType",

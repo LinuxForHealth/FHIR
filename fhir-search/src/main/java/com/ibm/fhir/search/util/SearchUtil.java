@@ -698,6 +698,10 @@ public class SearchUtil {
             case TOKEN: {
                 // token
                 // [parameter]=[system]|[code]
+                /* TODO: start enforcing this:
+                 * "For token parameters on elements of type ContactPoint, uri, or boolean, 
+                 * the presence of the pipe symbol SHALL NOT be used - only the [parameter]=[code] form is allowed
+                 */
                 String[] parts = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
                 if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -40,8 +41,11 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class VerificationResult extends DomainResource {
+    @Summary
     private final List<Reference> target;
+    @Summary
     private final List<String> targetLocation;
+    @Summary
     @Binding(
         bindingName = "need",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -49,15 +53,18 @@ public class VerificationResult extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-need"
     )
     private final CodeableConcept need;
-    @Required
+    @Summary
     @Binding(
         bindingName = "status",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The validation status of the target.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-status|4.0.0"
     )
+    @Required
     private final Status status;
+    @Summary
     private final DateTime statusDate;
+    @Summary
     @Binding(
         bindingName = "validation-type",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -65,6 +72,7 @@ public class VerificationResult extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-validation-type"
     )
     private final CodeableConcept validationType;
+    @Summary
     @Binding(
         bindingName = "validation-process",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -75,6 +83,7 @@ public class VerificationResult extends DomainResource {
     private final Timing frequency;
     private final DateTime lastPerformed;
     private final Date nextScheduled;
+    @Summary
     @Binding(
         bindingName = "failure-action",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -938,6 +947,7 @@ public class VerificationResult extends DomainResource {
      */
     public static class PrimarySource extends BackboneElement {
         private final Reference who;
+        @Summary
         @Binding(
             bindingName = "primary-source-type",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -945,6 +955,7 @@ public class VerificationResult extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-primary-source-type"
         )
         private final List<CodeableConcept> type;
+        @Summary
         @Binding(
             bindingName = "communication-method",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -960,6 +971,7 @@ public class VerificationResult extends DomainResource {
         )
         private final CodeableConcept validationStatus;
         private final DateTime validationDate;
+        @Summary
         @Binding(
             bindingName = "can-push-updates",
             strength = BindingStrength.ValueSet.PREFERRED,
@@ -1451,8 +1463,11 @@ public class VerificationResult extends DomainResource {
      * Information about the entity attesting to information.
      */
     public static class Attestation extends BackboneElement {
+        @Summary
         private final Reference who;
+        @Summary
         private final Reference onBehalfOf;
+        @Summary
         @Binding(
             bindingName = "communication-method",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1460,6 +1475,7 @@ public class VerificationResult extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-communication-method"
         )
         private final CodeableConcept communicationMethod;
+        @Summary
         private final Date date;
         private final String sourceIdentityCertificate;
         private final String proxyIdentityCertificate;

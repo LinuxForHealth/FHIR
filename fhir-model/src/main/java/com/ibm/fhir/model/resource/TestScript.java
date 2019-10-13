@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
@@ -150,27 +151,39 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TestScript extends DomainResource {
+    @Summary
     @Required
     private final Uri url;
+    @Summary
     private final Identifier identifier;
+    @Summary
     private final String version;
+    @Summary
     @Required
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1462,13 +1475,13 @@ public class TestScript extends DomainResource {
     public static class Origin extends BackboneElement {
         @Required
         private final Integer index;
-        @Required
         @Binding(
             bindingName = "TestScriptProfileOriginType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of origin profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-origin-types"
         )
+        @Required
         private final Coding profile;
 
         private volatile int hashCode;
@@ -1739,13 +1752,13 @@ public class TestScript extends DomainResource {
     public static class Destination extends BackboneElement {
         @Required
         private final Integer index;
-        @Required
         @Binding(
             bindingName = "TestScriptProfileDestinationType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of destination profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-destination-types"
         )
+        @Required
         private final Coding profile;
 
         private volatile int hashCode;

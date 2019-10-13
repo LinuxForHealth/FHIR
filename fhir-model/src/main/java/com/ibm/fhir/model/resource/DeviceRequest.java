@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -49,12 +50,19 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceRequest extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> priorRequest;
+    @Summary
     private final Identifier groupIdentifier;
+    @Summary
     @Binding(
         bindingName = "DeviceRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -62,14 +70,16 @@ public class DeviceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
     private final DeviceRequestStatus status;
-    @Required
+    @Summary
     @Binding(
         bindingName = "RequestIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of diagnostic request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
+    @Required
     private final RequestIntent intent;
+    @Summary
     @Binding(
         bindingName = "RequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -77,7 +87,7 @@ public class DeviceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final RequestPriority priority;
-    @Required
+    @Summary
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "DeviceRequestCode",
@@ -85,15 +95,22 @@ public class DeviceRequest extends DomainResource {
         description = "Codes for devices that can be requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
+    @Required
     private final Element code;
     private final List<Parameter> parameter;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
+    @Summary
     private final DateTime authoredOn;
+    @Summary
     private final Reference requester;
+    @Summary
     @Binding(
         bindingName = "DeviceRequestParticipantRole",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -101,7 +118,9 @@ public class DeviceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
     )
     private final CodeableConcept performerType;
+    @Summary
     private final Reference performer;
+    @Summary
     @Binding(
         bindingName = "DeviceRequestReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -109,6 +128,7 @@ public class DeviceRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
     private final List<Reference> insurance;
     private final List<Reference> supportingInfo;

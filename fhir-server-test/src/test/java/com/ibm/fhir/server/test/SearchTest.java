@@ -173,12 +173,20 @@ public class SearchTest extends FHIRServerTestBase {
     // assertResponse(response, Response.Status.REQUEST_ENTITY_TOO_LARGE.getStatusCode());
     // }
 
-    private Person createPersonWithIdentifierAndLink(String identifier,
-        String patientRef) throws Exception {
+    private Person createPersonWithIdentifierAndLink(String identifier, String patientRef) throws Exception {
         String id = UUID.randomUUID().toString();
 
         Person person =
-                Person.builder().id(Id.of(id)).identifier(Identifier.builder().value(string(identifier)).system(uri("test")).build()).link(Link.builder().target(Reference.builder().reference(string(patientRef)).build()).build()).build();
+                Person.builder()
+                      .id(Id.of(id))
+                      .identifier(Identifier.builder()
+                                            .value(string(identifier))
+                                            .system(uri("test"))
+                                            .build())
+                      .link(Link.builder()
+                                .target(Reference.builder().reference(string(patientRef)).build())
+                                .build())
+                      .build();
 
         FHIRResponse createResponse = client.update(person);
         assertResponse(createResponse, Response.Status.CREATED.getStatusCode());

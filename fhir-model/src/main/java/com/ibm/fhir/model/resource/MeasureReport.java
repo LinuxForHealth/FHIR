@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -58,30 +59,39 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MeasureReport extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "MeasureReportStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the measure report.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.0.0"
     )
-    private final MeasureReportStatus status;
     @Required
+    private final MeasureReportStatus status;
+    @Summary
     @Binding(
         bindingName = "MeasureReportType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of the measure report.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.0.0"
     )
+    @Required
     private final MeasureReportType type;
+    @Summary
     @Required
     private final Canonical measure;
+    @Summary
     private final Reference subject;
+    @Summary
     private final DateTime date;
+    @Summary
     private final Reference reporter;
+    @Summary
     @Required
     private final Period period;
+    @Summary
     @Binding(
         bindingName = "MeasureImprovementNotation",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -823,8 +833,10 @@ public class MeasureReport extends DomainResource {
      * The results of the calculation, one for each population group in the measure.
      */
     public static class Group extends BackboneElement {
+        @Summary
         private final CodeableConcept code;
         private final List<Population> population;
+        @Summary
         private final Quantity measureScore;
         private final List<Stratifier> stratifier;
 
@@ -1190,6 +1202,7 @@ public class MeasureReport extends DomainResource {
          * The populations that make up the population group, one for each type of population appropriate for the measure.
          */
         public static class Population extends BackboneElement {
+            @Summary
             @Binding(
                 bindingName = "MeasurePopulation",
                 strength = BindingStrength.ValueSet.EXTENSIBLE,

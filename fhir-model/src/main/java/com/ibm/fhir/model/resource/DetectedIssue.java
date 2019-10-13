@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -43,15 +44,18 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DetectedIssue extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "DetectedIssueStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the status of the identified issue.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
+    @Required
     private final DetectedIssueStatus status;
+    @Summary
     @Binding(
         bindingName = "DetectedIssueCategory",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -59,6 +63,7 @@ public class DetectedIssue extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-category"
     )
     private final CodeableConcept code;
+    @Summary
     @Binding(
         bindingName = "DetectedIssueSeverity",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -66,10 +71,14 @@ public class DetectedIssue extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.0.0"
     )
     private final DetectedIssueSeverity severity;
+    @Summary
     private final Reference patient;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element identified;
+    @Summary
     private final Reference author;
+    @Summary
     private final List<Reference> implicated;
     private final List<Evidence> evidence;
     private final String detail;
@@ -1163,13 +1172,13 @@ public class DetectedIssue extends DomainResource {
      * reduce/eliminate the need for any action.
      */
     public static class Mitigation extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "DetectedIssueMitigationAction",
             strength = BindingStrength.ValueSet.PREFERRED,
             description = "Codes describing steps taken to resolve the issue or other circumstances that mitigate the risk associated with the issue; e.g. 'added concurrent therapy', 'prior therapy documented', etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action"
         )
+        @Required
         private final CodeableConcept action;
         private final DateTime date;
         private final Reference author;

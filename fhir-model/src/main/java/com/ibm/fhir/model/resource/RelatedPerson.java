@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -44,10 +45,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RelatedPerson extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     @Required
     private final Reference patient;
+    @Summary
     @Binding(
         bindingName = "PatientRelationshipType",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -55,8 +60,11 @@ public class RelatedPerson extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype"
     )
     private final List<CodeableConcept> relationship;
+    @Summary
     private final List<HumanName> name;
+    @Summary
     private final List<ContactPoint> telecom;
+    @Summary
     @Binding(
         bindingName = "AdministrativeGender",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -64,7 +72,9 @@ public class RelatedPerson extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
     )
     private final AdministrativeGender gender;
+    @Summary
     private final Date birthDate;
+    @Summary
     private final List<Address> address;
     private final List<Attachment> photo;
     private final Period period;
@@ -896,7 +906,6 @@ public class RelatedPerson extends DomainResource {
      * A language which may be used to communicate with about the patient's health.
      */
     public static class Communication extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.ValueSet.PREFERRED,
@@ -904,6 +913,7 @@ public class RelatedPerson extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )
+        @Required
         private final CodeableConcept language;
         private final Boolean preferred;
 

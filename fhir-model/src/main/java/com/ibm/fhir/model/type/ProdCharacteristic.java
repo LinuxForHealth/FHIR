@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -23,16 +24,27 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ProdCharacteristic extends BackboneElement {
+    @Summary
     private final Quantity height;
+    @Summary
     private final Quantity width;
+    @Summary
     private final Quantity depth;
+    @Summary
     private final Quantity weight;
+    @Summary
     private final Quantity nominalVolume;
+    @Summary
     private final Quantity externalDiameter;
+    @Summary
     private final String shape;
+    @Summary
     private final List<String> color;
+    @Summary
     private final List<String> imprint;
+    @Summary
     private final List<Attachment> image;
+    @Summary
     private final CodeableConcept scoring;
 
     private volatile int hashCode;

@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -27,7 +28,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Period extends Element {
+    @Summary
     private final DateTime start;
+    @Summary
     private final DateTime end;
 
     private volatile int hashCode;

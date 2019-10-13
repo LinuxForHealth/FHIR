@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -58,28 +59,37 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CarePlan extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> replaces;
+    @Summary
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "CarePlanStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
-    private final CarePlanStatus status;
     @Required
+    private final CarePlanStatus status;
+    @Summary
     @Binding(
         bindingName = "CarePlanIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a care plan.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-plan-intent|4.0.0"
     )
+    @Required
     private final CarePlanIntent intent;
+    @Summary
     @Binding(
         bindingName = "CarePlanCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -87,16 +97,24 @@ public class CarePlan extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/care-plan-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     private final String title;
+    @Summary
     private final String description;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final Period period;
+    @Summary
     private final DateTime created;
+    @Summary
     private final Reference author;
     private final List<Reference> contributor;
     private final List<Reference> careTeam;
+    @Summary
     private final List<Reference> addresses;
     private final List<Reference> supportingInfo;
     private final List<Reference> goal;
@@ -1890,13 +1908,13 @@ public class CarePlan extends DomainResource {
             private final List<CodeableConcept> reasonCode;
             private final List<Reference> reasonReference;
             private final List<Reference> goal;
-            @Required
             @Binding(
                 bindingName = "CarePlanActivityStatus",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Codes that reflect the current state of a care plan activity within its overall life cycle.",
                 valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.0.0"
             )
+            @Required
             private final CarePlanActivityStatus status;
             private final CodeableConcept statusReason;
             private final Boolean doNotPerform;

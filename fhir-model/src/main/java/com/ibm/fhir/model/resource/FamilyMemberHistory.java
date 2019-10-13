@@ -18,6 +18,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -62,17 +63,22 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FamilyMemberHistory extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
-    @Required
+    @Summary
     @Binding(
         bindingName = "FamilyHistoryStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code that identifies the status of the family history record.",
         valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.0.0"
     )
+    @Required
     private final FamilyHistoryStatus status;
+    @Summary
     @Binding(
         bindingName = "FamilyHistoryAbsentReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -80,18 +86,23 @@ public class FamilyMemberHistory extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/history-absent-reason"
     )
     private final CodeableConcept dataAbsentReason;
+    @Summary
     @Required
     private final Reference patient;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String name;
-    @Required
+    @Summary
     @Binding(
         bindingName = "FamilialRelationship",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The nature of the relationship between the patient and the related person being described in the family member history.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-FamilyMember"
     )
+    @Required
     private final CodeableConcept relationship;
+    @Summary
     @Binding(
         bindingName = "Sex",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -101,11 +112,15 @@ public class FamilyMemberHistory extends DomainResource {
     private final CodeableConcept sex;
     @Choice({ Period.class, Date.class, String.class })
     private final Element born;
+    @Summary
     @Choice({ Age.class, Range.class, String.class })
     private final Element age;
+    @Summary
     private final Boolean estimatedAge;
+    @Summary
     @Choice({ Boolean.class, Age.class, Range.class, Date.class, String.class })
     private final Element deceased;
+    @Summary
     @Binding(
         bindingName = "FamilyHistoryReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -113,6 +128,7 @@ public class FamilyMemberHistory extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
     private final List<Condition> condition;
@@ -1179,13 +1195,13 @@ public class FamilyMemberHistory extends DomainResource {
      * condition.
      */
     public static class Condition extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "ConditionCode",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Identification of the Condition or diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
+        @Required
         private final CodeableConcept code;
         @Binding(
             bindingName = "ConditionOutcome",

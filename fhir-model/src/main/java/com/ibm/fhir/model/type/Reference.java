@@ -13,6 +13,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -29,7 +30,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Reference extends Element {
+    @Summary
     private final String reference;
+    @Summary
     @Binding(
         bindingName = "FHIRResourceTypeExt",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -37,7 +40,9 @@ public class Reference extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types"
     )
     private final Uri type;
+    @Summary
     private final Identifier identifier;
+    @Summary
     private final String display;
 
     private volatile int hashCode;
