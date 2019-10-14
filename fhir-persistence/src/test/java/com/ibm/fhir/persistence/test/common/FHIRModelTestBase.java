@@ -35,6 +35,7 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
 
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.examples.ExamplesUtil;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -49,6 +50,9 @@ public class FHIRModelTestBase {
     protected static final String NL = System.getProperty("line.separator");
     public static boolean DEBUG_JSON = false;
     public static boolean DEBUG_XML = false;
+    
+    protected FHIRParser jsonParser = FHIRParser.parser(Format.JSON);
+    protected FHIRParser xmlParser = FHIRParser.parser(Format.XML);
 
     /**
      * This is a list of pre-defined locations that we'll search in when looking for a mock data file.
@@ -58,6 +62,8 @@ public class FHIRModelTestBase {
     /**
      * This function reads the contents of a mock resource from the specified file, 
      * then de-serializes that into a Resource.
+     * 
+     * TODO: remove this method in favor of the new readResource method
      * 
      * @param resourceClass
      *            the class associated with the resource type (e.g. Patient.class)
@@ -71,9 +77,6 @@ public class FHIRModelTestBase {
         // We'll use the filename suffix to determine the format that we're reading.
         Format fmt = (fileName.endsWith(".json") ? Format.JSON : Format.XML);
 
-        // Open the file.
-        
-
         // Deserialize the file contents.
         try (Reader reader = new InputStreamReader(resolveFileLocation(fileName), Charset.forName("UTF-8"))) {
             T resource = FHIRParser.parser(fmt).parse(reader);
@@ -81,6 +84,30 @@ public class FHIRModelTestBase {
         }
     }
     
+    /**
+     * This function reads the contents of an example resource from the specified file into a Resource.
+     * 
+     * @param fileName
+     *            the name of the file containing the mock resource (e.g. "json/ibm/minimal/Patient-1.json")
+     * @return the de-serialized resource
+     * @throws Exception
+     */
+    protected <T extends Resource> T readResource(String fileName) throws Exception {
+
+        // Use the filename suffix to determine the format that we're reading, defaulting to JSON
+        Format fmt = (fileName.endsWith(".xml") ? Format.XML : Format.JSON);
+        try (Reader reader = ExamplesUtil.reader(fileName)) {
+            switch(fmt) {
+            case RDF:
+                throw new IllegalArgumentException("RDF format is not supported");
+            case XML:
+                return xmlParser.parse(reader);
+            case JSON:
+            default:
+                return jsonParser.parse(ExamplesUtil.reader(fileName));
+            }
+        }
+    }
     
     /**
      * @return
@@ -120,9 +147,11 @@ public class FHIRModelTestBase {
      * the specified patient via a subject attribute.
      */
     protected Observation buildObservation(String patientId, String fileName) throws Exception {
-    	// TODO review Reference id
-        Observation observation = readResource(Observation.class, fileName)
-        		.toBuilder()
+        // TODO review Reference id
+        Observation observation = readResource(Observation.class, fileName);
+        
+        observation = observation
+            .toBuilder()
             .subject(Reference.builder().reference(string("Patient/" + patientId)).build())
             .build();
         return observation;

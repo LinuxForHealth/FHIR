@@ -33,6 +33,17 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This is a common abstract base class for all persistence-related tests.
+ * 
+ * Abstract subclasses in this package implement the logic of the tests and should
+ * be extended by concrete subclasses in each persistence layer implementation.
+ * 
+ * @implNote {@link FHIRConfiguration} requires a path to the root of the configuration directory 
+ * and this class passes the Maven target of the fhir-persistence project via a relative URL 
+ * ("../fhir-persistence/target/test-classes"). This means that:
+ * <ul>
+ *   <li>persistence layers under test must be configured outside of this mechanism
+ *   <li>persistence layer projects must be peer to this project for the tests to properly read their config info
+ * </ul>
  */
 public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
 
@@ -68,7 +79,9 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     public void setUp() throws Exception {
         bootstrapDatabase();
         persistence = getPersistenceImpl();
-        FHIRConfiguration.setConfigHome("target/test-classes");
+        // Note: this assumes that the concrete test classes will be in a project that is peer to the fhir-persistence module
+        // TODO: it would be better for our unit tests if we could load config files from the classpath
+        FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
     }
 
     @BeforeMethod(alwaysRun = true)

@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.search.test;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 
 /**
@@ -15,9 +16,13 @@ import com.ibm.fhir.model.resource.Basic;
  * @see https://hl7.org/fhir/r4/search.html#reference
  */
 public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
-    
+
     protected Basic getBasicResource() throws Exception {
         return readResource("json/ibm/basic/BasicReference.json");
+    }
+
+    protected void setTenant() throws Exception {
+        FHIRRequestContext.get().setTenantId("reference");
     }
 
     @Test
