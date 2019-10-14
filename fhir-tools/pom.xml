@@ -277,5 +277,127 @@
                 <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
             </properties>
         </profile>
+        <profile>
+            <id>deploy-version-rc</id>
+            <!-- This profile enables automation to change version and DEPLOY 
+                rc to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-rc 
+                -f fhir-tools/pom.xml -->
+            <properties>
+                <!-- the version to be set -->
+                <rc>1</rc>
+                <deploy.version>4.0.0-rc${rc}-${maven.build.timestamp}</deploy.version>
+                <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.7</version>
+                        <configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set</goal>
+                                </goals>
+                                <phase>clean</phase>
+                                <configuration>
+                                    <oldVersion>*</oldVersion>
+                                    <newVersion>${deploy.version}</newVersion>
+                                    <generateBackupPoms>true</generateBackupPoms>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deploy-version-release</id>
+            <!-- This profile enables automation to change version and DEPLOY 
+                release to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release 
+                -f fhir-tools/pom.xml -->
+            <properties>
+                <!-- the version to be set -->
+                <deploy.version>4.0.0</deploy.version>
+                <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.7</version>
+                        <configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set</goal>
+                                </goals>
+                                <phase>clean</phase>
+                                <configuration>
+                                    <oldVersion>*</oldVersion>
+                                    <newVersion>${deploy.version}</newVersion>
+                                    <generateBackupPoms>true</generateBackupPoms>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deploy-bintray</id>
+            <!-- This profile enables automation DEPLOY to bintray. There 
+                are three input values. mvn clean install deploy -Pdeploy-bintray -f fhir-tools/pom.xml -->
+            <properties>
+                <!-- switch to 1 to publish automatically -Dpublish=1 -->
+                <publish>0</publish>
+                <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+                <bintray.repo>ibm-fhir-server-snapshots</bintray.repo>
+                <bintray.org>ibm-watson-health</bintray.org>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- Do not move this up to top level as it'll cause 
+                            a conflict with m2e restrictions on v2.6 -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                </manifest>
+                                <manifestEntries>
+                                    <Build-Time>${maven.build.timestamp}</Build-Time>
+                                    <Build-Number>${BUILD_ID}</Build-Number>
+                                    <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                                    <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                                    <Git-URL>${GIT_URL}</Git-URL>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <distributionManagement>
+                <repository>
+                    <id>bintray-ibm-watson-health-ibm-fhir-server-snapshots</id>
+                    <name>ibm-watson-health-ibm-fhir-server-snapshots</name>
+                    <url>https://api.bintray.com/maven/${bintray.org}/${bintray.repo}/fhir-tools/;publish=${publish}</url>
+                </repository>
+            </distributionManagement>
+
+        </profile>
+
     </profiles>
 </project>

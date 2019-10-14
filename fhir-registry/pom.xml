@@ -8,7 +8,9 @@
         <version>4.0.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
+    
     <artifactId>fhir-registry</artifactId>
+    
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -21,4 +23,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
 </project>

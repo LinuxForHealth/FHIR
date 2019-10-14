@@ -8,7 +8,7 @@
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
-    <artifactId>fhir-notification-websocket </artifactId>
+    <artifactId>fhir-notification-websocket</artifactId>
 
     <dependencies>
         <dependency>
@@ -21,4 +21,5 @@
             <artifactId>javax.websocket-api</artifactId>
         </dependency>
     </dependencies>
+    
 </project>

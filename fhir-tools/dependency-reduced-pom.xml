@@ -4,7 +4,7 @@
   <groupId>com.ibm.fhir</groupId>
   <artifactId>fhir-tools</artifactId>
   <packaging>maven-plugin</packaging>
-  <version>4.0.0-SNAPSHOT</version>
+  <version>4.0.0-rc1-20191014-1826</version>
   <build>
     <pluginManagement>
       <plugins>
@@ -176,6 +176,148 @@
         <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
       </properties>
     </profile>
+    <profile>
+      <id>deploy-version-rc</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>versions-maven-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+              <execution>
+                <phase>clean</phase>
+                <goals>
+                  <goal>set</goal>
+                </goals>
+                <configuration>
+                  <oldVersion>*</oldVersion>
+                  <newVersion>${deploy.version}</newVersion>
+                  <generateBackupPoms>true</generateBackupPoms>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration />
+          </plugin>
+        </plugins>
+      </build>
+      <properties>
+        <rc>1</rc>
+        <deploy.version>4.0.0-rc${rc}-${maven.build.timestamp}</deploy.version>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+      </properties>
+    </profile>
+    <profile>
+      <id>deploy-version-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>versions-maven-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+              <execution>
+                <phase>clean</phase>
+                <goals>
+                  <goal>set</goal>
+                </goals>
+                <configuration>
+                  <oldVersion>*</oldVersion>
+                  <newVersion>${deploy.version}</newVersion>
+                  <generateBackupPoms>true</generateBackupPoms>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration />
+          </plugin>
+        </plugins>
+      </build>
+      <properties>
+        <deploy.version>4.0.0-${maven.build.timestamp}</deploy.version>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+      </properties>
+    </profile>
+    <profile>
+      <id>deploy-bintray</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.1.2</version>
+            <executions>
+              <execution>
+                <id>default-jar</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <archive>
+                    <manifest>
+                      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                    </manifest>
+                    <manifestEntries>
+                      <Build-Time>20191014-1827</Build-Time>
+                      <Build-Number>${BUILD_ID}</Build-Number>
+                      <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                      <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                      <Git-URL>${GIT_URL}</Git-URL>
+                    </manifestEntries>
+                  </archive>
+                </configuration>
+              </execution>
+              <execution>
+                <goals>
+                  <goal>test-jar</goal>
+                </goals>
+                <configuration>
+                  <archive>
+                    <manifest>
+                      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                    </manifest>
+                    <manifestEntries>
+                      <Build-Time>20191014-1827</Build-Time>
+                      <Build-Number>${BUILD_ID}</Build-Number>
+                      <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                      <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                      <Git-URL>${GIT_URL}</Git-URL>
+                    </manifestEntries>
+                  </archive>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                  <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                </manifest>
+                <manifestEntries>
+                  <Build-Time>20191014-1827</Build-Time>
+                  <Build-Number>${BUILD_ID}</Build-Number>
+                  <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                  <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                  <Git-URL>${GIT_URL}</Git-URL>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+      <distributionManagement>
+        <repository>
+          <id>bintray-ibm-watson-health-ibm-fhir-server-snapshots</id>
+          <name>ibm-watson-health-ibm-fhir-server-snapshots</name>
+          <url>https://api.bintray.com/maven/ibm-watson-health/ibm-fhir-server-snapshots/fhir-tools/;publish=${publish}</url>
+        </repository>
+      </distributionManagement>
+      <properties>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <publish>0</publish>
+      </properties>
+    </profile>
   </profiles>
   <dependencies>
     <dependency>
@@ -263,11 +405,11 @@
     </dependency>
   </dependencies>
   <properties>
-    <java.version>1.8</java.version>
     <jacoco.plugin.version>0.8.2</jacoco.plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <argLine>-Dfile.encoding=UTF-8</argLine>
-    <surefire.plugin.version>2.20.1</surefire.plugin.version>
+    <java.version>1.8</java.version>
     <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
+    <argLine>-Dfile.encoding=UTF-8</argLine>
   </properties>
 </project>

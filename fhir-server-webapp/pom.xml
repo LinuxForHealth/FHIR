@@ -23,7 +23,6 @@
     <packaging>war</packaging>
 
     <name>FHIR Server REST API WebApp</name>
-    <url>http://maven.apache.org</url>
 
     <properties>
         <fhir.server.war.name>fhir-server</fhir.server.war.name>
@@ -136,5 +135,5 @@
             </plugin>
         </plugins>
     </build>
-
+    
 </project>
