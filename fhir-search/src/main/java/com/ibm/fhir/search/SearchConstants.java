@@ -86,10 +86,23 @@ public class SearchConstants {
 
     // _count
     public static final String COUNT = "_count";
+    
+    
+    //_summary
+    public static final String SUMMARY = "_summary";
 
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
-            Collections.unmodifiableList(Arrays.asList(SORT, "_sort:asc", "_sort:desc", COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS));
+            Collections.unmodifiableList(Arrays.asList(SORT, "_sort:asc", "_sort:desc", COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
+    
+    public static final String SUMMARY_TRUE = "true";
+    public static final String SUMMARY_TEXT = "text";
+    public static final String SUMMARY_DATA = "data";
+    public static final String SUMMARY_COUNT = "count";
+    public static final String SUMMARY_FALSE = "false";
+    
+    public static final List<String> SUMMARY_VALUES =
+            Collections.unmodifiableList(Arrays.asList(SUMMARY_TRUE, SUMMARY_TEXT, SUMMARY_DATA, SUMMARY_COUNT, SUMMARY_FALSE));
 
     // set as unmodifiable
     public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList("_id", "_lastUpdated"));

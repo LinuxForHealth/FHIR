@@ -93,6 +93,7 @@ public class UriBuilder {
         appendInclusionParameters();
         appendRevInclusionParameters();
         appendSortParameters();
+        appendSummaryParameter();
 
         // Always include page number at the end, even if it wasn't in the request
         queryString.append(SearchConstants.AND_CHAR);
@@ -123,6 +124,17 @@ public class UriBuilder {
             queryString.append(SearchConstants.INCLUDE);
             queryString.append(SearchConstants.EQUALS_CHAR);
             appendInclusionParamValue(param);
+        }
+    }
+    
+    
+    private void appendSummaryParameter() {
+        if (context.getSummaryParameter() != null 
+                && SearchConstants.SUMMARY_VALUES.contains(context.getSummaryParameter())) {
+            queryString.append(SearchConstants.AND_CHAR);
+            queryString.append(SearchConstants.SUMMARY);
+            queryString.append(SearchConstants.EQUALS_CHAR);
+            queryString.append(context.getSummaryParameter());
         }
     }
 

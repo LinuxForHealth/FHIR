@@ -16,13 +16,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -35,12 +38,14 @@ import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.path.exception.FHIRPathException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -87,6 +92,9 @@ public class SearchUtil {
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
     private static final String UNSUPPOTED_EXPR_NULL = "An empty expression is found or the parameter type is unsupported [%s][%s]";;
 
+    private static final Map<Class<?>, Set<String>> resoureTypeSummaryElements = new ConcurrentHashMap<Class<?>, Set<String>>();
+    private static final Map<Class<?>, Set<String>> resoureTypeSummaryDataElements = new ConcurrentHashMap<Class<?>, Set<String>>();
+    
     /*
      * This is our in-memory cache of SearchParameter objects. The cache is organized at the top level by tenant-id,
      * with the built-in (FHIR spec-defined) SearchParameters stored under the "built-in" pseudo-tenant-id.
@@ -547,6 +555,12 @@ public class SearchUtil {
 
                 if (isSearchResultParameter(name)) {
                     parseSearchResultParameter(resourceType, context, name, params, queryString, lenient);
+                    // _include and _revinclude parameters cannot be mixed with _summary=text 
+                    if (context.getSummaryParameter() != null 
+                            && context.getSummaryParameter().equals(SearchConstants.SUMMARY_TEXT)) {
+                        context.getIncludeParameters().clear();
+                        context.getRevIncludeParameters().clear();
+                    }
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
@@ -863,6 +877,10 @@ public class SearchUtil {
                 parseInclusionParameter(resourceType, context, name, values, queryString, lenient);
             } else if (SearchConstants.ELEMENTS.equals(name)) {
                 parseElementsParameter(resourceType, context, values, lenient);
+            } else if (SearchConstants.SUMMARY.equals(name) 
+                    && first != null 
+                    && SearchConstants.SUMMARY_VALUES.contains(first)) {
+                context.setSummaryParameter(first);
             }
         } catch (Exception e) {
             throw SearchExceptionUtil.buildNewParseException(name, e);
@@ -1258,6 +1276,85 @@ public class SearchUtil {
          * compatability, and as a simple helper function.
          */
         return UriBuilder.builder().context(context).requestUri(requestUriString).toSearchSelfUri();
+    }
+    
+    /**
+     * Return a limited subset of elements from the resource. This subset SHOULD consist solely of all supported elements 
+     * that are marked as "summary" in the base definition of the resource(s)
+     * @param resourceType
+     * @return
+     */
+    public static Set<String> getSummaryElementNames(Class<?> resourceType) {
+        if (resourceType == null) {
+            return null;
+        }
+        if (resoureTypeSummaryElements.get(resourceType) != null) {
+            return Collections.unmodifiableSet(resoureTypeSummaryElements.get(resourceType));
+        } else {
+            StructureDefinition structureDefinition = FHIRRegistry.getInstance()
+                    .getResource("http://hl7.org/fhir/StructureDefinition/" + resourceType.getSimpleName(), StructureDefinition.class);
+            if (structureDefinition == null) {
+                return null;
+            } else {
+                Set<String> summaryElements = structureDefinition.getSnapshot().getElement().stream()
+                        .filter(elementDefinition -> elementDefinition.getIsSummary().getValue())
+                        .map(elementDefinition -> elementDefinition.getBase().getPath().getValue())
+                        .map(path -> path.substring(path.lastIndexOf(".") + 1).replace("[x]", ""))
+                        .collect(Collectors.toSet());
+                if (summaryElements != null) {
+                    resoureTypeSummaryElements.put(resourceType, summaryElements);
+                }
+                return Collections.unmodifiableSet(summaryElements);
+            }
+        }
+    }
+    
+    
+    
+    /**
+     * Return only the "text" element, the 'id' element, the 'meta' element, and only top-level mandatory elements
+     * The id, meta and the top-level mandatory elements will be added by the ElementFilter automatically.
+     * @param resourceType
+     * @return
+     */
+    public static Set<String> getSummaryTextElementNames(Class<?> resourceType) {
+        // Align with other getSummaryxxx functions, we may need the input resourceType in the future
+        Set<String> summaryTextList = new HashSet<String>();
+        summaryTextList.add("text");
+        return Collections.unmodifiableSet(summaryTextList);
+         
+    }
+    
+    
+    
+    /**
+     * Remove the text element
+     * @param resourceType
+     * @return
+     */
+    public static Set<String> getSummaryDataElementNames(Class<?> resourceType) {
+        if (resourceType == null) {
+            return null;
+        }
+        if (resoureTypeSummaryDataElements.get(resourceType) != null) {
+            return Collections.unmodifiableSet(resoureTypeSummaryDataElements.get(resourceType));
+        } else {
+            StructureDefinition structureDefinition = FHIRRegistry.getInstance()
+                    .getResource("http://hl7.org/fhir/StructureDefinition/" + resourceType.getSimpleName(), StructureDefinition.class);
+            if (structureDefinition == null) {
+                return null;
+            } else {
+                Set<String> summaryElements = structureDefinition.getSnapshot().getElement().stream()
+                        .map(elementDefinition -> elementDefinition.getBase().getPath().getValue())
+                        .map(path -> path.substring(path.lastIndexOf(".") + 1).replace("[x]", ""))
+                        .filter(elementName -> !elementName.equals("text"))
+                        .collect(Collectors.toSet());
+                if (summaryElements != null) {
+                    resoureTypeSummaryDataElements.put(resourceType, summaryElements);
+                }
+                return Collections.unmodifiableSet(summaryElements);
+            }
+        }
     }
 
 }

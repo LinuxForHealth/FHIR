@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +45,7 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
@@ -72,6 +74,7 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.replication.api.util.ReplicationUtil;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -410,10 +413,35 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 searchContext.setLastPageNumber(lastPageNumber);
                 
                  
-                if (searchResultCount > 0) {
+                // For _summary=count, we don't need to return any resource 
+                if (searchResultCount > 0 && 
+                        !(searchContext.getSummaryParameter() != null 
+                        && searchContext.getSummaryParameter().equals(SearchConstants.SUMMARY_COUNT))) {
                     query = queryBuilder.buildQuery(resourceType, searchContext);
                     
                     List<String> elements = searchContext.getElementsParameters();
+                    
+                    //Only consider _summary if _elements parameter is empty
+                    if (elements == null) {
+                        Set<String> summaryElements = null;
+                        String summary = searchContext.getSummaryParameter();
+                        if (summary != null) {
+                            if (summary.equals(SearchConstants.SUMMARY_TRUE)) {
+                               // summaryElements = SearchUtil.getSummaryElementNames(resourceType);
+                                summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                            } else if (summary.equals(SearchConstants.SUMMARY_TEXT)) {
+                                summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                            } else if (summary.equals(SearchConstants.SUMMARY_DATA)) {
+                                //summaryElements = SearchUtil.getSummaryDataElementNames(resourceType);
+                                summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                            }
+                            
+                        }
+                        if (summaryElements != null) {
+                            elements = new ArrayList<String>();
+                            elements.addAll(summaryElements);
+                        }
+                    }
                     
                     if (searchContext.hasSortParameters()) {
                         // Sorting results of a system-level search is limited, and has a different logic path

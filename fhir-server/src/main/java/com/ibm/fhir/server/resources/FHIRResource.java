@@ -3780,23 +3780,25 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         Bundle.Builder bundleBuider =
                 Bundle.builder().type(BundleType.SEARCHSET).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.fhir.model.type.UnsignedInt.of((int) searchContext.getTotalCount()));
-
-        for (Resource resource : resources) {
-            if (resource.getId() == null || !resource.getId().hasValue()) {
-                throw new IllegalStateException("Returned resources must have an id.");
+ //       if (!searchContext.getSummaryParameter().contentEquals(SearchConstants.SUMMARY_COUNT)) {
+            for (Resource resource : resources) {
+                if (resource.getId() == null || !resource.getId().hasValue()) {
+                    throw new IllegalStateException("Returned resources must have an id.");
+                }
+                Bundle.Entry entry = Bundle.Entry.builder().fullUrl(Uri.of(getRequestBaseUri() + "/"
+                        + resource.getClass().getSimpleName() + "/"
+                        + resource.getId().getValue())).resource(resource).build();
+    
+                bundleBuider.entry(entry);
             }
-            Bundle.Entry entry = Bundle.Entry.builder().fullUrl(Uri.of(getRequestBaseUri() + "/"
-                    + resource.getClass().getSimpleName() + "/"
-                    + resource.getId().getValue())).resource(resource).build();
-
-            bundleBuider.entry(entry);
-        }
+ //       }
 
         Bundle bundle = bundleBuider.build();
 
         // Add the SUBSETTED tag, if the _elements search result parameter was applied to limit elements included in
-        // returned resources.
-        if (searchContext.hasElementsParameters()) {
+        // returned resources or _summary is required.
+        if (searchContext.hasElementsParameters() 
+                || (searchContext.hasSummaryParameter() && !searchContext.getSummaryParameter().contentEquals("false"))) {
             bundle = (Bundle) FHIRUtil.addTag(bundle, SearchConstants.SUBSETTED_TAG);
         }
 
@@ -3943,66 +3945,72 @@ public class FHIRResource implements FHIRResourceHelpers {
         Bundle.Link selfLink =
                 Bundle.Link.builder().relation(string("self")).url(Url.of(selfUri)).build();
         bundleBuilder.link(selfLink);
+        
+        // If for search with _summary=count, then don't add previous and next links.
+        if (!(context instanceof FHIRSearchContext 
+                && ((FHIRSearchContext) context).getSummaryParameter() != null
+                && ((FHIRSearchContext) context).getSummaryParameter().equals(SearchConstants.SUMMARY_COUNT))) {
+            int nextPageNumber = context.getPageNumber() + 1;
+            if (nextPageNumber <= context.getLastPageNumber()) {
 
-        int nextPageNumber = context.getPageNumber() + 1;
-        if (nextPageNumber <= context.getLastPageNumber()) {
+                // starting with the self URI
+                String nextLinkUrl = selfUri;
 
-            // starting with the self URI
-            String nextLinkUrl = selfUri;
+                // remove existing _page parameters from the query string
+                nextLinkUrl =
+                        nextLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
+                                + context.getPageNumber() + "&", "").replace("_page="
+                                        + context.getPageNumber(), "");
 
-            // remove existing _page parameters from the query string
-            nextLinkUrl =
-                    nextLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
-                            + context.getPageNumber() + "&", "").replace("_page="
-                                    + context.getPageNumber(), "");
-
-            if (nextLinkUrl.contains("?")) {
-                if (!nextLinkUrl.endsWith("?")) {
-                    // there are other parameters in the query string
-                    nextLinkUrl += "&";
+                if (nextLinkUrl.contains("?")) {
+                    if (!nextLinkUrl.endsWith("?")) {
+                        // there are other parameters in the query string
+                        nextLinkUrl += "&";
+                    }
+                } else {
+                    nextLinkUrl += "?";
                 }
-            } else {
-                nextLinkUrl += "?";
+
+                // add new _page parameter to the query string
+                nextLinkUrl += "_page=" + nextPageNumber;
+
+                // create 'next' link
+                Bundle.Link nextLink =
+                        Bundle.Link.builder().relation(string("next")).url(Url.of(nextLinkUrl)).build();
+                bundleBuilder.link(nextLink);
             }
 
-            // add new _page parameter to the query string
-            nextLinkUrl += "_page=" + nextPageNumber;
+            int prevPageNumber = context.getPageNumber() - 1;
+            if (prevPageNumber > 0) {
 
-            // create 'next' link
-            Bundle.Link nextLink =
-                    Bundle.Link.builder().relation(string("next")).url(Url.of(nextLinkUrl)).build();
-            bundleBuilder.link(nextLink);
-        }
+                // starting with the original request URI
+                String prevLinkUrl = requestUri;
 
-        int prevPageNumber = context.getPageNumber() - 1;
-        if (prevPageNumber > 0) {
+                // remove existing _page parameters from the query string
+                prevLinkUrl =
+                        prevLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
+                                + context.getPageNumber() + "&", "").replace("_page="
+                                        + context.getPageNumber(), "");
 
-            // starting with the original request URI
-            String prevLinkUrl = requestUri;
-
-            // remove existing _page parameters from the query string
-            prevLinkUrl =
-                    prevLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
-                            + context.getPageNumber() + "&", "").replace("_page="
-                                    + context.getPageNumber(), "");
-
-            if (prevLinkUrl.contains("?")) {
-                if (!prevLinkUrl.endsWith("?")) {
-                    // there are other parameters in the query string
-                    prevLinkUrl += "&";
+                if (prevLinkUrl.contains("?")) {
+                    if (!prevLinkUrl.endsWith("?")) {
+                        // there are other parameters in the query string
+                        prevLinkUrl += "&";
+                    }
+                } else {
+                    prevLinkUrl += "?";
                 }
-            } else {
-                prevLinkUrl += "?";
+
+                // add new _page parameter to the query string
+                prevLinkUrl += "_page=" + prevPageNumber;
+
+                // create 'previous' link
+                Bundle.Link prevLink =
+                        Bundle.Link.builder().relation(string("previous")).url(Url.of(prevLinkUrl)).build();
+                bundleBuilder.link(prevLink);
             }
-
-            // add new _page parameter to the query string
-            prevLinkUrl += "_page=" + prevPageNumber;
-
-            // create 'previous' link
-            Bundle.Link prevLink =
-                    Bundle.Link.builder().relation(string("previous")).url(Url.of(prevLinkUrl)).build();
-            bundleBuilder.link(prevLink);
         }
+
         return bundleBuilder.build();
     }
 

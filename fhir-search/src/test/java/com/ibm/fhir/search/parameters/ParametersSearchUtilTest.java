@@ -12,6 +12,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
@@ -20,6 +21,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -157,5 +159,21 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         printSearchParameters("testGetSearchParameters6/Device", result);
         assertEquals(19, result.size());
     }
-
+    
+    
+    @Test
+    public void testGetSummaryElement() throws Exception {
+        // Get the summary elements for Patient.
+        Set<String> result = SearchUtil.getSummaryElementNames(Patient.class);
+        assertNotNull(result);
+        assertEquals(16, result.size());
+    }
+    
+    @Test
+    public void testGetSummaryDataElement() throws Exception {
+        // Get the summary elements for Patient.
+        Set<String> result = SearchUtil.getSummaryDataElementNames(Patient.class);
+        assertNotNull(result);
+        assertEquals(30, result.size());
+    }
 }

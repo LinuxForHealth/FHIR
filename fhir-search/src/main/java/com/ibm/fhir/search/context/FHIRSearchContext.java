@@ -64,4 +64,24 @@ public interface FHIRSearchContext extends FHIRPagingContext {
      * @return
      */
     void addElementsParameter(String elementToInclude);
+    
+    
+    /**
+     * @return true when the summary parameter is not null
+     */
+    boolean hasSummaryParameter();
+    
+    /**
+     * Get the summary parameter.
+     * 
+     * @return the value of the summary parameter
+     */
+    String getSummaryParameter();
+
+    /**
+     * Set the value of the summary parameter.
+     */
+    void setSummaryParameter(String summary);
+
+    
 }

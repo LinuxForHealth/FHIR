@@ -39,6 +39,8 @@ public final class JsonSupport {
     
     private static final Map<Class<?>, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap(false);
     private static final Map<Class<?>, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildElementNameMap(true);
+    private static final Map<Class<?>, Set<String>> SUMMARY_ELEMENT_NAME_MAP = buildSummaryElementNameMap(false);
+    private static final Map<Class<?>, Set<String>> SUMMARY_DATA_ELEMENT_NAME_MAP = buildSummaryElementNameMap(true);
     
     private JsonSupport() { }
 
@@ -78,9 +80,37 @@ public final class JsonSupport {
         }
         return Collections.unmodifiableMap(elementNameMap);
     }
+    
+    
+    private static Map<Class<?>, Set<String>> buildSummaryElementNameMap(boolean isData) {
+        Map<Class<?>, Set<String>> summaryElementNameMap = new LinkedHashMap<>();
+        for (Class<?> modelClass : ModelSupport.getModelClasses()) {
+            if (ModelSupport.isPrimitiveType(modelClass)) {
+                continue;
+            }
+            Set<String> elementNames = new LinkedHashSet<>();
+            for (String elementName : ModelSupport.getElementNames(modelClass)) {
+                if ((!isData && !ModelSupport.isSummaryElement(modelClass, elementName))
+                        || (isData && elementName.equals("text"))) {
+                    continue;
+                }
+                    elementNames.add(elementName);
+            }
+            summaryElementNameMap.put(modelClass, Collections.unmodifiableSet(elementNames));
+        }
+        return Collections.unmodifiableMap(summaryElementNameMap);
+    }
 
     public static Set<String> getElementNames(Class<?> type) {
         return ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet());
+    }
+    
+    public static Set<String> getSummaryElementNames(Class<?> type) {
+        return Collections.unmodifiableSet(SUMMARY_ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet()));
+    }
+    
+    public static Set<String> getSummaryDataElementNames(Class<?> type) {
+        return Collections.unmodifiableSet(SUMMARY_DATA_ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet()));
     }
     
     public static Set<String> getRequiredElementNames(Class<?> type) {

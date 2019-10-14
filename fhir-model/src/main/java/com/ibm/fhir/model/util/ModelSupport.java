@@ -30,6 +30,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -159,6 +160,7 @@ public final class ModelSupport {
         private final boolean choice;
         private final Set<Class<?>> choiceTypes;
         private final Binding binding;
+        private final boolean summary;
         
         private final Set<String> choiceElementNames;
         
@@ -169,7 +171,8 @@ public final class ModelSupport {
                 boolean repeating, 
                 boolean choice, 
                 Set<Class<?>> choiceTypes, 
-                Binding binding) {
+                Binding binding,
+                boolean isSummary) {
             this.name = name;
             this.declaringType = declaringType;
             this.type = type;
@@ -178,6 +181,7 @@ public final class ModelSupport {
             this.choice = choice;
             this.choiceTypes = choiceTypes;
             this.binding = binding;
+            this.summary = isSummary;
             Set<String> choiceElementNames = new LinkedHashSet<>();
             if (this.choice) {
                 for (Class<?> choiceType : this.choiceTypes) {
@@ -205,6 +209,10 @@ public final class ModelSupport {
         
         public boolean isRequired() {
             return required;
+        }
+        
+        public boolean isSummary() {
+            return summary;
         }
         
         public boolean isRepeating() {
@@ -265,6 +273,7 @@ public final class ModelSupport {
                     Class<?> type = getFieldType(field);
                     Class<?> declaringType = field.getDeclaringClass();
                     boolean required = isRequired(field);
+                    boolean summary = isSummary(field);
                     boolean repeating = isRepeating(field);
                     boolean choice = isChoice(field);
                     Binding binding = field.getAnnotation(Binding.class);
@@ -277,7 +286,8 @@ public final class ModelSupport {
                             repeating, 
                             choice, 
                             choiceTypes, 
-                            binding
+                            binding,
+                            summary
                         )
                     );
                 }
@@ -527,6 +537,10 @@ public final class ModelSupport {
         return field.isAnnotationPresent(Required.class);
     }
     
+    private static boolean isSummary(Field field) {
+        return field.isAnnotationPresent(Summary.class);
+    }
+    
     public static boolean isRequiredElement(Class<?> modelClass, String elementName) {
         ElementInfo elementInfo = getElementInfo(modelClass, elementName);
         if (elementInfo != null) {
@@ -545,5 +559,13 @@ public final class ModelSupport {
     
     public static boolean isResourceType(String name) {
         return RESOURCE_TYPE_MAP.containsKey(name);
+    }
+    
+    public static boolean isSummaryElement(Class<?> modelClass, String elementName) {
+        ElementInfo elementInfo = getElementInfo(modelClass, elementName);
+        if (elementInfo != null) {
+            return elementInfo.isSummary();
+        }
+        return false;
     }
 }

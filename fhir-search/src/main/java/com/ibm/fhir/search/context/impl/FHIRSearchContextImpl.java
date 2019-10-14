@@ -28,6 +28,7 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     private List<InclusionParameter> includeParameters = new ArrayList<>();
     private List<InclusionParameter> revIncludeParameters = new ArrayList<>();
     private List<String> elementsParameters = null;
+    private String summaryParameter = null; 
 
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<>();
@@ -109,5 +110,21 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     public String toString() {
         return "FHIRSearchContextImpl [searchParameters=" + searchParameters + ", sortParameters=" + sortParameters + ", includeParameters=" + includeParameters
                 + ", revIncludeParameters=" + revIncludeParameters + ", elementsParameters=" + elementsParameters + "]";
+    }
+
+    @Override
+    public boolean hasSummaryParameter() {
+        return this.summaryParameter != null;
+    }
+
+    @Override
+    public String getSummaryParameter() {
+        return this.summaryParameter;
+    }
+
+    @Override
+    public void setSummaryParameter(String summary) {
+        this.summaryParameter = summary;
+        
     }
 }
