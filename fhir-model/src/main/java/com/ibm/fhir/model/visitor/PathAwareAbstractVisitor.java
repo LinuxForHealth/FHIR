@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
 
+import net.jcip.annotations.NotThreadSafe;
+
+@NotThreadSafe
 public abstract class PathAwareAbstractVisitor extends DefaultVisitor implements PathAwareVisitor {
     public static boolean DEBUG = false;
     

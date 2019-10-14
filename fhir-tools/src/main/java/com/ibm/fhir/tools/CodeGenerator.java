@@ -1807,20 +1807,17 @@ public class CodeGenerator {
         cb._importstatic("com.ibm.fhir.model.util.XMLSupport", "isResourceContainer");
         cb._importstatic("com.ibm.fhir.model.util.XMLSupport", "parseDiv");
         cb._importstatic("com.ibm.fhir.model.util.XMLSupport", "requireNamespace");
-
         cb.newLine();
         
         cb._import("java.io.InputStream");
         cb._import("java.io.Reader");
         cb._import("java.util.Stack");
         cb._import("java.util.StringJoiner");
-        
         cb.newLine();
         
         cb._import("javax.annotation.Generated");
         cb._import("javax.xml.stream.XMLStreamException");
         cb._import("javax.xml.stream.XMLStreamReader");
-        
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.parser.FHIRParser");
@@ -1832,23 +1829,23 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
         cb._import("com.ibm.fhir.model.util.XMLSupport.StreamReaderDelegate");
-        
         cb.newLine();
         
+        cb._import("net.jcip.annotations.NotThreadSafe");
+        cb.newLine();
+        
+        cb.annotation("NotThreadSafe");
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRXMLParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
-        
         cb.newLine();
         
         cb.field(mods("private", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
-        
         cb.newLine();
         
         cb.constructor(mods(), "FHIRXMLParser");
         cb.comment("only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)");
         cb.end();
-        
         cb.newLine();
 
         // public <T extends Resource> T parse(InputStream in) throws FHIRParserException
@@ -1856,6 +1853,7 @@ public class CodeGenerator {
         cb.override();
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRParserException"))
             ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(in)")
+                .invoke("reset", args())
                 ._while("delegate.hasNext()")
                     .assign("int eventType", "delegate.next()")
                     ._switch("eventType")
@@ -1869,7 +1867,6 @@ public class CodeGenerator {
                 ._throw(_new("FHIRParserException", args("e.getMessage()", "getPath()", "e")))
             ._end()
         .end();
-        
         cb.newLine();
         
         // public <T extends Resource> T parse(Reader reader) throws FHIRParserException
@@ -1877,6 +1874,7 @@ public class CodeGenerator {
         cb.override();
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRParserException"))
             ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(reader)")
+                .invoke("reset", args())
                 ._while("delegate.hasNext()")
                     .assign("int eventType", "delegate.next()")
                     ._switch("eventType")
@@ -1890,14 +1888,11 @@ public class CodeGenerator {
                 ._throw(_new("FHIRParserException", args("e.getMessage()", "getPath()", "e")))
             ._end()
         .end();
-        
         cb.newLine();
         
-        cb.override();
-        cb.method(mods("public"), "void", "reset")
+        cb.method(mods("private"), "void", "reset")
             .invoke("stack", "clear", args())
         .end();
-        
         cb.newLine();
                 
         cb.method(mods("private"), "Resource", "parseResource", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"));
@@ -1916,7 +1911,6 @@ public class CodeGenerator {
         cb._end();
         cb._return("null");
         cb.end();
-        
         cb.newLine();
         
         Collections.sort(generatedClassNames);
@@ -2179,7 +2173,6 @@ public class CodeGenerator {
         cb._importstatic("com.ibm.fhir.model.util.JsonSupport", "nonClosingInputStream");
         cb._importstatic("com.ibm.fhir.model.util.JsonSupport", "nonClosingReader");
         cb._importstatic("com.ibm.fhir.model.util.ModelSupport", "getChoiceElementName");
-        
         cb.newLine();
         
         cb._import("java.io.InputStream");
@@ -2188,7 +2181,6 @@ public class CodeGenerator {
         cb._import("java.util.Collection");
         cb._import("java.util.Stack");
         cb._import("java.util.StringJoiner");
-        
         cb.newLine();
         
         cb._import("javax.annotation.Generated");
@@ -2200,7 +2192,6 @@ public class CodeGenerator {
         cb._import("javax.json.JsonReaderFactory");
         cb._import("javax.json.JsonString");
         cb._import("javax.json.JsonValue");
-        
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.parser.FHIRParser");
@@ -2212,24 +2203,24 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
         cb._import("com.ibm.fhir.model.util.ElementFilter");
-        
         cb.newLine();
         
+        cb._import("net.jcip.annotations.NotThreadSafe");
+        cb.newLine();
+        
+        cb.annotation("NotThreadSafe");
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRJsonParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
-        
         cb.newLine();
         
         cb.field(mods("private", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
-        
         cb.newLine();
         
         cb.constructor(mods(), "FHIRJsonParser");
         cb.comment("only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)");
         cb.end();
-        
         cb.newLine();
         
         // public <T extends Resource> T parse(InputStream in) throws FHIRException
@@ -2237,7 +2228,6 @@ public class CodeGenerator {
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(in, null)")
         .end();
-        
         cb.newLine();
         
         // public <T extends Resource> T parseAndFilter(InputStream in, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
@@ -2251,7 +2241,6 @@ public class CodeGenerator {
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
-        
         cb.newLine();
      
         // public <T extends Resource> T parse(Reader reader) throws FHIRException
@@ -2259,7 +2248,6 @@ public class CodeGenerator {
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(reader, null)")
         .end();
-        
         cb.newLine();
         
         // public <T extends Resource> T parseAndFilter(Reader reader, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
@@ -2273,13 +2261,11 @@ public class CodeGenerator {
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
-        
         cb.newLine();
         
         cb.method(mods("public"), "<T extends Resource> T", "parse", args("JsonObject jsonObject"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(jsonObject, null)")
         .end();
-    
         cb.newLine();
         
         // public <T extends Resource> T parseAndFilter(JsonObject jsonObject, java.util.List<java.lang.String> elementsToInclude)
@@ -2297,14 +2283,11 @@ public class CodeGenerator {
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
-        
         cb.newLine();
         
-        cb.override();
-        cb.method(mods("public"), "void", "reset")
+        cb.method(mods("private"), "void", "reset")
             .invoke("stack", "clear", args())
         .end();
-        
         cb.newLine();
         
         cb.method(mods("private"), "Resource", "parseResource", params("java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
@@ -2323,7 +2306,6 @@ public class CodeGenerator {
         cb._end();
         cb._return("null");
         cb.end();
-        
         cb.newLine();
         
         Collections.sort(generatedClassNames);
