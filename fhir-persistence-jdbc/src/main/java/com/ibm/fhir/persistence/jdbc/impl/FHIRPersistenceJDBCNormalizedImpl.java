@@ -864,9 +864,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                     } else {
                         // log and continue
                         if (log.isLoggable(Level.FINE)) {
-                            log.fine("Unable to extract value from " + value.path() +
-                                    "; search parameter value extraction can only be performed on Elements and primitive values.");
+                            log.fine("Unable to extract value from '" + value.path() +
+                                    "'; search parameter value extraction can only be performed on Elements and primitive values.");
                         }
+                        // TODO: return this as a OperationOutcomeIssue with severity of WARNING
                         continue;
                     }
                 }

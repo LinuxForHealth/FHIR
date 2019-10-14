@@ -85,60 +85,56 @@
         "name": "ContactPoint",
         "targetClasses": ["ContactPoint"]
     },
-    
+
     {
         "resourceType": "Basic",
-        "name": "Period-noStart",
-        "targetClasses": ["Period"]
+        "name": "Quantity-noDisplayUnit",
+        "targetClasses": ["Quantity"]
     },
     {
         "resourceType": "Basic",
-        "name": "Period-noEnd",
-        "targetClasses": ["Period"]
+        "name": "Quantity-noCode",
+        "targetClasses": ["Quantity"]
     },
     {
         "resourceType": "Basic",
-        "name": "Period-noStartOrEnd",
-        "targetClasses": ["Period"]
+        "name": "Quantity-noCodeOrUnit",
+        "targetClasses": ["Quantity"]
     },
     {
         "resourceType": "Basic",
-        "name": "Timing-eventsOnly",
-        "targetClasses": ["Timing"]
+        "name": "Quantity-lessThan",
+        "targetClasses": ["Quantity"]
     },
     {
         "resourceType": "Basic",
-        "name": "Timing-boundQuantity",
-        "targetClasses": ["Timing"]
+        "name": "Quantity-greaterThan",
+        "targetClasses": ["Quantity"]
     },
     {
         "resourceType": "Basic",
-        "name": "Timing-boundRange",
-        "targetClasses": ["Timing"]
+        "name": "Quantity-lessThanOrEqual",
+        "targetClasses": ["Quantity"]
     },
     {
         "resourceType": "Basic",
-        "name": "Timing-boundPeriod",
-        "targetClasses": ["Timing"]
+        "name": "Quantity-greaterThanOrEqual",
+        "targetClasses": ["Quantity"]
     },
     {
         "resourceType": "Basic",
-        "name": "missing-instant",
-        "targetClasses": ["Instant"]
+        "name": "Range",
+        "targetClasses": ["Range"]
+    },
+
+    {
+        "resourceType": "Basic",
+        "name": "missing-Quantity",
+        "targetClasses": ["Quantity"]
     },
     {
         "resourceType": "Basic",
-        "name": "missing-date",
-        "targetClasses": ["Date"]
-    },
-    {
-        "resourceType": "Basic",
-        "name": "missing-dateTime",
-        "targetClasses": ["DateTime"]
-    },
-    {
-        "resourceType": "Basic",
-        "name": "missing-Period",
-        "targetClasses": ["Period"]
+        "name": "missing-Range",
+        "targetClasses": ["Range"]
     }]
 }

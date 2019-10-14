@@ -16,18 +16,11 @@ import com.ibm.fhir.model.resource.Basic;
  */
 public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
 
+    protected Basic getBasicResource() throws Exception {
+        return readResource("json/ibm/basic/BasicURI.json");
+    }
+
     @Test
-    public void testCreateBasicResource() throws Exception {
-        Basic resource = readResource(Basic.class, "BasicURI.json");
-        saveBasicResource(resource);
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testCreateChainedBasicResource() throws Exception {
-        createCompositionReferencingSavedResource();
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchURI_uri() throws Exception {
         assertSearchReturnsSavedResource("uri", "http://hl7.org/fhir/DSTU2");
         assertSearchReturnsSavedResource("uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
@@ -44,7 +37,7 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("uri", "http://HL7.org/FHIR/dstü2");
     }
     
-    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    @Test
     public void testSearchURI_uri_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.uri", "http://hl7.org/fhir/DSTU2");
         assertSearchReturnsComposition("subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
@@ -57,12 +50,12 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         // TODO add test for diacritics and other unusual characters
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchURI_uri_below() throws Exception {
         assertSearchReturnsSavedResource("uri:below", "http://hl7.org/fhir/");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchURI_uri_missing() throws Exception {
         assertSearchReturnsSavedResource("uri:missing", "false");
         assertSearchDoesntReturnSavedResource("uri:missing", "true");
@@ -71,7 +64,7 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-uri:missing", "false");
     }
 
-//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    @Test
 //    public void testSearchURI_uri_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.uri:missing", "false");
 //        assertSearchDoesntReturnComposition("subject:Basic.uri:missing", "true");

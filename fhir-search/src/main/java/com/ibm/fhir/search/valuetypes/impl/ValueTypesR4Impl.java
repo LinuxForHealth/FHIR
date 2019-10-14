@@ -71,7 +71,7 @@ public class ValueTypesR4Impl implements IValueTypes {
             defaultValueTypeMap.putAll(load(stream));
             log.info("Finished loading the default value types json");
         } catch (IOException e) {
-            log.warning("Unable to load the default [" + DEFAULT_FILE + "]");
+            log.log(Level.WARNING, "Unable to load the default [" + DEFAULT_FILE + "]", e);
         }
     }
 
@@ -138,7 +138,7 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     /**
-     * adds value types for tenants to a list by resource and code.
+     * Adds value types for tenants to a list by resource and code.
      * 
      * @param valueTypesList
      */
@@ -151,12 +151,22 @@ public class ValueTypesR4Impl implements IValueTypes {
             try {
 
                 Map<String, Set<Class<?>>> tenantValueTypes = cache.getCachedObjectForTenant(tenantId);
-                valueTypesList.addAll(tenantValueTypes.get(hash(resourceType, code)));
+                if (tenantValueTypes != null) {
+                    Set<Class<?>> valueTypes = tenantValueTypes.get(hash(resourceType, code));
+                    if (valueTypes != null) {
+                        valueTypesList.addAll(valueTypes);
+                    } else {
+                        log.log(Level.INFO, "Unable to find value types for parameter '" + code + "' on resource type '" 
+                                + resourceType.getSimpleName() + "' [tenantId=" + tenantId + "]");
+                    }
+                } else {
+                    log.log(Level.INFO, "Unable to find extension-search-parameters-valuetypes for tenantId '" + tenantId + "'");
+                }
 
             } catch (Exception e) {
                 // If there is an exception here, it's most likely in the file.
-                log.log(Level.INFO, "Did not find the tenant value for [" + tenantId + "]["
-                        + resourceType.getSimpleName() + "][" + code + "]", e);
+                log.log(Level.INFO, "Error loading the value types for parameter '" + code + "' on resource type '" 
+                        + resourceType.getSimpleName() + "' [tenantId=" + tenantId + "]", e);
             }
         }
     }
@@ -206,7 +216,7 @@ public class ValueTypesR4Impl implements IValueTypes {
             results = load(fis);
 
         } catch (Exception e) {
-            log.warning("Unable to load the file [" + f + "]");
+            log.log(Level.WARNING, "Unable to load the file [" + f + "]", e);
             results = Collections.emptyMap();
         }
         return results;

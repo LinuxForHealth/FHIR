@@ -1022,14 +1022,14 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         whereClauseSegment.append(AND).append(LEFT_PAREN);
         for (ParameterValue value : queryParm.getValues()) {
             if (value.getPrefix() == Prefix.EB || value.getPrefix() == Prefix.SA) {
-                boolean result = false;
+                boolean isIntegerSearch = false;
                 try {
-                    result = !ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
-
+                    isIntegerSearch = ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
                 } catch (FHIRSearchException e) {
-
+                    log.log(Level.INFO, "Caught exception while checking the value types for parameter '" + queryParm.getName() + "'; continuing...", e);
+                    // do nothing
                 }
-                if (result) {
+                if (isIntegerSearch) {
                     throw new FHIRPersistenceException("Search prefixes '" + Prefix.EB.value() + "' and '" + Prefix.SA.value()
                             + "' are not supported for integer searches.");
                 }

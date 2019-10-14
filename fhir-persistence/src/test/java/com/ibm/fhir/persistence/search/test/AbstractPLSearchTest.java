@@ -34,21 +34,47 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 
 /**
- * An abstract parent for the persistence layer search tests
- * @author lmsurpre
- *
+ * An abstract parent for the persistence layer search tests.
+ * 
+ * Abstract subclasses in this package implement the logic of the search tests and should
+ * be extended by concrete subclasses in each persistence layer implementation.
+ * 
+ * Abstract subclasses that implement the test logic should implement {@code getBasicResource()} so
+ * that all concrete subclasses can invoke {@code super.createResources()} to setup for the search tests.
+ * 
+ * @implNote Previously, we used {@code dependsOnMethod} argument to the {@code @Test} annotation, but this was 
+ * preventing us from executing single test methods from Eclipse due to 
+ * https://github.com/cbeust/testng-eclipse/issues/435
  */
-public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
+public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
 
     protected Basic savedResource;
     protected Composition composition;
     protected FHIRParser jsonParser = FHIRParser.parser(Format.JSON);
     protected FHIRParser xmlParser = FHIRParser.parser(Format.XML);
 
+    protected abstract void setTenantAndCreateResources() throws Exception;
+    
+    public void createResources() throws Exception {
+        Basic resource = getBasicResource();
+        saveBasicResource(resource);
+        createCompositionReferencingSavedResource();
+    }
+
+    /**
+     * Each search tests must implement this method.
+     * @return
+     *      the Basic resource to use in the search tests
+     */
+    protected abstract Basic getBasicResource() throws Exception;
+
     @AfterClass
-    public void removeTenant() throws Exception {
+    public void removeSavedResourcesAndResetTenant() throws Exception {
         if (savedResource != null && persistence.isDeleteSupported()) {
             persistence.delete(getDefaultPersistenceContext(), Basic.class, savedResource.getId().getValue());
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().commit();
+            }
         }
         FHIRRequestContext.get().setTenantId("default");
     }
