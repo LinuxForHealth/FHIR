@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.search.test;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 
 /**
@@ -19,7 +20,11 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     protected Basic getBasicResource() throws Exception {
         return readResource("json/ibm/basic/BasicDate.json");
     }
-    
+
+    protected void setTenant() throws Exception {
+        FHIRRequestContext.get().setTenantId("date");
+    }
+
     @Test
     public void testSearchDate_date() throws Exception {
         // "date" is 2018-10-29

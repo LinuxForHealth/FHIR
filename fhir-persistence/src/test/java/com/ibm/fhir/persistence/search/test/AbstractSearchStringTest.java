@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.search.test;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
@@ -19,6 +20,10 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 
     protected Basic getBasicResource() throws Exception {
         return readResource("json/ibm/basic/BasicString.json");
+    }
+
+    protected void setTenant() throws Exception {
+        FHIRRequestContext.get().setTenantId("string");
     }
 
     @Test

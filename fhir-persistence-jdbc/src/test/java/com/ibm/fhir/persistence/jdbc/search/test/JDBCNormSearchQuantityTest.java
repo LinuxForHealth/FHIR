@@ -8,9 +8,6 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
-import org.testng.annotations.BeforeClass;
-
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
@@ -18,17 +15,11 @@ import com.ibm.fhir.persistence.search.test.AbstractSearchQuantityTest;
 
 
 public class JDBCNormSearchQuantityTest extends AbstractSearchQuantityTest {
-    
+
     private Properties testProps;
-    
+
     public JDBCNormSearchQuantityTest() throws Exception {
         this.testProps = readTestProperties("test.normalized.properties");
-    }
-
-    @BeforeClass
-    public void setTenantAndCreateResources() throws Exception {
-        FHIRRequestContext.get().setTenantId("quantity");
-        super.createResources();
     }
 
     @Override
