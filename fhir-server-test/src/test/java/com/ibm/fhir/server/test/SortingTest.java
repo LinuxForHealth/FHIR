@@ -830,7 +830,6 @@ public class SortingTest extends FHIRServerTestBase {
 
                     // Validate Patient _summary filtering
                     Method[] patientMethods = Patient.class.getMethods();
-                    //Set <String> summaryElements = SearchUtil.getSummaryElementNames(Patient.class);
                     Set <String> summaryElements = JsonSupport.getSummaryElementNames(Patient.class);
                     for (int j = 0; j < patientMethods.length; j++) {
                         Method patientMethod = patientMethods[j];

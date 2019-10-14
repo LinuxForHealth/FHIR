@@ -427,7 +427,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                         String summary = searchContext.getSummaryParameter();
                         if (summary != null) {
                             if (summary.equals(SearchConstants.SUMMARY_TRUE)) {
-                               // summaryElements = SearchUtil.getSummaryElementNames(resourceType);
                                 summaryElements = JsonSupport.getSummaryElementNames(resourceType);
                             } else if (summary.equals(SearchConstants.SUMMARY_TEXT)) {
                                 summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);

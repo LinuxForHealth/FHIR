@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -39,8 +40,8 @@ public final class JsonSupport {
     
     private static final Map<Class<?>, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap(false);
     private static final Map<Class<?>, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildElementNameMap(true);
-    private static final Map<Class<?>, Set<String>> SUMMARY_ELEMENT_NAME_MAP = buildSummaryElementNameMap(false);
-    private static final Map<Class<?>, Set<String>> SUMMARY_DATA_ELEMENT_NAME_MAP = buildSummaryElementNameMap(true);
+    private static final Map<Class<?>, Set<String>> SUMMARY_ELEMENT_NAME_MAP = buildSummaryElementNameMap();
+    private static final Map<Class<?>, Set<String>> SUMMARY_DATA_ELEMENT_NAME_MAP = new LinkedHashMap<>();
     
     private JsonSupport() { }
 
@@ -82,7 +83,7 @@ public final class JsonSupport {
     }
     
     
-    private static Map<Class<?>, Set<String>> buildSummaryElementNameMap(boolean isData) {
+    private static Map<Class<?>, Set<String>> buildSummaryElementNameMap() {
         Map<Class<?>, Set<String>> summaryElementNameMap = new LinkedHashMap<>();
         for (Class<?> modelClass : ModelSupport.getModelClasses()) {
             if (ModelSupport.isPrimitiveType(modelClass)) {
@@ -90,11 +91,10 @@ public final class JsonSupport {
             }
             Set<String> elementNames = new LinkedHashSet<>();
             for (String elementName : ModelSupport.getElementNames(modelClass)) {
-                if ((!isData && !ModelSupport.isSummaryElement(modelClass, elementName))
-                        || (isData && elementName.equals("text"))) {
+                if (!ModelSupport.isSummaryElement(modelClass, elementName)) {
                     continue;
                 }
-                    elementNames.add(elementName);
+                elementNames.add(elementName);
             }
             summaryElementNameMap.put(modelClass, Collections.unmodifiableSet(elementNames));
         }
@@ -110,7 +110,14 @@ public final class JsonSupport {
     }
     
     public static Set<String> getSummaryDataElementNames(Class<?> type) {
-        return Collections.unmodifiableSet(SUMMARY_DATA_ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet()));
+        if (SUMMARY_DATA_ELEMENT_NAME_MAP.get(type) != null) {
+            return Collections.unmodifiableSet(SUMMARY_DATA_ELEMENT_NAME_MAP.get(type));
+        } else {
+            Set<String> summaryData = ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet())
+                .stream().filter(e -> !"text".equals(e)).collect(Collectors.toSet());
+            SUMMARY_DATA_ELEMENT_NAME_MAP.put(type, summaryData);
+            return summaryData;
+        }
     }
     
     public static Set<String> getRequiredElementNames(Class<?> type) {
