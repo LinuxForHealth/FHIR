@@ -1278,38 +1278,6 @@ public class SearchUtil {
         return UriBuilder.builder().context(context).requestUri(requestUriString).toSearchSelfUri();
     }
     
-    /**
-     * Return a limited subset of elements from the resource. This subset SHOULD consist solely of all supported elements 
-     * that are marked as "summary" in the base definition of the resource(s)
-     * @param resourceType
-     * @return
-     */
-    public static Set<String> getSummaryElementNames(Class<?> resourceType) {
-        if (resourceType == null) {
-            return null;
-        }
-        if (resoureTypeSummaryElements.get(resourceType) != null) {
-            return Collections.unmodifiableSet(resoureTypeSummaryElements.get(resourceType));
-        } else {
-            StructureDefinition structureDefinition = FHIRRegistry.getInstance()
-                    .getResource("http://hl7.org/fhir/StructureDefinition/" + resourceType.getSimpleName(), StructureDefinition.class);
-            if (structureDefinition == null) {
-                return null;
-            } else {
-                Set<String> summaryElements = structureDefinition.getSnapshot().getElement().stream()
-                        .filter(elementDefinition -> elementDefinition.getIsSummary().getValue())
-                        .map(elementDefinition -> elementDefinition.getBase().getPath().getValue())
-                        .map(path -> path.substring(path.lastIndexOf(".") + 1).replace("[x]", ""))
-                        .collect(Collectors.toSet());
-                if (summaryElements != null) {
-                    resoureTypeSummaryElements.put(resourceType, summaryElements);
-                }
-                return Collections.unmodifiableSet(summaryElements);
-            }
-        }
-    }
-    
-    
     
     /**
      * Return only the "text" element, the 'id' element, the 'meta' element, and only top-level mandatory elements
@@ -1321,40 +1289,6 @@ public class SearchUtil {
         // Align with other getSummaryxxx functions, we may need the input resourceType in the future
         Set<String> summaryTextList = new HashSet<String>();
         summaryTextList.add("text");
-        return Collections.unmodifiableSet(summaryTextList);
-         
+        return Collections.unmodifiableSet(summaryTextList);    
     }
-    
-    
-    
-    /**
-     * Remove the text element
-     * @param resourceType
-     * @return
-     */
-    public static Set<String> getSummaryDataElementNames(Class<?> resourceType) {
-        if (resourceType == null) {
-            return null;
-        }
-        if (resoureTypeSummaryDataElements.get(resourceType) != null) {
-            return Collections.unmodifiableSet(resoureTypeSummaryDataElements.get(resourceType));
-        } else {
-            StructureDefinition structureDefinition = FHIRRegistry.getInstance()
-                    .getResource("http://hl7.org/fhir/StructureDefinition/" + resourceType.getSimpleName(), StructureDefinition.class);
-            if (structureDefinition == null) {
-                return null;
-            } else {
-                Set<String> summaryElements = structureDefinition.getSnapshot().getElement().stream()
-                        .map(elementDefinition -> elementDefinition.getBase().getPath().getValue())
-                        .map(path -> path.substring(path.lastIndexOf(".") + 1).replace("[x]", ""))
-                        .filter(elementName -> !elementName.equals("text"))
-                        .collect(Collectors.toSet());
-                if (summaryElements != null) {
-                    resoureTypeSummaryDataElements.put(resourceType, summaryElements);
-                }
-                return Collections.unmodifiableSet(summaryElements);
-            }
-        }
-    }
-
 }

@@ -431,7 +431,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                             } else if (summary.equals(SearchConstants.SUMMARY_TEXT)) {
                                 summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
                             } else if (summary.equals(SearchConstants.SUMMARY_DATA)) {
-                                //summaryElements = SearchUtil.getSummaryDataElementNames(resourceType);
                                 summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
                             }
                             
