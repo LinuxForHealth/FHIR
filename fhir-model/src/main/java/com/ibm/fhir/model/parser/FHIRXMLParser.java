@@ -33,6 +33,9 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.util.XMLSupport.StreamReaderDelegate;
 
+import net.jcip.annotations.NotThreadSafe;
+
+@NotThreadSafe
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FHIRXMLParser implements FHIRParser {
     public static boolean DEBUG = false;
@@ -47,6 +50,7 @@ public class FHIRXMLParser implements FHIRParser {
     @Override
     public <T extends Resource> T parse(InputStream in) throws FHIRParserException {
         try (StreamReaderDelegate delegate = createStreamReaderDelegate(in)) {
+            reset();
             while (delegate.hasNext()) {
                 int eventType = delegate.next();
                 switch (eventType) {
@@ -65,6 +69,7 @@ public class FHIRXMLParser implements FHIRParser {
     @Override
     public <T extends Resource> T parse(Reader reader) throws FHIRParserException {
         try (StreamReaderDelegate delegate = createStreamReaderDelegate(reader)) {
+            reset();
             while (delegate.hasNext()) {
                 int eventType = delegate.next();
                 switch (eventType) {
@@ -79,8 +84,7 @@ public class FHIRXMLParser implements FHIRParser {
         }
     }
 
-    @Override
-    public void reset() {
+    private void reset() {
         stack.clear();
     }
 
