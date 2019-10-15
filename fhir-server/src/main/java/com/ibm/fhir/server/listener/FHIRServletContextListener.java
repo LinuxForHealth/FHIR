@@ -41,7 +41,7 @@ import com.ibm.fhir.persistence.jdbc.SchemaType;
 import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
 import com.ibm.fhir.search.util.SearchUtil;
 
-@WebListener("IBM Server for HL7 FHIR Servlet Context Listener")
+@WebListener("IBM FHIR® Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
     

@@ -1,6 +1,6 @@
-# FHIR Server Install
+# IBM FHIR® Server Install
 
-Running FHIR Server as a Docker container.
+Running IBM FHIR® Server as a Docker container.
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ Using Docker Terminal, access the fhir-install directory and run:
 docker build -t fhir-server . --squash
 ```
 ## Run
-
+ 
 Once the image is built, start it with:
 
 ```sh
@@ -33,14 +33,14 @@ The test should result in something like:
 ```xml
 <Conformance xmlns="http://hl7.org/fhir" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <version value="0.0.1-SNAPSHOT"/>
-  <name value="IBM Server for HL7 FHIR"/>
+  <name value="IBM FHIR® Server"/>
   <publisher value="IBM Corporation"/>
   <date value="Thu May 19 16:51:53 UTC 2016"/>
-  <description value="IBM Server for HL7 FHIR version 0.0.1-SNAPSHOT build id development"/>
+  <description value="IBM FHIR® Server version 0.0.1-SNAPSHOT build id development"/>
   <copyright value="© Copyright IBM Corporation 2019"/>
   <kind value="instance"/>
   <software id="development">
-    <name value="IBM Server for HL7 FHIR"/>
+    <name value="IBM FHIR® Server"/>
     <version value="0.0.1-SNAPSHOT"/>
   </software>
   <fhirVersion value="1.0.2"/>

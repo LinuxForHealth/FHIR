@@ -1,3 +1,5 @@
+IBM FHIR® Server
+
 ## [Unreleased]
 
 ### Fixed
@@ -51,7 +53,7 @@
   * fhir-server is now built into a docker image that is available from Artifactory (see fhir-server README)
 
 ## [2.2.0] - 2018-10-15
-Release 2.2.0 is the first <q>common service</q> release from the IBM Server for HL7 FHIR codebase.
+Release 2.2.0 is the first <q>common service</q> release from the IBM FHIR® Server codebase.
 
 ### Security
 * client should perform hostname verification by default
