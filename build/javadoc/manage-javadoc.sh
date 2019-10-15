@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# The purpose of this 
+# The purpose of this script is to setup the JAVA_HOME (no matter what, and then optionally)
 # Manage Existing JavaDocs 
 
 # Check for JAVA_HOME and it must be set. 
@@ -17,10 +17,28 @@ then
 fi 
 echo "JAVA_HOME: ${JAVA_HOME}"
 
-# RC
+# Create a gitignored cache location. 
+mkdir -p build/javadoc/.cache/
 
+# RELEASE CANDIDATE
+# MUST NOT be TAG_RELEASE
+# If this is an RC Build... drop into latest only 
+if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_TAG == "" ]]
+then 
+    echo "Executing a RELEASE CANDIDATE build"
+    # Find fhir-apidocs
+    echo "CANDIDATE" > JAVADOC_STATUS 
+fi
 
 # RELEASE 
+# TRAVIS_TAG must be set. 
+# If this is a release, drop into the RELEASE 
+# and drop into latest only 
+if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_TAG != "" ]]
+then 
+    echo "Executing a RELEASE build"
 
+    echo "RELEASE" > JAVADOC_STATUS
+fi
 
 # EOF 
