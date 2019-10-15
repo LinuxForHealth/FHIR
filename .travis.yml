@@ -87,6 +87,9 @@ before_install:
     BUILD_JDK_VERSION="$(java -version | grep -i 'openjdk version')"
     echo "JDK VERSION (field used for tagged builds) -> ${BUILD_JDK_VERSION}"
 
+    # Sets up the javadoc work goals in the build 
+    bash build/javadoc/manage-javadoc.sh setup
+
 # Not used, really stuffed in the following 'script' block
 # install:
 #  - java -version

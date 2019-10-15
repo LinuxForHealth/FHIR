@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+###############################################################################
+# (C) Copyright IBM Corp. 2019
+#
+# SPDX-License-Identifier: Apache-2.0
+###############################################################################
+
 # Sets up the details for bintray modules/packages on BinTray
 # You must set to use your API Key and API user in the curl request. 
 # BINTRAY_USER=change-me
