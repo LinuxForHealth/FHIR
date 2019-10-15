@@ -159,21 +159,4 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         printSearchParameters("testGetSearchParameters6/Device", result);
         assertEquals(19, result.size());
     }
-    
-    
-    @Test
-    public void testGetSummaryElement() throws Exception {
-        // Get the summary elements for Patient.
-        Set<String> result = SearchUtil.getSummaryElementNames(Patient.class);
-        assertNotNull(result);
-        assertEquals(16, result.size());
-    }
-    
-    @Test
-    public void testGetSummaryDataElement() throws Exception {
-        // Get the summary elements for Patient.
-        Set<String> result = SearchUtil.getSummaryDataElementNames(Patient.class);
-        assertNotNull(result);
-        assertEquals(30, result.size());
-    }
 }
