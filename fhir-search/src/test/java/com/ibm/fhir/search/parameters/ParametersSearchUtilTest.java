@@ -157,5 +157,4 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         printSearchParameters("testGetSearchParameters6/Device", result);
         assertEquals(19, result.size());
     }
-
 }

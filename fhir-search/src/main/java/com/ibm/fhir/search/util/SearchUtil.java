@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
@@ -86,7 +88,7 @@ public class SearchUtil {
     private static final String INCLUSION_PARAMETERS_NULL_STRING_EXCEPTION = "Inclusion parameters cannot be processed with null queryString.";
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
     private static final String UNSUPPOTED_EXPR_NULL = "An empty expression is found or the parameter type is unsupported [%s][%s]";;
-
+    
     /*
      * This is our in-memory cache of SearchParameter objects. The cache is organized at the top level by tenant-id,
      * with the built-in (FHIR spec-defined) SearchParameters stored under the "built-in" pseudo-tenant-id.
@@ -547,6 +549,12 @@ public class SearchUtil {
 
                 if (isSearchResultParameter(name)) {
                     parseSearchResultParameter(resourceType, context, name, params, queryString, lenient);
+                    // _include and _revinclude parameters cannot be mixed with _summary=text 
+                    if (context.getSummaryParameter() != null 
+                            && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
+                        context.getIncludeParameters().clear();
+                        context.getRevIncludeParameters().clear();
+                    }
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
@@ -863,6 +871,15 @@ public class SearchUtil {
                 parseInclusionParameter(resourceType, context, name, values, queryString, lenient);
             } else if (SearchConstants.ELEMENTS.equals(name)) {
                 parseElementsParameter(resourceType, context, values, lenient);
+            } else if (SearchConstants.SUMMARY.equals(name) 
+                    && first != null) { 
+                try {
+                    context.setSummaryParameter(SummaryValueSet.from(first));
+                } catch (Exception ex) {
+                    if (!lenient) {
+                        throw ex;
+                    }
+                }
             }
         } catch (Exception e) {
             throw SearchExceptionUtil.buildNewParseException(name, e);
@@ -1259,5 +1276,18 @@ public class SearchUtil {
          */
         return UriBuilder.builder().context(context).requestUri(requestUriString).toSearchSelfUri();
     }
-
+    
+    
+    /**
+     * Return only the "text" element, the 'id' element, the 'meta' element, and only top-level mandatory elements.
+     * The id, meta and the top-level mandatory elements will be added by the ElementFilter automatically.
+     * @param resourceType
+     * @return
+     */
+    public static Set<String> getSummaryTextElementNames(Class<?> resourceType) {
+        // Align with other getSummaryxxx functions, we may need the input resourceType in the future
+        Set<String> summaryTextList = new HashSet<String>();
+        summaryTextList.add("text");
+        return Collections.unmodifiableSet(summaryTextList);    
+    }
 }
