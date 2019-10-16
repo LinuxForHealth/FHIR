@@ -22,7 +22,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * we deploy the schema in parallel, and so certain objects might end up with
  * different versions at different times (in case of failures)
  * <br>
- * The <code>Map<String,Integer></code> returned from {@link #run(IDatabaseTranslator, Connection)}
+ * The <code>Map&lt;String,Integer&rt;</code> returned from {@link #run(IDatabaseTranslator, Connection)}
  * uses a compound string of type:name for the key e.g. "Table:PATIENT_RESOURCES".
  * 
  * @author rarnold

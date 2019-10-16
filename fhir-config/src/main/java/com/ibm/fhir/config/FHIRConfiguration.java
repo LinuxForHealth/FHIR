@@ -98,7 +98,7 @@ public class FHIRConfiguration {
      * This method is used to configure an explicit top-level directory where FHIR Server configuration
      * information is expected to reside.
      * For example, by calling this method with value "/mydir", then we'd expect
-     * to find config files whose names are of the form: <code> "/mydir/config/<tenant-id>/fhir-server-config.json".</code>
+     * to find config files whose names are of the form: <code> "/mydir/config/&lt;tenant-id&rt;/fhir-server-config.json".</code>
      * The default location for config files is the current working directory (i.e. "" - the empty string).
      * @param s the new config home directory name 
      */

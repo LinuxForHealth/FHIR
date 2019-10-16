@@ -211,8 +211,9 @@ public interface IDatabaseAdapter {
     /**
      * Build the DML statement for setting a session variable
      * 
+     * @param schemaName
      * @param variableName
-     * @return the DML
+     * @param value
      */
     public void setIntVariable(String schemaName, String variableName, int value);
 

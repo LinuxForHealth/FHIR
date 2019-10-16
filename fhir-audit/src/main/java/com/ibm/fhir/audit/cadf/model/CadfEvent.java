@@ -756,8 +756,8 @@ public class CadfEvent {
          * A convenience method allowing to add one tag at a time as opposed to an
          * array.
          * 
-         * @see withTags
-         * @param tags -- A String in the format
+         * @see #withTags(String[])
+         * @param tag -- A String in the format
          *             [//namespace/]tag-name[?value=tag-value]
          * @return CadfEventBuilder
          */

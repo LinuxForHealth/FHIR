@@ -206,7 +206,6 @@ public abstract class DatabaseObject implements IDatabaseObject {
 
     /**
      * Sleep a random amount of time.
-     * @param ms
      */
     protected void safeSleep() {
         long ms = random.nextInt(5000);

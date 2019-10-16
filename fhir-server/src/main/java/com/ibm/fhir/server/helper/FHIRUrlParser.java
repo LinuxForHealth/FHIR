@@ -28,7 +28,7 @@ public class FHIRUrlParser {
     }
     
     /**
-     * constructor which accepts a partial URL string (e.g. <code>"Patient/123?param1=value1&param2=value2"</code>).
+     * constructor which accepts a partial URL string (e.g. <code>"Patient/123?param1=value1&amp;param2=value2"</code>).
      */
     public FHIRUrlParser(String urlString) {
         if (urlString == null) {

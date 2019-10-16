@@ -49,7 +49,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
      * This methods builds a query to return the count of resources matching the search. This count will encompass resources
      * represented by _include and _revinclude parameters. 
      * The following generated SQL is an example. It is based on this REST query string:
-     * /Patient?id=some-id&_include=Patient:organization&_revinclude=Observation:patient
+     * /Patient?id=some-id&amp;_include=Patient:organization&amp;_revinclude=Observation:patient
      * See comments embedded in the SQL for explanation:
      * 
      * <pre>
@@ -59,7 +59,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
           Patient_RESOURCES R JOIN 
           Patient_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID JOIN 
           Patient_TOKEN_VALUES P1 ON P1.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID WHERE 
-          R.IS_DELETED <> 'Y' AND 
+          R.IS_DELETED &lt;&gt; 'Y' AND 
           P1.RESOURCE_ID = R.RESOURCE_ID AND 
           (P1.PARAMETER_NAME_ID=1 AND ((P1.TOKEN_VALUE = ?))) 
        
@@ -71,7 +71,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
        SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
          Organization_RESOURCES R JOIN 
          Organization_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID WHERE 
-         R.IS_DELETED <> 'Y' AND 
+         R.IS_DELETED &lt;&gt; 'Y' AND 
          R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND 
          ('Organization/' || LR.LOGICAL_ID IN 
            (SELECT P1.STR_VALUE FROM 
@@ -82,7 +82,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
              Patient_RESOURCES R JOIN 
              Patient_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID JOIN 
              Patient_TOKEN_VALUES P1 ON P1.LOGICAL_RESOURCE_ID=R.LOGICAL_RESOURCE_ID WHERE 
-             R.IS_DELETED <> 'Y' AND 
+             R.IS_DELETED &lt;&gt; 'Y' AND 
              P1.RESOURCE_ID = R.RESOURCE_ID AND 
              (P1.PARAMETER_NAME_ID=1 AND ((P1.TOKEN_VALUE = ?)))
             )
@@ -98,14 +98,14 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
           Observation_RESOURCES R JOIN 
           Observation_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID JOIN  
           Observation_STR_VALUES P1 ON P1.RESOURCE_ID = R.RESOURCE_ID WHERE 
-          R.IS_DELETED <> 'Y' AND 
+          R.IS_DELETED &lt;&gt; 'Y' AND 
           P1.PARAMETER_NAME_ID=29 AND 
           P1.STR_VALUE='Patient/' || 
            (SELECT LR.LOGICAL_ID FROM 
             Patient_RESOURCES R JOIN 
             Patient_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID JOIN 
             Patient_TOKEN_VALUES P1 ON P1.RESOURCE_ID=R.RESOURCE_ID WHERE 
-            R.IS_DELETED <> 'Y' AND 
+            R.IS_DELETED &lt;&gt; 'Y' AND 
             P1.RESOURCE_ID = R.RESOURCE_ID AND 
             (P1.PARAMETER_NAME_ID=1 AND ((P1.TOKEN_VALUE = ?)))
            )

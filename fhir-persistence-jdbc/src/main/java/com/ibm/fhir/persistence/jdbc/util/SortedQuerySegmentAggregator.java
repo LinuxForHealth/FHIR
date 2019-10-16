@@ -67,7 +67,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * Patient_TOKEN_VALUES P1 ON P1.RESOURCE_ID=R.RESOURCE_ID  
      * LEFT OUTER JOIN Patient_STR_VALUES S1 ON (S1.PARAMETER_NAME_ID=50 AND S1.RESOURCE_ID = R.RESOURCE_ID) WHERE 
      * R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND 
-     * R.IS_DELETED <> 'Y' AND 
+     * R.IS_DELETED &lt;&rt; 'Y' AND 
      * P1.RESOURCE_ID = R.RESOURCE_ID AND 
      * (P1.PARAMETER_NAME_ID=196 AND ((P1.TOKEN_VALUE = false))) 
      * GROUP BY R.RESOURCE_ID  

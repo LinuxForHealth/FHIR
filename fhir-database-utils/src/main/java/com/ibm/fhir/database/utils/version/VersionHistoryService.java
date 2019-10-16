@@ -68,7 +68,6 @@ public class VersionHistoryService implements IVersionHistoryService {
      * is no longer required, which is probably going to end in tears.
      * But it's OK. A second attempt will see that the change has
      * already been applied, so won't try again.
-     * @return
      */
     public void init() {
         // defend

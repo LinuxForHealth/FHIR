@@ -44,7 +44,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         
     /**
      * Public constructor
-     * @param c the target database we want to manage
+     * @param tgt the target database we want to manage
      */
     public Db2Adapter(IDatabaseTarget tgt) {
         super(tgt, new Db2Translator());
