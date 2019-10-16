@@ -15,8 +15,8 @@ import javax.ws.rs.core.Response;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.spec.test.IExampleProcessor;
-import com.ibm.fhir.model.spec.test.ResourceComparatorVisitor;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.test.ResourceComparatorVisitor;
 import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
 import com.ibm.fhir.persistence.util.SaltHash;
 

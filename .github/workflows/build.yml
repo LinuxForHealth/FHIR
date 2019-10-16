@@ -12,15 +12,15 @@ jobs:
       with:
         java-version: 1.8
     - name: Build tools
-      run: mvn install --file fhir-tools/pom.xml
+      run: mvn -B install --file fhir-tools/pom.xml
     - name: Build samples
-      run: mvn install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml
     - name: Build parent without tests
-      run: mvn install --file fhir-parent/pom.xml -DskipTests
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
     - name: Build sample generator
-      run: mvn package --file fhir-examples-generator/pom.xml
+      run: mvn -B package --file fhir-examples-generator/pom.xml
     - name: Build benchmark
-      run: mvn package --file fhir-benchmark/pom.xml
+      run: mvn -B package --file fhir-benchmark/pom.xml
   build:
     runs-on: ubuntu-latest
     steps:
@@ -30,9 +30,9 @@ jobs:
       with:
         java-version: 1.8
     - name: Build samples
-      run: mvn install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml
     - name: Build parent with tests
-      run: mvn -T2C package --file fhir-parent/pom.xml
+      run: mvn -B -T2C package --file fhir-parent/pom.xml
   e2e-tests:
     runs-on: ubuntu-latest
     steps:
@@ -42,9 +42,9 @@ jobs:
       with:
         java-version: 1.8
     - name: Build samples
-      run: mvn install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml
     - name: Build parent without tests
-      run: mvn install --file fhir-parent/pom.xml -DskipTests
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
     - name: Server Integration Tests
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}

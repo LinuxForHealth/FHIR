@@ -22,7 +22,7 @@ import java.util.Stack;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Quantity;
-import com.ibm.fhir.model.visitor.PathAwareAbstractVisitor;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
 public class FHIRPathTree {    
     private final FHIRPathNode root;
@@ -59,7 +59,7 @@ public class FHIRPathTree {
         return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
     }
     
-    private static class BuildingVisitor extends PathAwareAbstractVisitor {
+    private static class BuildingVisitor extends PathAwareVisitor {
         private Stack<FHIRPathNode.Builder> builderStack = new Stack<>();
         private FHIRPathNode root;
         private Map<String, FHIRPathNode> pathNodeMap = new HashMap<>();

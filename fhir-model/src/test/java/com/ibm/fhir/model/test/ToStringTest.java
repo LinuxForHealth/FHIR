@@ -27,7 +27,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
-import com.ibm.fhir.model.visitor.PathAwareVisitorAdapter;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 import com.ibm.fhir.model.visitor.Visitor;
 
 public class ToStringTest {
@@ -48,7 +48,7 @@ public class ToStringTest {
         
         FHIRModel.setToStringFormat(Format.XML);
         
-        Visitor visitor = new PathAwareVisitorAdapter() {
+        Visitor visitor = new PathAwareVisitor() {
             @Override
             protected void doVisitStart(java.lang.String elementName, int elementIndex, Element element) {
                 System.out.println("path: " + getPath());

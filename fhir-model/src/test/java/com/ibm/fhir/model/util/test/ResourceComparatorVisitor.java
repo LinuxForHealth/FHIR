@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.model.spec.test;
+package com.ibm.fhir.model.util.test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.ibm.fhir.model.visitor.PathAwareVisitorAdapter;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
 /**
  * Simple visitor to flatten the structure of a resource and compare
@@ -26,7 +26,7 @@ import com.ibm.fhir.model.visitor.PathAwareVisitorAdapter;
  * @author rarnold
  *
  */
-public class ResourceComparatorVisitor extends PathAwareVisitorAdapter {
+public class ResourceComparatorVisitor extends PathAwareVisitor {
     public boolean compare = false;
 
     // First set of values we collect
