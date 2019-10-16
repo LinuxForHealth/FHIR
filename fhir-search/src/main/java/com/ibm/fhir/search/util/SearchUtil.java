@@ -1279,7 +1279,7 @@ public class SearchUtil {
     
     
     /**
-     * Return only the "text" element, the 'id' element, the 'meta' element, and only top-level mandatory elements
+     * Return only the "text" element, the 'id' element, the 'meta' element, and only top-level mandatory elements.
      * The id, meta and the top-level mandatory elements will be added by the ElementFilter automatically.
      * @param resourceType
      * @return

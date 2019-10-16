@@ -3781,7 +3781,6 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         Bundle.Builder bundleBuider =
                 Bundle.builder().type(BundleType.SEARCHSET).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.fhir.model.type.UnsignedInt.of((int) searchContext.getTotalCount()));
- //       if (!searchContext.getSummaryParameter().contentEquals(SearchConstants.SUMMARY_COUNT)) {
             for (Resource resource : resources) {
                 if (resource.getId() == null || !resource.getId().hasValue()) {
                     throw new IllegalStateException("Returned resources must have an id.");
@@ -3792,7 +3791,6 @@ public class FHIRResource implements FHIRResourceHelpers {
     
                 bundleBuider.entry(entry);
             }
- //       }
 
         Bundle bundle = bundleBuider.build();
 
