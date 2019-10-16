@@ -90,7 +90,7 @@ public class FHIRSwaggerGenerator {
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
-        info.add("description", "IBM Server for HL7 FHIR");
+        info.add("description", "IBM FHIR Server");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 

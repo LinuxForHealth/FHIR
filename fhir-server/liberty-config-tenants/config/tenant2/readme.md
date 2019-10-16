@@ -3,7 +3,7 @@ Add your search parameters within the entry array.
 
 Here's an example:   
 
-
+```
 	{
             "fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
             "resource": {
@@ -23,3 +23,6 @@ Here's an example:
                 "xpathUsage": "normal"
             }
         }
+```
+
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

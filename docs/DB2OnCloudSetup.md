@@ -23,7 +23,7 @@ Choose DB2 (transactional).
 
 Select the instance size. Flex is the best choice for a basic production workload.
 
-You can use the Lite plan for development or evaluation workloads. This plan has a limit of 5 concurrent connections, so the FHIR server connection-pool will need to be sized accordingly to avoid failures.
+You can use the Lite plan for development or evaluation workloads. This plan has a limit of 5 concurrent connections, so the IBM FHIR® Server connection-pool will need to be sized accordingly to avoid failures.
 
 ### Scale the Instance
 
@@ -185,5 +185,4 @@ The DB2 certificate should be added to the Liberty Profile truststore. *Be sure 
 
 All passwords including apiKey values should be encrypted using the Liberty Profile securityUtility.
 
-
-
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
