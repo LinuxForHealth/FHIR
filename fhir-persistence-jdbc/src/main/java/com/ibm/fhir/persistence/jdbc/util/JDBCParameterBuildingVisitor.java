@@ -266,21 +266,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             Parameter telecom = new Parameter();
             telecom.setName(name);
             telecom.setValueCode(contactPoint.getValue().getValue());
-            if (contactPoint.getSystem() != null && contactPoint.getSystem().getValue() != null) {
-                // according to spec, this should be 
-                // "http://hl7.org/fhir/contact-point-system/" + ContactPoint.use
-                telecom.setValueSystem(contactPoint.getSystem().getValue());
-            }
             result.add(telecom);
-        }
-        // WHY ARE WE CREATING A SECOND PARAMETER WITH NAME = ContactPoint.system ?
-        if (contactPoint.getSystem() != null && contactPoint.getValue() != null) {
-            Parameter phone = new Parameter();
-            // phone | fax | email | pager | url | sms | other
-            phone.setName(contactPoint.getSystem().getValue());
-            phone.setValueCode(contactPoint.getValue().getValue());
-            phone.setValueSystem(contactPoint.getSystem().getValue());
-            result.add(phone);
         }
         return false;
     }

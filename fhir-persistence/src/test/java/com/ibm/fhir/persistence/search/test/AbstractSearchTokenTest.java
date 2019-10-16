@@ -226,72 +226,26 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_ContactPoint() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint", "(555) 675 5745");
-        assertSearchReturnsSavedResource("ContactPoint", "phone|(555) 675 5745");
-//        assertSearchReturnsSavedResource("ContactPoint", "phone|");
-        
-        // ContactPoint should search on use instead of system
-
-//        assertSearchReturnsSavedResource("ContactPoint", "home|(555) 675 5745");
-//        assertSearchReturnsSavedResource("ContactPoint", "home|");
-        
-        // This shouldn't return any results because the ContactPoint has a system
-//        assertSearchDoesntReturnSavedResource("ContactPoint", "|(555) 675 5745");
     }
     @Test
     public void testSearchToken_ContactPoint_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.ContactPoint", "(555) 675 5745");
-        assertSearchReturnsComposition("subject:Basic.ContactPoint", "phone|(555) 675 5745");
-//        assertSearchReturnsComposition("subject:Basic.ContactPoint", "phone|");
-        
-        // ContactPoint should search on use instead of system
-
-//        assertSearchReturnsComposition("subject:Basic.ContactPoint", "home|(555) 675 5745");
-//        assertSearchReturnsComposition("subject:Basic.ContactPoint", "home|");
-        
-        // This shouldn't return any results because the ContactPoint has a system
-//        assertSearchDoesntReturnComposition("subject:Basic.ContactPoint", "|(555) 675 5745");
     }
     @Test
     public void testSearchToken_ContactPoint_URI() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-uri", "tel:+15556755745");
-        assertSearchReturnsSavedResource("ContactPoint-uri", "phone|tel:+15556755745");
-//        assertSearchReturnsSavedResource("ContactPoint-uri", "phone|");
-        
-        // This shouldn't return any results because the ContactPoint has a system
-//        assertSearchDoesntReturnSavedResource("ContactPoint-uri", "|tel:+15556755745");
     }
     @Test
     public void testSearchDate_ContactPoint_HomeFax() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-homeFax", "(555) 675 5745");
-        assertSearchReturnsSavedResource("ContactPoint-homeFax", "fax|(555) 675 5745");
-//        assertSearchReturnsSavedResource("ContactPoint-homeFax", "fax|");
-        
-        // ContactPoint should search on use instead of system
-
-//        assertSearchReturnsSavedResource("ContactPoint-homeFax", "home|(555) 675 5745");
-//        assertSearchReturnsSavedResource("ContactPoint-homeFax", "home|");
-        
-        // This shouldn't return any results because the ContactPoint has a system
-//        assertSearchDoesntReturnSavedResource("ContactPoint-homeFax", "|(555) 675 5745");
     }
     @Test
     public void testSearchDate_ContactPoint_NoUse() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-noUse", "test@example.com");
-        // ContactPoint should search on use instead of system
-
-//        assertSearchReturnsSavedResource("ContactPoint-noUse", "|test@example.com");
     }
     @Test
     public void testSearchDate_ContactPoint_NoSystem() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-noSystem", "test@example.com");
         assertSearchReturnsSavedResource("ContactPoint-noSystem", "|test@example.com");
-    }
-    @Test
-    public void testSearchDate_ContactPoint_NoValue() throws Exception {
-//        assertSearchReturnsSavedResource("ContactPoint-noValue", "phone|");
-        
-        // ContactPoint should search on use instead of system
-
-//        assertSearchReturnsSavedResource("ContactPoint-noValue", "home|");
     }
 }
