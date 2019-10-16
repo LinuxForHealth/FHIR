@@ -72,7 +72,7 @@ git commit -s
 Until we are able to set up a dedicated channel, please connect with us through https://chat.fhir.org/ or by opening an issue in our tracker.
 
 ## Setup
-The IBM Server for HL7 FHIR is built with Maven and requires Java 8 or higher.  To build the project from the root directory, please execute:
+The IBM FHIR Server is built with Maven and requires Java 8 or higher.  To build the project from the root directory, please execute:
 
 > mvn clean install -f fhir-parent/pom.xml
 
@@ -80,7 +80,7 @@ The IBM Server for HL7 FHIR is built with Maven and requires Java 8 or higher.  
 To ensure a working build, please run the full build from the root of the project before submitting your pull request.
 
 ## Coding style guidelines
-The IBM Server for HL7 FHIR has been written by many individuals over many years. Formatting has not been strictly enforced, but we'd like to improve it over time, so please consider the following points as you change the code:
+The IBM FHIR Server has been written by many individuals over many years. Formatting has not been strictly enforced, but we'd like to improve it over time, so please consider the following points as you change the code:
 
 1. Write tests. Pull Requests should include necessary updates to unit tests (src/test/java of the corresponding project) and integration tests (in the fhir-server-test project)
 
@@ -103,3 +103,5 @@ issue-#<number>
 issue #<number> - short description
 
 long description
+
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
