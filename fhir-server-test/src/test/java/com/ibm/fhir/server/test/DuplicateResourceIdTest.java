@@ -56,7 +56,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
         // Create a Device resource using the previously generated id
         this.deviceUdi = UUID.randomUUID().toString();
-        Device device = readResource(Device.class, "Device.json");
+        Device device = readLocalResource("Device.json");
         device = device.toBuilder().id(Id.of(dupId))
                 .udiCarrier(UdiCarrier.builder().deviceIdentifier(string(this.deviceUdi)).build()).build();
 
@@ -66,7 +66,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
         // Create a Contract resource with the same id as the Device
         this.contractSubject = "Patient/" + UUID.randomUUID().toString();
-        Contract contract = readResource(Contract.class, "Contract.json");
+        Contract contract = readLocalResource("Contract.json");
 
         List<Reference> subjectList = new ArrayList<Reference>();
 

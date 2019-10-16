@@ -113,7 +113,7 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
 
         WebTarget target = getWebTarget();
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -125,7 +125,7 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
 
         // Next, create an Observation belonging to the new patient.
         patientId = savedCreatedPatient.getId().getValue();
-        Observation observation = buildObservation(patientId, "Observation1.json");
+        Observation observation = buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -137,7 +137,7 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
 
         // Create an updated Observation based on the original saved observation
         patientId = savedCreatedPatient.getId().getValue();
-        observation = buildObservation(patientId, "Observation2.json");
+        observation = buildPatientObservation(patientId, "Observation2.json");
         observation = observation.toBuilder().id(savedCreatedObservation.getId()).build();
         obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
 

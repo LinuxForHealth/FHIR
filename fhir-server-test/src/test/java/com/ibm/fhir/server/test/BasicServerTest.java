@@ -84,7 +84,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -109,7 +109,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -134,7 +134,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -159,7 +159,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
 
         StringWriter writer = new StringWriter();
         FHIRGenerator.generator(Format.JSON, false).generate(patient, writer);
@@ -185,7 +185,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Next, create an Observation belonging to the new patient.
         String patientId = savedCreatedPatient.getId().getValue();
-        Observation observation = buildObservation(patientId, "Observation1.json");
+        Observation observation = buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -209,7 +209,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Create a fresh copy of the mock Patient.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
 
         // Be sure to set the saved patient's id as well.
         // And add an additional contact phone number
@@ -244,7 +244,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Create an updated Observation based on the original saved observation
         String patientId = savedCreatedPatient.getId().getValue();
-        Observation observation = buildObservation(patientId, "Observation2.json");
+        Observation observation = buildPatientObservation(patientId, "Observation2.json");
 
         observation = observation.toBuilder().id(savedCreatedObservation.getId()).build();
 

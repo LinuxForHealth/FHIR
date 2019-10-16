@@ -18,7 +18,7 @@ import com.ibm.fhir.model.resource.Basic;
 public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
 
     protected Basic getBasicResource() throws Exception {
-        return readResource("json/ibm/basic/BasicURI.json");
+        return readExampleResource("json/ibm/basic/BasicURI.json");
     }
 
     protected void setTenant() throws Exception {
@@ -30,15 +30,16 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("uri", "http://hl7.org/fhir/DSTU2");
         assertSearchReturnsSavedResource("uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
         
-        
+        // https://github.com/IBM/FHIR/issues/273
         // Matches are supposed to be precise (e.g. case, accent, and escape sensitive), but aren't
-        // 
+        
+        // case tests
         assertSearchDoesntReturnSavedResource("uri", "http://HL7.org/FHIR/dstu2");
         assertSearchDoesntReturnSavedResource("uri", "urn:uuid:53FEFA32-1111-2222-3333-55EE120877B7");
         
+        // accent tests
         assertSearchReturnsSavedResource("uri", "http://åé");
         assertSearchDoesntReturnSavedResource("uri", "http://ae");
-       
         assertSearchDoesntReturnSavedResource("uri", "http://HL7.org/FHIR/dstü2");
     }
     

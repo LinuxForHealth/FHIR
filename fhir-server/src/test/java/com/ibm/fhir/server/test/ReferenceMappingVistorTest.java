@@ -8,7 +8,7 @@ package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertNotSame;
 
 import java.io.StringWriter;
@@ -16,8 +16,6 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.UUID;
-
-import javax.ws.rs.core.Response;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -121,14 +119,7 @@ public class ReferenceMappingVistorTest {
     
     @Test(enabled=true) 
     public void testMeta() throws Exception {
-        boolean isTestGood = true;
         FHIRResource fhirResource = new FHIRResource();
-        try {
-            Response Meta = fhirResource.metadata();
-        }catch (Exception ex) {
-            isTestGood = false;
-        }
-        
-        assertTrue(isTestGood);  
+        assertNotNull(fhirResource.metadata());
     }
 }

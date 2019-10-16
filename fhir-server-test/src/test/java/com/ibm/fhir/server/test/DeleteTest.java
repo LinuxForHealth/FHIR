@@ -57,7 +57,7 @@ public class DeleteTest extends FHIRServerTestBase {
     @Test
     public void testCreateNewResource() throws Exception {
         // Create a MedicationAdministration resource.
-        MedicationAdministration ma = readResource(MedicationAdministration.class, "MedicationAdministration.json");
+        MedicationAdministration ma = readLocalResource("MedicationAdministration.json");
         FHIRResponse response = client.create(ma);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
@@ -319,7 +319,7 @@ public class DeleteTest extends FHIRServerTestBase {
         patientIds = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             // Read in the resource template.
-            Patient patient = readResource(Patient.class, "Patient_MookieBetts.json");
+            Patient patient = readLocalResource("Patient_MookieBetts.json");
 
             // Add the uniqueFamily name         
             patient = setUniqueFamilyName(patient, uniqueFamilyName);
@@ -400,7 +400,7 @@ public class DeleteTest extends FHIRServerTestBase {
         
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
-        Observation obs = readResource(Observation.class, "Observation1.json");
+        Observation obs = readLocalResource("Observation1.json");
         
         obs = obs.toBuilder().id(Id.of(obsId)).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2018,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,17 +9,17 @@ package com.ibm.fhir.persistence.jdbc.test;
 import java.util.Properties;
 
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractQueryDeviceTest;
+import com.ibm.fhir.persistence.test.common.AbstractQueryCompartmentTest;
 
 
-public class JDBCQueryDeviceTest extends AbstractQueryDeviceTest {
+public class JDBCNormQueryCompartmentTest extends AbstractQueryCompartmentTest {
     
     private Properties testProps;
     
-    public JDBCQueryDeviceTest() throws Exception {
-        this.testProps = readTestProperties("test.basic.properties");
+    public JDBCNormQueryCompartmentTest() throws Exception {
+        this.testProps = readTestProperties("test.normalized.properties");
     }
 
     @Override
@@ -34,6 +34,6 @@ public class JDBCQueryDeviceTest extends AbstractQueryDeviceTest {
     
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCImpl(this.testProps);
+        return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
     }
 }
