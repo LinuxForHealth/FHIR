@@ -131,6 +131,7 @@ import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 import com.ibm.fhir.rest.FHIRRestOperationResponse;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -3798,7 +3799,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         // Add the SUBSETTED tag, if the _elements search result parameter was applied to limit elements included in
         // returned resources or _summary is required.
         if (searchContext.hasElementsParameters() 
-                || (searchContext.hasSummaryParameter() && !searchContext.getSummaryParameter().contentEquals("false"))) {
+                || (searchContext.hasSummaryParameter() && !searchContext.getSummaryParameter().equals(SummaryValueSet.FALSE))) {
             bundle = (Bundle) FHIRUtil.addTag(bundle, SearchConstants.SUBSETTED_TAG);
         }
 
@@ -3949,7 +3950,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         // If for search with _summary=count, then don't add previous and next links.
         if (!(context instanceof FHIRSearchContext 
                 && ((FHIRSearchContext) context).getSummaryParameter() != null
-                && ((FHIRSearchContext) context).getSummaryParameter().equals(SearchConstants.SUMMARY_COUNT))) {
+                && ((FHIRSearchContext) context).getSummaryParameter().equals(SummaryValueSet.COUNT))) {
             int nextPageNumber = context.getPageNumber() + 1;
             if (nextPageNumber <= context.getLastPageNumber()) {
 

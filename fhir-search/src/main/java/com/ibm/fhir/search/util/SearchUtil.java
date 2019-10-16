@@ -22,10 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -38,15 +36,14 @@ import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.path.exception.FHIRPathException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
@@ -91,9 +88,6 @@ public class SearchUtil {
     private static final String INCLUSION_PARAMETERS_NULL_STRING_EXCEPTION = "Inclusion parameters cannot be processed with null queryString.";
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
     private static final String UNSUPPOTED_EXPR_NULL = "An empty expression is found or the parameter type is unsupported [%s][%s]";;
-
-    private static final Map<Class<?>, Set<String>> resoureTypeSummaryElements = new ConcurrentHashMap<Class<?>, Set<String>>();
-    private static final Map<Class<?>, Set<String>> resoureTypeSummaryDataElements = new ConcurrentHashMap<Class<?>, Set<String>>();
     
     /*
      * This is our in-memory cache of SearchParameter objects. The cache is organized at the top level by tenant-id,
@@ -557,7 +551,7 @@ public class SearchUtil {
                     parseSearchResultParameter(resourceType, context, name, params, queryString, lenient);
                     // _include and _revinclude parameters cannot be mixed with _summary=text 
                     if (context.getSummaryParameter() != null 
-                            && context.getSummaryParameter().equals(SearchConstants.SUMMARY_TEXT)) {
+                            && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
                         context.getIncludeParameters().clear();
                         context.getRevIncludeParameters().clear();
                     }
@@ -878,9 +872,14 @@ public class SearchUtil {
             } else if (SearchConstants.ELEMENTS.equals(name)) {
                 parseElementsParameter(resourceType, context, values, lenient);
             } else if (SearchConstants.SUMMARY.equals(name) 
-                    && first != null 
-                    && SearchConstants.SUMMARY_VALUES.contains(first)) {
-                context.setSummaryParameter(first);
+                    && first != null) { 
+                try {
+                    context.setSummaryParameter(SummaryValueSet.from(first));
+                } catch (Exception ex) {
+                    if (!lenient) {
+                        throw ex;
+                    }
+                }
             }
         } catch (Exception e) {
             throw SearchExceptionUtil.buildNewParseException(name, e);

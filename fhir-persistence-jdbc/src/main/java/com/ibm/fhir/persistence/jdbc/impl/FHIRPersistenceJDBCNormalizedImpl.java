@@ -74,8 +74,8 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.replication.api.util.ReplicationUtil;
-import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -416,25 +416,31 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 // For _summary=count, we don't need to return any resource 
                 if (searchResultCount > 0 && 
                         !(searchContext.getSummaryParameter() != null 
-                        && searchContext.getSummaryParameter().equals(SearchConstants.SUMMARY_COUNT))) {
+                        && searchContext.getSummaryParameter().equals(SummaryValueSet.COUNT))) {
                     query = queryBuilder.buildQuery(resourceType, searchContext);
                     
                     List<String> elements = searchContext.getElementsParameters();
                     
                     //Only consider _summary if _elements parameter is empty
-                    if (elements == null) {
+                    if (elements == null && searchContext.hasSummaryParameter()) {
                         Set<String> summaryElements = null;
-                        String summary = searchContext.getSummaryParameter();
-                        if (summary != null) {
-                            if (summary.equals(SearchConstants.SUMMARY_TRUE)) {
-                                summaryElements = JsonSupport.getSummaryElementNames(resourceType);
-                            } else if (summary.equals(SearchConstants.SUMMARY_TEXT)) {
-                                summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
-                            } else if (summary.equals(SearchConstants.SUMMARY_DATA)) {
-                                summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
-                            }
+                        SummaryValueSet summary = searchContext.getSummaryParameter();
+                        
+                        switch (summary) {
+                        case TRUE:
+                            summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                            break;
+                        case TEXT:
+                            summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                            break;
+                        case DATA:
+                            summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                            break;
+                        default:
+                            break;
                             
                         }
+
                         if (summaryElements != null) {
                             elements = new ArrayList<String>();
                             elements.addAll(summaryElements);

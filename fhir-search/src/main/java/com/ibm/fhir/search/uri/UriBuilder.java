@@ -129,12 +129,11 @@ public class UriBuilder {
     
     
     private void appendSummaryParameter() {
-        if (context.getSummaryParameter() != null 
-                && SearchConstants.SUMMARY_VALUES.contains(context.getSummaryParameter())) {
+        if (context.getSummaryParameter() != null) {
             queryString.append(SearchConstants.AND_CHAR);
             queryString.append(SearchConstants.SUMMARY);
             queryString.append(SearchConstants.EQUALS_CHAR);
-            queryString.append(context.getSummaryParameter());
+            queryString.append(context.getSummaryParameter().value());
         }
     }
 

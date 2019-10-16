@@ -12,7 +12,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
@@ -21,7 +20,6 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Observation;
-import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;

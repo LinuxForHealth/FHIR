@@ -9,6 +9,7 @@ package com.ibm.fhir.search.test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -41,7 +42,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         assertNotNull(context);
         assertNotNull(context.getSummaryParameter());
-        assertEquals(context.getSummaryParameter(), SearchConstants.SUMMARY_TRUE);
+        assertEquals(context.getSummaryParameter(), SummaryValueSet.TRUE);
     }
     
     
@@ -55,7 +56,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         assertNotNull(context);
         assertNotNull(context.getSummaryParameter());
-        assertEquals(context.getSummaryParameter(), SearchConstants.SUMMARY_DATA);
+        assertEquals(context.getSummaryParameter(), SummaryValueSet.DATA);
     }
     
     @Test
@@ -68,6 +69,23 @@ public class SummaryParameterParseTest extends BaseSearchTest {
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
         assertNotNull(context);
         assertNull(context.getSummaryParameter());
+    }
+    
+    
+    @Test
+    public void testSummaryInvalid_strict() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+        String queryString = "&_summary=invalid";
+        boolean isSummaryValueCorrect = true;
+
+        queryParameters.put("_summary", Arrays.asList("invalid"));
+        try {
+            SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, false);
+        } catch(Exception ex) {
+            isSummaryValueCorrect = false;
+        }
+        assertTrue(!isSummaryValueCorrect);
     }
 
 }

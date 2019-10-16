@@ -980,4 +980,22 @@ public class SearchTest extends FHIRServerTestBase {
     assertTrue(bundle.getEntry().size() == 1);
     }
     
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = {
+    "testCreateObservation" })
+    public void testSearchPatientWithObservationRevIncluded_summary_invalid_strict() {
+    WebTarget target = getWebTarget();
+    Response response =
+            target.path("Patient").queryParam("_id", patientId)
+            .queryParam("_revinclude", "Observation:patient")
+            .queryParam("_summary", "invalid")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+            .header("X-FHIR-TENANT-ID", "tenant1")
+            .header("Prefer", "handling=strict")
+            .get();
+    assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+    assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+            "An error occurred while parsing search parameter '_summary'");
+    }
+    
 }

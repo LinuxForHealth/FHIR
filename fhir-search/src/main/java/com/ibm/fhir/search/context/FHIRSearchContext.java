@@ -9,6 +9,7 @@ package com.ibm.fhir.search.context;
 import java.util.List;
 
 import com.ibm.fhir.core.context.FHIRPagingContext;
+import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.SortParameter;
@@ -76,12 +77,12 @@ public interface FHIRSearchContext extends FHIRPagingContext {
      * 
      * @return the value of the summary parameter
      */
-    String getSummaryParameter();
+    SummaryValueSet getSummaryParameter();
 
     /**
      * Set the value of the summary parameter.
      */
-    void setSummaryParameter(String summary);
+    void setSummaryParameter(SummaryValueSet summary);
 
     
 }

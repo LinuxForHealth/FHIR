@@ -11,10 +11,8 @@ import static com.ibm.fhir.model.type.String.string;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
@@ -97,15 +95,6 @@ public class SearchConstants {
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableList(Arrays.asList(SORT, "_sort:asc", "_sort:desc", COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
     
-    public static final String SUMMARY_TRUE = "true";
-    public static final String SUMMARY_TEXT = "text";
-    public static final String SUMMARY_DATA = "data";
-    public static final String SUMMARY_COUNT = "count";
-    public static final String SUMMARY_FALSE = "false";
-    
-    public static final Set<String> SUMMARY_VALUES =
-            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SUMMARY_TRUE, SUMMARY_TEXT, SUMMARY_DATA, SUMMARY_COUNT, SUMMARY_FALSE)));
-
     // set as unmodifiable
     public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList("_id", "_lastUpdated"));
 
