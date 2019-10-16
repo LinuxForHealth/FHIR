@@ -102,11 +102,6 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
     }
 
     @Override
-    public void reset() {
-        // do nothing
-    }
-    
-    @Override
     public boolean isPropertySupported(java.lang.String name) {
         if (FHIRGenerator.PROPERTY_INDENT_AMOUNT.equals(name)) {
             return true;

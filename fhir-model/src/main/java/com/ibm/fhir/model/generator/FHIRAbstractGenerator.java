@@ -27,9 +27,6 @@ public abstract class FHIRAbstractGenerator implements FHIRGenerator {
     @Override
     public abstract boolean isPrettyPrinting();
 
-    @Override
-    public abstract void reset();
-    
     public void setProperty(String name, Object value) {
         Objects.requireNonNull(name);
         if (!isPropertySupported(name)) {

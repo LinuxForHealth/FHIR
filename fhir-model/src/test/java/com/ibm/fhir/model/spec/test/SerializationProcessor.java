@@ -14,6 +14,7 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.test.ResourceComparatorVisitor;
 
 /**
  * Tests that serialization generates a valid object, which matches the original

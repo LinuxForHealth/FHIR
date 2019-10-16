@@ -49,25 +49,25 @@
       }
     },
     {
-      "url": "http://example.org/ReferenceId",
+      "url": "http://example.org/Reference-id",
       "valueReference": {
       	"reference": "123"
       }
     },
     {
-      "url": "http://example.org/ReferenceRelative",
+      "url": "http://example.org/Reference-relative",
       "valueReference": {
       	"reference": "Patient/123"
       }
     },
     {
-      "url": "http://example.org/ReferenceAbsolute",
+      "url": "http://example.org/Reference-absolute",
       "valueReference": {
       	"reference": "https://example.com/Patient/123"
       }
     },
     {
-      "url": "http://example.org/ReferenceDisplay",
+      "url": "http://example.org/Reference-display",
       "valueReference": {
         "display": "text alternative for the resource"
       }

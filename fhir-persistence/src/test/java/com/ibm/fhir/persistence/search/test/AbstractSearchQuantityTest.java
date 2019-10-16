@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.search.test;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 
 /**
@@ -16,18 +17,15 @@ import com.ibm.fhir.model.resource.Basic;
  */
 public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
+    protected Basic getBasicResource() throws Exception {
+        return readResource("json/ibm/basic/BasicQuantity.json");
+    }
+
+    protected void setTenant() throws Exception {
+        FHIRRequestContext.get().setTenantId("quantity");
+    }
+
     @Test
-    public void testCreateBasicResource() throws Exception {
-        Basic resource = readResource(Basic.class, "BasicQuantity.json");
-        saveBasicResource(resource);
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testCreateChainedBasicResource() throws Exception {
-        createCompositionReferencingSavedResource();
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchQuantity_Quantity() throws Exception {
         assertSearchReturnsSavedResource("Quantity", "25|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "25||s");
@@ -47,18 +45,18 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity", "25.5||s");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchToken_Quantity_or() throws Exception {
         assertSearchReturnsSavedResource("Quantity", "10||a,25||s,30||z");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchToken_Quantity_escaped() throws Exception {
         assertSearchReturnsSavedResource("Quantity", "25|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "25|http://unitsofmeasure.org\\||s");
     }
     
-    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
         assertSearchReturnsComposition("subject:Basic.Quantity", "25||s");
@@ -72,7 +70,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 //        assertSearchReturnsComposition("Quantity", "25||sec");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_withPrefixes() throws Exception {
         assertSearchReturnsSavedResource("Quantity", "ne24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "ne24.4999||s");
@@ -139,7 +137,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity", "eb26|http://unitsofmeasure.org|s");
     }
     
-    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_withPrefixes_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Quantity", "lt26|http://unitsofmeasure.org|s");
         assertSearchReturnsComposition("subject:Basic.Quantity", "gt24|http://unitsofmeasure.org|s");
@@ -149,18 +147,18 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsComposition("subject:Basic.Quantity", "ge24|http://unitsofmeasure.org|s");
     }
 
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_NoDisplayUnit() throws Exception {
         assertSearchReturnsSavedResource("Quantity-noDisplayUnit", "1|http://snomed.info/sct|385049006");
         assertSearchReturnsSavedResource("Quantity-noDisplayUnit", "1||385049006");
     }
 
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_NoCode() throws Exception {
         assertSearchReturnsSavedResource("Quantity-noCode", "1||eq");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_NoCodeOrUnit() throws Exception {
         // spec isn't clear about whether quantities with no unit should be indexed
         // but since we require the unit while searching, it doesn't really matter
@@ -173,7 +171,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     // Quantity search is of the form <prefix><number>|<unit_system>|<unit>.
     // We use custom units to mark the quantity comparators so we can scope our searches in the tests.
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_LessThan() throws Exception {
         // Later versions of the spec indicate that there is an implicit precision 
         // of .5 of the next least significant digit.  We don't support that now, but 
@@ -190,7 +188,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity-lessThan", "gt4||lt"); // < 3 is not > 4
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_GreaterThan() throws Exception {
         // Later versions of the spec indicate that there is an implicit precision 
         // of .5 of the next least significant digit.  We don't support that now, but 
@@ -207,7 +205,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 //        assertSearchReturnsSavedResource("Quantity-greaterThan", "gt4||gt");      // > 3 may be > 4
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_LessThanOrEqual() throws Exception {
 //        assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "2||lte");
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "3||lte");
@@ -221,7 +219,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "ge3||lte");      // <= 3 may be >= 3
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_GreaterThanOrEqual() throws Exception {
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "2||gte");
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "3||gte");
@@ -235,7 +233,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "ge3||gte");         // >= 3 is >= 3
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Quantity_missing() throws Exception {
         assertSearchReturnsSavedResource("Quantity:missing", "false");
         assertSearchDoesntReturnSavedResource("Quantity:missing", "true");
@@ -245,7 +243,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     }
     
 
-//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    @Test
 //    public void testSearchQuantity_Quantity_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Quantity:missing", "false");
 //        assertSearchDoesntReturnComposition("subject:Basic.Quantity:missing", "true");
@@ -254,7 +252,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 //        assertSearchDoesntReturnComposition("subject:Basic.missing-Quantity:missing", "false");
 //    }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Range() throws Exception {
         // Range is 5-10 seconds
         
@@ -305,7 +303,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Range", "eb11||s");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchQuantity_Range_missing() throws Exception {
         assertSearchReturnsSavedResource("Range:missing", "false");
         assertSearchDoesntReturnSavedResource("Range:missing", "true");

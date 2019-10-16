@@ -21,6 +21,10 @@
             <version>4.5.3</version>
         </dependency>
         <dependency>
+            <groupId>net.jcip</groupId>
+            <artifactId>jcip-annotations</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-core</artifactId>
             <version>${project.version}</version>

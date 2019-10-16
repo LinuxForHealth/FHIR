@@ -35,17 +35,14 @@
     
     
     {
-      "__comment": "Token is sometimes used for string to indicate that exact matching is the correct default search stategy",
       "url": "http://example.org/string",
       "valueString": "testString"
     },
     {
-      "__comment": "The implicit system is http://hl7.org/fhir/special-values",
       "url": "http://example.org/boolean",
       "valueBoolean": true
     },
     {
-      "__comment": "The system is defined in the value set (though it's not usually needed)",
       "url": "http://example.org/code",
       "valueCode": "code"
     },
@@ -57,15 +54,13 @@
       }
     },
     {
-      "__comment": "If the system is present, and there is no code, then this is understood to mean that there is no suitable code in the system in which to represent the code.",
-      "url": "http://example.org/CodingNoCode",
+      "url": "http://example.org/Basic-Coding-noCode",
       "valueCoding": {
         "system": "http://example.org/codesystem"
       }
     },
     {
-      "__comment": "In some cases, the system may not be known - only the code is known.",
-      "url": "http://example.org/CodingNoSystem",
+      "url": "http://example.org/Coding-noSystem",
       "valueCoding": {
         "code": "code"
       }
@@ -80,7 +75,7 @@
       }
     },
     {
-      "url": "http://example.org/CodeableConceptMultiCoded",
+      "url": "http://example.org/CodeableConcept-multiCoded",
       "valueCodeableConcept": {
         "coding": [{
           "system": "http://example.org/othersystem",
@@ -92,7 +87,6 @@
       }
     },
     {
-      "__comment": "Identifier.system|Identifier.value",
       "url": "http://example.org/Identifier",
       "valueIdentifier": {
         "use": "official",
@@ -101,24 +95,18 @@
       }
     },
     {
-      "__comment": "Identifier.system|Identifier.value",
-      "url": "http://example.org/IdentifierNoValue",
+      "url": "http://example.org/Identifier-noValue",
       "valueIdentifier": {
         "system": "http://example.org/identifiersystem"
       }
     },
     {
-      "__comment": "Identifier.system|Identifier.value",
-      "url": "http://example.org/IdentifierNoSystem",
+      "url": "http://example.org/Identifier-noSystem",
       "valueIdentifier": {
         "value": "code"
       }
     },
     {
-      "__comment": [
-        "ContactPoint.use|ContactPoint.value",
-        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
-      ],
       "url": "http://example.org/ContactPoint",
       "valueContactPoint": {
         "use": "home",
@@ -127,11 +115,7 @@
       }
     },
     {
-      "__comment": [
-        "ContactPoint.use|ContactPoint.value",
-        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
-      ],
-      "url": "http://example.org/ContactPointHomeFax",
+      "url": "http://example.org/ContactPoint-homeFax",
       "valueContactPoint": {
       	"use": "home",
         "system": "fax",
@@ -139,11 +123,7 @@
       }
     },
     {
-      "__comment": [
-        "ContactPoint.use|ContactPoint.value",
-        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
-      ],
-      "url": "http://example.org/ContactPointURI",
+      "url": "http://example.org/ContactPoint-uri",
       "valueContactPoint": {
         "use": "home",
         "system": "phone",
@@ -151,39 +131,27 @@
       }
     },
     {
-      "__comment": [
-        "ContactPoint.use|ContactPoint.value",
-        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
-      ],
-      "url": "http://example.org/ContactPointNoValue",
+      "url": "http://example.org/ContactPoint-noValue",
       "valueContactPoint": {
         "use": "home",
         "system": "phone",
         "_value": {
           "extension": [{
             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-            "value": "masked"
+            "valueCode": "masked"
           }]
         }
       }
     },
     {
-      "__comment": [
-        "ContactPoint.use|ContactPoint.value",
-        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
-      ],
-      "url": "http://example.org/ContactPointNoSystem",
+      "url": "http://example.org/ContactPoint-noSystem",
       "valueContactPoint": {
         "use": "home",
         "value": "test@example.com"
       }
     },
     {
-      "__comment": [
-        "ContactPoint.use|ContactPoint.value",
-        "The use is prepended by http://hl7.org/fhir/contact-point-system/"
-      ],
-      "url": "http://example.org/ContactPointNoUse",
+      "url": "http://example.org/ContactPoint-noUse",
       "valueContactPoint": {
         "system": "email",
         "value": "test@example.com"
