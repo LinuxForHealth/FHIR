@@ -11,9 +11,9 @@ import java.util.Stack;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.model.visitor.PathAwareAbstractVisitor;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
-public abstract class GeneratingVisitor extends PathAwareAbstractVisitor {
+public abstract class GeneratingVisitor extends PathAwareVisitor {
     protected final Stack<Class<?>> typeStack = new Stack<>();
     
     protected GeneratingVisitor() {

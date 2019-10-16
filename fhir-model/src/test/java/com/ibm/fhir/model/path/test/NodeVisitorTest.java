@@ -24,7 +24,7 @@ import com.ibm.fhir.model.path.visitor.FHIRPathNodeVisitorAdapter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.visitor.PathAwareVisitorAdapter;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
 public class NodeVisitorTest {
     @Test
@@ -33,7 +33,7 @@ public class NodeVisitorTest {
             Patient patient = FHIRParser.parser(Format.JSON).parse(reader);
                         
             List<String> paths = new ArrayList<>();
-            patient.accept(new PathAwareVisitorAdapter() {
+            patient.accept(new PathAwareVisitor() {
                 @Override
                 public void doVisitStart(String elementName, int elementIndex, Resource resource) {
                     paths.add(getPath());
