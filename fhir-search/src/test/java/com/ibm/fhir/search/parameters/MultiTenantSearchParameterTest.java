@@ -394,7 +394,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     /**
      * This function returns a list containing the names of the SearchParameters contained in the input list.
      * 
-     * @param result
+     * @param spList
      *            the list of SearchParameter from which to collect the names
      * @return the list of search parameter names
      */

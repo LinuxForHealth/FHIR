@@ -86,12 +86,11 @@ public interface FHIRResourceHelpers {
     /**
      * Performs the work of retrieving versions of a Resource.
      * 
-     * @param type
-     *            the resource type associated with the Resource to be retrieved
-     * @param id
-     *            the id of the Resource to be retrieved
-     * @param queryparameters
-     *            a Map containing the query parameters from the request URL
+     * @param type the resource type associated with the Resource to be retrieved
+     * @param id the id of the Resource to be retrieved
+     * @param queryParameters a Map containing the query parameters from the request URL
+     * @param requestUri
+     * @param requestProperties
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */

@@ -41,7 +41,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  * This class is a root Data Access Object for managing JDBC access to the FHIR database. It contains common functions for managing connections, closing used 
  * JDBC resources, and running database queries.
  * @author markd
- *
  */
 public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
         
@@ -58,6 +57,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     
     // Abstract source of configured connections
     private final IConnectionProvider connectionProvider;
+    
     private final String adminSchemaName;
 
     /**
@@ -91,7 +91,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
-     * @param Connection - A database connection that will be managed by the caller.
+     * @param conn - A database connection that will be managed by the caller.
      */
     public FHIRDbDAOBasicImpl(Connection conn) {
         this();
@@ -131,8 +131,8 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
         return fx;
     }
 
-
-    /* (non-Javadoc)
+    /* 
+     * (non-Javadoc)
      * @see com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAO#getConnection()
      */
     @Override

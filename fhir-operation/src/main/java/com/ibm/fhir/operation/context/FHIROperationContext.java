@@ -15,7 +15,7 @@ import javax.ws.rs.core.HttpHeaders;
  * This class holds context information for custom operation invocations.
  */
 public class FHIROperationContext {
-    public static enum Type { SYSTEM, RESOURCE_TYPE, INSTANCE }
+    public enum Type { SYSTEM, RESOURCE_TYPE, INSTANCE }
 
     /**
      * This property is of type String and represents the base URI string (e.g.
@@ -56,7 +56,7 @@ public class FHIROperationContext {
     public static final String PROPNAME_HTTP_HEADERS = "HTTP_HEADERS";
     
     /**
-     * This property is of type java.util.Map<String, String> and contains the
+     * This property is of type <code>java.util.Map<String, String></code> and contains the
      * set of additional request properties associated with the REST API request.
      */
     public static final String PROPNAME_REQUEST_PROPERTIES = "REQUEST_PROPERTIES";

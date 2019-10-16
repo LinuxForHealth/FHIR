@@ -2597,7 +2597,7 @@ public class TestReport extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link TestReport.Setup.Action.Operation}.
              */
             public TestReport.Setup.Action.Operation getOperation() {
                 return operation;
@@ -2607,7 +2607,7 @@ public class TestReport extends DomainResource {
              * The results of the assertion performed on the previous operations.
              * 
              * @return
-             *     An immutable object of type {@link Assert}.
+             *     An immutable object of type {@link TestReport.Setup.Action.Assert}.
              */
             public TestReport.Setup.Action.Assert getassert() {
                 return _assert;
@@ -3113,7 +3113,7 @@ public class TestReport extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link TestReport.Setup.Action.Operation}.
              */
             public TestReport.Setup.Action.Operation getOperation() {
                 return operation;

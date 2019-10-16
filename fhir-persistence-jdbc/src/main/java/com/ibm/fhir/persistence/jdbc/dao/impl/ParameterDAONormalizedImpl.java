@@ -41,7 +41,6 @@ import com.ibm.fhir.search.util.SearchUtil;
  * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
  * relational schema.
  * @author markd
- *
  */
 public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> implements ParameterNormalizedDAO {
     private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
@@ -68,6 +67,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
     
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
+     * @param trxSynchRegistry
      */
     public ParameterDAONormalizedImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
         super();
@@ -78,13 +78,14 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
-     * @param Connection - A database connection that will be managed by the caller.
+     * @param managedConnection - A database connection that will be managed by the caller.
      */
     public ParameterDAONormalizedImpl(Connection managedConnection) {
         super(managedConnection);
     }
 
-    /* (non-Javadoc)
+    /* 
+     * (non-Javadoc)
      * @see com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO#insert(java.util.List)
      */
     @Override
@@ -224,7 +225,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      * Examines the type of the passed parameter and maps that enumerated Type to a char that can then be persisted
      * in one of the parameter values tables.
      * @param parameter A search Parameter containing a valid Type.
-     * @return char - A character indicating the search parameter type that can be persisted.
+     * @return A character indicating the search parameter type that can be persisted.
      */
     private char determineParameterTypeChar(Parameter parameter) {
         final String METHODNAME = "determineParameterTypeChar";
@@ -263,8 +264,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
     /**
      * Calls a stored procedure to read the name contained in the passed Parameter in the Parameter_Names table.
      * If it's not in the DB, it will be stored and a unique id will be returned.
-     * @param parameter
-     * @return Integer - The generated id of the stored system.
+     * @param parameterName
+     * @return The generated id of the stored system.
      * @throws FHIRPersistenceDBConnectException 
      * @throws FHIRPersistenceDataAccessException 
      *  
@@ -290,8 +291,8 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
     /**
      * Calls a stored procedure to read the system contained in the passed Parameter in the Code_Systems table.
      * If it's not in the DB, it will be stored and a unique id will be returned.
-     * @param parameter
-     * @return Integer - The generated id of the stored system.
+     * @param codeSystemName
+     * @return The generated id of the stored system.
      * @throws FHIRPersistenceDBConnectException 
      * @throws FHIRPersistenceDataAccessException 
      * @throws FHIRPersistenceException
@@ -380,7 +381,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
     /**
      * Acquire and return the id associated with the passed parameter name.
      * @param parameterName The name of a valid FHIR search parameter.
-     * @return Integer A parameter id.
+     * @return A parameter id.
      * @throws FHIRPersistenceException
      */
     @Override
@@ -416,7 +417,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
     /**
      * Acquire and return the id associated with the passed code-system name.
      * @param codeSystemName The name of a valid code-system.
-     * @return Integer A code-system id.
+     * @return A code-system id.
      * @throws FHIRPersistenceException
      */
     @Override

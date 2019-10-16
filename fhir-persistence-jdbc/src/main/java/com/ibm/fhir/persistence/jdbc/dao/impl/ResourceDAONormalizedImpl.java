@@ -46,7 +46,6 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.replication.api.model.ReplicationInfo;
 
-
 /**
  * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
  * relational schema.
@@ -66,7 +65,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     private static final String SQL_VERSION_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                       "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
-
 
     //                                                                                 0                 1                   2
     //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
@@ -118,7 +116,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
-     * @param Connection - A database connection that will be managed by the caller.
+     * @param managedConnection - A database connection that will be managed by the caller.
      */
     public ResourceDAONormalizedImpl(Connection managedConnection) {
         super(managedConnection);

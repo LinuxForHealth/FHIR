@@ -377,7 +377,7 @@ public final class ModelSupport {
     /**
      * Get the actual element name from a Java field name.
      * This method reverses any encoding that was required to represent the FHIR element name in Java,
-     * such as converting class -> clazz.
+     * such as converting class to clazz.
      */
     public static String getElementName(String fieldName) {
         if ("clazz".equals(fieldName)) {

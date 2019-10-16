@@ -666,7 +666,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
      * comparment-based search.
      * 
      * @throws Exception
-     * @see compartments.json for the specificaiton of compartments, resources contained in each compartment, and the
+     * see the compartments.json for the specificaiton of compartments, resources contained in each compartment, and the
      *      criteria that must be for a resource to be included in a compartment. Example inclusion criteria for
      *      AuditEvent in the Patient compartment: { "name": "AuditEvent", "inclusionCriteria": ["patient", This is a
      *      simple attribute inclusion criterion "participant.patient:Device", This is a chained inclusion criterion

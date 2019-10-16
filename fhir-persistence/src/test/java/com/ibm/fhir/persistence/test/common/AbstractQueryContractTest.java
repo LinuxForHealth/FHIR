@@ -236,7 +236,7 @@ public abstract class AbstractQueryContractTest extends AbstractPersistenceTest 
     }
     
     /**
-     * Tests retrieval of update history of a Contract without a since & count parameter set. This should yield correct results using pagination
+     * Tests retrieval of update history of a Contract without a since &amp; count parameter set. This should yield correct results using pagination
      * 
      */
     @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateContract" })

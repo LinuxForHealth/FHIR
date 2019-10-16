@@ -22,7 +22,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 /**
  * An immutable definition of a table
  * @author rarnold
- *
  */
 public class Table extends BaseObject {
     
@@ -48,8 +47,20 @@ public class Table extends BaseObject {
 
     /**
      * Public constructor
+     * 
+     * @param schemaName
      * @param name
+     * @param version
+     * @param tenantColumnName
      * @param columns
+     * @param pk
+     * @param indexes
+     * @param fkConstraints
+     * @param accessControlVar
+     * @param tablespace
+     * @param dependencies
+     * @param tags
+     * @param privileges
      */
     public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns, PrimaryKeyDef pk, Collection<IndexDef> indexes,
             Collection<ForeignKeyConstraint> fkConstraints,
@@ -86,9 +97,6 @@ public class Table extends BaseObject {
         return this.tenantColumnName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabaseObject#apply(com.ibm.fhir.schema.model.IDatabase)
-     */
     @Override
     public void apply(IDatabaseAdapter target) {
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
@@ -118,9 +126,6 @@ public class Table extends BaseObject {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#drop(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void drop(IDatabaseAdapter target) {
         if (this.accessControlVar != null) {
@@ -134,6 +139,9 @@ public class Table extends BaseObject {
     
     /**
      * Create a builder for {@link Table}.
+     * 
+     * @param schemaName
+     * @param tableName
      * @return
      */
     public static Builder builder(String schemaName, String tableName) {
@@ -400,9 +408,11 @@ public class Table extends BaseObject {
         /**
          * Add a foreign key constraint pointing to the target table. The list of columns
          * is expected to match the primary key definition on the target
+         * 
          * @param constraintName
-         * @param sourceColumn
+         * @param targetSchema
          * @param targetTable
+         * @param columns
          * @return
          */
         public Builder addForeignKeyConstraint(String constraintName, String targetSchema, String targetTable, String... columns) {
@@ -433,6 +443,7 @@ public class Table extends BaseObject {
         
         /**
          * Build the immutable table object based on the current configuration
+         * @param dataModel
          * @return
          */
         public Table build(IDataModel dataModel) {
@@ -578,6 +589,5 @@ public class Table extends BaseObject {
     public boolean exists(IDatabaseAdapter target) {
         return target.doesTableExist(getSchemaName(), getObjectName());
     }
-    
     
 }

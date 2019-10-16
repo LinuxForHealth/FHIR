@@ -105,6 +105,7 @@ public class R4ExamplesDriver {
      * 
      * @param testType
      *            select between all or minimal file sets for the test
+     * @param format 
      * @throws Exception
      */
     public void processExamples(TestType testType, Format format) throws Exception {
@@ -151,6 +152,8 @@ public class R4ExamplesDriver {
      * with "file:..."
      * 
      * @param filename
+     * @param format 
+     * 
      * @throws Exception
      */
     public void processIndex(String filename, Format format) throws Exception {
@@ -228,7 +231,10 @@ public class R4ExamplesDriver {
      * Process the example file. If jsonFile is prefixed with "file:" then the file will be read from the filesystem,
      * otherwise it will be treated as a resource on the classpath.
      * 
-     * @param jsonFile
+     * @param file
+     * @param format
+     * @param expectation
+     * @throws ExampleProcessorException
      */
     public void processExample(String file, Format format, Expectation expectation)
         throws ExampleProcessorException {
@@ -303,6 +309,7 @@ public class R4ExamplesDriver {
      *            so we know the name of the file if there's a problem
      * @param resource
      *            the parsed object
+     * @param expectation
      */
     protected Expectation processExample(String file, Resource resource, Expectation expectation)
         throws ExampleProcessorException {
@@ -395,10 +402,9 @@ public class R4ExamplesDriver {
      * This function reads the contents of a mock resource from the specified file, then de-serializes that into a
      * Resource.
      * 
-     * @param resourceClass
-     *            the class associated with the resource type (e.g. Patient.class)
      * @param fileName
      *            the name of the file containing the mock resource (e.g. "testdata/Patient1.json")
+     * @param format 
      * @return the de-serialized mock resource
      * @throws Exception
      */

@@ -54,14 +54,11 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         super(cp, new Db2Translator());
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createTable(java.lang.String, java.util.List, com.ibm.fhir.schema.model.PrimaryKeyDef, com.ibm.fhir.schema.model.PartitionDef)
-     */
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             String tablespaceName) {
         
-        // With DB2 we can implement support for multitenancy, which we do by injecting a MT_ID column
+        // With DB2 we can implement support for multi-tenancy, which we do by injecting a MT_ID column
         // to the definition and partitioning on that column
         List<ColumnBase> cols = new ArrayList<>(columns.size()+1);
         if (tenantColumnName != null) {
@@ -98,9 +95,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(ddl);
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createIntVariable(java.lang.String)
-     */
     @Override
     public void createIntVariable(String schemaName, String variableName) {
         final String qualifiedName = DataDefinitionUtil.getQualifiedName(schemaName, variableName);
@@ -108,9 +102,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(ddl);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createPermission(java.lang.String, java.lang.String)
-     */
     @Override
     public void createPermission(String schemaName, String permissionName, String tableName, String predicate) {
         final String qualifiedPermissionName = DataDefinitionUtil.getQualifiedName(schemaName, permissionName);
@@ -125,9 +116,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(ddl);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#activateRowAccessControl(java.lang.String)
-     */
     @Override
     public void activateRowAccessControl(String schemaName, String tableName) {
         final String qualifiedTableName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
@@ -135,9 +123,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(ddl);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#setIntVariable(java.lang.String)
-     */
     @Override
     public void setIntVariable(String schemaName, String variableName, int value) {
         final String qualifiedName = DataDefinitionUtil.getQualifiedName(schemaName, variableName);
@@ -145,10 +130,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         target.runStatementWithInt(getTranslator(), sql, value);
     }
 
-    /**
-     * @param model the PhysicalDataModel holding all the tables we want to manage
-     * @param partitionColumn the column name used for tenant partitioning
-     */
     @Override
     public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB) {
         DataDefinitionUtil.assertValidName(schemaName);
@@ -225,9 +206,11 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     /**
      * Ensure that the given table has all the partitions necessary up to and
      * including the max tenant id
+     * 
      * @param t
      * @param pi
-     * @param maxTenantId
+     * @param newTenantId
+     * @param tablespaceName
      */
     public void createTenantPartitionsThr(Table t, PartitionInfo pi, int newTenantId, String tablespaceName) {
         
@@ -253,7 +236,9 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     /**
      * Read partition info from the database catalog.
+     *
      * @param partitionInfoMap
+     * @param tableSchema
      */
     protected void loadPartitionInfoMap(Map<String, PartitionInfo> partitionInfoMap, String tableSchema) {
         // To improve testability, we want to avoid any JDBC gunk at this level, 
@@ -262,9 +247,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(statement);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#deactivateRowAccessControl(java.lang.String, java.lang.String)
-     */
     @Override
     public void deactivateRowAccessControl(String schemaName, String tableName) {
         final String qualifiedTableName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
@@ -278,9 +260,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createRowType(java.lang.String, java.lang.String, java.util.List)
-     */
     @Override
     public void createRowType(String schemaName, String typeName, List<ColumnBase> columns) {
         //  CREATE OR REPLACE TYPE <schema>.t_str_values AS ROW (parameter_name_id INTEGER, str_value VARCHAR(511 OCTETS), str_value_lcase   VARCHAR(511 OCTETS))
@@ -294,9 +273,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(ddl.toString());
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createArrType(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void createArrType(String schemaName, String typeName, String valueType, int arraySize) {
         //  CREATE OR REPLACE TYPE <schema>.t_str_values_arr AS <schema>.t_str_values ARRAY[256]
@@ -313,9 +289,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#dropType(java.lang.String, java.lang.String)
-     */
     @Override
     public void dropType(String schemaName, String typeName) {
         final String ddl = "DROP TYPE " + DataDefinitionUtil.getQualifiedName(schemaName, typeName);
@@ -328,9 +301,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createProcedure(java.lang.String, java.lang.String, java.util.function.Supplier)
-     */
     @Override
     public void createProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
@@ -351,9 +321,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(ddlString);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#dropProcedure(java.lang.String, java.lang.String)
-     */
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
         final String pname = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
@@ -372,10 +339,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final String ddl = "CREATE TABLESPACE " + tablespaceName + " MANAGED BY AUTOMATIC STORAGE";
         runStatement(ddl);
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createTablespace(java.lang.String, int)
-     */
+
     @Override
     public void createTablespace(String tablespaceName, int extentSizeKB) {
         Db2CreateTablespace createTablespace = new Db2CreateTablespace(tablespaceName, extentSizeKB);
@@ -435,9 +399,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(cmd);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#doesTableExist(java.lang.String, java.lang.String)
-     */
     @Override
     public boolean doesTableExist(String schemaName, String tableName) {
         // Check the DB2 catalog to see if the table exists
@@ -451,17 +412,11 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         return "VARBINARY(" + size + ")";
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter#clobClause(long, int)
-     */
     @Override
     public String blobClause(long size, int inlineSize) {
         return "BLOB(" + size + ") INLINE LENGTH " + inlineSize;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter#varcharClause(int)
-     */
     @Override
     public String varcharClause(int size) {
         return "VARCHAR(" + size + " OCTETS)";          

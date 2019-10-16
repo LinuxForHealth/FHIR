@@ -36,7 +36,6 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
     
     private static final String SQL_DELETE_BY_RESOURCE_ID = "DELETE FROM PARAMETER WHERE RESOURCE_ID = ?";
     
-    
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
@@ -55,7 +54,7 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
-     * @param Connection - A database connection that will be managed by the caller.
+     * @param managedConnection - A database connection that will be managed by the caller.
      */
     public ParameterDAOBasicImpl(Connection managedConnection) {
         super(managedConnection);
@@ -107,9 +106,6 @@ public class ParameterDAOBasicImpl extends FHIRDbDAOBasicImpl<Parameter> impleme
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
-
- 
-
     
     /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAO#deleteByResource(long)

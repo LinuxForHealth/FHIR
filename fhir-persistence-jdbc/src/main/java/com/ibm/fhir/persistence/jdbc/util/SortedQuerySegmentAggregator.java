@@ -29,7 +29,6 @@ import com.ibm.fhir.search.parameters.SortParameter;
  * that produces sorted search results.
  * 
  * @author markd
- *
  */
 public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = SortedQuerySegmentAggregator.class.getName();
@@ -41,11 +40,13 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
     /**
      * Constructs a new SortedQuerySegmentAggregator
-     * @param resourceType - The type of FHIR Resource to be searched for.
-     * @param offset - The beginning index of the first search result.
-     * @param pageSize - The max number of requested search results.
-     * @param FHIRDBDAO - A basic FHIR DB Data Access Object
-     * @param sortParms - A list of SortParameters
+     *  
+     * @param resourceType The type of FHIR Resource to be searched for.
+     * @param offset The beginning index of the first search result.
+     * @param pageSize The max number of requested search results.
+     * @param parameterDao
+     * @param resourceDao A basic FHIR DB Data Access Object
+     * @param sortParms A list of SortParameters
      */
     protected SortedQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, ParameterNormalizedDAO parameterDao, 
                                             ResourceNormalizedDAO resourceDao, List<SortParameter> sortParms) {
@@ -59,6 +60,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * contains the necessary clauses to support sorted search results.
      * A simple example query produced by this method:
      * 
+     * <pre>
      * SELECT R.RESOURCE_ID,MIN(S1.STR_VALUE) FROM 
      * Patient_RESOURCES R JOIN 
      * Patient_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID  JOIN 
@@ -71,6 +73,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * GROUP BY R.RESOURCE_ID  
      * ORDER BY MIN(S1.STR_VALUE) asc NULLS LAST 
      * OFFSET 0 ROWS FETCH NEXT 100 ROWS ONLY;
+     * </pre> 
      * 
      * @return SqlQueryData - contains the complete SQL query string and any associated bind variables.
      * @throws Exception 
@@ -138,11 +141,11 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds the SELECT clause necessary to return sorted Resource ids. 
      * For example:
-     * SELECT R.RESOURCE_ID,MIN(S1.STR_VALUE) FROM 
+     * <pre>SELECT R.RESOURCE_ID,MIN(S1.STR_VALUE) FROM </pre> 
      * 
      * @throws FHIRPersistenceException
      */
-    private String buildSelectClause()     throws FHIRPersistenceException {
+    private String buildSelectClause() throws FHIRPersistenceException {
         final String METHODNAME = "buildSelectClause";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -207,6 +210,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
     /**
      * Returns the names of the Parameter attributes containing the values corresponding to the passed sort parameter.
+     * 
+     * @param sortParm
+     * @return 
      * @throws FHIRPersistenceException
      */
     private List<String> getValueAttributeNames(SortParameter sortParm) throws FHIRPersistenceException {
@@ -241,9 +247,12 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds the LEFT OUTER JOIN clauses necessary to return sorted Resource ids. 
      * For example:
+     * <pre>
      * JOIN r.parameters p1 
-     * LEFT OUTER JOIN Patient_STR_VALUES S1 ON (S1.PARAMETER_NAME_ID=50 AND S1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID)  
-     *   
+     * LEFT OUTER JOIN Patient_STR_VALUES S1 ON (S1.PARAMETER_NAME_ID=50 AND S1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID)
+     * </pre>  
+     * 
+     * @return 
      * @throws FHIRPersistenceException
      */
     private String buildSortJoinClause() throws FHIRPersistenceException {
@@ -290,7 +299,8 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Returns the name of the database table corresponding to the type of the passed sort parameter.
      * @param sortParm A valid SortParameter
-     * @return String - A database table name
+     * 
+     * @return A database table name
      * @throws FHIRPersistenceException
      */
     private String getSortParameterTableName(SortParameter sortParm) throws FHIRPersistenceException {
@@ -323,7 +333,6 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
     /**
      * Builds the GROUP BY clause necessary to return sorted Resource ids. 
-     * @throws FHIRPersistenceException
      */
     private String buildGroupByClause() {
         final String METHODNAME = "buildGroupByClause";
@@ -338,7 +347,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds the ORDER BY clause necessary to return sorted Resource ids. 
      * For example:
-     * ORDER BY MIN(S1.STR_VALUE) asc NULLS LAST,MAX(S2.CODE_SYSTEM_ID) desc NULLS LAST, MAX(S2.TOKEN_VALUE) desc NULLS LAST 
+     * <code>ORDER BY MIN(S1.STR_VALUE) asc NULLS LAST,MAX(S2.CODE_SYSTEM_ID) desc NULLS LAST, MAX(S2.TOKEN_VALUE) desc NULLS LAST</code> 
      * 
      * @throws FHIRPersistenceException
      */

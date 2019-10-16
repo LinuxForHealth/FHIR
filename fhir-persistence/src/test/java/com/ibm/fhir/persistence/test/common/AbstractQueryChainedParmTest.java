@@ -212,7 +212,7 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
     }
     
     /**
-     * Tests a chained parameter query for Compositions that reference an ImmunizationRecommendation with doseNumber > 9
+     * Tests a chained parameter query for Compositions that reference an ImmunizationRecommendation with <code>doseNumber &gt; 9</code>
      * @throws Exception
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateComposition_chained" })
@@ -224,7 +224,7 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
     }
     
     /**
-     * Tests a chained parameter query for Compositions that reference an ImmunizationRecommendation with doseNumber < 11
+     * Tests a chained parameter query for Compositions that reference an ImmunizationRecommendation with <code>doseNumber &lt; 11</code>
      * @throws Exception
      */
     @Test(groups = { "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateComposition_chained" })

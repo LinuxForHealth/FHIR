@@ -24,12 +24,10 @@ public class Db2CreateTablespace implements IDatabaseStatement {
     private final String tablespaceName;
     private final int extentSizeKB;
 
-
-    /**
-     * Public constructor
-     * @param tableName
-     * @param partitionId
-     */
+/**
+ * 
+ * @param tablespaceName
+ */
     public Db2CreateTablespace(String tablespaceName) {
         DataDefinitionUtil.assertValidName(tablespaceName);
         this.tablespaceName = tablespaceName;
@@ -38,6 +36,7 @@ public class Db2CreateTablespace implements IDatabaseStatement {
 
     /**
      * Public constructor with optional extent size in KB
+     * 
      * @param tablespaceName
      * @param extentSizeKB
      */
@@ -47,9 +46,6 @@ public class Db2CreateTablespace implements IDatabaseStatement {
          this.extentSizeKB = extentSizeKB;
      }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         String ddl = "CREATE TABLESPACE " + this.tablespaceName + " MANAGED BY AUTOMATIC STORAGE";

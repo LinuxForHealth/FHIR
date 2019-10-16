@@ -28,7 +28,6 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
  * SQL (EXECUTE ... USING ...). Unfortunately this means we have more database round-trips, we
  * don't have a choice.
  * @author rarnold
- *
  */
 public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
@@ -78,8 +77,16 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     
     /**
      * Public constructor
+     * 
      * @param c
-     * @param resourceId
+     * @param adminSchemaName
+     * @param tablePrefix
+     * @param multitenant
+     * @param logicalResourceId
+     * @param batchSize
+     * @param pnc
+     * @param csc
+     * @throws SQLException
      */
     public ParameterVisitorBatchDAO(Connection c, String adminSchemaName, String tablePrefix, boolean multitenant, long logicalResourceId, int batchSize,
         IParameterNameCache pnc, ICodeSystemCache csc) throws SQLException {
@@ -240,9 +247,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#dateValue(java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp)
-     */
     @Override
     public void dateValue(String parameterName, Timestamp date, Timestamp dateStart, Timestamp dateEnd, boolean isBase) throws FHIRPersistenceException {
         try {
@@ -282,9 +286,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#tokenValue(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void tokenValue(String parameterName, String codeSystem, String tokenValue, boolean isBase) throws FHIRPersistenceException {
         
@@ -336,9 +337,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#quantityValue(java.lang.String, java.lang.String, java.lang.String, java.lang.Double, java.lang.Double, java.lang.Double)
-     */
     @Override
     public void quantityValue(String parameterName, String code, String codeSystem, BigDecimal quantityValue, BigDecimal quantityLow, BigDecimal quantityHigh) throws FHIRPersistenceException {
 
@@ -374,10 +372,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
         
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#locationValue(java.lang.String, double, double)
-     */
+
     @Override
     public void locationValue(String parameterName, double lat, double lng) throws FHIRPersistenceException {
         try {

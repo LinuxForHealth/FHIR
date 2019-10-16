@@ -48,7 +48,7 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
  * 
  * This class extracts the Compartment Logic from SearchUtil, converted the Custom Compartment logic and format into the
  * ComponentDefintion, adds support for the the default definition, and refactors the code to create constants and limit
- * extraneous strings and duplicate definitions<br/>
+ * extraneous strings and duplicate definitions
  * 
  * <br>
  * Load the class in the classloader to initialize static members. Call this before using the class in order to avoid a
@@ -105,7 +105,7 @@ public class CompartmentUtil {
      * Builds an in-memory model of the Compartment map defined in compartments.json, for supporting compartment based
      * FHIR searches.
      *
-     * @return Map<String, CompartmentCache>
+     * @return a map of the CompartmentCaches 
      * @throws IOException
      */
     public static final Map<String, CompartmentCache> buildCompartmentMap() {

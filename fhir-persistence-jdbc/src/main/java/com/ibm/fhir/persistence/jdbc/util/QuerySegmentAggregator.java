@@ -27,7 +27,6 @@ import com.ibm.fhir.search.parameters.Parameter;
  * FHIR Resource count query. 
  * 
  * @author markd
- *
  */
 class QuerySegmentAggregator {
     
@@ -106,6 +105,7 @@ class QuerySegmentAggregator {
      * Builds a complete SQL Query based upon the encapsulated query segments and bind variables.
      * A simple example query produced by this method:
      * 
+     * <pre>
      * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
      *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
      *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
@@ -113,6 +113,7 @@ class QuerySegmentAggregator {
      *     (P1.PARAMETER_NAME_ID = 4 AND
      *     P1.STR_VALUE LIKE ? ESCAPE '+')
      *   ORDER BY r.RESOURCE_ID ASC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY
+     * </pre> 
      * 
      * @return SqlQueryData - contains the complete SQL query string and any associated bind variables.
      * @throws Exception 
@@ -152,13 +153,15 @@ class QuerySegmentAggregator {
      *   Builds a complete SQL count query based upon the encapsulated query segments and bind variables.
      *   A simple example query produced by this method:
      *   
+     * <pre>
      *     SELECT COUNT(R.RESOURCE_ID)FROM
      *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
      *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
      *     (P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND
      *     (P1.PARAMETER_NAME_ID = 4 AND
      *     P1.STR_VALUE LIKE ? ESCAPE '+'))
-     * 
+     * </pre>
+     *  
      * @return SqlQueryData - contains the complete SQL count query string and any associated bind variables.
      * @throws Exception 
      */
@@ -197,6 +200,8 @@ class QuerySegmentAggregator {
      * A FHIR system level query spans multiple resource types, and therefore spans multiple tables in the database. 
      * Here is an example of a system level query, assuming that only 3 different resource types have been persisted
      * in the database:
+     * 
+     * <pre>
      * SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM 
      *  (SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
      *    RiskAssessment_RESOURCES R, RiskAssessment_LOGICAL_RESOURCES LR , RiskAssessment_DATE_VALUES P1 WHERE 
@@ -212,6 +217,7 @@ class QuerySegmentAggregator {
      *   Questionnaire_RESOURCES R, Questionnaire_LOGICAL_RESOURCES LR , Questionnaire_DATE_VALUES P1 WHERE
      *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
      *   (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))) COMBINED_RESULTS; 
+     * </pre> 
      * 
      * @param selectRoot - The text of the outer SELECT ('SELECT' to 'FROM')
      * @param subSelectRoot - The text of the inner SELECT root to use in each sub-select

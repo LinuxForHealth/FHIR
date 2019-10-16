@@ -76,9 +76,9 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
 
     /**
      * Read the id for the named type
-     * @param resourceTypeName
+     * @param codeSystem
      * @return the database id, or null if the named record is not found
-     * @throws SQLException
+     * @throws FHIRPersistenceDataAccessException
      */
     protected Integer getCodeSystemId(String codeSystem) throws FHIRPersistenceDataAccessException {
         Integer result;

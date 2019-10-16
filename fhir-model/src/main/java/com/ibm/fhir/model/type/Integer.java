@@ -33,7 +33,7 @@ public class Integer extends Element {
      * The actual value
      * 
      * @return
-     *     An immutable object of type {@link Integer}.
+     *     An immutable object of type {@link java.lang.Integer}.
      */
     public java.lang.Integer getValue() {
         return value;

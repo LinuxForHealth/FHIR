@@ -26,7 +26,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * This Data Access Object class provides methods creating, updating, and retrieving rows in the FHIR Resource table.
  * @author markd
- *
  */
 public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implements ResourceDAO {
     
@@ -56,9 +55,6 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
     
     protected static final String DB2_PAGINATION_PARMS = "LIMIT ? OFFSET ?";
     
-    
-    
-    
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
@@ -74,11 +70,10 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
         super(dbProperties);
     }
     
-    
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
-     * @param Connection - A database connection that will be managed by the caller.
+     * @param managedConnection - A database connection that will be managed by the caller.
      */
     public ResourceDAOBasicImpl(Connection managedConnection) {
         super(managedConnection);
@@ -345,7 +340,6 @@ public class ResourceDAOBasicImpl extends FHIRDbDAOBasicImpl<Resource> implement
         }
         return count;
     }
-    
     
     @Override
     public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults) 

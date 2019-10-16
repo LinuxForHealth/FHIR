@@ -24,10 +24,9 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  */
 public interface ParameterNormalizedDAO extends ParameterDAO {
     
-    
     /**
      * Reads all rows in the Parameter_Names table and returns the data as a Map
-     * @return Map<String, Long> - A map containing key=parameter-name, value=parameter-name-id
+     * @return A map containing key=parameter-name, value=parameter-name-id
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */
@@ -35,7 +34,7 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
     
     /**
      * Reads all rows in the Code_Systems table and returns the data as a Map
-     * @return Map<String, Long> - A map containing key=system-name, value=system-id
+     * @return A map containing key=system-name, value=system-id
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */
@@ -45,8 +44,8 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
     /**
      * Reads the id associated with the name of the passed Parameter from the Parameter_Names table. If the id for the passed name is not present
      * in the database, an id is generated, persisted, and returned.
-     * @param String A valid FHIR search  parameter name.
-     * @return Integer - the id associated with the name of the passed Parameter.
+     * @param parameterName A valid FHIR search  parameter name.
+     * @return the id associated with the name of the passed Parameter.
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */

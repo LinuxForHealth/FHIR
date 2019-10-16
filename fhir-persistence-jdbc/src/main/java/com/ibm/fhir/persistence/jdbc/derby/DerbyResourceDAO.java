@@ -28,7 +28,7 @@ import com.ibm.fhir.persistence.jdbc.dto.Parameter;
  * query compilation). The solution used row type arrays instead, but these
  * aren't supported in Derby, and have since been replaced by a DAO-based
  * batch statements due to issues with dynamic SQL and array types in DB2.
- * 
+ * <br>
  * So this class follows the logic of the stored procedure, but does so
  * using a series of individual JDBC statements.
  * 
@@ -54,7 +54,6 @@ public class DerbyResourceDAO {
     /**
      * public constructor
      * @param connection the database connection
-     * @param parameterDAO the DAO/cache for obtaining parameter and code system ids
      */
     public DerbyResourceDAO(Connection connection) {
         this.conn = connection;
@@ -69,6 +68,7 @@ public class DerbyResourceDAO {
      * version of an existing logical resource. The logic tracks closely the DB2 stored
      * procedure implementation, including locking of the logical_resource and handling
      * concurrency issues using the standard insert-or-update pattern:
+     * <pre>
      *   SELECT FOR UPDATE                 -- try and get a write lock
      *   IF NOT FOUND THEN                 -- doesn't exist, so we don't have a lock
      *     INSERT new logical resource     -- create the record - if OK, we own the lock
@@ -76,13 +76,16 @@ public class DerbyResourceDAO {
      *       SELECT FOR UPDATE             -- so we need to try again for a write lock
      *     ...
      *   ...
+     * </pre>  
+     *   
      * This works because we never delete a logical_resource record, and so don't have to deal
      * with concurrency issues caused when deletes are mingled with inserts/updates
      * 
      * Note the execution flow aligns very closely with the DB2 stored procedure
      * implementation (fhir-persistence-schema/src/main/resources/add_any_resource.sql)
-     * @param conn
+     *  
      * @param tablePrefix
+     * @param parameters
      * @param p_logical_id
      * @param p_payload
      * @param p_last_updated
@@ -101,7 +104,6 @@ public class DerbyResourceDAO {
      * @param p_version
      * @param p_json_version
      * @param p_write_rep_log
-     * @param o_resource_id
      * @return the resource_id for the entry we created
      * @throws Exception
      */
@@ -369,8 +371,11 @@ public class DerbyResourceDAO {
 
     /**
      * Delete all parameters for the given resourceId from the parameters table
+     * 
+     * @param conn
      * @param tableName
-     * @param resourceId
+     * @param logicalResourceId
+     * @throws SQLException
      */
     protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
         final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
@@ -407,10 +412,10 @@ public class DerbyResourceDAO {
         return result;
     }
 
-
     /**
      * stored-procedure-less implementation for managing the resource_types table
      * @param resourceTypeName
+     * @throw SQLException
      */
     public int getOrCreateResourceType(String resourceTypeName) throws SQLException {
         // As the system is concurrent, we have to handle cases where another thread

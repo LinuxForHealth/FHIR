@@ -91,7 +91,7 @@ public abstract class AbstractQueryImmunizationRecommendationTest extends Abstra
     }
 
     /**
-     * Query for ImmunizationRecommendation with dose-number < 11
+     * Query for ImmunizationRecommendation with <code>dose-number < 11</code>
      * 
      * @throws Exception
      */
@@ -104,7 +104,7 @@ public abstract class AbstractQueryImmunizationRecommendationTest extends Abstra
     }
 
     /**
-     * Query for ImmunizationRecommendation with dose-number <= 11
+     * Query for ImmunizationRecommendation with <code>dose-number <= 11</code>
      * 
      * @throws Exception
      */
@@ -117,7 +117,7 @@ public abstract class AbstractQueryImmunizationRecommendationTest extends Abstra
     }
 
     /**
-     * Query for ImmunizationRecommendation with dose-number <= 10
+     * Query for ImmunizationRecommendation with <code>dose-number <= 10</code>
      * 
      * @throws Exception
      */

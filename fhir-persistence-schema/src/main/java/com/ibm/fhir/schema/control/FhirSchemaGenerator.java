@@ -124,6 +124,8 @@ public class FhirSchemaGenerator {
 
     /**
      * Public constructor
+     * 
+     * @param adminSchemaName
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName) {
@@ -264,11 +266,13 @@ public class FhirSchemaGenerator {
     }
 
     /**
-CREATE SEQUENCE fhir_sequence
+    <pre>
+    CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
           CACHE 1000
        NO CYCLE;
+     </pre>
      * 
      * @param pdm
      */
@@ -281,11 +285,9 @@ CREATE SEQUENCE fhir_sequence
         pdm.addObject(tenantSequence);
     }
 
-
-
     /**
      * Create the schema using the given target
-     * @param target
+     * @param model
      */
     public void buildSchema(PhysicalDataModel model) {
 
@@ -337,7 +339,7 @@ CREATE SEQUENCE fhir_sequence
      * denormalized, stored in both LOGICAL_RESOURCES and <RESOURCE_TYPE>_LOGICAL_RESOURCES.
      * This avoids an additional join, and simplifies the migration to this
      * new schema model.
-     * @param prefix
+     * @param pdm
      */
     public void addLogicalResources(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCES;
@@ -365,7 +367,7 @@ CREATE SEQUENCE fhir_sequence
     /**
      * Add the system-wide TOKEN_VALUES table which is used for
      * _tag and _security search properties in R4
-     * @param prefix
+     * @param pdm
      */
     public void addResourceTokenValues(PhysicalDataModel pdm) {
 
@@ -400,8 +402,7 @@ CREATE SEQUENCE fhir_sequence
     /**
      * Add system-wide RESOURCE_STR_VALUES table to support _profile
      * properties (which are of type REFERENCE). 
-     * @param group
-     * @param prefix
+     * @param pdm
      */
     public void addResourceStrValues(PhysicalDataModel pdm) {
         final int msb = MAX_SEARCH_STRING_BYTES;
@@ -466,6 +467,7 @@ CREATE SEQUENCE fhir_sequence
 
 
     /**
+     * <pre>
     CREATE TABLE resource_types (
       resource_type_id INT NOT NULL
       CONSTRAINT pk_resource_type PRIMARY KEY,
@@ -474,6 +476,7 @@ CREATE SEQUENCE fhir_sequence
 
 -- make sure resource_type values are unique
 CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
+</pre>
      * 
      * @param model
      */
@@ -525,19 +528,14 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         }
     }
 
-
     /**
      * Add the sequence objects to the given model object
      * -------------------------------------------------------------------------------
-
-
-CREATE SEQUENCE test_sequence
+        CREATE SEQUENCE test_sequence
              AS BIGINT
-     START WITH 1
+         START WITH 1
           CACHE 1000
-       NO CYCLE;
-
-
+           NO CYCLE;
      * @param model
      */
     protected void addSequences(PhysicalDataModel model) {
@@ -547,13 +545,13 @@ CREATE SEQUENCE test_sequence
     /**
      * 
      * 
-CREATE TABLE parameter_names (
-  parameter_name_id INT NOT NULL
-                CONSTRAINT pk_parameter_name PRIMARY KEY,
-  parameter_name   VARCHAR(255 OCTETS) NOT NULL
-);
-
-CREATE UNIQUE INDEX unq_parameter_name_rtnm ON parameter_names(parameter_name) INCLUDE (parameter_name_id);
+    CREATE TABLE parameter_names (
+      parameter_name_id INT NOT NULL
+                    CONSTRAINT pk_parameter_name PRIMARY KEY,
+      parameter_name   VARCHAR(255 OCTETS) NOT NULL
+    );
+    
+    CREATE UNIQUE INDEX unq_parameter_name_rtnm ON parameter_names(parameter_name) INCLUDE (parameter_name_id);
 
      * @param model
      */
@@ -583,13 +581,13 @@ CREATE UNIQUE INDEX unq_parameter_name_rtnm ON parameter_names(parameter_name) I
 
     /**
      * Add the code_systems table to the database schema
-CREATE TABLE code_systems (
-  code_system_id         INT NOT NULL
-   CONSTRAINT pk_code_system PRIMARY KEY,
-  code_system_name       VARCHAR(255 OCTETS) NOT NULL
-);
-
-CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
+    CREATE TABLE code_systems (
+      code_system_id         INT NOT NULL
+       CONSTRAINT pk_code_system PRIMARY KEY,
+      code_system_name       VARCHAR(255 OCTETS) NOT NULL
+    );
+    
+    CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
      * @param model
      */
@@ -642,8 +640,11 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
     /**
      * Add the types we need for passing parameters to the stored procedures
-       CREATE OR REPLACE TYPE <schema>.t_str_values AS ROW (parameter_name_id INTEGER, str_value VARCHAR(511 OCTETS), str_value_lcase   VARCHAR(511 OCTETS))
-       CREATE OR REPLACE TYPE <schema>.t_str_values_arr AS <schema>.t_str_values ARRAY[256]
+       <pre>
+       CREATE OR REPLACE TYPE SCHEMA.t_str_values AS ROW (parameter_name_id INTEGER, str_value VARCHAR(511 OCTETS), str_value_lcase   VARCHAR(511 OCTETS))
+       CREATE OR REPLACE TYPE SCHEMA.t_str_values_arr AS SCHEMA.t_str_values ARRAY[256]
+       </pre>
+       @param pdm
      */
     protected void addProcedureParameterTypes(PhysicalDataModel pdm) {
         // We get a deadlock: 'SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2' if we try to create
@@ -689,11 +690,13 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
     /**
      *     
+     *     
+     * <pre>
     t_token_values AS ROW ( parameter_name_id INTEGER, code_system_id    INTEGER, token_value       VARCHAR(255 OCTETS))';
     t_token_values_arr AS ' || CURRENT SCHEMA || '.t_token_values ARRAY[256]';
-
-
+    </pre>
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addTokenValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
@@ -722,10 +725,13 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
     }
 
     /**
+     * <pre>
     t_date_values AS ROW ( parameter_name_id         INT, date_value          TIMESTAMP, date_start          TIMESTAMP, date_end            TIMESTAMP)';
     t_date_values_arr AS ' || CURRENT SCHEMA || '.t_date_values ARRAY[256]';
+    </pre>
      * 
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addDateValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
@@ -755,11 +761,13 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
     }
 
     /**
+     * <pre>
     t_number_values AS ROW ( parameter_name_id      INT, number_value        DOUBLE)';
     t_number_values_arr AS ' || CURRENT SCHEMA || '.t_number_values ARRAY[256]';
-
+    </pre>
      * 
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addNumberValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
@@ -787,11 +795,13 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
     }
 
     /**
+     * 
+     * <pre>
     t_quantity_values AS ROW ( parameter_name_id        INT, code                 VARCHAR(255 OCTETS), quantity_value        DOUBLE, quantity_value_low    DOUBLE, quantity_value_high   DOUBLE, code_system_id           INT)';
     t_quantity_values_arr AS ' || CURRENT SCHEMA || '.t_quantity_values ARRAY[256]';
-
-
+     </pre>
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addQuantityValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
@@ -824,11 +834,14 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
 
     /**
+    
+    <pre> 
     CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
           CACHE 1000
        NO CYCLE;
+       </pre>
      * 
      * @param pdm
      */
@@ -852,10 +865,12 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
     /**
      *     
+     *<pre>
     t_latlng_values AS ROW ( parameter_name_id      INT, latitude_value      DOUBLE, longitude_value     DOUBLE)';
     t_latlng_values_arr AS ' || CURRENT SCHEMA || '.t_latlng_values ARRAY[256]';
-
+    </pre>
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addLatLngValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
@@ -886,6 +901,7 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
     /**
      * Visitor for the resource types
+     * @param consumer
      */
     public void applyResourceTypes(Consumer<String> consumer) {
         for (String resourceType: this.resourceTypes) {

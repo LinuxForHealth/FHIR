@@ -670,7 +670,10 @@ public class CadfEvent {
          * {@link CadfReason} object using the supplied values. Reason is a required
          * property if the event type is "control", otherwise it is optional.
          * 
-         * @param reason
+         * @param reasonType
+         * @param reasonCode
+         * @param policyType
+         * @param policyId
          * @return CadfEventBuilder
          * @see CadfReason
          */
@@ -838,7 +841,7 @@ public class CadfEvent {
         /**
          * A convenience method to add one measurement at a time.
          * 
-         * @see withMeasurements()
+         * @see #withMeasurements(Measurement[])
          */
         public CadfEventBuilder withMeasurement(CadfEvent.Measurement measurement) {
             if (this.measurements == null) {
@@ -860,7 +863,7 @@ public class CadfEvent {
         /**
          * A convenience method to add one attachment at a time.
          * 
-         * @see withAttachments()
+         * @see #withAttachments(CadfAttachment[])
          */
         public CadfEventBuilder withAttachment(CadfAttachment attachment) {
             if (this.attachments == null) {

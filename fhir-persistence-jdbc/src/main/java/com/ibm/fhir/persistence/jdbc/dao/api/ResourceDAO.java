@@ -16,7 +16,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * This Data Access Object interface provides methods creating, updating, and retrieving rows in the FHIR Resource table.
  * @author markd
- *
  */
 public interface ResourceDAO extends FHIRDbDAO {
 
@@ -24,7 +23,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * Inserts the passed Resource DTO to the FHIR Resource table. 
      * After insert, the generated primary key is acquired and set in the Resource object.
      * @param resource
-     * @return Resource
+     * @return the resource
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
@@ -35,7 +34,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * If no matching resource is found, null is returned.
      * @param logicalId
      * @param resourceType
-     * @return Resource - The most recent version of the Resource with the passed logical id and resource type, or null if not found.
+     * @return The most recent version of the Resource with the passed logical id and resource type, or null if not found.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
@@ -47,8 +46,8 @@ public interface ResourceDAO extends FHIRDbDAO {
      * If no matching resource is found, null is returned.
      * @param logicalId
      * @param resourceType
-     * @param version id
-     * @return Resource - The version of the Resource with the passed logical id, resource type, and version id or null if not found.
+     * @param versionId
+     * @return The version of the Resource with the passed logical id, resource type, and version id or null if not found.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
@@ -58,8 +57,8 @@ public interface ResourceDAO extends FHIRDbDAO {
     /**
      * Executes the passed fully-formed SQL Select statement and returns the results
      * If no matching resources are found, an empty collection is returned.
-     * @param sqlSelect - A fully formed SQL select statement.
-     * @return List<Resource> - A List of Resources that satisfy the passed SQL query string.
+     * @param sqlSelect A fully formed SQL select statement.
+     * @return A List of Resources that satisfy the passed SQL query string.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
@@ -70,8 +69,8 @@ public interface ResourceDAO extends FHIRDbDAO {
      * This method supports the execution of a specialized query designed to return Resource ids, based on the contents
      * of the passed select statement.
      * Note that the first column to be selected MUST be the Resource.id column.
-     * @param sqlSelect - A select for Resource ids.
-     * @return - A List of resource ids that satisfy the passed SQL query.
+     * @param sqlSelect A select for Resource ids.
+     * @return a List of resource ids that satisfy the passed SQL query.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
@@ -80,8 +79,8 @@ public interface ResourceDAO extends FHIRDbDAO {
 
     /**
      * Searches for Resources that contain one of the passed ids.
-     * @param resourceIds - A List of resource ids.
-     * @return List<Resource> - A List of resources matching the the passed list of ids.
+     * @param resourceIds A List of resource ids.
+     * @return A List of resources matching the the passed list of ids.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
@@ -91,8 +90,8 @@ public interface ResourceDAO extends FHIRDbDAO {
     /**
      * Executes the passed fully-formed SQL Select COUNT statement and returns the integer count.
      * 
-     * @param sqlSelect - A fully formed SQL select count statement.
-     * @return int - The count of resources that fulfill the passed SQL select statement.
+     * @param sqlSelectCount - A fully formed SQL select count statement.
+     * @return The count of resources that fulfill the passed SQL select statement.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
@@ -102,10 +101,13 @@ public interface ResourceDAO extends FHIRDbDAO {
      * Reads and returns all versions of the Resource with the passed logicalId, ordered by descending version id.
      * If non-null, the passed fromDateTime is used to limit the returned Resource
      * versions to those that were updated after the fromDateTime.
-     * @param resourceType - The name of a FHIR Resource type
-     * @param logicalId - The logical id of a FHIR Resource
-     * @param fromDateTime - The starting date/time of the version history.
-     * @return List<Resource> - An ordered list of Resource versions.
+     * 
+     * @param resourceType The name of a FHIR Resource type
+     * @param logicalId The logical id of a FHIR Resource
+     * @param fromDateTime The starting date/time of the version history.
+     * @param offset
+     * @param maxResults
+     * @return An ordered list of Resource versions.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
@@ -118,7 +120,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @param resourceType - The name of a FHIR Resource type
      * @param logicalId - The logical id of a FHIR Resource
      * @param fromDateTime - The starting date/time of the version history.
-     * @return int - The count of Resource versions.
+     * @return
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */

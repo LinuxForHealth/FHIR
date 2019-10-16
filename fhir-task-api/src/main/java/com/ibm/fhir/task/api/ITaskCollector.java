@@ -17,8 +17,10 @@ public interface ITaskCollector {
 
     /**
      * Add the given task to the task group
-     * @param parent the parent to tell when we're done. Can be null
+     * 
+     * @param taskId the parent to tell when we're done. Can be null
      * @param r the runnable to call to process the task
+     * @param children 
      * @return
      */
     public ITaskGroup makeTaskGroup(String taskId, Runnable r, List<ITaskGroup> children);

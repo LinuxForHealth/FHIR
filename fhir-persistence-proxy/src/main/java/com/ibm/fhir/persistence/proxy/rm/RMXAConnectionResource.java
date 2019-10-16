@@ -36,7 +36,7 @@ import com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource.DataSourceCacheEntry
  * This class is used during XA recovery operations to represent an XAConnection and its associated XAResource, but in
  * reality it serves as a proxy for ALL of the XAConnections and their associated XAResources related to XADataSources
  * cached by the proxy datasource.
- * 
+ * <br>
  * This class is only used during the XA Resource recovery operations triggered by the Liberty Recovery Manager.
  * 
  * @author padams
@@ -61,7 +61,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
      * This ctor is invoked by the FHIRProxyXADataSource class when the Liberty Recovery Manager has triggered XA
      * recovery operations.
      * 
-     * @param dataSource
+     * @param parentDS
      *            the parent FHIRProxyXADataSource instance
      * @throws SQLException
      */

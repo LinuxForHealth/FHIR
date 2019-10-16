@@ -29,7 +29,7 @@ import com.ibm.fhir.bulkcommon.Constants;
  * @author Albert Wang
  */
 public class ChunkWriter extends AbstractItemWriter {
-    private final static Logger logger = Logger.getLogger(ChunkWriter.class.getName());
+    private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     private AmazonS3 cosClient = null;
     /**
      * The IBM COS API key or S3 access key.
@@ -98,7 +98,7 @@ public class ChunkWriter extends AbstractItemWriter {
     JobContext jobContext;
 
     /**
-     * @see AbstractItemWriter#AbstractItemWriter()
+     * @see javax.batch.api.chunk.AbstractItemWriter#AbstractItemWriter()
      */
     public ChunkWriter() {
         super();
@@ -161,7 +161,7 @@ public class ChunkWriter extends AbstractItemWriter {
     }
 
     /**
-     * @see AbstractItemWriter#writeItems(List<java.lang.Object>)
+     * @see {@link javax.batch.api.chunk.AbstractItemWriter#writeItems(List)} 
      */
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
         cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,

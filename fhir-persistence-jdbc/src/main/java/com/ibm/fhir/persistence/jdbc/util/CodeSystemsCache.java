@@ -20,9 +20,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  * This class provides a static cache for FHIR Systems that are part of Token type Search parameters. This data is gathered from tables
  * defined as part of the "normalized" relational database schema.
  * @author markd
- *
  */
-
 public class CodeSystemsCache {
     private static final String CLASSNAME = CodeSystemsCache.class.getName(); 
     private static final Logger log = Logger.getLogger(CLASSNAME);
@@ -38,8 +36,8 @@ public class CodeSystemsCache {
     /**
      * Retrieves the id for the passed system, for the current tenant-datastore. 
      * If not found, null is returned.
-     * @param parameter The name of a code system
-     * @return Integer The id corresponding to the passed code system
+     * @param systemName The name of a code system
+     * @return The id corresponding to the passed code system
      */
     public static Integer getCodeSystemId(String systemName) {
         
@@ -87,7 +85,7 @@ public class CodeSystemsCache {
     /**
      * Adds the passed code system name/id pairs to the the current tenant-datastore cache.
      * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
-     * @param newParameters A Map containing code system name/id pairs.
+     * @param newCodeSystems A Map containing code system name/id pairs.
      */
     public static void putCodeSystemIds(String tenantDatastoreCacheName, Map<String, Integer> newCodeSystems) {
         
@@ -113,7 +111,7 @@ public class CodeSystemsCache {
     
     /**
      * 
-     * @return String - A formatted representation of the entire cache managed by this class.
+     * @return A formatted representation of the entire cache managed by this class.
      */
     public static String dumpCacheContents() {
         
@@ -123,7 +121,7 @@ public class CodeSystemsCache {
     /**
      * Determines and reports any discrepancies between the current thread's Code Systems cache and the contents of the database CODE_SYSTEMS table.
      * @param dao A Parameter DAO instance
-     * @return String - A report detailing cache/db discrepancies.
+     * @return A report detailing cache/db discrepancies.
      */
     public static String reportCacheDiscrepancies(ParameterNormalizedDAO dao) {
         
