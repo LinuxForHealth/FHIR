@@ -86,7 +86,7 @@ public class FHIROpenApiGenerator {
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
-        info.add("description", "IBM FHIR&reg; Server API");
+        info.add("description", "IBM FHIR Server API");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 

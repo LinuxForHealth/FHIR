@@ -20,7 +20,7 @@ An example as follows:
 			"status": "draft",
 			"experimental": false,
 			"date": "2018-12-27T22:37:54+11:00",
-			"publisher": "IBM FHIR® Server Test",
+			"publisher": "IBM FHIR Server Test",
 			"contact": [{
 				"telecom": [{
 					"system": "url",
@@ -46,3 +46,7 @@ An example as follows:
 		}
 	}]
 }
+
+
+
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

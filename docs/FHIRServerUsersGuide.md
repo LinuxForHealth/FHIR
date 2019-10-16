@@ -42,7 +42,7 @@ lastupdated: "2019-09-04"
 
 # 1 Overview
 
-The IBM FHIR® Server provides a REST API that is patterned after the HL7 FHIR specification and supports the full set of FHIR-defined resource types.
+The IBM FHIR Server provides a REST API that is patterned after the HL7 FHIR specification and supports the full set of FHIR-defined resource types.
 The FHIR server is intended to be a common component for providing FHIR capabilities within health services and solutions.
 
 ## 1.1 Recent updates
@@ -62,7 +62,7 @@ View information about recent changes that were made to this document. For more 
 * Added section on upgrading from one version to the next
 
 ###	Release 2.1
-IBM FHIR® Server version 2.1 was developed under the Watson Health development organization. 
+IBM FHIR Server version 2.1 was developed under the Watson Health development organization. 
 
 ###	Release 1.2
 *	Added information about the update/create feature.
@@ -132,15 +132,15 @@ The preceding command should produce output similar to the following:
 {
     "resourceType" : "Conformance",
     "version" : "1.0.0",
-    "name" : "IBM FHIR® Server server",
+    "name" : "IBM FHIR Server server",
     "publisher" : "IBM Corporation",
     "date" : "Mon Jun 27 16:06:45 CDT 2016",
-    "description" : "IBM FHIR® Server version 1.0.0 build id development",
+    "description" : "IBM FHIR Server version 1.0.0 build id development",
     "copyright" : "(c) Copyright IBM Corporation 2016",
     "kind" : "instance",
     "software" : {
         "id" : "development",
-        "name" : "IBM FHIR® Server",
+        "name" : "IBM FHIR Server",
         "version" : "1.0.0"
     },
     "fhirVersion" : "1.0.2 - r4",
@@ -465,9 +465,9 @@ For a Derby-related datasource definition, any bean property supported by the `E
 
 
 ## 3.5 Search parameters
-The FHIR specification defines a set of searchable fields for each resource type and the IBM FHIR® Server supports all spec-defined search parameters by default.
+The FHIR specification defines a set of searchable fields for each resource type and the IBM FHIR Server supports all spec-defined search parameters by default.
 
-Additionally, the IBM FHIR® Server supports searching on additional fields, including:
+Additionally, the IBM FHIR Server supports searching on additional fields, including:
 * fields that are defined in the base specification but not configured to be searchable;
 * extension elements that you add to a standard FHIR resource type; and
 * attributes that you define as part of a custom resource type)
@@ -499,7 +499,7 @@ To configure the FHIR server with one or more custom search parameters, create a
 </Bundle>
 ```
 
-Note 1:  According to the [FHIR specification](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code), it is the `code` field (and not the `name` field) which is supposed to be used for the name of the search parameter in search requests. Because earlier versions of the IBM FHIR® Server used the `name` field for this purpose, we have decided not to change that at this time. However, users of the the server are strongly encouraged to include their desired name in both the `name` **and** `code` fields for improved backwards/forwards compatibility. Use of the `name` field, without a matching `code`, is considered deprecated and the FHIR server will likely change to exclusively use the `code` field in a [future release](https://github.com/ibm/fhir/issues/202).
+Note 1:  According to the [FHIR specification](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code), it is the `code` field (and not the `name` field) which is supposed to be used for the name of the search parameter in search requests. Because earlier versions of the IBM FHIR Server used the `name` field for this purpose, we have decided not to change that at this time. However, users of the the server are strongly encouraged to include their desired name in both the `name` **and** `code` fields for improved backwards/forwards compatibility. Use of the `name` field, without a matching `code`, is considered deprecated and the FHIR server will likely change to exclusively use the `code` field in a [future release](https://github.com/ibm/fhir/issues/202).
 
 Note 2:  In previous versions of the FHIR server, the XPath expression could point to either the `extension` element or to the `value[x]` element within that extension (for example, `valueString`). However, for complex extensions and parameters of type `date`, the expression must always point to the specific element to be indexed. Therefor, matching to the specific element to be indexed is best and matching to the parent element instead is considered deprecated.
 
@@ -515,7 +515,7 @@ You can modify the default server implementation by taking advantage of the FHIR
  * Notification service: Logging and auditing options available with Websockets, Apache Kafka
  * Persistence interceptors: Customers can specify code to be called before or after persistence operations, to enforce custom governance rules when a resource operation occurs.
  * Resource validation: Supports validation of FHIR resources on creation or update with spec-defined ISO schematron rules out of box, but also supports user-defined schematrons. A 'validate' operation is also bundled into the FHIR REST API layer to verify resources before ingestion.
- * Custom operations framework: The IBM FHIR® Server implementation defines an extended operations framework that standardizes the inputs and outputs and the URI patterns for extensions to the standard REST API. By using the custom operations framework, developers can  extend the capabilities of the FHIR server by developing adapters, wrappers, or connectors to other services.
+ * Custom operations framework: The IBM FHIR Server implementation defines an extended operations framework that standardizes the inputs and outputs and the URI patterns for extensions to the standard REST API. By using the custom operations framework, developers can  extend the capabilities of the FHIR server by developing adapters, wrappers, or connectors to other services.
 
 ## 4.1 Virtual resource types
 
@@ -1743,7 +1743,7 @@ This is how the filtering algorithm works:
 3.	Using the search parameter names associated with the rule retrieved in Step 1, the FHIR server will apply the rule to each built-in search parameter defined for that resource type.If the search parameter's name is found within the inclusion rule's list of search parameter names or the inclusion rule's list of names includes the wildcard (`“*”`), then the search parameter will be included in the FHIR server's view of search parameters for that resource type.
 
 ## 4.10 Extended operations
-In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR® Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
+In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
 
 ### 4.10.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate` and `$document` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
@@ -2196,4 +2196,8 @@ For more information about topics related to configuring a FHIR server, see the 
 
 <b id="f12">12</b> For the JAX-RS 2.0 Client API, you would call the ClientBuilder.keystore() method. [↩](#a12)
 
+
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
+
 [a]:https://www.ibm.com/support/knowledgecenter/en/SSD28V_9.0.0/com.ibm.websphere.wlp.core.doc/ae/cwlp_pwd_encrypt.html
+

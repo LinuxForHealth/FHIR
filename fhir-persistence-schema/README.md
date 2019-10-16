@@ -1,4 +1,4 @@
-# IBM FHIR® Server - fhir-persistence-schema
+# IBM FHIR Server - fhir-persistence-schema
 
 Builds and manages the multi-tenant FHIR R4 RDBMS schema (DB2). Includes Derby support for use in unit-tests.
 
@@ -82,3 +82,5 @@ Edit `wlp/usr/servers/fhir-server/config/TNT1/fhir-server-config.json` and add t
 --schema-name FHIRDATA
 --update-proc
 ```
+
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

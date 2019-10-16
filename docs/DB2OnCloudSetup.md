@@ -185,5 +185,4 @@ The DB2 certificate should be added to the Liberty Profile truststore. *Be sure 
 
 All passwords including apiKey values should be encrypted using the Liberty Profile securityUtility.
 
-
-
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
