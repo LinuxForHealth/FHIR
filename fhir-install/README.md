@@ -1,6 +1,6 @@
 # IBM FHIR Server Install
 
-Running IBM FHIR Server as a Docker container.
+Running the IBM FHIR Server as a Docker container.
 
 ## Prerequisites
 
