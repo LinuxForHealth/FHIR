@@ -56,7 +56,7 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Practitioner and then call the 'create' API.
-        Practitioner practitioner = readResource(Practitioner.class, "Practitioner.json");
+        Practitioner practitioner = readLocalResource("Practitioner.json");
         Entity<Practitioner> entity = Entity.entity(practitioner, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Practitioner").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -79,7 +79,7 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
 
         // Build a new Patient and then call the 'create' API.
         String practitionerId = savedCreatedPractitioner.getId().getValue();
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
 
         patient = patient.toBuilder()
                 .generalPractitioner(Reference.builder().reference(string("Practitioner/" + practitionerId)).build())
@@ -107,7 +107,7 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
 
         // Next, create an Observation belonging to the new patient.
         String patientId = savedCreatedPatient.getId().getValue();
-        Observation observation = buildObservation(patientId, "Observation1.json");
+        Observation observation = buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -315,14 +315,14 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
     }
 
     private Condition buildCondition(String patientId, String fileName) throws Exception {
-        Condition condition = readResource(Condition.class, fileName);
+        Condition condition = readLocalResource(fileName);
         condition = condition.toBuilder().subject(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
 
         return condition;
     }
 
     private AllergyIntolerance buildAllergyIntolerance(String patientId, String fileName) throws Exception {
-        AllergyIntolerance allergyIntolerance = readResource(AllergyIntolerance.class, fileName);
+        AllergyIntolerance allergyIntolerance = readLocalResource(fileName);
 
         allergyIntolerance = allergyIntolerance
                 .toBuilder().patient(Reference.builder().reference(string("Patient/" + patientId)).build()).build();

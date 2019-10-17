@@ -32,11 +32,11 @@ import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.FHIRModelTestBase;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * This class is an implementation of the Patient track scenario defined as part of Connectathon 13, September 2016
@@ -275,7 +275,7 @@ public class PatientTrackTest extends FHIRModelTestBase {
     }
 
     private void displayResource(String msg, Resource resource) throws FHIRException {
-        String s = writeResource(resource, Format.JSON);
+        String s = writeResource(resource, Format.JSON, true);
         log(msg);
         log(s);
     }
@@ -300,7 +300,7 @@ public class PatientTrackTest extends FHIRModelTestBase {
     }
 
     private Patient createNewPatient() throws Exception {
-        Patient p = readResource(Patient.class, PATIENT_TESTDATA);
+        Patient p = readLocalResource(PATIENT_TESTDATA);
         return p;
     }
 
@@ -323,13 +323,13 @@ public class PatientTrackTest extends FHIRModelTestBase {
         // Next, change the favorite-nfl attribute to "Packers".
         for (Extension extension: patient.getExtension()) {
             if (extension.getUrl().equals(EXTURI_FAVORITE_NFL)) {
-                extension = extension.toBuilder().value(string("Packers")).build();                
+                extension = extension.toBuilder().value(string("Packers")).build();
             } 
             newExtensions.add(extension);
         }
         
         // Finally, add a new extension to indicate the patient's favorite NBA team.
-        newExtensions.add(Extension.builder().url(EXTURI_FAVORITE_NBA).value(string("Spurs")).build());        
+        newExtensions.add(Extension.builder().url(EXTURI_FAVORITE_NBA).value(string("Spurs")).build());
         patient = patient.toBuilder().name(newNames).extension(newExtensions).build();
 
         return patient;

@@ -38,7 +38,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
 
     @Test
     public void testCreatePatient() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
         patient = patient.toBuilder().id(Id.of(patientId)).build();
 
@@ -78,7 +78,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
 
     @Test
     public void testCreatePractitioner() throws Exception {
-        Practitioner practitioner = readResource(Practitioner.class, "Practitioner.json");
+        Practitioner practitioner = readLocalResource("Practitioner.json");
         assertNotNull(practitioner);
         practitioner = practitioner.toBuilder().id(Id.of(practitionerId)).build();
 
@@ -123,8 +123,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
 
     @Test
     public void testCreateMedicationAdministration() throws Exception {
-        MedicationAdministration medadmin = readResource(MedicationAdministration.class,
-                "MedicationAdministration.json");
+        MedicationAdministration medadmin = readLocalResource("MedicationAdministration.json");
         assertNotNull(medadmin);
         medadmin = medadmin.toBuilder().id(Id.of(medadminId)).build();
 
@@ -169,7 +168,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
 
     @Test
     public void testCreateObservation() throws Exception {
-        Observation observation = readResource(Observation.class, "Observation1.json");
+        Observation observation = readLocalResource("Observation1.json");
         assertNotNull(observation);
         observation = observation.toBuilder().id(Id.of(observationId)).build();
 

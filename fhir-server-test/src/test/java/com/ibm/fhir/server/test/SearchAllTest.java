@@ -47,7 +47,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
 
         Coding security = Coding.builder().system(uri("http://ibm.com/fhir/security")).code(code("security")).build();
         Coding tag = Coding.builder().system(uri("http://ibm.com/fhir/tag")).code(code("tag")).build();

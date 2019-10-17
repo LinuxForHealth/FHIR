@@ -75,10 +75,9 @@ public class SimpleRouterTest extends FHIRServerTestBase {
             return;
         }
 
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
-        Practitioner practitioner = readResource(Practitioner.class, "Practitioner.json");
-        MedicationAdministration medAdmin = readResource(MedicationAdministration.class,
-                "MedicationAdministration.json");
+        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
+        Practitioner practitioner = readLocalResource("Practitioner.json");
+        MedicationAdministration medAdmin = readLocalResource("MedicationAdministration.json");
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         bundle = addRequestToBundle(bundle, HTTPVerb.POST, "Patient", null, patient);
@@ -126,7 +125,7 @@ public class SimpleRouterTest extends FHIRServerTestBase {
 
     private void printBundle(String method, String bundleType, Bundle bundle) throws FHIRException {
         if (debug) {
-            System.out.println(method + " " + bundleType + " bundle contents:\n" + writeResource(bundle, Format.JSON));
+            System.out.println(method + " " + bundleType + " bundle contents:\n" + writeResource(bundle, Format.JSON, true));
         }
     }
 

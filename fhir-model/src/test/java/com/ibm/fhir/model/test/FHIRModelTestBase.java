@@ -4,13 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.test.common;
+package com.ibm.fhir.model.test;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.fail;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,9 +28,6 @@ import javax.json.JsonReaderFactory;
 
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONAssert;
-import org.xmlunit.builder.DiffBuilder;
-import org.xmlunit.builder.Input;
-import org.xmlunit.diff.Diff;
 
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.examples.ExamplesUtil;
@@ -40,7 +35,6 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
@@ -51,28 +45,27 @@ public class FHIRModelTestBase {
     public static boolean DEBUG_JSON = false;
     public static boolean DEBUG_XML = false;
     
-    protected FHIRParser jsonParser = FHIRParser.parser(Format.JSON);
-    protected FHIRParser xmlParser = FHIRParser.parser(Format.XML);
-
     /**
      * This is a list of pre-defined locations that we'll search in when looking for a mock data file.
      */
     protected static String[] searchPaths = { "./", "src/test/resources/", "src/test/resources/testdata/", "src/main/resources/" };
     
     /**
-     * This function reads the contents of a mock resource from the specified file, 
+     * This function finds the specified file on the searchPath, 
      * then de-serializes that into a Resource.
      * 
-     * TODO: remove this method in favor of the new readResource method
+     * @implNote By default, the search path includes the following relative paths:
+     * <li>./
+     * <li>src/main/resources/
+     * <li>src/test/resources/
+     * <li>src/test/resources/testdata/
      * 
-     * @param resourceClass
-     *            the class associated with the resource type (e.g. Patient.class)
      * @param fileName
-     *            the name of the file containing the mock resource (e.g. "testdata/Patient1.json")
+     *            the name of the file containing the local resource (e.g. "testdata/Patient1.json")
      * @return the de-serialized mock resource
      * @throws Exception
      */
-    public static <T extends Resource> T readResource(Class<T> resourceClass, String fileName) throws Exception {
+    protected <T extends Resource> T readLocalResource(String fileName) throws Exception {
 
         // We'll use the filename suffix to determine the format that we're reading.
         Format fmt = (fileName.endsWith(".json") ? Format.JSON : Format.XML);
@@ -85,27 +78,20 @@ public class FHIRModelTestBase {
     }
     
     /**
-     * This function reads the contents of an example resource from the specified file into a Resource.
+     * This function reads the contents of an example resource from the specified path in fhir-examples into a Resource.
      * 
      * @param fileName
-     *            the name of the file containing the mock resource (e.g. "json/ibm/minimal/Patient-1.json")
+     *            the name of the file containing the example resource (e.g. "json/ibm/minimal/Patient-1.json")
      * @return the de-serialized resource
      * @throws Exception
      */
-    protected <T extends Resource> T readResource(String fileName) throws Exception {
+    protected <T extends Resource> T readExampleResource(String fileName) throws Exception {
 
         // Use the filename suffix to determine the format that we're reading, defaulting to JSON
         Format fmt = (fileName.endsWith(".xml") ? Format.XML : Format.JSON);
+        
         try (Reader reader = ExamplesUtil.reader(fileName)) {
-            switch(fmt) {
-            case RDF:
-                throw new IllegalArgumentException("RDF format is not supported");
-            case XML:
-                return xmlParser.parse(reader);
-            case JSON:
-            default:
-                return jsonParser.parse(ExamplesUtil.reader(fileName));
-            }
+            return FHIRParser.parser(fmt).parse(reader);
         }
     }
     
@@ -146,9 +132,9 @@ public class FHIRModelTestBase {
      * Loads an Observation resource from the specified file, then associates it with
      * the specified patient via a subject attribute.
      */
-    protected Observation buildObservation(String patientId, String fileName) throws Exception {
+    protected Observation buildPatientObservation(String patientId, String fileName) throws Exception {
         // TODO review Reference id
-        Observation observation = readResource(Observation.class, fileName);
+        Observation observation = readLocalResource(fileName);
         
         observation = observation
             .toBuilder()
@@ -188,9 +174,9 @@ public class FHIRModelTestBase {
     
 
     /**
-     * Asserts that the "expected" and "actual" resource instances are equivalent.
+     * Asserts that the "actual" resource contains all the fields and values from the "expected" resource.
      * The comparison is performed in a "lenient" manner, meaning that we'll ensure that all the fields
-     * contained in the "expected" resource are also contained in the "actual" resource.
+     * contained in the "expected" resource are also contained in the "actual" resource, but not vice-versa.
      * 
      * @param expected the known-good resource to compare against
      * @param actual the resource to be validated.
@@ -200,9 +186,9 @@ public class FHIRModelTestBase {
     }
     
     /**
-     * Asserts that the "expected" and "actual" resource instances are equivalent.
+     * Asserts that the "actual" resource contains all the fields and values from the "expected" resource.
      * The comparison is performed in a "lenient" manner, meaning that we'll ensure that all the fields
-     * contained in the "expected" resource are also contained in the "actual" resource.
+     * contained in the "expected" resource are also contained in the "actual" resource, but not vice-versa.
      * 
      * @param msg a string to be included in any error messages
      * @param expected the known-good resource to compare against
@@ -211,13 +197,15 @@ public class FHIRModelTestBase {
     protected void assertResourceEquals(String msg, Resource expected, Resource actual) {
         String cleanMsg = (msg != null ? msg : "");
         if (!expected.getClass().equals(actual.getClass())) {
-            fail(cleanMsg + ": resource type mismatch, expected resource of type: " + expected.getClass() + ", but was of type: " + actual.getClass());
+            fail(cleanMsg + ": resource type mismatch, expected resource of type: " + expected.getClass() + 
+                    ", but was of type: " + actual.getClass());
         }
 
         // Serialize the 'expected' resource.
         String jsonExpected = null;
         try {
-            jsonExpected = FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(FHIRUtilities.stripNamespaceIfPresentInDiv(writeResource(expected, Format.JSON)));
+            jsonExpected = FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(
+                                   FHIRUtilities.stripNamespaceIfPresentInDiv(writeResource(expected, Format.JSON, true)));
         } catch (Throwable t) {
             fail(cleanMsg + ": error serializing expected resource: " + t);
         }
@@ -225,7 +213,8 @@ public class FHIRModelTestBase {
         // Serialize the 'actual' resource.
         String jsonActual = null;
         try {
-            jsonActual = FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(FHIRUtilities.stripNamespaceIfPresentInDiv(writeResource(actual, Format.JSON)));
+            jsonActual = FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(
+                                FHIRUtilities.stripNamespaceIfPresentInDiv(writeResource(actual, Format.JSON, true)));
         } catch (Throwable t) {
             fail(cleanMsg + ": error serializing actual resource: " + t);
         }
@@ -258,18 +247,9 @@ public class FHIRModelTestBase {
     /**
      * Serializes the specified resource according to 'fmt' (JSON/XML).
      */
-    public static <T extends Resource> String writeResource(T resource, Format fmt) throws FHIRException {
-        StringWriter sw = new StringWriter();
-        FHIRGenerator.generator( fmt, false).generate(resource, sw);
-        return sw.toString();
-    }
-
-    /**
-     * Serializes the specified resource according to 'fmt' (JSON/XML).
-     */
     public static <T extends Resource> String writeResource(T resource, Format fmt, boolean prettyPrint) throws FHIRException {
         StringWriter sw = new StringWriter();
-        FHIRGenerator.generator( fmt, prettyPrint).generate(resource, sw);
+        FHIRGenerator.generator(fmt, prettyPrint).generate(resource, sw);
         return sw.toString();
     }
     
@@ -281,114 +261,5 @@ public class FHIRModelTestBase {
             return jsonReader.readObject();
             
         }
-    }
-    
-    protected void printOutputToConsole(DomainResource res, Format f) {
-        try {
-            FHIRGenerator.generator( f, false).generate(res, System.out);
-            
-            System.out.println("");
-        } catch (FHIRException e) {
-        	// TODO logging?
-            e.printStackTrace();
-        }
-    }
-
-    protected String getDataAsString(DomainResource res, Format f) {
-        StringWriter writer = new StringWriter();
-        try {
-            FHIRGenerator.generator( f, false).generate(res, writer);
-        } catch (FHIRException e) {
-        	// TODO logging?
-            e.printStackTrace();
-        }
-        return writer.toString();
-    }
-
-    protected String stripNamespaceIfPresentInXML(String str) {
-        String removenameSpace = str.replace(" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\"", "");
-        return removenameSpace.replace("xhtml:", "");
-    }
-
-    protected void runJSONTestForResource(DomainResource res, String filePath) {
-        // DEBUG: Print output to console for manual testing/verification
-        if (DEBUG_JSON) {
-            printOutputToConsole(res, Format.JSON);
-        }
-
-        // Get the generated JSON for Patient resource
-        String jsonActualString = FHIRUtilities.stripNamespaceIfPresentInDiv(getDataAsString(res, Format.JSON));
-
-        // Read the expected JSON for Patient resource from control document
-        String jsonExpectedString = FHIRUtilities.stripNamespaceIfPresentInDiv(readFromFile(filePath));
-
-        // Check if the document matches with the control document and throw exceptions if they differ
-        try {
-            JSONAssert.assertEquals(FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(jsonExpectedString), FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(jsonActualString), true);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected void runXMLTestForResource(DomainResource res, String filePath) {
-        // DEBUG: Print output to console for manual testing/verification
-        if (DEBUG_XML) {
-            printOutputToConsole(res, Format.XML);
-        }
-
-        // Get the generated XML for Patient resource
-        String xmlActualString = FHIRUtilities.stripNamespaceIfPresentInDiv(stripNamespaceIfPresentInXML(getDataAsString(res, Format.XML)));
-
-        // Read the expected XML for Patient resource from control document
-        String xmlExpectedString = FHIRUtilities.stripNamespaceIfPresentInDiv(stripNamespaceIfPresentInXML(readFromFile(filePath)));
-
-        // Check if the document matches with the control document and throw exceptions if they differ
-        try {
-            String controlXml = FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(xmlExpectedString);
-            String testXml = FHIRUtilities.stripNewLineWhitespaceIfPresentInDiv(xmlActualString);
-            
-            // Attribute order is always ignored.
-            Diff diff = DiffBuilder.compare(Input.fromString(controlXml).build())
-                .withTest(Input.fromString(testXml).build())
-                .normalizeWhitespace()
-                .ignoreWhitespace()
-                .ignoreComments()
-                .build();
-            
-            assertFalse("pieces of XML are not similar ", diff.hasDifferences());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * Read data for a resource from a control document (JSON/XML file)
-     */
-    public static String readFromFile(String filePath) {
-        StringBuffer buffer = new StringBuffer();
-        try (InputStreamReader isr = new InputStreamReader(FHIRUtilities.class.getClassLoader().getResourceAsStream(filePath));
-                BufferedReader in = new BufferedReader(isr)) {
-
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                buffer.append(line);
-                buffer.append(NL);
-            }
-            return buffer.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Convenience function to create a fhir-model String from a {@link java.lang.String}
-     * @param str
-     * @return
-     */
-    public static com.ibm.fhir.model.type.String str2model(String str) {
-        return com.ibm.fhir.model.type.String.of(str);
     }
 }

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.examples;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,7 +35,7 @@ public class ExamplesUtil {
         }
 
         if (is == null) {
-            throw new IllegalStateException("resource not found: " + resource);
+            throw new FileNotFoundException("resource not found: " + resource);
         }
 
         return new InputStreamReader(is, StandardCharsets.UTF_8);

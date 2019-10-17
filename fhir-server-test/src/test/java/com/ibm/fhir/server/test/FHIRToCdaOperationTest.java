@@ -182,12 +182,12 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
         Bundle document = createCCD(datetime, title, CompositionStatus.FINAL);
 
         // Create a practitioner and add it to the document.
-        Practitioner practitioner = readResource(Practitioner.class, "Practitioner.json");
+        Practitioner practitioner = readLocalResource("Practitioner.json");
         Uri practitionerUri = createUUID();
         document = addAuthor(document, practitioner, practitionerUri);
 
         // Create and add a patient with that practitioner as a care provider.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
         patient = patient.toBuilder()
                 .generalPractitioner(Reference.builder().reference(string(practitionerUri.getValue())).build()).build();
         Uri patientUri = createUUID();
@@ -342,21 +342,26 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
     }
 
     protected Observation buildObservation(Uri patientUri, String fileName) throws Exception {
-        Observation observation = readResource(Observation.class, fileName);
+        Observation observation = readLocalResource(fileName);
         observation = observation.toBuilder()
-                .subject(Reference.builder().reference(string(patientUri.getValue())).build()).build();
+                                 .subject(Reference.builder().reference(string(patientUri.getValue())).build())
+                                 .build();
         return observation;
     }
 
     private Condition buildCondition(Uri patientUri, String fileName) throws Exception {
-        Condition condition = readResource(Condition.class, fileName);
-        condition = condition.toBuilder().subject(Reference.builder().reference(string(patientUri.getValue())).build()).build();
+        Condition condition = readLocalResource(fileName);
+        condition = condition.toBuilder()
+                             .subject(Reference.builder().reference(string(patientUri.getValue())).build())
+                             .build();
         return condition;
     }
 
     private AllergyIntolerance buildAllergyIntolerance(Uri patientUri, String fileName) throws Exception {
-        AllergyIntolerance allergyIntolerance = readResource(AllergyIntolerance.class, fileName);
-        allergyIntolerance.toBuilder().patient(Reference.builder().reference(string(patientUri.getValue())).build()).build();
+        AllergyIntolerance allergyIntolerance = readLocalResource(fileName);
+        allergyIntolerance = allergyIntolerance.toBuilder()
+                                    .patient(Reference.builder().reference(string(patientUri.getValue())).build())
+                                    .build();
         return allergyIntolerance;
     }
 

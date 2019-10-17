@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2017,2018,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,14 +11,14 @@ import java.util.Properties;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractQueryImmunizationRecommendationTest;
+import com.ibm.fhir.persistence.test.common.AbstractWholeSystemSearchTest;
 
 
-public class JDBCNormQueryImmunizationRecommendationTest extends AbstractQueryImmunizationRecommendationTest {
+public class JDBCNormWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
     
     private Properties testProps;
     
-    public JDBCNormQueryImmunizationRecommendationTest() throws Exception {
+    public JDBCNormWholeSystemSearchTest() throws Exception {
         this.testProps = readTestProperties("test.normalized.properties");
     }
 
