@@ -112,24 +112,21 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        return runQueryTest(null, resourceType, queryParms, maxPageSize);
+        return runQueryTest(resourceType, queryParms, maxPageSize);
     }
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms) throws Exception {
-        return runQueryTest(null, resourceType, queryParms);
-    }
-
-    protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms) throws Exception {
-        return runQueryTest(queryString, resourceType, queryParms, null);
+        return runQueryTest(resourceType, queryParms, null);
     }
     
-    protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, queryString);
+    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
         // ensure that all the query parameters were processed into search parameters (needed because the server ignores invalid params by default)
         int expectedCount = 0;
         for (String key : queryParms.keySet()) {
+
+            expectedCount++;
             if (!SearchUtil.isSearchResultParameter(key)) {
-                expectedCount++;
                 String paramName = key;
                 if (SearchUtil.isChainedParameter(key)) {
                     // ignore the chained part and just very the reference param is there
@@ -137,6 +134,7 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
                 }
                 // strip any modifiers
                 final String finalParamName = paramName.split(":")[0];
+
                 assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getName().equals(finalParamName)), 
                     "Search parameter '" + key + "' was not successfully parsed into a search parameter");
             }

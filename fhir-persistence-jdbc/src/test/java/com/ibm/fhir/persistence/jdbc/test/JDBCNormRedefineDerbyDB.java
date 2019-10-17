@@ -26,7 +26,7 @@ public class JDBCNormRedefineDerbyDB extends FHIRModelTestBase {
         this.testProps = readTestProperties("test.normalized.properties");
     }
 
-    @Test(groups = { "jdbc-normalized" })
+    @Test
     public void bootstrapDatabase() throws Exception {
         System.out.println("bootstrapping database for jdbc-normalized test group");
         

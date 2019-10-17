@@ -104,49 +104,49 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
     public void testNumberSort() throws Exception {
         List<Resource> results;
         
-        results = runQueryTest(Basic.class, "_sort", "integer");
+        results = runQueryTest(Basic.class, "_sort", "integer", 100);
         assertAscendingOrder(results);
     }
     @Test
     public void testDateSort() throws Exception {
         List<Resource> results;
         
-        results = runQueryTest(Basic.class, "_sort", "date");
+        results = runQueryTest(Basic.class, "_sort", "date", 100);
         assertAscendingOrder(results);
     }
     @Test
     public void testReferenceSort() throws Exception {
         List<Resource> results;
         
-        results = runQueryTest(Basic.class, "_sort", "Reference");
+        results = runQueryTest(Basic.class, "_sort", "Reference", 100);
         assertAscendingOrder(results);
     }
     @Test
     public void testQuantitySort() throws Exception {
         List<Resource> results;
         
-        results = runQueryTest(Basic.class, "_sort", "Quantity");
+        results = runQueryTest(Basic.class, "_sort", "Quantity", 100);
         assertAscendingOrder(results);
     }
     @Test
     public void testUriSort() throws Exception {
         List<Resource> results;
         
-        results = runQueryTest(Basic.class, "_sort", "uri");
+        results = runQueryTest(Basic.class, "_sort", "uri", 100);
         assertAscendingOrder(results);
     }
     @Test
     public void testStringSort() throws Exception {
         List<Resource> results;
         
-        results = runQueryTest(Basic.class, "_sort", "string");
+        results = runQueryTest(Basic.class, "_sort", "string", 100);
         assertAscendingOrder(results);
     }
     @Test
     public void testTokenSort() throws Exception {
         List<Resource> results;
         
-        results = runQueryTest(Basic.class, "_sort", "code");
+        results = runQueryTest(Basic.class, "_sort", "code", 100);
         assertAscendingOrder(results);
     }
     
@@ -154,31 +154,31 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
     public void testMultiSort() throws Exception {
         List<Resource> results;
         
-        results = runQueryTest(Basic.class, "_sort", "integer,_tag");
+        results = runQueryTest(Basic.class, "_sort", "integer,_tag", 100);
         assertAscendingOrder(results);
         assertSecondarySort(results);
         
-        results = runQueryTest(Basic.class, "_sort", "date,_tag");
+        results = runQueryTest(Basic.class, "_sort", "date,_tag", 100);
         assertAscendingOrder(results);
         assertSecondarySort(results);
         
-        results = runQueryTest(Basic.class, "_sort", "Reference,_tag");
+        results = runQueryTest(Basic.class, "_sort", "Reference,_tag", 100);
         assertAscendingOrder(results);
         assertSecondarySort(results);
         
-        results = runQueryTest(Basic.class, "_sort", "Quantity,_tag");
+        results = runQueryTest(Basic.class, "_sort", "Quantity,_tag", 100);
         assertAscendingOrder(results);
         assertSecondarySort(results);
         
-        results = runQueryTest(Basic.class, "_sort", "uri,_tag");
+        results = runQueryTest(Basic.class, "_sort", "uri,_tag", 100);
         assertAscendingOrder(results);
         assertSecondarySort(results);
         
-        results = runQueryTest(Basic.class, "_sort", "string,_tag");
+        results = runQueryTest(Basic.class, "_sort", "string,_tag", 100);
         assertAscendingOrder(results);
         assertSecondarySort(results);
         
-        results = runQueryTest(Basic.class, "_sort", "code,_tag");
+        results = runQueryTest(Basic.class, "_sort", "code,_tag", 100);
         assertAscendingOrder(results);
         assertSecondarySort(results);
     }
@@ -215,13 +215,11 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String queryString;
         
-        queryString = "&_lastUpdated=ge2018-03-27&_sort=bogus";
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
         
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, true);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
@@ -237,13 +235,11 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
     public void testResourceInvalidSortParm1_strict() throws Exception {
         Class<Resource> resourceType = Resource.class;
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String queryString;
                     
-        queryString = "&_lastUpdated=ge2018-03-27&_sort=bogus";
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
                 
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
     }
     /**
      * Tests a system-level search with a sort parameter that is defined for the FHIR Resource type, 
@@ -256,13 +252,11 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String queryString;
                     
-        queryString = "&_lastUpdated=ge2018-03-27&_sort=_profile";
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort", Arrays.asList(new String[] {"_profile"}));
                 
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
         persistence.search(persistenceContext, resourceType);
@@ -278,13 +272,11 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String queryString;
                     
-        queryString = "&_lastUpdated=ge2018-03-27&_sort:asc=_id";
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort:asc", Arrays.asList(new String[] {"_id"}));
                 
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
         List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();

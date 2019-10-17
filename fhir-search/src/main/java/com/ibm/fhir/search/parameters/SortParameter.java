@@ -21,7 +21,7 @@ import com.ibm.fhir.search.SearchConstants.Type;
  * @author pbastide
  *
  */
-public class SortParameter implements Comparable<SortParameter> {
+public class SortParameter {
     
     private static final char EQUAL = '=';
 
@@ -29,15 +29,11 @@ public class SortParameter implements Comparable<SortParameter> {
     private Type type;
     private SortDirection direction;
     
-    // The is the location of the sort parameter within the query string that was input to the REST search API.
-    private int queryStringIndex;
-
-    public SortParameter(String parmName, Type parmType, SortDirection sortDirection, int queryStringIndex) {
+    public SortParameter(String parmName, Type parmType, SortDirection sortDirection) {
         super();
         this.name = parmName;
         this.type = parmType;
         this.direction = sortDirection;
-        this.queryStringIndex = queryStringIndex;
     }
 
     public String getName() {
@@ -52,10 +48,6 @@ public class SortParameter implements Comparable<SortParameter> {
         return direction;
     }
 
-    public int getQueryStringIndex() {
-        return queryStringIndex;
-    }
-
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
@@ -67,9 +59,4 @@ public class SortParameter implements Comparable<SortParameter> {
         return buffer.toString();
     }
 
-    @Override
-    public int compareTo(SortParameter anotherSortParm) {
-        return Integer.compare(this.getQueryStringIndex(), anotherSortParm.getQueryStringIndex());
-
-    }
 }

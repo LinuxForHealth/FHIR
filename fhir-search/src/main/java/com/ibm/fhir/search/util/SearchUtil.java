@@ -80,12 +80,10 @@ public class SearchUtil {
     private static final String UNSUPPORTED_EXCEPTION = "Search Parameter includes an unsupported operation or bad expression : [%s] [%s] [%s]";
 
     // Exception Strings
-    private static final String INVALID_SORT_SEARCH_EXCEPTION = "Sort parameters cannot be processed with null queryString.";
     private static final String UNSUPPORTED_SEARCH_PARAMETERS_EXCEPTION = " %s is not supported as a sort parameter on a system-level search.";
     private static final String MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION = "Modifier: '%s' not allowed on chained parameter";
     private static final String TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION = "Type: '%s' not allowed on chained parameter";
     private static final String SEARCH_PARAMETER_MODIFIER_NAME = "Search parameter: '%s' must have resource type name modifier";
-    private static final String INCLUSION_PARAMETERS_NULL_STRING_EXCEPTION = "Inclusion parameters cannot be processed with null queryString.";
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
     private static final String UNSUPPOTED_EXPR_NULL = "An empty expression is found or the parameter type is unsupported [%s][%s]";;
     
@@ -520,19 +518,27 @@ public class SearchUtil {
         return result;
     }
 
-    public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters, String queryString)
+    public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters)
         throws Exception {
-        return parseQueryParameters(resourceType, queryParameters, queryString, true);
+        return parseQueryParameters(resourceType, queryParameters, true);
     }
 
-    public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters, String queryString, boolean lenient)
+    public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient)
         throws Exception {
+        
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         List<Parameter> parameters = new ArrayList<>();
 
         // Retrieve the SearchParameters that will apply to this resource type (including those for Resource.class).
         Map<String, SearchParameter> applicableSPs = getApplicableSearchParametersMap(resourceType.getSimpleName());
 
+        // Make sure _sort is not present with _include and/or _revinclude.
+        // TODO: do we really need to forbid this?
+        if (queryParameters.containsKey(SearchConstants.SORT) && 
+                (queryParameters.containsKey(SearchConstants.INCLUDE) || queryParameters.containsKey(SearchConstants.REVINCLUDE))) {
+            throw SearchExceptionUtil.buildNewInvalidSearchException("_sort search result parameter not supported with _include or _revinclude.");
+        }
+        
         /*
          * keySet is used here as the parameter name is the only part that is used to process iteratively in the inner
          * loops.
@@ -548,8 +554,9 @@ public class SearchUtil {
                 }
 
                 if (isSearchResultParameter(name)) {
-                    parseSearchResultParameter(resourceType, context, name, params, queryString, lenient);
+                    parseSearchResultParameter(resourceType, context, name, params, lenient);
                     // _include and _revinclude parameters cannot be mixed with _summary=text 
+                    // TODO: this will fire on each search result parameter; maybe move this above to where we handle _sort + _include/_revinclude?
                     if (context.getSummaryParameter() != null 
                             && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
                         context.getIncludeParameters().clear();
@@ -628,8 +635,6 @@ public class SearchUtil {
         }
 
         context.setSearchParameters(parameters);
-        Collections.sort(context.getSortParameters());
-
         return context;
     }
 
@@ -650,6 +655,7 @@ public class SearchUtil {
                     parameterValue.setPrefix(prefix);
                 }
 
+                // DONT USE DateTime here
                 DateTime.Builder builder = DateTime.builder();
                 builder.value(v);
 
@@ -826,7 +832,7 @@ public class SearchUtil {
             parameters.add(rootParameter);
         }
 
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, queryString, lenient);
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
         context.getSearchParameters().addAll(parameters);
 
         return context;
@@ -850,8 +856,7 @@ public class SearchUtil {
         return SearchConstants.SEARCH_RESULT_PARAMETER_NAMES.contains(name);
     }
 
-    private static void parseSearchResultParameter(Class<?> resourceType, FHIRSearchContext context, String name, List<String> values, String queryString,
-        boolean lenient) throws FHIRSearchException {
+    private static void parseSearchResultParameter(Class<?> resourceType, FHIRSearchContext context, String name, List<String> values, boolean lenient) throws FHIRSearchException {
         try {
             String first = values.get(0);
             if (SearchConstants.COUNT.equals(name)) {
@@ -866,9 +871,9 @@ public class SearchUtil {
                 int pageNumber = Integer.parseInt(first);
                 context.setPageNumber(pageNumber);
             } else if (name.startsWith(SearchConstants.SORT)) {
-                parseSortParameter(resourceType, context, name, values, queryString, lenient);
+                parseSortParameter(resourceType, context, name, values, lenient);
             } else if (name.startsWith(SearchConstants.INCLUDE) || name.startsWith(SearchConstants.REVINCLUDE)) {
-                parseInclusionParameter(resourceType, context, name, values, queryString, lenient);
+                parseInclusionParameter(resourceType, context, name, values, lenient);
             } else if (SearchConstants.ELEMENTS.equals(name)) {
                 parseElementsParameter(resourceType, context, values, lenient);
             } else if (SearchConstants.SUMMARY.equals(name) 
@@ -886,7 +891,7 @@ public class SearchUtil {
         }
     }
 
-    private static void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortKeyword, List<String> sortParmNames, String queryString,
+    private static void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortKeyword, List<String> sortParmNames,
         boolean lenient) throws Exception {
 
         SearchConstants.SortDirection sortDirection;
@@ -895,12 +900,7 @@ public class SearchUtil {
         SearchParameter sortParmProxy;
         SortParameter sortParm;
         int qualifierDelimiterPosition;
-        int queryStringIndex;
-        String sortSubstring;
 
-        if (queryString == null) {
-            throw SearchExceptionUtil.buildNewInvalidSearchException(INVALID_SORT_SEARCH_EXCEPTION);
-        }
         // Extract the sort direction, i.e. 'asc' or 'desc'
         qualifierDelimiterPosition = sortKeyword.indexOf(SearchConstants.COLON_DELIMITER);
         if (qualifierDelimiterPosition > -1) {
@@ -911,14 +911,6 @@ public class SearchUtil {
         }
 
         for (String sortParmName : sortParmNames) {
-            // Determine the position of the sort parameter in the query string.
-            // This allows the sort parameter itself to be sorted later.
-            sortSubstring = sortKeyword + SearchConstants.EQUALS_CHAR + sortParmName;
-            queryStringIndex = queryString.indexOf(sortSubstring);
-            if (queryStringIndex < 0) {
-                String msg = "Sort parameter not found in query string: " + sortSubstring;
-                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-            }
             // Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
             // type of search parameter.
             sortParmProxy = getSearchParameter(resourceType, sortParmName);
@@ -932,7 +924,7 @@ public class SearchUtil {
                 }
             }
             sortParmType = SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
-            sortParm = new SortParameter(sortParmName, sortParmType, sortDirection, queryStringIndex);
+            sortParm = new SortParameter(sortParmName, sortParmType, sortDirection);
             if (resourceType.equals(Resource.class) && !SearchConstants.SYSTEM_LEVEL_SORT_PARAMETER_NAMES.contains(sortParm.getName())) {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(UNSUPPORTED_SEARCH_PARAMETERS_EXCEPTION, sortParm.getName()));
             }
@@ -1092,7 +1084,7 @@ public class SearchUtil {
      * @throws Exception
      */
     private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context, String inclusionKeyword, List<String> inclusionValues,
-        String queryString, boolean lenient) throws Exception {
+        boolean lenient) throws Exception {
 
         String[] inclusionValueParts;
         String joinResourceType;
@@ -1102,15 +1094,6 @@ public class SearchUtil {
         SearchParameter searchParm;
         InclusionParameter newInclusionParm;
         List<InclusionParameter> newInclusionParms;
-
-        if (queryString == null) {
-            throw SearchExceptionUtil.buildNewInvalidSearchException(INCLUSION_PARAMETERS_NULL_STRING_EXCEPTION);
-        }
-
-        // Make sure _sort is not present with _include and/or _revinclude.
-        if (queryString.contains(SearchConstants.SORT)) {
-            throw SearchExceptionUtil.buildNewInvalidSearchException("_sort search result parameter not supported with _include or _revinclude.");
-        }
 
         for (String inclusionValue : inclusionValues) {
 

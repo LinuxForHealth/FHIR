@@ -7,16 +7,24 @@
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCParameterBuilderTimeTest" />
         </classes>
     </test>
-    <test name="JDBCNormalizedTests">
+    <test name="JDBCSpecTest">
         <groups>
             <run>
-                <include name="jdbc-normalized"></include>
                 <include name="jdbc-seed"></include>
             </run>
         </groups>
         <classes>
             <class name="com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest" />
+        </classes>
+    </test>
+    <test name="JDBCTests">
+        <classes>
+            <class name="com.ibm.fhir.persistence.jdbc.test.FHIRDBDAOTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormCompartmentTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormMultiResourceTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormSortTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormWholeSystemSearchTest" />
         </classes>
     </test>
     <test name="JDBCSearchTests">
@@ -31,31 +39,3 @@
         </classes>
     </test>
 </suite>
-
-<!--
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryAuditEventTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormRedefineDerbyDB" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryChainedParmTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryContractTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryDeviceTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryEncounterTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryGroupTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryImmunizationRecommendationTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryImmunizationTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryLocationTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryMedicationAdministrationTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryMedicationOrderTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryMedicationTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryMultiResourceTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryObservationTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryPatientTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryPractitionerTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryQuestionnaireRespTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryQuestionnaireTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryRelatedPersonTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryRiskAssmtTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQuerySortTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormQueryIncludeTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormSearchAllTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
-            -->

@@ -14,11 +14,11 @@ import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractQueryMultiResourceTest;
 
 
-public class JDBCNormQueryMultiResourceTest extends AbstractQueryMultiResourceTest {
+public class JDBCNormMultiResourceTest extends AbstractQueryMultiResourceTest {
     
     private Properties testProps;
     
-    public JDBCNormQueryMultiResourceTest() throws Exception {
+    public JDBCNormMultiResourceTest() throws Exception {
         this.testProps = readTestProperties("test.normalized.properties");
     }
 

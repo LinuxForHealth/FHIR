@@ -36,10 +36,9 @@ public class SummaryParameterParseTest extends BaseSearchTest {
     public void testSummary() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_summary=true";
 
         queryParameters.put("_summary", Arrays.asList("true"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getSummaryParameter());
         assertEquals(context.getSummaryParameter(), SummaryValueSet.TRUE);
@@ -50,10 +49,9 @@ public class SummaryParameterParseTest extends BaseSearchTest {
     public void testSummaryMultiple() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_summary=data,true";
 
         queryParameters.put("_summary", Arrays.asList("data","true"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getSummaryParameter());
         assertEquals(context.getSummaryParameter(), SummaryValueSet.DATA);
@@ -63,10 +61,9 @@ public class SummaryParameterParseTest extends BaseSearchTest {
     public void testSummaryInvalid() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_summary=invalid";
 
         queryParameters.put("_summary", Arrays.asList("invalid"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNull(context.getSummaryParameter());
     }
@@ -76,12 +73,11 @@ public class SummaryParameterParseTest extends BaseSearchTest {
     public void testSummaryInvalid_strict() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_summary=invalid";
         boolean isSummaryValueCorrect = true;
 
         queryParameters.put("_summary", Arrays.asList("invalid"));
         try {
-            SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, false);
+            SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
         } catch(Exception ex) {
             isSummaryValueCorrect = false;
         }
