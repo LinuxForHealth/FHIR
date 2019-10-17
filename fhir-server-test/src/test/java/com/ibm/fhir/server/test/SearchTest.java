@@ -35,6 +35,7 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Person;
 import com.ibm.fhir.model.resource.Person.Link;
 import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Id;
@@ -69,7 +70,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity =
@@ -86,7 +87,7 @@ public class SearchTest extends FHIRServerTestBase {
                 + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test(groups = { "server-search" })
@@ -113,7 +114,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertEquals(responseBundle.getEntry().size(), 1);
         Person responsePerson =
                 (Person) responseBundle.getEntry().get(0).getResource();
-        assertResourceEquals(person, responsePerson);
+        TestUtil.assertResourceEquals(person, responsePerson);
     }
 
     @Test(groups = { "server-search" })
@@ -140,7 +141,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertEquals(responseBundle.getEntry().size(), 1);
         Person responsePerson =
                 (Person) responseBundle.getEntry().get(0).getResource();
-        assertResourceEquals(person, responsePerson);
+        TestUtil.assertResourceEquals(person, responsePerson);
     }
 
     // Uncomment in order to test the limits when using the 'normalized' model with
@@ -370,7 +371,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Observation observation =
-                buildPatientObservation(patientId, "Observation5.json");
+                TestUtil.buildPatientObservation(patientId, "Observation5.json");
         Entity<Observation> entity =
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -389,7 +390,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         // use it for serach
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {
@@ -496,7 +497,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Observation observation =
-                buildPatientObservation(patientId, "Observation1.json");
+                TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> entity =
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -519,7 +520,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         // use it for serach
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {
@@ -898,7 +899,7 @@ public class SearchTest extends FHIRServerTestBase {
     @Test(groups = { "server-search" })
     public void testCreatePractitioner() throws Exception {
         // Build a new Practitioner and then call the 'create' API.
-        Practitioner practitioner = readLocalResource("Practitioner.json");
+        Practitioner practitioner = TestUtil.readLocalResource("Practitioner.json");
         assertNotNull(practitioner);
         WebTarget target = getWebTarget();
 

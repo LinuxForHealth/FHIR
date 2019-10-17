@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
@@ -33,7 +34,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPersistenceT
 
     @BeforeClass
     public void createResources() throws Exception {
-        Basic basic = readExampleResource("json/ibm/minimal/Basic-1.json");
+        Basic basic = TestUtil.readExampleResource("json/ibm/minimal/Basic-1.json");
         
         Coding tag = Coding.builder()
                 .system(Uri.of("http://ibm.com/fhir/tag"))

@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
+import com.ibm.fhir.model.test.TestUtil;
 
 /**
  * @author lmsurpre
@@ -18,7 +19,7 @@ import com.ibm.fhir.model.resource.Basic;
 public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
 
     protected Basic getBasicResource() throws Exception {
-        return readExampleResource("json/ibm/basic/BasicDate.json");
+        return TestUtil.readExampleResource("json/ibm/basic/BasicDate.json");
     }
 
     protected void setTenant() throws Exception {

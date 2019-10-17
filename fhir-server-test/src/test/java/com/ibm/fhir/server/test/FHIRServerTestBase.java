@@ -49,7 +49,6 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.test.FHIRModelTestBase;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -62,7 +61,7 @@ import com.ibm.fhir.validation.FHIRValidator;
 /**
  * Base class for fhir-server unit tests.
  */
-public abstract class FHIRServerTestBase extends FHIRModelTestBase {
+public abstract class FHIRServerTestBase {
 
     protected FHIRClient client = null;
 

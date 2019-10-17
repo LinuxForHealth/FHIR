@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.test;
 
 import java.util.Properties;
 
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
@@ -19,7 +20,7 @@ public class JDBCNormMultiResourceTest extends AbstractQueryMultiResourceTest {
     private Properties testProps;
     
     public JDBCNormMultiResourceTest() throws Exception {
-        this.testProps = readTestProperties("test.normalized.properties");
+        this.testProps = TestUtil.readTestProperties("test.normalized.properties");
     }
 
     @Override

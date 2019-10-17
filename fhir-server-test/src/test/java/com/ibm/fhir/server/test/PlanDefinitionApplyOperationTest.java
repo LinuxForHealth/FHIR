@@ -31,6 +31,7 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.PlanDefinition;
 import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -74,7 +75,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readLocalResource(PATIENT_JSON);
+        Patient patient = TestUtil.readLocalResource(PATIENT_JSON);
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -84,7 +85,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         System.out.println("Patient ID => [" + patientId + "]");
 
         // Subject - Practitioner
-        Practitioner doctor = readLocalResource("DrStrangelove.json");
+        Practitioner doctor = TestUtil.readLocalResource("DrStrangelove.json");
         Entity<Practitioner> entity1 = Entity.entity(doctor, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Practitioner").request().post(entity1, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -94,7 +95,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         System.out.println("Practitioner ID => [" + practitionerId + "]");
 
         // ActivityDefinition 1
-        ActivityDefinition ad = readLocalResource("ActivityDefinition-1.json");
+        ActivityDefinition ad = TestUtil.readLocalResource("ActivityDefinition-1.json");
         Entity<ActivityDefinition> entity2 = Entity.entity(ad, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("ActivityDefinition").request().post(entity2, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -104,7 +105,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         System.out.println("ActivityDefinition ID => [" + adId + "]");
 
         // ActivityDefinition 2
-        ActivityDefinition ad2 = readLocalResource("ActivityDefinition-2.json");
+        ActivityDefinition ad2 = TestUtil.readLocalResource("ActivityDefinition-2.json");
         Entity<ActivityDefinition> entity3 =
                 Entity.entity(ad2, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("ActivityDefinition").request().post(entity3, Response.class);
@@ -124,7 +125,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         /*
          * Create PlanDefinitions
          */
-        PlanDefinition planDefinition = readLocalResource("PlanDefinition-1.json");
+        PlanDefinition planDefinition = TestUtil.readLocalResource("PlanDefinition-1.json");
         Entity<PlanDefinition> entityPd =
                 Entity.entity(planDefinition, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("PlanDefinition").request().post(entityPd, Response.class);

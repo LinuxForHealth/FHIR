@@ -23,7 +23,6 @@ import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.test.FHIRModelTestBase;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -46,7 +45,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  *   <li>persistence layer projects must be peer to this project for the tests to properly read their config info
  * </ul>
  */
-public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
+public abstract class AbstractPersistenceTest {
 
     // The persistence layer instance to be used by the tests.
     protected static FHIRPersistence persistence = null;

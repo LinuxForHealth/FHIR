@@ -22,6 +22,7 @@ import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -44,7 +45,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
     public void testCreatePatientWithExtensions() throws Exception {
         WebTarget target = getWebTarget();
 
-        Patient patient = readLocalResource("Patient_SearchExtensions.json");
+        Patient patient = TestUtil.readLocalResource("Patient_SearchExtensions.json");
         patient = patient.toBuilder().extension(Extension.builder().url(EXTENSION_BASE_URL
                 + "favorite-color").value(string("blue")).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
                         + "favorite-number").value(Integer.of(5)).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
@@ -67,7 +68,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatientWithExtensions = responsePatient;
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })

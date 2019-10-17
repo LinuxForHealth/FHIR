@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Device.UdiCarrier;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -40,7 +41,7 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     
     @BeforeClass
     public void createResources() throws Exception {
-        Device device = readExampleResource("json/ibm/minimal/Device-1.json");
+        Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
         
         Device device1 = persistence.create(getDefaultPersistenceContext(), device).getResource();
         assertNotNull(device1.getId());
