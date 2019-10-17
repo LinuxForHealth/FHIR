@@ -2,9 +2,9 @@
 <suite name="JDBCUnitTestsSuite">
     <test name="ParameterTests">
         <classes>
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.CacheUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.QueryBuilderUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.ParameterExtractionTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCParameterBuilderTimeTest" />
         </classes>
     </test>
     <test name="JDBCSpecTest">
@@ -19,7 +19,7 @@
     </test>
     <test name="JDBCTests">
         <classes>
-            <class name="com.ibm.fhir.persistence.jdbc.test.FHIRDBDAOTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.FHIRDbDAOTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormCompartmentTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormMultiResourceTest" />

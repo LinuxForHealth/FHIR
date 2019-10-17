@@ -43,7 +43,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * @author markd
  *
  */
-public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> implements ParameterNormalizedDAO {
+public class ParameterDAONormalizedImpl extends FHIRDbDAOImpl implements ParameterNormalizedDAO {
     private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
     private static final String CLASSNAME = ParameterDAONormalizedImpl.class.getName(); 
     
@@ -725,9 +725,6 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         return sqlParmArray;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO#readParameterNameId(java.lang.String)
-     */
     @Override
     public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
         final String METHODNAME = "readParameterNameId";

@@ -25,7 +25,7 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
@@ -536,7 +536,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             } else {
                 // This logic processes the LAST parameter in the chain.
                 // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
-                Class<?> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
+                Class<?> chainedResourceType = ModelSupport.getResourceType(resourceTypeName);
                 SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
                 whereClauseSegment.append(sqlQueryData.getQueryString());
                 bindVariables.addAll(sqlQueryData.getBindVariables());
@@ -649,7 +649,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
             // This logic processes the LAST parameter in the chain.
             // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
-            Class<?> chainedResourceType = FHIRUtil.getResourceType(resourceTypeName);
+            Class<?> chainedResourceType = ModelSupport.getResourceType(resourceTypeName);
             SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, lastParm, chainedParmVar);
             whereClauseSegment.append(sqlQueryData.getQueryString());
             bindVariables.addAll(sqlQueryData.getBindVariables());
@@ -776,7 +776,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
         for (ParameterValue value : queryParm.getValues()) {
-            operator = this.getPrefixOperator(value);
+            operator = getPrefixOperator(value);
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
                 whereClauseSegment.append(JDBCOperator.OR.value()).append(LEFT_PAREN);
@@ -785,7 +785,6 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             // TODO: clean up handling of date parameters in the query predicates
             java.time.Instant inst = QueryBuilderUtil.getInstant(value.getValueDate());
             date = Date.from(inst);
-            operator = getPrefixOperator(value);
             // If the dateTime value is fully specified, go ahead and build a where clause segment for it.
             if (!value.getValueDate().isPartial()) {
                 start = date;
@@ -1292,16 +1291,6 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
      */
     private String nullCheck(Integer n) {
         return n == null ? "-1" : n.toString();
-    }
-
-    /**
-     * Use -1 in place of a null literal, otherwise return the literal value
-     * 
-     * @param n
-     * @return
-     */
-    private String nullCheck(Long l) {
-        return l == null ? "-1" : l.toString();
     }
 
     /**
