@@ -18,16 +18,16 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.test.FHIRModelTestBase;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 
 /**
  * Tests associated with the FHIRPersistenceContextImpl class.
  */
-public class FHIRPersistenceEventTest extends FHIRModelTestBase {
+public class FHIRPersistenceEventTest {
     @Test
-    public void test1() {
+    public void testDefaultEvent() {
         FHIRPersistenceEvent pe = new FHIRPersistenceEvent();
         assertNull(pe.getFhirResource());
         assertNull(pe.getFhirResourceType());
@@ -45,8 +45,8 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
     }
     
     @Test
-    public void test2() throws Exception {
-        Patient patient = readExampleResource("json/ibm/minimal/Patient-1.json");
+    public void testSimpleProps() throws Exception {
+        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         Map<String, Object> properties = new HashMap<>();
         
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -62,8 +62,8 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
     }
     
     @Test
-    public void test3() throws Exception {
-        Patient patient = readExampleResource("json/ibm/minimal/Patient-1.json");
+    public void testReplicationContext() throws Exception {
+        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         Map<String, Object> properties = new HashMap<>();
         
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -87,7 +87,7 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
     
     @Test
     public void testGetHeaderString() throws Exception {
-        Patient patient = readExampleResource("json/ibm/minimal/Patient-1.json");
+        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         Map<String, Object> properties = new HashMap<>();
         
         Map<String, String> reqProps = new HashMap<String, String>();

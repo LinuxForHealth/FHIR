@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver.TestType;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -30,7 +31,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     private Properties properties;
 
     public R4JDBCExamplesTest() throws Exception {
-        this.properties = readTestProperties("test.normalized.properties");
+        this.properties = TestUtil.readTestProperties("test.normalized.properties");
     }
 
     @BeforeSuite

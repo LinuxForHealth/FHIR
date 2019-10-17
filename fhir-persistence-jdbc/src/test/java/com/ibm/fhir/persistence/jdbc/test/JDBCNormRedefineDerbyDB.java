@@ -10,7 +10,7 @@ import java.util.Properties;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.test.FHIRModelTestBase;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 
 /**
@@ -18,12 +18,12 @@ import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
  * the suite of tests that gets run when the fhir-persistence-jdbc project is built.
  *
  */
-public class JDBCNormRedefineDerbyDB extends FHIRModelTestBase {
+public class JDBCNormRedefineDerbyDB {
     
     private Properties testProps;
     
     public JDBCNormRedefineDerbyDB() throws Exception {
-        this.testProps = readTestProperties("test.normalized.properties");
+        this.testProps = TestUtil.readTestProperties("test.normalized.properties");
     }
 
     @Test

@@ -24,6 +24,8 @@ import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.test.TestUtil;
+
 /**
  * OAuth 2.0 tests used to register a client and generate an access token
  */
@@ -41,7 +43,7 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     @Test
     public void testRegisterClient() throws Exception {
         // Open the file.
-        Reader reader = new InputStreamReader(resolveFileLocation("SampleClientForOpenIDRegistration.json"));
+        Reader reader = new InputStreamReader(TestUtil.resolveFileLocation("SampleClientForOpenIDRegistration.json"));
         
         int data = reader.read();
         StringBuffer jsonStr = new StringBuffer();

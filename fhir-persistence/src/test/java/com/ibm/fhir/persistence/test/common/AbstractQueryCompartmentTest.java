@@ -23,6 +23,7 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.RelatedPerson;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.util.FHIRUtil;
 
@@ -51,26 +52,26 @@ public abstract class AbstractQueryCompartmentTest extends AbstractPersistenceTe
      */
     @BeforeClass
     public void createResources() throws Exception {
-        Observation.Builder observationBuilder = ((Observation) readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
+        Observation.Builder observationBuilder = ((Observation) TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
         
-        Patient patient = readExampleResource("json/ibm/minimal/Patient-1.json");
+        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         savedPatient = persistence.create(getDefaultPersistenceContext(), patient).getResource();
         observationBuilder.subject(buildReference(savedPatient));
         observationBuilder.performer(buildReference(savedPatient));
         
-        Device device = readExampleResource("json/ibm/minimal/Device-1.json");
+        Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
         savedDevice = persistence.create(getDefaultPersistenceContext(), device).getResource();
         observationBuilder.device(buildReference(savedDevice));
         
-        Encounter encounter = readExampleResource("json/ibm/minimal/Encounter-1.json");
+        Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
         savedEncounter = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
         observationBuilder.encounter(buildReference(savedEncounter));
         
-        Practitioner practitioner = readExampleResource("json/ibm/minimal/Practitioner-1.json");
+        Practitioner practitioner = TestUtil.readExampleResource("json/ibm/minimal/Practitioner-1.json");
         savedPractitioner = persistence.create(getDefaultPersistenceContext(), practitioner).getResource();
         observationBuilder.performer(buildReference(savedPractitioner));
         
-        RelatedPerson relatedPerson = readExampleResource("json/ibm/minimal/RelatedPerson-1.json");
+        RelatedPerson relatedPerson = TestUtil.readExampleResource("json/ibm/minimal/RelatedPerson-1.json");
         savedRelatedPerson = persistence.create(getDefaultPersistenceContext(), relatedPerson).getResource();
         observationBuilder.performer(buildReference(savedRelatedPerson));
         

@@ -12,7 +12,6 @@ import static org.testng.AssertJUnit.fail;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -39,16 +38,13 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
 
-public class FHIRModelTestBase {
+public class TestUtil {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-    protected static final String NL = System.getProperty("line.separator");
-    public static boolean DEBUG_JSON = false;
-    public static boolean DEBUG_XML = false;
     
     /**
-     * This is a list of pre-defined locations that we'll search in when looking for a mock data file.
+     * This is a list of pre-defined locations that we'll search in when looking for a local data file.
      */
-    protected static String[] searchPaths = { "./", "src/test/resources/", "src/test/resources/testdata/", "src/main/resources/" };
+    private static final String[] searchPaths = { "./", "src/test/resources/", "src/test/resources/testdata/", "src/main/resources/" };
     
     /**
      * This function finds the specified file on the searchPath, 
@@ -65,10 +61,10 @@ public class FHIRModelTestBase {
      * @return the de-serialized mock resource
      * @throws Exception
      */
-    protected <T extends Resource> T readLocalResource(String fileName) throws Exception {
+    public static <T extends Resource> T readLocalResource(String fileName) throws Exception {
 
-        // We'll use the filename suffix to determine the format that we're reading.
-        Format fmt = (fileName.endsWith(".json") ? Format.JSON : Format.XML);
+        // Use the filename suffix to determine the format that we're reading, defaulting to JSON
+        Format fmt = (fileName.endsWith(".xml") ? Format.XML : Format.JSON);
 
         // Deserialize the file contents.
         try (Reader reader = new InputStreamReader(resolveFileLocation(fileName), Charset.forName("UTF-8"))) {
@@ -85,26 +81,23 @@ public class FHIRModelTestBase {
      * @return the de-serialized resource
      * @throws Exception
      */
-    protected <T extends Resource> T readExampleResource(String fileName) throws Exception {
+    public static <T extends Resource> T readExampleResource(String fileName) throws Exception {
 
         // Use the filename suffix to determine the format that we're reading, defaulting to JSON
         Format fmt = (fileName.endsWith(".xml") ? Format.XML : Format.JSON);
-        
+
+        // Deserialize the file contents.
         try (Reader reader = ExamplesUtil.reader(fileName)) {
             return FHIRParser.parser(fmt).parse(reader);
         }
     }
     
-    /**
-     * @return
-     */
     public static JsonObjectBuilder getEmptyBundleJsonObjectBuilder() {
         JsonObjectBuilder bundleObject = Json.createBuilderFactory(null).createObjectBuilder();
         bundleObject.add("resourceType", "Bundle")
             .add("type", "batch");
         return bundleObject;  
     }
-    
     
     public static JsonObject getRequestJsonObject(String method, String url) {
         JsonObjectBuilder requestObject = Json.createBuilderFactory(null).createObjectBuilder();
@@ -113,26 +106,11 @@ public class FHIRModelTestBase {
         return requestObject.build();  
     }    
     
-    
-    /**
-     * @param fileName
-     * @return
-     * @throws IOException
-     * @throws Exception
-     */
-    public static JsonObject readJsonObjectFromFile(String fileName) throws IOException, Exception {
-        try (Reader reader = new InputStreamReader(resolveFileLocation(fileName), Charset.forName("UTF-8"));
-                JsonReader jsonReader = JSON_READER_FACTORY.createReader(reader)) {
-            return jsonReader.readObject();
-            
-        }
-    }
-
     /**
      * Loads an Observation resource from the specified file, then associates it with
      * the specified patient via a subject attribute.
      */
-    protected Observation buildPatientObservation(String patientId, String fileName) throws Exception {
+    public static Observation buildPatientObservation(String patientId, String fileName) throws Exception {
         // TODO review Reference id
         Observation observation = readLocalResource(fileName);
         
@@ -146,7 +124,7 @@ public class FHIRModelTestBase {
     /**
      * Returns an InputStream for the specified fileName after searching in a few pre-defined locations.
      */
-    protected static InputStream resolveFileLocation(String fileName) throws Exception {
+    public static InputStream resolveFileLocation(String fileName) throws Exception {
 
         // First, try to use the filename as-is.
         File f = new File(fileName);
@@ -181,7 +159,7 @@ public class FHIRModelTestBase {
      * @param expected the known-good resource to compare against
      * @param actual the resource to be validated.
      */
-    protected void assertResourceEquals(Resource expected, Resource actual) {
+    public static void assertResourceEquals(Resource expected, Resource actual) {
         assertResourceEquals(null, expected, actual);
     }
     
@@ -194,7 +172,7 @@ public class FHIRModelTestBase {
      * @param expected the known-good resource to compare against
      * @param actual the resource to be validated.
      */
-    protected void assertResourceEquals(String msg, Resource expected, Resource actual) {
+    public static void assertResourceEquals(String msg, Resource expected, Resource actual) {
         String cleanMsg = (msg != null ? msg : "");
         if (!expected.getClass().equals(actual.getClass())) {
             fail(cleanMsg + ": resource type mismatch, expected resource of type: " + expected.getClass() + 
@@ -236,7 +214,7 @@ public class FHIRModelTestBase {
      * @return Properties - A Properties object containing the contents of the test.properties file.
      * @throws Exception
      */
-    protected static Properties readTestProperties(String fileName) throws Exception {
+    public static Properties readTestProperties(String fileName) throws Exception {
         Properties properties = new Properties();
         try (InputStream is = resolveFileLocation(fileName)) {
             properties.load(is);
@@ -256,7 +234,7 @@ public class FHIRModelTestBase {
     /**
      * Reads a JSON object from the specified file.
      */
-    protected JsonObject readJsonObject(String fileName) throws Exception {
+    public static JsonObject readJsonObject(String fileName) throws Exception {
         try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(resolveFileLocation(fileName))) {
             return jsonReader.readObject();
             

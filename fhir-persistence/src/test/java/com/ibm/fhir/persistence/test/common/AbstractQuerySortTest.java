@@ -23,6 +23,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Date;
@@ -56,7 +57,7 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
     public void createResources() throws Exception {
         FHIRRequestContext.get().setTenantId("all");
         
-        Basic resource = readExampleResource("json/ibm/minimal/Basic-1.json");
+        Basic resource = TestUtil.readExampleResource("json/ibm/minimal/Basic-1.json");
         
         Basic.Builder resource1Builder = resource.toBuilder();
         Basic.Builder resource2Builder = resource.toBuilder();

@@ -19,7 +19,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.test.FHIRModelTestBase;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -30,7 +30,7 @@ import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
  * This class tests the persistence interceptor feature. The MyInterceptor class is our test interceptor implementation
  * and is registered with the interceptor framework.
  */
-public class InterceptorTest extends FHIRModelTestBase {
+public class InterceptorTest {
 
     protected static FHIRPersistenceInterceptorMgr mgr = null;
     protected static Patient patient = null;
@@ -44,7 +44,7 @@ public class InterceptorTest extends FHIRModelTestBase {
         mgr = FHIRPersistenceInterceptorMgr.getInstance();
         assertNotNull(mgr);
 
-        patient = readExampleResource("json/ibm/minimal/Patient-1.json");
+        patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
 
         // Inject a new family name of "Exception" to trigger errors from MyInterceptor
         badPatient = patient.toBuilder()

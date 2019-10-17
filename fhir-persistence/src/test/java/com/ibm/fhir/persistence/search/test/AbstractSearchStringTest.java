@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
 /**
@@ -19,7 +20,7 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 
     protected Basic getBasicResource() throws Exception {
-        return readExampleResource("json/ibm/basic/BasicString.json");
+        return TestUtil.readExampleResource("json/ibm/basic/BasicString.json");
     }
 
     protected void setTenant() throws Exception {
