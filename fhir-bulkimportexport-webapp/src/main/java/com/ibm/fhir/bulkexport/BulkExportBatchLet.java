@@ -274,20 +274,17 @@ public class BulkExportBatchLet implements Batchlet {
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String queryString = "&_sort=" + Constants.FHIR_SEARCH_LASTUPDATED;
 
         if (fhirSearchFromDate != null) {
-            queryString += ("&" + Constants.FHIR_SEARCH_LASTUPDATED + "=ge" + fhirSearchFromDate);
             queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED,
                     Collections.singletonList("ge" + fhirSearchFromDate));
         }
         if (fhirSearchToDate != null) {
-            queryString += ("&" + Constants.FHIR_SEARCH_LASTUPDATED + "=lt" + fhirSearchToDate);
             queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, Collections.singletonList("lt" + fhirSearchToDate));
         }
 
         queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         int pageNum = 1, exported = 0, totalExported = 0;
         searchContext.setPageSize(pageSize);
 

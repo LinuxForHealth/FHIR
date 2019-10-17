@@ -41,7 +41,7 @@ public abstract class AbstractQueryMultiResourceTest extends AbstractPersistence
         // Update the id on the resource
         encounter = encounter.toBuilder().id(Id.of(commonId)).build();
         
-        encounter = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
+        encounter = persistence.update(getDefaultPersistenceContext(), commonId, encounter).getResource();
         assertNotNull(encounter);
         assertNotNull(encounter.getId());
         assertNotNull(encounter.getId().getValue());
@@ -53,7 +53,7 @@ public abstract class AbstractQueryMultiResourceTest extends AbstractPersistence
 
         // update the id on the resource
         observation = observation.toBuilder().id(Id.of(commonId)).build();
-        observation = persistence.create(getDefaultPersistenceContext(), observation).getResource();
+        observation = persistence.update(getDefaultPersistenceContext(), commonId, observation).getResource();
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getId().getValue());
