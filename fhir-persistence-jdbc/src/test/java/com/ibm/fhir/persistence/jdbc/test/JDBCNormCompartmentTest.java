@@ -14,11 +14,11 @@ import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractQueryCompartmentTest;
 
 
-public class JDBCNormQueryCompartmentTest extends AbstractQueryCompartmentTest {
+public class JDBCNormCompartmentTest extends AbstractQueryCompartmentTest {
     
     private Properties testProps;
     
-    public JDBCNormQueryCompartmentTest() throws Exception {
+    public JDBCNormCompartmentTest() throws Exception {
         this.testProps = readTestProperties("test.normalized.properties");
     }
 

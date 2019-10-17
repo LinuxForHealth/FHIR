@@ -26,7 +26,7 @@ public class TestContext {
 	private final Supplier<FHIRPersistenceContext> persistenceContextSupplier;
 
 	// The current persistence context used for history operations
-	   private final Supplier<FHIRPersistenceContext> historyContextSupplier;
+	private final Supplier<FHIRPersistenceContext> historyContextSupplier;
 
 	// The fingerprint of the original resource
 	private SaltHash originalFingerprint;

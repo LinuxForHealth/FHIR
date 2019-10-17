@@ -36,7 +36,7 @@ public class ParameterTestMain extends BaseSearchTest {
         Class<? extends Resource> resourceType = Observation.class;
         Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
         queryParameters.put("subject", Collections.singletonList("http://localhost:9080/fhir-server/api/v4/Patient/1234"));
-        for (Parameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters, null).getSearchParameters()) {
+        for (Parameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters).getSearchParameters()) {
             System.out.println(parameter);
             System.out.println("");
         }

@@ -59,7 +59,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPersistenceT
         assertEquals("1", savedResource.getMeta().getVersionId().getValue());
         
         savedResourceId = savedResource.getId().getValue();
-        lastUpdated = savedResource.getMeta().getLastUpdated().toString();
+        lastUpdated = savedResource.getMeta().getLastUpdated().getValue().toString();
     }
     
     @Test

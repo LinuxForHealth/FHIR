@@ -38,10 +38,9 @@ public class ElementsParameterParseTest extends BaseSearchTest {
     public void testInvalid_singleElement() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_elements=_id";
 
         queryParameters.put("_elements", Collections.singletonList("_id"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test
@@ -51,7 +50,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         String queryString = "&_elements=_id";
 
         queryParameters.put("_elements", Collections.singletonList("bogus"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertTrue(context.getElementsParameters() == null || context.getElementsParameters().size() == 0);
 
@@ -63,20 +62,18 @@ public class ElementsParameterParseTest extends BaseSearchTest {
     public void testFake_singleElement_strict() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_elements=_id";
 
         queryParameters.put("_elements", Collections.singletonList("bogus"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
     }
 
     @Test
     public void testFake_multiElements() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_elements=id,contact,bogus,name";
 
         queryParameters.put("_elements", Arrays.asList("id", "contact", "bogus", "name"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
         assertEquals(3, context.getElementsParameters().size());
@@ -92,10 +89,9 @@ public class ElementsParameterParseTest extends BaseSearchTest {
     public void testFake_multiElements_strict() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_elements=id,contact,bogus,name";
 
         queryParameters.put("_elements", Arrays.asList("id", "contact", "bogus", "name"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
     }
 
     @Test
@@ -105,7 +101,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         String queryString = "&_elements=name";
 
         queryParameters.put("_elements", Arrays.asList("name"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
         assertEquals(1, context.getElementsParameters().size());
@@ -119,10 +115,9 @@ public class ElementsParameterParseTest extends BaseSearchTest {
     public void testValidMultiElements() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_elements=name,photo,animal,identifier";
 
         queryParameters.put("_elements", Arrays.asList("name", "photo", "animal", "identifier"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
 
