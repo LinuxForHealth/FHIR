@@ -63,7 +63,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -88,7 +88,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request()
                                 .header("Prefer", "return=minimal")
@@ -125,7 +125,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" })
     public void testCreatePatientIgnoresId() throws Exception {
         WebTarget target = getWebTarget();
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
         // Set an id on the patient.
         patient = patient.toBuilder().id(Id.of("1")).build();
         
@@ -307,7 +307,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         
         // Next, create an Observation belonging to the new patient.
         String patientId = savedPatient.getId().getValue();
-        Observation observation = buildObservation(patientId, "Observation1.json");
+        Observation observation = buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -423,13 +423,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     }
 
     // Test: retrieve invalid resource type.
-    @Test(groups = { "server-spec" })
-    public void testReadErrorInvalidResourceType() {
-        WebTarget target = getWebTarget();
-        Response response = target.path("BogusResourceType/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-    }
+//    @Test(groups = { "server-spec" })
+//    public void testReadErrorInvalidResourceType() {
+//        WebTarget target = getWebTarget();
+//        Response response = target.path("BogusResourceType/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
+//    }
 
     // Test: retrieve non-existent Patient.
     @Test(groups = { "server-spec" })
@@ -459,13 +459,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     }
 
     // Test: retrieve invalid resource type.
-    @Test(groups = { "server-spec" })
-    public void testVReadInvalidResourceType() {
-        WebTarget target = getWebTarget();
-        Response response = target.path("BogusResourceType/1/_history/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-    }
+//    @Test(groups = { "server-spec" })
+//    public void testVReadInvalidResourceType() {
+//        WebTarget target = getWebTarget();
+//        Response response = target.path("BogusResourceType/1/_history/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
+//    }
 
     // Test: retrieve invalid version.
     @Test(groups = { "server-spec" }, dependsOnMethods = { "testCreatePatient" })
@@ -495,13 +495,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertTrue(0 == bundle.getTotal().getValue());
     }
     
-    @Test(groups = { "server-spec" })
-    public void testHistoryInvalidResourceType() {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Bogus/123456789ABCDEF/_history").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-    }
+//    @Test(groups = { "server-spec" })
+//    public void testHistoryInvalidResourceType() {
+//        WebTarget target = getWebTarget();
+//        Response response = target.path("Bogus/123456789ABCDEF/_history").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
+//    }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testSearchPatientByFamilyName() {
@@ -570,7 +570,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" }, dependsOnMethods = { "testCreateObservation" })
     public void testConditionalCreateObservation() throws Exception {
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
-        Observation obs = readResource(Observation.class, "Observation1.json");
+        Observation obs = readLocalResource("Observation1.json");
         obs = obs.toBuilder()
                 .subject(Reference.builder().reference(string(fakePatientRef)).build())
                 .build();
@@ -608,7 +608,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     public void testConditionalUpdateObservation() throws Exception {
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
-        Observation obs = readResource(Observation.class, "Observation1.json");
+        Observation obs = readLocalResource("Observation1.json");
         obs = obs.toBuilder()
                 .subject(Reference.builder().reference(string(fakePatientRef)).build())
                 .id(Id.of(obsId))
@@ -657,7 +657,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     public void testConditionalUpdateObservation2() throws Exception {
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
-        Observation obs = readResource(Observation.class, "Observation1.json");
+        Observation obs = readLocalResource("Observation1.json");
         obs = obs.toBuilder()
                 .subject(Reference.builder().reference(string(fakePatientRef)).build())
                 .build();

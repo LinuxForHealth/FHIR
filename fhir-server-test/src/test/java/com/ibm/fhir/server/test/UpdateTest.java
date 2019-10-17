@@ -57,7 +57,7 @@ public class UpdateTest extends FHIRServerTestBase {
             
             // Generate an ID for the new resource.
             String newId = UUID.randomUUID().toString();
-            Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+            Patient patient = readLocalResource("Patient_JohnDoe.json");
             patient = patient.toBuilder().id(Id.of(newId)).build();
             
             // Create the new resource via the update operation.
@@ -120,7 +120,7 @@ public class UpdateTest extends FHIRServerTestBase {
             
             // Generate an ID for the new resource.
             String newId = UUID.randomUUID().toString();
-            Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+            Patient patient = readLocalResource("Patient_JohnDoe.json");
             patient = patient.toBuilder().id(Id.of(newId)).build();
             
             // Call update for this new resource and make sure we get back an error.
@@ -143,7 +143,7 @@ public class UpdateTest extends FHIRServerTestBase {
         if (!updateCreateEnabled.booleanValue()) {
             
             // Generate an ID for the new resource.
-            Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+            Patient patient = readLocalResource("Patient_JohnDoe.json");
             
             // Call update for this new resource and make sure we get back an error.
             FHIRClient client = getFHIRClient();
@@ -183,7 +183,7 @@ public class UpdateTest extends FHIRServerTestBase {
         
         if (updateCreateEnabled.booleanValue()) {
             
-            Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+            Patient patient = readLocalResource("Patient_JohnDoe.json");
             
             FHIRClient client = getFHIRClient();
             FHIRResponse response = client.create(patient);
@@ -239,7 +239,7 @@ public class UpdateTest extends FHIRServerTestBase {
         // If the "Update/Create" feature is enabled, then test it.
         if (updateCreateEnabled.booleanValue()) {
             
-            Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+            Patient patient = readLocalResource("Patient_JohnDoe.json");
             FHIRClient client = getFHIRClient();
             FHIRRequestHeader returnPref;
             

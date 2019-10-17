@@ -44,7 +44,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
     public void testCreatePatientWithExtensions() throws Exception {
         WebTarget target = getWebTarget();
 
-        Patient patient = readResource(Patient.class, "Patient_SearchExtensions.json");
+        Patient patient = readLocalResource("Patient_SearchExtensions.json");
         patient = patient.toBuilder().extension(Extension.builder().url(EXTENSION_BASE_URL
                 + "favorite-color").value(string("blue")).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
                         + "favorite-number").value(Integer.of(5)).build()).extension(Extension.builder().url(EXTENSION_BASE_URL

@@ -69,7 +69,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = readLocalResource("Patient_JohnDoe.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity =
@@ -370,7 +370,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Observation observation =
-                buildObservation(patientId, "Observation5.json");
+                buildPatientObservation(patientId, "Observation5.json");
         Entity<Observation> entity =
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -496,7 +496,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Observation observation =
-                buildObservation(patientId, "Observation1.json");
+                buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> entity =
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -898,7 +898,7 @@ public class SearchTest extends FHIRServerTestBase {
     @Test(groups = { "server-search" })
     public void testCreatePractitioner() throws Exception {
         // Build a new Practitioner and then call the 'create' API.
-        Practitioner practitioner = readResource(Practitioner.class, "Practitioner.json");
+        Practitioner practitioner = readLocalResource("Practitioner.json");
         assertNotNull(practitioner);
         WebTarget target = getWebTarget();
 
@@ -909,7 +909,6 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         practitionerId = getLocationLogicalId(response);
     }
-    
     
     @Test(groups = { "server-search" }, dependsOnMethods = {
     "testCreatePractitioner" })

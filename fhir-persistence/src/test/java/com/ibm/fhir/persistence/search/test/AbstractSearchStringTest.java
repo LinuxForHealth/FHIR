@@ -19,7 +19,7 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 
     protected Basic getBasicResource() throws Exception {
-        return readResource("json/ibm/basic/BasicString.json");
+        return readExampleResource("json/ibm/basic/BasicString.json");
     }
 
     protected void setTenant() throws Exception {
@@ -85,7 +85,7 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
     
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchString_string_invalidEscaping() throws Exception {
-        runQueryTest(Basic.class, persistence, "string", "\\", Integer.MAX_VALUE);
+        runQueryTest(Basic.class, "string", "\\", Integer.MAX_VALUE);
     }
     
 //    @Test

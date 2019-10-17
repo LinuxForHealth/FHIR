@@ -18,7 +18,7 @@ import com.ibm.fhir.model.resource.Basic;
 public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     protected Basic getBasicResource() throws Exception {
-        return readResource("json/ibm/basic/BasicQuantity.json");
+        return readExampleResource("json/ibm/basic/BasicQuantity.json");
     }
 
     protected void setTenant() throws Exception {

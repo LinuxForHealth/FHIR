@@ -18,7 +18,7 @@ import com.ibm.fhir.model.resource.Basic;
 public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     protected Basic getBasicResource() throws Exception {
-        return readResource("json/ibm/basic/BasicToken.json");
+        return readExampleResource("json/ibm/basic/BasicToken.json");
     }
 
     protected void setTenant() throws Exception {

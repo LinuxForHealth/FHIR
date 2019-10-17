@@ -23,6 +23,7 @@ import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.FHIRModelTestBase;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -51,21 +52,21 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
     protected static FHIRPersistence persistence = null;
 
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
-    public abstract FHIRPersistence getPersistenceImpl() throws Exception;
+    protected abstract FHIRPersistence getPersistenceImpl() throws Exception;
 
     // A hook for subclasses to override and provide specific test database setup functionality if required.
-    public void bootstrapDatabase() throws Exception {}
+    protected void bootstrapDatabase() throws Exception {}
 
     // The following persistence context-related methods can be overridden in subclasses to
     // provide a more specific instance of the FHIRPersistenceContext if necessary.
     // These default versions just provide the minimum required by the FHIR Server persistence layers.
-    public FHIRPersistenceContext getDefaultPersistenceContext() throws Exception {
+    protected FHIRPersistenceContext getDefaultPersistenceContext() throws Exception {
         return FHIRPersistenceContextFactory.createPersistenceContext(null);
     }
-    public FHIRPersistenceContext getPersistenceContextForSearch(FHIRSearchContext ctxt) {
+    protected FHIRPersistenceContext getPersistenceContextForSearch(FHIRSearchContext ctxt) {
         return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
     }
-    public FHIRPersistenceContext getPersistenceContextForHistory(FHIRHistoryContext ctxt) {
+    protected FHIRPersistenceContext getPersistenceContextForHistory(FHIRHistoryContext ctxt) {
         return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
     }
 
@@ -98,31 +99,31 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         }
     }
 
-    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {
+    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        return runQueryTest(resourceType, persistence, queryParms);
+        return runQueryTest(resourceType, queryParms);
     }
     
-    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue, Integer maxPageSize) throws Exception {
+    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        return runQueryTest(null, resourceType, persistence, queryParms, maxPageSize);
+        return runQueryTest(null, resourceType, queryParms, maxPageSize);
     }
 
-    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, FHIRPersistence persistence, Map<String, List<String>> queryParms) throws Exception {
-        return runQueryTest(null, resourceType, persistence, queryParms);
+    protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms) throws Exception {
+        return runQueryTest(null, resourceType, queryParms);
     }
 
-    protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, FHIRPersistence persistence,  Map<String, List<String>> queryParms) throws Exception {
-        return runQueryTest(queryString, resourceType, persistence, queryParms, null);
+    protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms) throws Exception {
+        return runQueryTest(queryString, resourceType, queryParms, null);
     }
     
-    protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, FHIRPersistence persistence,  Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
+    protected List<Resource> runQueryTest(String queryString, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms, queryString);
         // ensure that all the query parameters were processed into search parameters (needed because the server ignores invalid params by default)
         int expectedCount = 0;
@@ -150,11 +151,11 @@ public abstract class AbstractPersistenceTest extends FHIRModelTestBase {
         return result.getResource();
     }
 
-    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue) throws Exception {
-        return runQueryTest(compartmentName, compartmentLogicalId, resourceType, persistence, parmName, parmValue, null);
+    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {
+        return runQueryTest(compartmentName, compartmentLogicalId, resourceType, parmName, parmValue, null);
     }
 
-    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, FHIRPersistence persistence, String parmName, String parmValue, Integer maxPageSize) throws Exception {
+    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));

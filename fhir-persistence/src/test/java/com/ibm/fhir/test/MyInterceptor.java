@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response.Status;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -18,7 +19,7 @@ import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
 
 /**
- * This class servces as a test implementation of the FHIRPersistenceInterceptor interface.
+ * This class serves as a test implementation of the FHIRPersistenceInterceptor interface.
  */
 public class MyInterceptor implements FHIRPersistenceInterceptor {
     private static int beforeCreateCount = 0;
@@ -172,10 +173,12 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
     private void possiblyThrowException(Resource resource, IssueType.ValueSet issueType) throws FHIRPersistenceInterceptorException {
         if (resource instanceof Patient) {
             Patient patient = (Patient) resource;
-            if (patient.getName().get(0).getFamily().getValue().equals("Exception")) {
-                String msg = "Detected invalid patient";
-                OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
-                throw new FHIRPersistenceInterceptorException(msg).withIssue(ooi);
+            for (HumanName name : patient.getName()) {
+                if (name.getFamily().getValue().equals("Exception")) {
+                    String msg = "Detected invalid patient";
+                    OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+                    throw new FHIRPersistenceInterceptorException(msg).withIssue(ooi);
+                }
             }
         }
         

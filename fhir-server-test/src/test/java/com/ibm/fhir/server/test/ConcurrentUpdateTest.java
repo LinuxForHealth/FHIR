@@ -57,7 +57,7 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
 
             // Read a JSON Patient and set the id.
             String patientLogicalId = UUID.randomUUID().toString();
-            Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
+            Patient patient = readLocalResource("Patient_SalMonella.json");
             patient = patient.toBuilder().id(Id.of(patientLogicalId)).build();
 
             // Initialize multi-thread Executor Service.

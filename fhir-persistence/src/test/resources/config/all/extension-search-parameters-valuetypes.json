@@ -1,0 +1,158 @@
+{
+    "value-types": "default-extensions",
+    "mappings": [{
+        "resourceType": "Basic",
+        "name": "boolean",
+        "targetClasses": ["Boolean"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "canonical",
+        "targetClasses": ["Canonical"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "code",
+        "targetClasses": ["Code"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "date",
+        "targetClasses": ["Date"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "dateTime",
+        "targetClasses": ["DateTime"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "decimal",
+        "targetClasses": ["Decimal"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "id",
+        "targetClasses": ["Id"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "instant",
+        "targetClasses": ["Instant"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "integer",
+        "targetClasses": ["Integer"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "oid",
+        "targetClasses": ["Oid"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "positiveInt",
+        "targetClasses": ["PositiveInt"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "string",
+        "targetClasses": ["String"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "time",
+        "targetClasses": ["Time"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "unsignedInt",
+        "targetClasses": ["UnsignedInt"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "uri",
+        "targetClasses": ["Uri"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "url",
+        "targetClasses": ["Url"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "uuid",
+        "targetClasses": ["Uuid"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Address",
+        "targetClasses": ["Address"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Age",
+        "targetClasses": ["Age"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "CodeableConcept",
+        "targetClasses": ["CodeableConcept"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Coding",
+        "targetClasses": ["Coding"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "ContactPoint",
+        "targetClasses": ["ContactPoint"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Duration",
+        "targetClasses": ["Duration"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "HumanName",
+        "targetClasses": ["HumanName"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Identifier",
+        "targetClasses": ["Identifier"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Money",
+        "targetClasses": ["Money"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Period",
+        "targetClasses": ["Period"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Quantity",
+        "targetClasses": ["Quantity"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Range",
+        "targetClasses": ["Range"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Reference",
+        "targetClasses": ["Reference"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "Timing",
+        "targetClasses": ["Timing"]
+    }]
+}

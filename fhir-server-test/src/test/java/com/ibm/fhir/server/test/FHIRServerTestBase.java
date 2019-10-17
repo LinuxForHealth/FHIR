@@ -35,7 +35,6 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.tyrus.client.SslContextConfigurator;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
-import org.glassfish.tyrus.core.TyrusWebSocketEngine;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.client.FHIRClient;
@@ -50,6 +49,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.FHIRModelTestBase;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -57,7 +57,6 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 import com.ibm.fhir.validation.FHIRValidator;
 
 /**
