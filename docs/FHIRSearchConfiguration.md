@@ -160,7 +160,7 @@ In the following example a single inclusion rule uses wildcards to instruct the 
 ```
 {
     "fhirServer": {
-   "_comment": "include all search parameters for all resource types (default)",
+   "__comment": "include all search parameters for all resource types (default)",
    "searchParameterFilter": {
        "*": ["*"]
    }
