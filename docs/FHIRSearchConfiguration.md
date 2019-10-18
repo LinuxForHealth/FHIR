@@ -8,7 +8,7 @@ markdown: kramdown
 # IBM FHIR Server - Search Configuration Overview
 The [FHIR Specification](https://www.hl7.org/fhir/r4/search.html) defines a set of searchable fields for each resource type, and corresponding RESTful API.  The IBM FHIR Server supports searching using the specification defined search parameters and using tenant-specific search parameters (extensions). 
 
-Additionally, the IBM FHIR Server supports searching on additional fields, including:
+Specifically, the IBM FHIR Server supports searching on additional fields, including:
 * fields that are defined in the base specification, which are not configured for search;  
 * extension elements that a tenant may add to a standard FHIR resource type; and  
 * attributes that you define as part of a custom resource type  
