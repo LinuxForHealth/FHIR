@@ -9,9 +9,7 @@ package com.ibm.fhir.persistence.jdbc.util;
 import java.util.List;
 
 /**
- * This class assists the JDBCNormalizedQueryBuilder by encapsulating either a where clause segment or a complete SQL query along with any associated bind variables.
- * @author markd
- *
+ * This class assists the JDBCQueryBuilder by encapsulating either a where clause segment or a complete SQL query along with any associated bind variables.
  */
 public class SqlQueryData {
     

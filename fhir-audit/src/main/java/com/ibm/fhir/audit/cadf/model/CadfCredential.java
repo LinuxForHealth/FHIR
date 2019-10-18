@@ -105,7 +105,7 @@ public class CadfCredential {
         /**
          * Set the optional assertions property. This property contains a list of
          * additional opaque or non-opaque assertions or attributes that belong to the
-         * credential. One example might be the certificate trust chaing if the
+         * credential. One example might be the certificate trust chain if the
          * credential is a certificate.
          * 
          * @param assertions -- Array of CadfMapItem. Optional list of additional opaque
@@ -121,7 +121,7 @@ public class CadfCredential {
         /**
          * Set the optional assertions property. This property contains a list of
          * additional opaque or non-opaque assertions or attributes that belong to the
-         * credential. One example might be the certificate trust chaing if the
+         * credential. One example might be the certificate trust chain if the
          * credential is a certificate.
          * 
          * @param assertions -- Array of CadfMapItem. Optional list of additional opaque
@@ -137,7 +137,7 @@ public class CadfCredential {
         /**
          * Add an assertion to the assertion list, one at a time.
          * 
-         * @see withAssertions()
+         * @see #withAssertion(CadfMapItem)
          * 
          * @param assertion -- A single CadfMapItem.
          * @return Builder instance

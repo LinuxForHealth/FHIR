@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,9 +24,12 @@ public class FHIRConfiguration {
     public static final String DEFAULT_DATASTORE_ID = "default";
 
     // Configuration properties used by various FHIR Server components.
+    
+    // TODO: remove these three properties (see https://github.com/IBM/FHIR/issues/153 and https://github.com/IBM/FHIR/issues/285)
     public static final String PROPERTY_VIRTUAL_RESOURCES_ENABLED = "fhirServer/virtualResources/enabled";
     public static final String PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "fhirServer/virtualResources/allowableResourceTypes";
     public static final String PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED = "fhirServer/core/userDefinedSchematronEnabled";
+    
     public static final String PROPERTY_TRUSTSTORE_LOCATION = "fhirServer/core/truststoreLocation";
     public static final String PROPERTY_TRUSTSTORE_PASSWORD = "fhirServer/core/truststorePassword";
     public static final String PROPERTY_OAUTH_REGURL = "fhirServer/oauth/regUrl";
@@ -38,21 +41,13 @@ public class FHIRConfiguration {
     public static final String PROPERTY_AUDIT_RESOURCE_NAME_EXTURL = "fhirServer/audit/resourceNameExtensionUrl";
     public static final String PROPERTY_ENCRYPTION = "fhirServer/encryption";
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
-    public static final String PROPERTY_USE_UUIDS = "fhirServer/persistence/jpa/useUUIDs";
-    public static final String PROPERTY_SCHEMA_NAME = "fhirServer/persistence/jpa/schemaName";
     public static final String PROPERTY_NOTIFICATION_RESOURCE_TYPES = "fhirServer/notifications/common/includeResourceTypes";
     public static final String PROPERTY_WEBSOCKET_ENABLED = "fhirServer/notifications/websocket/enabled";
     public static final String PROPERTY_KAFKA_ENABLED = "fhirServer/notifications/kafka/enabled";
     public static final String PROPERTY_KAFKA_TOPICNAME = "fhirServer/notifications/kafka/topicName";
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
-    public static final String PROPERTY_CLOUDANT_URL = "fhirServer/persistence/cloudant/url";
-    public static final String PROPERTY_CLOUDANT_USERNAME = "fhirServer/persistence/cloudant/username";
-    public static final String PROPERTY_CLOUDANT_PWD = "fhirServer/persistence/cloudant/pwd";
-    public static final String PROPERTY_CLOUDANT_DBNAME = "fhirServer/persistence/cloudant/dbName";
-    public static final String PROPERTY_WHCLSF_ROUTER = "fhirServer/persistence/whclsfRouter";
     public static final String PROPERTY_JDBC_BOOTSTRAP_DB = "fhirServer/persistence/jdbc/bootstrapDb";
-    public static final String PROPERTY_JDBC_SCHEMA_TYPE = "fhirServer/persistence/jdbc/schemaType";
     public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
     public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
     public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
@@ -98,7 +93,7 @@ public class FHIRConfiguration {
      * This method is used to configure an explicit top-level directory where FHIR Server configuration
      * information is expected to reside.
      * For example, by calling this method with value "/mydir", then we'd expect
-     * to find config files whose names are of the form:  "/mydir/config/<tenant-id>/fhir-server-config.json".
+     * to find config files whose names are of the form: <code> "/mydir/config/&lt;tenant-id&rt;/fhir-server-config.json".</code>
      * The default location for config files is the current working directory (i.e. "" - the empty string).
      * @param s the new config home directory name 
      */
@@ -141,12 +136,7 @@ public class FHIRConfiguration {
      * @throws Exception
      */
     public PropertyGroup loadConfigurationForTenant(String tenantId) throws Exception {
-        // log.entering(this.getClass().getName(), "loadConfigurationForTenant", tenantId);
-        try {
-            return configCache.getCachedObjectForTenant(tenantId);
-        } finally {
-            // log.exiting(this.getClass().getName(), "loadConfigurationForTenant");
-        }
+        return configCache.getCachedObjectForTenant(tenantId);
     }
 
     /**

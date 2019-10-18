@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,17 +10,21 @@ import java.util.Properties;
 
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractWholeSystemSearchTest;
+import com.ibm.fhir.persistence.test.common.AbstractDeleteTest;
 
-
-public class JDBCNormWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
+/**
+ * Concrete subclass for delete tests run against the JDBC schema.
+ * @author markd
+ *
+ */
+public class JDBCDeleteTest extends AbstractDeleteTest {
     
     private Properties testProps;
     
-    public JDBCNormWholeSystemSearchTest() throws Exception {
-        this.testProps = TestUtil.readTestProperties("test.normalized.properties");
+    public JDBCDeleteTest() throws Exception {
+        this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
     @Override
@@ -35,6 +39,6 @@ public class JDBCNormWholeSystemSearchTest extends AbstractWholeSystemSearchTest
     
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
+        return new FHIRPersistenceJDBCImpl(this.testProps);
     }
 }

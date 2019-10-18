@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,7 +77,7 @@ public class DerbyInitializer {
     }
     
     /**
-     * Get the name of the schema holding all the FHIR normalized resource tables
+     * Get the name of the schema holding all the FHIR resource tables
      * @return
      */
     protected String getDataSchemaName() {

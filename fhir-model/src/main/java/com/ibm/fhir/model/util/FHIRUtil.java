@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,6 @@ import static java.util.Objects.nonNull;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
@@ -293,7 +292,7 @@ public class FHIRUtil {
     }
 
     /**
-     * @deprecated use {@link ModelSupport#getTypeName(Class)}
+     * use {@link ModelSupport#getTypeName(Class)}
      */
     @Deprecated
     public static String getTypeName(Class<?> type) {
@@ -336,11 +335,10 @@ public class FHIRUtil {
      * Read JSON from InputStream {@code stream} and parse it into a FHIR resource. Non-mandatory elements which are not
      * in {@code elementsToInclude} will be filtered out.
      * 
-     * @param stream
-     * @param elements
+     * @param resourceType
+     * @param in
+     * @param elementsToInclude
      *            a list of element names to include in the returned resource; null to skip filtering
-     * @param lenient
-     * @param validating
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in
      *         the JSON)
      * @deprecated use {@link FHIRParser} directly
@@ -371,11 +369,12 @@ public class FHIRUtil {
     }
 
     /**
-     * Read JSON from {@code reader} and parse it into a FHIR resource. Non-mandatory elements which are not in
-     * {@code elementsToInclude} will be filtered out.
+     * Read JSON from {@link java.io.Reader#read()} and parse it into a FHIR resource. Non-mandatory elements which are not in
+     * elementsToInclude will be filtered out.
      * 
+     * @param resourceType
      * @param reader
-     * @param elements
+     * @param elementsToInclude
      *            a list of element names to include in the returned resource; null to skip filtering
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in
      *         the JSON)
@@ -557,7 +556,7 @@ public class FHIRUtil {
 
     /**
      * Builds a relative "Location" header value for the specified resource. This will be a string of the form
-     * "<resource-type>/<id>/_history/<version>". Note that the server will turn this into an absolute URL prior to
+     * <code>"<resource-type>/<id>/_history/<version>"</code>. Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
      *
      * @param resource

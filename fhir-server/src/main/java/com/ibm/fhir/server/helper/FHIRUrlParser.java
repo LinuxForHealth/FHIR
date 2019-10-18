@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,13 +22,13 @@ public class FHIRUrlParser {
     private MultivaluedMap<String, String> queryParameters = new MetadataMap<>(false, true);
 
     /**
-     * Hide the default ctor.
+     * Hide the default constructor.
      */
     protected FHIRUrlParser() {
     }
     
     /**
-     * ctor which accepts a partial URL string (e.g. "Patient/123?param1=value1&param2=value2").
+     * constructor which accepts a partial URL string (e.g. <code>"Patient/123?param1=value1&amp;param2=value2"</code>).
      */
     public FHIRUrlParser(String urlString) {
         if (urlString == null) {

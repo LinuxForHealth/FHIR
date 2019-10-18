@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,26 +14,20 @@ import java.util.Properties;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOBasicImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 
 /**
- * This class tests the basic functions of the FHIR DB Data Access Object class.
+ * This class tests the functions of the FHIR DB Data Access Object class.
  * @author markd
  *
  */
-public class FHIRDBDAOTest {
-
-    public FHIRDBDAOTest() {
-        super();
-    }
-    
+public class FHIRDbDAOTest {
     /**
      * Tests acquiring a connection to a Derby FHIR database using the embedded Derby driver. 
      * If the database does not exist prior to the test, it should be created.
      * @throws Exception
      */
     @Test(groups = {"jdbc"})
-    @SuppressWarnings("rawtypes")
     public void testGetDerbyConnection() throws Exception {
         
         Properties props = new Properties();
@@ -41,7 +35,7 @@ public class FHIRDBDAOTest {
         props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirDB;create=true");
         // Set the schemaName to the derby default so that it won't try using a non-existent FHIRDATA schema
         props.setProperty("schemaName", "APP");
-        FHIRDbDAO dao = new FHIRDbDAOBasicImpl(props);
+        FHIRDbDAO dao = new FHIRDbDAOImpl(props);
         Connection connection = dao.getConnection();
         assertNotNull(connection);
     }
@@ -53,7 +47,6 @@ public class FHIRDBDAOTest {
      * @throws Exception
      */
     //@Test(groups = {"jdbc"})
-    @SuppressWarnings("rawtypes")
     public void testGetDB2Connection() throws Exception {
         
         Properties props = new Properties();
@@ -62,10 +55,8 @@ public class FHIRDBDAOTest {
         props.setProperty(FHIRDbDAO.PROPERTY_DB2_USER, "user");
         props.setProperty(FHIRDbDAO.PROPERTY_DB2_PSWD, "password");
         
-        FHIRDbDAO dao = new FHIRDbDAOBasicImpl(props);
+        FHIRDbDAO dao = new FHIRDbDAOImpl(props);
         Connection connection = dao.getConnection();
         assertNotNull(connection);
     }
-    
-
 }

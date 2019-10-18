@@ -130,7 +130,7 @@ public abstract class FHIRClientTestBase {
      * For the specified response, this function will extract the logical id value from the
      * response's Location header.
      * The format of a location header value should be:
-     *     "[base]/<resource-type>/<id>/_history/<version>"
+     *     <code>[base]/<resource-type>/<id>/_history/<version></code>
      * @param response the response object for a REST API invocation
      * @return the logical id value
      */

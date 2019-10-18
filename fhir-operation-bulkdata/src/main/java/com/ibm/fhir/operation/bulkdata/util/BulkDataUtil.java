@@ -36,7 +36,7 @@ public class BulkDataUtil {
      * repeated check of the resourceType.
      * 
      * @param resourceType
-     * @param string
+     * @param type
      * @return
      */
     public static boolean checkType(Class<? extends Resource> resourceType, String type) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,7 +43,7 @@ public class FHIRPersistenceEvent {
     public static final String PROPNAME_HTTP_HEADERS = "HTTP_HEADERS";
     
     /**
-     * This property is of type java.util.Map<String, String> and contains the
+     * This property is of type {@link java.util.Map<String,String> } and contains the
      * set of additional request properties associated with the REST API request for which the interceptor 
      * is being invoked.
      */

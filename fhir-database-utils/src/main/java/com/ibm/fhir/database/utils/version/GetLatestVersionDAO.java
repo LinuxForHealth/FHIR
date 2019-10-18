@@ -21,12 +21,11 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * Get the latest version by object type and name. This is important, because
  * we deploy the schema in parallel, and so certain objects might end up with
  * different versions at different times (in case of failures)
- * 
- * The Map<String,Integer> returned from {@link #run(IDatabaseTranslator, Connection)}
+ * <br>
+ * The <code>Map&lt;String,Integer&rt;</code> returned from {@link #run(IDatabaseTranslator, Connection)}
  * uses a compound string of type:name for the key e.g. "Table:PATIENT_RESOURCES".
  * 
  * @author rarnold
- *
  */
 public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer>> {
     private final String adminSchemaName;
@@ -34,6 +33,8 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
 
     /**
      * Public constructor
+     * 
+     * @param adminSchemaName
      * @param schemaName
      */
     public GetLatestVersionDAO(String adminSchemaName, String schemaName) {
@@ -41,9 +42,6 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
         this.schemaName = schemaName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseSupplier#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public Map<String,Integer> run(IDatabaseTranslator translator, Connection c) {
         Map<String,Integer> result = new HashMap<>();

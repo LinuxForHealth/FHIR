@@ -23,8 +23,8 @@ public class DropTable implements IDatabaseStatement {
 
     /**
      * Public constructor
+     * @param schemaName
      * @param tableName
-     * @param partitionId
      */
     public DropTable(String schemaName, String tableName) {
         DataDefinitionUtil.assertValidName(schemaName);

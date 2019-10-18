@@ -26,9 +26,9 @@ import com.ibm.fhir.database.utils.api.LockException;
  * Represents objects which are part of the database, but which do not belong to
  * a particular schema (like tablespace, for example).
  * @author rarnold
- *
  */
 public abstract class DatabaseObject implements IDatabaseObject {
+    
     private static final Logger logger = Logger.getLogger(DatabaseObject.class.getName());
     
     // Used to randomize a sleep after a deadlock failure
@@ -48,8 +48,10 @@ public abstract class DatabaseObject implements IDatabaseObject {
     
     /**
      * Public constructor
-     * @param schemaName
+     * 
      * @param objectName
+     * @param objectType
+     * @param version
      */
     public DatabaseObject(String objectName, DatabaseObjectType objectType, int version) {
         this.objectName = objectName;
@@ -135,9 +137,6 @@ public abstract class DatabaseObject implements IDatabaseObject {
         return getName();
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#applyTx(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void applyTx(IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
         // Wrap the apply operation in its own transaction, as this is likely
@@ -207,7 +206,6 @@ public abstract class DatabaseObject implements IDatabaseObject {
 
     /**
      * Sleep a random amount of time.
-     * @param ms
      */
     protected void safeSleep() {
         long ms = random.nextInt(5000);

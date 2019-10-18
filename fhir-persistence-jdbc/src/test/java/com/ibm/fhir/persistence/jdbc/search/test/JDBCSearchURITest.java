@@ -4,23 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.test;
+package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractQueryMultiResourceTest;
+import com.ibm.fhir.persistence.search.test.AbstractSearchURITest;
 
 
-public class JDBCNormMultiResourceTest extends AbstractQueryMultiResourceTest {
-    
+public class JDBCSearchURITest extends AbstractSearchURITest {
+
     private Properties testProps;
-    
-    public JDBCNormMultiResourceTest() throws Exception {
-        this.testProps = TestUtil.readTestProperties("test.normalized.properties");
+
+    public JDBCSearchURITest() throws Exception {
+        this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
     @Override
@@ -29,12 +29,12 @@ public class JDBCNormMultiResourceTest extends AbstractQueryMultiResourceTest {
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
             derbyInit = new DerbyInitializer(this.testProps);
-            derbyInit.bootstrapDb(false);
+            derbyInit.bootstrapDb();
         }
     }
     
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
+        return new FHIRPersistenceJDBCImpl(this.testProps);
     }
 }

@@ -6736,7 +6736,7 @@ public class TestScript extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Operation}.
              */
             public TestScript.Setup.Action.Operation getOperation() {
                 return operation;
@@ -6746,7 +6746,7 @@ public class TestScript extends DomainResource {
              * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
              * 
              * @return
-             *     An immutable object of type {@link Assert}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Assert}.
              */
             public TestScript.Setup.Action.Assert getassert() {
                 return _assert;
@@ -7251,7 +7251,7 @@ public class TestScript extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Operation}.
              */
             public TestScript.Setup.Action.Operation getOperation() {
                 return operation;

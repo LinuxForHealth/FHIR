@@ -26,18 +26,14 @@ public class Db2CheckCompatibility implements IDatabaseStatement {
     
     /**
      * Public constructor
+     *
      * @param adminSchema
-     * @param partitionId
      */
     public Db2CheckCompatibility(String adminSchema) {
         DataDefinitionUtil.assertValidName(adminSchema);
         this.adminSchema = adminSchema;
     }
 
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         // a suitable SQL statement with a TIMESTAMP column

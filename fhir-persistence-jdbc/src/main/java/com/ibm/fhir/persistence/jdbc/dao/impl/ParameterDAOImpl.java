@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -32,20 +32,18 @@ import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCacheUpdater;
-import com.ibm.fhir.persistence.jdbc.util.SQLParameterEncoder;
+import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
- * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
- * relational schema.
- * @author markd
- *
+ * This Data Access Object implements the ParameterDAO interface for creating, updating, 
+ * and retrieving rows in the IBM FHIR Server parameter-related tables.
  */
-public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> implements ParameterNormalizedDAO {
-    private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
-    private static final String CLASSNAME = ParameterDAONormalizedImpl.class.getName(); 
+public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
+    private static final Logger log = Logger.getLogger(ParameterDAOImpl.class.getName());
+    private static final String CLASSNAME = ParameterDAOImpl.class.getName(); 
     
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
     
@@ -69,7 +67,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
-    public ParameterDAONormalizedImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
+    public ParameterDAOImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
         super();
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
@@ -80,7 +78,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      * The connection used by this instance for all DB operations will be the passed connection.
      * @param Connection - A database connection that will be managed by the caller.
      */
-    public ParameterDAONormalizedImpl(Connection managedConnection) {
+    public ParameterDAOImpl(Connection managedConnection) {
         super(managedConnection);
     }
 
@@ -144,7 +142,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
                     tokenSystemId = CodeSystemsCache.getCodeSystemId(tokenSystem);
                     if (tokenSystemId == null) {
                         acquiredFromCache = false;
-                        tokenSystem = SQLParameterEncoder.encode(tokenSystem);
+                        tokenSystem = SqlParameterEncoder.encode(tokenSystem);
                         tokenSystemId = this.readOrAddCodeSystemId(tokenSystem);
                         this.addCodeSystemsCacheCandidate(tokenSystem, tokenSystemId);
                     }
@@ -435,7 +433,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
             codeSystemId = CodeSystemsCache.getCodeSystemId(myCodeSystemName);
             if (codeSystemId == null) {
                 acquiredFromCache = false;
-                myCodeSystemName = SQLParameterEncoder.encode(myCodeSystemName);
+                myCodeSystemName = SqlParameterEncoder.encode(myCodeSystemName);
                 codeSystemId = this.readOrAddCodeSystemId(myCodeSystemName);
                 this.addCodeSystemsCacheCandidate(myCodeSystemName, codeSystemId);
             }
@@ -725,9 +723,6 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         return sqlParmArray;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO#readParameterNameId(java.lang.String)
-     */
     @Override
     public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
         final String METHODNAME = "readParameterNameId";
@@ -745,9 +740,6 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO#readCodeSystemId(java.lang.String)
-     */
     @Override
     public Integer readCodeSystemId(String codeSystemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
         final String METHODNAME = "readCodeSystemId";

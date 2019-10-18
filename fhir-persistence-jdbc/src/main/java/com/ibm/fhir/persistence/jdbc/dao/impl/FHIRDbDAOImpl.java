@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
+import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -43,10 +44,10 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  * @author markd
  *
  */
-public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
+public class FHIRDbDAOImpl implements FHIRDbDAO {
         
-    private static final Logger log = Logger.getLogger(FHIRDbDAOBasicImpl.class.getName());
-    private static final String CLASSNAME = FHIRDbDAOBasicImpl.class.getName(); 
+    private static final Logger log = Logger.getLogger(FHIRDbDAOImpl.class.getName());
+    private static final String CLASSNAME = FHIRDbDAOImpl.class.getName(); 
     private static final String NEWLINE = System.getProperty("line.separator");
     
     private static DataSource fhirDb = null;
@@ -58,34 +59,22 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     
     // Abstract source of configured connections
     private final IConnectionProvider connectionProvider;
-    private final String adminSchemaName;
 
     /**
      * Constructs a DAO instance suitable for acquiring DB connections via JNDI from the app server.
      */
-    public FHIRDbDAOBasicImpl() {
+    public FHIRDbDAOImpl() {
         super();
         this.connectionProvider = null;
-        this.adminSchemaName = null;
     }
     
     /**
      * Constructs a DAO instance suitable for acquiring connections based on the passed database type specific properties.
      * @param dbProperties
      */
-    public FHIRDbDAOBasicImpl(Properties dbProperties) {
+    public FHIRDbDAOImpl(Properties dbProperties) {
         this.setDbProps(dbProperties);
         this.connectionProvider = null;
-        this.adminSchemaName = null;
-    }
-
-    /**
-     * Constructor taking an {@link IConnectionProvider} (useful for new R4 unit tests)
-     * @param cp
-     */
-    public FHIRDbDAOBasicImpl(IConnectionProvider cp, String adminSchemaName) {
-        this.connectionProvider = cp;
-        this.adminSchemaName = adminSchemaName;
     }
 
     /**
@@ -93,7 +82,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
      * The connection used by this instance for all DB operations will be the passed connection.
      * @param Connection - A database connection that will be managed by the caller.
      */
-    public FHIRDbDAOBasicImpl(Connection conn) {
+    public FHIRDbDAOImpl(Connection conn) {
         this();
         this.setExternalConnection(conn);
     }
@@ -357,11 +346,11 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException 
      */
-    protected List<T> runQuery(String sql, Object... searchArgs) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    protected List<Resource> runQuery(String sql, Object... searchArgs) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "runQuery";
         log.entering(CLASSNAME, METHODNAME);
         
-        List<T> fhirObjects = new ArrayList<>();
+        List<Resource> fhirObjects = new ArrayList<>();
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
@@ -466,15 +455,15 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
     /**
      * An method for creating a collection of Data Transfer Objects of type T from the contents of the passed ResultSet.
      * @param resultSet A ResultSet containing FHIR persistent object data.
-     * @return List<T> - A collection of FHIR Data Transfer objects of the same type.
+     * @return List<Resource> - A collection of FHIR Data Transfer objects of the same type.
      * @throws FHIRPersistenceDataAccessException
      */
-    protected List<T> createDTOs(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
+    protected List<Resource> createDTOs(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "createDTOs";
         log.entering(CLASSNAME, METHODNAME);
         
-        T dto;
-        List<T> dtoList = new ArrayList<T>();
+        Resource dto;
+        List<Resource> dtoList = new ArrayList<Resource>();
         
         try {
             while(resultSet.next()) {
@@ -501,7 +490,7 @@ public class FHIRDbDAOBasicImpl<T> implements FHIRDbDAO {
      * @return T - An instance of type T, which is a FHIR Data Transfer Object.
      * @throws FHIRPersistenceDataAccessException
      */
-    protected T createDTO(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
+    protected Resource createDTO(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
         // Can be overridden by subclasses that need to return DTOs.
         return null;
     }

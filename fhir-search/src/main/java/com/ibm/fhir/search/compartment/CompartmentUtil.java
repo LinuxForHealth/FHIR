@@ -106,7 +106,7 @@ public class CompartmentUtil {
      * Builds an in-memory model of the Compartment map defined in compartments.json, for supporting compartment based
      * FHIR searches.
      *
-     * @return Map<String, CompartmentCache>
+     * @return a map of compartment caches 
      * @throws IOException
      */
     public static final Map<String, CompartmentCache> buildCompartmentMap() {

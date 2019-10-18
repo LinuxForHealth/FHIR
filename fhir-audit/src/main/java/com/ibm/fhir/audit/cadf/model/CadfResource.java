@@ -132,7 +132,7 @@ public final class CadfResource {
          * @param id      - String. Resource identifier.
          * @param typeURI - CadfEvent.ResourceType. Resource classification in the CADF
          *                taxonomy.
-         * @see CadfEvent#ResourceType
+         * @see CadfEvent.ResourceType
          */
         public Builder(String id, CadfEvent.ResourceType typeURI) {
             this.id = id;
@@ -241,7 +241,7 @@ public final class CadfResource {
         /**
          * A convenience method to add one attachment at a time.
          * 
-         * @see withAttachments()
+         * @see #withAttachments(CadfAttachment[])
          */
         public Builder withAttachment(CadfAttachment attachment) {
             if (this.attachments == null) {
@@ -271,7 +271,7 @@ public final class CadfResource {
         /**
          * A convenience method to add one address at a time.
          * 
-         * @see withAddresses()
+         * @see #withAddresses(CadfEndpoint[])
          */
         public Builder withAddress(CadfEndpoint address) {
             if (this.addresses == null) {

@@ -2007,7 +2007,7 @@ public class SubstanceSpecification extends DomainResource {
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
          * 
          * @return
-         *     An immutable object of type {@link MolecularWeight}.
+         *     An immutable object of type {@link SubstanceSpecification.Structure.Isotope.MolecularWeight}.
          */
         public SubstanceSpecification.Structure.Isotope.MolecularWeight getMolecularWeight() {
             return molecularWeight;

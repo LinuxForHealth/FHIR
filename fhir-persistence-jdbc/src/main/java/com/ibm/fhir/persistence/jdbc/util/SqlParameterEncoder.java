@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * the likelihood of SQL penetration that may happen when called via the REST layer.
  *
  */
-public class SQLParameterEncoder {
+public class SqlParameterEncoder {
 
     public static final String DEFAULT_ESCAPE_CHARACTER = "";
 
@@ -25,11 +25,11 @@ public class SQLParameterEncoder {
     private final String blackListCharactersRegex;
     private final Pattern escapeCharacterPattern;
 
-    public SQLParameterEncoder() {
+    public SqlParameterEncoder() {
         this(DEFAULT_ESCAPE_CHARACTER, BLACKLIST_CHARACTERS_REGEX);
     }
 
-    public SQLParameterEncoder(String escapeCharacter, String blackListCharactersRegex) {
+    public SqlParameterEncoder(String escapeCharacter, String blackListCharactersRegex) {
         this.escapeCharacter = escapeCharacter;
         this.blackListCharactersRegex = blackListCharactersRegex;
         escapeCharacterPattern = Pattern.compile(this.blackListCharactersRegex);
@@ -52,6 +52,6 @@ public class SQLParameterEncoder {
     }
 
     public static String encode(String parameter, String defaultEscapeCharacter, String blackListCharactersRegex) {
-        return new SQLParameterEncoder(defaultEscapeCharacter, blackListCharactersRegex).encodeParameter(parameter);
+        return new SqlParameterEncoder(defaultEscapeCharacter, blackListCharactersRegex).encodeParameter(parameter);
     }
 }

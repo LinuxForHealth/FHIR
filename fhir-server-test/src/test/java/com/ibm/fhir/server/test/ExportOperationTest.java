@@ -32,6 +32,8 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 
 /**
+ * These tests exercise the $export operation, a BulkData specification defined operation.
+ * 
  * @author pbastide
  *
  */
@@ -86,10 +88,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
     }
 
     /*
+     * 
      * @param outputFormat
      * @param since
      * @param types
+     * @param typeFilters
      * @return
+     * @throws FHIRGeneratorException
+     * @throws IOException
      */
     private Parameters generateParameters(String outputFormat, Instant since, List<String> types,
         List<String> typeFilters) throws FHIRGeneratorException, IOException {
@@ -126,11 +132,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     /**
      * add query parameter list
-     * 
-     * @param target
-     * @param header
-     * @param val
-     * @return
      */
     public WebTarget addQueryParameterList(WebTarget target, String header, List<String> vals) {
         if (header != null && vals != null && !vals.isEmpty()) {
@@ -142,11 +143,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     /**
      * adds the query parameter
-     * 
-     * @param builder
-     * @param header
-     * @param vals
-     * @return
      */
     public WebTarget addQueryParameter(WebTarget target, String header, String val) {
         if (header != null && val != null) {

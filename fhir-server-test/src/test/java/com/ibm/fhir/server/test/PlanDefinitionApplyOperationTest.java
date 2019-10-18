@@ -460,7 +460,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
      * 
      * @param target
      * @param header
-     * @param val
+     * @param vals
      * @return
      */
     public WebTarget addQueryParameterList(WebTarget target, String header, List<String> vals) {
@@ -478,9 +478,9 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
     /**
      * adds the query parameter
      * 
-     * @param builder
+     * @param target
      * @param header
-     * @param vals
+     * @param val
      * @return
      */
     public WebTarget addQueryParameter(WebTarget target, String header, String val) {

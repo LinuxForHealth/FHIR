@@ -29,7 +29,7 @@ import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
  * @author Albert Wang
  */
 public class ChunkWriter extends AbstractItemWriter {
-    private final static Logger logger = Logger.getLogger(ChunkWriter.class.getName());
+    private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     private AmazonS3 cosClient = null;
     /**
      * Fhir tenant id.
@@ -88,7 +88,7 @@ public class ChunkWriter extends AbstractItemWriter {
     String cosCredentialIbm;
 
     /**
-     * @see AbstractItemWriter#AbstractItemWriter()
+     * @see javax.batch.api.chunk.AbstractItemWriter#AbstractItemWriter()
      */
     public ChunkWriter() {
         super();
@@ -96,7 +96,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
     /**
      * @throws Exception
-     * @see AbstractItemWriter#writeItems(List<java.lang.Object>)
+     * @see {@link javax.batch.api.chunk.AbstractItemWriter#writeItems(List)} 
      */
     @SuppressWarnings("unchecked")
     public void writeItems(List<java.lang.Object> arg0) throws Exception {

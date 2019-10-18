@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,6 @@ import com.ibm.fhir.replication.api.model.ReplicationInfo;
 /**
  * Contains utility methods related to the FHIR Replication API.
  * @author markd
- *
  */
 public class ReplicationUtil {
     
@@ -65,8 +64,9 @@ public class ReplicationUtil {
 
     /**
      * Add pertinent extensions from the copyFromResource to the copyToResource.
-     * @param extensions A List of valid FHIR Resource extensions.
-     * @param resource A valid FHIR Resource
+     * 
+     * @param copyFromResource
+     * @param copyToResource
      */
     public static void addExtensionDataToResource(Resource copyFromResource, Resource copyToResource) {
         DomainResource copyFromDomainResource, copyToDomainResource;

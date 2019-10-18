@@ -69,9 +69,9 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
 
     /**
      * Read the id for the named type
-     * @param resourceTypeName
+     * @param parameterName
      * @return the database id, or null if the named record is not found
-     * @throws SQLException
+     * @throws FHIRPersistenceDataAccessException
      */
     protected Integer getParameterId(String parameterName) throws FHIRPersistenceDataAccessException {
         Integer result;
