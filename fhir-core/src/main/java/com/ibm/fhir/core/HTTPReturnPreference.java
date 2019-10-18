@@ -8,7 +8,7 @@ package com.ibm.fhir.core;
 /**
  * An enumeration of return preference codes.
  * 
- * see <a href="https://www.hl7.org/fhir/r4/http.html#ops">Http Operations</a>
+ * see <a href="https://www.hl7.org/fhir/r4/http.html#ops">FHIR Http Operations</a>
  * @author lmsurpre
  */
 public enum HTTPReturnPreference {
