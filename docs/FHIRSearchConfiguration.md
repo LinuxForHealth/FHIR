@@ -27,6 +27,8 @@ There are three layers of search parameter configuration.
 
 The specification defined SearchParameters are embedded as [a JSON file](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/search-parameters.json) in the `fhir-search` module. This file has a twin [JSON file](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/valuetypes-default.json) which maps each SearchParameter attribute to one or more expected target data types. 
 
+Note, the search-parameters.json and search-parameters.xml in the `fhir-search` module match the latest definition resource from the [FHIR download site](http://hl7.org/fhir/r4/downloads.html). 
+
 The valuetypes JSON is an implementation-specific config file that enables the server to take datatype-specific actions when the extracted attributes are stored or searched.
 
 The default and tenant level configurations are put in the `default` and tenant-specific (e.g. `tenant1`) config folders respectively. These folders are populated with `extension-search-parameters.json` and `extension-search-parameters-valuetypes.json`.  
@@ -34,8 +36,6 @@ The default and tenant level configurations are put in the `default` and tenant-
 The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java) and [TenantSpecificValueTypesCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/valuetypes/cache/TenantSpecificValueTypesCache.java). 
 
 The IBM FHIR Server supports compartment searches based on the CompartmentDefinition resources found at [fhir-search/src/main/resources/compartments.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/compartments.json).  These definitions come directly from the specification and the server provides no corresponding default or tenant-level configuration. 
-
-Note, the search-parameters.json and search-parameters.xml in the `fhir-search` module match the latest definition resource from the [FHIR download site](http://hl7.org/fhir/r4/downloads.html). 
 
 ### 1.1 Configuration per Tenant 
 To configure tenant-specific search parameters, create a file called `extension-search-parameters.json` and `extension-search-parameters-valuetypes.json`, placing it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters used by the `qpharma` tenant.
