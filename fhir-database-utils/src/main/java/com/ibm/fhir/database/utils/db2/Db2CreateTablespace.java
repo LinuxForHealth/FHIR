@@ -24,10 +24,10 @@ public class Db2CreateTablespace implements IDatabaseStatement {
     private final String tablespaceName;
     private final int extentSizeKB;
 
-/**
- * 
- * @param tablespaceName
- */
+    /**
+     * 
+     * @param tablespaceName
+     */
     public Db2CreateTablespace(String tablespaceName) {
         DataDefinitionUtil.assertValidName(tablespaceName);
         this.tablespaceName = tablespaceName;
