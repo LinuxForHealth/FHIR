@@ -41,6 +41,8 @@ public class TaskGroup implements ITaskGroup {
 
     /**
      * Public constructor
+     *
+     * @param taskId
      * @param tmgr
      * @param task
      */
@@ -50,9 +52,6 @@ public class TaskGroup implements ITaskGroup {
         this.task = task;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.task.api.ITaskGroup#getTaskId()
-     */
     @Override
     public String getTaskId() {
         return this.taskId;
@@ -93,9 +92,6 @@ public class TaskGroup implements ITaskGroup {
         this.parents.add(tg);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.task.api.ITaskGroup#taskCompletionCallback(com.ibm.fhir.task.api.ITaskGroup)
-     */
     @Override
     public void taskCompletionCallback(ITaskGroup tg) {
         boolean empty;
@@ -136,7 +132,6 @@ public class TaskGroup implements ITaskGroup {
 
     /**
      * Called when the ExecutorService executes this task
-     * @param parent
      */
     public void runTask() {
         try {
@@ -165,9 +160,6 @@ public class TaskGroup implements ITaskGroup {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.task.api.ITaskGroup#addParent(com.ibm.fhir.task.api.ITaskGroup)
-     */
     @Override
     public void addParent(ITaskGroup parent) {
         this.parents.add(parent);

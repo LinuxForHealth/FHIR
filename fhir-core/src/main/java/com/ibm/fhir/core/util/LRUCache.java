@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * A simple Least Recently Used (LRU) cache implementation using LinkedHashMap
  * 
- * @see {@link java.util.LinkedHashMap#removeEldestEntry}
+ * see {@link java.util.LinkedHashMap#removeEldestEntry}
  */
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
     private static final long serialVersionUID = 1L;

@@ -34,7 +34,7 @@ public class ResourceTypesCache {
     /**
      * Retrieves the id for the name contained in the passed resource type, for the current tenant-datastore. 
      * If not found, null is returned.
-     * @param parameterName A valid FHIR search parameter name.
+     * @param resourceType A valid FHIR search parameter name.
      * @return Integer The id corresponding to the parameter name.
      */
     public static Integer getResourceTypeId(String resourceType) {
@@ -70,6 +70,7 @@ public class ResourceTypesCache {
 
     /**
      * Adds the passed resource type name and id to the current tenant-datastore cache.
+     *  
      * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
      * @param resourceType A valid resource type name.
      * @param resourceTypeId The id associated with the passed resource type name.
@@ -95,7 +96,7 @@ public class ResourceTypesCache {
     /**
      * Adds the passed resource type name/id pairs to the the current tenant-datastore cache.
      * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
-     * @param newParameters A Map containing resource type name/id pairs.
+     * @param newResourceTypes A Map containing resource type name/id pairs.
      */
     public static void putResourceTypeIds(String tenantDatastoreCacheName, Map<String, Integer> newResourceTypes) {
         
@@ -108,7 +109,7 @@ public class ResourceTypesCache {
     
     /**
      * 
-     * @return String - A formatted representation of the entire cache managed by this class.
+     * @return A formatted representation of the entire cache managed by this class.
      */
     public static String dumpCacheContents() {
         
@@ -118,7 +119,7 @@ public class ResourceTypesCache {
     /**
      * Determines and reports any discrepancies between the current thread's Resource Type cache and the contents of the database RESOURCE_TYPES table.
      * @param dao A Resource DAO instance
-     * @return String - A report detailing cache/db discrepancies.
+     * @return A report detailing cache/db discrepancies.
      */
     public static String reportCacheDiscrepancies(ResourceDAO dao) {
         

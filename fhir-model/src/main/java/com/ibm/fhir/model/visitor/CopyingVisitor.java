@@ -29,7 +29,8 @@ import net.jcip.annotations.NotThreadSafe;
  * the exact same object that was originally visited.
  * 
  * However, subclasses may override this class in order to modify the copied Resource or Element
- * by setting new values on the current builder via ({@code getBuilder())) and marking it dirty via ({@code markDirty())).
+ * by setting new values on the current builder via ({@link BuilderWrapper#getBuilder()) and 
+ * marking it dirty via ({@link BuilderWrapper#markDirty())).
  *  
  * Note: this class is NOT threadsafe.  Only one object should be visited at a time.
  * 

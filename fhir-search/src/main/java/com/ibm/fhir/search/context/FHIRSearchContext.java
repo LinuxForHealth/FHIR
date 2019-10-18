@@ -62,7 +62,6 @@ public interface FHIRSearchContext extends FHIRPagingContext {
 
     /**
      * @param elementToInclude
-     * @return
      */
     void addElementsParameter(String elementToInclude);
     

@@ -57,7 +57,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     
     /**
      * Protected constructor
-     * @param c the database connection
+     * @param tgt database targeted 
      * @param dt the translator for this type of database
      */
     protected CommonDatabaseAdapter(IDatabaseTarget tgt, IDatabaseTranslator dt) {
@@ -108,10 +108,12 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     
     /**
      * Generate a create table statement suitable for Derby
+     * 
      * @param schema
      * @param name
      * @param columns
      * @param pkDef
+     * @param tablespaceName
      * @return
      */
     protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, String tablespaceName) {
@@ -374,9 +376,9 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     /**
      * Update the tenant status
-     * @param schemaName
-     * @param tenantName
-     * @param allocated
+     * @param adminSchemaName
+     * @param tenantId
+     * @param status
      */
     @Override
     public void updateTenantStatus(String adminSchemaName, int tenantId, TenantStatus status) {

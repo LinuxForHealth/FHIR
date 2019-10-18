@@ -95,11 +95,10 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
     /**
      * Calls a stored procedure to read the system contained in the passed Parameter in the Code_Systems table.
      * If it's not in the DB, it will be stored and a unique id will be returned.
-     * @param parameter
-     * @return Integer - The generated id of the stored system.
-     * @throws FHIRPersistenceDBConnectException 
-     * @throws FHIRPersistenceDataAccessException 
-     * @throws FHIRPersistenceException
+     * @param systemName
+     * 
+     * @return The generated id of the stored system.
+     * @throws FHIRPersistenceDataAccessException
      */
     @Override
     public int readOrAddCodeSystem(String systemName) throws FHIRPersistenceDataAccessException   {

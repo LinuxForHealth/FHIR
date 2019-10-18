@@ -23,11 +23,11 @@ public class CreateVersionHistory {
      * table is used to determine the current version of the schema, and
      * hence which changes should be applied in order to migrate the
      * schema to the latest version.
-     * 
+     * <br>
      * As this is the version table itself, it is assigned a version id
      * of 0 which is used to indicate that versioning doesn't apply.
      * 
-     * @param schemaName
+     * @param adminSchemaName
      * @param target
      */
     public static void createTableIfNeeded(String adminSchemaName, IDatabaseAdapter target) {

@@ -1923,8 +1923,9 @@ public class FHIRResource implements FHIRResourceHelpers {
      *            the resource type associated with the Resource to be retrieved
      * @param id
      *            the id of the Resource to be retrieved
-     * @param queryparameters
+     * @param queryParameters
      *            a Map containing the query parameters from the request URL
+     * @param requestUri the URI from the request
      * @param requestProperties
      *            additional request properties which supplement the HTTP headers associated with this request
      * @return a Bundle containing the history of the specified Resource
@@ -2317,7 +2318,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * Processes a bundled request.
      *
-     * @param bundle
+     * @param bundleResource
      *            the request Bundle
      * @param requestProperties
      *            additional request properties which supplement the HTTP headers associated with this request

@@ -39,8 +39,6 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.search.SearchConstants;
 
 /**
- * ParametersUtil
- * 
  * Refactored the PopulateSearchParameterMap code, and marked class as final so there are no 'children' and inheritance
  * which overwrites the behaviors of the buildInSearchParameters.
  * 
@@ -351,7 +349,7 @@ public final class ParametersUtil {
     /**
      * processes the issues with `ValueSet.expansion.contains.code` when the value is unescaped.
      * 
-     * @param expressions
+     * @param expression
      */
     public static String processContains(String expression) {
         String result = expression;

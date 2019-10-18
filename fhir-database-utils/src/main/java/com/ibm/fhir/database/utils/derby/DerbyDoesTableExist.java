@@ -31,7 +31,7 @@ public class DerbyDoesTableExist implements IDatabaseSupplier<Boolean> {
     /**
      * Public constructor
      * @param schemaName
-     * @param tenantName
+     * @param tableName
      */
     public DerbyDoesTableExist(String schemaName, String tableName) {
         this.schemaName = DataDefinitionUtil.assertValidName(schemaName);

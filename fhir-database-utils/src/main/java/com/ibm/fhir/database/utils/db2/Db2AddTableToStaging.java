@@ -25,9 +25,10 @@ public class Db2AddTableToStaging implements IDatabaseStatement {
 
 
     /**
-     * Public constructor
+     * Public Constructor
+     * @param schemaName
+     * @param stagingTableName
      * @param tableName
-     * @param partitionId
      */
     public Db2AddTableToStaging(String schemaName, String stagingTableName, String tableName) {
         DataDefinitionUtil.assertValidName(schemaName);
@@ -38,9 +39,6 @@ public class Db2AddTableToStaging implements IDatabaseStatement {
         this.tableName = tableName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, stagingTableName);

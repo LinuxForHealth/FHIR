@@ -27,8 +27,10 @@ public class ObjectGroup extends BaseObject {
     
     /**
      * Public constructor
+     * 
+     * @param schemaName
      * @param name
-     * @param columns
+     * @param groupIn
      */
     public ObjectGroup(String schemaName, String name, Collection<IDatabaseObject> groupIn) {
         // not a real database object, so gets the special version of 0
@@ -57,9 +59,6 @@ public class ObjectGroup extends BaseObject {
         addDependencies(deps);
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabaseObject#apply(com.ibm.fhir.schema.model.IDatabase)
-     */
     @Override
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
         
@@ -70,9 +69,6 @@ public class ObjectGroup extends BaseObject {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#drop(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void drop(IDatabaseAdapter target) {
         // Apply each member of the group, but going in reverse
@@ -81,20 +77,18 @@ public class ObjectGroup extends BaseObject {
         }
     }
 
-    /**
-     * Override the BaseObject behavior because we need to propagate the grant request
-     * to the indivual objects we have aggregated
-     */
     @Override
     public void grant(IDatabaseAdapter target, String groupName, String toUser) {
+        /**
+         * Override the BaseObject behavior because we need to propagate the grant request
+         * to the indivual objects we have aggregated
+         */
+        
         for (IDatabaseObject obj: this.group) {
             obj.grant(target, groupName, toUser);
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#apply(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void apply(IDatabaseAdapter target) {
         // Plain old apply, used to apply all changes, regardless of version - e.g. for testing

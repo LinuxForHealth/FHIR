@@ -23,7 +23,7 @@ public interface ITaskGroup {
 
     /**
      * Called when a child task completes.
-     * @param tg
+     * @param taskGroup
      */
     void taskCompletionCallback(ITaskGroup taskGroup);
 

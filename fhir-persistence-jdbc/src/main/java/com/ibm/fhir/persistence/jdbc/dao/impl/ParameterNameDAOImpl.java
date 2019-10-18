@@ -17,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
@@ -95,11 +94,9 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
     /**
      * Calls a stored procedure to read the name contained in the passed Parameter in the Parameter_Names table.
      * If it's not in the DB, it will be stored and a unique id will be returned.
-     * @param parameter
-     * @return Integer - The generated id of the stored system.
-     * @throws FHIRPersistenceDBConnectException 
-     * @throws FHIRPersistenceDataAccessException 
-     *  
+     * @param parameterName
+     * @return The generated id of the stored system.
+     * @throws FHIRPersistenceDataAccessException
      */
     @Override
     public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException  {

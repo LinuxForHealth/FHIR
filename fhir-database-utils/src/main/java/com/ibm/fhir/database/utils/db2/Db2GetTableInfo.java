@@ -31,16 +31,13 @@ public class Db2GetTableInfo implements IDatabaseSupplier<Db2TableInfo> {
     /**
      * Public constructor
      * @param schemaName
-     * @param tenantName
+     * @param tableName
      */
     public Db2GetTableInfo(String schemaName, String tableName) {
         this.schemaName = DataDefinitionUtil.assertValidName(schemaName);
         this.tableName = DataDefinitionUtil.assertValidName(tableName);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public Db2TableInfo run(IDatabaseTranslator translator, Connection c) {
         Db2TableInfo result;

@@ -17,16 +17,14 @@ import java.util.stream.Collectors;
  * Compartment Cache is a localized class to cache the compartment information and provide helper methods to add to the
  * cache.
  * 
- * 
  * @author pbastide
- *
  */
 public class CompartmentCache {
 
     private Map<java.lang.String, List<java.lang.String>> codeAndParams = new HashMap<>();
 
     /**
-     *
+     * constructor
      */
     public CompartmentCache() {
         super();
@@ -35,7 +33,7 @@ public class CompartmentCache {
     /**
      * add the code and parameters to the given compartment cache.
      * 
-     * @param code
+     * @param inclusionCode
      * @param params
      */
     public void add(java.lang.String inclusionCode, List<com.ibm.fhir.model.type.String> params) {
