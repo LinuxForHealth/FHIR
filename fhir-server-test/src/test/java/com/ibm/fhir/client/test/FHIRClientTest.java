@@ -35,13 +35,13 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Patient.Contact;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.HTTPVerb;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
 
 /**
@@ -120,7 +120,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test
     public void testCreatePatient() throws Exception {
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
 
         // Create the patient and then validate the response.
@@ -145,7 +145,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test
     public void testCreatePatientJsonObject() throws Exception {
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
         JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 
@@ -162,7 +162,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test
     public void testCreatePatientWithReturnPref() throws Exception {
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
 
         FHIRRequestHeader preferHeader;
@@ -464,7 +464,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test
     public void testValidatePatient() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
 
         // Create the patient and then validate the response.
@@ -478,7 +478,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test
     public void testValidatePatientJsonObject() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
         JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 

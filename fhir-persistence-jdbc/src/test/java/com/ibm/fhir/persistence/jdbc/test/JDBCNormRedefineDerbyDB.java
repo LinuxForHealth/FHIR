@@ -10,23 +10,23 @@ import java.util.Properties;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * This sole purpose of this class is to delete and redefine the Derby database used by the JDBCNormXXX testng tests. This test class should run first in
  * the suite of tests that gets run when the fhir-persistence-jdbc project is built.
  *
  */
-public class JDBCNormRedefineDerbyDB extends FHIRModelTestBase {
+public class JDBCNormRedefineDerbyDB {
     
     private Properties testProps;
     
     public JDBCNormRedefineDerbyDB() throws Exception {
-        this.testProps = readTestProperties("test.normalized.properties");
+        this.testProps = TestUtil.readTestProperties("test.normalized.properties");
     }
 
-    @Test(groups = { "jdbc-normalized" })
+    @Test
     public void bootstrapDatabase() throws Exception {
         System.out.println("bootstrapping database for jdbc-normalized test group");
         

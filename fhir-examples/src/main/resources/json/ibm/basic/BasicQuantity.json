@@ -1,0 +1,87 @@
+{
+  "resourceType": "Basic",
+  "code": {
+    "text": "test"
+  },
+  "extension": [
+    {
+      "url": "http://example.org/Quantity",
+      "valueQuantity": {
+        "value": 25,
+        "unit": "sec",
+        "system": "http://unitsofmeasure.org",
+        "code": "s"
+      }
+    },
+    {
+      "url": "http://example.org/Quantity-noDisplayUnit",
+      "valueQuantity": {
+        "value": 1,
+        "system": "http://snomed.info/sct",
+        "code": "385049006"
+      }
+    },
+    {
+      "url": "http://example.org/Quantity-noCode",
+      "valueQuantity": {
+        "value": 1,
+        "unit": "eq"
+      }
+    },
+    {
+      "url": "http://example.org/Quantity-noCodeOrUnit",
+      "valueQuantity": {
+        "value": 1
+      }
+    },
+    {
+      "url": "http://example.org/Quantity-lessThan",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "lt",
+        "comparator": "<"
+      }
+    },
+    {
+      "url": "http://example.org/Quantity-greaterThan",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "gt",
+        "comparator": ">"
+      }
+    },
+    {
+      "url": "http://example.org/Quantity-lessThanOrEqual",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "lte",
+        "comparator": "<="
+      }
+    },
+    {
+      "url": "http://example.org/Quantity-greaterThanOrEqual",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "gte",
+        "comparator": ">="
+      }
+    },
+    {
+      "url": "http://example.org/Range",
+      "valueRange": {
+      	"low": {
+	      "value": 5,
+	      "unit": "sec",
+	      "system": "http://unitsofmeasure.org",
+	      "code": "s"
+	    },
+	    "high": {
+	      "value": 10,
+	      "unit": "sec",
+	      "system": "http://unitsofmeasure.org",
+	      "code": "s"
+	    }
+	  }
+    }
+  ]
+}

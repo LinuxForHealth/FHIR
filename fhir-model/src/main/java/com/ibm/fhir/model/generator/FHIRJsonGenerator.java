@@ -94,11 +94,6 @@ public class FHIRJsonGenerator extends FHIRAbstractGenerator {
         return prettyPrinting;
     }
 
-    @Override
-    public void reset() {
-        // do nothing
-    }
-    
     /**
      * Temporary workaround for: https://github.com/eclipse-ee4j/jsonp/issues/190
      */

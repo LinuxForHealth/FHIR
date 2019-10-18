@@ -19,19 +19,18 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * This class tests the persistence interceptor feature. The MyInterceptor class is our test interceptor implementation
  * and is registered with the interceptor framework.
  */
-public class InterceptorTest extends FHIRModelTestBase {
-    private static final String GOOD_PATIENT = "patient-example-a.json";
+public class InterceptorTest {
 
     protected static FHIRPersistenceInterceptorMgr mgr = null;
     protected static Patient patient = null;
@@ -45,13 +44,13 @@ public class InterceptorTest extends FHIRModelTestBase {
         mgr = FHIRPersistenceInterceptorMgr.getInstance();
         assertNotNull(mgr);
 
-        patient = readResource(Patient.class, GOOD_PATIENT);
+        patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
 
         // Inject a new family name of "Exception" to trigger errors from MyInterceptor
         badPatient = patient.toBuilder()
-            .name(Collections.emptyList()) // clear existing names
-            .name(HumanName.builder().family(com.ibm.fhir.model.type.String.of("Exception")).build())
-            .build();
+                            .name(Collections.emptyList()) // clear existing names
+                            .name(HumanName.builder().family(com.ibm.fhir.model.type.String.of("Exception")).build())
+                            .build();
         
         // Quick check to make sure we've set up the test correctly
         assertEquals("Exception", badPatient.getName().get(0).getFamily().getValue());

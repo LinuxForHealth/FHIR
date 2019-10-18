@@ -7,12 +7,6 @@ assignees: ''
 
 ---
 
-Watson Health Playbook:
-CODE_REMOVED
-
-Offering Catalog:
-CODE_REMOVED
-
 Pre-release:
 - [ ] Update dependencies
 
@@ -36,3 +30,4 @@ Won't do:
 - Independent functional testing (FVT)
 - Go through 'The Way We Work' process
 - Pen Testing
+

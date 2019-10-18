@@ -157,7 +157,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     private static final Logger log =
             java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
-    private static final String FHIR_SERVER_NAME = "IBM Server for HL7 FHIR";
+    private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPY_RIGHT = "(c) Copyright IBM Corporation 2018, 2019";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
 

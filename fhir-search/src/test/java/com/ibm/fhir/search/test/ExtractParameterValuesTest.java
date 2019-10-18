@@ -24,7 +24,7 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.visitor.PathAwareAbstractVisitor;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 import com.ibm.fhir.search.test.ExtractorValidator.Builder;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -54,7 +54,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
     public static void runTest(String file, Class<? extends Resource> cls, boolean debug, ExtractorValidator validator, boolean skip) throws Exception {
         // Are you debugging....
         // Set to true to enable, false to turn off
-        PathAwareAbstractVisitor.DEBUG = debug;
+        PathAwareVisitor.DEBUG = debug;
 
         try (InputStream stream = ExtractParameterValuesTest.class.getResourceAsStream("/testdata/" + file)) {
             Resource res = FHIRParser.parser(Format.JSON).parse(stream);  

@@ -26,6 +26,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
@@ -75,10 +76,9 @@ public class SimpleRouterTest extends FHIRServerTestBase {
             return;
         }
 
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
-        Practitioner practitioner = readResource(Practitioner.class, "Practitioner.json");
-        MedicationAdministration medAdmin = readResource(MedicationAdministration.class,
-                "MedicationAdministration.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
+        Practitioner practitioner = TestUtil.readLocalResource("Practitioner.json");
+        MedicationAdministration medAdmin = TestUtil.readLocalResource("MedicationAdministration.json");
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         bundle = addRequestToBundle(bundle, HTTPVerb.POST, "Patient", null, patient);
@@ -126,7 +126,8 @@ public class SimpleRouterTest extends FHIRServerTestBase {
 
     private void printBundle(String method, String bundleType, Bundle bundle) throws FHIRException {
         if (debug) {
-            System.out.println(method + " " + bundleType + " bundle contents:\n" + writeResource(bundle, Format.JSON));
+            System.out.println(method + " " + bundleType + 
+                " bundle contents:\n" + TestUtil.writeResource(bundle, Format.JSON, true));
         }
     }
 

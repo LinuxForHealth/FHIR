@@ -21,7 +21,7 @@ import java.time.YearMonth;
 import java.time.ZonedDateTime;
 
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.visitor.PathAwareVisitorAdapter;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
 /**
  * Compute a cryptographic hash of the visited nodes, skipping those which
@@ -29,7 +29,7 @@ import com.ibm.fhir.model.visitor.PathAwareVisitorAdapter;
  * @author rarnold
  *
  */
-public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
+public class ResourceFingerprintVisitor extends PathAwareVisitor {
     
     
     // 32 bytes chosen as a matching entropy of SHA-256

@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver.TestType;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -26,35 +27,33 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     // The Derby database instance used for the persistence tests
     private DerbyFhirDatabase database;
-    
+
     private Properties properties;
 
     public R4JDBCExamplesTest() throws Exception {
-        this.properties = readTestProperties("test.normalized.properties");
+        this.properties = TestUtil.readTestProperties("test.normalized.properties");
     }
-    
+
     @BeforeSuite
     public void bootstrapAndLoad() {
         System.out.println("Bootstrapping database:");
-        
-        
+
+
         System.out.println("Processing examples:");
     }
-    
+
     @Test(groups = { "jdbc-seed" })
     public void perform() throws Exception {
-        
-        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
+
+        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence,
             () -> createPersistenceContext(),
             () -> createHistoryPersistenceContext());
-        
-        // Overriding the JDBC ALL to Minimal. 
-        // Unless the profile tells us differently 
+
+        // Overriding the JDBC ALL to Minimal.
+        // Unless the profile tells us differently
         String testType = System.getProperty("com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest", TestType.MINIMAL.toString());
         System.setProperty("com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType", testType);
-        
-        
-        
+
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
         R4ExamplesDriver driver = new R4ExamplesDriver();

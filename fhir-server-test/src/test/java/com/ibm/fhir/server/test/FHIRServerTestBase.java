@@ -35,7 +35,6 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.tyrus.client.SslContextConfigurator;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
-import org.glassfish.tyrus.core.TyrusWebSocketEngine;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.client.FHIRClient;
@@ -57,13 +56,12 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 import com.ibm.fhir.validation.FHIRValidator;
 
 /**
  * Base class for fhir-server unit tests.
  */
-public abstract class FHIRServerTestBase extends FHIRModelTestBase {
+public abstract class FHIRServerTestBase {
 
     protected FHIRClient client = null;
 

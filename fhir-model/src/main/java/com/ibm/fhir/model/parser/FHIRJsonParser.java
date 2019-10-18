@@ -41,6 +41,9 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.util.ElementFilter;
 
+import net.jcip.annotations.NotThreadSafe;
+
+@NotThreadSafe
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FHIRJsonParser implements FHIRParser {
     public static boolean DEBUG = false;
@@ -103,8 +106,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
     }
 
-    @Override
-    public void reset() {
+    private void reset() {
         stack.clear();
     }
 

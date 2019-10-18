@@ -42,6 +42,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Date;
@@ -52,7 +53,6 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.SortDirection;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
-import com.ibm.fhir.search.util.SearchUtil;
 
 public class SortingTest extends FHIRServerTestBase {
 
@@ -76,7 +76,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -91,7 +91,7 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -114,7 +114,7 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "patient-example-a.json");
+        Patient patient = TestUtil.readLocalResource("patient-example-a.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -136,7 +136,7 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "patient-example-c.json");
+        Patient patient = TestUtil.readLocalResource("patient-example-c.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -158,7 +158,7 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test
@@ -166,7 +166,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "patient-example-a1.json");
+        Patient patient = TestUtil.readLocalResource("patient-example-a1.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -180,14 +180,14 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1" })
     public void testCreateObservation1() throws Exception {
         WebTarget target = getWebTarget();
 
-        Observation observation = buildObservation(patientId, "Observation1.json");
+        Observation observation = TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -203,14 +203,14 @@ public class SortingTest extends FHIRServerTestBase {
 
         // use it for search
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1" })
     public void testCreateObservation2() throws Exception {
         WebTarget target = getWebTarget();
 
-        Observation observation = buildObservation(patientId, "Observation2.json");
+        Observation observation = TestUtil.buildPatientObservation(patientId, "Observation2.json");
         Entity<Observation> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -226,14 +226,14 @@ public class SortingTest extends FHIRServerTestBase {
 
         // use it for search
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1" })
     public void testCreateObservation3() throws Exception {
         WebTarget target = getWebTarget();
 
-        Observation observation = buildObservation(patientId, "Observation3.json");
+        Observation observation = TestUtil.buildPatientObservation(patientId, "Observation3.json");
         Entity<Observation> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -249,14 +249,14 @@ public class SortingTest extends FHIRServerTestBase {
 
         // use it for search
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" })
     public void testCreateObservation5() throws Exception {
         WebTarget target = getWebTarget();
 
-        Observation observation = buildObservation("1", "Observation5.json");
+        Observation observation = TestUtil.buildPatientObservation("1", "Observation5.json");
         Entity<Observation> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -272,7 +272,7 @@ public class SortingTest extends FHIRServerTestBase {
 
         // use it for search
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     // Patient?gender=male&_sort:asc=family

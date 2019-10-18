@@ -150,10 +150,10 @@ public class FhirSchemaGenerator {
         // both TENANT_NAME and TENANT_KEY to be provided.
         variablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.READ));
         
-        // FHIRSERVER gets to use the 
+        // FHIRSERVER gets to use the FHIR sequence
         sequencePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.USAGE));
 
-        // All the resource types we will create tables for
+        // Create tables for each resource type
         for (FHIRResourceType.ValueSet rt: FHIRResourceType.ValueSet.values()) {
             resourceTypes.add(rt.value());
         }
@@ -290,7 +290,7 @@ CREATE SEQUENCE fhir_sequence
     public void buildSchema(PhysicalDataModel model) {
 
         // Build the complete physical model so that we know it's consistent
-        buildAdminSchema(model);        
+        buildAdminSchema(model);
         addFhirSequence(model);
         addFhirRefSequence(model);
         addParameterNames(model);

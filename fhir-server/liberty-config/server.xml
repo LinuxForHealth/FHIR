@@ -27,7 +27,7 @@
         displaytextwhennoerrorpagedefined="Unexpected request/response. Please check the URL and try again."
         deferServletLoad="false" />
 
-    <!-- FHIR Server's keystore and truststore configuration -->
+    <!-- IBM FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
     <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeystore.jks" password="change-password"/>
     <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTruststore.jks" password="change-password"/>
@@ -114,7 +114,7 @@
 
     <applicationMonitor updateTrigger="mbean"/>
 
-    <!-- This is the main FHIR Server REST API war -->
+    <!-- This is the main IBM FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
@@ -125,7 +125,7 @@
         </application-bnd>
     </webApplication>
 
-    <!-- This is the openapi definition for the FHIR Server -->
+    <!-- This is the openapi definition for the IBM FHIR Server -->
     <webApplication id="fhir-openapi" location="fhir-openapi.war" name="fhir-openapi"/>
     
     <!-- 
@@ -139,7 +139,7 @@
     
     <!-- 
         This sharedlib can contain user-contributed jars that are intended to augment
-        the FHIR Server installation (persistence interceptors, persistence layer impl's,
+        the IBM FHIR Server installation (persistence interceptors, persistence layer impl's,
         custom operation impl's, etc.)
      -->
     <library id="fhirUserLib">

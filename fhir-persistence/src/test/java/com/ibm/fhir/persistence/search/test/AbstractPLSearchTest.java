@@ -16,11 +16,9 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.examples.ExamplesUtil;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Resource;
@@ -34,21 +32,49 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 
 /**
- * An abstract parent for the persistence layer search tests
- * @author lmsurpre
- *
+ * An abstract parent for the persistence layer search tests.
+ * 
+ * Abstract subclasses in this package implement the logic of the search tests and should
+ * be extended by concrete subclasses in each persistence layer implementation.
+ * 
+ * Abstract subclasses that implement the test logic should implement {@code setTenant()}
+ * and {@code getBasicResource()} to set up for the tests.
+ * 
+ * @implNote Previously, we used the {@code dependsOnMethod} argument to the {@code @Test} annotation, 
+ * but this was preventing us from executing single test methods from Eclipse due to 
+ * https://github.com/cbeust/testng-eclipse/issues/435
  */
-public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
+public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
 
     protected Basic savedResource;
     protected Composition composition;
-    protected FHIRParser jsonParser = FHIRParser.parser(Format.JSON);
-    protected FHIRParser xmlParser = FHIRParser.parser(Format.XML);
+
+    /**
+     * Each search test must implement this method to configure the tenant to use.
+     */
+    protected abstract void setTenant() throws Exception;
+    
+    /**
+     * Each search test must implement this method to specify the basic resource to use for the test.
+     * @return
+     *      the Basic resource to use in the search tests
+     */
+    protected abstract Basic getBasicResource() throws Exception;
+    
+    @BeforeClass
+    public void createResources() throws Exception {
+        setTenant();
+        saveBasicResource(getBasicResource());
+        createCompositionReferencingSavedResource();
+    }
 
     @AfterClass
-    public void removeTenant() throws Exception {
+    public void removeSavedResourcesAndResetTenant() throws Exception {
         if (savedResource != null && persistence.isDeleteSupported()) {
             persistence.delete(getDefaultPersistenceContext(), Basic.class, savedResource.getId().getValue());
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().commit();
+            }
         }
         FHIRRequestContext.get().setTenantId("default");
     }
@@ -104,8 +130,8 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
      * Executes the query test and returns whether the expected resource was in the result set
      * @throws Exception
      */
-    protected boolean searchReturnsResource(String searchParamName, String queryValue, Resource expectedResource) throws Exception {
-        List<? extends Resource> resources = runQueryTest(expectedResource.getClass(), persistence, searchParamName, queryValue, Integer.MAX_VALUE);
+    protected boolean searchReturnsResource(String searchParamCode, String queryValue, Resource expectedResource) throws Exception {
+        List<? extends Resource> resources = runQueryTest(expectedResource.getClass(), searchParamCode, queryValue, Integer.MAX_VALUE);
         assertNotNull(resources);
         if (resources.size() > 0) {
             Resource returnedResource = findResourceInResponse(expectedResource, resources);
@@ -213,20 +239,5 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
     protected void assertSearchDoesntReturnComposition(String searchParamName, String queryValue) throws Exception {
         assertFalse("Unexpected resource was returned from the search",
             searchReturnsResource(searchParamName, queryValue, composition));
-    }
-    
-    public <T extends Resource> T readResource(String fileName) throws Exception {
-
-        // Use the filename suffix to determine the format that we're reading, defaulting to JSON
-        Format fmt = (fileName.endsWith(".xml") ? Format.XML : Format.JSON);
-        switch(fmt) {
-        case RDF:
-            throw new IllegalArgumentException("RDF format is not supported");
-        case XML:
-            return xmlParser.parse(ExamplesUtil.reader(fileName));
-        case JSON:
-        default:
-            return jsonParser.parse(ExamplesUtil.reader(fileName));
-        }
     }
 }

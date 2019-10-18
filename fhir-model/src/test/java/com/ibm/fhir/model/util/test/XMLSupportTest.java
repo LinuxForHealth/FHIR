@@ -8,6 +8,7 @@ package com.ibm.fhir.model.util.test;
 
 import java.io.StringReader;
 
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.testng.Assert;
@@ -30,6 +31,14 @@ public class XMLSupportTest {
         
         div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div><p>Anything</p></div></div>";
         reader = XMLSupport.createXMLStreamReader(new StringReader(div));
+        reader.next();
+        Assert.assertEquals(XMLSupport.parseDiv(reader), div);
+    }
+    
+    @Test(expectedExceptions = XMLStreamException.class)
+    public void testParseInvalidDiv() throws Exception {
+        String div = "<div><p><b>Generated Narrative</b></p></div>";
+        XMLStreamReader reader = XMLSupport.createXMLStreamReader(new StringReader(div));
         reader.next();
         Assert.assertEquals(XMLSupport.parseDiv(reader), div);
     }

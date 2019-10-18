@@ -13,37 +13,36 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 import java.util.UUID;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.persistence.SingleResourceResult;
 
 /**
- *  This class contains a collection of tests that will be run against
- *  each of the various persistence layer implementations.
- *  There will be a subclass in each persistence project.
+ * This class contains a collection of tests that will be run against
+ * each of the various persistence layer implementations.
+ * There will be a subclass in each persistence project.
  */
 public abstract class AbstractQueryMultiResourceTest extends AbstractPersistenceTest {
+    String commonId = UUID.randomUUID().toString();
     
     /**
-     * Create a resource with the same id but a different 
-     * 
-     * @throws Exception
+     * Create two different resources with the same id 
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" })
-    public void testCreateEncounterAndObservationWithSameId() throws Exception {
-        String commonId = UUID.randomUUID().toString();
-        Encounter encounter = readResource(Encounter.class, "Encounter.json");
+    @BeforeClass
+    public void createResources() throws Exception {
+        
+        Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
         
         // Update the id on the resource
-        encounter = encounter.toBuilder().id(Id.of(commonId)).build();        
+        encounter = encounter.toBuilder().id(Id.of(commonId)).build();
         
-//        encounter.setLength(f.createDuration()
-//            .withCode(FHIRUtil.code("d"))
-//            .withValue(FHIRUtil.decimal(7)));
-        persistence.create(getDefaultPersistenceContext(), encounter);
+        encounter = persistence.update(getDefaultPersistenceContext(), commonId, encounter).getResource();
         assertNotNull(encounter);
         assertNotNull(encounter.getId());
         assertNotNull(encounter.getId().getValue());
@@ -51,29 +50,56 @@ public abstract class AbstractQueryMultiResourceTest extends AbstractPersistence
         assertNotNull(encounter.getMeta().getVersionId().getValue());
         assertEquals("1", encounter.getMeta().getVersionId().getValue());
         
-        Observation observation = readResource(Observation.class, "observation-example.canonical.json");
+        Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
 
         // update the id on the resource
-        observation = observation.toBuilder().id(Id.of(commonId)).build();        
-        Resource resource = persistence.create(getDefaultPersistenceContext(), observation).getResource();
-        resource = persistence.update(getDefaultPersistenceContext(), commonId, resource).getResource();
-        assertNotNull(resource);
-        assertNotNull(resource.getId());
-        assertNotNull(resource.getId().getValue());
-        assertNotNull(resource.getMeta());
-        assertNotNull(resource.getMeta().getVersionId().getValue());
-        assertEquals("2", resource.getMeta().getVersionId().getValue());
+        observation = observation.toBuilder().id(Id.of(commonId)).build();
+        observation = persistence.update(getDefaultPersistenceContext(), commonId, observation).getResource();
+        assertNotNull(observation);
+        assertNotNull(observation.getId());
+        assertNotNull(observation.getId().getValue());
+        assertNotNull(observation.getMeta());
+        assertNotNull(observation.getMeta().getVersionId().getValue());
+        assertEquals("1", observation.getMeta().getVersionId().getValue());
     } 
     
     /**
-     * Tests a query for Encounters with length = '60.0' which should yield correct results
-     * @throws Exception
+     * Tests a normal read when a different resource type has the same id
      */
-    @Test(groups = { "cloudant", "jpa", "jdbc", "jdbc-normalized" }, dependsOnMethods = { "testCreateEncounterAndObservationWithSameId" })
-    public void testEncounter_length_whenDuplicateResourceIdExists() throws Exception {
-        List<Resource> resources = runQueryTest(Encounter.class, persistence, "length", "60");
-        assertNotNull(resources);
-        assertTrue(resources.size() != 0);
+    @Test
+    public void testRead() throws Exception {
+        SingleResourceResult<? extends Resource> result;
+        
+        result = persistence.read(getDefaultPersistenceContext(), Encounter.class, commonId);
+        assertTrue(result.isSuccess());
+        assertNotNull(result.getResource());
+        assertTrue(result.getResource() instanceof Encounter);
+        
+        result = persistence.read(getDefaultPersistenceContext(), Observation.class, commonId);
+        assertTrue(result.isSuccess());
+        assertNotNull(result.getResource());
+        assertTrue(result.getResource() instanceof Observation);
     }
     
+    /**
+     * Tests searching by id when a different resource type has the same id
+     */
+    @Test
+    public void testSearchById() throws Exception {
+        List<Resource> resources;
+        
+        resources = runQueryTest(Encounter.class, "_id", commonId);
+        assertNotNull(resources);
+        assertTrue(resources.size() == 1);
+        assertTrue(resources.get(0) instanceof Encounter);
+        
+        resources = runQueryTest(Observation.class, "_id", commonId);
+        assertNotNull(resources);
+        assertTrue(resources.size() == 1);
+        assertTrue(resources.get(0) instanceof Observation);
+        
+        resources = runQueryTest(Resource.class, "_id", commonId);
+        assertNotNull(resources);
+        assertTrue(resources.size() == 2);
+    }
 }

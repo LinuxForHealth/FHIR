@@ -32,22 +32,21 @@ import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * This class is an implementation of the Patient track scenario defined as part of Connectathon 13, September 2016
  */
-public class PatientTrackTest extends FHIRModelTestBase {
+public class PatientTrackTest {
 
     private static final String CLIENT_PROPERTIES_FILENAME = "fhir-client.properties";
     private static final String PATIENT_TESTDATA = "patient.json";
 //     private static final String PATIENT_TESTDATA = "patientNoDiv.json";
 
-    private static final String EXTURI_FAVORITE_MLB = "http://com.ibm.fhir.sample/favorite-mlb";
     private static final String EXTURI_FAVORITE_NFL = "http://com.ibm.fhir.sample/favorite-nfl";
     private static final String EXTURI_FAVORITE_NBA = "http://com.ibm.fhir.sample/favorite-nba";
 
@@ -275,14 +274,14 @@ public class PatientTrackTest extends FHIRModelTestBase {
     }
 
     private void displayResource(String msg, Resource resource) throws FHIRException {
-        String s = writeResource(resource, Format.JSON);
+        String s = TestUtil.writeResource(resource, Format.JSON, true);
         log(msg);
         log(s);
     }
 
     private Properties readProperties(String filename) throws Exception {
         Properties props = new Properties();
-        InputStream is = resolveFileLocation(filename);
+        InputStream is = TestUtil.resolveFileLocation(filename);
         props.load(is);
         return props;
     }
@@ -300,7 +299,7 @@ public class PatientTrackTest extends FHIRModelTestBase {
     }
 
     private Patient createNewPatient() throws Exception {
-        Patient p = readResource(Patient.class, PATIENT_TESTDATA);
+        Patient p = TestUtil.readLocalResource(PATIENT_TESTDATA);
         return p;
     }
 
@@ -323,13 +322,13 @@ public class PatientTrackTest extends FHIRModelTestBase {
         // Next, change the favorite-nfl attribute to "Packers".
         for (Extension extension: patient.getExtension()) {
             if (extension.getUrl().equals(EXTURI_FAVORITE_NFL)) {
-                extension = extension.toBuilder().value(string("Packers")).build();                
+                extension = extension.toBuilder().value(string("Packers")).build();
             } 
             newExtensions.add(extension);
         }
         
         // Finally, add a new extension to indicate the patient's favorite NBA team.
-        newExtensions.add(Extension.builder().url(EXTURI_FAVORITE_NBA).value(string("Spurs")).build());        
+        newExtensions.add(Extension.builder().url(EXTURI_FAVORITE_NBA).value(string("Spurs")).build());
         patient = patient.toBuilder().name(newNames).extension(newExtensions).build();
 
         return patient;
