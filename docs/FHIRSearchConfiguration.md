@@ -199,7 +199,7 @@ Here are some rules about the rules:
 This is how the filtering algorithm works:
 1.   When retrieving the built-in search parameters for a particular resource type, the FHIR server will retrieve the rule associated with that resource type, if one exists. If one doesn't exist, then the rule for the wildcard resource type (`“*”`) is retrieved if it exists.
 2.   If no inclusion rule was found in Step 1 (that is, the resource type in question has no rule and there's no rule containing a wildcard for the resource type), then no built-in search parameters for this resource type will be included in the FHIR server's view of search parameters while storing a resource of performing a search operation.
-3.   Using the search parameter names associated with the rule retrieved in Step 1, the FHIR server will apply the rule to each built-in search parameter defined for that resource type.If the search parameter's name is found within the inclusion rule's list of search parameter names or the inclusion rule's list of names includes the wildcard (`“*”`), then the search parameter will be included in the FHIR server's view of search parameters for that resource type.
+3.   Using the search parameter names associated with the rule retrieved in Step 1, the FHIR server will apply the rule to each built-in search parameter defined for that resource type.If the search parameter's name is found within the inclusion rule's list of search parameter names or the inclusion rule's list of names includes the wildcard (`"*"`), then the search parameter will be included in the FHIR server's view of search parameters for that resource type.
 
 #### 1.2.4 fhir-server-config.json properties
 The following properties are available to configure searchParameterFilter: 
