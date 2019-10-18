@@ -69,7 +69,7 @@ The `fhir-search` module requires that the [expression](https://www.hl7.org/fhir
          "status": "draft",
          "experimental": false,
          "date": "2018-12-27T22:37:54+11:00",
-         "publisher": "IBM Server for HL7 FHIR Test",
+         "publisher": "IBM FHIR Server Test",
          "contact": [{
             "telecom": [{
                "system": "url",
