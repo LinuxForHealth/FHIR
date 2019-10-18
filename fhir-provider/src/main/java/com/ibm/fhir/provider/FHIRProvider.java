@@ -70,7 +70,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))), getMediaType(acceptHeader));
+                    buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))), getMediaType(acceptHeader));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");
@@ -92,7 +92,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), e.getPath()))), mediaType);
+                    buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), e.getPath()))), mediaType);
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");

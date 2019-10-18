@@ -67,7 +67,7 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
             String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
+                    buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");
@@ -89,7 +89,7 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), mediaType);
+                    buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), mediaType);
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");

@@ -43,13 +43,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResource() != null && event.getFhirResourceType() != null) {
             beforeCreateCount++;
         }
-        possiblyThrowException(event.getFhirResource(), IssueType.ValueSet.FORBIDDEN);
+        possiblyThrowException(event.getFhirResource(), IssueType.FORBIDDEN);
     }
 
     @Override
     public void afterCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterCreateCount++;
-        possiblyThrowException(event.getFhirResource(), IssueType.ValueSet.CODE_INVALID);
+        possiblyThrowException(event.getFhirResource(), IssueType.CODE_INVALID);
     }
 
     @Override
@@ -57,13 +57,13 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         if (event.getFhirResource() != null && event.getFhirResourceType() != null && event.getFhirResourceId() != null) {
             beforeUpdateCount++;
         }
-        possiblyThrowException(event.getFhirResource(), IssueType.ValueSet.CONFLICT);
+        possiblyThrowException(event.getFhirResource(), IssueType.CONFLICT);
     }
 
     @Override
     public void afterUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         afterUpdateCount++;
-        possiblyThrowException(event.getFhirResource(), IssueType.ValueSet.EXPIRED);
+        possiblyThrowException(event.getFhirResource(), IssueType.EXPIRED);
     }
     
     @Override
@@ -170,7 +170,7 @@ public class MyInterceptor implements FHIRPersistenceInterceptor {
         return afterSearchCount;
     }
     
-    private void possiblyThrowException(Resource resource, IssueType.ValueSet issueType) throws FHIRPersistenceInterceptorException {
+    private void possiblyThrowException(Resource resource, IssueType issueType) throws FHIRPersistenceInterceptorException {
         if (resource instanceof Patient) {
             Patient patient = (Patient) resource;
             for (HumanName name : patient.getName()) {

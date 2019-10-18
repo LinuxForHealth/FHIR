@@ -124,7 +124,7 @@ public class FHIRRestServletFilter implements Filter {
         } catch (FHIRException e) {
             log.log(Level.INFO, "Error while setting request context or processing request", e);
             
-            OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.ValueSet.INVALID, IssueSeverity.ValueSet.FATAL, false);
+            OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.INVALID, IssueSeverity.FATAL, false);
             
             if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
                 HttpServletRequest httpRequest = (HttpServletRequest) request;

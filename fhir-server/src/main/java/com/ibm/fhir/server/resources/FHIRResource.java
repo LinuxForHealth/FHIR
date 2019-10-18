@@ -6,13 +6,10 @@
 
 package com.ibm.fhir.server.resources;
 
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_AUTHURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_VIRTUAL_RESOURCES_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
@@ -65,7 +62,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.owasp.encoder.Encode;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
@@ -139,7 +135,6 @@ import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.annotation.PATCH;
 import com.ibm.fhir.server.exception.FHIRHttpException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
-import com.ibm.fhir.server.exception.FHIRVirtualResourceTypeException;
 import com.ibm.fhir.server.helper.FHIRUrlParser;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
@@ -338,7 +333,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 createAuditLogRecord = true;
                 String msg =
                         "Cannot PUT to resource type endpoint unless a search query string is provided for a conditional update.";
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
             }
 
             ior = doUpdate(type, null, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
@@ -450,7 +445,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 createAuditLogRecord = true;
                 String msg =
                         "Cannot PATCH to resource type endpoint unless a search query string is provided for a conditional patch.";
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
             }
 
             ior = doPatch(type, null, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
@@ -565,7 +560,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 createAuditLogRecord = true;
                 String msg =
                         "A search query string is required for a conditional delete operation.";
-                throw buildRestException(msg, status, IssueType.ValueSet.INVALID);
+                throw buildRestException(msg, status, IssueType.INVALID);
             }
 
             ior = doDelete(type, null, searchQueryString, null);
@@ -1069,7 +1064,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (!resourceType.equals(type)) {
                 String msg = "Resource type '" + resourceType
                         + "' does not match type specified in request URI: " + type;
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
             }
 
             // Check to see if we're supposed to perform a conditional 'create'.
@@ -1111,7 +1106,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 } else {
                     String msg =
                             "The search criteria specified for a conditional create operation returned multiple matches.";
-                    throw buildRestException(msg, Status.PRECONDITION_FAILED, IssueType.ValueSet.DUPLICATE);
+                    throw buildRestException(msg, Status.PRECONDITION_FAILED, IssueType.DUPLICATE);
                 }
             }
 
@@ -1225,15 +1220,15 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch,
-        String ifMatchValue, String searchQueryString,
-        Map<String, String> requestProperties) throws Exception {
+        String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception {
+        
         return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties);
     }
 
     @Override
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource,
-        String ifMatchValue, String searchQueryString,
-        Map<String, String> requestProperties) throws Exception {
+        String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception {
+        
         return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties);
     }
 
@@ -1269,7 +1264,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (!resourceType.equals(type)) {
                     String msg = "Resource type '" + resourceType
                             + "' does not match type specified in request URI: " + type;
-                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                 }
             }
 
@@ -1299,15 +1294,14 @@ public class FHIRResource implements FHIRResourceHelpers {
                 // Check the search results to determine whether or not to perform the update operation.
                 int resultCount = responseBundle.getEntry().size();
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Conditional update/patch search yielded " + resultCount
-                            + " results.");
+                    log.fine("Conditional update/patch search yielded " + resultCount + " results.");
                 }
 
                 if (resultCount == 0) {
                     if (patch != null) {
                         String msg =
                                 "The search criteria specified for a conditional patch operation did not return any results.";
-                        throw buildRestException(msg, Status.NOT_FOUND, IssueType.ValueSet.NOT_FOUND);
+                        throw buildRestException(msg, Status.NOT_FOUND, IssueType.NOT_FOUND);
                     }
                     // Search yielded no matches, so we'll do an update/create operation below.
                     ior.setPrevResource(null);
@@ -1329,20 +1323,20 @@ public class FHIRResource implements FHIRResourceHelpers {
                     if (newResource.getId() != null && newResource.getId().getValue() != null
                             && !newResource.getId().getValue().equalsIgnoreCase(id)) {
                         String msg = "Input resource 'id' attribute must match the id of the search result resource.";
-                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.VALUE);
+                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.VALUE);
                     }
                     // Make sure the id of the newResource is not null and is the same as the id of the found resource.
                     newResource = newResource.toBuilder().id(Id.of(id)).build();
                 } else {
                     String msg =
                             "The search criteria specified for a conditional update/patch operation returned multiple matches.";
-                    throw buildRestException(msg, Status.PRECONDITION_FAILED, IssueType.ValueSet.DUPLICATE);
+                    throw buildRestException(msg, Status.PRECONDITION_FAILED, IssueType.DUPLICATE);
                 }
             } else {
                 // Make sure an id value was passed in.
                 if (id == null) {
                     String msg = "The 'id' parameter is required for an update/pach operation.";
-                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
                 } 
 
                 // If an id value was passed in (i.e. the id specified in the REST API URL string),
@@ -1351,12 +1345,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                     // Make sure the resource has an 'id' attribute.
                     if (newResource.getId() == null) {
                         String msg = "Input resource must contain an 'id' attribute.";
-                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                     }
                     
                     if (!newResource.getId().getValue().equals(id)) {
                         String msg = "Input resource 'id' attribute must match 'id' parameter.";
-                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.VALUE);
+                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.VALUE);
                     }
                 }
 
@@ -1531,18 +1525,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
-                if (!isVirtualResourceTypesFeatureEnabled()) {
-                    String msg =
-                            "The virtual resource types feature is not enabled for this server";
-                    throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
-                }
-                if (!isAllowableVirtualResourceType(type)) {
-                    String msg = "The virtual resource type '" + type
-                            + "' is not allowed. Allowable virtual types for this server are: "
-                            + getAllowableVirtualResourceTypes().toString();
-                    throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
-                }
-                resourceTypeName = "Basic";
+                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
             }
 
             Class<? extends Resource> resourceType =
@@ -1585,7 +1568,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         log.fine(msg);
                     }
                     status = Response.Status.OK;
-                    ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(msg, IssueType.ValueSet.NOT_FOUND, IssueSeverity.ValueSet.WARNING));
+                    ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(msg, IssueType.NOT_FOUND, IssueSeverity.WARNING));
                     ior.setStatus(status);
                     return ior;
                 } else if (resultCount == 1) {
@@ -1602,7 +1585,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 // Make sure an id value was passed in.
                 if (id == null) {
                     String msg = "The 'id' parameter is required for a delete operation.";
-                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
                 }
 
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
@@ -1712,18 +1695,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
-                if (!isVirtualResourceTypesFeatureEnabled()) {
-                    String msg =
-                            "The virtual resource types feature is not enabled for this server";
-                    throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
-                }
-                if (!isAllowableVirtualResourceType(type)) {
-                    String msg = "The virtual resource type '" + type
-                            + "' is not allowed. Allowable virtual types for this server are: "
-                            + getAllowableVirtualResourceTypes().toString();
-                    throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
-                }
-                resourceTypeName = "Basic";
+                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
             }
 
             Class<? extends Resource> resourceType =
@@ -1829,18 +1801,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
-                if (!isVirtualResourceTypesFeatureEnabled()) {
-                    String msg =
-                            "The virtual resource types feature is not enabled for this server";
-                    throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
-                }
-                if (!isAllowableVirtualResourceType(type)) {
-                    String msg = "The virtual resource type '" + type
-                            + "' is not allowed. Allowable virtual resource types for this server are: "
-                            + getAllowableVirtualResourceTypes().toString();
-                    throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
-                }
-                resourceTypeName = "Basic";
+                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
             }
 
             Class<? extends Resource> resourceType =
@@ -1949,18 +1910,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
-                if (!isVirtualResourceTypesFeatureEnabled()) {
-                    String msg =
-                            "The virtual resource types feature is not enabled for this server";
-                    throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
-                }
-                if (!isAllowableVirtualResourceType(type)) {
-                    String msg = "The virtual resource type '" + type
-                            + "' is not allowed. Allowable virtual resource types for this server are: "
-                            + getAllowableVirtualResourceTypes().toString();
-                    throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
-                }
-                resourceTypeName = "Basic";
+                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
             }
 
             Class<? extends Resource> resourceType =
@@ -2060,8 +2010,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Check to see if it's supported, else, throw a bad request. 
             // If this is removed, it'll result in nullpointer when processing the request 
             if (!ModelSupport.isResourceType(type)) {
-                String msg = "The resource type '" + type + "' is not allowed.";
-                throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
+                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
             }
 
             Class<? extends Resource> resourceType =
@@ -2347,7 +2296,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             } else {
                 String msg = "A 'Bundle' resource type is required but a '"
                         + bundleResource.getClass().getSimpleName() + "' resource type was sent.";
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
             }
             // First, validate the bundle and create the response bundle.
             Bundle responseBundle = validateBundle(inputBundle);
@@ -2442,12 +2391,12 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Make sure the bundle isn't empty and has a type.
             if (bundle == null || bundle.getEntry() == null || bundle.getEntry().isEmpty()) {
                 String msg = "Bundle parameter is missing or empty.";
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
             }
 
             if (bundle.getType() == null || bundle.getType().getValue() == null) {
                 String msg = "Bundle.type is missing";
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
             }
 
             // Determine the bundle type of the response bundle.
@@ -2462,12 +2411,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (!getPersistenceImpl().isTransactional()) {
                     String msg =
                             "Bundled 'transaction' request cannot be processed because the configured persistence layer does not support transactions.";
-                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
+                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.NOT_SUPPORTED);
                 }
                 // For any other bundle type, we'll throw an error.
             } else {
                 String msg = "Bundle.type must be either 'batch' or 'transaction'.";
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.VALUE);
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.VALUE);
             }
 
             // Next, make sure that each bundle entry contains a valid request.
@@ -2485,19 +2434,19 @@ public class FHIRResource implements FHIRResourceHelpers {
                     // Verify that the request field is present.
                     if (request == null) {
                         String msg = "Bundle.Entry is missing the 'request' field.";
-                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
                     }
 
                     // Verify that a method was specified.
                     if (request.getMethod() == null || request.getMethod().getValue() == null) {
                         String msg = "Bundle.Entry.request is missing the 'method' field";
-                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
                     }
 
                     // Verify that a URL was specified.
                     if (request.getUrl() == null || request.getUrl().getValue() == null) {
                         String msg = "Bundle.Entry.request is missing the 'url' field";
-                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                        throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
                     }
 
                     // Retrieve the resource from the request entry to prepare for some validations below.
@@ -2509,14 +2458,14 @@ public class FHIRResource implements FHIRResourceHelpers {
                         if (resource != null) {
                             String msg =
                                     "Bundle.Entry.resource not allowed for BundleEntry with GET method.";
-                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                         }
                     } else if (method.equals(HTTPVerb.POST)) {
                     } else if (method.equals(HTTPVerb.PUT)) {
                         if (resource == null) {
                             String msg =
                                     "Bundle.Entry.resource is required for BundleEntry with PUT method.";
-                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                         }
                     } else if (method.equals(HTTPVerb.DELETE)) {
                         // If the "delete" operation isn't supported by the configured persistence layer,
@@ -2524,17 +2473,17 @@ public class FHIRResource implements FHIRResourceHelpers {
                         if (!isDeleteSupported()) {
                             String msg = "Bundle.Entry.request contains unsupported HTTP method: "
                                     + method.getValue();
-                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
+                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.NOT_SUPPORTED);
                         }
                         if (resource != null) {
                             String msg =
                                     "Bundle.Entry.resource not allowed for BundleEntry with DELETE method.";
-                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                         }
                     } else {
                         String msg = "Bundle.Entry.request contains unsupported HTTP method: "
                                 + method.getValue();
-                        throw buildRestException(msg, Status.METHOD_NOT_ALLOWED, IssueType.ValueSet.INVALID);
+                        throw buildRestException(msg, Status.METHOD_NOT_ALLOWED, IssueType.INVALID);
                     }
 
                     // If the request entry contains a resource, then validate it now.
@@ -2543,7 +2492,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             if (resource.getId() == null || resource.getId().getValue() == null) {
                                 String msg =
                                         "Bundle.Entry.resource must contain an id field for a PUT operation.";
-                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
                             }
                         }
 
@@ -2605,7 +2554,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 String msg =
                         "One or more errors were encountered while validating a 'transaction' request bundle.";
                 OperationOutcome.Issue issue =
-                        buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.EXCEPTION, msg);
+                        buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.EXCEPTION, msg);
                 throw new FHIRRestBundledRequestException(msg, Response.Status.BAD_REQUEST, responseBundle).withIssue(issue);
             }
 
@@ -2634,7 +2583,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // If not, then return a 400 Bad Request status code.
             if (ifMatchVersion == null || ifMatchVersion.isEmpty()) {
                 throw buildRestException("Invalid ETag value specified in request: "
-                        + ifMatchValue, Status.BAD_REQUEST, IssueType.ValueSet.PROCESSING);
+                        + ifMatchValue, Status.BAD_REQUEST, IssueType.PROCESSING);
             }
 
             log.fine("Version id from ETag value specified in request: " + ifMatchVersion);
@@ -2652,25 +2601,24 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (!ifMatchVersion.equals(currentVersion)) {
                 String msg = "If-Match version '" + ifMatchVersion
                         + "' does not match current latest version of resource: " + currentVersion;
-                throw buildRestException(msg, Status.CONFLICT, IssueType.ValueSet.CONFLICT);
+                throw buildRestException(msg, Status.CONFLICT, IssueType.CONFLICT);
             }
         }
     }
 
-    private FHIRVirtualResourceTypeException buildVirtualResourceException(String msg,
-        Status status, IssueType.ValueSet issueType)
-        throws FHIRVirtualResourceTypeException {
+    private FHIRHttpException buildUnsupportedResourceTypeException(String resourceTypeName, IssueType issueType) throws FHIRHttpException {
+        String msg = "'" + resourceTypeName + "' is not a valid resource type.";
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
-        return new FHIRVirtualResourceTypeException(msg, status).withIssue(ooi);
+        return new FHIRHttpException(msg, Status.NOT_FOUND).withIssue(ooi);
     }
 
     private FHIRHttpException buildRestException(String msg, Status status,
-        IssueType.ValueSet issueType) throws FHIRHttpException {
-        return buildRestException(msg, status, issueType, IssueSeverity.ValueSet.FATAL);
+        IssueType issueType) throws FHIRHttpException {
+        return buildRestException(msg, status, issueType, IssueSeverity.FATAL);
     }
 
     private FHIRHttpException buildRestException(String msg, Status status,
-        IssueType.ValueSet issueType, IssueSeverity.ValueSet severity)
+        IssueType issueType, IssueSeverity severity)
         throws FHIRHttpException {
         final String location = "<empty>";
         OperationOutcome.Issue ooi =
@@ -2904,7 +2852,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             default:
                                 String msg = "Invalid URL for custom operation '"
                                         + pathTokens[pathTokens.length - 1] + "'";
-                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.NOT_FOUND);
                             }
                         } else if (pathTokens.length == 1) {
                             // This is a 'search' request.
@@ -2934,7 +2882,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             resource = doVRead(pathTokens[0], pathTokens[1], pathTokens[3], null);
                         } else {
                             String msg = "Unrecognized path in request URL: " + path;
-                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
+                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.NOT_FOUND);
                         }
 
                         // Save the results of the operation in the bundle response field.
@@ -2977,7 +2925,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             default:
                                 String msg = "Invalid URL for custom operation '"
                                         + pathTokens[pathTokens.length - 1] + "'";
-                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.NOT_FOUND);
                             }
 
                             Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
@@ -3016,7 +2964,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             if (resource == null) {
                                 String msg =
                                         "BundleEntry.resource is required for bundled create requests.";
-                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.NOT_FOUND);
                             }
 
                             // Convert any local references found within the resource to their
@@ -3029,7 +2977,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             if (errorMsg != null) {
                                 final String location = "<empty>";
                                 OperationOutcome.Issue ooi =
-                                        FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.INVALID, errorMsg, location);
+                                        FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID, errorMsg, location);
 
                                 throw new FHIRHttpException(errorMsg, Status.BAD_REQUEST).withIssue(ooi);
                             }
@@ -3057,7 +3005,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         } else {
                             String msg =
                                     "Request URL for bundled create requests should have a path with exactly one token (<resourceType>).";
-                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
+                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.NOT_FOUND);
                         }
                     } else if (request.getMethod().equals(HTTPVerb.PUT)) {
                         String type = null;
@@ -3070,7 +3018,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             if (query == null || query.isEmpty()) {
                                 String msg =
                                         "A search query string is required for a conditional update operation.";
-                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                             }
                         } else if (pathTokens.length == 2) {
                             // A two-part url would be a normal update: <type>/<id>.
@@ -3080,7 +3028,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             // A url with any other pattern is an error.
                             String msg =
                                     "Request URL for bundled PUT request should have path part with either one or two tokens (<resourceType> or <resourceType>/<id>).";
-                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                         }
 
                         // Retrieve the resource from the request entry.
@@ -3095,7 +3043,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         if (errorMsg != null) {
                             final String location = "<empty>";
                             OperationOutcome.Issue ooi =
-                                    FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.INVALID, errorMsg, location);
+                                    FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID, errorMsg, location);
 
                             throw new FHIRHttpException(errorMsg, Status.BAD_REQUEST).withIssue(ooi);
                         }
@@ -3126,7 +3074,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             if (query == null || query.isEmpty()) {
                                 String msg =
                                         "A search query string is required for a conditional delete operation.";
-                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                             }
                         } else if (pathTokens.length == 2) {
                             type = pathTokens[0];
@@ -3134,7 +3082,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         } else {
                             String msg =
                                     "Request URL for bundled DELETE request should have path part with one or two tokens (<resourceType> or <resourceType>/<id>).";
-                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
+                            throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                         }
 
                         // Perform the 'delete' operation.
@@ -3400,7 +3348,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (localRefMap.get(localIdentifier) != null) {
                     String msg = "Duplicate local identifier encountered in bundled request entry: "
                             + localIdentifier;
-                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.DUPLICATE);
+                    throw buildRestException(msg, Status.BAD_REQUEST, IssueType.DUPLICATE);
                 }
             }
         }
@@ -3620,7 +3568,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                                          .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
                                          .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
                                          .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
-                                         .conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE))
+                                         .conditionalDelete(ConditionalDeleteStatus.SINGLE)
                                          .searchParam(conformanceSearchParams)
                                          .build();
 
@@ -3675,7 +3623,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Finally, create the Conformance resource itself.
         CapabilityStatement conformance =
-                CapabilityStatement.builder().status(PublicationStatus.ACTIVE).date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC))).kind(CapabilityStatementKind.of(CapabilityStatementKind.ValueSet.CAPABILITY)).fhirVersion(FHIRVersion.VERSION_4_0_0).format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH)).version(string(buildInfo.getBuildVersion())).name(string(FHIR_SERVER_NAME)).description(com.ibm.fhir.model.type.Markdown.of(buildDescription)).copyright(com.ibm.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT)).publisher(string("IBM Corporation")).software(CapabilityStatement.Software.builder().name(string(FHIR_SERVER_NAME)).version(string(buildInfo.getBuildVersion())).id(buildInfo.getBuildId()).build()).rest(rest).build();
+                CapabilityStatement.builder().status(PublicationStatus.ACTIVE).date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC))).kind(CapabilityStatementKind.CAPABILITY).fhirVersion(FHIRVersion.VERSION_4_0_0).format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH)).version(string(buildInfo.getBuildVersion())).name(string(FHIR_SERVER_NAME)).description(com.ibm.fhir.model.type.Markdown.of(buildDescription)).copyright(com.ibm.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT)).publisher(string("IBM Corporation")).software(CapabilityStatement.Software.builder().name(string(FHIR_SERVER_NAME)).version(string(buildInfo.getBuildVersion())).id(buildInfo.getBuildId()).build()).rest(rest).build();
 
         try {
             conformance = addExtensionElements(conformance);
@@ -3691,18 +3639,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         List<Extension> extentions = new ArrayList<Extension>();
         Extension extension = Extension.builder().url(EXTENSION_URL
                 + "/defaultTenantId").value(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID))).build();
-        extentions.add(extension);
-
-        extension = Extension.builder().url(EXTENSION_URL
-                + "/userDefinedSchematronEnabled").value(com.ibm.fhir.model.type.Boolean.of(isUserDefinedSchematronEnabled())).build();
-        extentions.add(extension);
-
-        extension = Extension.builder().url(EXTENSION_URL
-                + "/virtualResourcesEnabled").value(com.ibm.fhir.model.type.Boolean.of(isVirtualResourceTypesFeatureEnabled())).build();
-        extentions.add(extension);
-
-        extension = Extension.builder().url(EXTENSION_URL
-                + "/allowableVirtualResourceTypes").value(string(getAllowableVirtualResourceTypes().toString().replace("[", "").replace("]", "").replace(" ", ""))).build();
         extentions.add(extension);
 
         extension = Extension.builder().url(EXTENSION_URL
@@ -3897,29 +3833,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         return persistence;
     }
 
-    private boolean isAllowableVirtualResourceType(String virtualResourceType) throws Exception {
-        return getAllowableVirtualResourceTypes().contains(virtualResourceType)
-                || getAllowableVirtualResourceTypes().contains("*");
-    }
-
-    private List<String> getAllowableVirtualResourceTypes() throws Exception {
-        List<String> result =
-                FHIRConfigHelper.getStringListProperty(PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES);
-        if (result == null) {
-            result = new ArrayList<>();
-            result.add("*");
-        }
-        return result;
-    }
-
-    private Boolean isVirtualResourceTypesFeatureEnabled() {
-        return FHIRConfigHelper.getBooleanProperty(PROPERTY_VIRTUAL_RESOURCES_ENABLED, Boolean.FALSE);
-    }
-
-    private Boolean isUserDefinedSchematronEnabled() {
-        return FHIRConfigHelper.getBooleanProperty(PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.FALSE);
-    }
-
     private boolean isDeleteSupported() throws FHIRPersistenceException {
         return getPersistenceImpl().isDeleteSupported();
     }
@@ -4017,9 +3930,9 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * Builds an OperationOutcomeIssue with the respective values for some of the fields.
      */
-    private OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity,
-        IssueType.ValueSet type, String msg) {
-        return OperationOutcome.Issue.builder().severity(IssueSeverity.of(severity)).code(IssueType.of(type)).diagnostics(string(msg)).build();
+    private OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity,
+        IssueType type, String msg) {
+        return OperationOutcome.Issue.builder().severity(severity).code(type).diagnostics(string(msg)).build();
 
     }
 

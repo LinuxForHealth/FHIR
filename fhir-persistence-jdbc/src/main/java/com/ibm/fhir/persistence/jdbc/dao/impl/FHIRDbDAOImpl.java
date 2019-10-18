@@ -521,7 +521,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         return dbUrl.contains("db2");
     }
 
-    protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueType.ValueSet issueType) throws FHIRPersistenceDataAccessException {
+    protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueType issueType) throws FHIRPersistenceDataAccessException {
         Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIRPersistenceDataAccessException(msg).withIssue(ooi);
     }

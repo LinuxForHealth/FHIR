@@ -477,7 +477,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS) {
                     String msg = "Resource contains too many search parameter values of type " + 
                             "String. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.TOO_COSTLY);
+                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -522,7 +522,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
                     String msg = "Resource contains too many search parameter values of type " + 
                             "Number. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.TOO_COSTLY);
+                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -566,7 +566,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
                     String msg = "Resource contains too many search parameter values of type " + 
                             "Date. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.TOO_COSTLY);
+                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -611,7 +611,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
                     String msg = "Resource contains too many search parameter values of type " + 
                             "LatLong. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.TOO_COSTLY);
+                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -655,7 +655,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
                     String msg = "Resource contains too many search parameter values of type " + 
                             "Token. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.TOO_COSTLY);
+                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);
@@ -703,7 +703,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
                     String msg = "Resource contains too many search parameter values of type " + 
                             "Quantity. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.ValueSet.TOO_COSTLY);
+                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
                 }
                 structArray = new Struct[sqlParmList.size()];
                 sqlParmList.toArray(structArray);

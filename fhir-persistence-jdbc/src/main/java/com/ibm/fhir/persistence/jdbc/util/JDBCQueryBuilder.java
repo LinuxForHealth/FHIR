@@ -146,11 +146,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         return query;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.persistence.util.QueryBuilder#buildQuery(java.lang.Class,
-     * com.ibm.fhir.search.context.FHIRSearchContext)
-     */
     @Override
     public SqlQueryData buildQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
         final String METHODNAME = "buildQuery";
@@ -224,12 +219,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.persistence.util.AbstractQueryBuilder#getOperator(com.ibm.fhir.search.
-     * Parameter)
-     */
     @Override
     protected JDBCOperator getOperator(Parameter queryParm) {
         final String METHODNAME = "getOperator(Parameter)";
@@ -280,11 +269,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         return operator;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.persistence.util.AbstractQueryBuilder#getPrefixOperator(com.ibm.fhir.
-     * search.ParameterValue)
-     */
     @Override
     protected JDBCOperator getPrefixOperator(ParameterValue queryParmValue) {
         final String METHODNAME = "getOperator(ParameterValue)";

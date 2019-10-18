@@ -424,13 +424,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     }
 
     // Test: retrieve invalid resource type.
-//    @Test(groups = { "server-spec" })
-//    public void testReadErrorInvalidResourceType() {
-//        WebTarget target = getWebTarget();
-//        Response response = target.path("BogusResourceType/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-//    }
+    @Test(groups = { "server-spec" })
+    public void testReadErrorInvalidResourceType() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("BogusResourceType/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'BogusResourceType' is not a valid resource type.");
+    }
 
     // Test: retrieve non-existent Patient.
     @Test(groups = { "server-spec" })
@@ -460,13 +460,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     }
 
     // Test: retrieve invalid resource type.
-//    @Test(groups = { "server-spec" })
-//    public void testVReadInvalidResourceType() {
-//        WebTarget target = getWebTarget();
-//        Response response = target.path("BogusResourceType/1/_history/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-//    }
+    @Test(groups = { "server-spec" })
+    public void testVReadInvalidResourceType() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("BogusResourceType/1/_history/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'BogusResourceType' is not a valid resource type.");
+    }
 
     // Test: retrieve invalid version.
     @Test(groups = { "server-spec" }, dependsOnMethods = { "testCreatePatient" })
@@ -496,13 +496,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertTrue(0 == bundle.getTotal().getValue());
     }
     
-//    @Test(groups = { "server-spec" })
-//    public void testHistoryInvalidResourceType() {
-//        WebTarget target = getWebTarget();
-//        Response response = target.path("Bogus/123456789ABCDEF/_history").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-//    }
+    @Test(groups = { "server-spec" })
+    public void testHistoryInvalidResourceType() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Bogus/123456789ABCDEF/_history").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'BogusResourceType' is not a valid resource type.");
+    }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testSearchPatientByFamilyName() {
