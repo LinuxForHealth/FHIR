@@ -24,10 +24,11 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
  * Batch insert into the parameter values tables. Avoids having to create one stored procedure
- * per resource type, because it the row type array approach apparently won't work with dynamic
+ * per resource type, because in the row type array approach apparently won't work with dynamic
  * SQL (EXECUTE ... USING ...). Unfortunately this means we have more database round-trips, we
  * don't have a choice.
  * @author rarnold
+ *
  */
 public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
@@ -77,16 +78,8 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     
     /**
      * Public constructor
-     * 
      * @param c
-     * @param adminSchemaName
-     * @param tablePrefix
-     * @param multitenant
-     * @param logicalResourceId
-     * @param batchSize
-     * @param pnc
-     * @param csc
-     * @throws SQLException
+     * @param resourceId
      */
     public ParameterVisitorBatchDAO(Connection c, String adminSchemaName, String tablePrefix, boolean multitenant, long logicalResourceId, int batchSize,
         IParameterNameCache pnc, ICodeSystemCache csc) throws SQLException {
@@ -141,8 +134,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     /**
-     * Look up the normalized id for the parameter, adding it to the parameter_names table
-     * if it doesn't yet exist
+     * Look up the normalized id for the parameter, adding it to the parameter_names table if it doesn't yet exist
      * @param parameterName
      * @return
      */
@@ -160,9 +152,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         return codeSystemCache.readOrAddCodeSystem(codeSystem);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#stringValue(java.lang.String, java.lang.String)
-     */
     @Override
     public void stringValue(String parameterName, String value, boolean isBase) throws FHIRPersistenceException {
         while (value != null && value.getBytes().length > FhirSchemaConstants.MAX_SEARCH_STRING_BYTES) {
@@ -226,9 +215,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#numberValue(java.lang.String, double)
-     */
     @Override
     public void numberValue(String parameterName, BigDecimal value, BigDecimal valueLow, BigDecimal valueHigh) throws FHIRPersistenceException {
         try {
@@ -372,7 +358,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
         
     }
-
+    
     @Override
     public void locationValue(String parameterName, double lat, double lng) throws FHIRPersistenceException {
         try {
@@ -391,9 +377,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.AutoCloseable#close()
-     */
     @Override
     public void close() throws Exception {
         // flush any stragglers, remembering to reset each count because

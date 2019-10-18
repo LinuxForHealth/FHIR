@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,17 +16,15 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.parameters.Parameter;
 
 /**
- * This class assists the JDBCNormalizedQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
+ * This class assists the JDBCQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
  * FHIR Resource count query. 
- * 
- * @author markd
  */
 class QuerySegmentAggregator {
     
@@ -61,8 +59,8 @@ class QuerySegmentAggregator {
     
     private int offset;
     private int pageSize;
-    protected ParameterNormalizedDAO parameterDao;
-    protected ResourceNormalizedDAO resourceDao;
+    protected ParameterDAO parameterDao;
+    protected ResourceDAO resourceDao;
     
 
     /**
@@ -72,7 +70,7 @@ class QuerySegmentAggregator {
      * @param pageSize - The max number of requested search results.
      */
     protected QuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, 
-                                    ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao) {
+                                    ParameterDAO parameterDao, ResourceDAO resourceDao) {
         super();
         this.resourceType = resourceType;
         this.offset = offset;
@@ -105,15 +103,13 @@ class QuerySegmentAggregator {
      * Builds a complete SQL Query based upon the encapsulated query segments and bind variables.
      * A simple example query produced by this method:
      * 
-     * <pre>
-     * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
+     * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
      *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
      *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
      *     P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND
      *     (P1.PARAMETER_NAME_ID = 4 AND
      *     P1.STR_VALUE LIKE ? ESCAPE '+')
      *   ORDER BY r.RESOURCE_ID ASC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY
-     * </pre> 
      * 
      * @return SqlQueryData - contains the complete SQL query string and any associated bind variables.
      * @throws Exception 
@@ -153,15 +149,13 @@ class QuerySegmentAggregator {
      *   Builds a complete SQL count query based upon the encapsulated query segments and bind variables.
      *   A simple example query produced by this method:
      *   
-     * <pre>
      *     SELECT COUNT(R.RESOURCE_ID)FROM
      *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
      *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
      *     (P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND
      *     (P1.PARAMETER_NAME_ID = 4 AND
      *     P1.STR_VALUE LIKE ? ESCAPE '+'))
-     * </pre>
-     *  
+     * 
      * @return SqlQueryData - contains the complete SQL count query string and any associated bind variables.
      * @throws Exception 
      */
@@ -200,24 +194,21 @@ class QuerySegmentAggregator {
      * A FHIR system level query spans multiple resource types, and therefore spans multiple tables in the database. 
      * Here is an example of a system level query, assuming that only 3 different resource types have been persisted
      * in the database:
-     * 
-     * <pre>
      * SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM 
      *  (SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
      *    RiskAssessment_RESOURCES R, RiskAssessment_LOGICAL_RESOURCES LR , RiskAssessment_DATE_VALUES P1 WHERE 
-     *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED &lt;&gt; 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
+     *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
      *    (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))
      *  UNION ALL 
      *  SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
      *   Group_RESOURCES R, Group_LOGICAL_RESOURCES LR , Group_DATE_VALUES P1 WHERE 
-     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED &lt;&gt;'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
+     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
      *  (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251'))) 
      *  UNION ALL  
      *  SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
      *   Questionnaire_RESOURCES R, Questionnaire_LOGICAL_RESOURCES LR , Questionnaire_DATE_VALUES P1 WHERE
-     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED &lt;&gt; 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
+     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
      *   (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))) COMBINED_RESULTS; 
-     * </pre> 
      * 
      * @param selectRoot - The text of the outer SELECT ('SELECT' to 'FROM')
      * @param subSelectRoot - The text of the inner SELECT root to use in each sub-select

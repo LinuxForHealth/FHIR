@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,14 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * This class provides a static cache for FHIR Systems that are part of Token type Search parameters. This data is gathered from tables
- * defined as part of the "normalized" relational database schema.
- * @author markd
+ * This class provides a static cache for FHIR Systems that are part of Token type Search parameters.
  */
 public class CodeSystemsCache {
     private static final String CLASSNAME = CodeSystemsCache.class.getName(); 
@@ -36,15 +34,15 @@ public class CodeSystemsCache {
     /**
      * Retrieves the id for the passed system, for the current tenant-datastore. 
      * If not found, null is returned.
-     * @param systemName The name of a code system
-     * @return The id corresponding to the passed code system
+     * @param parameter The name of a code system
+     * @return Integer The id corresponding to the passed code system
      */
     public static Integer getCodeSystemId(String systemName) {
         
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         ConcurrentHashMap<String,Integer> currentDsMap;
         Integer systemId = null;
-        String encodedSysName = SQLParameterEncoder.encode(systemName);
+        String encodedSysName = SqlParameterEncoder.encode(systemName);
         
         if (enabled) {
             currentDsMap = codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
@@ -67,7 +65,7 @@ public class CodeSystemsCache {
         
         ConcurrentHashMap<String,Integer> currentDsMap;
         Integer tempValue;
-        String encodedSysName = SQLParameterEncoder.encode(systemName);
+        String encodedSysName = SqlParameterEncoder.encode(systemName);
         
         if (enabled) {
             currentDsMap = codeSystemIdMaps.putIfAbsent(tenantDatastoreCacheName, new ConcurrentHashMap<String,Integer>());
@@ -85,7 +83,7 @@ public class CodeSystemsCache {
     /**
      * Adds the passed code system name/id pairs to the the current tenant-datastore cache.
      * @param tenantDatastoreCacheName The name of the datastore-specific cache the entry should be added to. 
-     * @param newCodeSystems A Map containing code system name/id pairs.
+     * @param newParameters A Map containing code system name/id pairs.
      */
     public static void putCodeSystemIds(String tenantDatastoreCacheName, Map<String, Integer> newCodeSystems) {
         
@@ -111,7 +109,7 @@ public class CodeSystemsCache {
     
     /**
      * 
-     * @return A formatted representation of the entire cache managed by this class.
+     * @return String - A formatted representation of the entire cache managed by this class.
      */
     public static String dumpCacheContents() {
         
@@ -121,9 +119,9 @@ public class CodeSystemsCache {
     /**
      * Determines and reports any discrepancies between the current thread's Code Systems cache and the contents of the database CODE_SYSTEMS table.
      * @param dao A Parameter DAO instance
-     * @return A report detailing cache/db discrepancies.
+     * @return String - A report detailing cache/db discrepancies.
      */
-    public static String reportCacheDiscrepancies(ParameterNormalizedDAO dao) {
+    public static String reportCacheDiscrepancies(ParameterDAO dao) {
         
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         Map<String, Integer> dbMap;
