@@ -109,7 +109,7 @@ For more information on search parameters, see the HL7 FHIR specification.
 #### 1.1.2 Search Parameters Configuration: extension-search-parameters-valuetypes.json
 The extension-search-parameters-valuetypes.json must be configured in concert with each search parameter to identify the expected choice element that are searched. 
 
-For each Search Parameter, there needs to be an entry in the mapping. 
+For each Search Parameter, there needs to be an entry with the following fields:
     - `resourceType` - the FHIR resource type. 
     - `name` - the Search Parameter code that matches to this mapping. 
     - `targetClasses` - maps to a specific choice element. 
