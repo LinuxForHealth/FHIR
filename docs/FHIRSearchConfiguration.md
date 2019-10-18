@@ -207,7 +207,7 @@ The following properties are available to configure searchParameterFilter:
 ##### 1.2.4.1 Default property values
 | Property Name                 | Default value   |
 |-------------------------------| ----------------|
-|`fhirServer/searchParameterFilter`|`"*": [*]`|
+|`fhirServer/searchParameterFilter`|`"*": ["*"]`|
 
 ##### 1.2.4.2 Property attributes
 | Property Name                 | Tenant-specific? | Dynamic? |
