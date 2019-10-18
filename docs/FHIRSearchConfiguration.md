@@ -100,7 +100,7 @@ The `fhir-search` module requires that the [expression](https://www.hl7.org/fhir
 A few things to note are: 
 - This SearchParameter includes an xpath element for completeness, but the IBM FHIR Server does not use the XPath during extraction; it only uses the expression (FHIRPath).
 - The Search Parameter uses `value` which applies to Choice data types which are determined based on the Search Parameter type and the Resource's data type. 
-- Each time a resource is created or updated, the FHIR server evaluates the FHIRPath expression applicable to the resource type and indexes the values of the matching elements, making these available via FHIR Search via a parameter code that matches the `code` element on the `SearchParameter` definition.
+- Each time a resource is created or updated, the FHIR server evaluates the FHIRPath expression applicable to the resource type and indexes the values of the matching elements, making these available via a search where the query parameter name matches the `code` element on the `SearchParameter` definition.
 
 In the preceding example, extension elements (on a Patient resource) with a url of `http://ibm.com/fhir/extension/Patient/favorite-color` are indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/api/v1/Patient?favorite-color:exact=pink`.
 
