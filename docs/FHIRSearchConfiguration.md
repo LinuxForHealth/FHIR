@@ -49,7 +49,7 @@ The FHIR server caches search parameters in memory (organized first by tenant id
 #### 1.1.1 Search Parameters Configuration: extension-search-parameters.json 
 To configure the FHIR server with one or more custom search parameters, one must create a file called `extension-search-parameters.json` and populate the contents with a Bundle of `SearchParameter` resources.
 
-The `fhir-search` module requires the [expression](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.expression),  [type](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.type) and [code](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code) be set, as in the following example:
+The `fhir-search` module requires that the [expression](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.expression), [type](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.type) and [code](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code) be set, as in the following example:
 ```
 {
    "resourceType": "Bundle",
