@@ -150,7 +150,7 @@ The search parameter filtering feature is supported through a set of inclusion r
 }
 ```
 
-The `fhirServer/searchParameterFilter` property is a JSON map where the key represents the resource type, and the value is an array of strings representing search parameter names. The wildcard (`“*”`) can be used either as a resource type name or as a search parameter name.
+The `fhirServer/searchParameterFilter` property is a JSON map where the key represents the resource type, and the value is an array of strings representing search parameter names. The wildcard (`"*"`) can be used either as a resource type name or as a search parameter name.
 
 The following sections presents several examples.
 
