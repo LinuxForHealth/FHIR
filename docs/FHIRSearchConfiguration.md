@@ -107,7 +107,7 @@ In the preceding example, extension elements (on a Patient resource) with a url 
 For more information on search parameters, see the HL7 FHIR specification.
 
 #### 1.1.2 Search Parameters Configuration: extension-search-parameters-valuetypes.json
-The extension-search-parameters-valuetypes.json must be configured in concert with each search parameter to identify the expected choice element that are searched. 
+The extension-search-parameters-valuetypes.json must be configured in concert with each search parameter to identify the expected data type(s) for the element(s) selected by that search parameter's expression. 
 
 For each Search Parameter, there needs to be an entry with the following fields:
     - `resourceType` - the FHIR resource type. 
