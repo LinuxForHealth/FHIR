@@ -18,17 +18,17 @@ import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
  * the suite of tests that gets run when the fhir-persistence-jdbc project is built.
  *
  */
-public class JDBCNormRedefineDerbyDB {
+public class RedefineDerbyDB {
     
     private Properties testProps;
     
-    public JDBCNormRedefineDerbyDB() throws Exception {
-        this.testProps = TestUtil.readTestProperties("test.normalized.properties");
+    public RedefineDerbyDB() throws Exception {
+        this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
     @Test
     public void bootstrapDatabase() throws Exception {
-        System.out.println("bootstrapping database for jdbc-normalized test group");
+        System.out.println("bootstrapping database for the fhir-persistence-jdbc unit tests");
         
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {

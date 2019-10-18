@@ -13,8 +13,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 
 /**
  * This Data Access Object interface defines APIs specific to parameter_names table.
- * Refactor of the original ParameterNormalizedDAO stuff to split out parameter names,
- * code systems etc for clarity/easier maintenance.
  * @author rarnold
  */
 public interface CodeSystemDAO {

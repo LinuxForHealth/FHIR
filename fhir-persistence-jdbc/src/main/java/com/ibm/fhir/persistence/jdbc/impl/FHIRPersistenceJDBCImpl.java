@@ -70,17 +70,16 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAONormalizedImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAONormalizedImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
-import com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder;
+import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.QueryBuilderUtil;
@@ -95,21 +94,19 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
- * This class is the JDBC implementation of the FHIRPersistence interface to support the "normalized" DB schema, 
- * providing implementations for CRUD type APIs and search.
- * @author markd
- *
+ * The JDBC implementation of the FHIRPersistence interface, 
+ * providing implementations for CRUD APIs and search.
  */
-public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRPersistenceTransaction {
-    private static final String CLASSNAME = FHIRPersistenceJDBCNormalizedImpl.class.getName();
+public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistenceTransaction {
+    private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
     
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
     
     private FHIRDbDAO baseDao;
-    private ResourceNormalizedDAO resourceDao;
-    private ParameterNormalizedDAO parameterDao;
+    private ResourceDAO resourceDao;
+    private ParameterDAO parameterDao;
     private TransactionSynchronizationRegistry trxSynchRegistry;
     
     protected Connection sharedConnection = null;
@@ -123,8 +120,8 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
      * Constructor for use when running as web application in WLP. 
      * @throws Exception 
      */
-    public FHIRPersistenceJDBCNormalizedImpl() throws Exception {
-        final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl()";
+    public FHIRPersistenceJDBCImpl() throws Exception {
+        final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
         
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
@@ -137,9 +134,9 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
                                     Boolean.TRUE.booleanValue()));
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE, 
                                       Boolean.TRUE.booleanValue()));
-        this.resourceDao = new ResourceDAONormalizedImpl(this.getTrxSynchRegistry());
+        this.resourceDao = new ResourceDAOImpl(this.getTrxSynchRegistry());
         this.resourceDao.setRepInfoRequired(fhirConfig.getBooleanProperty(PROPERTY_REPL_INTERCEPTOR_ENABLED, Boolean.FALSE));
-        this.parameterDao = new ParameterDAONormalizedImpl(this.getTrxSynchRegistry());
+        this.parameterDao = new ParameterDAOImpl(this.getTrxSynchRegistry());
         
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -148,8 +145,8 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
      * Constructor for use when running standalone, outside of any web container.
      * @throws Exception 
      */
-    public FHIRPersistenceJDBCNormalizedImpl(Properties configProps) throws Exception {
-        final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl(Properties)";
+    public FHIRPersistenceJDBCImpl(Properties configProps) throws Exception {
+        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
         log.entering(CLASSNAME, METHODNAME);
         
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
@@ -158,9 +155,9 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
         
         this.setBaseDao(dao);
         this.setManagedConnection(this.getBaseDao().getConnection());
-        this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
+        this.resourceDao = new ResourceDAOImpl(this.getManagedConnection());
         this.resourceDao.setRepInfoRequired(false);
-        this.parameterDao = new ParameterDAONormalizedImpl(this.getManagedConnection());
+        this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
                 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -169,8 +166,8 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
      * Constructor for use when running standalone, outside of any web container.
      * @throws Exception 
      */
-    public FHIRPersistenceJDBCNormalizedImpl(Properties configProps, IConnectionProvider cp) throws Exception {
-        final String METHODNAME = "FHIRPersistenceJDBCNormalizedImpl(Properties, IConnectionProvider)";
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
+        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider)";
         log.entering(CLASSNAME, METHODNAME);
         
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
@@ -179,9 +176,9 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
         
         this.setBaseDao(dao);
         this.setManagedConnection(this.getBaseDao().getConnection());
-        this.resourceDao = new ResourceDAONormalizedImpl(this.getManagedConnection());
+        this.resourceDao = new ResourceDAOImpl(this.getManagedConnection());
         this.resourceDao.setRepInfoRequired(false);
-        this.parameterDao = new ParameterDAONormalizedImpl(this.getManagedConnection());
+        this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
                 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -402,7 +399,7 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
         
         List<Resource> resources = new ArrayList<Resource>();
         FHIRSearchContext searchContext = context.getSearchContext();
-        JDBCNormalizedQueryBuilder queryBuilder;
+        JDBCQueryBuilder queryBuilder;
         List<Long> sortedIdList;
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
         int searchResultCount = 0;
@@ -412,8 +409,8 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
         SqlQueryData query;
                 
         try {
-            queryBuilder = new JDBCNormalizedQueryBuilder((ParameterNormalizedDAO)this.getParameterDao(),
-                                                          (ResourceNormalizedDAO)this.getResourceDao());
+            queryBuilder = new JDBCQueryBuilder((ParameterDAO)this.getParameterDao(),
+                                                          (ResourceDAO)this.getResourceDao());
              
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
             if (countQuery != null) {
@@ -499,11 +496,11 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
         }
     }
     
-    protected ParameterDAO getParameterDao() {
+    private ParameterDAO getParameterDao() {
         return parameterDao;
     }
 
-    protected ResourceNormalizedDAO getResourceDao() {
+    private ResourceDAO getResourceDao() {
         return resourceDao;
     }
 
@@ -1298,11 +1295,11 @@ public class FHIRPersistenceJDBCNormalizedImpl implements FHIRPersistence, FHIRP
         this.baseDao = baseDao;
     }
     
-    protected Connection getManagedConnection() {
+    private Connection getManagedConnection() {
         return managedConnection;
     }
 
-    protected void setManagedConnection(Connection managedConnection) {
+    private void setManagedConnection(Connection managedConnection) {
         this.managedConnection = managedConnection;
     }
     

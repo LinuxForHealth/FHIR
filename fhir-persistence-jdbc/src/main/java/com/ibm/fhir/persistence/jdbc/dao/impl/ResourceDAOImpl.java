@@ -33,8 +33,8 @@ import com.ibm.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
@@ -48,14 +48,12 @@ import com.ibm.fhir.replication.api.model.ReplicationInfo;
 
 
 /**
- * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
- * relational schema.
- * @author markd
- *
+ * This Data Access Object implements the ResourceDAO interface for creating, updating, 
+ * and retrieving rows in the IBM FHIR Server resource tables.
  */
-public class ResourceDAONormalizedImpl extends FHIRDbDAOImpl implements ResourceNormalizedDAO {
-    private static final Logger log = Logger.getLogger(ResourceDAONormalizedImpl.class.getName());
-    private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName();
+public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
+    private static final Logger log = Logger.getLogger(ResourceDAOImpl.class.getName());
+    private static final String CLASSNAME = ResourceDAOImpl.class.getName();
 
     // Read the current version of the resource
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
@@ -113,7 +111,7 @@ public class ResourceDAONormalizedImpl extends FHIRDbDAOImpl implements Resource
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
-    public ResourceDAONormalizedImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
+    public ResourceDAOImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
         super();
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
@@ -124,7 +122,7 @@ public class ResourceDAONormalizedImpl extends FHIRDbDAOImpl implements Resource
      * The connection used by this instance for all DB operations will be the passed connection.
      * @param Connection - A database connection that will be managed by the caller.
      */
-    public ResourceDAONormalizedImpl(Connection managedConnection) {
+    public ResourceDAOImpl(Connection managedConnection) {
         super(managedConnection);
     }
 
@@ -632,7 +630,7 @@ public class ResourceDAONormalizedImpl extends FHIRDbDAOImpl implements Resource
     }
 
     @Override
-    public Resource insert(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
+    public Resource insert(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
             final String METHODNAME = "insert(Resource, List<Parameter>";
             log.entering(CLASSNAME, METHODNAME);
@@ -664,7 +662,7 @@ public class ResourceDAONormalizedImpl extends FHIRDbDAOImpl implements Resource
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDb2(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
+    private Resource insertToDb2(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao)
                     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDb2";
         log.entering(CLASSNAME, METHODNAME);
@@ -788,7 +786,7 @@ public class ResourceDAONormalizedImpl extends FHIRDbDAOImpl implements Resource
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDerby(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+    private Resource insertToDerby(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDerby";
         log.entering(CLASSNAME, METHODNAME);
 

@@ -6,13 +6,40 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_END;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_EXPR;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LATITUDE_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LONGITUDE_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETERS_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE_HIGH;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE_LOW;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE_LCASE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierMap;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.prefixOperatorMap;
 import static com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator.PARAMETER_TABLE_ALIAS;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -27,11 +54,13 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder.JDBCOperator;
+import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.persistence.util.BoundingBox;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
@@ -44,8 +73,8 @@ import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
- * This is the JDBC implementation of a query builder for the 'normalized' schema of the JDBC persistence layer. Queries
- * are built in SQL.
+ * This is the JDBC implementation of a query builder for the IBM FHIR Server JDBC persistence layer schema.
+ * Queries are built in SQL.
  * 
  * For the new R4 schema, the search parameter tables (e.g. <resourceType>_STR_VALUES) are
  * joined to their corresponding <resourceType>_LOGICAL_RESOURCES tables on LOGICAL_RESOURCE_ID.
@@ -61,61 +90,13 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
  * CURRENT_RESOURCE_ID   the unique BIGINT id of the latest resource version for the logical resource
  * VERSION_ID            INT resource version number incrementing by 1
  * RESOURCE_ID           the PK of the version-specific resource. Now only used as the target for CURRENT_RESOURCE_ID
- * 
- * @author markd
- *
  */
-public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQueryData, JDBCOperator> {
+public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOperator> {
+    private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
+    private static final String CLASSNAME = JDBCQueryBuilder.class.getName();
 
-    private static final Logger log = java.util.logging.Logger.getLogger(JDBCNormalizedQueryBuilder.class.getName());
-    private static final String CLASSNAME = JDBCNormalizedQueryBuilder.class.getName();
-
-    protected static final String STR_VALUE = "STR_VALUE";
-    protected static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";
-    protected static final String TOKEN_VALUE = "TOKEN_VALUE";
-    protected static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
-    protected static final String CODE = "CODE";
-    protected static final String NUMBER_VALUE = "NUMBER_VALUE";
-    protected static final String QUANTITY_VALUE = "QUANTITY_VALUE";
-    protected static final String QUANTITY_VALUE_LOW = "QUANTITY_VALUE_LOW";
-    protected static final String QUANTITY_VALUE_HIGH = "QUANTITY_VALUE_HIGH";
-    protected static final String DATE_VALUE = "DATE_VALUE";
-    protected static final String DATE_START = "DATE_START";
-    protected static final String DATE_END = "DATE_END";
-    protected static final String LATITUDE_VALUE = "LATITUDE_VALUE";
-    protected static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
-
-    /**
-     * Maps Parameter modifiers to SQL operators.
-     */
-    private static HashMap<Modifier, JDBCOperator> modifierMap;
-    /**
-     * Maps Parameter value prefix operators to SQL operators.
-     */
-    private static HashMap<Prefix, JDBCOperator> prefixOperatorMap;
-
-    static {
-        modifierMap = new HashMap<>();
-        modifierMap.put(Modifier.ABOVE, JDBCOperator.GT);
-        modifierMap.put(Modifier.BELOW, JDBCOperator.LT);
-        modifierMap.put(Modifier.CONTAINS, JDBCOperator.LIKE);
-        modifierMap.put(Modifier.EXACT, JDBCOperator.EQ);
-        modifierMap.put(Modifier.NOT, JDBCOperator.NE);
-
-        prefixOperatorMap = new HashMap<>();
-        prefixOperatorMap.put(Prefix.EQ, JDBCOperator.EQ);
-        prefixOperatorMap.put(Prefix.GE, JDBCOperator.GTE);
-        prefixOperatorMap.put(Prefix.GT, JDBCOperator.GT);
-        prefixOperatorMap.put(Prefix.LE, JDBCOperator.LTE);
-        prefixOperatorMap.put(Prefix.LT, JDBCOperator.LT);
-        prefixOperatorMap.put(Prefix.NE, JDBCOperator.NE);
-        prefixOperatorMap.put(Prefix.SA, JDBCOperator.GT);
-        prefixOperatorMap.put(Prefix.EB, JDBCOperator.LT);
-        prefixOperatorMap.put(Prefix.AP, JDBCOperator.EQ);
-    }
-
-    private ParameterNormalizedDAO parameterDao;
-    private ResourceNormalizedDAO resourceDao;
+    private ParameterDAO parameterDao;
+    private ResourceDAO resourceDao;
 
     public static final boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
         return ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
@@ -133,8 +114,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         return ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm);
     }
 
-    public JDBCNormalizedQueryBuilder(ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao) {
-        super();
+    public JDBCQueryBuilder(ParameterDAO parameterDao, ResourceDAO resourceDao) {
         this.parameterDao = parameterDao;
         this.resourceDao = resourceDao;
     }
@@ -189,7 +169,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     /**
-     * Contains logic common to the building of 'regular' resource queries and 'count' resource queries.
+     * Contains logic common to the building of both 'count' resource queries and 'regular' resource queries.
      * 
      * @param resourceType
      *            The type of FHIR resource being searched for.
@@ -324,13 +304,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         return operator;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.persistence.util.AbstractQueryBuilder#processStringParm(com.ibm.fhir.
-     * search.Parameter)
-     */
     @Override
-    protected SqlQueryData processStringParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    protected SqlQueryData processStringParm(Parameter queryParm) throws FHIRPersistenceException {
+        return processStringParm(queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+    
+    private SqlQueryData processStringParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -352,7 +331,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             if (operator.equals(JDBCOperator.LIKE)) {
                 // Must escape special wildcard characters _ and % in the parameter value string.
                 tempSearchValue =
-                        SQLParameterEncoder.encode(value.getValueString().replace(PERCENT_WILDCARD, ESCAPE_PERCENT).replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE));
+                        SqlParameterEncoder.encode(value.getValueString()
+                                           .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                                           .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE));
                 if (Modifier.CONTAINS.equals(queryParm.getModifier())) {
                     searchValue = PERCENT_WILDCARD + tempSearchValue + PERCENT_WILDCARD;
                 } else {
@@ -362,7 +343,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 }
                 appendEscape = true;
             } else {
-                searchValue = SQLParameterEncoder.encode(value.getValueString());
+                searchValue = SqlParameterEncoder.encode(value.getValueString());
             }
 
             // If multiple values are present, we need to OR them together.
@@ -398,7 +379,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processReferenceParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    protected SqlQueryData processReferenceParm(Class<?> resourceType, Parameter queryParm) throws Exception {
+        return processReferenceParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+    
+    private SqlQueryData processReferenceParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processReferenceParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -417,12 +402,12 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         for (ParameterValue value : queryParm.getValues()) {
             // Handle query parm representing this name/value pair construct:
             // {name} = {resource-type/resource-id}
-            searchValue = SQLParameterEncoder.encode(value.getValueString());
+            searchValue = SqlParameterEncoder.encode(value.getValueString());
 
             // Handle query parm representing this name/value pair construct:
             // {name}:{Resource Type} = {resource-id}
             if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
-                searchValue = queryParm.getModifierResourceTypeName() + "/" + SQLParameterEncoder.encode(value.getValueString());
+                searchValue = queryParm.getModifierResourceTypeName() + "/" + SqlParameterEncoder.encode(value.getValueString());
             } else if (!isAbsoluteURL(searchValue)) {
                 SearchParameter definition = SearchUtil.getSearchParameter(resourceType, queryParm.getName());
                 if (definition != null) {
@@ -743,9 +728,13 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
         return queryData;
     }
-
+    
     @Override
-    protected SqlQueryData processDateParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    protected SqlQueryData processDateParm(Class<?> resourceType, Parameter queryParm) throws Exception {
+        return processDateParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+
+    private SqlQueryData processDateParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processDateParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -947,7 +936,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processTokenParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    protected SqlQueryData processTokenParm(Parameter queryParm) throws FHIRPersistenceException {
+        return processTokenParm(queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+    
+    private SqlQueryData processTokenParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processTokenParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -972,7 +965,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             whereClauseSegment.append(LEFT_PAREN);
             // Include code
             whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator.value()).append(BIND_VAR);
-            bindVariables.add(SQLParameterEncoder.encode(value.getValueCode()));
+            bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
 
             // Include system if present.
             if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
@@ -1004,7 +997,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processNumberParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    protected SqlQueryData processNumberParm(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException {
+        return processNumberParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+    
+    private SqlQueryData processNumberParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processNumberParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1051,7 +1048,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
     }
 
     @Override
-    protected SqlQueryData processQuantityParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    protected SqlQueryData processQuantityParm(Class<?> resourceType, Parameter queryParm) throws Exception {
+        return processQuantityParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+    
+    private SqlQueryData processQuantityParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processQuantityParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1340,14 +1341,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.persistence.jdbc.util.AbstractJDBCQueryBuilder#processMissingParm(com.ibm.fhir.
-     * fhir.search.Parameter, java.lang.String)
-     */
-    @Override
-    protected SqlQueryData processMissingParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    private SqlQueryData processMissingParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1420,6 +1414,96 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
+    }
+
+    /**
+     * Builds a query segment for the passed query parameter.
+     * @param resourceType - A valid FHIR Resource type
+     * @param queryParm - A Parameter object describing the name, value and type of search parm.
+     * @return T1 - An object representing the selector query segment for the passed search parm.
+     * @throws Exception 
+     */
+    protected SqlQueryData buildQueryParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+        final String METHODNAME = "buildQueryParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+        
+        SqlQueryData databaseQueryParm = null;
+        Type type;
+        
+        try {
+            if (Modifier.MISSING.equals(queryParm.getModifier())) {
+                return this.processMissingParm(resourceType, queryParm, tableAlias);
+            }
+            // NOTE: The special logic needed to process NEAR and NEAR_DISTANCE query parms for the Location resource type is
+            // found in method processLocationPosition(). This method will not handle those.
+            if (! (Location.class.equals(resourceType) && 
+                (queryParm.getName().equals(NEAR) || queryParm.getName().equals(NEAR_DISTANCE)))) {
+                
+                type = queryParm.getType();
+                switch(type) {
+                case STRING:    databaseQueryParm = this.processStringParm(queryParm, tableAlias);
+                        break;
+                case REFERENCE: if (queryParm.isChained()) {
+                                    databaseQueryParm = this.processChainedReferenceParm(queryParm);
+                                }
+                                else if (queryParm.isInclusionCriteria()) {
+                                    databaseQueryParm = this.processInclusionCriteria(queryParm);
+                                }
+                                else {
+                                    databaseQueryParm = this.processReferenceParm(resourceType, queryParm, tableAlias);
+                                }
+                        break;
+                case DATE:      databaseQueryParm = this.processDateParm(resourceType, queryParm, tableAlias);
+                        break;
+                case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm, tableAlias);
+                        break;
+                case NUMBER:    databaseQueryParm = this.processNumberParm(resourceType, queryParm, tableAlias);
+                        break;
+                case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm, tableAlias);
+                        break;
+                case URI:       databaseQueryParm = this.processUriParm(queryParm, tableAlias);
+                        break;
+                
+                default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
+                }
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
+        }
+        return databaseQueryParm;
+    }
+
+    @Override
+    protected SqlQueryData processUriParm(Parameter queryParm) throws FHIRPersistenceException {
+        return processUriParm(queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+
+    /**
+     * Creates a query segment for a URI type parameter.
+     * @param queryParm - The query parameter. 
+     * @param tableAlias - An alias for the table to query
+     * @return T1 - An object containing query segment. 
+     * @throws FHIRPersistenceException 
+     */
+    protected SqlQueryData processUriParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+        final String METHODNAME = "processUriParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+        
+        SqlQueryData parmRoot;
+        Parameter myQueryParm;
+                
+        myQueryParm = queryParm;
+        Modifier queryParmModifier = queryParm.getModifier();
+        // A BELOW modifier has the same behavior as a "starts with" String search parm. 
+        if (queryParmModifier != null && queryParmModifier.equals(Modifier.BELOW)) {
+             myQueryParm = new Parameter(queryParm.getType(), queryParm.getName(), null,
+                                queryParm.getModifierResourceTypeName(), queryParm.getValues());
+        }
+        parmRoot = this.processStringParm(myQueryParm, tableAlias);
+                        
+        log.exiting(CLASSNAME, METHODNAME, parmRoot.toString());
+        return parmRoot;
     }
 
 }

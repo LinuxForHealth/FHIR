@@ -10,21 +10,21 @@ import java.util.Properties;
 
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractDeleteTest;
 
 /**
- * Concrete subclass for delete tests run against the JDBC normalized schema.
+ * Concrete subclass for delete tests run against the JDBC schema.
  * @author markd
  *
  */
-public class JDBCNormDeleteTest extends AbstractDeleteTest {
+public class JDBCDeleteTest extends AbstractDeleteTest {
     
     private Properties testProps;
     
-    public JDBCNormDeleteTest() throws Exception {
-        this.testProps = TestUtil.readTestProperties("test.normalized.properties");
+    public JDBCDeleteTest() throws Exception {
+        this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
     @Override
@@ -39,6 +39,6 @@ public class JDBCNormDeleteTest extends AbstractDeleteTest {
     
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
+        return new FHIRPersistenceJDBCImpl(this.testProps);
     }
 }

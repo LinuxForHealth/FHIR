@@ -27,7 +27,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
@@ -233,7 +233,7 @@ public class Main {
         }
 
         
-        persistence = new FHIRPersistenceJDBCNormalizedImpl(this.configProps, cp);
+        persistence = new FHIRPersistenceJDBCImpl(this.configProps, cp);
         R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
             () -> createPersistenceContext(),
             () -> createHistoryPersistenceContext());
@@ -273,7 +273,7 @@ public class Main {
         // by the configProps
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
         
-            persistence = new FHIRPersistenceJDBCNormalizedImpl(this.configProps, database);
+            persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
             R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
                 () -> createPersistenceContext(),
                 () -> createHistoryPersistenceContext());

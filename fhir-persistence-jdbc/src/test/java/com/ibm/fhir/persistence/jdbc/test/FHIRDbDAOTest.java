@@ -17,7 +17,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 
 /**
- * This class tests the basic functions of the FHIR DB Data Access Object class.
+ * This class tests the functions of the FHIR DB Data Access Object class.
  * @author markd
  *
  */

@@ -12,17 +12,15 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 
 /**
- * This class assists the JDBCNormalizedQueryBuilder. It extends the QuerySegmentAggregator to build a FHIR Resource query
+ * This class assists the JDBCQueryBuilder. It extends the QuerySegmentAggregator to build a FHIR Resource query
  * that processes _include and _revinclude search result parameters. Using the query segments built by the query builder, 
  * this class augments those query segments to result in a query that includes other resources as determined by 
  * InclusionParameter objects.
- * @author markd
- *
  */
 public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = InclusionQuerySegmentAggregator.class.getName();
@@ -39,7 +37,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
 
     
     protected InclusionQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize,
-                                              ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao, 
+                                              ParameterDAO parameterDao, ResourceDAO resourceDao, 
                                               List<InclusionParameter> includeParameters, List<InclusionParameter> revIncludeParameters) {
         super(resourceType, offset, pageSize, parameterDao, resourceDao);
         this.includeParameters = includeParameters;

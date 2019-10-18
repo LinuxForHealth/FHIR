@@ -22,16 +22,13 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * Refactor of the normalized DAO implementation which focuses on the
- * database interaction for parameter_names. Caching etc is handled
- * elsewhere...we're just doing JDBC stuff here.
- * 
  * This DAO uses a connection provided to its constructor. It's therefore
- * assumed to be a short-lived object, created on-the-fly
+ * assumed to be a short-lived object, created on-the-fly. Caching etc is handled
+ * elsewhere...we're just doing JDBC stuff here.
  */
 public class CodeSystemDAOImpl implements CodeSystemDAO {
-    private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
-    private static final String CLASSNAME = ParameterDAONormalizedImpl.class.getName(); 
+    private static final Logger log = Logger.getLogger(ParameterDAOImpl.class.getName());
+    private static final String CLASSNAME = ParameterDAOImpl.class.getName(); 
     
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
         

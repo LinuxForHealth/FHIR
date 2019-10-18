@@ -38,11 +38,6 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
     public static final double DEFAULT_DISTANCE = 5.0;
     public static final String DEFAULT_UNIT = "km";
 
-    
-    public AbstractQueryBuilder() {
-        super();
-    }
-    
     /**
      * Examines the passed ParamaterValue, and checks to see if the value is a URL. If it is, the 
      * {ResourceType/id} part of the URL path is extracted and returned. For example:
