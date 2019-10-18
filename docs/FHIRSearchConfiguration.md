@@ -140,17 +140,49 @@ The search parameter filtering feature is supported through a set of inclusion r
 ```
 {
     "fhirServer": {
-   "searchParameterFilter": {
-       "<resource type1>": [ "sp-name1", "sp-name2", ..., "sp-namen"],
-       "<resource type2>": [ "sp-name1", "sp-name2", ..., "sp-namen"],
-       "<resource type3>": [ "*" ],
-       "*": [ "*" ]
-   }
+        "searchParameterFilter": {
+            "<resource type1>": [
+                "sp-name1",
+                "sp-name2", 
+                ...,
+                "sp-namen"
+            ],
+            "<resource type2>": [
+                "sp-name1",
+                "sp-name2", 
+                ...,
+                "sp-namen"
+            ],
+            "<resource type3>": [ "*" ],
+            "*": [ "*" ]
+        }
     }
 }
 ```
 
 The `fhirServer/searchParameterFilter` property is a JSON map where the key represents the resource type, and the value is an array of strings representing search parameter names. The wildcard (`"*"`) can be used either as a resource type name or as a search parameter name.
+
+For the specification's built-in SearchParameter's with the **code**, these codes are assigned at the `Resource` level in the model. 
+
+| code                          |
+|-------------------------------|
+| _content                      |
+| _id                           |
+| _lastUpdated                  |
+| _profile                      |
+| _query                        |
+| _security                     |
+| _source                       |
+| _tag                          |
+
+For these specific codes, filters do not implicitly include the `Resource` level SearchParameters. 
+
+To filter on the codes in search, a filter must be applied on `Resource`: 
+
+```
+"searchParameterFilter": {
+    "Resource": [],
+```
 
 The following sections presents several examples.
 
@@ -160,10 +192,10 @@ In the following example a single inclusion rule uses wildcards to instruct the 
 ```
 {
     "fhirServer": {
-   "__comment": "include all search parameters for all resource types (default)",
-   "searchParameterFilter": {
-       "*": ["*"]
-   }
+        "__comment": "include all search parameters for all resource types (default)",
+        "searchParameterFilter": {
+            "*": [ "*" ]
+        }
     }
 }
 ```
@@ -174,12 +206,17 @@ In the following example inclusion rules are specified for a few specific resour
 {
     "__comment": "FHIR server configuration",
     "fhirServer": {
-   "searchParameterFilter": {
-       "Device": [ patient", "organization" ],
-       "Observation": [ "code" ],
-       "Patient": [ "active", "address", "birthdate", "name" ],
-       "*": ["*"]
-   }
+        "searchParameterFilter": {
+            "Device": [ patient", "organization" ],
+            "Observation": [ "code" ],
+            "Patient": [
+                    "active",
+                    "address",
+                    "birthdate",
+                    "name"
+            ],
+            "*": [ "*" ]
+        }
     }
 }
 ```
