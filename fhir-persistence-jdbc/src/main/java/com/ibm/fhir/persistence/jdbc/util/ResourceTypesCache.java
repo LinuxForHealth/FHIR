@@ -12,17 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * This class provides a static cache for FHIR Resource type names. This data is gathered from tables
- * defined as part of the "normalized" relational database schema.
- * @author markd
- *
+ * This class provides a static cache for FHIR Resource type names.
  */
-
 public class ResourceTypesCache {
     private static final String CLASSNAME = ResourceTypesCache.class.getName(); 
     private static final Logger log = Logger.getLogger(CLASSNAME);
@@ -124,7 +120,7 @@ public class ResourceTypesCache {
      * @param dao A Resource DAO instance
      * @return String - A report detailing cache/db discrepancies.
      */
-    public static String reportCacheDiscrepancies(ResourceNormalizedDAO dao) {
+    public static String reportCacheDiscrepancies(ResourceDAO dao) {
         
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         Map<String, Integer> dbMap;

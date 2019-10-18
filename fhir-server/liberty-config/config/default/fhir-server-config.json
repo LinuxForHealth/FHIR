@@ -118,9 +118,7 @@
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
                 "bootstrapDb": true,
-                "__comment1": "schemaType allowed values are: basic or normalized",
-                "schemaType": "normalized",
-                "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
+                "__comment": "Use jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "dataSourceJndiName": "jdbc/fhirProxyDataSource",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,

@@ -77,7 +77,7 @@ public class DerbyInitializer {
     }
     
     /**
-     * Get the name of the schema holding all the FHIR normalized resource tables
+     * Get the name of the schema holding all the FHIR resource tables
      * @return
      */
     protected String getDataSchemaName() {

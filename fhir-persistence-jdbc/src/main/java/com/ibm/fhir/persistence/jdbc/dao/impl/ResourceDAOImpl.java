@@ -33,8 +33,8 @@ import com.ibm.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
@@ -48,14 +48,12 @@ import com.ibm.fhir.replication.api.model.ReplicationInfo;
 
 
 /**
- * This Data Access Object extends the "basic" implementation to provide functionality specific to the "normalized"
- * relational schema.
- * @author markd
- *
+ * This Data Access Object implements the ResourceDAO interface for creating, updating, 
+ * and retrieving rows in the IBM FHIR Server resource tables.
  */
-public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements ResourceNormalizedDAO {
-    private static final Logger log = Logger.getLogger(ResourceDAONormalizedImpl.class.getName());
-    private static final String CLASSNAME = ResourceDAONormalizedImpl.class.getName();
+public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
+    private static final Logger log = Logger.getLogger(ResourceDAOImpl.class.getName());
+    private static final String CLASSNAME = ResourceDAOImpl.class.getName();
 
     // Read the current version of the resource
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
@@ -97,6 +95,10 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     private static final String SQL_SEARCH_BY_IDS = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
                                                     "R.RESOURCE_ID IN ";
+    
+    private static final String DERBY_PAGINATION_PARMS = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    
+    private static final String DB2_PAGINATION_PARMS = "LIMIT ? OFFSET ?";
 
     private FHIRPersistenceContext context;
     private ReplicationInfo replicationInfo;
@@ -109,7 +111,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
-    public ResourceDAONormalizedImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
+    public ResourceDAOImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
         super();
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
@@ -120,7 +122,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
      * The connection used by this instance for all DB operations will be the passed connection.
      * @param Connection - A database connection that will be managed by the caller.
      */
-    public ResourceDAONormalizedImpl(Connection managedConnection) {
+    public ResourceDAOImpl(Connection managedConnection) {
         super(managedConnection);
     }
 
@@ -628,7 +630,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
     }
 
     @Override
-    public Resource insert(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
+    public Resource insert(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
             final String METHODNAME = "insert(Resource, List<Parameter>";
             log.entering(CLASSNAME, METHODNAME);
@@ -660,7 +662,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDb2(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao)
+    private Resource insertToDb2(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao)
                     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDb2";
         log.entering(CLASSNAME, METHODNAME);
@@ -784,7 +786,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDerby(Resource resource, List<Parameter> parameters, ParameterNormalizedDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+    private Resource insertToDerby(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDerby";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -880,6 +882,123 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
 
         return resource;
 
+    }
+
+    @Override
+    public List<Resource> search(String sqlSelect) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "search";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        List<Resource> resources;
+                
+        try {
+            resources = this.runQuery(sqlSelect);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+                
+        return resources;
+    }
+
+    @Override
+    public List<Long> searchForIds(String sqlSelect) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchForIds";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        List<Long> resourceIds = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String errMsg;
+        
+        try {
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(sqlSelect);
+            resultSet = stmt.executeQuery();
+            while(resultSet.next())     {
+                resourceIds.add(resultSet.getLong(1));
+            }
+        }
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            // Log the SQL but don't expose it in the exception
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids.");
+            errMsg = "Failure retrieving FHIR Resource Ids. SQL=" + sqlSelect;
+            throw severe(log, fx, errMsg, e);
+        } 
+        finally {
+            this.cleanup(resultSet, stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resourceIds;
+    }
+
+    @Override
+    public List<Resource> searchByIds(List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchByIds";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String errMsg;
+        StringBuilder idQuery = new StringBuilder();
+        List<Resource> resources = new ArrayList<>();
+        
+        try {
+            idQuery.append(SQL_SEARCH_BY_IDS);
+            idQuery.append("(");
+            for (int i = 0; i < resourceIds.size(); i++) {
+                if (i > 0) {
+                    idQuery.append(",");
+                }
+                idQuery.append("?");
+            }
+            idQuery.append(")");
+                        
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(idQuery.toString());
+            // Inject IDs into the prepared stmt.
+            for (int i = 0; i < resourceIds.size();  i++) {
+                stmt.setObject(i+1, resourceIds.get(i));
+            }
+            resultSet = stmt.executeQuery();
+            resources = this.createDTOs(resultSet);
+        }
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            // Log the SQL but don't expose it in the exception
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources.");
+            errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
+            throw severe(log, fx, errMsg, e);
+
+        } 
+        finally {
+            this.cleanup(resultSet, stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resources;
+    }
+
+    @Override
+    public int searchCount(String sqlSelectCount) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchCount";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        int count;
+                
+        try {
+            count = this.runCountQuery(sqlSelectCount);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return count;
     }
 
 }

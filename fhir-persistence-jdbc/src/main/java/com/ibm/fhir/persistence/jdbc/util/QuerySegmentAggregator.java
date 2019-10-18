@@ -16,18 +16,15 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.parameters.Parameter;
 
 /**
- * This class assists the JDBCNormalizedQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
+ * This class assists the JDBCQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
  * FHIR Resource count query. 
- * 
- * @author markd
- *
  */
 class QuerySegmentAggregator {
     
@@ -62,8 +59,8 @@ class QuerySegmentAggregator {
     
     private int offset;
     private int pageSize;
-    protected ParameterNormalizedDAO parameterDao;
-    protected ResourceNormalizedDAO resourceDao;
+    protected ParameterDAO parameterDao;
+    protected ResourceDAO resourceDao;
     
 
     /**
@@ -73,7 +70,7 @@ class QuerySegmentAggregator {
      * @param pageSize - The max number of requested search results.
      */
     protected QuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, 
-                                    ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao) {
+                                    ParameterDAO parameterDao, ResourceDAO resourceDao) {
         super();
         this.resourceType = resourceType;
         this.offset = offset;

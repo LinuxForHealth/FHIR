@@ -10,17 +10,17 @@ import java.util.Properties;
 
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.search.test.AbstractSearchNumberTest;
+import com.ibm.fhir.persistence.search.test.AbstractSearchTokenTest;
 
 
-public class JDBCNormSearchNumberTest extends AbstractSearchNumberTest {
+public class JDBCSearchTokenTest extends AbstractSearchTokenTest {
 
     private Properties testProps;
 
-    public JDBCNormSearchNumberTest() throws Exception {
-        this.testProps = TestUtil.readTestProperties("test.normalized.properties");
+    public JDBCSearchTokenTest() throws Exception {
+        this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
     @Override
@@ -32,9 +32,9 @@ public class JDBCNormSearchNumberTest extends AbstractSearchNumberTest {
             derbyInit.bootstrapDb();
         }
     }
-
+    
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCNormalizedImpl(this.testProps);
+        return new FHIRPersistenceJDBCImpl(this.testProps);
     }
 }

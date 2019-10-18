@@ -21,14 +21,12 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * Refactor of the normalized DAO implementation which focuses on the
- * database interaction for parameter_names. Caching etc is handled
+ * Database interaction for parameter_names. Caching etc is handled
  * elsewhere...we're just doing JDBC stuff here.
- *
  */
 public class ParameterNameDAOImpl implements ParameterNameDAO {
-    private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
-    private static final String CLASSNAME = ParameterDAONormalizedImpl.class.getName(); 
+    private static final Logger log = Logger.getLogger(ParameterDAOImpl.class.getName());
+    private static final String CLASSNAME = ParameterDAOImpl.class.getName(); 
     
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
     
@@ -140,9 +138,6 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
         return parameterNameId;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO#readParameterNameId(java.lang.String)
-     */
     @Override
     public Integer readParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "readParameterNameId";

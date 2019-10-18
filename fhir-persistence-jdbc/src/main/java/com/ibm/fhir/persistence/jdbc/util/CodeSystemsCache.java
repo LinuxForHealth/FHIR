@@ -12,17 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * This class provides a static cache for FHIR Systems that are part of Token type Search parameters. This data is gathered from tables
- * defined as part of the "normalized" relational database schema.
- * @author markd
- *
+ * This class provides a static cache for FHIR Systems that are part of Token type Search parameters.
  */
-
 public class CodeSystemsCache {
     private static final String CLASSNAME = CodeSystemsCache.class.getName(); 
     private static final Logger log = Logger.getLogger(CLASSNAME);
@@ -46,7 +42,7 @@ public class CodeSystemsCache {
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         ConcurrentHashMap<String,Integer> currentDsMap;
         Integer systemId = null;
-        String encodedSysName = SQLParameterEncoder.encode(systemName);
+        String encodedSysName = SqlParameterEncoder.encode(systemName);
         
         if (enabled) {
             currentDsMap = codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
@@ -69,7 +65,7 @@ public class CodeSystemsCache {
         
         ConcurrentHashMap<String,Integer> currentDsMap;
         Integer tempValue;
-        String encodedSysName = SQLParameterEncoder.encode(systemName);
+        String encodedSysName = SqlParameterEncoder.encode(systemName);
         
         if (enabled) {
             currentDsMap = codeSystemIdMaps.putIfAbsent(tenantDatastoreCacheName, new ConcurrentHashMap<String,Integer>());
@@ -125,7 +121,7 @@ public class CodeSystemsCache {
      * @param dao A Parameter DAO instance
      * @return String - A report detailing cache/db discrepancies.
      */
-    public static String reportCacheDiscrepancies(ParameterNormalizedDAO dao) {
+    public static String reportCacheDiscrepancies(ParameterDAO dao) {
         
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         Map<String, Integer> dbMap;

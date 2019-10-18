@@ -2,9 +2,9 @@
 <suite name="JDBCUnitTestsSuite">
     <test name="ParameterTests">
         <classes>
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.CacheUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.QueryBuilderUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.ParameterExtractionTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCParameterBuilderTimeTest" />
         </classes>
     </test>
     <test name="JDBCSpecTest">
@@ -19,23 +19,23 @@
     </test>
     <test name="JDBCTests">
         <classes>
-            <class name="com.ibm.fhir.persistence.jdbc.test.FHIRDBDAOTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormDeleteTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormCompartmentTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormMultiResourceTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormSortTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCNormWholeSystemSearchTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.FHIRDbDAOTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCDeleteTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCCompartmentTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCMultiResourceTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCSortTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCWholeSystemSearchTest" />
         </classes>
     </test>
     <test name="JDBCSearchTests">
         <classes>
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchDateTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchNumberTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchQuantityTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchReferenceTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchStringTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchTokenTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCNormSearchURITest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchDateTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchNumberTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchQuantityTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchReferenceTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchStringTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchTokenTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchURITest" />
         </classes>
     </test>
 </suite>

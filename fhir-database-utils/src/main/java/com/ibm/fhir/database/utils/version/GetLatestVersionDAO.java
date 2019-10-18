@@ -41,9 +41,6 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
         this.schemaName = schemaName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseSupplier#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public Map<String,Integer> run(IDatabaseTranslator translator, Connection c) {
         Map<String,Integer> result = new HashMap<>();
