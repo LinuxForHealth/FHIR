@@ -72,7 +72,7 @@ public final class CadfReporterStep {
          * it is contained within.
          * 
          * @param role    - The role the REPORTER performed on the CADF Event Record
-         *                (e.g., an "observer", "modifier" or "relay" role). \
+         *                (e.g., an "observer", "modifier" or "relay" role). 
          *                @see CadfEvent#getReporterchain()
          *                {@link CadfEvent.ReporterRole}
          * @param rep     - This property defines the resource that acted as a REPORTER
