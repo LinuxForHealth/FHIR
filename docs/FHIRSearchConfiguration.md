@@ -31,7 +31,7 @@ The valuetypes JSON is an implementation-specific config file that enables the s
 
 The default and tenant level configurations are put in the `default` and tenant-specific (e.g. `tenant1`) config folders respectively. These folders are populated with `extension-search-parameters.json` and `extension-search-parameters-valuetypes.json`.  
 
-The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements a specific cache to store the [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java) and [TenantSpecificValueTypesCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/valuetypes/cache/TenantSpecificValueTypesCache.java). 
+The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java) and [TenantSpecificValueTypesCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/valuetypes/cache/TenantSpecificValueTypesCache.java). 
 
 Note, the `fhir-search` also supports compartment searches, and stores the CompartmentDefinitions in a bundled resource in [compartments.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/compartments.json).  This configuration changes with specification, and provides no default-level or tenant-level configuration. 
 
