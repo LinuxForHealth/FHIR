@@ -33,7 +33,7 @@ The default and tenant level configurations are put in the `default` and tenant-
 
 The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java) and [TenantSpecificValueTypesCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/valuetypes/cache/TenantSpecificValueTypesCache.java). 
 
-Note, the `fhir-search` also supports compartment searches, and stores the CompartmentDefinitions in a bundled resource in [compartments.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/compartments.json).  This configuration changes with specification, and provides no default-level or tenant-level configuration. 
+The IBM FHIR Server supports compartment searches based on the CompartmentDefinition resources found at [fhir-search/src/main/resources/compartments.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/compartments.json).  These definitions come directly from the specification and the server provides no corresponding default or tenant-level configuration. 
 
 Note, the search-parameters.json and search-parameters.xml in the `fhir-search` module match the latest definition resource from the [FHIR download site](http://hl7.org/fhir/r4/downloads.html). 
 
