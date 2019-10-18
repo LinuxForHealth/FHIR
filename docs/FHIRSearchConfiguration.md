@@ -25,7 +25,7 @@ There are three layers of search parameter configuration.
 - default 
 - tenant-specific
 
-The specification defined SearchParameters are embedded as JSON file in the `fhir-search` module.  The file is located at [search-parameters.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/search-parameters.json).  The file has a twin file which maps each SearchParameter attribute to an expected target [Choice](https://www.hl7.org/fhir/formats.html#choice) data type using the [valuetypes-default.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/valuetypes-default.json). 
+The specification defined SearchParameters are embedded as [a JSON file](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/search-parameters.json) in the `fhir-search` module. This file has a twin [JSON file](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/valuetypes-default.json) which maps each SearchParameter attribute to one or more expected target data types. 
 
 The valuetypes json is a project defined specification which enables constraining of Choice data types when the extracted attributes are stored or searched.
 
