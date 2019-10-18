@@ -111,7 +111,7 @@ The extension-search-parameters-valuetypes.json must be configured in concert wi
 
 For each Search Parameter, there needs to be an entry with the following fields:
     - `resourceType` - the FHIR resource type. 
-    - `name` - the Search Parameter code that matches to this mapping. 
+    - `name` - the SearchParameter code that matches to this mapping. 
     - `targetClasses` - maps to a specific choice element. 
 
 ```
