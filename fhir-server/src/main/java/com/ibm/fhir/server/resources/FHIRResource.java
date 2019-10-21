@@ -610,8 +610,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         try {
             checkInitComplete();
-
-            Resource resource = doRead(type, id, true, false, null, null);
+            MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+            Resource resource = doRead(type, id, true, false, null, null, queryParameters);
             ResponseBuilder response = Response.ok().entity(resource);
             response = addHeaders(response, resource);
             return response.build();
@@ -1697,7 +1697,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     @SuppressWarnings("unchecked")
     public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
         Map<String, String> requestProperties,
-        Resource contextResource) throws Exception {
+        Resource contextResource,
+        MultivaluedMap<String, String> queryParameters) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -1708,7 +1709,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
-
+        
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
@@ -1728,6 +1729,11 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             Class<? extends Resource> resourceType =
                     (Class<? extends Resource>) getResourceType(resourceTypeName);
+            
+            FHIRSearchContext searchContext = null;
+            if (queryParameters != null) {
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), isSearchLenient(requestProperties));
+            }
 
             // Start a new txn in the persistence layer if one is not already active.
             txn.begin();
@@ -1738,7 +1744,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeReadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted);
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted, searchContext);
             resource = getPersistenceImpl().read(persistenceContext, resourceType, id).getResource();
             if (resource == null && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id
@@ -4146,5 +4152,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             return Response.status(status).location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString()))).entity(resource).build();
         }
         return Response.status(status).entity(resource).build();
+    }
+
+    @Override
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            Map<String, String> requestProperties, Resource contextResource) throws Exception {
+        return doRead(type, id, throwExcOnNull, includeDeleted, requestProperties, contextResource, null);
     }
 }

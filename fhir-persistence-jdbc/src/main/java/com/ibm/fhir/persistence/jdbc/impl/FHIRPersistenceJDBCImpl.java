@@ -627,13 +627,41 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         
         T resource = null;
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
+
+        FHIRSearchContext searchContext = context.getSearchContext();
+        List<String> elements = null;
+        //Check if _summary is required
+        if (searchContext != null && searchContext.hasSummaryParameter()) {
+            Set<String> summaryElements = null;
+            SummaryValueSet summary = searchContext.getSummaryParameter();
+            
+            switch (summary) {
+            case TRUE:
+                summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                break;
+            case TEXT:
+                summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                break;
+            case DATA:
+                summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                break;
+            default:
+                break;
+                
+            }
+
+            if (summaryElements != null) {
+                elements = new ArrayList<String>();
+                elements.addAll(summaryElements);
+            }
+        }
                 
         try {
             resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
             }
-            resource = this.convertResourceDTO(resourceDTO, resourceType, null);
+            resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
             
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
