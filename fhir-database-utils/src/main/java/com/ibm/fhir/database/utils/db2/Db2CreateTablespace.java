@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * @author rarnold
  *
  */
 public class Db2CreateTablespace implements IDatabaseStatement {

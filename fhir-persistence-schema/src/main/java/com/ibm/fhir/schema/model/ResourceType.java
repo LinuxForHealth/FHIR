@@ -8,8 +8,6 @@ package com.ibm.fhir.schema.model;
 
 /**
  * DTO to describe a resource type stored in the resource_types tables
- * @author rarnold
- *
  */
 public class ResourceType {
     // the database-assigned id

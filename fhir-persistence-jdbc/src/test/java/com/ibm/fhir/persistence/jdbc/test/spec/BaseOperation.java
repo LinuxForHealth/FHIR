@@ -14,7 +14,6 @@ import com.ibm.fhir.persistence.util.SaltHash;
 
 /**
  * Create the resource using the persistence
- * @author rarnold
  *
  */
 public abstract class BaseOperation implements ITestResourceOperation {

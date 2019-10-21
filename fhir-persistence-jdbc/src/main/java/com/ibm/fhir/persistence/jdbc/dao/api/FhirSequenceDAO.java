@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 import java.sql.SQLException;
 
 /**
- * @author rarnold
  *
  */
 public interface FhirSequenceDAO {

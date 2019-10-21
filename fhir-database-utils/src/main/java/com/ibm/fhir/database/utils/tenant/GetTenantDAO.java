@@ -19,8 +19,6 @@ import com.ibm.fhir.database.utils.model.Tenant;
 
 /**
  * DAO to create a free tenant slot (to align with a new partition)
- * 
- * @author rarnold
  */
 public class GetTenantDAO implements IDatabaseSupplier<Tenant> {
     private final String schemaName;

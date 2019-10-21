@@ -10,7 +10,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * Abstraction of the cache service managing code systems
- * @author rarnold
  */
 public interface ICodeSystemCache {
 

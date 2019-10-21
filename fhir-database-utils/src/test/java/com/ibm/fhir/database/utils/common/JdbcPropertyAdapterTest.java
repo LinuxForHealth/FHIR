@@ -13,7 +13,6 @@ import java.util.Properties;
 import org.testng.annotations.Test;
 
 /**
- * @author rarnold
  *
  */
 public class JdbcPropertyAdapterTest {

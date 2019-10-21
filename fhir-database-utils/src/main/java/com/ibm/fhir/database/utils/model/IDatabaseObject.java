@@ -16,7 +16,6 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
- * @author rarnold
  *
  */
 public interface IDatabaseObject {

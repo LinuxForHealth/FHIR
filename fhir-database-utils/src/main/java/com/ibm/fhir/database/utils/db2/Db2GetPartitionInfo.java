@@ -19,7 +19,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Functional wrapper to get the catalog information
- * @author rarnold
  *
  */
 public class Db2GetPartitionInfo implements IDatabaseStatement {

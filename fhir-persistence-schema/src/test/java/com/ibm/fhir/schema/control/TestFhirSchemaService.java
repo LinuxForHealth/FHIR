@@ -28,7 +28,7 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.core.service.TaskService;
 
 /**
- * @author rarnold
+
  *
  */
 public class TestFhirSchemaService {

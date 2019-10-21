@@ -9,7 +9,6 @@ package com.ibm.fhir.database.utils.api;
 import java.sql.Connection;
 
 /**
- * @author rarnold
  *
  */
 public interface IDatabaseStatement {

@@ -25,7 +25,7 @@ import com.ibm.fhir.task.api.ITaskGroup;
 /**
  * Manages the execution of a set of dependent task groups using the
  * {@link java.util.concurrent.ExecutorService } provided.
- * @author rarnold
+
  */
 public class TaskManager implements ITaskCollector {
     private static final Logger logger = Logger.getLogger(TaskManager.class.getName());

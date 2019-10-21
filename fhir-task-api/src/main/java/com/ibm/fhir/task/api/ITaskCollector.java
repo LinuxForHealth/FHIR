@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author rarnold
+
  *
  */
 public interface ITaskCollector {

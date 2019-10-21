@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 
 /**
- * @author rarnold
  *
  */
 public class DateMathTest {

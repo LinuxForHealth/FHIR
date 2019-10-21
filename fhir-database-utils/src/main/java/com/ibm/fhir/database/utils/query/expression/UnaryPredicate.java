@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.query.expression;
 
 /**
  * An unary predicate (e.g. NOT)
- * @author rarnold
- *
  */
 public abstract class UnaryPredicate extends Predicate {
 

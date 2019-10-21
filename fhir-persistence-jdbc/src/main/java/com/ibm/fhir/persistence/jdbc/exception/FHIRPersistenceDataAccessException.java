@@ -14,8 +14,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * This exception class represents failures encountered while attempting to access (read, write) data in the FHIR DB. 
  * TODO replace with Builder fluent pattern to align with the new R4 model style
- * @author markd
- *
  */
 public class FHIRPersistenceDataAccessException extends FHIRPersistenceException {
 

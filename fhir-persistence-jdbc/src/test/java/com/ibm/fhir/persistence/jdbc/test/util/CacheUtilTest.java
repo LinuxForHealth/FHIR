@@ -15,8 +15,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.persistence.jdbc.util.CacheUtil;
 
 /**
- * @author markd
- *
+ * 
  */
 public class CacheUtilTest {
 

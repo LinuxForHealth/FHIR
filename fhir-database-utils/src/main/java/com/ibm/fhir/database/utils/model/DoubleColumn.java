@@ -9,7 +9,6 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- * @author rarnold
  *
  */
 public class DoubleColumn extends ColumnBase {
@@ -21,9 +20,6 @@ public class DoubleColumn extends ColumnBase {
         super(name, nullable);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.ColumnBase#getTypeInfo()
-     */
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter translator) {
         return "DOUBLE";

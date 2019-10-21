@@ -13,7 +13,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 /**
  * Adapter to provide access to cached code system values managed by
  * the {@link ParameterDAO} implementation.
- * @author rarnold
  *
  */
 public class CodeSystemCacheAdapter implements ICodeSystemCache {

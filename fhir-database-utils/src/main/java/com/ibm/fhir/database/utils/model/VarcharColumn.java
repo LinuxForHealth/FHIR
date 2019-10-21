@@ -9,7 +9,6 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- * @author rarnold
  *
  */
 public class VarcharColumn extends ColumnBase {
@@ -27,9 +26,6 @@ public class VarcharColumn extends ColumnBase {
         return size;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.ColumnBase#getTypeInfo()
-     */
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
         return adapter.varcharClause(size);

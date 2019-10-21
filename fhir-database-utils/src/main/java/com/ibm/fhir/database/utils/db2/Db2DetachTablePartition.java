@@ -15,10 +15,10 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * @author rarnold
  *
  */
 public class Db2DetachTablePartition implements IDatabaseStatement {
+    
     private final String schemaName;
     private final String tableName;
     private final int partitionId;
@@ -42,9 +42,6 @@ public class Db2DetachTablePartition implements IDatabaseStatement {
         this.intoTableName = intoTableName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String partitionName = "TENANT" + partitionId;

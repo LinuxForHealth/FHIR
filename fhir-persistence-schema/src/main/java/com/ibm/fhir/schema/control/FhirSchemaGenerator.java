@@ -32,8 +32,7 @@ import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
  * Encapsules the generation of the FHIR schema artifacts
- * @author rarnold
- *
+ * 
  */
 public class FhirSchemaGenerator {
 
@@ -214,7 +213,6 @@ public class FhirSchemaGenerator {
         model.addObject(this.sessionVariable);
     }
 
-
     /**
      * Create a table to manage the list of tenants. The tenant id is used
      * as a partition value for all the other tables
@@ -229,8 +227,7 @@ public class FhirSchemaGenerator {
                 .addUniqueIndex(IDX + "TENANT_TN", TENANT_NAME)
                 .addPrimaryKey("TENANT_PK", MT_ID)
                 .setTablespace(fhirTablespace)
-                .build(model)
-                ;
+                .build(model);
 
         this.tenantsTable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         this.adminProcedureDependencies.add(tenantsTable);
@@ -256,8 +253,7 @@ public class FhirSchemaGenerator {
                 .addPrimaryKey("TENANT_KEY_PK", TENANT_KEY_ID)
                 .addForeignKeyConstraint(FK + TENANT_KEYS + "_TNID", adminSchemaName, TENANTS, MT_ID) // dependency
                 .setTablespace(fhirTablespace)
-                .build(model)
-                ;
+                .build(model);
 
         this.tenantKeysTable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         this.adminProcedureDependencies.add(tenantKeysTable);
@@ -389,8 +385,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .build(pdm)
-                ;
+                .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -422,8 +417,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .build(pdm)
-                ;
+                .build(pdm);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(tbl);
@@ -456,8 +450,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .build(model)
-                ;
+                .build(model);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(tbl);
@@ -468,15 +461,15 @@ public class FhirSchemaGenerator {
 
     /**
      * <pre>
-    CREATE TABLE resource_types (
-      resource_type_id INT NOT NULL
-      CONSTRAINT pk_resource_type PRIMARY KEY,
-      resource_type   VARCHAR(64) NOT NULL
-);
-
--- make sure resource_type values are unique
-CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
-</pre>
+        CREATE TABLE resource_types (
+            resource_type_id INT NOT NULL
+            CONSTRAINT pk_resource_type PRIMARY KEY,
+            resource_type   VARCHAR(64) NOT NULL
+        );
+        
+        -- make sure resource_type values are unique
+        CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
+        </pre>
      * 
      * @param model
      */
@@ -499,7 +492,6 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         model.addTable(resourceTypesTable);
         model.addObject(resourceTypesTable);
     }
-
 
     /**
      * Add the collection of tables for each of the listed
@@ -524,7 +516,6 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
             // Make this group a dependency for all the stored procedures.
             this.procedureDependencies.add(group);
             model.addObject(group);
-
         }
     }
 
@@ -637,7 +628,6 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         return SchemaGeneratorUtil.readTemplate(this.adminSchemaName, this.schemaName, ADD_RESOURCE_TEMPLATE, replacers);
     }
 
-
     /**
      * Add the types we need for passing parameters to the stored procedures
        <pre>
@@ -667,11 +657,11 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_str_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addVarcharColumn(STR_VALUE, 511, false)
-        .addVarcharColumn(STR_VALUE_LCASE, 511, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_str_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addVarcharColumn(STR_VALUE, 511, false)
+            .addVarcharColumn(STR_VALUE_LCASE, 511, false);
 
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -703,11 +693,11 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_token_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addIntColumn(CODE_SYSTEM_ID, false)
-        .addVarcharColumn(TOKEN_VALUE, 255, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_token_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addIntColumn(CODE_SYSTEM_ID, false)
+            .addVarcharColumn(TOKEN_VALUE, 255, false);
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rt.addDependencies(Arrays.asList(dob));
@@ -738,12 +728,12 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_date_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addTimestampColumn(DATE_VALUE, false)
-        .addTimestampColumn(DATE_START, false)
-        .addTimestampColumn(DATE_END, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_date_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addTimestampColumn(DATE_VALUE, false)
+            .addTimestampColumn(DATE_START, false)
+            .addTimestampColumn(DATE_END, false);
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rt.addDependencies(Arrays.asList(dob));
@@ -774,10 +764,10 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_number_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addDoubleColumn(NUMBER_VALUE, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_number_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addDoubleColumn(NUMBER_VALUE, false);
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rt.addDependencies(Arrays.asList(dob));
@@ -808,14 +798,14 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_quantity_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addVarcharColumn(CODE, 255, false)
-        .addDoubleColumn(QUANTITY_VALUE, false)
-        .addDoubleColumn(QUANTITY_VALUE_LOW, false)
-        .addDoubleColumn(QUANTITY_VALUE_HIGH, false)
-        .addIntColumn(CODE_SYSTEM_ID, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_quantity_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addVarcharColumn(CODE, 255, false)
+            .addDoubleColumn(QUANTITY_VALUE, false)
+            .addDoubleColumn(QUANTITY_VALUE_LOW, false)
+            .addDoubleColumn(QUANTITY_VALUE_HIGH, false)
+            .addIntColumn(CODE_SYSTEM_ID, false);
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rt.addDependencies(Arrays.asList(dob));
@@ -831,7 +821,6 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
 
         return rat;
     }
-
 
     /**
     
@@ -877,11 +866,11 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_latlng_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addDoubleColumn(LATITUDE_VALUE, false)
-        .addDoubleColumn(LONGITUDE_VALUE, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_latlng_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addDoubleColumn(LATITUDE_VALUE, false)
+            .addDoubleColumn(LONGITUDE_VALUE, false);
 
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);

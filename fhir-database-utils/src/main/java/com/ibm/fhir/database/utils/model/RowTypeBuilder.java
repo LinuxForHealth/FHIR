@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.model;
 
 /**
  * Builder pattern to make it easy to define row types
- * @author rarnold
- *
  */
 public class RowTypeBuilder extends ColumnDefBuilder {
     

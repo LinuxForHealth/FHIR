@@ -20,8 +20,6 @@ import com.ibm.fhir.database.utils.common.DateMath;
 /**
  * Abstracts the partition maintenance operations to facilitate better unit testing
  * of the higher business function layers
- * @author rarnold
- *
  */
 public class Db2CatalogAccess implements ICatalogAccess {
     private static final Logger logger = Logger.getLogger(Db2CatalogAccess.class.getName());
@@ -33,9 +31,6 @@ public class Db2CatalogAccess implements ICatalogAccess {
         this.connection = c;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#getPartitionList(java.lang.String, java.lang.String)
-     */
     @Override
     public List<PartitionInfo> getPartitionList(String schema, String table) {
         try {
@@ -46,9 +41,6 @@ public class Db2CatalogAccess implements ICatalogAccess {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#addMonthPartition(java.lang.String, java.lang.String, java.util.Date)
-     */
     @Override
     public void addMonthPartition(String schema, String table, Date lowValue) {
         try {
@@ -60,9 +52,6 @@ public class Db2CatalogAccess implements ICatalogAccess {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#addDayPartition(java.lang.String, java.lang.String, java.util.Date)
-     */
     @Override
     public void addDayPartition(String schema, String table, Date lowValue) {
         try {
@@ -74,9 +63,6 @@ public class Db2CatalogAccess implements ICatalogAccess {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#dropPartition(java.lang.String, java.lang.String, com.ibm.fhir.database.utils.api.ICatalogAccess.PartitionInfo)
-     */
     @Override
     public void dropPartition(String schema, String table, PartitionInfo pi) {
         try {
@@ -88,9 +74,6 @@ public class Db2CatalogAccess implements ICatalogAccess {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.ICatalogAccess.ICatalogAccess#dropDetachedPartitions(java.lang.String, java.lang.String)
-     */
     @Override
     public void dropDetachedPartitions(String schema, String table, int partMaintBatchSize) {
         // Get a list of all the tables which have been created from

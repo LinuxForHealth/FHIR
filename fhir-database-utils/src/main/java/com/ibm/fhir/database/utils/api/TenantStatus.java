@@ -7,7 +7,6 @@
 package com.ibm.fhir.database.utils.api;
 
 /**
- * @author rarnold
  *
  */
 public enum TenantStatus {

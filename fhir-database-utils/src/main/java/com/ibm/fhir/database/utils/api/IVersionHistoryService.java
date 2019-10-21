@@ -9,8 +9,6 @@ package com.ibm.fhir.database.utils.api;
 /**
  * Service interface used to update the version history table 
  * (just before a transaction ends)
- * @author rarnold
- *
  */
 public interface IVersionHistoryService {
 

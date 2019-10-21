@@ -13,8 +13,6 @@ import java.util.Properties;
  * Lets us adjust DDL/DML/SQL statements to match the target database. This
  * is needed because DB2 and Derby have a few differences, and we need to
  * tweak the SQL in order to support all the unit tests we want/need
- * @author rarnold
- *
  */
 public interface IDatabaseTranslator {
 

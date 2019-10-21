@@ -19,10 +19,7 @@ import java.util.logging.Logger;
 
 /**
  * A slightly nicer formatter for Java util logging output
- * @author rarnold
- * 
  * Modified to write out logs to a specified file
- * @author asabesa
  *
  */
 public class LogFormatter extends Formatter {

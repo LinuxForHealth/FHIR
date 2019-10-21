@@ -71,7 +71,7 @@ public abstract class AbstractPersistenceTest {
 
     @BeforeClass
     public void configureLogging() throws Exception {
-        final InputStream inputStream = Thread.class.getResourceAsStream("/logging.unitTest.properties");
+        final InputStream inputStream = getClass().getResourceAsStream("/logging.unitTest.properties");
         LogManager.getLogManager().readConfiguration(inputStream);
     }
 

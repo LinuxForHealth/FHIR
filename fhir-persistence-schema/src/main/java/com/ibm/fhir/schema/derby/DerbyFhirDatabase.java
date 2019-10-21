@@ -19,8 +19,7 @@ import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 /**
  * Derby implementation of the FHIR database useful for supporting
- * unit-tests. 
- * @author rarnold
+ * unit-tests.
  */
 public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final Logger logger = Logger.getLogger(DerbyFhirDatabase.class.getName());
@@ -32,7 +31,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     final DerbyMaster derby;
 
     // current connection cached for this thread
-    // final ThreadLocal<ManagedConnection> currentConnection = new ThreadLocal<>();
+    // <code>final ThreadLocal<ManagedConnection> currentConnection = new ThreadLocal<>();</code>
 
     public DerbyFhirDatabase() throws SQLException {
         logger.info("Creating Derby database for FHIR: " + DATABASE_NAME);
@@ -51,32 +50,20 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         derby.createSchema(pdm);
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.AutoCloseable#close()
-     */
     @Override
     public void close() throws Exception {
         derby.close();
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#commitTransaction()
-     */
     @Override
     public void commitTransaction() throws SQLException {
         // NOP
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#describe(java.lang.String, java.lang.StringBuilder, java.lang.String)
-     */
     @Override
     public void describe(String arg0, StringBuilder arg1, String arg2) {
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#getConnection()
-     */
     @Override
     public Connection getConnection() throws SQLException {
         Connection result = derby.createConnection();
@@ -84,17 +71,11 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#getTranslator()
-     */
     @Override
     public IDatabaseTranslator getTranslator() {
         return derby.getTranslator();
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#rollbackTransaction()
-     */
     @Override
     public void rollbackTransaction() throws SQLException {
         // NOP

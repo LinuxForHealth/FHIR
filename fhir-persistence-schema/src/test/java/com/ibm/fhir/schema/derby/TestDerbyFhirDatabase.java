@@ -12,7 +12,7 @@ import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
  * Unit test for the DerbyFhirDatabase utility
- * @author rarnold
+
  *
  */
 public class TestDerbyFhirDatabase {

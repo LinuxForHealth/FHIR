@@ -18,7 +18,6 @@ import static com.ibm.fhir.database.utils.query.TestConstants.FOO_TOWN;
 import org.testng.annotations.Test;
 
 /**
- * @author rarnold
  *
  */
 public class QueryTest {

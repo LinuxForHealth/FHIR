@@ -25,7 +25,6 @@ import com.ibm.fhir.database.utils.api.LockException;
 /**
  * Represents objects which are part of the database, but which do not belong to
  * a particular schema (like tablespace, for example).
- * @author rarnold
  */
 public abstract class DatabaseObject implements IDatabaseObject {
     
@@ -203,7 +202,6 @@ public abstract class DatabaseObject implements IDatabaseObject {
         }
     }
 
-
     /**
      * Sleep a random amount of time.
      */
@@ -216,10 +214,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
             // NOP
         }
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#getTags()
-     */
+
     @Override
     public Map<String, String> getTags() {
         return Collections.unmodifiableMap(this.tags);

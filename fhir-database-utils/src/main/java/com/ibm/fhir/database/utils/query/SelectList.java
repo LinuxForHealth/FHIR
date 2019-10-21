@@ -12,8 +12,6 @@ import java.util.List;
 /**
  * Represents the list of columns, expressions or sub-queries being selected
  * from one or more tables (or subqueries)
- * @author rarnold
- *
  */
 public class SelectList {
     private final List<SelectItem> items = new ArrayList<>();

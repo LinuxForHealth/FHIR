@@ -13,7 +13,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
  * Simple decorator to print out the DDL statement being run
- * @author rarnold
  *
  */
 public class PrintTarget implements IDatabaseTarget {
@@ -33,9 +32,6 @@ public class PrintTarget implements IDatabaseTarget {
         this.printFlag = printFlag;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTarget#runStatement(java.lang.String)
-     */
     @Override
     public void runStatement(IDatabaseTranslator translator, String ddl) {
         if (printFlag) {
@@ -47,9 +43,6 @@ public class PrintTarget implements IDatabaseTarget {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTarget#runStatementWithInt(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.lang.String, int)
-     */
     @Override
     public void runStatementWithInt(IDatabaseTranslator translator, String sql, int value) {
         if (this.printFlag) {
@@ -61,9 +54,6 @@ public class PrintTarget implements IDatabaseTarget {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTarget#runStatement(com.ibm.fhir.database.utils.api.IDatabaseStatement)
-     */
     @Override
     public void runStatement(IDatabaseTranslator translator, IDatabaseStatement statement) {
         // Print out the statement first before delegating the execution
@@ -77,9 +67,6 @@ public class PrintTarget implements IDatabaseTarget {
         
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTarget#runStatement(com.ibm.fhir.database.utils.api.IDatabaseTranslator, com.ibm.fhir.database.utils.api.IDatabaseSupplier)
-     */
     @Override
     public <T> T runStatement(IDatabaseTranslator translator, IDatabaseSupplier<T> supplier) {
         if (this.printFlag) {

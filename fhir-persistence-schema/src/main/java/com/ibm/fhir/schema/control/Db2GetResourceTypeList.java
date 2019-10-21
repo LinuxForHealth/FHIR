@@ -18,8 +18,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.schema.model.ResourceType;
 
 /**
- * @author rarnold
- *
+ * 
  */
 public class Db2GetResourceTypeList implements IDatabaseSupplier<List<ResourceType>> {
     private final String schemaName;
@@ -28,15 +27,11 @@ public class Db2GetResourceTypeList implements IDatabaseSupplier<List<ResourceTy
         this.schemaName = schemaName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseSupplier#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public List<ResourceType> run(IDatabaseTranslator translator, Connection c) {
         List<ResourceType> result = new ArrayList<>();
 
-        final String SQL = ""
-                + "SELECT resource_type_id, resource_type "
+        final String SQL = "SELECT resource_type_id, resource_type "
                 + "  FROM " + schemaName + ".RESOURCE_TYPES";
 
         try (Statement s = c.createStatement()) {

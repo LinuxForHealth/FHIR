@@ -29,7 +29,6 @@ import java.util.Calendar;
 import java.util.Map;
 
 /**
- * @author rarnold
  *
  */
 public class ResultSetStub implements ResultSet {
@@ -45,12 +44,9 @@ public class ResultSetStub implements ResultSet {
         this.connection = connection;
     }
 
-    /* (non-Javadoc)
-     * @see java.sql.Wrapper#isWrapperFor(java.lang.Class)
-     */
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        // TODO Auto-generated method stub
+        // Stub Only 
         return false;
     }
 

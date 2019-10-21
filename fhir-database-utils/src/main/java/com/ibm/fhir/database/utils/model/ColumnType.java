@@ -7,7 +7,6 @@
 package com.ibm.fhir.database.utils.model;
 
 /**
- * @author rarnold
  *
  */
 public enum ColumnType {

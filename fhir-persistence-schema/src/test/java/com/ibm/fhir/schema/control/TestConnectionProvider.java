@@ -14,7 +14,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.jdbc.ConnectionStub;
 
 /**
- * @author rarnold
+
  *
  */
 public class TestConnectionProvider implements IConnectionProvider {

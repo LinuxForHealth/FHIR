@@ -20,7 +20,6 @@ import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 
 /**
- * @author rarnold
  *
  */
 public class QueryBuilderUtil {

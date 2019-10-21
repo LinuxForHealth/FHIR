@@ -31,8 +31,6 @@ import com.ibm.fhir.persistence.jdbc.dto.Parameter;
  * <br>
  * So this class follows the logic of the stored procedure, but does so
  * using a series of individual JDBC statements.
- * 
- * @author rarnold
  */
 public class DerbyResourceDAO {
     private static final Logger logger = Logger.getLogger(DerbyResourceDAO.class.getName());
@@ -91,26 +89,13 @@ public class DerbyResourceDAO {
      * @param p_last_updated
      * @param p_is_deleted
      * @param p_source_key
-     * @param p_tx_correlation_id
-     * @param p_changed_by
-     * @param p_correlation_token
-     * @param p_tenant_id
-     * @param p_reason
-     * @param p_event
-     * @param p_site_id
-     * @param p_study_id
-     * @param p_service_id
-     * @param p_patient_id
      * @param p_version
-     * @param p_json_version
-     * @param p_write_rep_log
+     * 
      * @return the resource_id for the entry we created
      * @throws Exception
      */
     public long storeResource(String tablePrefix, List<Parameter> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted, 
-        String p_source_key, String p_tx_correlation_id, String p_changed_by, String p_correlation_token, String p_tenant_id, 
-        String p_reason, String p_event, String p_site_id, String p_study_id, String p_service_id, 
-        String p_patient_id, Integer p_version, Integer p_json_version, boolean p_write_rep_log) throws Exception {
+        String p_source_key, Integer p_version) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
         logger.entering(CLASSNAME, METHODNAME);
@@ -292,13 +277,7 @@ public class DerbyResourceDAO {
             // the next version value here
             v_insert_version = v_version + 1;
             
-            // Check the version number we're going to use matches the version
-            // number injected by the FHIR server into the JSON payload
-            if (v_insert_version != p_json_version) {
-                throw new SQLException("Concurrent update - mismatch of version in JSON", "99001");
-            }
         }
-
 
         /**
          * Create the new resource version.
@@ -317,9 +296,8 @@ public class DerbyResourceDAO {
         }
 
         // Finally we get to the big resource data insert
-        String sql3 = "INSERT INTO " + tablePrefix + "_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, "
-                + "tx_correlation_id, changed_by, correlation_token, tenant_id, reason, site_id, study_id, service_id, patient_id) "
-                + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql3 = "INSERT INTO " + tablePrefix + "_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) "
+                + "VALUES (?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
             // bind parameters
             stmt.setLong(1, v_resource_id);
@@ -328,15 +306,6 @@ public class DerbyResourceDAO {
             stmt.setBytes(4, p_payload);
             stmt.setTimestamp(5, p_last_updated);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
-            stmt.setString(7,p_tx_correlation_id);
-            stmt.setString(8, p_changed_by);
-            stmt.setString(9, p_correlation_token);
-            stmt.setString(10, p_tenant_id);
-            stmt.setString(11, p_reason);
-            stmt.setString(12, p_site_id);
-            stmt.setString(13, p_study_id);
-            stmt.setString(14, p_service_id);
-            stmt.setString(15, p_patient_id);
             stmt.executeUpdate();
         }
 
@@ -427,7 +396,7 @@ public class DerbyResourceDAO {
             try {
                 result = fhirRefSequenceDAO.nextValue();
              
-                String INS = "INSERT INTO resource_types (resource_type_id, resource_type) VALUES (?, ?)";
+                final String INS = "INSERT INTO resource_types (resource_type_id, resource_type) VALUES (?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(INS)) {
                     // bind parameters
                     stmt.setInt(1, result);

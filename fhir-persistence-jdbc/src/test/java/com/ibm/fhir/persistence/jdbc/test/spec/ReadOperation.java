@@ -14,7 +14,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * Create the resource using the persistence
- * @author rarnold
  *
  */
 public class ReadOperation extends BaseOperation {

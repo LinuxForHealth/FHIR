@@ -13,7 +13,7 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 /**
  * A transaction provider stub useful for unit tests where we don't actually
  * need real transactions
- * @author rarnold
+
  *
  */
 public class TestTransactionProvider implements ITransactionProvider {

@@ -17,7 +17,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
- * @author rarnold
+
  *
  */
 public class OperationOutcomeTest {

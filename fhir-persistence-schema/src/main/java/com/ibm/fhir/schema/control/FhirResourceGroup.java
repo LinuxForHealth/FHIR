@@ -24,8 +24,6 @@ import com.ibm.fhir.database.utils.model.Tablespace;
 
 /**
  * Utility to create all the tables associated with a particular resource type
- * @author rarnold
- *
  */
 public class FhirResourceGroup {
     // The model containing all the tables for the entire schema
@@ -98,7 +96,6 @@ public class FhirResourceGroup {
         return new ObjectGroup(schemaName, tablePrefix + "_RESOURCE_TABLE_GROUP", group);
     }
 
-
     /**
      * Add the logical_resources table definition for the given resource prefix
      * @param prefix
@@ -148,32 +145,13 @@ public class FhirResourceGroup {
      * data, 
      * last_updated, 
      * is_deleted, 
-     * tx_correlation_id, 
-     * changed_by, 
-     * correlation_token, 
-     * tenant_id, 
-     * reason, 
-     * site_id, 
-     * study_id, 
-     * service_id, 
-     * patient_id
-     *   
   tenant_id                 INT             NOT NULL,
   resource_id            BIGINT             NOT NULL,
   logical_resource_id    BIGINT             NOT NULL,
   version_id                INT             NOT NULL,
   last_updated        TIMESTAMP             NOT NULL,
   is_deleted               CHAR(1)          NOT NULL,
-  data                     BLOB(2147483647) INLINE LENGTH 10240
-  tx_correlation_id  VARCHAR(36)  NOT NULL ;
-  changed_by         VARCHAR(64)  NOT NULL ;
-  correlation_token  VARCHAR(36)  NOT NULL ;
-  tenant_id          VARCHAR(36)  NOT NULL ;
-  reason             VARCHAR(255) NOT NULL ;
-  service_id         VARCHAR(32)  NOT NULL ;
-  site_id            VARCHAR(255);
-  study_id           VARCHAR(255);
-  patient_id         VARCHAR(255);
+  data                     BLOB(2147483647) INLINE LENGTH 10240;
 
   CREATE UNIQUE INDEX device_resource_prf_in1    ON device_resources (resource_id) INCLUDE (logical_resource_id, version_id, is_deleted);
 
@@ -195,15 +173,6 @@ public class FhirResourceGroup {
                 .addTimestampColumn(    LAST_UPDATED,              false)
                 .addCharColumn(           IS_DELETED,           1, false)
                 .addBlobColumn(                 DATA,  2147483647,  10240,   true)
-                .addVarcharColumn(TX_CORRELATION_ID, 36, false)
-                .addVarcharColumn(CHANGED_BY, 64, false)      
-                .addVarcharColumn(CORRELATION_TOKEN, 36, false) 
-                .addVarcharColumn(TENANT_ID, 36, false)      
-                .addVarcharColumn(REASON, 255, false)        
-                .addVarcharColumn(SERVICE_ID, 32, false)      
-                .addVarcharColumn(SITE_ID, 255, true)      
-                .addVarcharColumn(STUDY_ID, 255, true)       
-                .addVarcharColumn(PATIENT_ID, 255, true)
                 .addUniqueIndex(tableName + "_PRF_IN1", prfIndexCols, prfIncludeCols)
                 .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -231,7 +200,6 @@ CREATE INDEX idx_device_str_values_rps ON device_str_values(resource_id, paramet
 CREATE INDEX idx_device_str_values_rpl ON device_str_values(resource_id, parameter_name_id, str_value_lcase);
 ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_pnid FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
 ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN KEY (resource_id) REFERENCES device_resources;
-
 
      * 
      * @param prefix

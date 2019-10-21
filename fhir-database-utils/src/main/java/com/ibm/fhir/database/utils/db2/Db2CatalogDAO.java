@@ -22,8 +22,6 @@ import com.ibm.fhir.database.utils.common.DateMath;
 
 /**
  * Access to the DB2 catalog tables
- * @author rarnold
- *
  */
 public class Db2CatalogDAO {
     
@@ -48,13 +46,14 @@ public class Db2CatalogDAO {
     
     /**
      * Get the list of partitions. Take special note of the low and high values, because
-     * they include string markers e.g."
-PNAME            SEQNO       LOWINCLUSIVE LOWVALUE                         HIGHINCLUSIVE HIGHVALUE                       
----------------- ----------- ------------ -------------------------------- ------------- --------------------------------
-PART0                      0 Y            '2017-01-01-00.00.00.000000'     N             '2017-02-01-00.00.00.000000'    
-PART1                      1 Y            '2017-02-01-00.00.00.000000'     N             '2017-03-01-00.00.00.000000'    
-PART2                      2 Y            '2017-03-01-00.00.00.000000'     N             '2017-04-01-00.00.00.000000'    
-
+     * they include string markers e.g.
+     * <CODE>
+        PNAME            SEQNO       LOWINCLUSIVE LOWVALUE                         HIGHINCLUSIVE HIGHVALUE                       
+        ---------------- ----------- ------------ -------------------------------- ------------- --------------------------------
+        PART0                      0 Y            '2017-01-01-00.00.00.000000'     N             '2017-02-01-00.00.00.000000'    
+        PART1                      1 Y            '2017-02-01-00.00.00.000000'     N             '2017-03-01-00.00.00.000000'    
+        PART2                      2 Y            '2017-03-01-00.00.00.000000'     N             '2017-04-01-00.00.00.000000'    
+        </CODE>
      * @param c
      * @param tableName
      * @return

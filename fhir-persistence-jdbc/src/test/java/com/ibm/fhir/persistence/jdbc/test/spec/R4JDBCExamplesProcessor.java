@@ -19,7 +19,6 @@ import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
 /**
  * Reads R4 example resources and performs a sequence of persistance 
  * operations against each
- * @author rarnold
  *
  */
 public class R4JDBCExamplesProcessor implements IExampleProcessor {

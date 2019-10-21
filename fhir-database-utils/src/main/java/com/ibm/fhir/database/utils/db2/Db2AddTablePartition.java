@@ -15,7 +15,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * @author rarnold
  *
  */
 public class Db2AddTablePartition implements IDatabaseStatement {
@@ -39,9 +38,6 @@ public class Db2AddTablePartition implements IDatabaseStatement {
         this.tablespaceName = tablespaceName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         
@@ -51,8 +47,7 @@ public class Db2AddTablePartition implements IDatabaseStatement {
         catch (SQLException x) {
             throw translator.translate(x);
         }
-
-
+        
     }
     
     /**
@@ -66,7 +61,6 @@ public class Db2AddTablePartition implements IDatabaseStatement {
         return "ALTER TABLE " + schemaName + "." + tableName 
             + " ADD PARTITION " + partitionName + " STARTING FROM " + lowValueStr + " INCLUSIVE  ENDING AT " + highValueStr + " INCLUSIVE"
             + " IN " + this.tablespaceName;
-
     }
 
 }

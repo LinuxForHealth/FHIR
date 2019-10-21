@@ -23,8 +23,6 @@ import com.ibm.fhir.database.utils.model.Table;
 
 /**
  * A Derby database target
- * @author rarnold
- *
  */
 public class DerbyAdapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(DerbyAdapter.class.getName());
@@ -59,9 +57,6 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createTable(java.lang.String, java.util.List, com.ibm.fhir.schema.model.PrimaryKeyDef, com.ibm.fhir.schema.model.PartitionDef)
-     */
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             String tablespaceName) {
@@ -77,10 +72,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         
         runStatement(ddl);
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createUniqueIndex(java.lang.String, java.lang.String, java.util.List, java.util.List)
-     */
+
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<String> indexColumns,
             List<String> includeColumns) {
@@ -89,35 +81,21 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
     }
 
-
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createIntVariable(java.lang.String)
-     */
     @Override
     public void createIntVariable(String schemaName, String variableName) {
         warnOnce(MessageKey.CREATE_VAR, "Derby does not support CREATE VARIABLE for: " + variableName);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createPermission(java.lang.String, java.lang.String)
-     */
     @Override
     public void createPermission(String schemaName, String permissionName, String tableName, String predicate) {
         warnOnce(MessageKey.CREATE_PERM, "Derby does not support CREATE PERMISSION for: " + permissionName);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#activateRowAccessControl(java.lang.String)
-     */
     @Override
     public void activateRowAccessControl(String schemaName, String tableName) {
         warnOnce(MessageKey.ENABLE_ROW_ACCESS, "Derby does not support ROW ACCESS CONTROL for table: " + tableName);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#setIntVariable(java.lang.String)
-     */
     @Override
     public void setIntVariable(String schemaName, String variableName, int value) {
         // As this is a runtime issue, we throw as an exception instead of
@@ -126,57 +104,36 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         throw new IllegalStateException("setIntVariable not supported on Derby for: " + variableName);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#deactivateRowAccessControl(java.lang.String, java.lang.String)
-     */
     @Override
     public void deactivateRowAccessControl(String schemaName, String tableName) {
         warnOnce(MessageKey.DISABLE_ROW_ACCESS, "Derby does not support ROW ACCESS CONTROL for table: " + tableName);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createTenantPartitions(java.util.Collection, java.lang.String, int)
-     */
     @Override
     public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB) {
         warnOnce(MessageKey.PARTITIONING, "Derby does not support tenant partitioning");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createRowType(java.lang.String, java.lang.String, java.util.List)
-     */
     @Override
     public void createRowType(String schemaName, String typeName, List<ColumnBase> columns) {
         warnOnce(MessageKey.ROW_TYPE, "Create row type not supported in Derby");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createArrType(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void createArrType(String schemaName, String typeName, String valueType, int arraySize) {
         warnOnce(MessageKey.ROW_ARR_TYPE, "Create array row type not supported in Derby");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#dropType(java.lang.String, java.lang.String)
-     */
     @Override
     public void dropType(String schemaName, String typeName) {
         warnOnce(MessageKey.DROP_TYPE, "Drop type not supported in Derby");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createProcedure(java.lang.String, java.lang.String, java.util.function.Supplier)
-     */
     @Override
     public void createProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
         warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in Derby");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#dropProcedure(java.lang.String, java.lang.String)
-     */
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
         warnOnce(MessageKey.DROP_PROC, "Drop procedure not supported in Derby");
@@ -203,26 +160,17 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         warnOnce(MessageKey.PARTITIONING, "Remove tenant partitions not supported in Derby");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createTablespace(java.lang.String, int)
-     */
     @Override
     public void createTablespace(String tablespaceName, int extentSizeKB) {
         warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in Derby");
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#doesTableExist(java.lang.String, java.lang.String)
-     */
+
     @Override
     public boolean doesTableExist(String schemaName, String tableName) {
         DerbyDoesTableExist dao = new DerbyDoesTableExist(schemaName, tableName);
         return runStatement(dao);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createSequence(java.lang.String, java.lang.String, int)
-     */
     @Override
     public void createSequence(String schemaName, String sequenceName, int cache) {
         /*CREATE SEQUENCE fhir_sequence
@@ -238,18 +186,12 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter#varbinaryClause(int)
-     */
     @Override
     public String varbinaryClause(int size) {
         // I have no idea why Derby doesn't use VARBINARY...but oh well
         return "VARCHAR(" + size + ") FOR BIT DATA";
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter#blobClause(long, int)
-     */
     @Override
     public String blobClause(long size, int inlineSize) {
         // Derby doesn't support the INLINE feature (which greatly helps with
@@ -257,9 +199,6 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         return "BLOB(" + size + ")";            
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter#varcharClause(int)
-     */
     @Override
     public String varcharClause(int size) {
         return "VARCHAR(" + size + ")";

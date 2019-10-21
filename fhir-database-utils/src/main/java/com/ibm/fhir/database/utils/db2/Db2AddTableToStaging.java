@@ -15,14 +15,12 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * @author rarnold
  *
  */
 public class Db2AddTableToStaging implements IDatabaseStatement {
     private final String schemaName;
     private final String stagingTableName;
     private final String tableName;
-
 
     /**
      * Public Constructor

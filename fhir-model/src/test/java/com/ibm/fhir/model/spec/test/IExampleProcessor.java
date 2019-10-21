@@ -9,7 +9,6 @@ package com.ibm.fhir.model.spec.test;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
- * @author rarnold
  *
  */
 public interface IExampleProcessor {

@@ -16,8 +16,6 @@ import javax.transaction.Synchronization;
 /**
  * This is an abstract base class encapsulating functionality related to adding entries to a 
  * JDBC PL in-memory cache.
- * @author markd
- *
  */
 public abstract class CacheUpdater implements Synchronization {
     private static final String CLASSNAME = CacheUpdater.class.getName();

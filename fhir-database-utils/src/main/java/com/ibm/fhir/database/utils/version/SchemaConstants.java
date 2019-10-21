@@ -7,7 +7,6 @@
 package com.ibm.fhir.database.utils.version;
 
 /**
- * @author rarnold
  *
  */
 public class SchemaConstants {

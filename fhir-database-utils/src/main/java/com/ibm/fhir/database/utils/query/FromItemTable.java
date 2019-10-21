@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * Represents a table referenced in the from list
- * @author rarnold
  *
  */
 public class FromItemTable extends FromItem {

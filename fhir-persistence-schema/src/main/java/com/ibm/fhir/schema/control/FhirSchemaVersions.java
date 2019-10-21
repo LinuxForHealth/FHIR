@@ -7,7 +7,6 @@
 package com.ibm.fhir.schema.control;
 
 /**
- * @author rarnold
  *
  */
 public class FhirSchemaVersions {

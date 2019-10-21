@@ -21,7 +21,7 @@ import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
 import com.ibm.fhir.persistence.util.SaltHash;
 
 /**
- * @author rarnold
+
  *
  */
 public class ExampleRequestProcessor implements IExampleProcessor {

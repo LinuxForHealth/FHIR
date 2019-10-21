@@ -11,7 +11,6 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 /**
- * @author rarnold
  *
  */
 public class Db2AddTablePartitionTest {

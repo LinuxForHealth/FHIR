@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
- * @author rarnold
+
  *
  */
 public class TaskGroup implements ITaskGroup {

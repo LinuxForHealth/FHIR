@@ -7,7 +7,6 @@
 package com.ibm.fhir.database.utils.query;
 
 /**
- * @author rarnold
  *
  */
 public class WhereClause {

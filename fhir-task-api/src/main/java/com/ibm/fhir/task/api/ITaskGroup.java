@@ -7,7 +7,7 @@
 package com.ibm.fhir.task.api;
 
 /**
- * @author rarnold
+
  *
  */
 public interface ITaskGroup {

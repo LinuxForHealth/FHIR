@@ -20,8 +20,6 @@ import java.sql.SQLException;
  * simple wrapper stuff...allowing us to switch out underlying pool implementations should
  * we want/need to. No support for distributed transactions or anything fancy like that.
  * 
- * @author rarnold
- *
  */
 public interface IConnectionProvider {
 
@@ -32,7 +30,6 @@ public interface IConnectionProvider {
      * @throws SQLException
      */
     public Connection getConnection() throws SQLException;
-    
     
     /**
      * Get the translator associated with this connection provider. Supports
@@ -49,12 +46,10 @@ public interface IConnectionProvider {
      */
     public void commitTransaction() throws SQLException;
 
-
     /**
      * Roll back the transaction for the connection associated with this thread, if one exists
      */
     public void rollbackTransaction() throws SQLException;
-
 
     /**
      * Describe self, for writing configuration information to log file for test record purposes

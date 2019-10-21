@@ -16,7 +16,6 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- * @author rarnold
  *
  */
 public class JdbcConnectionProvider implements IConnectionProvider {
@@ -30,12 +29,6 @@ public class JdbcConnectionProvider implements IConnectionProvider {
         this.properties = properties;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.ibm.fhir.database.utils.api.IConnectionProvider#getConnection()
-     */
     @Override
     public Connection getConnection() throws SQLException {
         Properties connectionProperties = new Properties();
@@ -60,39 +53,25 @@ public class JdbcConnectionProvider implements IConnectionProvider {
         return connection;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#getTranslator()
-     */
     @Override
     public IDatabaseTranslator getTranslator() {
         return this.translator;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#commitTransaction()
-     */
     @Override
     public void commitTransaction() throws SQLException {
-        // TODO Auto-generated method stub
+        // Intentionally blank
 
     }
 
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#rollbackTransaction()
-     */
     @Override
     public void rollbackTransaction() throws SQLException {
-        // TODO Auto-generated method stub
-
+        // Intentionally blank
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#describe(java.lang.String, java.lang.StringBuilder, java.lang.String)
-     */
     @Override
     public void describe(String prefix, StringBuilder cfg, String key) {
-
+        // Intentionally blank
     }
 
 }

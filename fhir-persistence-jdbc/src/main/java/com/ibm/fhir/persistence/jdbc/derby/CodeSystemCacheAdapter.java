@@ -11,7 +11,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
 
 /**
- * @author rarnold
  *
  */
 public class CodeSystemCacheAdapter implements ICodeSystemCache {
@@ -22,9 +21,6 @@ public class CodeSystemCacheAdapter implements ICodeSystemCache {
         this.delegate = delegate;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache#readOrAddCodeSystem(java.lang.String)
-     */
     @Override
     public int readOrAddCodeSystem(String codeSystem) throws FHIRPersistenceException {
         return delegate.readOrAddCodeSystem(codeSystem);

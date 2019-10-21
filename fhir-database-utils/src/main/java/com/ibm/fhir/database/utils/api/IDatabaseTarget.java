@@ -10,8 +10,6 @@ package com.ibm.fhir.database.utils.api;
  * Abstraction of the ability to execute statements against a database. This allows
  * for better unit testing, especially those functions which are not supported by
  * Derby.
- * @author rarnold
- *
  */
 public interface IDatabaseTarget {
 
@@ -45,5 +43,4 @@ public interface IDatabaseTarget {
      */
     public <T> T runStatement(IDatabaseTranslator translator, IDatabaseSupplier<T> supplier);
 
-    
 }

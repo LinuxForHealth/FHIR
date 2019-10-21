@@ -18,7 +18,7 @@ import com.ibm.fhir.task.core.service.TaskService;
 
 /**
  * Unit tests for the core task executor
- * @author rarnold
+
  *
  */
 public class TaskRunTest {

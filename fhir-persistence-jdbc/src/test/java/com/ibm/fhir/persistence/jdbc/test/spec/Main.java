@@ -34,9 +34,9 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
 /**
  * Integration test using a multi-tenant schema in DB2 as the target for the
  * FHIR R4 Examples.
- * @author rarnold
  * 
  * Usage 
+ * <code>
  *   java com.ibm.fhir.persistence.jdbc.test.spec.Main
  *   --parse
  *   --validate
@@ -54,7 +54,7 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  *   --validate
  *   --derby
  *   --index-file file:/path/to/my/index.txt
- * 
+ * </code>
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
