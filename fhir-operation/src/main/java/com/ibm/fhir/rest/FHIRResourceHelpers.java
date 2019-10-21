@@ -68,6 +68,17 @@ public interface FHIRResourceHelpers {
      * Performs a 'read' operation to retrieve a Resource.
      * @param type the resource type associated with the Resource to be retrieved
      * @param id the id of the Resource to be retrieved
+     * @param queryParameters for supporting _summary for resource read
+     * @return the Resource
+     * @throws Exception
+     */
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties, Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
+
+
+    /**
+     * Performs a 'read' operation to retrieve a Resource.
+     * @param type the resource type associated with the Resource to be retrieved
+     * @param id the id of the Resource to be retrieved
      * @return the Resource
      * @throws Exception
      */

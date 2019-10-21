@@ -40,6 +40,12 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         this.searchContext = sc;
     }
 
+    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted, FHIRSearchContext sc) {
+        this.persistenceEvent = pe;
+        setIncludeDeleted(includeDeleted);
+        this.searchContext = sc;
+    }
+
     /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.context.FHIRPersistenceContext#getPersistenceEvent()
      */
