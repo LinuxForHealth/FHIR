@@ -1341,11 +1341,8 @@ public class CodeGenerator {
             reference = reference.substring(reference.lastIndexOf(".") + 1);
             cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + ".");
         } else {
-            String reference = fieldType;
-            if (!"java.lang.String".equals(fieldType)) {
-                reference = fieldType.substring(fieldType.lastIndexOf(".") + 1);
-            }
-            fieldType.substring(fieldType.lastIndexOf(".") + 1);
+            // Processes the JavaDoc Link into an absolute path where available. 
+            String reference = getFieldTypeForJavaDocLink(structureDefinition, elementDefinition, fieldType);
             cb.javadocReturn("An immutable object of type " + javadocLink(reference) + ".");
         }
         cb.javadocEnd();
@@ -3170,6 +3167,47 @@ public class CodeGenerator {
         return getFieldType(structureDefinition, elementDefinition, isRepeating(elementDefinition));
     }
 
+    /**
+     * uses to rewrite the javadoc return link where the path is value. 
+     * 
+     * @param structureDefinition
+     * @param elementDefinition 
+     * @param fieldType
+     * 
+     * @return
+     */
+    public String getFieldTypeForJavaDocLink(JsonObject structureDefinition, JsonObject elementDefinition, String fieldType) {
+        String path = elementDefinition.getString("path");
+        
+        if (isPrimitiveType(structureDefinition) && path.endsWith("value")) {
+            String name = structureDefinition.getString("name");
+            switch (name) {
+            case "base64Binary":
+                return "java.lang.byte[]";
+            case "boolean":
+                return "java.lang.Boolean";
+            case "date":
+            case "dateTime":
+                return "java.time.TemporalAccessor";
+            case "decimal":
+                return "java.math.BigDecimal";
+            case "instant":
+                return "java.time.ZonedDateTime";
+            case "integer":
+            case "unsignedInt":
+            case "positiveInt":
+                return "java.lang.Integer";
+            case "time":
+                return "java.time.LocalTime";
+            default:
+                return "java.lang.String";
+            }
+        }
+        
+        // Not found, and drop through. 
+        return fieldType;
+    }
+    
     private String getFieldType(JsonObject structureDefinition, JsonObject elementDefinition, boolean repeating) {
         String path = elementDefinition.getString("path");
         String basePath = elementDefinition.getJsonObject("base").getString("path");

@@ -1,17 +1,17 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.util;
 
-import static com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.CODE_SYSTEM_ID;
-import static com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.DATE_VALUE;
-import static com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.NUMBER_VALUE;
-import static com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.QUANTITY_VALUE;
-import static com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.STR_VALUE;
-import static com.ibm.fhir.persistence.jdbc.util.JDBCNormalizedQueryBuilder.TOKEN_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +19,14 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.SearchConstants.SortDirection;
 import com.ibm.fhir.search.parameters.SortParameter;
 
 /**
- * This class assists the JDBCNormalizedQueryBuilder. It extends the QuerySegmentAggregator to build a FHIR Resource query
+ * This class assists the JDBCQueryBuilder. It extends the QuerySegmentAggregator to build a FHIR Resource query
  * that produces sorted search results.
- * 
- * @author markd
- *
  */
 public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = SortedQuerySegmentAggregator.class.getName();
@@ -44,11 +41,11 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * @param resourceType - The type of FHIR Resource to be searched for.
      * @param offset - The beginning index of the first search result.
      * @param pageSize - The max number of requested search results.
-     * @param FHIRDBDAO - A basic FHIR DB Data Access Object
+     * @param ResourceDAO - A FHIR DB Data Access Object
      * @param sortParms - A list of SortParameters
      */
-    protected SortedQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, ParameterNormalizedDAO parameterDao, 
-                                            ResourceNormalizedDAO resourceDao, List<SortParameter> sortParms) {
+    protected SortedQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, ParameterDAO parameterDao, 
+                                            ResourceDAO resourceDao, List<SortParameter> sortParms) {
         super(resourceType, offset, pageSize, parameterDao, resourceDao);
         this.sortParameters = sortParms;
          
@@ -110,7 +107,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             // Build SELECT clause
             sqlSortQuery.append(this.buildSelectClause());
             
-            // Build basic FROM clause
+            // Build FROM clause
             sqlSortQuery.append(this.buildFromClause());
             
             // Build LEFT OUTER JOIN clause

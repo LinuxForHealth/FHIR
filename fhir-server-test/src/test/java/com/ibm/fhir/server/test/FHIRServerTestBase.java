@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,7 +49,6 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.test.FHIRModelTestBase;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -62,7 +61,7 @@ import com.ibm.fhir.validation.FHIRValidator;
 /**
  * Base class for fhir-server unit tests.
  */
-public abstract class FHIRServerTestBase extends FHIRModelTestBase {
+public abstract class FHIRServerTestBase {
 
     protected FHIRClient client = null;
 
@@ -188,9 +187,9 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     }
 
     /**
-     * Tries to find the property named <propertyName> first as a System property,
-     * then as a property within the <properties> object. If neither are found, then
-     * the <defaultValue> is returned.
+     * Tries to find the property named "propertyName" first as a System property,
+     * then as a property within the "properties" object. If neither are found, then
+     * the "defaultValue" is returned.
      *
      * @param properties   Properties object containing the properties loaded from
      *                     our properties file.
@@ -507,7 +506,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     /**
      * For the specified response, this function will extract the logical id value
      * from the response's Location header. The format of a location header value
-     * should be: "[base]/<resource-type>/<id>/_history/<version>"
+     * should be: <code>[base]/<resource-type>/<id>/_history/<version></code>
      *
      * @param response the response object for a REST API invocation
      * @return the logical id value
@@ -601,7 +600,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     
     /**
      * Parses a location URI into the resourceType, resourceId, and (optionally) the version id.
-     * @param locationURI
+     * @param location
      * @return
      */
     public static String[] parseLocationURI(String location) {

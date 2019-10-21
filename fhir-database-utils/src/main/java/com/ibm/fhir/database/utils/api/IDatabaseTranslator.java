@@ -34,7 +34,7 @@ public interface IDatabaseTranslator {
     /**
      * Get the proper table name based on the type of database we
      * are connected to. Derby has its own handling of temp tables
-     * @param string
+     * @param tableName
      * @return
      */
     String globalTempTableName(String tableName);

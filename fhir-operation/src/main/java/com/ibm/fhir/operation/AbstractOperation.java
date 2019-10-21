@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -234,7 +234,7 @@ public abstract class AbstractOperation implements FHIROperation {
 
     /**
      * Returns the OperationDefinitionParameter with the specified name or null if it wasn't found.
-     * @param opDefParameters the list of parameters from the OperationDefinition
+     * @param parameters the list of parameters from the OperationDefinition
      * @param name the name of the parameter to find
      * @return
      */

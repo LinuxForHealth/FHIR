@@ -153,7 +153,7 @@ public class DerbyMaster implements AutoCloseable {
     
     /**
      * Ask the schema to apply itself to our target (adapter pattern)
-     * @param s
+     * @param pdm
      */
     public void createSchema(PhysicalDataModel pdm) {
         final IVersionHistoryService vhs = new AllVersionHistoryService();

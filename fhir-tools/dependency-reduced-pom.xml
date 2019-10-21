@@ -263,11 +263,11 @@
     </dependency>
   </dependencies>
   <properties>
-    <java.version>1.8</java.version>
     <jacoco.plugin.version>0.8.2</jacoco.plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <argLine>-Dfile.encoding=UTF-8</argLine>
-    <surefire.plugin.version>2.20.1</surefire.plugin.version>
+    <java.version>1.8</java.version>
     <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
+    <argLine>-Dfile.encoding=UTF-8</argLine>
   </properties>
 </project>

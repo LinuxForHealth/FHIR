@@ -112,8 +112,8 @@ public class ValueTypesTool {
     }
 
     /**
-     * 
-     * @param path
+     * discovers the type through a walk of the Structured definition. 
+     * @param expression
      * @return
      */
     public static String discoverType(String expression) {

@@ -47,7 +47,7 @@ public class DateTime extends Element {
      * The actual value
      * 
      * @return
-     *     An immutable object of type {@link TemporalAccessor}.
+     *     An immutable object of type {@link java.time.TemporalAccessor}.
      */
     public TemporalAccessor getValue() {
         return value;

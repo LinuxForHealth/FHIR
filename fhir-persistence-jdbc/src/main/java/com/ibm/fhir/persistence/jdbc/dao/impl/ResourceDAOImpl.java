@@ -1,0 +1,1004 @@
+/*
+ * (C) Copyright IBM Corp. 2017,2019
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.ibm.fhir.persistence.jdbc.dao.impl;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.transaction.TransactionSynchronizationRegistry;
+
+import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.context.FHIRReplicationContext;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
+import com.ibm.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.fhir.persistence.jdbc.dto.Resource;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
+import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
+import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
+import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.fhir.replication.api.model.ReplicationInfo;
+
+
+/**
+ * This Data Access Object implements the ResourceDAO interface for creating, updating, 
+ * and retrieving rows in the IBM FHIR Server resource tables.
+ */
+public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
+    private static final Logger log = Logger.getLogger(ResourceDAOImpl.class.getName());
+    private static final String CLASSNAME = ResourceDAOImpl.class.getName();
+
+    // Read the current version of the resource
+    private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                                            "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+                                           "LR.LOGICAL_ID = ? AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID";
+
+    // Read a specific version of the resource
+    private static final String SQL_VERSION_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                                                      "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+                                                      "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
+
+
+    //                                                                                 0                 1                   2
+    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+    // Read version history of the resource identified by its logical-id
+    private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                                                 "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+                                                 "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
+                                              "ORDER BY R.VERSION_ID DESC ";
+
+    // Count the number of versions we have for the resource identified by its logical-id
+    private static final String SQL_HISTORY_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
+                                                    "R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
+
+    private static final String SQL_HISTORY_FROM_DATETIME = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                                                              "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+                                                              "LR.LOGICAL_ID = ? AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
+                                                              "ORDER BY R.VERSION_ID DESC ";
+
+    private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
+                                                                  "R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
+
+    private static final String SQL_READ_ALL_RESOURCE_TYPE_NAMES = "SELECT RESOURCE_TYPE_ID, RESOURCE_TYPE FROM RESOURCE_TYPES";
+
+    private static final String SQL_READ_RESOURCE_TYPE = "CALL %s.add_resource_type(?, ?)";
+
+    private static final String SQL_SEARCH_BY_IDS = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                                                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
+                                                    "R.RESOURCE_ID IN ";
+    
+    private static final String DERBY_PAGINATION_PARMS = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    
+    private static final String DB2_PAGINATION_PARMS = "LIMIT ? OFFSET ?";
+
+    private FHIRPersistenceContext context;
+    private ReplicationInfo replicationInfo;
+    private boolean isRepInfoRequired;
+    private Map<String, Integer> newResourceTypeIds = new HashMap<>();
+    private boolean runningInTrx = false;
+    private ResourceTypesCacheUpdater rtCacheUpdater = null;
+    private TransactionSynchronizationRegistry trxSynchRegistry;
+
+    /**
+     * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
+     */
+    public ResourceDAOImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
+        super();
+        this.runningInTrx = true;
+        this.trxSynchRegistry = trxSynchRegistry;
+    }
+
+    /**
+     * Constructs a DAO using the passed externally managed database connection.
+     * The connection used by this instance for all DB operations will be the passed connection.
+     * @param Connection - A database connection that will be managed by the caller.
+     */
+    public ResourceDAOImpl(Connection managedConnection) {
+        super(managedConnection);
+    }
+
+    @Override
+    public Resource read(String logicalId, String resourceType)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "read";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Resource resource = null;
+        List<Resource> resources;
+        String stmtString = null;
+
+        try {
+            stmtString = String.format(SQL_READ, resourceType, resourceType);
+            resources = this.runQuery(stmtString, logicalId);
+            if (!resources.isEmpty()) {
+                resource = resources.get(0);
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resource;
+    }
+
+    @Override
+    public Resource versionRead(String logicalId, String resourceType, int versionId)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "versionRead";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Resource resource = null;
+        List<Resource> resources;
+        String stmtString = null;
+
+        try {
+            stmtString = String.format(SQL_VERSION_READ, resourceType, resourceType);
+            resources = this.runQuery(stmtString, logicalId, versionId);
+            if (!resources.isEmpty()) {
+                resource = resources.get(0);
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resource;
+
+    }
+
+
+    /**
+     * Creates and returns a Resource DTO based on the contents of the passed ResultSet
+     * @param resultSet A ResultSet containing FHIR persistent object data.
+     * @return Resource - A Resource DTO
+     * @throws FHIRPersistenceDataAccessException
+     */
+    protected Resource createDTO(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
+        final String METHODNAME = "createDTO";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Resource resource = new Resource();
+
+        try {
+            resource.setData(resultSet.getBytes("DATA"));
+            resource.setId(resultSet.getLong("RESOURCE_ID"));
+            resource.setLastUpdated(resultSet.getTimestamp("LAST_UPDATED"));
+            resource.setLogicalId(resultSet.getString("LOGICAL_ID"));
+            resource.setVersionId(resultSet.getInt("VERSION_ID"));
+            resource.setDeleted(resultSet.getString("IS_DELETED").equals("Y") ? true : false);
+        }
+        catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure creating Resource DTO.");
+            throw severe(log, fx, e);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return resource;
+    }
+
+    @Override
+    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults)
+                                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "history";
+        log.entering(CLASSNAME, METHODNAME);
+
+        List<Resource> resources = null;
+        String stmtString = null;
+
+        try {
+            if (fromDateTime != null) {
+                stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType, resourceType);
+                if (this.isDb2Database()) {
+                    stmtString = stmtString + DB2_PAGINATION_PARMS;
+                    resources = this.runQuery(stmtString, logicalId, fromDateTime, maxResults, offset);
+                }
+                else {
+                    stmtString = stmtString + DERBY_PAGINATION_PARMS;
+                    resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
+                }
+            }
+            else {
+                stmtString = String.format(SQL_HISTORY, resourceType, resourceType);
+                if (this.isDb2Database()) {
+                    stmtString = stmtString + DB2_PAGINATION_PARMS;
+                    resources = this.runQuery(stmtString, logicalId, maxResults, offset);
+                }
+                else {
+                    stmtString = stmtString + DERBY_PAGINATION_PARMS;
+                    resources = this.runQuery(stmtString, logicalId, offset, maxResults);
+                }
+            }
+        }
+        catch (SQLException e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure running history query");
+            String errMsg = "Failure running history query: " + stmtString;
+            throw severe(log, fx, errMsg, e);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] {resources}));
+        }
+        return resources;
+    }
+
+    @Override
+    public int historyCount(String resourceType, String logicalId, Timestamp fromDateTime) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "historyCount";
+        log.entering(CLASSNAME, METHODNAME);
+
+        int count;
+        String stmtString;
+
+        try {
+            if (fromDateTime != null) {
+                stmtString = String.format(SQL_HISTORY_FROM_DATETIME_COUNT, resourceType, resourceType);
+                count = this.runCountQuery(stmtString, logicalId, fromDateTime);
+            }
+            else {
+                stmtString = String.format(SQL_HISTORY_COUNT, resourceType, resourceType);
+                count = this.runCountQuery(stmtString, logicalId);
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return count;
+    }
+
+    @Override
+    public List<Resource> search(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "search(SqlQueryData)";
+        log.entering(CLASSNAME, METHODNAME);
+
+        List<Resource> resources;
+        String sqlSelect = queryData.getQueryString();
+        Object[] bindVariables = queryData.getBindVariables().toArray();
+
+        try {
+            resources = this.runQuery(sqlSelect, bindVariables);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return resources;
+    }
+
+    @Override
+    public int searchCount(SqlQueryData queryData)     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchCount(SqlQueryData)";
+        log.entering(CLASSNAME, METHODNAME);
+
+        int count;
+        String sqlSelectCount = queryData.getQueryString();
+        Object[] bindVariables = queryData.getBindVariables().toArray();
+
+        try {
+            count = this.runCountQuery(sqlSelectCount, bindVariables);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return count;
+    }
+
+    @Override
+    public void setPersistenceContext(FHIRPersistenceContext context) {
+        this.context = context;
+    }
+
+    private ReplicationInfo getReplicationInfo(boolean isLogicalDelete) throws FHIRPersistenceDataAccessException {
+        ReplicationInfo repInfo = null;
+
+        // If a ReplicationInfo is found in the persistence event, use it. Otherwise, create a dummy ReplicationInfo.
+        if (this.replicationInfo == null) {
+            if (nonNull(this.context) &&
+                nonNull(this.context.getPersistenceEvent()) &&
+                nonNull(this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO))) {
+                repInfo = (ReplicationInfo)this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
+            }
+            else if (this.isRepInfoRequired && !isLogicalDelete && this.getReplicationContext() == null) {
+                throw new FHIRPersistenceDataAccessException("Required ReplicationInfo is null");
+            }
+            else {
+                repInfo = new ReplicationInfo();
+            }
+            // Ensure that all ReplilcationInfo attributes that are required to be non-null in the fhir_replication_log table
+            // do indeed have non-null values.
+            if (isNull(repInfo.getTxCorrelationId())) {
+                repInfo.setTxCorrelationId("");
+            }
+            if (isNull(repInfo.getChangedBy())) {
+                repInfo.setChangedBy("");
+            }
+            if (isNull(repInfo.getCorrelationToken())) {
+                repInfo.setCorrelationToken("");
+            }
+            if (isNull(repInfo.getTenantId())) {
+                repInfo.setTenantId("");
+            }
+            if (isNull(repInfo.getReason())) {
+                repInfo.setReason("");
+            }
+            if (isNull(repInfo.getEvent())) {
+                repInfo.setEvent("");
+            }
+            if (isNull(repInfo.getServiceId())) {
+                repInfo.setServiceId("");
+            }
+
+            this.replicationInfo = repInfo;
+        }
+        return this.replicationInfo;
+    }
+
+    private FHIRReplicationContext getReplicationContext() {
+        FHIRReplicationContext replicationContext = null;
+
+        if (nonNull(this.context) && nonNull(this.context.getPersistenceEvent())) {
+                replicationContext = this.context.getPersistenceEvent().getReplicationContext();
+        }
+
+        return replicationContext;
+    }
+
+    private Integer getReplicationVersionId() {
+        Integer repVersionId = null;
+
+        FHIRReplicationContext repContext = this.getReplicationContext();
+        if (nonNull(repContext) && nonNull(repContext.getVersionId())) {
+            repVersionId = Integer.valueOf(repContext.getVersionId());
+        }
+        return repVersionId;
+    }
+
+    /**
+     * Convert the replication lastUpdated value to a {@link java.sql.Timestamp}
+     * @return
+     */
+    private Timestamp getReplicationLastUpdated() {
+        Timestamp repLastUpdated = null;
+
+        FHIRReplicationContext repContext = this.getReplicationContext();
+        if (nonNull(repContext) && nonNull(repContext.getLastUpdated())) {
+            repLastUpdated = Timestamp.from(repContext.getLastUpdated());
+        }
+
+        return repLastUpdated;
+    }
+
+
+    @Override
+    public Map<String, Integer> readAllResourceTypeNames()
+                                         throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        final String METHODNAME = "readAllResourceTypeNames";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        Map<String, Integer> result = new HashMap<>();
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(SQL_READ_ALL_RESOURCE_TYPE_NAMES);
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                final int resourceTypeId = resultSet.getInt(1);
+                final String resourceType = resultSet.getString(2);
+                result.put(resourceType, resourceTypeId);
+            }
+
+            if (log.isLoggable(Level.FINE)) {
+                dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+                log.fine("DB read all resource type complete. executionTime=" + dbCallDuration + "ms");
+            }
+        }
+        catch (Throwable e) {
+            final String errMsg = "Failure retrieving all Resource type names.";
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
+            throw severe(log, fx, e);
+        }
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public Integer readResourceTypeId(String resourceType) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+        final String METHODNAME = "readResourceTypeId";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Connection connection = null;
+        CallableStatement stmt = null;
+        Integer parameterNameId = null;
+        String currentSchema;
+        String stmtString;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            connection = this.getConnection();
+            currentSchema = connection.getSchema().trim();
+            stmtString = String.format(SQL_READ_RESOURCE_TYPE, currentSchema);
+            stmt = connection.prepareCall(stmtString);
+            stmt.setString(1, resourceType);
+            stmt.registerOutParameter(2, Types.INTEGER);
+            dbCallStartTime = System.nanoTime();
+            stmt.execute();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("DB read resource type id complete. executionTime=" + dbCallDuration + "ms");
+            }
+            parameterNameId = stmt.getInt(2);
+        }
+        catch(FHIRPersistenceDBConnectException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            final String errMsg = "Failure storing Resource type name id: name=" + resourceType;
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
+            throw severe(log, fx, e);
+        }
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return parameterNameId;
+    }
+
+    @Override
+    public void setRepInfoRequired(boolean isRepInfoRequired) {
+        this.isRepInfoRequired = isRepInfoRequired;
+
+    }
+
+    @Override
+    public boolean isRepInfoRequired() {
+        return this.isRepInfoRequired;
+    }
+
+    @Override
+    public List<Long> searchForIds(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchForIds";
+        log.entering(CLASSNAME, METHODNAME);
+
+        List<Long> resourceIds = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(queryData.getQueryString());
+            // Inject arguments into the prepared stmt.
+            for (int i = 0; i < queryData.getBindVariables().size();  i++) {
+                stmt.setObject(i+1, queryData.getBindVariables().get(i));
+            }
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("DB search for ids complete. executionTime=" + dbCallDuration + "ms");
+            }
+            while(resultSet.next())     {
+                resourceIds.add(resultSet.getLong(1));
+            }
+        }
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids");
+            final String errMsg = "Failure retrieving FHIR Resource Ids. SqlQueryData=" + queryData;
+            throw severe(log, fx, errMsg, e);
+        }
+        finally {
+            this.cleanup(resultSet, stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resourceIds;
+    }
+
+    @Override
+    public List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchByIds";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String errMsg;
+        StringBuilder idQuery = new StringBuilder();
+        List<Resource> resources = new ArrayList<>();
+        String stmtString = null;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            stmtString = String.format(this.getSearchByIdsSql(resourceType));
+            idQuery.append(stmtString);
+            idQuery.append("(");
+            for (int i = 0; i < resourceIds.size(); i++) {
+                if (i > 0) {
+                    idQuery.append(",");
+                }
+                idQuery.append(resourceIds.get(i));
+            }
+            idQuery.append(")");
+
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(idQuery.toString());
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("DB search by ids complete. executionTime=" + dbCallDuration + "ms");
+            }
+            resources = this.createDTOs(resultSet);
+        }
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources");
+            errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
+            throw severe(log, fx, errMsg, e);
+        }
+        finally {
+            this.cleanup(resultSet, stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resources;
+    }
+
+    protected String getSearchByIdsSql(String resourceType) {
+
+        String stmtString;
+        stmtString = String.format(SQL_SEARCH_BY_IDS, resourceType, resourceType);
+        return stmtString;
+    }
+
+     /**
+     * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache.
+     * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
+     * @param resourceType A valid FHIR resource type.
+     * @param resourceTypeId The corresponding id for the resource type.
+     * @throws FHIRPersistenceException
+     */
+    @Override
+    public void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException {
+        final String METHODNAME = "addResourceTypeCacheCandidate";
+        log.entering(CLASSNAME, METHODNAME);
+
+        if (this.runningInTrx && ResourceTypesCache.isEnabled()) {
+            if (this.rtCacheUpdater == null) {
+                // Register a new ResourceTypeCacheUpdater for this thread/trx, if one hasn't been already registered.
+                this.rtCacheUpdater = new ResourceTypesCacheUpdater(ResourceTypesCache.getCacheNameForTenantDatastore(), this.newResourceTypeIds);
+                try {
+                    trxSynchRegistry.registerInterposedSynchronization(rtCacheUpdater);
+                    log.fine("Registered ResourceTypeCacheUpdater.");
+                }
+                catch(Throwable e) {
+                    throw new FHIRPersistenceException("Failure registering ResourceTypesCacheUpdater", e);
+                }
+            }
+            this.newResourceTypeIds.put(resourceType, resourceTypeId);
+        }
+
+
+        log.exiting(CLASSNAME, METHODNAME);
+
+    }
+
+    @Override
+    public Resource insert(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+            final String METHODNAME = "insert(Resource, List<Parameter>";
+            log.entering(CLASSNAME, METHODNAME);
+
+            try {
+                if (this.isDb2Database()) {
+                    resource = this.insertToDb2(resource, parameters, parameterDao);
+                }
+                else {
+                    resource = this.insertToDerby(resource, parameters, parameterDao);
+                }
+            }
+            catch(SQLException e) {
+                throw new FHIRPersistenceDataAccessException("Failure determining database type.",e);
+            }
+
+            return resource;
+    }
+
+    /**
+     * Inserts the passed FHIR Resource and associated search parameters to a DB2 FHIR database.
+     * This method will call the DB2 stored procedure defined in the SQL_INSERT_WITH_PARAMETERS constant.
+     * Both the Resource and its search parameters are stored at the same time by the stored procedure.
+     * @param resource The FHIR Resource to be inserted.
+     * @param parameters The Resource's search parameters to be inserted.
+     * @param parameterDao
+     * @return The Resource DTO
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceVersionIdMismatchException
+     */
+    private Resource insertToDb2(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao)
+                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+        final String METHODNAME = "insertToDb2";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Connection connection = null;
+        CallableStatement stmt = null;
+        String currentSchema;
+        String stmtString = null;
+        Integer resourceTypeId;
+        Timestamp lastUpdated, replicationLastUpdated;
+        boolean acquiredFromCache;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            connection = this.getConnection();
+
+            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            if (resourceTypeId == null) {
+                acquiredFromCache = false;
+                resourceTypeId = this.readResourceTypeId(resource.getResourceType());
+                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
+            }
+            else {
+                acquiredFromCache = true;
+            }
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
+                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
+            }
+
+            // TODO avoid the round-trip and use the configured data schema name
+            currentSchema = connection.getSchema().trim();
+            stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, currentSchema);
+            stmt = connection.prepareCall(stmtString);
+            stmt.setString(1, resource.getResourceType());
+            stmt.setString(2, resource.getLogicalId());
+            stmt.setBytes(3, resource.getData());
+            // If there is a lastUpdated attribute in the ReplicationContext, use it.
+            replicationLastUpdated = this.getReplicationLastUpdated();
+            lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
+            stmt.setTimestamp(4, lastUpdated);
+            stmt.setString(5, resource.isDeleted() ? "Y": "N");
+            stmt.setString(6, UUID.randomUUID().toString());
+            stmt.setString(7, this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId());
+            stmt.setString(8, this.getReplicationInfo(resource.isDeleted()).getChangedBy());
+            stmt.setString(9, this.getReplicationInfo(resource.isDeleted()).getCorrelationToken());
+            stmt.setString(10, this.getReplicationInfo(resource.isDeleted()).getTenantId());
+            stmt.setString(11, this.getReplicationInfo(resource.isDeleted()).getReason());
+            stmt.setString(12, this.getReplicationInfo(resource.isDeleted()).getEvent());
+            stmt.setString(13, this.getReplicationInfo(resource.isDeleted()).getSiteId());
+            stmt.setString(14, this.getReplicationInfo(resource.isDeleted()).getStudyId());
+            stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getServiceId());
+            stmt.setString(16, this.getReplicationInfo(resource.isDeleted()).getPatientId());
+            stmt.setObject(17, this.getReplicationVersionId(), Types.INTEGER);
+            stmt.setInt(18, resource.getVersionId());
+            stmt.setString(19, this.isRepInfoRequired() ? "Y": "N");
+            stmt.registerOutParameter(20, Types.BIGINT);
+
+            dbCallStartTime = System.nanoTime();
+            stmt.execute();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+
+            resource.setId(stmt.getLong(20));
+
+            // Parameter time - enable multitenncy on the DAO.
+            // TODO FHIR_ADMIN schema name needs to come from the configuration/context
+            if (parameters != null) {
+                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true, resource.getId(), 100,
+                    new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
+                    for (Parameter p: parameters) {
+                        p.visit(pvd);
+                    }
+                }
+            }
+
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+            }
+        }
+        catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+            throw e;
+        }
+        catch(SQLIntegrityConstraintViolationException e) {
+            FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
+            throw severe(log, fx, e);
+        }
+        catch(SQLException e) {
+            if ("99001".equals(e.getSQLState())) {
+                // this is just a concurrency update, so there's no need to log the SQLException here
+                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            }
+            else {
+                FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.");
+                throw severe(log, fx, e);
+            }
+        }
+        catch(Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
+            throw severe(log, fx, e);
+        }
+        finally {
+            this.cleanup(stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return resource;
+    }
+
+    /**
+     * Inserts the passed FHIR Resource and associated search parameters to a Derby FHIR database.
+     * This method will call the Derby stored procedure defined in the SQL_INSERT constant.
+     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
+     * by invoking the stored procedure.
+     * @param resource The FHIR Resource to be inserted.
+     * @param parameters The Resource's search parameters to be inserted.
+     * @param parameterDao
+     * @return The Resource DTO
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceVersionIdMismatchException
+     */
+    private Resource insertToDerby(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+        final String METHODNAME = "insertToDerby";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Connection connection = null;
+        Integer resourceTypeId;
+        Timestamp lastUpdated, replicationLastUpdated;
+        boolean acquiredFromCache;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            connection = this.getConnection();
+            DerbyResourceDAO derbyResourceDAO = new DerbyResourceDAO(connection);
+
+            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            if (resourceTypeId == null) {
+                acquiredFromCache = false;
+                resourceTypeId = derbyResourceDAO.getOrCreateResourceType(resource.getResourceType());
+                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
+            }
+            else {
+                acquiredFromCache = true;
+            }
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
+                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
+            }
+
+            replicationLastUpdated = this.getReplicationLastUpdated();
+            lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
+
+
+            dbCallStartTime = System.nanoTime();
+
+
+            final String sourceKey = UUID.randomUUID().toString();
+
+            long resourceId = derbyResourceDAO.storeResource(resource.getResourceType(),
+                parameters,
+                resource.getLogicalId(),
+                resource.getData(),
+                lastUpdated,
+                resource.isDeleted(),
+                sourceKey,
+                this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId(),
+                this.getReplicationInfo(resource.isDeleted()).getChangedBy(),
+                this.getReplicationInfo(resource.isDeleted()).getCorrelationToken(),
+                this.getReplicationInfo(resource.isDeleted()).getTenantId(),
+                this.getReplicationInfo(resource.isDeleted()).getReason(),
+                this.getReplicationInfo(resource.isDeleted()).getEvent(),
+                this.getReplicationInfo(resource.isDeleted()).getSiteId(),
+                this.getReplicationInfo(resource.isDeleted()).getStudyId(),
+                this.getReplicationInfo(resource.isDeleted()).getServiceId(),
+                this.getReplicationInfo(resource.isDeleted()).getPatientId(),
+                getReplicationVersionId(),
+                resource.getVersionId(),
+                this.isRepInfoRequired());
+
+
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+
+            resource.setId(resourceId);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+            }
+        }
+        catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+            throw e;
+        }
+        catch(SQLIntegrityConstraintViolationException e) {
+            FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
+            throw severe(log, fx, e);
+        }
+        catch(SQLException e) {
+            if ("99001".equals(e.getSQLState())) {
+                // this is just a concurrency update, so there's no need to log the SQLException here
+                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            }
+            else {
+                FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("SQLException encountered while inserting Resource.");
+                throw severe(log, fx, e);
+            }
+        }
+        catch(Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
+            throw severe(log, fx, e);
+        }
+        finally {
+            this.cleanup(null, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return resource;
+
+    }
+
+    @Override
+    public List<Resource> search(String sqlSelect) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "search";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        List<Resource> resources;
+                
+        try {
+            resources = this.runQuery(sqlSelect);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+                
+        return resources;
+    }
+
+    @Override
+    public List<Long> searchForIds(String sqlSelect) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchForIds";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        List<Long> resourceIds = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String errMsg;
+        
+        try {
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(sqlSelect);
+            resultSet = stmt.executeQuery();
+            while(resultSet.next())     {
+                resourceIds.add(resultSet.getLong(1));
+            }
+        }
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            // Log the SQL but don't expose it in the exception
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids.");
+            errMsg = "Failure retrieving FHIR Resource Ids. SQL=" + sqlSelect;
+            throw severe(log, fx, errMsg, e);
+        } 
+        finally {
+            this.cleanup(resultSet, stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resourceIds;
+    }
+
+    @Override
+    public List<Resource> searchByIds(List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchByIds";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String errMsg;
+        StringBuilder idQuery = new StringBuilder();
+        List<Resource> resources = new ArrayList<>();
+        
+        try {
+            idQuery.append(SQL_SEARCH_BY_IDS);
+            idQuery.append("(");
+            for (int i = 0; i < resourceIds.size(); i++) {
+                if (i > 0) {
+                    idQuery.append(",");
+                }
+                idQuery.append("?");
+            }
+            idQuery.append(")");
+                        
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(idQuery.toString());
+            // Inject IDs into the prepared stmt.
+            for (int i = 0; i < resourceIds.size();  i++) {
+                stmt.setObject(i+1, resourceIds.get(i));
+            }
+            resultSet = stmt.executeQuery();
+            resources = this.createDTOs(resultSet);
+        }
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            // Log the SQL but don't expose it in the exception
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources.");
+            errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
+            throw severe(log, fx, errMsg, e);
+
+        } 
+        finally {
+            this.cleanup(resultSet, stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resources;
+    }
+
+    @Override
+    public int searchCount(String sqlSelectCount) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchCount";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        int count;
+                
+        try {
+            count = this.runCountQuery(sqlSelectCount);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return count;
+    }
+
+}

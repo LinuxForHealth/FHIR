@@ -12,12 +12,15 @@ package com.ibm.fhir.database.utils.query;
  *
  */
 public class FromItemSelect extends FromItem {
+    
     // The sub-query
     private final Select select;
 
     /**
      * Protected constructor
-     * @param tableName
+     * 
+     * @param subQuery
+     * @param alias
      */
     protected FromItemSelect(Select subQuery, Alias alias) {
         super(alias);

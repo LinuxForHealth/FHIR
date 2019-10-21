@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.persistence.SingleResourceResult;
 
@@ -36,7 +37,7 @@ public abstract class AbstractQueryMultiResourceTest extends AbstractPersistence
     @BeforeClass
     public void createResources() throws Exception {
         
-        Encounter encounter = readExampleResource("json/ibm/minimal/Encounter-1.json");
+        Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
         
         // Update the id on the resource
         encounter = encounter.toBuilder().id(Id.of(commonId)).build();
@@ -49,7 +50,7 @@ public abstract class AbstractQueryMultiResourceTest extends AbstractPersistence
         assertNotNull(encounter.getMeta().getVersionId().getValue());
         assertEquals("1", encounter.getMeta().getVersionId().getValue());
         
-        Observation observation = readExampleResource("json/ibm/minimal/Observation-1.json");
+        Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
 
         // update the id on the resource
         observation = observation.toBuilder().id(Id.of(commonId)).build();

@@ -26,6 +26,8 @@ public class DataDefinitionUtil {
     private static final Pattern NAME_PATTERN = Pattern.compile(NAME_PATTERN_RGX);
 
     /**
+     * 
+     * @param schemaName
      * @param tableName
      * @param indexName
      * @param indexColumns
@@ -45,10 +47,11 @@ public class DataDefinitionUtil {
     }
 
     /**
+     * 
+     * @param schemaName
      * @param tableName
      * @param indexName
      * @param indexColumns
-     * @param includeColumns
      * @return
      */
     public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<String> indexColumns) {
@@ -68,6 +71,8 @@ public class DataDefinitionUtil {
 
     /**
      * Create the DDL for a plain old index
+     * 
+     * @param schemaName
      * @param tableName
      * @param indexName
      * @param indexColumns
@@ -169,6 +174,8 @@ public class DataDefinitionUtil {
     }
 
     /**
+     * 
+     * @param adapter
      * @param columns
      * @return
      */

@@ -3310,7 +3310,7 @@ public class ExampleScenario extends DomainResource {
                  * Each resource instance used by the initiator.
                  * 
                  * @return
-                 *     An immutable object of type {@link ContainedInstance}.
+                 *     An immutable object of type {@link ExampleScenario.Instance.ContainedInstance}.
                  */
                 public ExampleScenario.Instance.ContainedInstance getRequest() {
                     return request;
@@ -3320,7 +3320,7 @@ public class ExampleScenario extends DomainResource {
                  * Each resource instance used by the responder.
                  * 
                  * @return
-                 *     An immutable object of type {@link ContainedInstance}.
+                 *     An immutable object of type {@link ExampleScenario.Instance.ContainedInstance}.
                  */
                 public ExampleScenario.Instance.ContainedInstance getResponse() {
                     return response;

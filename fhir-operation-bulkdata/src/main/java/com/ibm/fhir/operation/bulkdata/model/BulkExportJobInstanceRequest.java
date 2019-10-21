@@ -36,7 +36,7 @@ import com.ibm.fhir.exception.FHIROperationException;
         "cos.endpointurl": "https://fake.cloud",
         "cos.credential.ibm": "Y",
         "cos.api.key": "key",
-        "cos.srvinst.id": "crn:v1:bluemix:public:cloud-object-storage:global:a/<>::",
+        "cos.srvinst.id": "crn:v1:bluemix:public:cloud-object-storage:global:a/fake::",
         "fhir.search.fromdate": "2019-08-01"
     }
     }</pre>

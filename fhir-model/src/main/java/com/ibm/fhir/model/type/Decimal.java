@@ -34,7 +34,7 @@ public class Decimal extends Element {
      * The actual value
      * 
      * @return
-     *     An immutable object of type {@link BigDecimal}.
+     *     An immutable object of type {@link java.math.BigDecimal}.
      */
     public BigDecimal getValue() {
         return value;

@@ -64,21 +64,19 @@ import com.ibm.fhir.task.core.service.TaskService;
 /**
  * Utility app to connect to a DB2 database and create/update the FHIR schema.
  * The DDL processing is idempotent, with only the necessary changes applied.
- * 
+ * <br>
  * This utility also includes an option to exercise the tenant partitioning
  * code.
  * @author rarnold
- *
  */
 public class Main {
+    
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int EXIT_OK = 0; // validation was successful
     private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
     private static final int EXIT_RUNTIME_ERROR = 2; // programming error
     private static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
     private static final double NANOS = 1e9;
-
-    // private static final String TRUE = Boolean.toString(true).toUpperCase();
 
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
@@ -467,6 +465,8 @@ public class Main {
     /**
      * Apply the given physical data model to the database
      * @param pdm
+     * @param adapter
+     * @param collector
      */
     protected void applyDataModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector) {
 
@@ -614,6 +614,8 @@ public class Main {
      * Grant the minimum required set of privileges on the FHIR schema objects 
      * to the grantTo user. All tenant data access is via this user, and is the
      * only user the FHIR server itself is configured with.
+     * 
+     * @param groupName
      */
     protected void grantPrivileges(String groupName) {
         // Build/update the tables as well as the stored procedures
@@ -742,7 +744,7 @@ public class Main {
     /**
      * Populate all the static tables we need
      * @param gen
-     * @param tenantName
+     * @param tenantKey
      */
     protected void populateStaticTables(FhirSchemaGenerator gen, String tenantKey) {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
@@ -765,8 +767,8 @@ public class Main {
 
     /**
      * Add all the resource types
+     * @param adapter
      * @param gen
-     * @param tenantName
      */
     protected void addResourceTypes(Db2Adapter adapter, FhirSchemaGenerator gen) {
 

@@ -26,6 +26,7 @@ import com.ibm.fhir.model.resource.MedicationAdministration;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.HTTPVerb;
@@ -57,7 +58,7 @@ public class DeleteTest extends FHIRServerTestBase {
     @Test
     public void testCreateNewResource() throws Exception {
         // Create a MedicationAdministration resource.
-        MedicationAdministration ma = readLocalResource("MedicationAdministration.json");
+        MedicationAdministration ma = TestUtil.readLocalResource("MedicationAdministration.json");
         FHIRResponse response = client.create(ma);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
@@ -319,7 +320,7 @@ public class DeleteTest extends FHIRServerTestBase {
         patientIds = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             // Read in the resource template.
-            Patient patient = readLocalResource("Patient_MookieBetts.json");
+            Patient patient = TestUtil.readLocalResource("Patient_MookieBetts.json");
 
             // Add the uniqueFamily name         
             patient = setUniqueFamilyName(patient, uniqueFamilyName);
@@ -400,7 +401,7 @@ public class DeleteTest extends FHIRServerTestBase {
         
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
-        Observation obs = readLocalResource("Observation1.json");
+        Observation obs = TestUtil.readLocalResource("Observation1.json");
         
         obs = obs.toBuilder().id(Id.of(obsId)).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
 

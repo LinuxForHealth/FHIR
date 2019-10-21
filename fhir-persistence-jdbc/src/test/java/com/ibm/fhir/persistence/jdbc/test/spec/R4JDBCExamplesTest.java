@@ -14,11 +14,12 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver.TestType;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
@@ -30,7 +31,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     private Properties properties;
 
     public R4JDBCExamplesTest() throws Exception {
-        this.properties = readTestProperties("test.normalized.properties");
+        this.properties = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
     @BeforeSuite
@@ -91,7 +92,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCNormalizedImpl(this.properties, database);
+        return new FHIRPersistenceJDBCImpl(this.properties, database);
     }
 
     @Override

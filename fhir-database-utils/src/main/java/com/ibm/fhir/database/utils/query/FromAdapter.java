@@ -12,6 +12,7 @@ package com.ibm.fhir.database.utils.query;
  *
  */
 public class FromAdapter {
+    
     // the select statement being built
     private final Select select;
 
@@ -56,7 +57,7 @@ public class FromAdapter {
     }
 
     /**
-     * Start building a sub-query. This isn't added to the from until {@link FromSubQueryAdapter#subEnd()}
+     * Start building a sub-query. This isn't added to the from until {@link FromSubQueryAdapter#subEnd(String)}
      * is called
      * @return
      */

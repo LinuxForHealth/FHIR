@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
@@ -196,7 +197,7 @@ public class BundleTest extends FHIRServerTestBase {
         // Add one non-empty entry to allow the entry pass the build validation.
         String patientLocalRef = "urn:Patient_testIncorrectBundleType";
 
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         HumanName newName = HumanName.builder().family(string("Doe_testIncorrectBundleType")).given(string("John"))
                 .build();
@@ -217,7 +218,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void testMissingRequestField() throws Exception {
         WebTarget target = getWebTarget();
 
-        Entity<JsonObject> entity = Entity.entity(getEmptyBundleJsonObjectBuilder().build(), FHIRMediaType.APPLICATION_FHIR_JSON);
+        Entity<JsonObject> entity = Entity.entity(TestUtil.getEmptyBundleJsonObjectBuilder().build(), FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertTrue(response.getStatus() >= 400);
 
@@ -227,17 +228,17 @@ public class BundleTest extends FHIRServerTestBase {
     public void testMissingMethod() throws Exception {
         WebTarget target = getWebTarget();
         
-        JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();        
-        JsonObject PatientJsonObject = readJsonObject("Patient_JohnDoe.json");
-        JsonObject requestJsonObject = getRequestJsonObject("", "Patient");
+        JsonObjectBuilder bundleObject = TestUtil.getEmptyBundleJsonObjectBuilder();
+        JsonObject PatientJsonObject = TestUtil.readJsonObject("Patient_JohnDoe.json");
+        JsonObject requestJsonObject = TestUtil.getRequestJsonObject("", "Patient");
         JsonObjectBuilder resourceObject = Json.createBuilderFactory(null).createObjectBuilder();
-        resourceObject.add( "resource", PatientJsonObject).add("request", requestJsonObject);   
+        resourceObject.add( "resource", PatientJsonObject).add("request", requestJsonObject);
         
-        bundleObject.add("Entry", Json.createBuilderFactory(null).createArrayBuilder().add(resourceObject));        
+        bundleObject.add("Entry", Json.createBuilderFactory(null).createArrayBuilder().add(resourceObject));
         
         Entity<JsonObject> entity = Entity.entity(bundleObject.build(), FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
-        assertTrue(response.getStatus() >= 400);        
+        assertTrue(response.getStatus() >= 400);
     }
 
     @Test(groups = { "batch" })
@@ -271,12 +272,12 @@ public class BundleTest extends FHIRServerTestBase {
     public void testMissingResource() throws Exception {
         WebTarget target = getWebTarget();
         
-        JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();        
-        JsonObject requestJsonObject = getRequestJsonObject("POST", "Patient");
+        JsonObjectBuilder bundleObject = TestUtil.getEmptyBundleJsonObjectBuilder();
+        JsonObject requestJsonObject = TestUtil.getRequestJsonObject("POST", "Patient");
         JsonObjectBuilder resourceObject = Json.createBuilderFactory(null).createObjectBuilder();
         resourceObject.add("request", requestJsonObject);   
         
-        bundleObject.add("Entry", Json.createBuilderFactory(null).createArrayBuilder().add(resourceObject));        
+        bundleObject.add("Entry", Json.createBuilderFactory(null).createArrayBuilder().add(resourceObject));
         
         Entity<JsonObject> entity = Entity.entity(bundleObject.build(), FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
@@ -287,7 +288,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void testExtraneousResource() throws Exception {
         String method = "testExtraneousResource";
         WebTarget target = getWebTarget();
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/123", null, patient);
@@ -308,13 +309,13 @@ public class BundleTest extends FHIRServerTestBase {
     public void testMissingRequestURL() throws Exception {
         WebTarget target = getWebTarget();
 
-        JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();        
-        JsonObject PatientJsonObject = readJsonObject("Patient_JohnDoe.json");
-        JsonObject requestJsonObject = getRequestJsonObject("POST", "Patient");
+        JsonObjectBuilder bundleObject = TestUtil.getEmptyBundleJsonObjectBuilder();
+        JsonObject PatientJsonObject = TestUtil.readJsonObject("Patient_JohnDoe.json");
+        JsonObject requestJsonObject = TestUtil.getRequestJsonObject("POST", "Patient");
         JsonObjectBuilder resourceObject = Json.createBuilderFactory(null).createObjectBuilder();
         resourceObject.add( "resource", PatientJsonObject).add("request", requestJsonObject);   
         
-        bundleObject.add("Entry", Json.createBuilderFactory(null).createArrayBuilder().add(resourceObject));        
+        bundleObject.add("Entry", Json.createBuilderFactory(null).createArrayBuilder().add(resourceObject));
         
         Entity<JsonObject> entity = Entity.entity(bundleObject.build(), FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
@@ -347,9 +348,9 @@ public class BundleTest extends FHIRServerTestBase {
     public void testInvalidResource() throws Exception {
         WebTarget target = getWebTarget();
         
-        JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();
-        JsonObject PatientJsonObject = readJsonObject("InvalidPatient.json");
-        JsonObject requestJsonObject = getRequestJsonObject("POST", "Patient");
+        JsonObjectBuilder bundleObject = TestUtil.getEmptyBundleJsonObjectBuilder();
+        JsonObject PatientJsonObject = TestUtil.readJsonObject("InvalidPatient.json");
+        JsonObject requestJsonObject = TestUtil.getRequestJsonObject("POST", "Patient");
         JsonObjectBuilder resourceObject = Json.createBuilderFactory(null).createObjectBuilder();
         resourceObject.add( "resource", PatientJsonObject).add("request", requestJsonObject);
         
@@ -363,7 +364,7 @@ public class BundleTest extends FHIRServerTestBase {
     @Test(groups = { "batch" })
     public void testInvalidBundle() throws Exception {
         WebTarget target = getWebTarget();
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
@@ -376,7 +377,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void testResourceURLMismatch() throws Exception {
         String method = "testResourceURLMismatch";
         WebTarget target = getWebTarget();
-        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, patient);
@@ -398,12 +399,12 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         
         
-        JsonObjectBuilder bundleObject = getEmptyBundleJsonObjectBuilder();
+        JsonObjectBuilder bundleObject = TestUtil.getEmptyBundleJsonObjectBuilder();
         
-        JsonObject PatientJsonObject1 = readJsonObject("Patient_DavidOrtiz.json");
-        JsonObject PatientJsonObject2 = readJsonObject("InvalidPatient.json");
-        JsonObject PatientJsonObject3 = readJsonObject("Patient_JohnDoe.json");
-        JsonObject requestJsonObject = getRequestJsonObject("POST", "Patient");
+        JsonObject PatientJsonObject1 = TestUtil.readJsonObject("Patient_DavidOrtiz.json");
+        JsonObject PatientJsonObject2 = TestUtil.readJsonObject("InvalidPatient.json");
+        JsonObject PatientJsonObject3 = TestUtil.readJsonObject("Patient_JohnDoe.json");
+        JsonObject requestJsonObject = TestUtil.getRequestJsonObject("POST", "Patient");
         
         JsonObjectBuilder resourceObject1 = Json.createBuilderFactory(null).createObjectBuilder();
         resourceObject1.add( "resource", PatientJsonObject1).add("request", requestJsonObject);
@@ -429,11 +430,11 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_DavidOrtiz.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_JohnDoe.json"));
+                TestUtil.readLocalResource("Patient_JohnDoe.json"));
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_DavidOrtizEncoding.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtizEncoding.json"));
 
         printBundle(method, "request", bundle);
 
@@ -462,9 +463,9 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_DavidOrtiz.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_JohnDoe.json"));
+                TestUtil.readLocalResource("Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -691,10 +692,10 @@ public class BundleTest extends FHIRServerTestBase {
             return;
         }
 
-        Patient p1 = readLocalResource("Patient_DavidOrtiz.json");
+        Patient p1 = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
         p1 = (Patient)setNewResourceId(p1);
 
-        Patient p2 = readLocalResource("Patient_JohnDoe.json");
+        Patient p2 = TestUtil.readLocalResource("Patient_JohnDoe.json");
         p2 = (Patient)setNewResourceId(p2);
 
         Bundle bundle = buildBundle(BundleType.BATCH);
@@ -959,7 +960,7 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle bundle = buildBundle(BundleType.BATCH);
         // create
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_DavidOrtiz.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         // update
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId().getValue(), null,
                 patientB1);
@@ -1022,10 +1023,10 @@ public class BundleTest extends FHIRServerTestBase {
         // in the datastore without worrying about overlaps with other patient names.
         // We'll load in an existing patient mock data file, then just change the family
         // name to be unique.
-        Patient patient1 = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient1 = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
         String uniqueFamily1 = UUID.randomUUID().toString();
         patient1 = setUniqueFamilyName(patient1, uniqueFamily1);
-        Patient patient2 = readLocalResource("Patient_JohnDoe.json");
+        Patient patient2 = TestUtil.readLocalResource("Patient_JohnDoe.json");
         String uniqueFamily2 = UUID.randomUUID().toString();
         patient2 = setUniqueFamilyName(patient2, uniqueFamily2);
 
@@ -1070,10 +1071,10 @@ public class BundleTest extends FHIRServerTestBase {
         // in the datastore without worrying about overlaps with other patient names.
         // We'll load in an existing patient mock data file, then just change the family
         // name to be unique.
-        Patient patient1 = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient1 = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
         String uniqueFamily1 = UUID.randomUUID().toString();
         patient1 = setUniqueFamilyName(patient1, uniqueFamily1);
-        Patient patient2 = readLocalResource("Patient_JohnDoe.json");
+        Patient patient2 = TestUtil.readLocalResource("Patient_JohnDoe.json");
         String uniqueFamily2 = UUID.randomUUID().toString();
         patient2 = setUniqueFamilyName(patient2, uniqueFamily2);
 
@@ -1337,10 +1338,10 @@ public class BundleTest extends FHIRServerTestBase {
             return;
         }
 
-        Patient p1 = readLocalResource("Patient_DavidOrtiz.json");
+        Patient p1 = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
         p1 = (Patient)setNewResourceId(p1);
 
-        Patient p2 = readLocalResource("Patient_JohnDoe.json");
+        Patient p2 = TestUtil.readLocalResource("Patient_JohnDoe.json");
         p2 = (Patient)setNewResourceId(p2);
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
@@ -1377,10 +1378,10 @@ public class BundleTest extends FHIRServerTestBase {
         // in the datastore without worrying about overlaps with other patient names.
         // We'll load in an existing patient mock data file, then just change the family
         // name to be unique.
-        Patient patient1 = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient1 = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
         String uniqueFamily1 = UUID.randomUUID().toString();
         patient1 = setUniqueFamilyName(patient1, uniqueFamily1);
-        Patient patient2 = readLocalResource("Patient_JohnDoe.json");
+        Patient patient2 = TestUtil.readLocalResource("Patient_JohnDoe.json");
         String uniqueFamily2 = UUID.randomUUID().toString();
         patient2 = setUniqueFamilyName(patient2, uniqueFamily2);
 
@@ -1389,7 +1390,7 @@ public class BundleTest extends FHIRServerTestBase {
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient1);
         // mismatch of URL and resource type
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null,
-                readLocalResource("Patient_JohnDoe.json"));
+                TestUtil.readLocalResource("Patient_JohnDoe.json"));
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient2);
 
         printBundle(method, "request", bundle);
@@ -1426,7 +1427,7 @@ public class BundleTest extends FHIRServerTestBase {
                 patientT2);
         // This will cause a failure - url mismatch with resource type.
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation", null,
-                readLocalResource("Patient_DavidOrtiz.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
 
         printBundle(method, "request", bundle);
 
@@ -1460,7 +1461,7 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         // create
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_DavidOrtiz.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         // update
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId().getValue(), null,
                 patientT1);
@@ -1512,7 +1513,7 @@ public class BundleTest extends FHIRServerTestBase {
         for (int i = 1; i <= 3; i++) {
             String patientLocalRef = "urn:Patient_" + Integer.toString(i);
 
-            Patient patient = readLocalResource("Patient_JohnDoe.json");
+            Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
             HumanName newName = HumanName.builder().family(string("Doe_" + Integer.toString(i))).given(string("John"))
                     .build();
@@ -1527,7 +1528,7 @@ public class BundleTest extends FHIRServerTestBase {
             String patientLocalRef = "urn:Patient_" + Integer.toString(i);
 
             // Create an Observation that will reference the Patient via a local reference.
-            Observation obs = readLocalResource("Observation1.json");
+            Observation obs = TestUtil.readLocalResource("Observation1.json");
             obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build()).build();
 
             bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
@@ -1577,13 +1578,13 @@ public class BundleTest extends FHIRServerTestBase {
 
         String patientLocalRef = "urn:Patient_1";
 
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
 
         // Next, add 3 POST entries to create the Observation resources
         for (int i = 1; i <= 3; i++) {
             // Create an Observation that will reference the Patient via a local reference.
-            Observation obs = readLocalResource("Observation1.json");
+            Observation obs = TestUtil.readLocalResource("Observation1.json");
 
             obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build()).build();
             bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
@@ -1657,7 +1658,7 @@ public class BundleTest extends FHIRServerTestBase {
         for (int i = 1; i <= 3; i++) {
             String patientLocalRef = "urn:Patient_" + Integer.toString(i);
 
-            Patient patient = readLocalResource("Patient_JohnDoe.json");
+            Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
             HumanName newName = HumanName.builder().family(string("Doe_" + Integer.toString(i))).given(string("John"))
                     .build();
@@ -1729,7 +1730,7 @@ public class BundleTest extends FHIRServerTestBase {
         // values.
         String patientLocalRef = "urn:Patient_X";
         for (int i = 1; i <= 2; i++) {
-            Patient patient = readLocalResource("Patient_JohnDoe.json");
+            Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
             HumanName newName = HumanName.builder().family(string("Doe_" + Integer.toString(i))).given(string("John"))
                     .build();
@@ -1767,12 +1768,12 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Add a POST entry to create an Observation that will reference the Patient via
         // a local reference.
-        Observation obs = readLocalResource("Observation1.json");
+        Observation obs = TestUtil.readLocalResource("Observation1.json");
         obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build()).build();
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
 
         // Add a POST entry to create the Patient.
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
 
         printBundle(method, "request", bundle);
@@ -1800,18 +1801,18 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Add a POST entry to create the Organization.
         String orgLocalRef = "urn:Org_1";
-        Organization org = readLocalResource("AcmeOrg.json");
+        Organization org = TestUtil.readLocalResource("AcmeOrg.json");
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Organization", null, org, orgLocalRef);
 
         // Add a POST entry to create the Practitioner.
         String practitionerLocalRef = "urn:Doctor_1";
-        Practitioner doctor = readLocalResource("DrStrangelove.json");
+        Practitioner doctor = TestUtil.readLocalResource("DrStrangelove.json");
 
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Practitioner", null, doctor, practitionerLocalRef);
 
         // Next, add a POST entry to create the Patient.
         String patientLocalRef = "urn:uuid:" + UUID.randomUUID().toString();
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         patient = patient.toBuilder().managingOrganization(Reference.builder().reference(string(orgLocalRef)).build())
                 .generalPractitioner(Reference.builder().reference(string(practitionerLocalRef)).build()).build();
@@ -1821,7 +1822,7 @@ public class BundleTest extends FHIRServerTestBase {
         // Next, add 2 POST entries to create the Observation resources
         for (int i = 1; i <= 2; i++) {
             // Load the Observation resource.
-            Observation obs = readLocalResource("Observation1.json");
+            Observation obs = TestUtil.readLocalResource("Observation1.json");
 
             // Set its "subject" field to reference the Patient.
             // Add an extension element that references the Organization
@@ -1894,12 +1895,12 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Add a POST entry to create a Patient
         String patientLocalRef = "urn:uuid:" + UUID.randomUUID().toString();
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
 
         // Add a POST entry to create an Observation resource
         // Create an Observation that will reference the Patient via a local reference.
-        Observation obs = readLocalResource("Observation1.json");
+        Observation obs = TestUtil.readLocalResource("Observation1.json");
         obs = obs.toBuilder().subject(Reference.builder().reference(string("urn:BAD_REFERENCE")).build()).build();
 
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
@@ -1935,9 +1936,9 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_DavidOrtiz.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_JohnDoe.json"));
+                TestUtil.readLocalResource("Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -2028,9 +2029,9 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_DavidOrtiz.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_JohnDoe.json"));
+                TestUtil.readLocalResource("Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -2112,7 +2113,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void testBatchConditionalCreates() throws Exception {
         String method = "testBatchConditionalCreates";
 
-        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         // Set first request to yield no matches.
@@ -2148,7 +2149,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void testTransactionConditionalCreates() throws Exception {
         String method = "testTransactionConditionalCreates";
 
-        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         // Set first request to yield no matches.
@@ -2175,7 +2176,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void testTransactionConditionalCreatesError1() throws Exception {
         String method = "testTransactionConditionalCreatesError1";
 
-        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         // Set request to yield multiple matches.
@@ -2197,7 +2198,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void testTransactionConditionalCreatesError2() throws Exception {
         String method = "testTransactionConditionalCreatesError2";
 
-        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         // Set request to yield invalid search.
@@ -2220,7 +2221,7 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchConditionalUpdates";
 
         String patientId = UUID.randomUUID().toString();
-        Patient patient = readLocalResource("Patient_DavidOrtiz.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
         patient = patient.toBuilder().id(Id.of(patientId)).build();
 
         String urlString = "Patient?_id=" + patientId;
@@ -2263,7 +2264,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_JohnDoe.json"));
+                TestUtil.readLocalResource("Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -2339,7 +2340,7 @@ public class BundleTest extends FHIRServerTestBase {
         //bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "$hello", null, hellowWorldParameters);
 
         // 3. POST request with resource at resource level
-        Patient patient = readLocalResource("Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         Parameters validateOperationParameters = Parameters.builder()
                 .parameter(Parameter.builder().name(string("resource")).resource(patient).build()).build();
@@ -2378,9 +2379,9 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_DavidOrtiz.json"));
+                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                readLocalResource("Patient_JohnDoe.json"));
+                TestUtil.readLocalResource("Patient_JohnDoe.json"));
 
         printBundle(method, "request", bundle);
 
@@ -2437,7 +2438,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Add the POST entries to create the Observation resources.
         for (int i = 0; i < numObservations; i++) {
-            Observation obs = readLocalResource(filename);
+            Observation obs = TestUtil.readLocalResource(filename);
             requestBundle = addRequestToBundle(null, requestBundle, HTTPVerb.POST, "Observation", null, obs);
         }
 
@@ -2566,7 +2567,7 @@ public class BundleTest extends FHIRServerTestBase {
     private void printBundle(String method, String bundleType, Bundle bundle) throws FHIRException {
         if (debug) {
             System.out.println(method + " " + bundleType + " bundle contents:\n"
-                    + writeResource(bundle, Format.JSON, prettyPrint));
+                    + TestUtil.writeResource(bundle, Format.JSON, prettyPrint));
         }
     }
 

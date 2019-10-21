@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,7 +62,6 @@ public interface FHIRSearchContext extends FHIRPagingContext {
 
     /**
      * @param elementToInclude
-     * @return
      */
     void addElementsParameter(String elementToInclude);
     

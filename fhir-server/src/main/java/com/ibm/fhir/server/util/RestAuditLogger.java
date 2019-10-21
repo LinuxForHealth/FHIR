@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,6 +50,7 @@ import com.ibm.fhir.model.util.FHIRUtil;
  *
  */
 public class RestAuditLogger {
+    
     private static final String CLASSNAME = RestAuditLogger.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
     
@@ -89,7 +90,7 @@ public class RestAuditLogger {
      * Builds an audit log entry for an 'update' REST service invocation.
      * @param request - The HttpServletRequest representation of the REST request.
      * @param oldResource - The previous version of the Resource, before it was updated.
-     * @param newResource - The updated version of the Resource.
+     * @param updatedResource - The updated version of the Resource.
      * @param startTime - The start time of the update request execution.
      * @param endTime - The end time of the update request execution.
      * @param responseStatus - The response status.
@@ -115,7 +116,7 @@ public class RestAuditLogger {
      * Builds an audit log entry for an 'patch' REST service invocation.
      * @param request - The HttpServletRequest representation of the REST request.
      * @param oldResource - The previous version of the Resource, before it was patched.
-     * @param newResource - The patched version of the Resource.
+     * @param updatedResource - The patched version of the Resource.
      * @param startTime - The start time of the patch request execution.
      * @param endTime - The end time of the patch request execution.
      * @param responseStatus - The response status.

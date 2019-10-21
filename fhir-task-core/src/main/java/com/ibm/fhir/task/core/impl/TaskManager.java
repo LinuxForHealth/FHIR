@@ -24,9 +24,8 @@ import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
  * Manages the execution of a set of dependent task groups using the
- * {@link ExecutorService} provided.
+ * {@link java.util.concurrent.ExecutorService } provided.
  * @author rarnold
- *
  */
 public class TaskManager implements ITaskCollector {
     private static final Logger logger = Logger.getLogger(TaskManager.class.getName());
@@ -80,9 +79,6 @@ public class TaskManager implements ITaskCollector {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.task.api.ITaskCollector#makeTaskGroup(com.ibm.fhir.task.api.ITaskGroup, java.lang.Runnable)
-     */
     @Override
     public ITaskGroup makeTaskGroup(String taskId, Runnable r, List<ITaskGroup> children) {
         TaskGroup result = taskGroupMap.get(taskId);
@@ -103,9 +99,6 @@ public class TaskManager implements ITaskCollector {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.task.api.ITaskCollector#start()
-     */
     @Override
     public void startAndWait() {
 
@@ -161,7 +154,7 @@ public class TaskManager implements ITaskCollector {
     /**
      * Receipt of a signal from the task group that it has failed. No taskComplete
      * will be called, so we need to signal it's the end of the road
-     * @param taskGroup
+     * @param tg
      */
     public void taskFailed(TaskGroup tg) {
         logger.info("Task failed callback for taskId: " + tg.getTaskId());
