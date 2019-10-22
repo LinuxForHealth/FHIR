@@ -31,8 +31,7 @@ import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
- * Encapsules the generation of the FHIR schema artifacts
- * 
+ * Encapsulates the generation of the FHIR schema artifacts
  */
 public class FhirSchemaGenerator {
 
