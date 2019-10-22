@@ -427,7 +427,7 @@ function comment_on_pull_request {
 
     if [[ "${TRAVIS_PULL_REQUEST_BRANCH}" != "" && "${TRAVIS_EVENT_TYPE}" == "pull_request" && "${TRAVIS_PULL_REQUEST}" != "false" ]]
     then
-        curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -X POST -d "${COMMENT}" "${API_URL}"
+        curl -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" -X POST -d "${COMMENT}" "${API_URL}"
     fi
 }
 
@@ -460,7 +460,7 @@ function label_pr_with_status {
         echo "API_URL: ${API_URL}"
         echo "LABEL: ${LABEL}"
 
-        curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "User-Agent: ibm-fhir-cicd" -X POST -d "${LABEL}" "${API_URL}"
+        curl -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" -H "User-Agent: ibm-fhir-cicd" -X POST -d "${LABEL}" "${API_URL}"
     fi
 }
 
@@ -494,7 +494,7 @@ function comment_on_pull_request_with_log {
     then
         echo "API_URL: ${API_URL}"
         echo "LABEL: ${COMMENT}"
-        curl -H "Authorization: token ${FHIR_GITHUB_TOKEN}" -H "User-Agent: ibm-fhir-cicd" -X POST -d "${COMMENT}" "${API_URL}"
+        curl -H "Authorization: token ${GITHUB_OAUTH_TOKEN}" -H "User-Agent: ibm-fhir-cicd" -X POST -d "${COMMENT}" "${API_URL}"
     fi
 }
 
