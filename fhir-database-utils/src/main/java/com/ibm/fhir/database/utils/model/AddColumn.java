@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 /**
- *
+ * Add Column 
  */
 public class AddColumn {
 

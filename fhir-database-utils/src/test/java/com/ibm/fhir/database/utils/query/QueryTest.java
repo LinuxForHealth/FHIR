@@ -18,7 +18,8 @@ import static com.ibm.fhir.database.utils.query.TestConstants.FOO_TOWN;
 import org.testng.annotations.Test;
 
 /**
- *
+ * Query Tests
+ * TODO: Missing asserts in some tests. 
  */
 public class QueryTest {
 

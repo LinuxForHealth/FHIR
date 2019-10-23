@@ -17,7 +17,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.schema.model.ResourceType;
 
 /**
- * 
+ * Manages the DB2 Get Resource Types
  */
 public class Db2GetResourceTypes implements IDatabaseStatement {
     private final String schemaName;

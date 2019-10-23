@@ -7,7 +7,7 @@
 package com.ibm.fhir.schema.control;
 
 /**
- * 
+ * FHIR Schema Tag constants
  */
 public class FhirSchemaTags {
     public static final String RESOURCE_TYPE = "resourceType";

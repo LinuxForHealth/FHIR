@@ -30,7 +30,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
- *
+ * PreparedStatement Stub
  */
 public class PreparedStatementStub implements PreparedStatement {
 

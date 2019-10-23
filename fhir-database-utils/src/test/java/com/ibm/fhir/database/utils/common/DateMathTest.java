@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 
 /**
- *
+ * Tests the behaviors related to date and time. 
  */
 public class DateMathTest {
 

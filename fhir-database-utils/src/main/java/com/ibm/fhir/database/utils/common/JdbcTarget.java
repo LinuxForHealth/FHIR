@@ -17,9 +17,10 @@ import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- *
+ * JdbcTarget for the database
  */
 public class JdbcTarget implements IDatabaseTarget {
+    
     private final Connection connection;
     
     /**

@@ -9,7 +9,7 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 import java.sql.SQLException;
 
 /**
- *
+ * gets the next value in the database's FHIR_SEQUENCE sequence
  */
 public interface FhirSequenceDAO {
 

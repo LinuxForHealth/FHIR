@@ -12,10 +12,8 @@ import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
  * Unit test for the DerbyFhirDatabase utility
-
- *
  */
-public class TestDerbyFhirDatabase {
+public class DerbyFhirDatabaseTest {
 
     @Test
     public void testFhirSchema() throws Exception {

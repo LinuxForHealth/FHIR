@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.query;
 
 /**
- *
+ * The FromClause adapter
  */
 public class FromSubQueryAdapter extends SelectAdapter {
     
@@ -18,7 +18,7 @@ public class FromSubQueryAdapter extends SelectAdapter {
     private final FromAdapter from;
 
     /**
-     * 
+     * constructor
      * @param parentSelect
      * @param from
      */

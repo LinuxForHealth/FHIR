@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- *
+ * Blob Column
  */
 public class BlobColumn extends ColumnBase {
     

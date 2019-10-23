@@ -7,7 +7,7 @@
 package com.ibm.fhir.schema.control;
 
 /**
- *
+ * Constants related to Schema creation and updating. 
  */
 public class FhirSchemaConstants {
 

@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.query.expression;
 
 /**
- *
+ * Implements the SQL "NOT" predicate
  */
 public class NotPredicate extends UnaryPredicate {
 

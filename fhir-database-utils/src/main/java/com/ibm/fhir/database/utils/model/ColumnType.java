@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 /**
- *
+ * Column Types used in FHIR
  */
 public enum ColumnType {
     INT,

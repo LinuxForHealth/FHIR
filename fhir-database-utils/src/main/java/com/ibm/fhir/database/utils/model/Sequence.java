@@ -11,7 +11,7 @@ import java.util.Set;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
- *
+ * Sequence related to the SQL sequence
  */
 public class Sequence extends BaseObject {
     private final int cache;

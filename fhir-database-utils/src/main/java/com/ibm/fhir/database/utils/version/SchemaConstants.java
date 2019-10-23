@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.version;
 
 /**
- *
+ * Schema Constants
  */
 public class SchemaConstants {
     public static final String VERSION_HISTORY = "VERSION_HISTORY";

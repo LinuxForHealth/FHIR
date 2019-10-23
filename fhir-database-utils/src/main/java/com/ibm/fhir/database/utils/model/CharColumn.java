@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- *
+ * CharColumn 
  */
 public class CharColumn extends ColumnBase {
     private final int size;

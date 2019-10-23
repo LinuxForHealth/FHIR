@@ -17,14 +17,14 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- *
+ * Creates the DB2 Table Space
  */
 public class Db2CreateTablespace implements IDatabaseStatement {
     private final String tablespaceName;
     private final int extentSizeKB;
 
     /**
-     * 
+     * The constructor builds a table space with the given name. 
      * @param tablespaceName
      */
     public Db2CreateTablespace(String tablespaceName) {

@@ -15,7 +15,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- *
+ * DB2 DetatchTable Partition
  */
 public class Db2DetachTablePartition implements IDatabaseStatement {
     
@@ -25,8 +25,7 @@ public class Db2DetachTablePartition implements IDatabaseStatement {
     
     // The name of the table the partition is moved into
     private final String intoTableName;
-
-
+    
     /**
      * Public constructor
      * @param tableName

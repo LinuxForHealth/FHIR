@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 /**
- *
+ * Group Privilege 
  */
 public class GroupPrivilege {
     private final String groupName;

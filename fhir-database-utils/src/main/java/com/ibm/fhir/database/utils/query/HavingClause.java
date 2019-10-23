@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.query;
 
 /**
- *
+ * Manages the Having Clause
  */
 public class HavingClause {
 

@@ -72,14 +72,14 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPersistenceT
         assertTrue(resources.size() > 0);
     }
     
-    @Test(singleThreaded = true)
+    @Test
     public void testSearchAllUsingLastUpdated() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, "_lastUpdated", savedResource.getMeta().getLastUpdated().getValue().toString());
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
     
-    @Test(singleThreaded = true)
+    @Test
     public void testSearchAllUsingIdAndLastUpdated() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<>();
         queryParms.put("_id", Collections.singletonList(savedResourceId));

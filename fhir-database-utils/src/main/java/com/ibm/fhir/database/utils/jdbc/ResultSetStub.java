@@ -29,9 +29,10 @@ import java.util.Calendar;
 import java.util.Map;
 
 /**
- *
+ * Stub for ResultSet
  */
 public class ResultSetStub implements ResultSet {
+    
     @SuppressWarnings("unused")
     private final ConnectionStub connection;
 

@@ -15,7 +15,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- *
+ * DB2 Adds table to staging
  */
 public class Db2AddTableToStaging implements IDatabaseStatement {
     private final String schemaName;

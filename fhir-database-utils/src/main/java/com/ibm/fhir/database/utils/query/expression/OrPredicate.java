@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.query.expression;
 
 /**
- *
+ * Implements the SQL "OR" predicate
  */
 public class OrPredicate extends BinaryPredicate {
 

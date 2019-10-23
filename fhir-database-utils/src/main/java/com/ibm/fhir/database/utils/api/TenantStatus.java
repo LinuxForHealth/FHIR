@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.api;
 
 /**
- *
+ * Tenant Status Enumeration
  */
 public enum TenantStatus {
     PROVISIONING,

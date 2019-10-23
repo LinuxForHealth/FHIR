@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- *
+ * Varbinary Column 
  */
 public class VarbinaryColumn extends ColumnBase {
     private final int size;

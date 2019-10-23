@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- *
+ * Int Column 
  */
 public class IntColumn extends ColumnBase {
 

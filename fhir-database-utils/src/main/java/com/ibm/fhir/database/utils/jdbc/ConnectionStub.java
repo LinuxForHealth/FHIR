@@ -26,7 +26,7 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
- *
+ * Connection Stub
  */
 public class ConnectionStub implements Connection {
 

@@ -11,7 +11,7 @@ import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 
 /**
- *
+ * Simple Transaction Wrapper and provider
  */
 public class SimpleTransactionProvider implements ITransactionProvider {
     

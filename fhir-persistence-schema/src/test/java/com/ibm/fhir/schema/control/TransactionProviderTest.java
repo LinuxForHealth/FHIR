@@ -13,14 +13,9 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 /**
  * A transaction provider stub useful for unit tests where we don't actually
  * need real transactions
-
- *
  */
-public class TestTransactionProvider implements ITransactionProvider {
+public class TransactionProviderTest implements ITransactionProvider {
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.ITransactionProvider#getTransaction()
-     */
     @Override
     public ITransaction getTransaction() {
         return new ITransaction() {

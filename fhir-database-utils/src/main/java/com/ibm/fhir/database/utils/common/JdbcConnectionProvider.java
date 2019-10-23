@@ -16,7 +16,7 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- *
+ * JdbcConnectionProvider
  */
 public class JdbcConnectionProvider implements IConnectionProvider {
     private static final Logger logger = Logger.getLogger(JdbcConnectionProvider.class.getName());

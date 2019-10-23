@@ -18,7 +18,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 
 /**
- *
+ * Checks Compatibility with the DB2 Implementation that is used. 
  */
 public class Db2CheckCompatibility implements IDatabaseStatement {
     

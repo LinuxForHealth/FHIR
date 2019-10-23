@@ -14,7 +14,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- *
+ * Drops the table at the schema.table
  */
 public class DropTable implements IDatabaseStatement {
     private final String schemaName;

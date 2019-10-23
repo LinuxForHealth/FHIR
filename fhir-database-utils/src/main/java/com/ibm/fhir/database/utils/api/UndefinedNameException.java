@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.api;
 
 /**
- *
+ * Throws an undefined name exception
  */
 public class UndefinedNameException extends DataAccessException {
 

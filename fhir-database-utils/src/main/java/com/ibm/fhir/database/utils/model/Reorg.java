@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 /**
- *
+ * Representing the SQL function
  */
 public class Reorg {
 

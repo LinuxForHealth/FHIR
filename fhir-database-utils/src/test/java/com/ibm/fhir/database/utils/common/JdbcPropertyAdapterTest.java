@@ -13,7 +13,7 @@ import java.util.Properties;
 import org.testng.annotations.Test;
 
 /**
- *
+ * JdbcProperty Adapter test. 
  */
 public class JdbcPropertyAdapterTest {
     private static final String TEST_DATABASE = "test.database";

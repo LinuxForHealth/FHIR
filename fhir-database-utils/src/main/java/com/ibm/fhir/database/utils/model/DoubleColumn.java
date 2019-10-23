@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- *
+ * Double Column 
  */
 public class DoubleColumn extends ColumnBase {
 

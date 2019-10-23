@@ -28,10 +28,10 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.core.service.TaskService;
 
 /**
- *
+ * Tests the generation of the various schemas with null output. 
  */
-public class TestFhirSchemaService {
-    private static final Logger logger = Logger.getLogger(TestFhirSchemaService.class.getName());
+public class FhirSchemaServiceTest {
+    private static final Logger logger = Logger.getLogger(FhirSchemaServiceTest.class.getName());
     private static final String SCHEMA_NAME = "PTNG";
     private static final String ADMIN_SCHEMA_NAME = "ADMIN_FHIR";
 
@@ -64,14 +64,14 @@ public class TestFhirSchemaService {
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
-        TestVersionHistoryService vhs = new TestVersionHistoryService();
+        VersionHistoryServiceTest vhs = new VersionHistoryServiceTest();
 
         TaskService taskService = new TaskService();
         ExecutorService pool = Executors.newFixedThreadPool(40);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
         Db2Adapter adapter = new Db2Adapter(tgt);
-        model.collect(collector, adapter, new TestTransactionProvider(), vhs);
+        model.collect(collector, adapter, new TransactionProviderTest(), vhs);
 
         // FHIR in the hole!
         collector.startAndWait();
@@ -110,7 +110,7 @@ public class TestFhirSchemaService {
         // for this particular
         // test
         Db2Translator translator = new Db2Translator();
-        TestConnectionProvider cp = new TestConnectionProvider(translator);
+        ConnectionProviderTestImpl cp = new ConnectionProviderTestImpl(translator);
         Db2Adapter adapter = new Db2Adapter(cp);
 
         // Exercise the partitioning

@@ -15,15 +15,14 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- *
+ * DB2 Add Table Parition
  */
 public class Db2AddTablePartition implements IDatabaseStatement {
     private final String schemaName;
     private final String tableName;
     private final int partitionId;
     private final String tablespaceName;
-
-
+    
     /**
      * Public constructor
      * @param tableName

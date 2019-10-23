@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 /**
- *
+ * DatabaseObjectType Enumeration
  */
 public enum DatabaseObjectType {
     TABLE,

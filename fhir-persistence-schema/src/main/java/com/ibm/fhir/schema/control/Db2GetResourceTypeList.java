@@ -18,7 +18,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.schema.model.ResourceType;
 
 /**
- * 
+ * Selects the existing RESOURCE_TYPES from DB2
  */
 public class Db2GetResourceTypeList implements IDatabaseSupplier<List<ResourceType>> {
     private final String schemaName;

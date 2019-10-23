@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.api;
 
 /**
- *
+ * ParititionUnit Enumeration indicates how frequently a Parition is created. 
  */
 public enum PartitionUnit {
     DAYS,

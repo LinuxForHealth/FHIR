@@ -11,7 +11,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 
 /**
- *
+ * Adapater to manage the cache. 
  */
 public class ParameterNameCacheAdapter implements IParameterNameCache {
     private final ParameterNameDAO delegate;

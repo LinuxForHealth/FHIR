@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 /**
- *
+ * Data Model Interface
  */
 public interface IDataModel {
 

@@ -11,7 +11,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
 
 /**
- *
+ * caches the code system artifacts
  */
 public class CodeSystemCacheAdapter implements ICodeSystemCache {
     

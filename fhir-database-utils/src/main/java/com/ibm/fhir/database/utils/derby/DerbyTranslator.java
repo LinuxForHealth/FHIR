@@ -19,7 +19,7 @@ import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 
 /**
- *
+ * translates database access to Derby supported access. 
  */
 public class DerbyTranslator implements IDatabaseTranslator {
     private static final Logger logger = Logger.getLogger(DerbyTranslator.class.getName());
