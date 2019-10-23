@@ -118,7 +118,11 @@ public interface FHIRClient {
      * <p>"minimal", "representation", or "OperationOutcome"
      */
     public static final String PROPNAME_HTTP_RETURN_PREF = "fhirclient.http.return.pref";
-    
+
+    /**
+     * The tenant identifier to use for requests (using the header X-FHIR-TENANT-ID)
+     */
+    public static final String PROPNAME_TENANT_ID = "fhirclient.tenant.id";
     
     /**
      * Returns a JAX-RS 2.0 WebTarget object associated with the REST API endpoint.

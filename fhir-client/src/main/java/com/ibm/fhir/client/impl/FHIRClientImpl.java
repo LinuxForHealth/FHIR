@@ -41,6 +41,7 @@ import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.HTTPReturnPreference;
@@ -87,7 +88,9 @@ public class FHIRClientImpl implements FHIRClient {
     private boolean hostnameVerificationEnabled = true;
     
     private int httpTimeout;
-    private HTTPReturnPreference httpReturnPref = HTTPReturnPreference.MINIMAL;
+    
+    // The tenantId to pass with the X-FHIR-TENANT-ID header
+    private String tenantId;
 
     protected FHIRClientImpl() {
     }
@@ -810,6 +813,12 @@ public class FHIRClientImpl implements FHIRClient {
                 }
             }
         }
+        
+        // Set the tenantId, if we have one
+        if (tenantId != null) {
+            builder = builder.header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId);
+        }
+
         return builder;
     }
 
@@ -970,7 +979,7 @@ public class FHIRClientImpl implements FHIRClient {
             
             setHttpTimeout(Integer.parseUnsignedInt(getProperty(PROPNAME_HTTP_TIMEOUT, "60000")));
             
-            setHttpReturnPref(HTTPReturnPreference.from(getProperty(PROPNAME_HTTP_RETURN_PREF, HTTPReturnPreference.MINIMAL.value())));
+            setTenantId(getProperty(PROPNAME_TENANT_ID, null));
         } catch (Throwable t) {
             throw new Exception("Unexpected error while processing client properties.", t);
         }
@@ -1023,6 +1032,14 @@ public class FHIRClientImpl implements FHIRClient {
             }
         }
     }
+    
+    /**
+     * Setter for the tenantId
+     */
+    private void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
 
     /**
      * Retrieves the specified property from the client properties object.
