@@ -87,7 +87,7 @@ public class FHIRClientImpl implements FHIRClient {
     
     private boolean hostnameVerificationEnabled = true;
     
-    private HTTPReturnPreference httpReturnPref = null;
+    private HTTPReturnPreference httpReturnPref = HTTPReturnPreference.MINIMAL;
     
     private int httpTimeout;
     
