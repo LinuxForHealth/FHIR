@@ -501,7 +501,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Bogus/123456789ABCDEF/_history").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'BogusResourceType' is not a valid resource type.");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'Bogus' is not a valid resource type.");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
@@ -556,8 +556,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
     public void testSearchInvalidResourceType() {
         WebTarget target = getWebTarget();
         Response response = target.path("NotAResourceType").queryParam("notasearchparameter", "foo").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The resource type 'NotAResourceType' is not allowed.");
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'NotAResourceType' is not a valid resource type.");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
