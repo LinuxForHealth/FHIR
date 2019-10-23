@@ -797,36 +797,14 @@ public class FHIRUtil {
         return updatedResource;
     }
 
-    // add for FHIRResource.java
-    private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/fhir/basic-resource-type";
-
     /**
-     * Returns the resource type (as a String) of the specified resource. For a virtual resource, this will be the
-     * actual virtual resource type (not Basic).
+     * Returns the resource type (as a String) of the specified resource. 
      * 
      * @param resource
      *            the resource
      * @return the name of the resource type associated with the resource
      */
     public static String getResourceTypeName(Resource resource) {
-        if (resource instanceof Basic) {
-            Basic basic = (Basic) resource;
-            CodeableConcept cc = basic.getCode();
-            if (cc != null) {
-                List<Coding> codingList = cc.getCoding();
-                if (codingList != null) {
-                    for (Coding coding : codingList) {
-                        if (coding.getSystem() != null) {
-                            String system = coding.getSystem().getValue();
-                            if (BASIC_RESOURCE_TYPE_URL.equals(system)) {
-                                return coding.getCode().getValue();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         return resource.getClass().getSimpleName();
     }
 
