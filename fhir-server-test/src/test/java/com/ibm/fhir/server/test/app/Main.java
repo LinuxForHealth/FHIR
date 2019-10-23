@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.DriverStats;
-import com.ibm.fhir.model.spec.test.IExampleProcessor;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver.TestType;
 import com.ibm.fhir.validation.test.ValidationProcessor;
@@ -244,6 +243,7 @@ public class Main {
         }
         finally {
             m.shutdown();
+            System.exit(0);
         }
     }
 }

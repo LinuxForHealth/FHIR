@@ -39,4 +39,3 @@ fi
 # Set the instance_memory to avoid memory allocation failures. The value
 # of 50 represents 50%"
 # su - db2inst1 -c "db2 update dbm cfg using INSTANCE_MEMORY 50" 
-
