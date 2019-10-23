@@ -51,7 +51,6 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 		// The sequence of operations we want to apply to each resource
 		operations.add(new CreateOperation());
 		operations.add(new ReadOperation());
-		operations.add(new UpdateOperation());
         operations.add(new UpdateOperation());
         operations.add(new UpdateOperation());
         operations.add(new ReadOperation());
