@@ -21,11 +21,10 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.core.service.TaskService;
 
 /**
- * @author rarnold
- *
+ * Tests the parallel build out of the FHIR Schema across multiple threads and connections. 
  */
-public class TestParallelBuild {
-    private static final Logger logger = Logger.getLogger(TestParallelBuild.class.getName());
+public class ParallelBuildTest {
+    private static final Logger logger = Logger.getLogger(ParallelBuildTest.class.getName());
     private static final String SCHEMA_NAME = "PTNG";
     private static final String ADMIN_SCHEMA_NAME = "FHIRADMIN";
 
@@ -40,14 +39,14 @@ public class TestParallelBuild {
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
-        TestVersionHistoryService vhs = new TestVersionHistoryService();
+        VersionHistoryServiceTest vhs = new VersionHistoryServiceTest();
 
         TaskService taskService = new TaskService();
         ExecutorService pool = Executors.newFixedThreadPool(40);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
         Db2Adapter adapter = new Db2Adapter(tgt);
-        model.collect(collector, adapter, new TestTransactionProvider(), vhs);
+        model.collect(collector, adapter, new TransactionProviderTest(), vhs);
 
         // FHIR in the hole!
         collector.startAndWait();

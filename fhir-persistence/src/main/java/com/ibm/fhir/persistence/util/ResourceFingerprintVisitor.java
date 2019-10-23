@@ -24,7 +24,7 @@ import com.ibm.fhir.model.visitor.PathAwareVisitor;
 /**
  * Compute a cryptographic hash of the visited nodes, skipping those which
  * may be altered by the persistence layer.
- * @author rarnold
+
  */
 public class ResourceFingerprintVisitor extends PathAwareVisitor {
     

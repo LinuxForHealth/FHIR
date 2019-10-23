@@ -7,8 +7,7 @@
 package com.ibm.fhir.schema.control;
 
 /**
- * @author rarnold
- *
+ * Constants related to Schema creation and updating. 
  */
 public class FhirSchemaConstants {
 
@@ -81,24 +80,13 @@ public class FhirSchemaConstants {
     public static final String CODE_SYSTEM_NAME = "CODE_SYSTEM_NAME";
     public static final String TOKEN_VALUE = "TOKEN_VALUE";
 
-    public static final String TX_CORRELATION_ID = "TX_CORRELATION_ID";  
-    public static final String CHANGED_BY = "CHANGED_BY"; 
-    public static final String CORRELATION_TOKEN = "CORRELATION_TOKEN";
-    public static final String REASON = "REASON";
-    public static final String SERVICE_ID = "SERVICE_ID";
-    public static final String SITE_ID = "SITE_ID";
-    public static final String STUDY_ID = "STUDY_ID";
-    public static final String PATIENT_ID = "PATIENT_ID";
-    public static final String TENANT_ID = "TENANT_ID";
-
-
     public static final String RESOURCE_TYPES = "RESOURCE_TYPES";
     public static final String RESOURCE_TYPE = "RESOURCE_TYPE";
     public static final String RESOURCE_TYPE_ID = "RESOURCE_TYPE_ID";
 
     public static final String DATE_VALUE = "DATE_VALUE";
     public static final String DATE_START = "DATE_START";
-    public static final String   DATE_END = "DATE_END";
+    public static final String DATE_END = "DATE_END";
     public static final String NUMBER_VALUE = "NUMBER_VALUE";
     public static final String LATITUDE_VALUE = "LATITUDE_VALUE";
     public static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";

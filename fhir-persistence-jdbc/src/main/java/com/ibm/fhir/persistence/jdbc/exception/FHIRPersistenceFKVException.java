@@ -12,8 +12,6 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 
 /**
  * This exception class is thrown when Foreign Key violations are encountered while attempting to access data in the FHIR DB.
- * @author markd
- *
  */
 public class FHIRPersistenceFKVException extends FHIRPersistenceDataAccessException {
 

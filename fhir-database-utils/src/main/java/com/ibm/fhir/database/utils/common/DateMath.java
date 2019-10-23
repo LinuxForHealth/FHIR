@@ -19,8 +19,6 @@ import com.ibm.fhir.database.utils.api.DataAccessException;
  * Simple utility class to handle the date arithmetic we need for rolling
  * date-based partitions
  * TODO use java.time instead
- * @author rarnold
- *
  */
 public class DateMath {
     private static final String FORMAT = "yyyy-MM-dd";

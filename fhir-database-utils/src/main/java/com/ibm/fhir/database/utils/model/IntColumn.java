@@ -9,8 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- * @author rarnold
- *
+ * Int Column 
  */
 public class IntColumn extends ColumnBase {
 
@@ -21,9 +20,6 @@ public class IntColumn extends ColumnBase {
         super(name, nullable);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.ColumnBase#getTypeInfo()
-     */
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter translator) {
         return "INT";

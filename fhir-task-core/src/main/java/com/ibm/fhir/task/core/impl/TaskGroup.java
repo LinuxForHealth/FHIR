@@ -16,8 +16,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
- * @author rarnold
- *
+ * The TaskGroup to organize a set of ongoing or pending tasks. 
  */
 public class TaskGroup implements ITaskGroup {
     private static final Logger logger = Logger.getLogger(TaskGroup.class.getName());

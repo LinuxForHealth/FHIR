@@ -40,9 +40,9 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  * FHIR R4 Examples.
  * 
  * TODO refactor to reduce duplication with the fhir-server-test Main app.
- * @author rarnold
  * 
  * Usage 
+ * <code>
  *   java com.ibm.fhir.persistence.jdbc.test.spec.Main
  *   --parse
  *   --validate
@@ -60,7 +60,7 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  *   --validate
  *   --derby
  *   --index-file file:/path/to/my/index.txt
- * 
+ * </code>
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());

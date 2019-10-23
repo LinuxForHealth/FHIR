@@ -20,10 +20,11 @@ import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 
 /**
- * @author rarnold
- *
+ * These utilities support the building of a FHIR 
+ * Query with complicates timezones and partial times. 
  */
 public class QueryBuilderUtil {
+    
     // used for adjustInto calls to obtain usable Zulu instants from Year, YearMonth, LocalDate
     private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00";
     private static final LocalDateTime REFERENCE_DATE = LocalDateTime.parse(REFERENCE_DATE_STRING);

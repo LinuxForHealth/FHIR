@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * A column reference, expression or sub-query item used in the selection list
- * @author rarnold
  *
  */
 public class SelectItem {

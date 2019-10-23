@@ -142,7 +142,7 @@ public class TestUtil {
         
         // If we didn't find the file yet, then look on the classpath.
         String resourceName = (fileName.startsWith("json/spec/") ? fileName : "json/spec/" + fileName);
-        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName);
+        InputStream is = TestUtil.class.getResourceAsStream(resourceName);
         if (is != null) {
             return is;
         }

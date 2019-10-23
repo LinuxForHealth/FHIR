@@ -9,8 +9,6 @@ package com.ibm.fhir.database.utils.api;
 /**
  * Used to handle the syntax differences between databases for certain
  * types like varbinary/varchar as bit data etc.
- * @author rarnold
- *
  */
 public interface IDatabaseTypeAdapter {
     

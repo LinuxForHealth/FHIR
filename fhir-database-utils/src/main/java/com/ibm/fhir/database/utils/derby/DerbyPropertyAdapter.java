@@ -11,8 +11,7 @@ import java.util.Properties;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 
 /**
- * @author rarnold
- *
+ * Adapts properties to Derby
  */
 public class DerbyPropertyAdapter extends JdbcPropertyAdapter {
 

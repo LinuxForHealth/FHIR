@@ -20,55 +20,35 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 
 /**
  * Handles translation of statements/fragments etc specific to DB2
- * @author rarnold
- *
  */
 public class Db2Translator implements IDatabaseTranslator {
 
-    /* (non-Javadoc)
-     * @see  com.ibm.fhir.database.utils.api.IDatabaseTranslator#addForUpdate(java.lang.String)
-     */
     @Override
     public String addForUpdate(String sql) {
         return sql + " FOR UPDATE WITH RS";
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isDerby()
-     */
     @Override
     public boolean isDerby() {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#globalTempTableName(java.lang.String)
-     */
     @Override
     public String globalTempTableName(String tableName) {
         return tableName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#createGlobalTempTable(java.lang.String)
-     */
     @Override
     public String createGlobalTempTable(String ddl) {
         return "CREATE " + ddl;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isDuplicate(java.sql.SQLException)
-     */
     @Override
     public boolean isDuplicate(SQLException x) {
         // Class Code 23: Constraint Violation
         return "23505".equals(x.getSQLState());
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isLockTimeout(java.sql.SQLException)
-     */
     @Override
     public boolean isLockTimeout(SQLException x) {
         // lock timeout (not deadlock)
@@ -80,9 +60,6 @@ public class Db2Translator implements IDatabaseTranslator {
                 && msg.contains("SQLERRMC=68");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isLockTimeout(java.sql.SQLException)
-     */
     @Override
     public boolean isDeadlock(SQLException x) {
         // deadlock is 40001 reason code 2
@@ -93,18 +70,12 @@ public class Db2Translator implements IDatabaseTranslator {
             && msg.contains("SQLERRMC=2");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isConnectionError(java.sql.SQLException)
-     */
     @Override
     public boolean isConnectionError(SQLException x) {
         String sqlState = x.getSQLState();
         return sqlState != null && sqlState.startsWith("08");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#translate(java.sql.SQLException)
-     */
     @Override
     public DataAccessException translate(SQLException x) {
         if (isDeadlock(x)) {
@@ -127,17 +98,11 @@ public class Db2Translator implements IDatabaseTranslator {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#isUndefinedName(java.sql.SQLException)
-     */
     @Override
     public boolean isUndefinedName(SQLException x) {
         return "42704".equals(x.getSQLState());
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#fillProperties(java.util.Properties, com.ibm.watson.platform.health.replicator.api.ConnectionDetails)
-     */
     @Override
     public void fillProperties(Properties p, ConnectionDetails cd) {
         // Configure the properties as required by the DB2 driver
@@ -174,9 +139,6 @@ public class Db2Translator implements IDatabaseTranslator {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#timestampDiff(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public String timestampDiff(String left, String right, String alias) {
         if (alias == null || alias.isEmpty()) {
@@ -187,42 +149,27 @@ public class Db2Translator implements IDatabaseTranslator {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#createSequence(java.lang.String, int)
-     */
     @Override
     public String createSequence(String name, int cache) {
         return "CREATE SEQUENCE " + name + " CACHE " + cache;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.platform.health.replicator.api.IStatementWriter#reorgTableCommand(java.lang.String)
-     */
     @Override
     public String reorgTableCommand(String tableName) {
         return "REORG TABLE " + tableName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#getDriverClassName()
-     */
     @Override
     public String getDriverClassName() {
         return "com.ibm.db2.jcc.DB2Driver";
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#getUrl(java.util.Properties)
-     */
     @Override
     public String getUrl(Properties connectionProperties) {
         Db2PropertyAdapter adapter = new Db2PropertyAdapter(connectionProperties);
         return "jdbc:db2://" + adapter.getHost() + ":" + adapter.getPort() + "/" + adapter.getDatabase();    
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#clobSupportsInline()
-     */
     @Override
     public boolean clobSupportsInline() {
         return true;

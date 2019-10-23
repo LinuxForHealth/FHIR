@@ -11,8 +11,7 @@ import java.util.Set;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
- * @author rarnold
- *
+ * Sequence related to the SQL sequence
  */
 public class Sequence extends BaseObject {
     private final int cache;
@@ -27,18 +26,12 @@ public class Sequence extends BaseObject {
         super(schemaName, sequenceName, DatabaseObjectType.SEQUENCE, version);
         this.cache = cache;
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#apply(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
+
     @Override
     public void apply(IDatabaseAdapter target) {
         target.createSequence(getSchemaName(), getObjectName(), this.cache);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#drop(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void drop(IDatabaseAdapter target) {
         target.dropSequence(getSchemaName(), getObjectName());

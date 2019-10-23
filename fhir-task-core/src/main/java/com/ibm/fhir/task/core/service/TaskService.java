@@ -14,7 +14,7 @@ import com.ibm.fhir.task.core.impl.TaskManager;
 
 /**
  * A simple service to support creation of task collectors
- * @author rarnold
+
  *
  */
 public class TaskService implements ITaskService {

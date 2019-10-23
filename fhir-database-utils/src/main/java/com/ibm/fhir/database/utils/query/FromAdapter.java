@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * Adapter for building the FROM clause of a SELECT statement
- * @author rarnold
  *
  */
 public class FromAdapter {

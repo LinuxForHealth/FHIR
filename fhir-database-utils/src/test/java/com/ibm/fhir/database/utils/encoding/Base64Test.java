@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 
 /**
  * Testing our assumptions about the length of Base64 encoded strings (in UTF-8)
- * @author rarnold
  */
 public class Base64Test {
 

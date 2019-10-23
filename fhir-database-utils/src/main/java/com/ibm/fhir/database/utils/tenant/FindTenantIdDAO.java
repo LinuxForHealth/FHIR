@@ -17,10 +17,9 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * DAO to create a free tenant slot (to align with a new partition)
- * 
- * @author rarnold
  */
 public class FindTenantIdDAO implements IDatabaseSupplier<Integer> {
+    
     private final String schemaName;
     private final String tenantName;
 

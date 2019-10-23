@@ -21,9 +21,6 @@ import com.ibm.fhir.database.utils.model.Table;
  * (which is used for unit-testing). Derby is pretty close to DB2 in most cases,
  * but notably does not support partitioning, variables or SPL stored
  * procedures.
- * 
- * @author rarnold
- *
  */
 public interface IDatabaseAdapter {
 

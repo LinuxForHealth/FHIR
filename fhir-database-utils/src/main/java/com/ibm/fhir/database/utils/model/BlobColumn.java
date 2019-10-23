@@ -9,10 +9,10 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- * @author rarnold
- *
+ * Blob Column
  */
 public class BlobColumn extends ColumnBase {
+    
     private final long size;
     
     private final int inlineSize;
@@ -34,9 +34,6 @@ public class BlobColumn extends ColumnBase {
         return inlineSize;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.ColumnBase#getTypeInfo()
-     */
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
         return adapter.blobClause(size, inlineSize);

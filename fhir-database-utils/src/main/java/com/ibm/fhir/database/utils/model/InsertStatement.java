@@ -17,8 +17,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * as well as simple constant expressions (as strings)
  * 
  * We make the statement itself immutable, relying on a Builder to create it
- * @author rarnold
- *
  */
 public class InsertStatement {
 
@@ -103,7 +101,7 @@ public class InsertStatement {
     
     /**
      * A definition of a column in the insert statement
-     * @author rarnold
+
      *
      */
     private static class Column {

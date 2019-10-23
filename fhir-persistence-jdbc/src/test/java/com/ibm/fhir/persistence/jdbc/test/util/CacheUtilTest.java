@@ -15,8 +15,8 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.persistence.jdbc.util.CacheUtil;
 
 /**
- * @author markd
- *
+ * Tests the Cache
+ * However, there is a TODO to make these tests ASSERT.
  */
 public class CacheUtilTest {
 

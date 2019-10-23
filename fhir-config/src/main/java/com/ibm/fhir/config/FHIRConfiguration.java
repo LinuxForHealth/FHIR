@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class FHIRConfiguration {
+    
     private static final Logger log = Logger.getLogger(FHIRConfiguration.class.getName());
 
     /**
@@ -64,7 +65,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/authFilter/authorizedClientCertClientCN";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/authFilter/authorizedClientCertIssuerOU";
 
-    public static final String PROPERTY_REPL_INTERCEPTOR_ENABLED = "fhirServer/whclsfRouter/replicationInterceptorEnabled";
     public static final String PROPERTY_RESOURCE_TYPES_REQUIRING_SUBJECT_ID = "fhirServer/whclsfRouter/resourceNamesRequiringPatientId";
     public static final String PROPERTY_STUDY_SCOPED_RESOURCES = "fhirServer/whclsfRouter/resourceNamesRequiringConsentEnforcement";
        

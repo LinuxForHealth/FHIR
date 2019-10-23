@@ -8,10 +8,9 @@ package com.ibm.fhir.database.utils.db2;
 
 /**
  * Some metadata about a table, read from the DB2 catalog
- * @author rarnold
- *
  */
 public class Db2TableInfo {
+
     // TODO...add useful info
 
 }

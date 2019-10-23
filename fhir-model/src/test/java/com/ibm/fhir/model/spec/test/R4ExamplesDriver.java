@@ -28,11 +28,9 @@ import com.ibm.fhir.model.resource.Resource;
 
 /**
  * Run through all the examples from the R4 specification
- * 
- * @author rarnold
- *
  */
 public class R4ExamplesDriver {
+    
     private static final Logger logger = Logger.getLogger(R4ExamplesDriver.class.getName());
     // Location of the resource directory holding the examples. Note - these resources
     // will come from fhir-r4-spec-examples project, in case you're looking for them. We

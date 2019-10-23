@@ -12,7 +12,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 public class VReadOperation extends BaseOperation {
 
-
 	@Override
 	public void process(TestContext tc) throws FHIRPersistenceException {
 	    	    

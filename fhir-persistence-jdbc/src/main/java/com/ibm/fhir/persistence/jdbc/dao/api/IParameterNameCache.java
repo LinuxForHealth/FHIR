@@ -10,7 +10,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * Abstraction of the cache service managing parameter names.
- * @author rarnold
  *
  */
 public interface IParameterNameCache {

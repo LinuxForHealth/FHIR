@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * Represents the "HAVING" part of a SELECT statement.
- * @author rarnold
  */
 public class HavingAdapter {
 

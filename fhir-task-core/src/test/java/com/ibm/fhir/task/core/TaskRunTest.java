@@ -18,8 +18,6 @@ import com.ibm.fhir.task.core.service.TaskService;
 
 /**
  * Unit tests for the core task executor
- * @author rarnold
- *
  */
 public class TaskRunTest {
 	private final static int POOL_SIZE = 10;
@@ -27,10 +25,6 @@ public class TaskRunTest {
 			"n0", "n1", "n2", "n3", "n4", "n5", "n6", "n7"
 	};
 
-
-	/**
-	 * 
-	 */
 	@Test
 	public void test1() {
 		ExecutorService pool = Executors.newFixedThreadPool(POOL_SIZE);

@@ -14,8 +14,6 @@ package com.ibm.fhir.database.utils.api;
  * 
  * Implemented as {@link AutoCloseable} so the transaction will end when close
  * is closed, making it nice and neat to use with try-with-resource.
- * @author rarnold
- *
  */
 public interface ITransaction extends AutoCloseable {
 
@@ -25,7 +23,7 @@ public interface ITransaction extends AutoCloseable {
     public void setRollbackOnly();
 
     /**
-     * Override the {@link AutoCloseable}{@link #close()} method so that
+     * Override the {@link AutoCloseable#close()} method so that
      * we can refine the exception
      */
     @Override

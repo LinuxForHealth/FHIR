@@ -21,7 +21,6 @@ public class HistoryOperation extends BaseOperation {
         this.expectedCount = expectedCount;
     }
 
-
 	@Override
 	public void process(TestContext tc) throws FHIRPersistenceException {
 

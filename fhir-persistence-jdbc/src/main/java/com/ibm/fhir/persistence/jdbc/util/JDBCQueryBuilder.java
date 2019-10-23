@@ -75,13 +75,14 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 /**
  * This is the JDBC implementation of a query builder for the IBM FHIR Server JDBC persistence layer schema.
  * Queries are built in SQL.
- * 
+ * <br><br>
  * For the new R4 schema, the search parameter tables (e.g. <resourceType>_STR_VALUES) are
  * joined to their corresponding <resourceType>_LOGICAL_RESOURCES tables on LOGICAL_RESOURCE_ID.
  * This is because the search parameters are not versioned, and are associated with
  * the logical resource, not the resource version.
- * 
- * Useful column reference:
+ * <br>
+ * Useful column reference:<br>
+ * <code>
  * ------------------------
  * RESOURCE_TYPE_NAME    the formal name of the resource type e.g. 'Patient'
  * RESOURCE_TYPE_ID      FK to the RESOURCE_TYPES table
@@ -90,6 +91,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
  * CURRENT_RESOURCE_ID   the unique BIGINT id of the latest resource version for the logical resource
  * VERSION_ID            INT resource version number incrementing by 1
  * RESOURCE_ID           the PK of the version-specific resource. Now only used as the target for CURRENT_RESOURCE_ID
+ * </code>
  */
 public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOperator> {
     private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());

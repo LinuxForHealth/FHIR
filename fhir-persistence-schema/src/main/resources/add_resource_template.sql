@@ -14,10 +14,6 @@
 -- p_payload:    the BLOB (of JSON) which is the resource content
 -- p_last_updated the last_updated time given by the FHIR server
 -- p_is_deleted: the soft delete flag
--- p_tx_correlation_id: used to group multiple resources together in one transaction
--- p_changed_by: the identity of the user who made the change
--- p_correlation_token: the tracking token used for audit trail correlation
--- p_version_id: the version id if this is a replicated message
 -- p_json_version: the version FHIR injected into the JSON
 -- p_str_values        an array of string parameter values
 -- p_number_values     an array of number parameter values
@@ -25,25 +21,12 @@
 -- p_latlng_values     an array of lat/long parameter values
 -- p_token_values      an array of token values
 -- p_quantity_values   an array of quantity values
--- p_write_rep_log: flag indicating if a row should be written to the replication log table
 -- o_resource_id: output field returning the newly assigned resource_id value
 -- ----------------------------------------------------------------------------
     ( IN p_logical_id                    VARCHAR(255 OCTETS), 
       IN p_payload                          BLOB(2147483647),
       IN p_last_updated                TIMESTAMP,
       IN p_is_deleted                       CHAR(1),
-      IN p_source_key                    VARCHAR(64),
-      IN p_tx_correlation_id             VARCHAR(36),
-      IN p_changed_by                    VARCHAR(64),
-      IN p_correlation_token             VARCHAR(36),
-      IN p_tenant_data_id                VARCHAR(36),
-      IN p_reason                        VARCHAR(255),
-      IN p_event                         VARCHAR(32),
-      IN p_site_id                       VARCHAR(255),
-      IN p_study_id                      VARCHAR(255),
-      IN p_service_id                    VARCHAR(32),
-      IN p_patient_id                    VARCHAR(255),
-      IN p_version                           INT,
       IN p_json_version                      INT,
       IN p_str_values           {{SCHEMA_NAME}}.t_str_values_arr,
       IN p_number_values     {{SCHEMA_NAME}}.t_number_values_arr,
@@ -51,7 +34,6 @@
       IN p_latlng_values     {{SCHEMA_NAME}}.t_latlng_values_arr,
       IN p_token_values       {{SCHEMA_NAME}}.t_token_values_arr,
       IN p_quantity_values {{SCHEMA_NAME}}.t_quantity_values_arr,
-      IN p_write_rep_log                    CHAR(1),
      OUT o_resource_id                    BIGINT
     )
     LANGUAGE SQL
@@ -173,8 +155,8 @@ BEGIN
   -- Create the new resource version.
   -- Alpha version uses last_updated time from the app-server, so we keep that here
   VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_resource_id;
-  INSERT INTO {{SCHEMA_NAME}}.{{LC_RESOURCE_TYPE}}_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, tx_correlation_id, changed_by, correlation_token, tenant_data_id, reason, site_id, study_id, service_id, patient_id) 
-       VALUES (v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted, p_tx_correlation_id, p_changed_by, p_correlation_token, p_tenant_data_id, p_reason, p_site_id, p_study_id, p_service_id, p_patient_id);
+  INSERT INTO {{SCHEMA_NAME}}.{{LC_RESOURCE_TYPE}}_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) 
+       VALUES (v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted);
 
   IF p_version IS NULL OR p_version > v_version
   THEN
@@ -226,26 +208,6 @@ BEGIN
     END IF;
   END IF;
 
-
-  -- finally we insert a record into our replication log table. This also covers
-  -- us for Part 11 audit. The replicator process reads records from this table
-  -- and delivers them into kafka, then deleting the row once it is convinced
-  -- kafka has received the record. Don't do this if this is a replicated
-  -- resource (where we are given a p_version value)
---  IF p_write_rep_log = 'Y' AND p_version IS NULL
---  THEN
---    INSERT INTO {{SCHEMA_NAME}}.fhir_replication_log (last_updated, tenant_id, resource_type_id, 
---                                      resource_id, previous_resource_id, 
---                                      version_id, is_deleted, source_key,
---                                      tx_correlation_id, changed_by, 
---                                      correlation_token, tenant_data_id, reason, event,
---                                      site_id, study_id, patient_id, service_id) 
---         VALUES (p_last_updated, v_tenant_id, v_resource_type_id, 
---                 v_resource_id, v_current_resource_id, v_version + 1, p_is_deleted, p_source_key,
---                 p_tx_correlation_id, p_changed_by, p_correlation_token,
---                 p_tenant_data_id, p_reason, p_event,
---                 p_site_id, p_study_id, p_patient_id, p_service_id);
---  END IF;
   -- Hand back the id of the resource we created earlier
   SET o_resource_id = v_resource_id;
 

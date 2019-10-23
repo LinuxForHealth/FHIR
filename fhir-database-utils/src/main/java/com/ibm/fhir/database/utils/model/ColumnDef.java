@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.model;
 
 /**
  * Represents a column definition in a table
- * @author rarnold
- *
  */
 public class ColumnDef implements Comparable<ColumnDef> {
     private final String name;
@@ -55,10 +53,7 @@ public class ColumnDef implements Comparable<ColumnDef> {
     public void setPrecision(int precision) {
         this.precision = precision;
     }
-    
-    /* (non-Javadoc)
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
+
     @Override
     public int compareTo(ColumnDef that) {
         return this.name.compareTo(that.name);

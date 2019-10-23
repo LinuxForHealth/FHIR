@@ -30,8 +30,6 @@ import com.ibm.fhir.persistence.util.SaltHash;
  * Fingerprinting is used for the comparison because the FHIR server adds
  * additional (meta) content, which is ignored when the fingerprint is
  * computed.
- * 
- * @author rarnold
  *
  */
 public class ExampleRequestProcessor implements IExampleProcessor {
@@ -64,9 +62,6 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         this.target = base.getWebTarget();
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.watson.health.fhir.model.spec.test.IExampleProcessor#process(java.lang.String, com.ibm.watson.health.fhir.model.resource.Resource)
-     */
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
         

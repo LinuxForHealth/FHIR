@@ -16,9 +16,8 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * DAO command to add a resource type. If it already exists, we get back the existing id
- * @author rarnold
- *
+ * DAO command to add a resource type. If it already exists, we get back the
+ * existing id
  */
 public class Db2AddResourceType implements IDatabaseStatement {
     private final String schemaName;
@@ -29,6 +28,7 @@ public class Db2AddResourceType implements IDatabaseStatement {
 
     /**
      * Public constructor
+     * 
      * @param schemaName
      * @param resourceType
      */
@@ -39,15 +39,13 @@ public class Db2AddResourceType implements IDatabaseStatement {
 
     /**
      * Getter for the resource type id allocated by the database
+     * 
      * @return
      */
     public int getResourceTypeId() {
         return this.resourceTypeId;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String proc = DataDefinitionUtil.getQualifiedName(schemaName, "ADD_RESOURCE_TYPE");
@@ -58,8 +56,7 @@ public class Db2AddResourceType implements IDatabaseStatement {
             cs.registerOutParameter(2, Types.INTEGER);
             cs.execute();
             this.resourceTypeId = cs.getInt(2);
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
 

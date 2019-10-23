@@ -23,7 +23,7 @@ import com.ibm.fhir.model.visitor.PathAwareVisitor;
 /**
  * Simple visitor to flatten the structure of a resource and compare
  * it with another instance
- * @author rarnold
+
  *
  */
 public class ResourceComparatorVisitor extends PathAwareVisitor {

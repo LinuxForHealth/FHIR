@@ -15,11 +15,7 @@
 -- p_last_updated the last_updated time given by the FHIR server
 -- p_is_deleted: the soft delete flag
 -- p_tx_correlation_id: used to group multiple resources together in one transaction
--- p_changed_by: the identity of the user who made the change
--- p_correlation_token: the tracking token used for audit trail correlation
 -- p_version_id: the version id if this is a replicated message
--- p_json_version: the version FHIR injected into the JSON
--- p_write_rep_log: flag indicating if a row should be written to the replication log table
 -- o_resource_id: output field returning the newly assigned resource_id value
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                 VARCHAR( 36 OCTETS),
@@ -29,19 +25,8 @@
       IN p_is_deleted                       CHAR(  1),
       IN p_source_key                    VARCHAR( 64),
       IN p_tx_correlation_id             VARCHAR( 36),
-      IN p_changed_by                    VARCHAR( 64),
-      IN p_correlation_token             VARCHAR( 36),
-      IN p_tenant_data_id                VARCHAR( 36),
-      IN p_reason                        VARCHAR(255),
-      IN p_event                         VARCHAR( 32),
-      IN p_site_id                       VARCHAR(255),
-      IN p_study_id                      VARCHAR(255),
-      IN p_service_id                    VARCHAR( 32),
-      IN p_patient_id                    VARCHAR(255),
       IN p_version                           INT,
-      IN p_json_version                      INT,
-      IN p_write_rep_log                    CHAR(  1),
-     OUT o_logical_resource_id            BIGINT
+      OUT o_logical_resource_id            BIGINT
     )
     LANGUAGE SQL
     MODIFIES SQL DATA
@@ -201,9 +186,9 @@ BEGIN
   VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_resource_id;
 
   PREPARE stmt FROM
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, tx_correlation_id, changed_by, correlation_token, tenant_id, reason, site_id, study_id, service_id, patient_id) '
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, tx_correlation_id) '
       || ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted, p_tx_correlation_id, p_changed_by, p_correlation_token, p_tenant_data_id, p_reason, p_site_id, p_study_id, p_service_id, p_patient_id;
+  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted, p_tx_correlation_id;
 
   IF p_version IS NULL OR p_version > v_version
   THEN

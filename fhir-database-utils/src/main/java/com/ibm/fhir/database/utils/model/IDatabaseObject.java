@@ -16,8 +16,7 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
- * @author rarnold
- *
+ * Defines the Database Object's expected methods. 
  */
 public interface IDatabaseObject {
 

@@ -12,7 +12,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
  * Adds a session variable to the database
- * @author rarnold
+
  *
  */
 public class SessionVariableDef extends BaseObject {

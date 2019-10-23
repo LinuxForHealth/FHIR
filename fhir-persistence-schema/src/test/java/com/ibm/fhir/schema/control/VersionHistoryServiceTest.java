@@ -14,10 +14,8 @@ import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 
 /**
  * Stub so that we can test schema creation
- * @author rarnold
- *
  */
-public class TestVersionHistoryService implements IVersionHistoryService {
+public class VersionHistoryServiceTest implements IVersionHistoryService {
 
     // history information set up by the test case
     private final Map<String,Integer> versionHistoryMap = new HashMap<>();

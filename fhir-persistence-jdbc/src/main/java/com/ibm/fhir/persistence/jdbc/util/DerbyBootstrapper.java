@@ -23,8 +23,6 @@ import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 /**
  * This class contains bootstrapping code for the Derby Database.
- * @author hjagann
- *
  */
 public class DerbyBootstrapper {
     private static final Logger log = Logger.getLogger(DerbyBootstrapper.class.getName());
