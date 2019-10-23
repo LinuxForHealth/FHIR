@@ -52,7 +52,7 @@ jobs:
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
-        mvn test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true
+        mvn -B test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()
