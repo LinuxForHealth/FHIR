@@ -12,8 +12,6 @@ import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 
 /**
  * An adapter for DB2 properties
- * @author rarnold
- *
  */
 public class Db2PropertyAdapter extends JdbcPropertyAdapter {
     private static final String API_KEY = "apiKey";

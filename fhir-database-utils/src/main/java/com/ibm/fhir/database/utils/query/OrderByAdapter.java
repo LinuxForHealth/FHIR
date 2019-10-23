@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * The ORDER BY part of a SELECT statement
- * @author rarnold
  *
  */
 public class OrderByAdapter {

@@ -12,8 +12,6 @@ import java.util.Properties;
 
 /**
  * Simple wrapper to encapsulate database connection info
- * @author rarnold
- *
  */
 public class ConnectionDetails {
     private static final String HOST = ".host";

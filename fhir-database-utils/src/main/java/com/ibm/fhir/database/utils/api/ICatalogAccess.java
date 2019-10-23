@@ -10,8 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author rarnold
- *
+ * Catalog Access to the backend adminstrative functions
  */
 public interface ICatalogAccess {
 

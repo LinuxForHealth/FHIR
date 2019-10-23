@@ -37,9 +37,6 @@ import com.ibm.fhir.exception.FHIRException;
 /**
  * This class is a Cadf/EventStream/COS based implementation of the FHIR server
  * AuditLogService interface
- * 
- * @author Albert Wang
- *
  */
 public class WhcAuditCadfLogService implements AuditLogService {
     private static final Logger logger = java.util.logging.Logger.getLogger(WhcAuditCadfLogService.class.getName());
@@ -91,14 +88,6 @@ public class WhcAuditCadfLogService implements AuditLogService {
     public WhcAuditCadfLogService() {
         super();
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.ibm.fhir.audit.logging.api.AuditLogService#initialize(com.
-     * ibm.fhir.config.PropertyGroup)
-     */
     @Override
     public void initialize(PropertyGroup auditLogProperties) throws Exception {
 
@@ -199,11 +188,6 @@ public class WhcAuditCadfLogService implements AuditLogService {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.ibm.fhir.audit.logging.api.AuditLogService#isEnabled()
-     */
     @Override
     public boolean isEnabled() {
         return this.isEnabled;

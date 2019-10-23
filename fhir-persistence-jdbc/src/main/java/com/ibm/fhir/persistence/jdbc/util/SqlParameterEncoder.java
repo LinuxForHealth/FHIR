@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 /**
  * Provides custom encoding and escaping functions for use by the JDBCQueryBuilder. Proper encoding/escaping reduces 
  * the likelihood of SQL penetration that may happen when called via the REST layer.
- *
  */
 public class SqlParameterEncoder {
 

@@ -8,12 +8,12 @@ package com.ibm.fhir.model.spec.test;
 
 /**
  * Where we expect a particular example to succeed or fail.
- * OK - the file should parse, be validation and processed successfully
- * PARSE - we expect an error during parsing
- * VALIDATION - we expect an error during validation
- * PROCESS - we expect an error during processing
- * @author rarnold
- *
+ * <ul>
+ * <li>OK - the file should parse, be validation and processed successfully</li>
+ * <li>PARSE - we expect an error during parsing</li>
+ * <li>VALIDATION - we expect an error during validation</li>
+ * <li>PROCESS - we expect an error during processing</li>
+ * </ul>
  */
 public enum Expectation {
     OK,

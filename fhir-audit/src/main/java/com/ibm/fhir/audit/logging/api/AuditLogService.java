@@ -11,9 +11,6 @@ import com.ibm.fhir.config.PropertyGroup;
 
 /**
  * Defines the internal FHIR Server APIs for audit logging
- * 
- * @author markd
- *
  */
 public interface AuditLogService {
 

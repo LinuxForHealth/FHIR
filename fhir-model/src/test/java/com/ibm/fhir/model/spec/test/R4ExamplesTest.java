@@ -16,8 +16,6 @@ import com.ibm.fhir.model.visitor.CopyingVisitor;
 /**
  * Exercise the examples driver, which will process each entry in the test
  * resources directory
- * @author rarnold
- *
  */
 public class R4ExamplesTest {
     private R4ExamplesDriver driver;

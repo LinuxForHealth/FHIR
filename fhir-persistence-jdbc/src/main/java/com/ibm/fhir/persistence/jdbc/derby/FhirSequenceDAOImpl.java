@@ -15,7 +15,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 
 /**
  * DAO to obtain the next value from FHIR_SEQUENCE
- * @author rarnold
  *
  */
 public class FhirSequenceDAOImpl implements FhirSequenceDAO {

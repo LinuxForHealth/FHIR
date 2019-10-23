@@ -14,7 +14,6 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
  * using a hash of the tenant_key.
  * 
  * DB2 only.
- * @author rarnold
  *
  */
 public class SetTenantDAO {

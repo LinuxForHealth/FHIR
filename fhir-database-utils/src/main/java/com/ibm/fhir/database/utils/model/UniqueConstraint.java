@@ -7,8 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 /**
- * @author rarnold
- *
+ * Constraint on unique
  */
 public class UniqueConstraint extends Constraint {
 

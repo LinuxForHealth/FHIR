@@ -21,8 +21,7 @@ import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
 import com.ibm.fhir.persistence.util.SaltHash;
 
 /**
- * @author rarnold
- *
+ * Implementation of the ExampleProcessor
  */
 public class ExampleRequestProcessor implements IExampleProcessor {
     private final FHIRServerTestBase base;
@@ -31,9 +30,6 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         this.base = base;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.model.spec.test.IExampleProcessor#process(java.lang.String, com.ibm.fhir.model.resource.Resource)
-     */
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
         

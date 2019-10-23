@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * Item in a SELECT clause which is itself a sub-query
- * @author rarnold
- *
  */
 public class SelectItemSubQuery extends SelectItem {
     private final Select subQuery;

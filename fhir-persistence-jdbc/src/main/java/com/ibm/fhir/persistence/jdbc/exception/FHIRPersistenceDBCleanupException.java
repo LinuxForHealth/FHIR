@@ -14,8 +14,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * This exception class represents failures encountered while attempting to close/cleanup JDBC resources.
  * TODO use Builder fluent pattern to align with R4 model style
- * @author markd
- *
  */
 public class FHIRPersistenceDBCleanupException extends FHIRPersistenceException {
 

@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.crypto.spec.SecretKeySpec;
 import javax.json.JsonObject;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
@@ -96,10 +95,6 @@ public class FHIRClientImpl implements FHIRClient {
         initProperties(props);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#metadata()
-     */
     @Override
     public FHIRResponse metadata(FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
@@ -109,10 +104,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#create(com.ibm.fhir.model.Resource)
-     */
     @Override
     public FHIRResponse create(Resource resource, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -122,10 +113,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _create(resource, resourceType, null, headers);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#create(javax.json.JsonObject, java.lang.String)
-     */
     @Override
     public FHIRResponse create(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -138,10 +125,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _create(resource, resourceType, null, headers);
     }
 
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#conditionalCreate(com.ibm.fhir.model.Resource, com.ibm.fhir.client.FHIRParameters, com.ibm.fhir.client.FHIRRequestHeader[])
-     */
     @Override
     public FHIRResponse conditionalCreate(Resource resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -154,9 +137,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _create(resource, resourceType, parameters, headers);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#conditionalCreate(javax.json.JsonObject, com.ibm.fhir.client.FHIRParameters, com.ibm.fhir.client.FHIRRequestHeader[])
-     */
     @Override
     public FHIRResponse conditionalCreate(JsonObject resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -265,11 +245,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _update(resource, resourceType, resourceId, null, headers);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#update(javax.json.JsonObject, java.lang.String,
-     * java.lang.String)
-     */
     @Override
     public FHIRResponse update(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -286,9 +261,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _update(resource, resourceType, resourceId, null, headers);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#conditionalUpdate(com.ibm.fhir.model.Resource, com.ibm.fhir.client.FHIRParameters, com.ibm.fhir.client.FHIRRequestHeader[])
-     */
     @Override
     public FHIRResponse conditionalUpdate(Resource resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -301,9 +273,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _update(resource, resourceType, null, parameters, headers);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#conditionalUpdate(javax.json.JsonObject, com.ibm.fhir.client.FHIRParameters, com.ibm.fhir.client.FHIRRequestHeader[])
-     */
     @Override
     public FHIRResponse conditionalUpdate(JsonObject resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -341,11 +310,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#delete(java.lang.String, java.lang.String,
-     * com.ibm.fhir.client.FHIRRequestHeader[])
-     */
     @Override
     public FHIRResponse delete(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -357,9 +321,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _delete(resourceType, resourceId, null, headers);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#conditionalDelete(java.lang.String, com.ibm.fhir.client.FHIRParameters, com.ibm.fhir.client.FHIRRequestHeader[])
-     */
     @Override
     public FHIRResponse conditionalDelete(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -388,10 +349,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#read(java.lang.String, java.lang.String)
-     */
     @Override
     public FHIRResponse read(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -407,10 +364,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#vread(java.lang.String, java.lang.String, int)
-     */
     @Override
     public FHIRResponse vread(String resourceType, String resourceId, String versionId, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -451,11 +404,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#search(java.lang.String,
-     * com.ibm.fhir.client.FHIRParameters)
-     */
     @Override
     public FHIRResponse search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -496,10 +444,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#validate(com.ibm.fhir.model.Resource)
-     */
     @Override
     public FHIRResponse validate(Resource resource, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -508,10 +452,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _validate(resource, headers);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#validate(javax.json.JsonObject)
-     */
     @Override
     public FHIRResponse validate(JsonObject resource, FHIRRequestHeader... headers) throws Exception {
         if (resource == null) {
@@ -530,10 +470,6 @@ public class FHIRClientImpl implements FHIRClient {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#batch(com.ibm.fhir.model.Bundle)
-     */
     @Override
     public FHIRResponse batch(Bundle bundle, FHIRRequestHeader... headers) throws Exception {
         if (bundle == null) {
@@ -542,10 +478,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _bundle(bundle, BundleType.BATCH, headers);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#transaction(com.ibm.fhir.model.Bundle)
-     */
     @Override
     public FHIRResponse transaction(Bundle bundle, FHIRRequestHeader... headers) throws Exception {
         if (bundle == null) {
@@ -554,10 +486,6 @@ public class FHIRClientImpl implements FHIRClient {
         return _bundle(bundle, BundleType.TRANSACTION, headers);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#invoke(String, com.ibm.fhir.client.FHIRParameters)
-     */
     @Override
     public FHIRResponse invoke(String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (operationName == null) {
@@ -572,10 +500,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#invoke(String, com.ibm.fhir.model.Resource)
-     */
     @Override
     public FHIRResponse invoke(String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception {
         if (operationName == null) {
@@ -592,10 +516,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#invoke(String, String)
-     */
     @Override
     public FHIRResponse invoke(String resourceType, String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -613,10 +533,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#invoke(String, String, com.ibm.fhir.model.Resource)
-     */
     @Override
     public FHIRResponse invoke(String resourceType, String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -633,10 +549,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#invoke(String, String, String)
-     */
     @Override
     public FHIRResponse invoke(String resourceType, String operationName, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -657,11 +569,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#invoke(String, String, String,
-     * com.ibm.fhir.model.Resource)
-     */
     @Override
     public FHIRResponse invoke(String resourceType, String operationName, String resourceId, Resource resource, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -684,10 +591,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#invoke(String, String, String, String)
-     */
     @Override
     public FHIRResponse invoke(String resourceType, String operationName, String resourceId, String versionId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -711,11 +614,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#invoke(String, String, String, String,
-     * com.ibm.fhir.model.Resource)
-     */
     @Override
     public FHIRResponse invoke(String resourceType, String operationName, String resourceId, String versionId, Resource resource, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -871,19 +769,11 @@ public class FHIRClientImpl implements FHIRClient {
         return client;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#getWebTarget()
-     */
     @Override
     public WebTarget getWebTarget() throws Exception {
         return getClient().target(getBaseEndpointURL());
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#getWebTarget()
-     */
     @Override
     public WebTarget getWebTarget(String baseURL) throws Exception {
         ClientBuilder cb =
@@ -898,10 +788,6 @@ public class FHIRClientImpl implements FHIRClient {
         return client.target(baseURL);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#getWebTargetUsingBasicAuth()
-     */
     @Override
     public WebTarget getWebTargetUsingBasicAuth(String baseURL, String username, String pwd) throws Exception {
         Client client =
@@ -1052,37 +938,21 @@ public class FHIRClientImpl implements FHIRClient {
         this.baseEndpointURL = baseEndpointURL;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#setDefaultMimeType(java.lang.String)
-     */
     @Override
     public void setDefaultMimeType(String mimeType) throws Exception {
         this.defaultMimeType = mimeType;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#getDefaultMimeType()
-     */
     @Override
     public String getDefaultMimeType() throws Exception {
         return defaultMimeType;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#setOAuth2AccessToken(java.lang.String)
-     */
     @Override
     public void setOAuth2AccessToken(String accessToken) throws Exception {
         this.accessToken = accessToken;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#getOAuth2AccessToken()
-     */
     @Override
     public String getOAuth2AccessToken() throws Exception {
         return accessToken;

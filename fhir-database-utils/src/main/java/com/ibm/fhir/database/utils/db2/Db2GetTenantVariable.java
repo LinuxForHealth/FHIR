@@ -18,8 +18,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 /**
  * DAO to fetch the current value of FHIRADMIN.SV_TENANT_ID. Useful for
  * debugging - the value isn't useful outside of the database.
- * @author rarnold
- *
  */
 public class Db2GetTenantVariable implements IDatabaseSupplier<Integer> {
     

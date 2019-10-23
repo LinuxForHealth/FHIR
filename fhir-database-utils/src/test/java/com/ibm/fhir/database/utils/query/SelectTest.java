@@ -19,7 +19,6 @@ import com.ibm.fhir.database.utils.query.expression.Predicate;
 
 /**
  * Unit-test for direct manipulation of the Select class
- * @author rarnold
  */
 public class SelectTest {
     @Test

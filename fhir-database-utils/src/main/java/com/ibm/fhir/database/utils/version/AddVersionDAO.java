@@ -17,8 +17,6 @@ import com.ibm.fhir.database.utils.model.InsertStatement;
 /**
  * Add the {type, name, version} record to the database. Idempotent,
  * so if it already exists, it's a NOP.
- * @author rarnold
- *
  */
 public class AddVersionDAO implements IDatabaseStatement {
     // The admin schema holding the history table

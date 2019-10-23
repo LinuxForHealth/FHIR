@@ -11,8 +11,7 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 /**
- * @author rarnold
- *
+ * Tests to add DB2 Partitions to a Table
  */
 public class Db2AddTablePartitionTest {
     private static final String schemaName = "schema1";

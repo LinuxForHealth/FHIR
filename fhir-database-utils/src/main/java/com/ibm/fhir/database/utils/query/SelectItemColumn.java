@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * An item of the SELECT list which is a simple column reference
- * @author rarnold
  *
  */
 public class SelectItemColumn extends SelectItem {

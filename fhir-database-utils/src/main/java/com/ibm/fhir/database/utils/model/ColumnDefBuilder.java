@@ -14,7 +14,6 @@ import java.util.List;
 
 /**
  * Builder pattern to make it easy to add column definitions to an object (e.g. table, type etc)
- * @author rarnold
  */
 public class ColumnDefBuilder {
         

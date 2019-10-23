@@ -66,7 +66,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
  * 
  * @author pbastide
  * @author lmsurpre
- * @author rarnold
+
  *
  */
 public class SearchUtil {

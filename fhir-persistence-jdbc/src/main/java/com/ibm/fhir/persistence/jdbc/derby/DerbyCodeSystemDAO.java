@@ -18,7 +18,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * Derby variant DAO used to manage code_systems records. Uses
  * plain old JDBC statements instead of a stored procedure.
- * @author rarnold
  *
  */
 public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {

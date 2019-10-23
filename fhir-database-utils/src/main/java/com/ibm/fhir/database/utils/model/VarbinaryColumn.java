@@ -9,8 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- * @author rarnold
- *
+ * Varbinary Column 
  */
 public class VarbinaryColumn extends ColumnBase {
     private final int size;
@@ -27,9 +26,6 @@ public class VarbinaryColumn extends ColumnBase {
         return size;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.ColumnBase#getTypeInfo()
-     */
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
         return adapter.varbinaryClause(size);

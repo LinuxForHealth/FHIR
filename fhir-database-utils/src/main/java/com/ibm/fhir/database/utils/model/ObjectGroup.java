@@ -17,8 +17,6 @@ import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 
 /**
  * A collection of {@link IDatabaseObject} which are applied in order within one transaction
- * @author rarnold
- *
  */
 public class ObjectGroup extends BaseObject {
 

@@ -16,7 +16,6 @@ import javax.ws.rs.core.UriInfo;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.context.FHIRReplicationContext;
 
 /**
  * This class represents an event fired by the FHIR persistence interceptor framework.
@@ -81,39 +80,6 @@ public class FHIRPersistenceEvent {
      * vread operation.   For other operations, this property will be null.
      */
     public static final String PROPNAME_VERSION_ID = "VERSION_ID";
-
-    /**
-     * This property is of type String and contains the correlation id associated with 
-     * the transaction associated with the persistence event (if applicable).
-     * This property will be set by the FHIR REST engine when it is processing the requests within 
-     * a transaction bundle.   All requests processed within a transaction bundle will share the same 
-     * transaction correlation id value.   For operations not involving a transaction bundle, 
-     * this property will be null.
-     */
-    public static final String PROPNAME_TXN_CORRELATION_ID = "TXN_CORRELATION_ID";
-
-    /**
-     * This property is of type String and contains the request correlation id associated with 
-     * the persistence event (if applicable).
-     * This property will be set by the FHIR REST engine when it is processing the requests within 
-     * a bundle (either batch or transaction).   All requests processed within a bundle will share the same 
-     * request correlation id value.   For operations not involving a bundle, this property will be null.
-     */
-    public static final String PROPNAME_REQUEST_CORRELATION_ID = "REQUEST_CORRELATION_ID";
-    
-    /**
-     * This property holds the ReplicationInfo instance associated with the request.
-     * The ReplicationInfo object holds information that is used by the persistence layer
-     * to create an entry in the replication log for a create, update, or delete operation.
-     */
-    public static final String PROPNAME_REPLICATION_INFO = "REPLICATION_INFO";
-    
-    /**
-     * This property holds the ReplicationContext instance associated with the request.
-     * The ReplicationContext object is passed to the persistence layer by the replication
-     * consumer component in order to store a replicated resource.
-     */
-    public static final String PROPNAME_REPLICATION_CONTEXT = "REPLICATION_CONTEXT";
 
     /**
      * This property holds the FHIRPatch instance associated with the request.
@@ -261,30 +227,6 @@ public class FHIRPersistenceEvent {
      */
     public UriInfo getUriInfo() {
         return (UriInfo) getProperty(PROPNAME_URI_INFO);
-    }
-    
-    /**
-     * Returns the transaction correlation id associated with the current persistence event.
-     * If the persistence event is not associated with a transaction bundle, then this value will be null.
-     */
-    public String getTransactionCorrelationId() {
-        return (String) getProperty(PROPNAME_TXN_CORRELATION_ID);
-    }
-    
-    /**
-     * Returns the request correlation id associated with the current persistence event.
-     * If the persistence event is not associated with a bundle, then this value will be null.
-     */
-    public String getRequestCorrelationId() {
-        return (String) getProperty(PROPNAME_REQUEST_CORRELATION_ID);
-    }
-    
-    /**
-     * Returns the FHIRReplicationContext object associated with the current persistence event,
-     * or null if the persistence event is not for a replicated resource.
-     */
-    public FHIRReplicationContext getReplicationContext() {
-        return (FHIRReplicationContext) getProperty(PROPNAME_REPLICATION_CONTEXT);
     }
     
     /**

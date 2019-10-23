@@ -15,7 +15,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  * An {@link IDatabaseTarget} which just acts as a sink and doesn't actually do
  * anything. Useful for tests, just to exercise the code.
  * 
- * @author rarnold
  *
  */
 public class NopTarget implements IDatabaseTarget {

@@ -14,7 +14,6 @@ import com.ibm.fhir.database.utils.model.Table;
  * We don't add the version_history to the {@link PhysicalDataModel} because
  * it's a schema management table, and the model shouldn't really care about
  * it.
- * @author rarnold
  */
 public class CreateVersionHistory {
 

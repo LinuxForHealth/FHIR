@@ -17,7 +17,6 @@ import com.ibm.fhir.model.visitor.CopyingVisitor;
 
 /**
  * Tests that a CopyingVisitor successfully copies a resource and that the copy is equal to the original
- * @author lmsurpre
  */
 public class CopyProcessor implements IExampleProcessor {
     private final CopyingVisitor<? extends Resource> copier;
@@ -26,9 +25,6 @@ public class CopyProcessor implements IExampleProcessor {
         this.copier = copier;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.test.spec.IExampleProcessor#process(java.lang.String, com.ibm.fhir.model.resource.Resource)
-     */
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
         resource.accept(copier);

@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 /**
  * This cache updater writes its Parameter Names cache candidates to the ParameterNamesCache upon a transaction commit.
- * @author markd
- *
  */
 public class ParameterNamesCacheUpdater extends CacheUpdater {
     private static final String CLASSNAME = ParameterNamesCacheUpdater.class.getName();

@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.model;
 
 /**
  * Represents a named constraint on a table or column
- * @author rarnold
- *
  */
 public class Constraint {
     private final String constraintName;

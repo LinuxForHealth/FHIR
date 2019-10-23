@@ -4062,8 +4062,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         props.put(FHIRPersistenceEvent.PROPNAME_HTTP_HEADERS, httpHeaders);
         props.put(FHIRPersistenceEvent.PROPNAME_REQUEST_PROPERTIES, requestProperties);
         props.put(FHIRPersistenceEvent.PROPNAME_SECURITY_CONTEXT, securityContext);
-        props.put(FHIRPersistenceEvent.PROPNAME_TXN_CORRELATION_ID, bundleTransactionCorrelationId);
-        props.put(FHIRPersistenceEvent.PROPNAME_REQUEST_CORRELATION_ID, bundleRequestCorrelationId);
         if (type != null) {
             props.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, type);
         }

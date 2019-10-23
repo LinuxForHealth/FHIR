@@ -11,7 +11,7 @@ import java.util.Base64;
 
 /**
  * Envelope for holding the salt and hash together for convenience
- * @author rarnold
+
  *
  */
 public class SaltHash {

@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author rarnold
- *
+ * Refers to the GroupByClause behavior
  */
 public class GroupByClause {
     private final List<String> items = new ArrayList<>();

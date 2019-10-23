@@ -10,8 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author rarnold
- *
+ * Replaces values in the line passed to the process method. 
  */
 public class Replacer {
 

@@ -29,7 +29,6 @@ import com.ibm.fhir.task.api.ITaskCollector;
  * Represents the set of tables and other schema objects that make up the
  * schema we want to build and manage. This is created as code and not in a DDL text file
  * on purpose. Doing so makes it much easier to test.
- * @author rarnold
  */
 public class PhysicalDataModel implements IDataModel {
     private static final Logger logger = Logger.getLogger(PhysicalDataModel.class.getName());

@@ -7,8 +7,7 @@
 package com.ibm.fhir.database.utils.query.expression;
 
 /**
- * @author rarnold
- *
+ * Implements the expression predicate
  */
 public class PredicateExpression extends Predicate {
     
