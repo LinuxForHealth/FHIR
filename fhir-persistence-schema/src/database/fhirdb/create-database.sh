@@ -1,4 +1,5 @@
-# 
+#!/usr/bin/env bash
+
 # (C) Copyright IBM Corp. 2019
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -39,4 +40,3 @@ fi
 # Set the instance_memory to avoid memory allocation failures. The value
 # of 50 represents 50%"
 # su - db2inst1 -c "db2 update dbm cfg using INSTANCE_MEMORY 50" 
-

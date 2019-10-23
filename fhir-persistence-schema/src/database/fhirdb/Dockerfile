@@ -4,11 +4,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+#  The Dockerfile is experimental and is not intended to be production-ready. 
+
 FROM ibmcom/db2
 
 # Create a non-admin user for the FHIR server
 RUN groupadd -g 1002 fhir
-RUN  useradd -u 1002 -g fhir -M -d /database/config/fhiruser fhiruser 
+RUN useradd -u 1002 -g fhir -M -d /database/config/fhiruser fhiruser 
 RUN echo "change-password" | passwd --stdin fhiruser
 
 # Indicate that we expect to connect to the DB2 service on port 50001
@@ -19,4 +21,3 @@ EXPOSE 50001
 RUN mkdir /var/custom
 COPY create-database.sh /var/custom
 RUN chmod a+x /var/custom/create-database.sh
-

@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
@@ -60,12 +61,12 @@ public class ReadOperation extends BaseOperation {
     		    logger.fine("Reading: " + logicalId);
     		}
     		
-    		Resource newResource = tc.getPersistence().read(context, resource.getClass(), logicalId);
+    		SingleResourceResult<? extends Resource> newResource = tc.getPersistence().read(context, resource.getClass(), logicalId);
     		
-            check(tc, resource, newResource, this.getClass().getSimpleName());
+            check(tc, resource, newResource.getResource(), this.getClass().getSimpleName());
             
     		// Update the context with the modified resource
-    		tc.setResource(newResource);
+    		tc.setResource(newResource.getResource());
     
     		if (metrics != null) {
     		    // some simple instrumentation

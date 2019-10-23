@@ -87,6 +87,8 @@ public class FHIRClientImpl implements FHIRClient {
     
     private boolean hostnameVerificationEnabled = true;
     
+    private HTTPReturnPreference httpReturnPref = null;
+    
     private int httpTimeout;
     
     // The tenantId to pass with the X-FHIR-TENANT-ID header
