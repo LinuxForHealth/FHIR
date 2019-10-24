@@ -79,7 +79,7 @@ public class ExportStatusOperation extends AbstractOperation {
             // Unsupported on Resource Type
             // Root operation is only supported, and we signal it back here. 
             // Don't get fancy, just send it back. 
-            throw buildExceptionWithIssue("Invalid call $export-status operation call", IssueType.ValueSet.INVALID);
+            throw buildExceptionWithIssue("Invalid call $export-status operation call", IssueType.INVALID);
         }
         
     }

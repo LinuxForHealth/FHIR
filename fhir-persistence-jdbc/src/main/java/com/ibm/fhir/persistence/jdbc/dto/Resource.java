@@ -10,8 +10,6 @@ import java.sql.Timestamp;
 
 /**
  * This class defines the Data Transfer Object representing a row in the FHIR Resource table.
- * @author markd
- *
  */
 public class Resource {
     

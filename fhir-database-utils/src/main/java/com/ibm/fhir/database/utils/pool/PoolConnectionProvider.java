@@ -28,8 +28,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  * code which will work in both J2SE and JEE environments.
  * 
  * Does not support distributed transactions.
- * @author rarnold
- *
  */
 public class PoolConnectionProvider implements IConnectionProvider {
     private static final Logger logger = Logger.getLogger(PoolConnectionProvider.class.getName());
@@ -63,9 +61,6 @@ public class PoolConnectionProvider implements IConnectionProvider {
         this.maxPoolSize = maxPoolSize;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#getConnection()
-     */
     @Override
     public Connection getConnection() throws SQLException {
         // We use the same connection on a given thread each time it is requested
@@ -212,17 +207,11 @@ public class PoolConnectionProvider implements IConnectionProvider {
         return connectionProvider.getTranslator().isConnectionError(x);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#getTranslator()
-     */
     @Override
     public IDatabaseTranslator getTranslator() {
         return this.connectionProvider.getTranslator();
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#commitTransaction()
-     */
     @Override
     public void commitTransaction() throws SQLException {
 
@@ -245,9 +234,6 @@ public class PoolConnectionProvider implements IConnectionProvider {
         
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#rollbackTransaction()
-     */
     @Override
     public void rollbackTransaction() throws SQLException {
 
@@ -272,13 +258,9 @@ public class PoolConnectionProvider implements IConnectionProvider {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IConnectionProvider#describe(java.lang.String, java.lang.StringBuilder, java.lang.String)
-     */
     @Override
     public void describe(String prefix, StringBuilder cfg, String key) {
-        // TODO Auto-generated method stub
-
+        // Not Implemented
     }
 
 }

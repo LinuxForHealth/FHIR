@@ -19,7 +19,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 
-
 /**
  * This Data Access Object interface provides methods creating, updating, and retrieving rows in the FHIR Resource tables.
  */
@@ -163,19 +162,6 @@ public interface ResourceDAO extends FHIRDbDAO {
     Integer readResourceTypeId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
     
     /**
-     * Sets a flag indicating whether or not ReplicationInfo is required on Resource insertion.
-     * @param isRepInfoRequired
-     */
-    void setRepInfoRequired(boolean isRepInfoRequired);
-
-
-    /**
-     * Retrieves the flag indicating if ReplicationInfo is required on Resource insertion.
-     * @return boolean
-     */
-    boolean isRepInfoRequired();
-    
-    /**
      * This method supports the execution of a specialized query designed to return Resource ids, based on the contents
      * of the passed select statement.
      * Note that the first column to be selected MUST be the Resource.id column.
@@ -196,7 +182,6 @@ public interface ResourceDAO extends FHIRDbDAO {
      */
     List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
-    
     /**
      * Adds a resource type / resource id pair to a candidate collection for population into the ResourceTypesCache. 
      * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.

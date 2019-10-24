@@ -20,9 +20,7 @@ lastupdated: "2019-09-04"
   * [3.2 Property names](#32-property-names)
   * [3.3 Tenant-specific configuration properties](#33-tenant-specific-configuration-properties)
   * [3.4 Persistence layer configuration](#34-persistence-layer-configuration)
-  * [3.5 Search parameters](#35-search-parameters)
 - [4 Customization options](#4-customization-options)
-  * [4.1 Virtual resource types](#41-virtual-resource-types)
   * [4.2 Notification Service](#42-notification-service)
   * [4.3 Persistence interceptors](#43-persistence-interceptors)
   * [4.4 Resource validation](#44-resource-validation)
@@ -48,10 +46,6 @@ The FHIR server is intended to be a common component for providing FHIR capabili
 ## 1.1 Recent updates
 View information about recent changes that were made to this document. For more information about changes that were made to the FHIR server codebase, see the [CHANGELOG](CHANGELOG.md).
 
-### Release 2.2.1
-* Updated search parameter tables
-* Updated [Section 3.5 Search parameters](#35-search-parameters) and [Section 4.10.3 Search parameters](#4103-search-parameters) to describe fallback to the "default" tenant
-
 ### Release 2.2
 * Moved User Guide to this repo converted to Markdown
 * Split large table in [Section 5.1](#51-configuration-properties-reference) into three separate tables to improve display on GitHub Enterprise
@@ -73,10 +67,8 @@ IBM FHIR Server version 2.1 was developed under the Watson Health development or
 *	Added the section on Local References within request bundles.
 *	Added information about configuring the JDBC persistence layer.
 *	Added information about tenant-specific configuration parameters.
-*	Added information about tenant-specific search parameters.
 *	Added reference table of supported configuration properties ([Section 5.1](#51-configuration-properties-reference)).
 *	Added information about tenant-specific data store configuration.
-*	Added information about search parameter filtering.
 *	Added the table of contents.
 *	Corrected link to installer.
 
@@ -170,8 +162,6 @@ The FHIR 2.2.0 release contains a few database updates, which makes it difficult
 
 FHIR 2.2.0 upgrades WebSphere Liberty from version 17.0.0.1 to version 18.0.0.2. There are also updates to several Liberty features and a few of the FHIR server dependencies. If you modified your `server.xml`, you might want to merge your changes with the new `server.xml` that was created by the installer.
 
-Due to issue #220, any existing `extension-search-parameters.json` XPath expressions for extension elements should be checked to ensure that the expression points to the value of the extension to be indexed. See [Section 3.5 Search parameters](#35-search-parameters) for more information.
-
 Finally, for users who extended the FHIR server (via custom operations or custom persistence options), Release 2.2.0 contains a few breaking changes to the Java libraries. The keys changes to be aware of are:
 1. Issue #63 - refactored FHIRException class hierarchy and improved error handling; and
 2. Issue #40 - introduced required getHealth() method on the FHIRPersistence interface (for use with the new $healthcheck operation).
@@ -218,6 +208,8 @@ Throughout this document, we use a path notation to refer to property names. For
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
 In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id. The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` file. Similarly, tenant-specific search parameters are found at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json` whereas the global/default extension search parameters are at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/extension-search-parameters.json`. Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters.
+
+[FHIRSearchConfiguration.md](FHIRSearchConfiguration.md)
 
 More information about multi-tenant support can be found in [Section 4.10 Multi-tenancy](#410-multi-tenancy).
 
@@ -463,51 +455,6 @@ The `connectionProperties` property is a set of driver-specific properties neede
 
 For a Derby-related datasource definition, any bean property supported by the `EmbeddedXADataSource` class can be specified within the `connectionProperties` property group. For more information about the properties supported by the `EmbeddedXADataSource` class, and its super classes, see the [Apache Derby documentation](https://db.apache.org/derby/docs/10.13/publishedapi/org/apache/derby/jdbc/EmbeddedXADataSource.html).
 
-
-## 3.5 Search parameters
-The FHIR specification defines a set of searchable fields for each resource type and the IBM FHIR Server supports all spec-defined search parameters by default.
-
-Additionally, the IBM FHIR Server supports searching on additional fields, including:
-* fields that are defined in the base specification but not configured to be searchable;
-* extension elements that you add to a standard FHIR resource type; and
-* attributes that you define as part of a custom resource type)
-
-Users provide a set of `SearchParameter` resources that define the additional search parameters. For example, if you extend the `Patient` resource type by adding the `favorite-color` attribute, enable searching on `favorite-color` by defining a SearchParameter entry for `favorite-color` and configuring the FHIR server with this definition.
-
-To configure the FHIR server with one or more custom search parameters, create a file called `extension-search-parameters.json` and populate the contents with a Bundle of `SearchParameter` resources as in the following example:
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<Bundle xmlns="http://hl7.org/fhir">
-  <id value="searchParams"/>
-  <type value="collection"/>
-  <entry>
-    <fullUrl value="http://ibm.com/fhir/SearchParameter/Patient-favorite-color"/>
-    <resource>
-      <SearchParameter>
-        <id value="Patient-favorite-color"/>
-        <url value="http://ibm.com/fhir/SearchParameter/Patient-favorite-color"/>
-        <name value="favorite-color"/>
-        <code value="favorite-color"/>
-        <base value="Patient"/>
-        <type value="string"/>
-        <description value="the patient's favorite color"/>
-        <xpath value="f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-color']/f:valueString"/>
-        <xpathUsage value="normal"/>
-      </SearchParameter>
-    </resource>
-  </entry>
-</Bundle>
-```
-
-Note 1:  According to the [FHIR specification](https://www.hl7.org/fhir/r4/searchparameter-definitions.html#SearchParameter.code), it is the `code` field (and not the `name` field) which is supposed to be used for the name of the search parameter in search requests. Because earlier versions of the IBM FHIR Server used the `name` field for this purpose, we have decided not to change that at this time. However, users of the the server are strongly encouraged to include their desired name in both the `name` **and** `code` fields for improved backwards/forwards compatibility. Use of the `name` field, without a matching `code`, is considered deprecated and the FHIR server will likely change to exclusively use the `code` field in a [future release](https://github.com/ibm/fhir/issues/202).
-
-Note 2:  In previous versions of the FHIR server, the XPath expression could point to either the `extension` element or to the `value[x]` element within that extension (for example, `valueString`). However, for complex extensions and parameters of type `date`, the expression must always point to the specific element to be indexed. Therefor, matching to the specific element to be indexed is best and matching to the parent element instead is considered deprecated.
-
-Each time a resource is created or updated, the FHIR server will evaluate the XPath applicable to the resource type and index the values of the matching elements, making these available to search via a parameter name that matches the `name` element on the `SearchParameter` definition.
-
-In the preceding example, extension elements (on a Patient resource) with a url of `http://ibm.com/fhir/extension/Patient/favorite-color` will be indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/api/v1/Patient?favorite-color:exact=pink`.
-
-For more information on search parameters, see the HL7 FHIR specification and [Section 4.10.3 Search parameters](#4103-search-parameters) of this document.
 
 # 4 Customization options
 You can modify the default server implementation by taking advantage of the FHIR server's extensibility. The following extension points are available:
@@ -1653,94 +1600,6 @@ This section contains an example of the FHIR server's global configuration, alon
 In the preceding examples, you can see that in the global configuration, the user-defined validation feature has both been disabled by default.
 
 For the `Quality Pharmaceuticals, Inc.` tenant, the user-defined validation feature is disabled, and the virtual resources feature is enabled (with any virtual resource type allowed). Note that because the user-defined validation feature is disabled by default within the global configuration, we didn't need to explicitly set that configuration parameter in the `Quality Pharmaceuticals` configuration file.
-
-### 4.9.3 Search parameters
-The FHIR server allows deployers to define search parameters on a tenant-specific basis. This allows each tenant that shares an instance of the FHIR server while maintaining the ability to have their own set of search parameters.
-
-To configure tenant-specific search parameters, create a file called `extension-search-parameters.json` and place it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters to be used by the `qpharma` tenant.
-
-When the FHIR server processes a request associated with the `acme` tenant, the server is only aware of the set of built-in search parameters (defined by the HL7 FHIR specification) plus the user-defined search parameters defined in the `acme` tenant's extension-search-parameters.json file. Likewise, when processing a request associated with the `qpharma` tenant, the server is only aware of the built-in search parameters plus the user-defined search parameters defined in the `qpharma` tenant's `extension-search-parameters.json` file.
-
-If a tenant-specific extension-search-parameters.json does not exist, the server will fall back to the global `extension-search-parameters.json` file found at `${server.config.dir}/config/default/extension-search-parameters.json`.
-
-The FHIR server caches search parameters in memory (organized first by tenant id, then by resource type and search parameter name). Any updates to a tenant's `extension-search-parameters.json` file will cause the FHIR server to re-load the tenant's search parameters and refresh the information stored in the cache, without requiring a server re-start. This allows the deployer to deploy a new tenant's `extension-search-parameters.json` or update an existing file without re-starting the FHIR server and any subsequent requests processed by the FHIR server after the updates have been made will use the updated search parameters. However, it is important to note that this process will not re-index already-created resources that are stored on the FHIR Server. One technique for updating the indices for a given resource type is to `read` and `update` each resource instance with itself, triggering search parameter extraction (and creating a new version of each resource).
-
-#### 4.9.3.1 Filtering of search parameters
-The FHIR server supports the filtering of built-in search parameters (that is, search parameters defined by the HL7 FHIR specification for each resource type). The default behavior of the FHIR server is to consider all built-in search parameters when storing resources or performing search results, but you can configure inclusion filters to restrict the FHIR server's view to specific search parameters on a resource type basis. This filtering feature does not apply to user-defined search parameters in the extension-search-parameters.json file. User-defined search parameters are always included in the FHIR server's view regardless of the configured inclusion filters.
-
-Why would you want to filter built-in search parameters? The answer lies in how search parameters are used by the FHIR server. When the FHIR server processes a _create_ or _update_ operation, it stores the resource contents in the datastore, along with search index information that is used by the FHIR server when performing search operations. The search index information stored for a particular resource instance is driven by the search parameters defined for that resource type. Therefore if you are storing a resource whose type has a lot of built-in search parameters defined for it (e.g. `Patient`), then you could potentially be storing a lot of search index information for each resource.
-
-For performance and scalability reasons, it might be desirable to limit the number of search parameters considered during a _create_ or _update_ operation for particular resource types, if those search parameters will never be used in search operations. After all, if there will be no need to use the search index information, there's no need to store it. For example, if you know that due to the way in which a particular tenant's applications use the FHIR REST API that those applications will never need to search Patients by birthdate, then there would be no need to store search index information for the `birthdate` attribute in `Patient` resources. And consequently, you could filter out the `birthdate` search parameter for the `Patient` resource type and not lose any needed functionality, but yet save a little bit of storage capacity in your datastore.
-
-The search parameter filtering feature is supported through a set of inclusion rules specified via the `fhirServer/searchParameterFilter` configuration property. The search parameter inclusion rules allow you to define a set of search parameter names per resource type that should be included in the FHIR server's view of search parameters when storing resources and performing search operations. The rules also allow you to specify a wildcard for resource types and also for search parameter names. The following example shows the general form for specifying inclusion rules:
-```
-{
-    "fhirServer": {
-	"searchParameterFilter": {
-	    "<resource type1>": [ "sp-name1", "sp-name2", ..., "sp-namen"],
-	    "<resource type2>": [ "sp-name1", "sp-name2", ..., "sp-namen"],
-	    "<resource type3>": [ "*" ],
-	    "*": [ "*" ]
-	}
-    }
-}
-```
-
-The `fhirServer/searchParameterFilter` property is a JSON map where the key represents the resource type, and the value is an array of strings representing search parameter names. The wildcard (`“*”`) can be used either as a resource type name or as a search parameter name.
-
-The following sections presents several examples.
-
-##### 4.9.3.1.1 Example 1
-In the following example a single inclusion rule uses wildcards to instruct the FHIR server to include any search parameter for any resource type. This example also describes the default behavior of the FHIR server when the `fhirServer/searchParameterFilter` configuration property is not set:
-
-```
-{
-    "fhirServer": {
-	"_comment": "include all search parameters for all resource types (default)",
-	"searchParameterFilter": {
-	    "*": ["*"]
-	}
-    }
-}
-```
-##### 4.9.3.1.2 Example 2
-In the following example inclusion rules are specified for a few specific resource types, and then wildcards are used to include search parameters for the remaining resource types:
-
-```
-{
-    "__comment": "FHIR server configuration",
-    "fhirServer": {
-	"searchParameterFilter": {
-	    "Device": [ patient", "organization" ],
-	    "Observation": [ "code" ],
-	    "Patient": [ "active", "address", "birthdate", "name" ],
-	    "*": ["*"]
-	}
-    }
-}
-```
-
-For Device resources, only the `patient` and `organization` search parameters are included, while for `Observation` resources, only the `code` search parameter is included. For `Patient` resources, you can see that the `active`, `address`, `birthdate` and `name` search parameters are included. And finally, for any other resource types, all of their built-in search parameters are included in the FHIR server's view when storing resources or performing search operations.
-
-Note that if this example did not include the last inclusion rule, then no other resource type's built-in search parameters would be included.
-
-##### 4.9.3.1.3 Summary of the inclusion rules and filtering algorithm
-
-Here are some rules about the rules:
-
-1.	Each rule specifies a resource type name and a JSON array of search parameter names.
-
-2.	A resource type should appear in at most one rule. In other words, you cannot specify two or more inclusion rules with the same resource type name.
-
-3.	At most one rule can specify the wildcard (`*`) for the resource type, and it should appear as the last rule in the map.
-
-This is how the filtering algorithm works:
-
-1.	When retrieving the built-in search parameters for a particular resource type, the FHIR server will retrieve the rule associated with that resource type, if one exists. If one doesn't exist, then the rule for the wildcard resource type (`“*”`) is retrieved if it exists.
-
-2.	If no inclusion rule was found in Step 1 (that is, the resource type in question has no rule and there's no rule containing a wildcard for the resource type), then no built-in search parameters for this resource type will be included in the FHIR server's view of search parameters while storing a resource of performing a search operation.
-
-3.	Using the search parameter names associated with the rule retrieved in Step 1, the FHIR server will apply the rule to each built-in search parameter defined for that resource type.If the search parameter's name is found within the inclusion rule's list of search parameter names or the inclusion rule's list of names includes the wildcard (`“*”`), then the search parameter will be included in the FHIR server's view of search parameters for that resource type.
 
 ## 4.10 Extended operations
 In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).

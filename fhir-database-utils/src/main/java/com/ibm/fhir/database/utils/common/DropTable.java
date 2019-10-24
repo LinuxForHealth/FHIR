@@ -14,8 +14,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- * @author rarnold
- *
+ * Drops the table at the schema.table
  */
 public class DropTable implements IDatabaseStatement {
     private final String schemaName;
@@ -33,9 +32,6 @@ public class DropTable implements IDatabaseStatement {
         this.tableName = tableName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);

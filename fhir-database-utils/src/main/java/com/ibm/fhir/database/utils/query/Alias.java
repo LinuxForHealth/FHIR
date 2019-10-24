@@ -9,8 +9,6 @@ package com.ibm.fhir.database.utils.query;
 /**
  * Simple encapsulation of the alias name of an object in a SQL statement.
  * Used to drive some simple overloading of methods
- * @author rarnold
- *
  */
 public class Alias {
     private final String alias;

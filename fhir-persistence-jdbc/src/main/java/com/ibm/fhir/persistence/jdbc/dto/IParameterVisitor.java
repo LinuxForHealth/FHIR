@@ -13,8 +13,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * A visitor passed to the parameter visit method
- * @author rarnold
- *
  */
 public interface IParameterVisitor {
 

@@ -14,8 +14,9 @@ import com.ibm.fhir.database.utils.api.ITransaction;
  * should be only one active on a thread at a time. This helps to
  * ensure consistent (and correct) commit/rollback handling, which
  * otherwise can get a bit messy.
- * 
+ * <br>
  * Usage
+ * <code>
  * IConnectionProvider cp = getConnectionProvider(...);
  * try (ITransaction tx = TransactionFactory.open(cp)) {
  *   try {
@@ -25,14 +26,13 @@ import com.ibm.fhir.database.utils.api.ITransaction;
  *       tx.setRollbackOnly();
  *   }
  * }
- * 
+ * </code>
  * The transaction will commit when {@link AutoCloseable#close()} is called, unless
  * setRollbackOnly() was called, in which case a rollback will be performed instead.
- * 
+ * <br>
  * To be useable in a JEE context, a light refactor is needed so that an alternative
  * solution can be implemented to use UserTransaction.
- * @author rarnold
- *
+ *<br>
  */
 public class TransactionFactory {
 

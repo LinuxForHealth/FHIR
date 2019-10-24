@@ -13,8 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Encapsulates a group of utility methods for managing and diagnosing the in-memory caches used by the JDBC PL.
- * @author markd
- *
  */
 public class CacheUtil {
     

@@ -12,8 +12,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 /**
  * Represents the array type
  *         CREATE OR REPLACE TYPE <schema>.t_str_values_arr AS <schema>.t_str_values ARRAY[256]
- * @author rarnold
- *
  */
 public class RowArrayType extends BaseObject {
     private final String rowTypeName;
@@ -36,17 +34,11 @@ public class RowArrayType extends BaseObject {
         return "ARRAY TYPE " + DataDefinitionUtil.getQualifiedName(getSchemaName(), getObjectName());
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#apply(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void apply(IDatabaseAdapter target) {
         target.createArrType(getSchemaName(), getObjectName(), rowTypeName, arraySize);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#drop(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void drop(IDatabaseAdapter target) {
         target.dropType(getSchemaName(), getObjectName());

@@ -10,7 +10,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * A test operation on a Resource
- * @author rarnold
  */
 @FunctionalInterface
 public interface ITestResourceOperation {

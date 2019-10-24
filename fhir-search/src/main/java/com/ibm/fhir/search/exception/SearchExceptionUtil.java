@@ -41,7 +41,7 @@ public class SearchExceptionUtil {
      * @return
      */
     public static FHIRSearchException buildNewInvalidSearchException(final String msg) {
-        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.ValueSet.INVALID);
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID);
         return new FHIRSearchException(msg).withIssue(ooi);
     }
 

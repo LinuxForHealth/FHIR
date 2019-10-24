@@ -20,9 +20,8 @@ import java.util.stream.StreamSupport;
 /**
  * Simple implementation taking a JDBC ResultSet and rendering it using
  * the Java 8 Streams API.
- * 
+ * <br>
  * The JDBC API is really starting to show its age here
- * @author rarnold
  */
 public class Streamer {
     private static final Logger logger = Logger.getLogger(Streamer.class.getName());
@@ -31,7 +30,7 @@ public class Streamer {
      * Inner class representing each row of the {@link ResultSet} as
      * it flows down the stream. This implementation assumes you know
      * what type each of the columns should be, and their order
-     * @author rarnold
+
      *
      */
     public static class Row {

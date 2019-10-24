@@ -10,7 +10,6 @@ package com.ibm.fhir.database.utils.query;
  * Adapter to help build the WHERE clause expression. To allow a fluent
  * style, we construct an expression tree
  * 
- * @author rarnold
  */
 public class WhereAdapter {
     

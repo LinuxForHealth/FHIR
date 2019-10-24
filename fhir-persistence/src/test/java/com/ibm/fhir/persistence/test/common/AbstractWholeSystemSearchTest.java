@@ -28,12 +28,14 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 
 public abstract class AbstractWholeSystemSearchTest extends AbstractPersistenceTest {
+    
     Resource savedResource;
     String savedResourceId;
     String lastUpdated;
 
     @BeforeClass
     public void createResources() throws Exception {
+        
         Basic basic = TestUtil.readExampleResource("json/ibm/minimal/Basic-1.json");
         
         Coding tag = Coding.builder()
@@ -79,7 +81,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPersistenceT
     
     @Test
     public void testSearchAllUsingIdAndLastUpdated() throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        Map<String, List<String>> queryParms = new HashMap<>();
         queryParms.put("_id", Collections.singletonList(savedResourceId));
         queryParms.put("_lastUpdated", Collections.singletonList(lastUpdated));
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
@@ -89,7 +91,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPersistenceT
     
     @Test
     public void testSearchAllUsingInvalidIdAndLastUpdated() throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        Map<String, List<String>> queryParms = new HashMap<>();
         queryParms.put("_id", Collections.singletonList("a-totally-stinking-phony-id"));
         queryParms.put("_lastUpdated", Collections.singletonList(lastUpdated));
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
@@ -99,7 +101,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPersistenceT
     
     @Test
     public void testSearchAllUsingMultipleIds() throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        Map<String, List<String>> queryParms = new HashMap<>();
         queryParms.put("_id", Collections.singletonList(savedResourceId + ",a-totally-stinking-phony-id"));
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
         assertNotNull(resources);
@@ -108,7 +110,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPersistenceT
     
     @Test
     public void testSearchAllUsingMultipleInvalidIds() throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        Map<String, List<String>> queryParms = new HashMap<>();
         queryParms.put("_id", Collections.singletonList("a-totally-stinking-phony-id,a-second-phony-id"));
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
         assertNotNull(resources);

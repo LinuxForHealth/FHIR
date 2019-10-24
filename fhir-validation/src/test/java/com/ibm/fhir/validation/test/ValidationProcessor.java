@@ -21,7 +21,7 @@ import com.ibm.fhir.validation.FHIRValidator;
 
 /**
  * Strategy to process resources using the {@link FHIRValidator}
- * @author rarnold
+
  *
  */
 public class ValidationProcessor implements IExampleProcessor {

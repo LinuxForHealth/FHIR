@@ -27,7 +27,6 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
  * per resource type, because in the row type array approach apparently won't work with dynamic
  * SQL (EXECUTE ... USING ...). Unfortunately this means we have more database round-trips, we
  * don't have a choice.
- * @author rarnold
  *
  */
 public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseable {

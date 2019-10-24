@@ -28,10 +28,10 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
- * @author rarnold
- *
+ * BaseObject
  */
 public abstract class BaseObject implements IDatabaseObject {
+    
     private static final Logger logger = Logger.getLogger(BaseObject.class.getName());
     
     // Used to randomize a sleep after a deadlock failure
@@ -78,7 +78,6 @@ public abstract class BaseObject implements IDatabaseObject {
         return this.objectType;
     }
 
-    
     @Override
     public int hashCode() {
         return this.objectType.hashCode() + 23 * (37 * schemaName.hashCode() + objectName.hashCode());
@@ -100,7 +99,6 @@ public abstract class BaseObject implements IDatabaseObject {
     public String getTypeAndName() {
         return getObjectType().name() + ":" + getQualifiedName();
     }
-
 
     /**
      * Add the given tags to our tag map

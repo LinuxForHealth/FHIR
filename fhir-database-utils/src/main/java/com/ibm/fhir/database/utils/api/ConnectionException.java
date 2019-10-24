@@ -11,7 +11,6 @@ package com.ibm.fhir.database.utils.api;
  * connectivity. This is potentially an ephemeral issue, so the business
  * logic may decide to retry (or return an error telling the client to
  * retry instead of just a generic 500 server error type response).
- * @author rarnold
  *
  */
 public class ConnectionException extends DataAccessException {
@@ -34,7 +33,6 @@ public class ConnectionException extends DataAccessException {
      */
     public ConnectionException(String msg, Throwable t) {
         super(msg, t);
-        // TODO Auto-generated constructor stub
     }
 
 }

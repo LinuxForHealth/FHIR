@@ -36,8 +36,6 @@ import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 /**
  * Implementation of our database adapter which provides implementation of control
  * functions specific to DB2 for things like schema and partition management
- * @author rarnold
- *
  */
 public class Db2Adapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(Db2Adapter.class.getName());

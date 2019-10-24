@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * Some useful constants for building SQL statements
- * @author rarnold
- *
  */
 public class SqlConstants {
     public static final String SPACE = " ";

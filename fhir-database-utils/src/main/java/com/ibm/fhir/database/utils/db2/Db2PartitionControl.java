@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.common.DateMath;
 
 /**
  * Business logic to add new partitions to the given table
- * @author rarnold
  */
 public class Db2PartitionControl {
 

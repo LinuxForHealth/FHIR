@@ -24,7 +24,6 @@ import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
  * the FHIR schema is applied.
  * 
  * It's intended that this class be consumed by testng tests in the fhir-persistence-jdbc project.
- * @author markd
  *
  */
 public class DerbyInitializer {

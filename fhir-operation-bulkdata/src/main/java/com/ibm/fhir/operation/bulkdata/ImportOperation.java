@@ -60,7 +60,7 @@ public class ImportOperation extends AbstractOperation {
         try {
             Parameter parameter = getParameter(parameters, "resource");
             if (parameter == null) {
-                throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.ValueSet.INVALID);
+                throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.INVALID);
             }
 
             Resource resource = parameter.getResource();

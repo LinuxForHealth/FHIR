@@ -22,12 +22,12 @@ public class FHIRPersistenceVersionIdMismatchException extends FHIRPersistenceEx
 
     public FHIRPersistenceVersionIdMismatchException(String message) {
         super(message);
-        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueType.ValueSet.CONFLICT));
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueType.CONFLICT));
     }
 
     public FHIRPersistenceVersionIdMismatchException(String message, Throwable cause) {
         super(message, cause);
-        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueType.ValueSet.CONFLICT));
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(getMessage(), IssueType.CONFLICT));
     }
 
 }

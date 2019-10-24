@@ -10,7 +10,6 @@ import com.ibm.fhir.model.spec.test.Expectation;
 
 /**
  * Represents a file to be processed and the expected outcome
- * @author rarnold
  *
  */
 public class FileExpectation {

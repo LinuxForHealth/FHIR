@@ -11,8 +11,6 @@ import java.sql.Connection;
 /**
  * Represents a statement runnable by {@link IDatabaseAdapter} returning a result
  * of type T.
- * @author rarnold
- *
  */
 public interface IDatabaseSupplier<T> {
 

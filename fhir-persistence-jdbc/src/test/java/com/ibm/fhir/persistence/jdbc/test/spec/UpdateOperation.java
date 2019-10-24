@@ -13,8 +13,8 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 public class UpdateOperation extends BaseOperation {
-    private static final Logger logger = Logger.getLogger(UpdateOperation.class.getName());
 
+    private static final Logger logger = Logger.getLogger(UpdateOperation.class.getName());
 
 	@Override
 	public void process(TestContext tc) throws FHIRPersistenceException {

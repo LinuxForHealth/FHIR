@@ -14,8 +14,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
  * Definition of an index on a table
- * @author rarnold
- *
  */
 public class IndexDef {
         

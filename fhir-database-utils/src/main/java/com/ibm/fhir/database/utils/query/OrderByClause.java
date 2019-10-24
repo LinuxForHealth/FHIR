@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author rarnold
- *
+ * The OrderByClause SQL definition
  */
 public class OrderByClause {
 

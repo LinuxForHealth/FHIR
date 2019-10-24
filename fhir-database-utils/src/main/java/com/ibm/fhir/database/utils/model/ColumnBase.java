@@ -10,8 +10,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
  * An immutable definition of a column in a table
- * @author rarnold
- *
  */
 public abstract class ColumnBase {
     

@@ -18,7 +18,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * For R4 we have replaced the old Derby (Java) stored procedure with
  * plain old JDBC statements - much simpler and easier to debug.
- * @author rarnold
  */
 public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
     private final FhirRefSequenceDAO fhirRefSequenceDAO;
@@ -39,7 +38,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
             try {
                 result = fhirRefSequenceDAO.nextValue();
              
-                String INS = "INSERT INTO parameter_names (parameter_name_id, parameter_name) VALUES (?, ?)";
+                final String INS = "INSERT INTO parameter_names (parameter_name_id, parameter_name) VALUES (?, ?)";
                 try (PreparedStatement stmt = getConnection().prepareStatement(INS)) {
                     // bind parameters
                     stmt.setInt(1, result);

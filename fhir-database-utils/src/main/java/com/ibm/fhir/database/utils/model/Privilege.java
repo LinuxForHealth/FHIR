@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.model;
 
 /**
  * Basic set of privileges that can be granted to a database object
- * @author rarnold
- *
  */
 public enum Privilege {
 

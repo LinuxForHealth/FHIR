@@ -7,8 +7,7 @@
 package com.ibm.fhir.database.utils.query;
 
 /**
- * @author rarnold
- *
+ * Test Related Constants
  */
 public class TestConstants {
     // Some constants we use when testing the query build

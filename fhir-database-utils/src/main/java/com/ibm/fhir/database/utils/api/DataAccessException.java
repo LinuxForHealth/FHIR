@@ -9,8 +9,6 @@ package com.ibm.fhir.database.utils.api;
 /**
  * Simple runtime exception so that we can catch and handle
  * where we need
- * @author rarnold
- *
  */
 public class DataAccessException extends RuntimeException {
 

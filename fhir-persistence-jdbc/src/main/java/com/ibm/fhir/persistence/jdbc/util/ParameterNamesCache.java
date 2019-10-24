@@ -19,7 +19,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * This class provides a static cache for FHIR Search Parameter names.
  */
-
 public class ParameterNamesCache {
     private static final String CLASSNAME = ParameterNamesCache.class.getName(); 
     private static final Logger log = Logger.getLogger(CLASSNAME);

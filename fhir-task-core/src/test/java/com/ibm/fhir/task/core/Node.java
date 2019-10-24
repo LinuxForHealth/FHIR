@@ -19,7 +19,7 @@ import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
  * Test class representing a dependency tree
- * @author rarnold
+
  *
  */
 public class Node {

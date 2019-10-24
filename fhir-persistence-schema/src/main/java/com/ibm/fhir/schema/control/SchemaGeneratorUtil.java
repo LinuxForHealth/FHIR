@@ -16,8 +16,6 @@ import java.util.List;
 
 /**
  * Utility class supporting common functions for schema management
- * @author rarnold
- *
  */
 public class SchemaGeneratorUtil {
 

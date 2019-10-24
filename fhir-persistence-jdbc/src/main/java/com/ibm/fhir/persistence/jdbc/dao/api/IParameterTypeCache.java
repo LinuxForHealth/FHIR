@@ -7,8 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
 /**
- * @author rarnold
- *
+ * Caches the Parameter Types
  */
 public interface IParameterTypeCache {
 

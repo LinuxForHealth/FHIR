@@ -15,7 +15,6 @@ import com.ibm.fhir.persistence.util.SaltHash;
 
 /**
  * context maintained as each operation is applied
- * @author rarnold
  *
  */
 public class TestContext {

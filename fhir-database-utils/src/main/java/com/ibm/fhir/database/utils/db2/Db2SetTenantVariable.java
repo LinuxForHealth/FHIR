@@ -18,8 +18,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * DAO command to call the set_tenant fhir admin procedure which will set the
  * fhir_admin.sv_tenant_id variable but only if the correct tenantKey is
  * provided.
- * @author rarnold
- *
  */
 public class Db2SetTenantVariable implements IDatabaseStatement {
     // The schema where the set_tenant procedure resides
@@ -39,9 +37,6 @@ public class Db2SetTenantVariable implements IDatabaseStatement {
         this.tenantKey = tenantKey;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String call = "CALL " + schemaName + ".set_tenant(?, ?)"; 

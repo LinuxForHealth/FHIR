@@ -31,7 +31,6 @@ import java.util.concurrent.Executor;
  * generated, and assume (for better or for worse) that something might be broken
  * so call back to the connection provider so that it can decide whether or not
  * to abandon the underlying connection.
- * @author rarnold
  */
 public class PooledConnection implements Connection {
 
@@ -662,9 +661,6 @@ public class PooledConnection implements Connection {
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.sql.Connection#setSchema(java.lang.String)
-     */
     @Override
     public void setSchema(String schema) throws SQLException {
         try {
@@ -676,9 +672,6 @@ public class PooledConnection implements Connection {
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.sql.Connection#getSchema()
-     */
     @Override
     public String getSchema() throws SQLException {
         try {
@@ -690,9 +683,6 @@ public class PooledConnection implements Connection {
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.sql.Connection#abort(java.util.concurrent.Executor)
-     */
     @Override
     public void abort(Executor executor) throws SQLException {
         try {
@@ -704,9 +694,6 @@ public class PooledConnection implements Connection {
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.sql.Connection#setNetworkTimeout(java.util.concurrent.Executor, int)
-     */
     @Override
     public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
         try {
@@ -718,9 +705,6 @@ public class PooledConnection implements Connection {
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.sql.Connection#getNetworkTimeout()
-     */
     @Override
     public int getNetworkTimeout() throws SQLException {
         try {

@@ -14,8 +14,6 @@ import com.ibm.fhir.database.utils.api.IVersionHistoryService;
  * A NOP (no operation) object which can be used to simplify dependencies
  * by making this object depend on other, then everything else simply
  * depend on this, should that be the sort of behavior you want.
- * @author rarnold
- *
  */
 public class NopObject extends BaseObject {
 
@@ -29,26 +27,17 @@ public class NopObject extends BaseObject {
         // use it, hence the special version of 0.
         super(schemaName, objectName, DatabaseObjectType.NOP, 0);
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#apply(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
+
     @Override
     public void apply(IDatabaseAdapter target) {
         // We're NOP so we do nothing on purpose
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#drop(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void drop(IDatabaseAdapter target) {
         // We're NOP so we do nothing on purpose
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#applyTx(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
+
     @Override
     public void applyTx(IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
         // We're NOP so we do nothing on purpose

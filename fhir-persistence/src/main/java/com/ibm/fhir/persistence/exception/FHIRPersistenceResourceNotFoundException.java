@@ -14,12 +14,12 @@ public class FHIRPersistenceResourceNotFoundException extends FHIRPersistenceExc
     
     public FHIRPersistenceResourceNotFoundException(String message) {
         super(message);
-        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueType.ValueSet.NOT_FOUND));
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueType.NOT_FOUND));
     }
     
     public FHIRPersistenceResourceNotFoundException(String message, Throwable cause) {
         super(message, cause);
-        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueType.ValueSet.NOT_FOUND));
+        withIssue(FHIRUtil.buildOperationOutcomeIssue(message, IssueType.NOT_FOUND));
     }
     
 }

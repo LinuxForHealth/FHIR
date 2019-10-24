@@ -6,9 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,10 +26,8 @@ import java.util.logging.Logger;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
@@ -44,8 +39,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
-import com.ibm.fhir.replication.api.model.ReplicationInfo;
-
 
 /**
  * This Data Access Object implements the ResourceDAO interface for creating, updating, 
@@ -65,10 +58,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                                                       "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
-
-    //                                                                                 0                 1                   2
-    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    //                                                                                 0               
+    //                                                                                 1 2 3 4 5 6 7 8 
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
@@ -100,9 +92,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     
     private static final String DB2_PAGINATION_PARMS = "LIMIT ? OFFSET ?";
 
+    @SuppressWarnings("unused")
     private FHIRPersistenceContext context;
-    private ReplicationInfo replicationInfo;
-    private boolean isRepInfoRequired;
+    
     private Map<String, Integer> newResourceTypeIds = new HashMap<>();
     private boolean runningInTrx = false;
     private ResourceTypesCacheUpdater rtCacheUpdater = null;
@@ -172,7 +164,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         return resource;
 
     }
-
 
     /**
      * Creates and returns a Resource DTO based on the contents of the passed ResultSet
@@ -315,87 +306,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         this.context = context;
     }
 
-    private ReplicationInfo getReplicationInfo(boolean isLogicalDelete) throws FHIRPersistenceDataAccessException {
-        ReplicationInfo repInfo = null;
-
-        // If a ReplicationInfo is found in the persistence event, use it. Otherwise, create a dummy ReplicationInfo.
-        if (this.replicationInfo == null) {
-            if (nonNull(this.context) &&
-                nonNull(this.context.getPersistenceEvent()) &&
-                nonNull(this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO))) {
-                repInfo = (ReplicationInfo)this.context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_REPLICATION_INFO);
-            }
-            else if (this.isRepInfoRequired && !isLogicalDelete && this.getReplicationContext() == null) {
-                throw new FHIRPersistenceDataAccessException("Required ReplicationInfo is null");
-            }
-            else {
-                repInfo = new ReplicationInfo();
-            }
-            // Ensure that all ReplilcationInfo attributes that are required to be non-null in the fhir_replication_log table
-            // do indeed have non-null values.
-            if (isNull(repInfo.getTxCorrelationId())) {
-                repInfo.setTxCorrelationId("");
-            }
-            if (isNull(repInfo.getChangedBy())) {
-                repInfo.setChangedBy("");
-            }
-            if (isNull(repInfo.getCorrelationToken())) {
-                repInfo.setCorrelationToken("");
-            }
-            if (isNull(repInfo.getTenantId())) {
-                repInfo.setTenantId("");
-            }
-            if (isNull(repInfo.getReason())) {
-                repInfo.setReason("");
-            }
-            if (isNull(repInfo.getEvent())) {
-                repInfo.setEvent("");
-            }
-            if (isNull(repInfo.getServiceId())) {
-                repInfo.setServiceId("");
-            }
-
-            this.replicationInfo = repInfo;
-        }
-        return this.replicationInfo;
-    }
-
-    private FHIRReplicationContext getReplicationContext() {
-        FHIRReplicationContext replicationContext = null;
-
-        if (nonNull(this.context) && nonNull(this.context.getPersistenceEvent())) {
-                replicationContext = this.context.getPersistenceEvent().getReplicationContext();
-        }
-
-        return replicationContext;
-    }
-
-    private Integer getReplicationVersionId() {
-        Integer repVersionId = null;
-
-        FHIRReplicationContext repContext = this.getReplicationContext();
-        if (nonNull(repContext) && nonNull(repContext.getVersionId())) {
-            repVersionId = Integer.valueOf(repContext.getVersionId());
-        }
-        return repVersionId;
-    }
-
-    /**
-     * Convert the replication lastUpdated value to a {@link java.sql.Timestamp}
-     * @return
-     */
-    private Timestamp getReplicationLastUpdated() {
-        Timestamp repLastUpdated = null;
-
-        FHIRReplicationContext repContext = this.getReplicationContext();
-        if (nonNull(repContext) && nonNull(repContext.getLastUpdated())) {
-            repLastUpdated = Timestamp.from(repContext.getLastUpdated());
-        }
-
-        return repLastUpdated;
-    }
-
-
     @Override
     public Map<String, Integer> readAllResourceTypeNames()
                                          throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
@@ -481,17 +391,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return parameterNameId;
-    }
-
-    @Override
-    public void setRepInfoRequired(boolean isRepInfoRequired) {
-        this.isRepInfoRequired = isRepInfoRequired;
-
-    }
-
-    @Override
-    public boolean isRepInfoRequired() {
-        return this.isRepInfoRequired;
     }
 
     @Override
@@ -672,7 +571,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         String currentSchema;
         String stmtString = null;
         Integer resourceTypeId;
-        Timestamp lastUpdated, replicationLastUpdated;
+        Timestamp lastUpdated;
         boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
@@ -701,26 +600,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
             stmt.setBytes(3, resource.getData());
-            // If there is a lastUpdated attribute in the ReplicationContext, use it.
-            replicationLastUpdated = this.getReplicationLastUpdated();
-            lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
+            
+            lastUpdated = resource.getLastUpdated();
             stmt.setTimestamp(4, lastUpdated);
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setString(6, UUID.randomUUID().toString());
-            stmt.setString(7, this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId());
-            stmt.setString(8, this.getReplicationInfo(resource.isDeleted()).getChangedBy());
-            stmt.setString(9, this.getReplicationInfo(resource.isDeleted()).getCorrelationToken());
-            stmt.setString(10, this.getReplicationInfo(resource.isDeleted()).getTenantId());
-            stmt.setString(11, this.getReplicationInfo(resource.isDeleted()).getReason());
-            stmt.setString(12, this.getReplicationInfo(resource.isDeleted()).getEvent());
-            stmt.setString(13, this.getReplicationInfo(resource.isDeleted()).getSiteId());
-            stmt.setString(14, this.getReplicationInfo(resource.isDeleted()).getStudyId());
-            stmt.setString(15, this.getReplicationInfo(resource.isDeleted()).getServiceId());
-            stmt.setString(16, this.getReplicationInfo(resource.isDeleted()).getPatientId());
-            stmt.setObject(17, this.getReplicationVersionId(), Types.INTEGER);
-            stmt.setInt(18, resource.getVersionId());
-            stmt.setString(19, this.isRepInfoRequired() ? "Y": "N");
-            stmt.registerOutParameter(20, Types.BIGINT);
+            stmt.setInt(7, resource.getVersionId());
+            stmt.registerOutParameter(8, Types.BIGINT);
 
             dbCallStartTime = System.nanoTime();
             stmt.execute();
@@ -792,7 +678,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
         Connection connection = null;
         Integer resourceTypeId;
-        Timestamp lastUpdated, replicationLastUpdated;
+        Timestamp lastUpdated;
         boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
@@ -816,12 +702,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                          "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
             }
 
-            replicationLastUpdated = this.getReplicationLastUpdated();
-            lastUpdated = nonNull(replicationLastUpdated) ? replicationLastUpdated : resource.getLastUpdated();
-
-
+            lastUpdated = resource.getLastUpdated();
             dbCallStartTime = System.nanoTime();
-
 
             final String sourceKey = UUID.randomUUID().toString();
 
@@ -832,22 +714,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 lastUpdated,
                 resource.isDeleted(),
                 sourceKey,
-                this.getReplicationInfo(resource.isDeleted()).getTxCorrelationId(),
-                this.getReplicationInfo(resource.isDeleted()).getChangedBy(),
-                this.getReplicationInfo(resource.isDeleted()).getCorrelationToken(),
-                this.getReplicationInfo(resource.isDeleted()).getTenantId(),
-                this.getReplicationInfo(resource.isDeleted()).getReason(),
-                this.getReplicationInfo(resource.isDeleted()).getEvent(),
-                this.getReplicationInfo(resource.isDeleted()).getSiteId(),
-                this.getReplicationInfo(resource.isDeleted()).getStudyId(),
-                this.getReplicationInfo(resource.isDeleted()).getServiceId(),
-                this.getReplicationInfo(resource.isDeleted()).getPatientId(),
-                getReplicationVersionId(),
-                resource.getVersionId(),
-                this.isRepInfoRequired());
+                resource.getVersionId()
+                );
 
 
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
             resource.setId(resourceId);
             if (log.isLoggable(Level.FINE)) {

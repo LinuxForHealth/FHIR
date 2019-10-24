@@ -93,7 +93,7 @@ public class ExportOperation extends AbstractOperation {
         } else {
             // Unsupported on Resource Type
             throw buildExceptionWithIssue("Invalid call $export operation call to '"
-                    + resourceType.getSimpleName() + "'", IssueType.ValueSet.INVALID);
+                    + resourceType.getSimpleName() + "'", IssueType.INVALID);
         }
 
         return response;
