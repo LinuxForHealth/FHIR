@@ -11,10 +11,6 @@
 			"Resource": ["_id"],
 			"*": ["*"]
 		},
-		"virtualResources": {
-			"enabled": true,
-			"allowableResourceTypes": ["WeatherDetail"]
-		},
 		"persistence": {
 			"datasources": {
 				"profile": {

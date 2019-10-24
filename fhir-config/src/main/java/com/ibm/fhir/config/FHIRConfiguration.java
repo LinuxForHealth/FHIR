@@ -25,12 +25,6 @@ public class FHIRConfiguration {
     public static final String DEFAULT_DATASTORE_ID = "default";
 
     // Configuration properties used by various FHIR Server components.
-    
-    // TODO: remove these three properties (see https://github.com/IBM/FHIR/issues/153 and https://github.com/IBM/FHIR/issues/285)
-    public static final String PROPERTY_VIRTUAL_RESOURCES_ENABLED = "fhirServer/virtualResources/enabled";
-    public static final String PROPERTY_ALLOWABLE_VIRTUAL_RESOURCE_TYPES = "fhirServer/virtualResources/allowableResourceTypes";
-    public static final String PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED = "fhirServer/core/userDefinedSchematronEnabled";
-    
     public static final String PROPERTY_TRUSTSTORE_LOCATION = "fhirServer/core/truststoreLocation";
     public static final String PROPERTY_TRUSTSTORE_PASSWORD = "fhirServer/core/truststorePassword";
     public static final String PROPERTY_OAUTH_REGURL = "fhirServer/oauth/regUrl";

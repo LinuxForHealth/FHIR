@@ -23,7 +23,7 @@ public class OperationOutcomeTest {
 
     @Test
     public void buildOperationOutcomeIssue() {
-        OperationOutcome.Issue issue = FHIRUtil.buildOperationOutcomeIssue("test", IssueType.ValueSet.INVALID);
+        OperationOutcome.Issue issue = FHIRUtil.buildOperationOutcomeIssue("test", IssueType.INVALID);
         assertNotNull(issue);
         assertEquals(issue.getSeverity(), IssueSeverity.FATAL);
         assertEquals(issue.getCode(), IssueType.INVALID);
