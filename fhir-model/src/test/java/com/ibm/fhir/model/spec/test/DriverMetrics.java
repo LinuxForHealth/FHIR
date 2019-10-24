@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -10,8 +10,6 @@ package com.ibm.fhir.model.spec.test;
  * Used to collect response time metrics during development
  * (e.h. test-case runs) to identify hotspots or concurrency issues. 
  * Not intended for runtime instrumentation.
- * @author rarnold
- *
  */
 public class DriverMetrics {
     // Number of nanoseconds in a second

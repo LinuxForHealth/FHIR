@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -28,8 +28,6 @@ import com.ibm.fhir.server.test.ExampleRequestProcessor;
  * introduce some parallelism which gives us an opportunity to test the
  * FHIR server for any concurrency issues as well as push it a little
  * harder to expose any performance hotspots.
- * @author rarnold
- *
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());

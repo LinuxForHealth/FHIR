@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -17,8 +17,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * We use long, assuming that the times given are in ms, which is
  * sufficiently accurate for the sort of measurements we're dealing
  * with.
- * @author rarnold
- *
  */
 public class ResponseTimes {
     // collection of samples

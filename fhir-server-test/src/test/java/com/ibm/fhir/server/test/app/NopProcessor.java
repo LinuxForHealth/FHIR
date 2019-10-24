@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,8 +11,6 @@ import com.ibm.fhir.model.spec.test.IExampleProcessor;
 
 /**
  * An implementation of IExampleProcessor which does nothing. On purpose.
- * @author rarnold
- *
  */
 public class NopProcessor implements IExampleProcessor {
 

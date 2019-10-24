@@ -9,8 +9,7 @@ package com.ibm.fhir.server.test.app;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
- * @author rarnold
- *
+ *  Test Context
  */
 public class TestContext extends FHIRServerTestBase {
 

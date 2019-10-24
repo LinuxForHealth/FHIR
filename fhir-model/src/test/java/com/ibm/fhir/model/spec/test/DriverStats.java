@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -8,9 +8,8 @@ package com.ibm.fhir.model.spec.test;
 
 import java.io.PrintStream;
 
-/**
+/*
  * Renders a simple report using data from DriverMetrics
- * @author rarnold
  *
  */
 public class DriverStats {

@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -12,8 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author rarnold
- *
+ * Captures the the averages and analysis data for a report
  */
 public class Analytics {
     
