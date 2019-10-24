@@ -33,12 +33,12 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This is a common abstract base class for all persistence-related tests.
- * 
+ *
  * Abstract subclasses in this package implement the logic of the tests and should
  * be extended by concrete subclasses in each persistence layer implementation.
- * 
- * @implNote {@link FHIRConfiguration} requires a path to the root of the configuration directory 
- * and this class passes the Maven target of the fhir-persistence project via a relative URL 
+ *
+ * @implNote {@link FHIRConfiguration} requires a path to the root of the configuration directory
+ * and this class passes the Maven target of the fhir-persistence project via a relative URL
  * ("../fhir-persistence/target/test-classes"). This means that:
  * <ul>
  *   <li>persistence layers under test must be configured outside of this mechanism
@@ -71,7 +71,7 @@ public abstract class AbstractPersistenceTest {
 
     @BeforeClass
     public void configureLogging() throws Exception {
-        final InputStream inputStream = getClass().getResourceAsStream("/logging.unitTest.properties");
+        final InputStream inputStream = AbstractPersistenceTest.class.getResourceAsStream("/logging.unitTest.properties");
         LogManager.getLogManager().readConfiguration(inputStream);
     }
 
@@ -105,7 +105,7 @@ public abstract class AbstractPersistenceTest {
         }
         return runQueryTest(resourceType, queryParms);
     }
-    
+
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         if (parmName != null && parmValue != null) {
@@ -117,7 +117,7 @@ public abstract class AbstractPersistenceTest {
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms) throws Exception {
         return runQueryTest(resourceType, queryParms, null);
     }
-    
+
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
         // ensure that all the query parameters were processed into search parameters (needed because the server ignores invalid params by default)
@@ -134,7 +134,7 @@ public abstract class AbstractPersistenceTest {
                 // strip any modifiers
                 final String finalParamName = paramName.split(":")[0];
 
-                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getName().equals(finalParamName)), 
+                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getName().equals(finalParamName)),
                     "Search parameter '" + key + "' was not successfully parsed into a search parameter");
             }
         }

@@ -15,9 +15,9 @@ import java.util.List;
 public class SqlQueryData {
     
     private String queryString;
-    private List<Object> bindVariables;
+    private List<? extends Object> bindVariables;
 
-    public SqlQueryData(String query, List<Object> vars) {
+    public SqlQueryData(String query, List<? extends Object> vars) {
         super();
         this.queryString = query;
         this.bindVariables = vars;
@@ -28,7 +28,7 @@ public class SqlQueryData {
         return queryString;
     }
 
-    public List<Object> getBindVariables() {
+    public List<? extends Object> getBindVariables() {
         return bindVariables;
     }
 
