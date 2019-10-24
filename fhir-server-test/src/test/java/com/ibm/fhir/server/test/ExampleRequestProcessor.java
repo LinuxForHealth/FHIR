@@ -12,8 +12,10 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.IExampleProcessor;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.test.ResourceComparatorVisitor;
@@ -21,13 +23,43 @@ import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
 import com.ibm.fhir.persistence.util.SaltHash;
 
 /**
- * Implementation of the ExampleProcessor
+ * Exercises the FHIR REST API. Create is called for each resource, then the
+ * resource is retrieved with a GET and its fingerprint is compared with the
+ * original to verify its integrity.
+ * 
+ * Fingerprinting is used for the comparison because the FHIR server adds
+ * additional (meta) content, which is ignored when the fingerprint is
+ * computed.
+ *
  */
 public class ExampleRequestProcessor implements IExampleProcessor {
     private final FHIRServerTestBase base;
+
+    // The id of the tenant to use in each FHIR server request
+    private final String tenantId;
+
+    // Some simple intrumentation (optional)
+    private final DriverMetrics metrics;
+
+    // Read (GET) multiplier for more interesting (simple) performance checks.
+    private final int readIterations;
     
-    public ExampleRequestProcessor(FHIRServerTestBase base) {
+    // Target (once configured) can be shared amongst threads
+    private final WebTarget target;
+    
+    /**
+     * Public constructor
+     * @param base
+     * @param tenantId
+     * @param metrics
+     * @param readIterations
+     */
+    public ExampleRequestProcessor(FHIRServerTestBase base, String tenantId, DriverMetrics metrics, int readIterations) {
         this.base = base;
+        this.tenantId = tenantId;
+        this.metrics = metrics;
+        this.readIterations = readIterations;
+        this.target = base.getWebTarget();
     }
 
     @Override
@@ -41,21 +73,27 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         ResourceFingerprintVisitor v = new ResourceFingerprintVisitor();
         resource.accept(resource.getClass().getSimpleName(), v);
 
-        WebTarget target = base.getWebTarget();
-
         String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
 
-        // Build a new Patient and then call the 'create' API.
+        // Build a new resource and then call the 'create' API.
+        long postStart = System.nanoTime();
         Entity<Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path(resourceTypeName).request().post(entity, Response.class);
+        Response response = target.path(resourceTypeName).request().header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId).post(entity, Response.class);
         base.assertResponse(response, Response.Status.CREATED.getStatusCode());
+        long postEnd = System.nanoTime();
+        metrics.addPostTime((postEnd - postStart) / DriverMetrics.NANOS_MS);
 
         // Get the logical id value.
         String logicalId = base.getLocationLogicalId(response);
 
-        // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path(resourceTypeName + "/" + logicalId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        base.assertResponse(response, Response.Status.OK.getStatusCode());
+        // Next, call the 'read' API to retrieve the new resource and verify it. We
+        // can repeat this a number of times to help get some more useful performance numbers
+        for (int i=0; i<this.readIterations; i++) {
+            postEnd = System.nanoTime(); // update for each iteration
+            response = target.path(resourceTypeName + "/" + logicalId).request(FHIRMediaType.APPLICATION_FHIR_JSON).header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId).get();
+            base.assertResponse(response, Response.Status.OK.getStatusCode());
+            metrics.addGetTime((System.nanoTime() - postEnd) / DriverMetrics.NANOS_MS);
+        }
 
         // Now...do we need some reflection here?
         Resource responseResource = response.readEntity(resource.getClass());
