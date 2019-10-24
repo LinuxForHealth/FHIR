@@ -41,7 +41,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * This class is a root Data Access Object for managing JDBC access to the FHIR database. It contains common functions for managing connections, closing used 
  * JDBC resources, and running database queries.
- * @author markd
  *
  */
 public class FHIRDbDAOImpl implements FHIRDbDAO {
@@ -370,6 +369,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             // Transform the resultSet into a collection of Data Transfer Objects
             fhirObjects = this.createDTOs(resultSet);
+
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Successfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) + 
                          " executionTime=" + dbCallDuration + "ms");
@@ -521,7 +521,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         return dbUrl.contains("db2");
     }
 
-    protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueType.ValueSet issueType) throws FHIRPersistenceDataAccessException {
+    protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueType issueType) throws FHIRPersistenceDataAccessException {
         Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIRPersistenceDataAccessException(msg).withIssue(ooi);
     }

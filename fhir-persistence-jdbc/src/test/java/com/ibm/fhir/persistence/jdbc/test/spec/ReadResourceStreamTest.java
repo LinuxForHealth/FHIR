@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 
 /**
  * Test to check that we can read a resource as a stream from another jar
- * @author rarnold
  */
 public class ReadResourceStreamTest {
 

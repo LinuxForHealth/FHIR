@@ -116,9 +116,8 @@
                 }
             },
             "jdbc": {
-                "__comment": "Configuration properties for the JDBC persistence implementation",
+                "__comment": "Configuration properties for the JDBC persistence implementation, Use jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "bootstrapDb": true,
-                "__comment": "Use jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "dataSourceJndiName": "jdbc/fhirProxyDataSource",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
@@ -129,7 +128,6 @@
             }
         },
         "whclsfRouter": {
-            "replicationInterceptorEnabled": false
         }
     }
 }

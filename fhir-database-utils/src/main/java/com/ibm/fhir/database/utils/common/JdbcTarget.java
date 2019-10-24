@@ -17,10 +17,10 @@ import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- * @author rarnold
- *
+ * JdbcTarget for the database
  */
 public class JdbcTarget implements IDatabaseTarget {
+    
     private final Connection connection;
     
     /**
@@ -31,9 +31,6 @@ public class JdbcTarget implements IDatabaseTarget {
         this.connection = c;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTarget#runStatement(java.lang.String)
-     */
     @Override
     public void runStatement(IDatabaseTranslator translator, String ddl) {
         // Execute the DDL (no parameters)
@@ -45,9 +42,6 @@ public class JdbcTarget implements IDatabaseTarget {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTarget#runStatementWithInt(java.lang.String, int)
-     */
     @Override
     public void runStatementWithInt(IDatabaseTranslator translator, String sql, int value) {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -59,17 +53,11 @@ public class JdbcTarget implements IDatabaseTarget {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTarget#runStatement(com.ibm.fhir.database.utils.api.IDatabaseStatement)
-     */
     @Override
     public void runStatement(IDatabaseTranslator translator, IDatabaseStatement statement) {
         statement.run(translator, connection);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTarget#runStatement(com.ibm.fhir.database.utils.api.IDatabaseTranslator, com.ibm.fhir.database.utils.api.IDatabaseSupplier)
-     */
     @Override
     public <T> T runStatement(IDatabaseTranslator translator, IDatabaseSupplier<T> supplier) {
         // execute the statement using the given translator and the connection held by this

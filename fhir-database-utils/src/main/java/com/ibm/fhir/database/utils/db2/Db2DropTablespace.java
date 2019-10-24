@@ -17,10 +17,10 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * @author rarnold
- *
+ * Drops the DB2 Tablespace
  */
 public class Db2DropTablespace implements IDatabaseStatement {
+    
     private final String tablespaceName;
 
     /**

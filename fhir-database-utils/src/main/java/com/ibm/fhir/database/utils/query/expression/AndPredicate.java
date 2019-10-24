@@ -7,8 +7,7 @@
 package com.ibm.fhir.database.utils.query.expression;
 
 /**
- * @author rarnold
- *
+ * Implements the SQL "AND" predicate
  */
 public class AndPredicate extends BinaryPredicate {
     

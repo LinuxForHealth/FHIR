@@ -25,7 +25,7 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 /**
  * Helper class to create {@link SearchParameter} model objects
  * 
- * @author rarnold
+
  *
  */
 public class SearchParameterHelper {

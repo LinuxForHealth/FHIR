@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 /**
  * This cache updater writes its Resource Types cache candidates to the ResourceTypesCache upon a transaction commit.
- * @author markd
- *
  */
 public class ResourceTypesCacheUpdater extends CacheUpdater {
     private static final String CLASSNAME = ResourceTypesCacheUpdater.class.getName();

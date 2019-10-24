@@ -11,8 +11,6 @@ package com.ibm.fhir.database.utils.api;
  * {@link ITransaction} which themselves are used to hide the
  * underlying transaction implementation. This makes it easier
  * to code for JEE and non-JEE environments.
- * @author rarnold
- *
  */
 public interface ITransactionProvider {
 

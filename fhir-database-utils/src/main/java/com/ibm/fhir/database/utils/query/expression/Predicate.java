@@ -10,8 +10,6 @@ package com.ibm.fhir.database.utils.query.expression;
  * represents a WHERE expression predicate. Note that we're trying to support the
  * textual representation of the WHERE clause predicate (to support programmatic
  * construction) - this is not intended to be an evaluation engine.
- * @author rarnold
- *
  */
 public class Predicate {
 

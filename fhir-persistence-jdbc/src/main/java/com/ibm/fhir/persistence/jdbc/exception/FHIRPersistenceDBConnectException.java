@@ -13,8 +13,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * This exception class represents failures encountered while attempting to connect to a JDBC database or datasource.
- * @author markd
- *
  */
 public class FHIRPersistenceDBConnectException extends FHIRPersistenceException {
 

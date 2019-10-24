@@ -21,7 +21,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * An immutable definition of a table
- * @author rarnold
  */
 public class Table extends BaseObject {
     
@@ -150,7 +149,6 @@ public class Table extends BaseObject {
 
     /**
      * Builder for table
-     * @author rarnold
      */
     public static class Builder extends VersionedSchemaObject {
         

@@ -13,8 +13,6 @@ import java.util.List;
 
 /**
  * Represents the definition of a primary key constraint on a table
- * @author rarnold
- *
  */
 public class PrimaryKeyDef {
 

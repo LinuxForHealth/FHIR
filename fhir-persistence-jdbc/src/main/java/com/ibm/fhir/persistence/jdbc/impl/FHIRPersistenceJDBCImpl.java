@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.jdbc.impl;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_REPL_INTERCEPTOR_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 
 import java.io.ByteArrayInputStream;
@@ -79,14 +78,13 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
-import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
+import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.QueryBuilderUtil;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
-import com.ibm.fhir.replication.api.util.ReplicationUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.SummaryValueSet;
@@ -135,7 +133,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE, 
                                       Boolean.TRUE.booleanValue()));
         this.resourceDao = new ResourceDAOImpl(this.getTrxSynchRegistry());
-        this.resourceDao.setRepInfoRequired(fhirConfig.getBooleanProperty(PROPERTY_REPL_INTERCEPTOR_ENABLED, Boolean.FALSE));
         this.parameterDao = new ParameterDAOImpl(this.getTrxSynchRegistry());
         
         log.exiting(CLASSNAME, METHODNAME);
@@ -156,7 +153,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         this.setBaseDao(dao);
         this.setManagedConnection(this.getBaseDao().getConnection());
         this.resourceDao = new ResourceDAOImpl(this.getManagedConnection());
-        this.resourceDao.setRepInfoRequired(false);
         this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
                 
         log.exiting(CLASSNAME, METHODNAME);
@@ -177,7 +173,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         this.setBaseDao(dao);
         this.setManagedConnection(this.getBaseDao().getConnection());
         this.resourceDao = new ResourceDAOImpl(this.getManagedConnection());
-        this.resourceDao.setRepInfoRequired(false);
         this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
                 
         log.exiting(CLASSNAME, METHODNAME);
@@ -388,9 +383,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.FHIRPersistence#search(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class)
-     */
     @Override
     public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
@@ -537,12 +529,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 else {
                     existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
                     
-                    // If replication info is required, add the value of the patientId, siteId, and subjectId extensions 
-                    // to the RepInfo
-                    if (this.resourceDao.isRepInfoRequired()) {
-                        ReplicationUtil.addExtensionDataToRepInfo(context, existingResource);
-                    }
-                    
                     // Resources are immutable, so we need a new builder to update it (since R4)
                     resourceBuilder = existingResource.toBuilder();
     
@@ -627,13 +613,41 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         
         T resource = null;
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
+
+        FHIRSearchContext searchContext = context.getSearchContext();
+        List<String> elements = null;
+        //Check if _summary is required
+        if (searchContext != null && searchContext.hasSummaryParameter()) {
+            Set<String> summaryElements = null;
+            SummaryValueSet summary = searchContext.getSummaryParameter();
+            
+            switch (summary) {
+            case TRUE:
+                summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                break;
+            case TEXT:
+                summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                break;
+            case DATA:
+                summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                break;
+            default:
+                break;
+                
+            }
+
+            if (summaryElements != null) {
+                elements = new ArrayList<String>();
+                elements.addAll(summaryElements);
+            }
+        }
                 
         try {
             resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
             }
-            resource = this.convertResourceDTO(resourceDTO, resourceType, null);
+            resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
             
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -855,7 +869,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 Resource existingResource = this.convertResourceDTO(resourceDTO, resourceType, elements);
                 if (resourceDTO.isDeleted()) {
                     Resource deletedResourceMarker = FHIRPersistenceUtil.createDeletedResourceMarker(existingResource);
-                    ReplicationUtil.addExtensionDataToResource(existingResource, deletedResourceMarker);
                     resources.add(deletedResourceMarker);
                 } else {
                     resources.add(existingResource);
@@ -1304,11 +1317,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
     
     private OperationOutcome buildOKOperationOutcome() {
-        return FHIRUtil.buildOperationOutcome("All OK", IssueType.ValueSet.INFORMATIONAL, IssueSeverity.ValueSet.INFORMATION);
+        return FHIRUtil.buildOperationOutcome("All OK", IssueType.INFORMATIONAL, IssueSeverity.INFORMATION);
     }
 
     private OperationOutcome buildErrorOperationOutcome() {
-        return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.ValueSet.NO_STORE, IssueSeverity.ValueSet.ERROR);
+        return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.NO_STORE, IssueSeverity.ERROR);
     }
     
     private Connection createConnection() throws FHIRPersistenceDBConnectException {

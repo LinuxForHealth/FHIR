@@ -76,7 +76,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     }
 
     /**
-     * Createa anew FHIRPersistenceContext configure with a FHIRHistoryContext
+     * Create a new FHIRPersistenceContext configure with a FHIRHistoryContext
      * @return
      */
     protected FHIRPersistenceContext createHistoryPersistenceContext() {

@@ -14,8 +14,6 @@ import com.ibm.fhir.search.SearchConstants.Type;
 
 /**
  * This class defines the Data Transfer Object representing a row in the FHIR Parameter table.
- * @author markd
- *
  */
 public class Parameter {
     

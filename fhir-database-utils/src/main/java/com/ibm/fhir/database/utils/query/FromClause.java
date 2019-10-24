@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author rarnold
- *
+ * The FromClause SQL definition
  */
 public class FromClause {
     private final List<FromItem> items = new ArrayList<>();

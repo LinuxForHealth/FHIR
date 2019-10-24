@@ -16,7 +16,7 @@ import java.util.Date;
 
 /**
  * Utility for parsing our UTC timestamp format.
- * @author rarnold
+
  *
  */
 public class TimestampUtil {

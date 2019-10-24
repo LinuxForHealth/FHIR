@@ -13,15 +13,16 @@ package com.ibm.fhir.database.utils.query;
  * constructing SQL with StringBuilder.
  * 
  * The goal is to support two main use-cases (which drive the API design):
- *   1. Simplify construction of hand-written SQL statements
- *   2. Support code-generated SQL where a statement is constructed
- *      from another model (e.g. FHIR search queries).
- *      
+ * <ul>
+ * <li>  1. Simplify construction of hand-written SQL statements</li>
+ * <li>  2. Support code-generated SQL where a statement is constructed
+ *      from another model (e.g. FHIR search queries).</li>
+ * </ul>
+ * <p/>     
  * The goal isn't to enforce building a syntactically perfect SQL statement - checking
  * that is the role of the RDBMS SQL parser. But hopefully this makes things
  * a bit easier, less error-prone and therefore quicker. It also helps to
  * standardize the SQL statement building process across the project.
- * @author rarnold
  *
  */
 public class SelectAdapter {

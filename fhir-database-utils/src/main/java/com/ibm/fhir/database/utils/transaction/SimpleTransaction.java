@@ -16,8 +16,6 @@ import com.ibm.fhir.database.utils.api.ITransaction;
 /**
  * Simple implementation of a transaction service, taking cues from JEE
  * but without the overhead. No distributed transaction support.
- * @author rarnold
- *
  */
 public final class SimpleTransaction implements ITransaction {
     

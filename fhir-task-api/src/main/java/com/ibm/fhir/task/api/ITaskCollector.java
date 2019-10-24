@@ -10,8 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author rarnold
- *
+ * Manage the Tasks
  */
 public interface ITaskCollector {
 

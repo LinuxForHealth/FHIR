@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 /**
  * Test our test class
- * @author rarnold
+
  */
 public class TestNode {
 	private static final String N1 = "n1";

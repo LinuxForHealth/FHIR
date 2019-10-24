@@ -7,8 +7,7 @@
 package com.ibm.fhir.task.api;
 
 /**
- * @author rarnold
- *
+ * Manage access to the tasks
  */
 public interface ITaskGroup {
 

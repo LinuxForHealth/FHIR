@@ -25,7 +25,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * The <code>Map&lt;String,Integer&rt;</code> returned from {@link #run(IDatabaseTranslator, Connection)}
  * uses a compound string of type:name for the key e.g. "Table:PATIENT_RESOURCES".
  * 
- * @author rarnold
  */
 public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer>> {
     private final String adminSchemaName;

@@ -16,8 +16,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * DAO to add a new tenant key record
- * 
- * @author rarnold
  */
 public class AddTenantKeyDAO implements IDatabaseStatement {
     private final String schemaName;

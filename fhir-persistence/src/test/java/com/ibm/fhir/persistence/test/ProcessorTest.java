@@ -81,7 +81,7 @@ import com.ibm.fhir.persistence.util.Processor;
  * TODO update tests
  * TODO add processor support for R4 types
  * Rewritten for R4 to drive tests by introspecting model
- * @author rarnold
+
  *
  */
 public class ProcessorTest {

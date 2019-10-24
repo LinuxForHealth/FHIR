@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.api;
 
 /**
  * DTO for pertinent data from SYSCAT.DATAPARTITIONS
- * @author rarnold
  */
 public class PartitionInfo {
     

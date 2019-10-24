@@ -48,6 +48,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.ObservationStatus;
+import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
  * This class tests the REST API's compliance with the FHIR spec in terms of status code and OperationOutcome responses,
@@ -424,13 +425,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     }
 
     // Test: retrieve invalid resource type.
-//    @Test(groups = { "server-spec" })
-//    public void testReadErrorInvalidResourceType() {
-//        WebTarget target = getWebTarget();
-//        Response response = target.path("BogusResourceType/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-//    }
+    @Test(groups = { "server-spec" })
+    public void testReadErrorInvalidResourceType() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("BogusResourceType/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'BogusResourceType' is not a valid resource type.");
+    }
 
     // Test: retrieve non-existent Patient.
     @Test(groups = { "server-spec" })
@@ -460,13 +461,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     }
 
     // Test: retrieve invalid resource type.
-//    @Test(groups = { "server-spec" })
-//    public void testVReadInvalidResourceType() {
-//        WebTarget target = getWebTarget();
-//        Response response = target.path("BogusResourceType/1/_history/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-//    }
+    @Test(groups = { "server-spec" })
+    public void testVReadInvalidResourceType() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("BogusResourceType/1/_history/1").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'BogusResourceType' is not a valid resource type.");
+    }
 
     // Test: retrieve invalid version.
     @Test(groups = { "server-spec" }, dependsOnMethods = { "testCreatePatient" })
@@ -496,13 +497,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertTrue(0 == bundle.getTotal().getValue());
     }
     
-//    @Test(groups = { "server-spec" })
-//    public void testHistoryInvalidResourceType() {
-//        WebTarget target = getWebTarget();
-//        Response response = target.path("Bogus/123456789ABCDEF/_history").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-//        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-//        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The virtual resource types feature is not enabled for this server");
-//    }
+    @Test(groups = { "server-spec" })
+    public void testHistoryInvalidResourceType() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Bogus/123456789ABCDEF/_history").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'Bogus' is not a valid resource type.");
+    }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testSearchPatientByFamilyName() {
@@ -556,8 +557,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
     public void testSearchInvalidResourceType() {
         WebTarget target = getWebTarget();
         Response response = target.path("NotAResourceType").queryParam("notasearchparameter", "foo").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "The resource type 'NotAResourceType' is not allowed.");
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'NotAResourceType' is not a valid resource type.");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
@@ -686,4 +687,94 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 "Input resource 'id' attribute must match the id of the search result resource");
         
     }
+    
+    // Test: retrieve Patient with _summary=true.
+    @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
+    public void testReadPatientSummary() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient/" + savedPatient.getId().getValue())
+                .queryParam("_summary", "true")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        Coding subsettedTag =
+                Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
+        assertTrue(FHIRUtil.hasTag(responsePatient, subsettedTag));
+    }
+    
+    // Test: retrieve Patient with _summary=text.
+    @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
+    public void testReadPatientSummary_Text() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient/" + savedPatient.getId().getValue())
+                .queryParam("_summary", "text")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        Coding subsettedTag =
+                Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
+        assertTrue(FHIRUtil.hasTag(responsePatient, subsettedTag));
+    }
+    
+    
+    // Test: retrieve Patient with _summary=false.
+    @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
+    public void testReadPatientSummary_False() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient/" + savedPatient.getId().getValue())
+                .queryParam("_summary", "false")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        Coding subsettedTag =
+                Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
+        assertTrue(!FHIRUtil.hasTag(responsePatient, subsettedTag));
+    }
+    
+    
+    // Test: retrieve Patient with _summary=data.
+    @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
+    public void testReadPatientSummary_Data() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient/" + savedPatient.getId().getValue())
+                .queryParam("_summary", "data")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        Coding subsettedTag =
+                Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
+        assertTrue(FHIRUtil.hasTag(responsePatient, subsettedTag));
+    }
+    
+    
+    // Test: retrieve Patient with _summary=invalid.
+    @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
+    public void testReadPatientSummary_Invalid() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient/" + savedPatient.getId().getValue())
+                .queryParam("_summary", "invalid")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        Coding subsettedTag =
+                Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
+        assertTrue(!FHIRUtil.hasTag(responsePatient, subsettedTag));
+    }
+    
+    
+    // Test: retrieve Patient with _summary=invalid with "strict" Prefer header.
+    @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
+    public void testReadPatientSummary_Invalid_strict() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient/" + savedPatient.getId().getValue())
+                .queryParam("_summary", "invalid")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=strict")
+                .get();
+
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+                "An error occurred while parsing search parameter '_summary'");
+    }
+ 
 }

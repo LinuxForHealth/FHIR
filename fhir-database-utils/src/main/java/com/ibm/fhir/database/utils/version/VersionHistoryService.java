@@ -19,7 +19,6 @@ import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 
 /**
  * Encapsulation of the transaction needed to read the version history table
- * @author rarnold
  */
 public class VersionHistoryService implements IVersionHistoryService {
 

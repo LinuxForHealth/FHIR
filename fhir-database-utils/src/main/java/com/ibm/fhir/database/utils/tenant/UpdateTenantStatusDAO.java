@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * DAO to create a free tenant slot (to align with a new partition)
- * @author rarnold
  */
 public class UpdateTenantStatusDAO implements IDatabaseStatement {
     private final String schemaName;

@@ -16,8 +16,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 /**
  * Represents a FOREIGN KEY constraint referencing the primary key
  * of a parent table
- * @author rarnold
- *
  */
 public class ForeignKeyConstraint extends Constraint {
     private final String targetSchema;

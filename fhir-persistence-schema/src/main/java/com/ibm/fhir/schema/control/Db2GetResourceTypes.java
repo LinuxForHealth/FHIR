@@ -17,8 +17,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.schema.model.ResourceType;
 
 /**
- * @author rarnold
- *
+ * Manages the DB2 Get Resource Types
  */
 public class Db2GetResourceTypes implements IDatabaseStatement {
     private final String schemaName;
@@ -29,14 +28,10 @@ public class Db2GetResourceTypes implements IDatabaseStatement {
         this.consumer = c;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        final String SQL = ""
-                + "SELECT resource_type_id, resource_type "
-                + "  FROM " + schemaName + ".RESOURCE_TYPES";
+        final String SQL = "SELECT resource_type_id, resource_type " 
+                         + "  FROM " + schemaName + ".RESOURCE_TYPES";
 
         try (Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(SQL);
@@ -46,8 +41,7 @@ public class Db2GetResourceTypes implements IDatabaseStatement {
                 rt.setName(rs.getString(2));
                 consumer.accept(rt);
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
 

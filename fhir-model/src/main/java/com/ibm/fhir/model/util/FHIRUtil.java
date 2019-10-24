@@ -448,18 +448,18 @@ public class FHIRUtil {
         return builder;
     }
 
-    public static OperationOutcome.Issue buildOperationOutcomeIssue(String msg, IssueType.ValueSet code) {
-        return buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, code, msg, "<empty>");
+    public static OperationOutcome.Issue buildOperationOutcomeIssue(String msg, IssueType code) {
+        return buildOperationOutcomeIssue(IssueSeverity.FATAL, code, msg, "<empty>");
     }
 
-    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet code, String details,
+    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
         String expression) {
         if (expression == null || expression.isEmpty()) {
             expression = "<no expression>";
         }
         return OperationOutcome.Issue.builder()
-                    .severity(IssueSeverity.of(severity))
-                    .code(IssueType.of(code))
+                    .severity(severity)
+                    .code(code)
                     .details(CodeableConcept.builder().text(string(details)).build())
                     .expression(Collections.singletonList(string(expression)))
                     .build();
@@ -509,7 +509,7 @@ public class FHIRUtil {
     /**
      * Build an OperationOutcome for the specified exception.
      */
-    public static OperationOutcome buildOperationOutcome(Exception exception, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity,
+    public static OperationOutcome buildOperationOutcome(Exception exception, IssueType issueType, IssueSeverity severity,
         boolean includeCausedByClauses) {
         // First, build a set of exception messages to be included in the OperationOutcome.
         // We'll include the exception message from each exception in the hierarchy,
@@ -538,16 +538,16 @@ public class FHIRUtil {
      * @param severity
      *            defaults to IssueSeverityList.FATAL
      */
-    public static OperationOutcome buildOperationOutcome(String message, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity) {
+    public static OperationOutcome buildOperationOutcome(String message, IssueType issueType, IssueSeverity severity) {
         if (issueType == null) {
-            issueType = IssueType.ValueSet.PROCESSING;
+            issueType = IssueType.PROCESSING;
         }
         if (severity == null) {
-            severity = IssueSeverity.ValueSet.FATAL;
+            severity = IssueSeverity.FATAL;
         }
         // Build an OperationOutcomeIssue that contains the exception messages.
         OperationOutcome.Issue ooi =
-                OperationOutcome.Issue.builder().severity(IssueSeverity.of(severity)).code(IssueType.of(issueType)).details(CodeableConcept.builder().text(string(message)).build()).build();
+                OperationOutcome.Issue.builder().severity(severity).code(issueType).details(CodeableConcept.builder().text(string(message)).build()).build();
 
         // Next, build the OperationOutcome.
         OperationOutcome oo = OperationOutcome.builder().issue(Collections.singletonList(ooi)).build();
@@ -797,36 +797,14 @@ public class FHIRUtil {
         return updatedResource;
     }
 
-    // add for FHIRResource.java
-    private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/fhir/basic-resource-type";
-
     /**
-     * Returns the resource type (as a String) of the specified resource. For a virtual resource, this will be the
-     * actual virtual resource type (not Basic).
+     * Returns the resource type (as a String) of the specified resource. 
      * 
      * @param resource
      *            the resource
      * @return the name of the resource type associated with the resource
      */
     public static String getResourceTypeName(Resource resource) {
-        if (resource instanceof Basic) {
-            Basic basic = (Basic) resource;
-            CodeableConcept cc = basic.getCode();
-            if (cc != null) {
-                List<Coding> codingList = cc.getCoding();
-                if (codingList != null) {
-                    for (Coding coding : codingList) {
-                        if (coding.getSystem() != null) {
-                            String system = coding.getSystem().getValue();
-                            if (BASIC_RESOURCE_TYPE_URL.equals(system)) {
-                                return coding.getCode().getValue();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         return resource.getClass().getSimpleName();
     }
 

@@ -14,7 +14,6 @@ import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractWholeSystemSearchTest;
 
-
 public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
     
     private Properties testProps;

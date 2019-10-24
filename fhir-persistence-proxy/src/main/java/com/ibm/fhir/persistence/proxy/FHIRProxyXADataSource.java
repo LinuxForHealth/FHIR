@@ -56,7 +56,7 @@ public class FHIRProxyXADataSource implements XADataSource {
 
     /**
      * Internal envelope for caching data source entries
-     * @author rarnold
+
      */
     public static class DataSourceCacheEntry {
         private final XADataSource datasource;

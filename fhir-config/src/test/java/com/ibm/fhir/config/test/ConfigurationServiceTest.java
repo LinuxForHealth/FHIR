@@ -33,11 +33,12 @@ public class ConfigurationServiceTest {
         assertNotNull(pg);
                 
         // Validate retrieval of an array of strings.
-        Object[] allowableCustomTypes = pg.getArrayProperty("fhirServer/virtualResources/allowableResourceTypes");
-        assertNotNull(allowableCustomTypes);
-        assertEquals(2, allowableCustomTypes.length);
-        assertEquals("WeatherDetail", (String) allowableCustomTypes[0]);
-        assertEquals("XYZStudy", (String) allowableCustomTypes[1]);
+       
+        Object[] includeResourceTypes = pg.getArrayProperty("fhirServer/notifications/common/includeResourceTypes");
+        assertNotNull(includeResourceTypes);
+        assertEquals(8, includeResourceTypes.length);
+        assertEquals("QuestionnaireResponse", (String) includeResourceTypes[0]);
+        assertEquals("CarePlan", (String) includeResourceTypes[1]);
         
         // Validate the notifications properties.
         PropertyGroup notificationProps = pg.getPropertyGroup("fhirServer/notifications");

@@ -18,8 +18,6 @@ import com.ibm.fhir.database.utils.model.ColumnBase;
 
 /**
  * Handles common syntax for generating DDL
- * @author rarnold
- *
  */
 public class DataDefinitionUtil {
     private static final String NAME_PATTERN_RGX = "[a-zA-Z_]\\w*$";

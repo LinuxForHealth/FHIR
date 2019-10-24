@@ -42,7 +42,7 @@ public class ValidateOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("validate.json");){
-            return FHIRParser.parser(Format.JSON).parse(in);            
+            return FHIRParser.parser(Format.JSON).parse(in);
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -54,12 +54,12 @@ public class ValidateOperation extends AbstractOperation {
         try {
             Parameter parameter = getParameter(parameters, "resource");
             if (parameter == null) {
-                throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.ValueSet.INVALID);
+                throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.INVALID);
             }
-            
+
             Resource resource = parameter.getResource() ;
             List<Issue> issues = FHIRValidator.validator().validate(resource);
-                                   
+
             return FHIROperationUtil.getOutputParameters(buildResourceValidOperationOutcome(issues));
         } catch (FHIROperationException e) {
             throw e;

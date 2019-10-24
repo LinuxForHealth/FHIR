@@ -9,8 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- * @author rarnold
- *
+ * CharColumn 
  */
 public class CharColumn extends ColumnBase {
     private final int size;
@@ -27,9 +26,6 @@ public class CharColumn extends ColumnBase {
         return size;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.ColumnBase#getTypeInfo()
-     */
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter translator) {
         return "CHAR(" + size + ")";

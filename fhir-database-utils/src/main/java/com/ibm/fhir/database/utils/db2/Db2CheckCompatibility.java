@@ -18,15 +18,14 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 
 /**
- * @author rarnold
- *
+ * Checks Compatibility with the DB2 Implementation that is used. 
  */
 public class Db2CheckCompatibility implements IDatabaseStatement {
+    
     private final String adminSchema;
     
     /**
      * Public constructor
-     *
      * @param adminSchema
      */
     public Db2CheckCompatibility(String adminSchema) {

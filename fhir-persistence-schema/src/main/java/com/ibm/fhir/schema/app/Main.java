@@ -67,7 +67,6 @@ import com.ibm.fhir.task.core.service.TaskService;
  * <br>
  * This utility also includes an option to exercise the tenant partitioning
  * code.
- * @author rarnold
  */
 public class Main {
     

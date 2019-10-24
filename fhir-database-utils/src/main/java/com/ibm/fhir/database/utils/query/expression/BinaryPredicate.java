@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.query.expression;
 
 /**
  * A binary predicate node (like AND, OR etc)
- * @author rarnold
- *
  */
 public abstract class BinaryPredicate extends Predicate {
     private Predicate left;

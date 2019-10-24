@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.model;
 
 /**
  * Partitioning configuration information for a table
- * @author rarnold
- *
  */
 public class PartitionDef {
     private final String partitionColumn;

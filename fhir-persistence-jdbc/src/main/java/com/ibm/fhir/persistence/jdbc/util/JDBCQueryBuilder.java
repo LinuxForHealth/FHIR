@@ -75,13 +75,14 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 /**
  * This is the JDBC implementation of a query builder for the IBM FHIR Server JDBC persistence layer schema.
  * Queries are built in SQL.
- * 
+ * <br><br>
  * For the new R4 schema, the search parameter tables (e.g. <resourceType>_STR_VALUES) are
  * joined to their corresponding <resourceType>_LOGICAL_RESOURCES tables on LOGICAL_RESOURCE_ID.
  * This is because the search parameters are not versioned, and are associated with
  * the logical resource, not the resource version.
- * 
- * Useful column reference:
+ * <br>
+ * Useful column reference:<br>
+ * <code>
  * ------------------------
  * RESOURCE_TYPE_NAME    the formal name of the resource type e.g. 'Patient'
  * RESOURCE_TYPE_ID      FK to the RESOURCE_TYPES table
@@ -90,6 +91,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
  * CURRENT_RESOURCE_ID   the unique BIGINT id of the latest resource version for the logical resource
  * VERSION_ID            INT resource version number incrementing by 1
  * RESOURCE_ID           the PK of the version-specific resource. Now only used as the target for CURRENT_RESOURCE_ID
+ * </code>
  */
 public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOperator> {
     private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
@@ -146,11 +148,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         return query;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.persistence.util.QueryBuilder#buildQuery(java.lang.Class,
-     * com.ibm.fhir.search.context.FHIRSearchContext)
-     */
     @Override
     public SqlQueryData buildQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
         final String METHODNAME = "buildQuery";
@@ -224,12 +221,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.persistence.util.AbstractQueryBuilder#getOperator(com.ibm.fhir.search.
-     * Parameter)
-     */
     @Override
     protected JDBCOperator getOperator(Parameter queryParm) {
         final String METHODNAME = "getOperator(Parameter)";
@@ -280,11 +271,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         return operator;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.persistence.util.AbstractQueryBuilder#getPrefixOperator(com.ibm.fhir.
-     * search.ParameterValue)
-     */
     @Override
     protected JDBCOperator getPrefixOperator(ParameterValue queryParmValue) {
         final String METHODNAME = "getOperator(ParameterValue)";
