@@ -33,7 +33,6 @@ public class ConfigurationServiceTest {
         assertNotNull(pg);
                 
         // Validate retrieval of an array of strings.
-        //Object[] allowableCustomTypes = pg.getArrayProperty("fhirServer/virtualResources/allowableResourceTypes");
        
         Object[] includeResourceTypes = pg.getArrayProperty("fhirServer/notifications/common/includeResourceTypes");
         assertNotNull(includeResourceTypes);
