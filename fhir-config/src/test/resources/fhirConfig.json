@@ -6,9 +6,6 @@
             "truststoreLocation":"resources/security/fhirTruststore.jks",
             "truststorePassword":"change-password"
         },
-        "validation":{
-            "userDefinedSchematronEnabled":true
-        },
         "virtualResources":{
             "enabled":true,
             "allowableResourceTypes":[
