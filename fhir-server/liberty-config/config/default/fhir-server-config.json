@@ -4,7 +4,6 @@
         "core": {
             "truststoreLocation": "resources/security/fhirTruststore.jks",
             "truststorePassword": "change-password",
-            "userDefinedSchematronEnabled": false,
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
             "datastoreIdHeaderName": "X-FHIR-DSID",
             "jsonParserLenient": false,
