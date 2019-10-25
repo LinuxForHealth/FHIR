@@ -196,20 +196,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             queryString.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND ");
             // ('Organization/' || LR.LOGICAL_ID IN 
             queryString.append("('").append(includeParm.getSearchParameterTargetType()).append("/' || LR.LOGICAL_ID IN ");
-            // (SELECT P1.STR_VALUE FROM OBSERVATION_STR_VALUES P1 WHERE
-            queryString.append("(SELECT P1.STR_VALUE FROM ").append(this.resourceType.getSimpleName()).append("_STR_VALUES P1 WHERE ");
-            // P1.PARAMETER_NAME_ID=xx AND 
-            queryString.append("P1.PARAMETER_NAME_ID=").append(this.getParameterNameId(includeParm.getSearchParameter())).append(" AND ");
-            // P1.RESOURCE_ID IN 
-            queryString.append("P1.LOGICAL_RESOURCE_ID IN ");
-            // (SELECT R.LOGICAL_RESOURCE_ID  
-            queryString.append("(SELECT R.LOGICAL_RESOURCE_ID ");
-            // Add FROM clause for "root" resource type
-            queryString.append(super.buildFromClause());
-            // Add WHERE clause for "root" resource type
-            queryString.append(super.buildWhereClause());
-            
-            queryString.append(")))");
+            queryString.append("(?))");
                         
             this.addBindVariables(bindVariables);
         }
