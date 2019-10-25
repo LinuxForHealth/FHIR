@@ -62,11 +62,11 @@ public class FHIRRegistryResource {
     
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
         if (this == obj) {
             return true;
+        }
+        if (obj == null) {
+            return false;
         }
         if (getClass() != obj.getClass()) {
             return false;
@@ -121,9 +121,6 @@ public class FHIRRegistryResource {
                 return new Version(version);
             }
             try {
-                if (version.startsWith("v") || version.startsWith("V")) {
-                    version = version.substring(1);
-                }
                 Integer major = Integer.parseInt(tokens[0]);
                 Integer minor = (tokens.length >= 2) ? Integer.parseInt(tokens[1]) : 0;
                 Integer patch = (tokens.length == 3) ? Integer.parseInt(tokens[2]) : 0;
@@ -135,11 +132,11 @@ public class FHIRRegistryResource {
         
         @Override
         public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
             if (this == obj) {
                 return true;
+            }
+            if (obj == null) {
+                return false;
             }
             if (getClass() != obj.getClass()) {
                 return false;

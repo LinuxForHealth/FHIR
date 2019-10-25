@@ -68,6 +68,12 @@ public class BodyWeightProfileTest {
                 .unit(string("lbs"))
                 .build())
             .build();
+        
+        bodyWeight = bodyWeight.toBuilder()
+                .value(bodyWeight.getValue().as(Quantity.class).toBuilder()
+                    .value(Decimal.of(210))
+                    .build())
+                .build();
 
         List<Issue> issues = FHIRValidator.validator().validate(bodyWeight);
         Assert.assertEquals(issues.size(), 2);
