@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,7 +46,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * each of the various persistence layer implementations that implement a subclass of this class.
  *  
  */
-public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
+public abstract class AbstractSortTest extends AbstractPersistenceTest {
     Basic resource1a;
     Basic resource2a;
     Basic resource3a;
@@ -99,6 +100,20 @@ public abstract class AbstractQuerySortTest extends AbstractPersistenceTest {
         resource2b = persistence.create(getDefaultPersistenceContext(), resource2Builder.meta(tag("b")).build()).getResource();
         resource3a = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("a")).build()).getResource();
         resource3b = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("b")).build()).getResource();
+    }
+    
+    @AfterClass
+    public void removeSavedResourcesAndResetTenant() throws Exception {
+        Resource[] resources = {resource1a, resource1b, resource2a, resource2b, resource3a, resource3b};
+        if (persistence.isDeleteSupported()) {
+            for (Resource resource : resources) {
+                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId().getValue());
+                if (persistence.isTransactional()) {
+                    persistence.getTransaction().commit();
+                }
+            }
+        }
+        FHIRRequestContext.get().setTenantId("default");
     }
     
     @Test

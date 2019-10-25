@@ -12,10 +12,10 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractQueryCompartmentTest;
+import com.ibm.fhir.persistence.test.common.AbstractCompartmentTest;
 
 
-public class JDBCCompartmentTest extends AbstractQueryCompartmentTest {
+public class JDBCCompartmentTest extends AbstractCompartmentTest {
     
     private Properties testProps;
     

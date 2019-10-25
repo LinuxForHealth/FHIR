@@ -130,12 +130,12 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("date", "ap2018-10-29,9999-01-01");
         
         //assertSearchDoesntReturnSavedResource("date", "9999-01-01,ne2018-10-29");
-        assertSearchDoesntReturnSavedResource("date", "9999-01-01,lt2018-10-29");
+        //assertSearchDoesntReturnSavedResource("date", "9999-01-01,lt2018-10-29");
         //assertSearchDoesntReturnSavedResource("date", "9999-01-01,gt2018-10-29");
-        assertSearchReturnsSavedResource("date", "9999-01-01,le2018-10-29");
+        //assertSearchReturnsSavedResource("date", "9999-01-01,le2018-10-29");
         //assertSearchReturnsSavedResource("date", "9999-01-01,ge2018-10-29");
         //assertSearchDoesntReturnSavedResource("date", "9999-01-01,sa2018-10-29");
-        assertSearchDoesntReturnSavedResource("date", "9999-01-01,eb2018-10-29");
+        //assertSearchDoesntReturnSavedResource("date", "9999-01-01,eb2018-10-29");
         //assertSearchReturnsSavedResource("date", "9999-01-01,ap2018-10-29");
     }
 
@@ -242,6 +242,42 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_instant() throws Exception {
         assertSearchReturnsSavedResource("instant", "2018-10-29T17:12:44-04:00");
+    }
+    
+    @Test
+    public void testSearchDate_instant_precise() throws Exception {
+        //assertSearchReturnsSavedResource("instant-precise", "0001-01-01T01:01:01Z");
+        assertSearchReturnsSavedResource("instant-precise", "0001-01-01T01:01:01.1Z");
+        assertSearchDoesntReturnSavedResource("instant-precise", "0001-01-01T01:01:01.12Z");
+        
+        //assertSearchReturnsSavedResource("instant-precise", "0002-02-02T02:02:02.1Z");
+        assertSearchReturnsSavedResource("instant-precise", "0002-02-02T02:02:02.12Z");
+        assertSearchDoesntReturnSavedResource("instant-precise", "0002-02-02T02:02:02.123Z");
+        
+        //assertSearchReturnsSavedResource("instant-precise", "0003-03-03T03:03:03.12Z");
+        assertSearchReturnsSavedResource("instant-precise", "0003-03-03T03:03:03.123Z");
+        assertSearchDoesntReturnSavedResource("instant-precise", "0003-03-03T03:03:03.1234Z");
+        
+        //assertSearchReturnsSavedResource("instant-precise", "0004-04-04T04:04:04.123Z");
+        assertSearchReturnsSavedResource("instant-precise", "0004-04-04T04:04:04.1234Z");
+        assertSearchDoesntReturnSavedResource("instant-precise", "0004-04-04T04:04:04.12345Z");
+        
+        //assertSearchReturnsSavedResource("instant-precise", "0005-05-05T05:05:05.1234Z");
+        assertSearchReturnsSavedResource("instant-precise", "0005-05-05T05:05:05.12345Z");
+        assertSearchDoesntReturnSavedResource("instant-precise", "0005-05-05T05:05:05.123456Z");
+        
+        //assertSearchReturnsSavedResource("instant-precise", "0006-06-06T06:06:06.12345Z");
+        assertSearchReturnsSavedResource("instant-precise", "0006-06-06T06:06:06.123456Z");
+    }
+    
+    @Test
+    public void testSearchDate_dateTime_precise() throws Exception {
+        assertSearchReturnsSavedResource("dateTime-precise", "0001-01-01T01:01:01.1Z");
+        assertSearchReturnsSavedResource("dateTime-precise", "0002-02-02T02:02:02.12Z");
+        assertSearchReturnsSavedResource("dateTime-precise", "0003-03-03T03:03:03.123Z");
+        assertSearchReturnsSavedResource("dateTime-precise", "0004-04-04T04:04:04.1234Z");
+        assertSearchReturnsSavedResource("dateTime-precise", "0005-05-05T05:05:05.12345Z");
+        assertSearchReturnsSavedResource("dateTime-precise", "0006-06-06T06:06:06.123456Z");
     }
     
     @Test

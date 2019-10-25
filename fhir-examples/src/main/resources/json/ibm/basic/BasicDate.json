@@ -42,6 +42,59 @@
       "url": "http://example.org/time",
       "valueTime": "17:12:00"
     },
+    
+    {
+      "url": "http://example.org/instant-precise",
+      "valueInstant": "0001-01-01T01:01:01.1Z"
+    },
+    {
+      "url": "http://example.org/dateTime-precise",
+      "valueDateTime": "0001-01-01T01:01:01.1Z"
+    },
+    {
+      "url": "http://example.org/instant-precise",
+      "valueInstant": "0002-02-02T02:02:02.12Z"
+    },
+    {
+      "url": "http://example.org/dateTime-precise",
+      "valueDateTime": "0002-02-02T02:02:02.12Z"
+    },
+    {
+      "url": "http://example.org/instant-precise",
+      "valueInstant": "0003-03-03T03:03:03.123Z"
+    },
+    {
+      "url": "http://example.org/dateTime-precise",
+      "valueDateTime": "0003-03-03T03:03:03.123Z"
+    },
+    {
+      "url": "http://example.org/instant-precise",
+      "valueInstant": "0004-04-04T04:04:04.1234Z"
+    },
+    {
+      "url": "http://example.org/dateTime-precise",
+      "valueDateTime": "0004-04-04T04:04:04.1234Z"
+    },
+    {
+      "url": "http://example.org/instant-precise",
+      "valueInstant": "0005-05-05T05:05:05.12345Z"
+    },
+    {
+      "url": "http://example.org/dateTime-precise",
+      "valueDateTime": "0005-05-05T05:05:05.12345Z"
+    },
+    {
+      "url": "http://example.org/instant-precise",
+      "valueInstant": "0006-06-06T06:06:06.123456Z"
+    },
+    {
+      "url": "http://example.org/dateTime-precise",
+      "valueDateTime": "0006-06-06T06:06:06.123456Z"
+    },
+    {
+      "url": "http://example.org/time-precise",
+      "valueTime": "01:02:03.123456"
+    },
     {
       "url": "http://example.org/Period",
       "valuePeriod": {
