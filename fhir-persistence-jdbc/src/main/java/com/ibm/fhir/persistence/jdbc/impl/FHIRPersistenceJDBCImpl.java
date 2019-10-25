@@ -415,7 +415,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 lastPageNumber = (int) ((searchResultCount + pageSize - 1) / pageSize);
                 searchContext.setLastPageNumber(lastPageNumber);
                 
-                 
                 // For _summary=count, we don't need to return any resource 
                 if (searchResultCount > 0 && 
                         !(searchContext.getSummaryParameter() != null 

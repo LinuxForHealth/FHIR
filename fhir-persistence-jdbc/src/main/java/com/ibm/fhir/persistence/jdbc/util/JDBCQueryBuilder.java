@@ -759,21 +759,21 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             }
 
             datetime = QueryBuilderUtil.getInstant(value.getValueDate());
-            // If the dateTime value is fully specified, go ahead and build a where clause segment for it.
-            if (!value.getValueDate().isPartial()) {
+            // If the dateTime value is fully specified down to the microsecond, build a where clause segment with strict equals.
+            if (!value.getValueDate().isPartial() && QueryBuilderUtil.hasMicroseconds(value.getValueDate().getValue())) {
                 start = datetime;
                 end = datetime;
                 if (isDateSearch) {
                     whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value()).append(BIND_VAR);
+                    whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
+                                      .append(operator.value())
+                                      .append(BIND_VAR);
                     bindVariables.add(Timestamp.from(datetime));
                     whereClauseSegment.append(RIGHT_PAREN);
                 }
             } else {
-                // For a partial dateTime and an EQ operator, a duration is calculated and a where segment is generated
-                // to cover a range.
-                // For example, if the dateTime is specified down to the day, a range where segment is generated to
-                // cover that day.
+                // For everything else, a duration is calculated and a where segment is generated to cover the implicit range.
+                // For example, if the dateTime is specified down to the day, a range where segment is generated to cover that day.
 
                 start = datetime;
                 end = QueryBuilderUtil.getEnd(value.getValueDate());
@@ -784,9 +784,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                         // TODO: can we combine this with the dateRange logic below?
                         // The main difference is here we use DATE_VALUE instead of DATE_START/DATE_END
                         // because the DATE_VALUE is precise and has no implicit range
-                        whereClauseSegment.append(tableAlias
-                                + DOT).append(DATE_VALUE).append(JDBCOperator.GTE.value()).append(BIND_VAR).append(JDBCOperator.AND.value()).append(tableAlias
-                                        + DOT).append(DATE_VALUE).append(JDBCOperator.LT.value()).append(BIND_VAR);
+                        whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
+                                          .append(JDBCOperator.GTE.value())
+                                          .append(BIND_VAR)
+                                          .append(JDBCOperator.AND.value())
+                                          .append(tableAlias + DOT).append(DATE_VALUE)
+                                          .append(JDBCOperator.LT.value())
+                                          .append(BIND_VAR);
                         bindVariables.add(Timestamp.from(start));
                         bindVariables.add(Timestamp.from(end));
                     } else {
