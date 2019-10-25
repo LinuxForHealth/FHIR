@@ -28,7 +28,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
  * each of the various persistence layer implementations.
  * There will be a subclass in each persistence project.
  */
-public abstract class AbstractQueryMultiResourceTest extends AbstractPersistenceTest {
+public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest {
     String commonId = UUID.randomUUID().toString();
     
     /**

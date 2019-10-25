@@ -88,6 +88,16 @@
     
     {
         "resourceType": "Basic",
+        "name": "instant-precise",
+        "targetClasses": ["Instant"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "dateTime-precise",
+        "targetClasses": ["DateTime"]
+    },
+    {
+        "resourceType": "Basic",
         "name": "Period-noStart",
         "targetClasses": ["Period"]
     },

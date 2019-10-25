@@ -32,7 +32,7 @@ import com.ibm.fhir.model.util.FHIRUtil;
  * each of the various persistence layer implementations.
  * There will be a subclass in each persistence project.
  */
-public abstract class AbstractQueryCompartmentTest extends AbstractPersistenceTest {
+public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
     Patient savedPatient;
     Device savedDevice;
     Encounter savedEncounter;

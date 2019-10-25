@@ -292,6 +292,40 @@
     },
     
     {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-instant-precise",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-instant-precise",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-instant-precise",
+            "name": "instant-precise",
+            "status": "active",
+            "description": "test param",
+            "code": "instant-precise",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/instant-precise').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/instant-precise']/f:valueInstant",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-dateTime-precise",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-dateTime-precise",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-dateTime-precise",
+            "name": "dateTime-precise",
+            "status": "active",
+            "description": "test param",
+            "code": "dateTime-precise",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/dateTime-precise').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/dateTime-precise']/f:valueDateTime",
+            "xpathUsage": "normal"
+        }
+    },
+    {
         "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Period-noStart",
         "resource": {
             "resourceType": "SearchParameter",

@@ -155,12 +155,12 @@ public class ValueTypesR4Impl implements IValueTypes {
                     Set<Class<?>> valueTypes = tenantValueTypes.get(hash(resourceType, code));
                     if (valueTypes != null) {
                         valueTypesList.addAll(valueTypes);
-                    } else {
-                        log.log(Level.INFO, "Unable to find value types for parameter '" + code + "' on resource type '" 
-                                + resourceType.getSimpleName() + "' [tenantId=" + tenantId + "]");
+                    } else if (log.isLoggable(Level.FINER)) {
+                        log.log(Level.FINER, "Assuming search parameter '" + code + "' on resource type '" 
+                                + resourceType.getSimpleName() + "' is not an extension-search-parameter [tenantId=" + tenantId + "]");
                     }
-                } else {
-                    log.log(Level.INFO, "Unable to find extension-search-parameters-valuetypes for tenantId '" + tenantId + "'");
+                } else if (log.isLoggable(Level.FINE)) {
+                    log.log(Level.FINE, "Unable to find extension-search-parameters-valuetypes for tenantId '" + tenantId + "'");
                 }
 
             } catch (Exception e) {
