@@ -13,6 +13,7 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
@@ -97,19 +98,20 @@ public class QueryBuilderUtil {
         
     public static java.time.Instant getEnd(TemporalAccessor ta) {
         java.time.Instant result;
-        java.time.LocalDateTime local;
         
         if (ta instanceof ZonedDateTime) {
+            if (!hasSubSeconds(ta)) {
+                ta = addOneMinuteOrSecond((ZonedDateTime) ta);
+            }
             result = ((ZonedDateTime) ta).toInstant();
-            if (!hasMicroseconds(result)) {
-                result = addOne(result);
-            }
         } else if (ta instanceof java.time.Instant) {
-            result = (Instant) ta;
-            if (!hasMicroseconds(result)) {
-                result = addOne(result);
+            if (!hasSubSeconds(ta)) {
+                ta = addOneMinuteOrSecond(((java.time.Instant) ta).atZone(ZoneOffset.UTC));
             }
+            result = ((ZonedDateTime) ta).toInstant();
         } else {
+            java.time.LocalDateTime local;
+            
             if (ta instanceof Year) {
                 Year year = ((Year)ta).plusYears(1);
                 local = REFERENCE_DATE.with(ChronoField.YEAR, year.getValue());
@@ -136,24 +138,20 @@ public class QueryBuilderUtil {
         return result;
     }
 
-    private static java.time.Instant addOne(java.time.Instant instant) {
-        if (instant.get(ChronoField.MILLI_OF_SECOND) > 0) {
-            instant = instant.plusMillis(1);
+    private static ZonedDateTime addOneMinuteOrSecond(ZonedDateTime dateTime) {
+        if (dateTime.get(ChronoField.SECOND_OF_MINUTE) > 0) {
+            dateTime = dateTime.plusSeconds(1);
         } else {
-            instant = instant.plusSeconds(1);
+            dateTime = dateTime.plusSeconds(60);
         }
-        return instant;
+        return dateTime;
     }
     
     /**
-     * A rough heuristic to guess whether we got an exact instant (down to the millisecond) or something we should treat as an implicit range.
-     * <p>
-     * There is no "correct" way to determine this at the moment since the search parameter comes in as a DateTime and
-     * there is no way to distinguish input like 0001-01-01T01:01:01.1 from 0001-01-01T01:01:01.100000.
+     * Whether the temporal accessor has fractional seconds
      */
-    public static boolean hasMicroseconds(TemporalAccessor ta) {
-        int micro_of_milli = ta.get(ChronoField.MICRO_OF_SECOND) % 1000;
-        if (micro_of_milli > 0) {
+    public static boolean hasSubSeconds(TemporalAccessor ta) {
+        if (ta.isSupported(ChronoField.MILLI_OF_SECOND) && ta.get(ChronoField.NANO_OF_SECOND) > 0) {
             return true;
         }
         return false;

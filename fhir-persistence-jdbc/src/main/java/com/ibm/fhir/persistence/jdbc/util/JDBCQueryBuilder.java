@@ -760,7 +760,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
             datetime = QueryBuilderUtil.getInstant(value.getValueDate());
             // If the dateTime value is fully specified down to the microsecond, build a where clause segment with strict equals.
-            if (!value.getValueDate().isPartial() && QueryBuilderUtil.hasMicroseconds(value.getValueDate().getValue())) {
+            if (!value.getValueDate().isPartial() && QueryBuilderUtil.hasSubSeconds(value.getValueDate().getValue())) {
                 start = datetime;
                 end = datetime;
                 if (isDateSearch) {
