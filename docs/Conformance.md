@@ -5,7 +5,7 @@ The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR speci
 The HL7 FHIR specification defines [an interaction](https://www.hl7.org/fhir/R4/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The IBM FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the current server configuration. While the `CapabilityStatement` resource is ideal for certain uses, this markdown document provides a human-readable summary of important details, with a special focus on limitations of the current implementation and deviations from the specification.
 
 ## FHIR HTTP API
-The HL7 FHIR specification is more than just a content standard. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements the full API for every resource defined in the specification, with the following exceptions:
+The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements the full API for every resource defined in the specification, with the following exceptions:
 * history is only supported at the resource instance level (no resource type history and no whole-system history)
 * there are parts of the FHIR search specification which are not fully implemented as documented in the following section
 
@@ -18,7 +18,7 @@ For all other types, the IBM FHIR Server supports the parameters defined in the
 specification and allows for the configuration of additional ones.
 
 ### Search parameters
-Search parameters defined in the specification can be found by browsing the R4 FHIR specification by resource type. For example, to find the search parameters for a Patient resource, navigate to https://www.hl7.org/fhir/R4/patient.html and scroll to the Search Parameters section near the end of the page.
+Search parameters defined in the specification can be found by browsing the R4 FHIR specification by resource type. For example, to find the search parameters for the Patient resource, navigate to https://www.hl7.org/fhir/R4/patient.html and scroll to the Search Parameters section near the end of the page.
 
 In addition, the following search parameters are supported on all resources:
 * `_id`
@@ -28,23 +28,24 @@ In addition, the following search parameters are supported on all resources:
 * `_source`
 * `_tag`
 
-The `_text`, `_content`, `_list`, and `_query` parameters are not supported at this time.
+The `_content`, `_query`, and `_text` parameters are not supported at this time.
 
 Finally, the specification defines a set of <q>Search result parameters</q> for controlling the search behavior. The IBM FHIR Server supports the following:
 * `_sort`
 * `_count`
 * `_include`
 * `_revinclude`
+* `_summary`
 * `_elements`
 
 The `_count` parameter can be used to return at most 1000 records. If the client specifies a `_count` of over 1000, the page size is capped at 1000. If the client specifies a `_count` of 1000 or less, the server honors the client request.
 
-The `_summary`, `_total`, `_contained`, and `_containedType` parameters are not supported at this time.
+The `_total`, `_contained`, and `_containedType` parameters are not supported at this time.
 
 ### Custom search parameters
 Custom search parameters are search parameters that are not defined in the FHIR R4 specification, but are configured for search on the IBM FHIR Server. You can configure custom parameters for either extension elements or for elements that are defined in the specification but without a corresponding search parameter.
 
-For information on how to specify custom search parameters, see [Section 3.5 Search parameters](FHIRServerUserGuide.md#35-search-parameters) of the FHIR Server User Guide.
+For information on how to specify custom search parameters, see [FHIRSearchConfiguration.md](FHIRSearchConfiguration.md).
 
 ### Search modifiers
 FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#modifiers and vary by search parameter type. The IBM FHIR Server implements a subset of the spec-defined search modifiers that is defined in the following table:
@@ -95,6 +96,18 @@ If not specified on a query string, the default prefix is `eq`.
 
 ### Searching on Date
 The FHIR server adheres to the specification except in cases where a time is included in the search query value. When a time is specified, the implementation requires an hour, minute, second, and timezone value. Including these values is consistent with the way in which `instant` and `dateTime` data types are defined at https://www.hl7.org/fhir/R4/datatypes.html#primitive. However, the implementation differs from the description at https://www.hl7.org/fhir/R4/search.html#date, which allows clients to include hours and minutes, but to omit values for seconds and time zone.
+
+The IBM FHIR Server stores up to 6 fractional seconds (microsecond granularity) for Instant and DateTime values (when present) and allows clients to search with these as well.
+
+Query parameter values without fractional seconds will be handled as an implicit range. For example, a search like `Patient?date=2019-01-01T12:00:00Z` would include resources with the following effectiveDateTime values:
+* 2019-01-01T12:00:00Z
+* 2019-01-01T12:00:00.1Z
+* 2019-01-01T12:00:00.999999Z
+
+Query parameter values with fractional seconds will be handled with exact match semantics (ignoring precision). For example, a search like `Patient?date=2019-01-01T12:00:00.100Z` would include resources with the following effectiveDateTime values:
+* 2019-01-01T12:00:00.1Z
+* 2019-01-01T12:00:00.100Z
+* 2019-01-01T12:00:00.100000Z
 
 Indexing fields of type `Timing` is not well-defined in the specification and is not supported in this version of the IBM FHIR Server.
 
