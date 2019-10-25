@@ -29,7 +29,8 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 public final class ProfileSupport {
-    public static final String STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
+    public static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
+    public static final String HL7_VALUE_SET_URL_PREFIX = "http://hl7.org/fhir/ValueSet/";
 
     private static final Map<String, List<Constraint>> CONSTRAINT_CACHE = new ConcurrentHashMap<>();
     private static final Map<String, Map<String, ElementDefinition>> ELEMENT_DEFINITION_CACHE = new ConcurrentHashMap<>();
@@ -213,7 +214,7 @@ public final class ProfileSupport {
     }
     
     public static Map<String, ElementDefinition> getElementDefinitionMap(Class<?> modelClass) {
-        return getElementDefinitionMap(STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
+        return getElementDefinitionMap(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
     }
     
     public static Map<String, ElementDefinition> getElementDefinitionMap(String url) {
@@ -245,7 +246,7 @@ public final class ProfileSupport {
     }
 
     private static StructureDefinition getStructureDefinition(Class<?> modelClass) {
-        return getStructureDefinition(STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
+        return getStructureDefinition(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
     }
     
     public static StructureDefinition getStructureDefinition(String url) {
@@ -259,7 +260,7 @@ public final class ProfileSupport {
     private static String getUrl(String path) {
         int index = path.indexOf(".");
         String typeName = (index != -1) ? path.substring(0, index) : path;
-        return STRUCTURE_DEFINITION_URL_PREFIX + typeName;
+        return HL7_STRUCTURE_DEFINITION_URL_PREFIX + typeName;
     }
     
     public static boolean isApplicable(StructureDefinition profile, Class<?> resourceType) {

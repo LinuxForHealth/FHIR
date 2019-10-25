@@ -60,7 +60,7 @@ Several static factory / utility methods are also used:
 
 Many of the primitive data types contain this type of "helper" method.
 
-Fields from an immutable model object may be copied back into a builder object using the `toBuild()` method:
+Fields from an immutable model object may be copied back into a builder object using the `toBuilder()` method:
 ```
 bodyWeight = bodyWeight.toBuilder()
     .value(bodyWeight.getValue().as(Quantity.class).toBuilder()
