@@ -108,9 +108,9 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         if (persistence.isDeleteSupported()) {
             for (Resource resource : resources) {
                 persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId().getValue());
-                if (persistence.isTransactional()) {
-                    persistence.getTransaction().commit();
-                }
+            }
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().commit();
             }
         }
         FHIRRequestContext.get().setTenantId("default");

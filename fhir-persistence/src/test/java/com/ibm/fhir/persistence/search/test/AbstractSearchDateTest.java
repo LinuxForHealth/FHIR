@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -112,6 +119,15 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         // This throws an error
 //        assertSearchReturnsComposition("date", "2018-10-29T17:12:00");
         assertSearchDoesntReturnComposition("subject:Basic.date", "2025-10-29");
+    }
+    
+    @Test
+    public void testSearchDate_date_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("date", Collections.singletonList("2018-10-29"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
     
     @Test
