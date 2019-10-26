@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -389,7 +390,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         final String METHODNAME = "search";
         log.entering(CLASSNAME, METHODNAME);
         
-        List<Resource> resources = new ArrayList<Resource>();
+        List<Resource> resources = Collections.emptyList();
         FHIRSearchContext searchContext = context.getSearchContext();
         JDBCQueryBuilder queryBuilder;
         List<Long> sortedIdList;
