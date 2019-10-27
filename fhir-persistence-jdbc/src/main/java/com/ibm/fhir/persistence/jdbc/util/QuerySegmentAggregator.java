@@ -243,14 +243,18 @@ class QuerySegmentAggregator {
              
             resourceTypeName =  resourceIdNameMap.get(resourceTypeId) + "_";
             
-            tempFromClause = this.buildFromClause2();
+            tempFromClause = this.buildFromClause();
             tempFromClause = tempFromClause.replaceAll("Resource_", resourceTypeName);
             if (resourceTypeProcessed) {
                 queryString.append(UNION);
             }
             queryString.append(subSelectRoot).append(tempFromClause);
             resourceTypeProcessed = true;
-            queryString.append(this.buildWhereClause2());
+
+            tempFromClause = this.buildWhereClause();
+            tempFromClause = tempFromClause.replaceAll("Resource_", resourceTypeName);
+            queryString.append(tempFromClause);
+
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
@@ -366,96 +370,4 @@ class QuerySegmentAggregator {
                        .append(" FETCH NEXT ").append(this.pageSize).append(" ROWS ONLY");
         }
     }
-    
-    
-    /**
-     * Builds the FROM clause for the SQL query being generated. The appropriate Resource and Parameter table names are included 
-     * along with an alias for each table, used by system level query.
-     * @return A String containing the FROM clause
-     * @throws Exception 
-     */
-    protected String buildFromClause2() throws Exception {
-        final String METHODNAME = "buildFromClause2";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        boolean isLocationQuery;
-        int parameterTableAliasIndex = 1;
-        StringBuilder fromClause = new StringBuilder();
-        String resourceTypeName = this.resourceType.getSimpleName();
-        fromClause.append(MessageFormat.format(FROM_CLAUSE_ROOT, this.resourceType.getSimpleName()));
-        
-        for (Parameter searchQueryParm : this.searchQueryParameters) {
-            if (Modifier.MISSING.equals(searchQueryParm.getModifier())) {
-                // No need to join on the VALUES table for search params with the :missing modifier
-                continue;
-            }
-            fromClause.append(JOIN).append(resourceTypeName);
-            isLocationQuery = Location.class.equals(this.resourceType) && searchQueryParm.getName().equals(AbstractQueryBuilder.NEAR);
-            switch(searchQueryParm.getType()) {
-                case URI :
-                case REFERENCE : 
-                case STRING :   fromClause.append("_STR_VALUES ");
-                     break;
-                case NUMBER :   fromClause.append("_NUMBER_VALUES "); 
-                     break;
-                case QUANTITY : fromClause.append("_QUANTITY_VALUES ");
-                     break;
-                case DATE :     fromClause.append("_DATE_VALUES ");
-                     break;
-                case TOKEN :    if (isLocationQuery) {
-                                    fromClause.append("_LATLNG_VALUES ");
-                                }
-                                else {
-                                    fromClause.append("_TOKEN_VALUES ");
-                                }
-                     break;
-            }
-            
-            String resolvedTableAlias = PARAMETER_TABLE_VAR + parameterTableAliasIndex + ".";
-            fromClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
-            fromClause.append(ON).append(resolvedTableAlias).append("LOGICAL_RESOURCE_ID=R.LOGICAL_RESOURCE_ID");
-            
-            SqlQueryData querySegment = this.querySegments.get(parameterTableAliasIndex-1);
-            String joinAndClauseSegment = querySegment.getQueryString();
-            joinAndClauseSegment = joinAndClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", resolvedTableAlias);
-            fromClause.append(AND).append(joinAndClauseSegment);
-
-            parameterTableAliasIndex++;
-        }
-        fromClause.append(" ");
-            
-        log.exiting(CLASSNAME, METHODNAME);
-        return fromClause.toString();
-        
-    }
-    
-    /**
-     * Builds the WHERE clause for the query being generated. This method aggregates the contained query segments, and ties those segments back
-     * to the appropriate parameter table alias, used by system level query.
-     * @return
-     */
-    protected String buildWhereClause2() {
-        final String METHODNAME = "buildWhereClause2";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        StringBuilder whereClause = new StringBuilder();
-        String whereClauseSegment;
-                         
-        whereClause.append(WHERE_CLAUSE_ROOT);
-        if (!this.querySegments.isEmpty()) {
-            for(int i = 0; i < this.querySegments.size(); i++) {
-                SqlQueryData querySegment = this.querySegments.get(i);
-                Parameter param = this.searchQueryParameters.get(i);
-
-                whereClauseSegment = querySegment.getQueryString();
-                if (Modifier.MISSING.equals(param.getModifier())) {
-                    whereClause.append(AND).append(whereClauseSegment);
-                }
-            }
-        }
-        
-        log.exiting(CLASSNAME, METHODNAME);
-        return whereClause.toString();
-    }
-
 }
