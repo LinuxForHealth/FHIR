@@ -104,7 +104,7 @@ public class TestUtil {
         requestObject.add("method", method)
             .add("url", url);
         return requestObject.build();  
-    }    
+    }
     
     /**
      * Loads an Observation resource from the specified file, then associates it with
@@ -119,7 +119,7 @@ public class TestUtil {
             .subject(Reference.builder().reference(string("Patient/" + patientId)).build())
             .build();
         return observation;
-    } 
+    }
     
     /**
      * Returns an InputStream for the specified fileName after searching in a few pre-defined locations.

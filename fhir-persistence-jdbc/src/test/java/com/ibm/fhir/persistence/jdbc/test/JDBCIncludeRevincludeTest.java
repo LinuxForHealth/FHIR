@@ -12,14 +12,14 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractCompartmentTest;
+import com.ibm.fhir.persistence.test.common.AbstractIncludeRevincludeTest;
 
 
-public class JDBCCompartmentTest extends AbstractCompartmentTest {
+public class JDBCIncludeRevincludeTest extends AbstractIncludeRevincludeTest {
     
     private Properties testProps;
     
-    public JDBCCompartmentTest() throws Exception {
+    public JDBCIncludeRevincludeTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 

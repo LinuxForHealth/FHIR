@@ -89,6 +89,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BundleType;
@@ -3720,20 +3721,25 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     private Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext)
         throws FHIROperationException {
+        
+        // throws if we have a count of more than 2,147,483,647 resources
+        UnsignedInt totalCount = com.ibm.fhir.model.type.UnsignedInt.of(Math.toIntExact(searchContext.getTotalCount()));
         // generate ID for this bundle and set total
+        Bundle.Builder bundleBuider = Bundle.builder()
+                                            .type(BundleType.SEARCHSET)
+                                            .id(Id.of(UUID.randomUUID().toString()))
+                                            .total(totalCount);
 
-        Bundle.Builder bundleBuider =
-                Bundle.builder().type(BundleType.SEARCHSET).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.fhir.model.type.UnsignedInt.of((int) searchContext.getTotalCount()));
-            for (Resource resource : resources) {
-                if (resource.getId() == null || !resource.getId().hasValue()) {
-                    throw new IllegalStateException("Returned resources must have an id.");
-                }
-                Bundle.Entry entry = Bundle.Entry.builder().fullUrl(Uri.of(getRequestBaseUri() + "/"
-                        + resource.getClass().getSimpleName() + "/"
-                        + resource.getId().getValue())).resource(resource).build();
-    
-                bundleBuider.entry(entry);
+        for (Resource resource : resources) {
+            if (resource.getId() == null || !resource.getId().hasValue()) {
+                throw new IllegalStateException("Returned resources must have an id.");
             }
+            Bundle.Entry entry = Bundle.Entry.builder().fullUrl(Uri.of(getRequestBaseUri() + "/"
+                    + resource.getClass().getSimpleName() + "/"
+                    + resource.getId().getValue())).resource(resource).build();
+
+            bundleBuider.entry(entry);
+        }
 
         Bundle bundle = bundleBuider.build();
 
@@ -3758,9 +3764,14 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     private Bundle createHistoryBundle(List<? extends Resource> resources, FHIRHistoryContext historyContext)
         throws FHIROperationException {
+        
+        // throws if we have a count of more than 2,147,483,647 resources
+        UnsignedInt totalCount = com.ibm.fhir.model.type.UnsignedInt.of(Math.toIntExact(historyContext.getTotalCount()));
         // generate ID for this bundle and set the "total" field for the bundle
-        Bundle.Builder bundleBuilder =
-                Bundle.builder().type(BundleType.HISTORY).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.fhir.model.type.UnsignedInt.of((int) (long) historyContext.getTotalCount()));
+        Bundle.Builder bundleBuilder = Bundle.builder()
+                                             .type(BundleType.HISTORY)
+                                             .id(Id.of(UUID.randomUUID().toString()))
+                                             .total(totalCount);
 
         Map<String, List<Integer>> deletedResourcesMap = historyContext.getDeletedResources();
 

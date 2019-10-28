@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -71,6 +78,15 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         
         assertSearchReturnsComposition("subject:Basic.integer", "ne13");
         assertSearchReturnsComposition("subject:Basic.integer", "ap12");
+    }
+    
+    @Test
+    public void testSearchNumber_integer_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("integer", Collections.singletonList("12"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
     
     @Test

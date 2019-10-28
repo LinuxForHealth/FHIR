@@ -12,10 +12,10 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractQueryMultiResourceTest;
+import com.ibm.fhir.persistence.test.common.AbstractMultiResourceTest;
 
 
-public class JDBCMultiResourceTest extends AbstractQueryMultiResourceTest {
+public class JDBCMultiResourceTest extends AbstractMultiResourceTest {
     
     private Properties testProps;
     

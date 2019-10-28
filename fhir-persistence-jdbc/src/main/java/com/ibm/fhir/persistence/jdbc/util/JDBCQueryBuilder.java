@@ -37,9 +37,10 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.prefixOperatorMap;
 import static com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator.PARAMETER_TABLE_ALIAS;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -428,22 +429,25 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     /**
      * Contains special logic for handling chained reference search parameters.
+     * <p>
+     * Nested sub-selects are built to realize the chaining logic required. Here is a sample chained query for an
+     * Observation given this search parameter: device:Device.patient.family=Monella
+     *
+     * <pre>
+     * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
+     * Observation_RESOURCES R, Observation_LOGICAL_RESOURCES LR , Observation_STR_VALUES P1 WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND
+     * P1.RESOURCE_ID = R.RESOURCE_ID AND
+     * P1.PARAMETER_NAME_ID = 107 AND
+     * (p1.STR_VALUE IN
+     *    (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
+     *        CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *          CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN
+     *                 (SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE
+     *                     CR2.RESOURCE_ID = CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
+     *                     CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')));
+     * </pre>
      * 
-     * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13) Nested sub-selects are built to realize
-     *      the chaining logic required. Here is a sample chained query for an Observation given this search parameter:
-     *      device:Device.patient.family=Monella
-     *
-     *      SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA,
-     *      LR.LOGICAL_ID FROM Observation_RESOURCES R, Observation_LOGICAL_RESOURCES LR , Observation_STR_VALUES P1
-     *      WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND
-     *      P1.PARAMETER_NAME_ID = 107 AND (p1.STR_VALUE IN (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
-     *      Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CR1.LOGICAL_RESOURCE_ID AND
-     *      CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN (SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM
-     *      Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE CR2.RESOURCE_ID =
-     *      CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.LOGICAL_RESOURCE_ID = CR2.LOGICAL_RESOURCE_ID AND
-     *      CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')));
-     *
+     * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13)
      * @param queryParm
      *            - A Parameter representing a chained query.
      * @return SqlQueryData - The query segment for a chained parameter reference search.
@@ -636,34 +640,66 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * This method is the entry point for processing inclusion criteria, which define resources that are part of a
      * comparment-based search.
      * 
+     * Example inclusion criteria for AuditEvent in the Patient compartment:
+     * <pre>
+     * {
+     *        "name": "AuditEvent",
+     *        "inclusionCriteria": ["patient",          This is a simple attribute inclusion criterion
+     *        "participant.patient:Device",             This is a chained inclusion criterion
+     *        "participant.patient:RelatedPerson",      This is a chained inclusion criterion
+     *        "reference.patient:*"]                    This is a chained inclusion criterion with wildcard. The wildcard means "any resource type".
+     * }
+     * </pre>
+     * 
+     * <p>
+     * Here is a sample generated query for this inclusion criteria:
+     * <li>PARAMETER_NAME_ID 13 = 'participant'
+     * <li>PARAMETER_NAME_ID 14 = 'patient'
+     * <li>PARAMETER_NAME_ID 16 = 'reference'
+     * 
+     * <pre>
+     *    SELECT COUNT(R.RESOURCE_ID) FROM
+     *    AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR , AuditEvent_STR_VALUES P1 WHERE
+     *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
+     *    R.IS_DELETED <> 'Y' AND
+     *    P1.RESOURCE_ID = R.RESOURCE_ID AND
+     *    ((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR
+     *     ((P1.PARAMETER_NAME_ID=13 AND
+     *      (P1.STR_VALUE IN
+     *        (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
+     *            Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
+     *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
+     *            CR1.IS_DELETED <> 'Y' AND
+     *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
+     *    ((P1.PARAMETER_NAME_ID=13 AND
+     *     (P1.STR_VALUE IN
+     *        (SELECT 'RelatedPerson' || '/' || CLR1.LOGICAL_ID FROM
+     *            RelatedPerson_RESOURCES CR1, RelatedPerson_LOGICAL_RESOURCES CLR1, RelatedPerson_STR_VALUES CP1 WHERE
+     *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
+     *            CR1.IS_DELETED <> 'Y' AND
+     *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
+     *     ((P1.PARAMETER_NAME_ID=16 AND
+     *      (P1.STR_VALUE IN
+     *        (SELECT 'AuditEvent' || '/' || CLR1.LOGICAL_ID FROM
+     *            auditevent_RESOURCES CR1, auditevent_LOGICAL_RESOURCES CLR1, auditevent_STR_VALUES CP1 WHERE
+     *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
+     *            CR1.IS_DELETED <> 'Y' AND
+     *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?
+     *            UNION
+     *            SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
+     *                device_RESOURCES CR1, device_LOGICAL_RESOURCES CLR1, device_STR_VALUES CP1 WHERE
+     *                CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
+     *                CR1.IS_DELETED <> 'Y' AND
+     *                CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *                CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
+     * </pre>
+     * 
      * @throws Exception
      * @see compartments.json for the specificaiton of compartments, resources contained in each compartment, and the
-     *      criteria that must be for a resource to be included in a compartment. Example inclusion criteria for
-     *      AuditEvent in the Patient compartment: { "name": "AuditEvent", "inclusionCriteria": ["patient", This is a
-     *      simple attribute inclusion criterion "participant.patient:Device", This is a chained inclusion criterion
-     *      "participant.patient:RelatedPerson", This is a chained inclusion criterion "reference.patient:*"] This is a
-     *      chained inclusion criterion with wildcard. The wildcard means "any resource type". }
-     *
-     *      Here is a sample generated query for this inclusion criteria: --PARAMETER_NAME_ID 13 = 'participant'
-     *      --PARAMETER_NAME_ID 14 = 'patient' --PARAMETER_NAME_ID 16 = 'reference'
-     *
-     *      SELECT COUNT(R.RESOURCE_ID) FROM AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR ,
-     *      AuditEvent_STR_VALUES P1 WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND
-     *      P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND ((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR
-     *      ((P1.PARAMETER_NAME_ID=13 AND (P1.STR_VALUE IN (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
-     *      Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
-     *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR ((P1.PARAMETER_NAME_ID=13 AND (P1.STR_VALUE IN (SELECT
-     *      'RelatedPerson' || '/' || CLR1.LOGICAL_ID FROM RelatedPerson_RESOURCES CR1, RelatedPerson_LOGICAL_RESOURCES
-     *      CLR1, RelatedPerson_STR_VALUES CP1 WHERE CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <>
-     *      'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
-     *      ((P1.PARAMETER_NAME_ID=16 AND (P1.STR_VALUE IN (SELECT 'AuditEvent' || '/' || CLR1.LOGICAL_ID FROM
-     *      auditevent_RESOURCES CR1, auditevent_LOGICAL_RESOURCES CLR1, auditevent_STR_VALUES CP1 WHERE CR1.RESOURCE_ID
-     *      = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
-     *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ? UNION SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
-     *      device_RESOURCES CR1, device_LOGICAL_RESOURCES CLR1, device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
-     *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
+     *      criteria for a resource to be included in a compartment.
      */
     @Override
     protected SqlQueryData processInclusionCriteria(Parameter queryParm) throws Exception {
@@ -727,9 +763,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         StringBuilder whereClauseSegment = new StringBuilder();
         JDBCOperator operator;
         boolean parmValueProcessed = false;
-        Date date, start = null, end = null;
+        Instant datetime, start = null, end = null;
         SqlQueryData queryData;
-        List<Object> bindVariables = new ArrayList<>();
+        List<Timestamp> bindVariables = new ArrayList<>();
         boolean isDateSearch = isDateSearch(resourceType, queryParm);
         boolean isDateRangeSearch = isDateRangeSearch(resourceType, queryParm);
 
@@ -757,27 +793,25 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 whereClauseSegment.append(JDBCOperator.OR.value()).append(LEFT_PAREN);
             }
 
-            // TODO: clean up handling of date parameters in the query predicates
-            java.time.Instant inst = QueryBuilderUtil.getInstant(value.getValueDate());
-            date = Date.from(inst);
-            // If the dateTime value is fully specified, go ahead and build a where clause segment for it.
-            if (!value.getValueDate().isPartial()) {
-                start = date;
-                end = date;
+            datetime = QueryBuilderUtil.getInstant(value.getValueDate());
+            // If the dateTime value is fully specified down to the microsecond, build a where clause segment with strict equals.
+            if (!value.getValueDate().isPartial() && QueryBuilderUtil.hasSubSeconds(value.getValueDate().getValue())) {
+                start = datetime;
+                end = datetime;
                 if (isDateSearch) {
                     whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value()).append(BIND_VAR);
-                    bindVariables.add(date);
+                    whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
+                                      .append(operator.value())
+                                      .append(BIND_VAR);
+                    bindVariables.add(Timestamp.from(datetime));
                     whereClauseSegment.append(RIGHT_PAREN);
                 }
             } else {
-                // For a partial dateTime and an EQ operator, a duration is calculated and a where segment is generated
-                // to cover a range.
-                // For example, if the dateTime is specified down to the day, a range where segment is generated to
-                // cover that day.
+                // For everything else, a duration is calculated and a where segment is generated to cover the implicit range.
+                // For example, if the dateTime is specified down to the day, a range where segment is generated to cover that day.
 
-                start = date;
-                end = Date.from(QueryBuilderUtil.getEnd(value.getValueDate()));
+                start = datetime;
+                end = QueryBuilderUtil.getEnd(value.getValueDate());
 
                 if (isDateSearch) {
                     whereClauseSegment.append(LEFT_PAREN);
@@ -785,18 +819,23 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                         // TODO: can we combine this with the dateRange logic below?
                         // The main difference is here we use DATE_VALUE instead of DATE_START/DATE_END
                         // because the DATE_VALUE is precise and has no implicit range
-                        whereClauseSegment.append(tableAlias
-                                + DOT).append(DATE_VALUE).append(JDBCOperator.GTE.value()).append(BIND_VAR).append(JDBCOperator.AND.value()).append(tableAlias
-                                        + DOT).append(DATE_VALUE).append(JDBCOperator.LT.value()).append(BIND_VAR);
-                        bindVariables.add(start);
-                        bindVariables.add(end);
+                        whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
+                                          .append(JDBCOperator.GTE.value())
+                                          .append(BIND_VAR)
+                                          .append(JDBCOperator.AND.value())
+                                          .append(tableAlias + DOT).append(DATE_VALUE)
+                                          .append(JDBCOperator.LT.value())
+                                          .append(BIND_VAR);
+                        bindVariables.add(Timestamp.from(start));
+                        bindVariables.add(Timestamp.from(end));
                     } else {
                         whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value()).append(BIND_VAR);
-                        bindVariables.add(start);
+                        bindVariables.add(Timestamp.from(start));
                     }
                     whereClauseSegment.append(RIGHT_PAREN);
                 }
             }
+            
             if (isDateRangeSearch) {
                 if (isDateSearch) {
                     whereClauseSegment.append(JDBCOperator.OR.value());
@@ -829,42 +868,42 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @param bindVariables
      * @param prefix
      */
-    private void handleDateRangeComparison(String tableAlias, StringBuilder whereClauseSegment, Date start, Date end, List<Object> bindVariables,
+    private void handleDateRangeComparison(String tableAlias, StringBuilder whereClauseSegment, Instant start, Instant end, List<Timestamp> bindVariables,
         Prefix prefix) {
         switch (prefix) {
         case EB:
             // the range of the search value does not overlap with the range of the target value,
             // and the range above the search value contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(start);
+            bindVariables.add(Timestamp.from(start));
             break;
         case SA:
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GT.value()).append(BIND_VAR);
-            bindVariables.add(end);
+            bindVariables.add(Timestamp.from(end));
             break;
         case GE:
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(start);
+            bindVariables.add(Timestamp.from(start));
             break;
         case GT:
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GT.value()).append(BIND_VAR);
-            bindVariables.add(start);
+            bindVariables.add(Timestamp.from(start));
             break;
         case LE:
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LTE.value()).append(BIND_VAR);
-            bindVariables.add(end);
+            bindVariables.add(Timestamp.from(end));
             break;
         case LT:
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(end);
+            bindVariables.add(Timestamp.from(end));
             break;
         case AP:
             // the range of the search value overlaps with the range of the target value
@@ -874,8 +913,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(start);
-            bindVariables.add(end);
+            bindVariables.add(Timestamp.from(start));
+            bindVariables.add(Timestamp.from(end));
             whereClauseSegment.append(RIGHT_PAREN);
 
             whereClauseSegment.append(JDBCOperator.OR.value());
@@ -884,8 +923,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(start);
-            bindVariables.add(start);
+            bindVariables.add(Timestamp.from(start));
+            bindVariables.add(Timestamp.from(start));
             whereClauseSegment.append(RIGHT_PAREN);
 
             whereClauseSegment.append(JDBCOperator.OR.value());
@@ -896,8 +935,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 .append(JDBCOperator.LT.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(end);
-            bindVariables.add(end);
+            bindVariables.add(Timestamp.from(end));
+            bindVariables.add(Timestamp.from(end));
             whereClauseSegment.append(RIGHT_PAREN);
 
             break;
@@ -906,8 +945,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.OR.value());
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(start);
-            bindVariables.add(end);
+            bindVariables.add(Timestamp.from(start));
+            bindVariables.add(Timestamp.from(end));
             break;
         case EQ:
         default:
@@ -915,8 +954,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(start);
-            bindVariables.add(end);
+            bindVariables.add(Timestamp.from(start));
+            bindVariables.add(Timestamp.from(end));
             break;
         }
     }

@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.test.common;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.InputStream;
@@ -23,6 +24,7 @@ import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -33,12 +35,12 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This is a common abstract base class for all persistence-related tests.
- * 
+ *
  * Abstract subclasses in this package implement the logic of the tests and should
  * be extended by concrete subclasses in each persistence layer implementation.
- * 
- * @implNote {@link FHIRConfiguration} requires a path to the root of the configuration directory 
- * and this class passes the Maven target of the fhir-persistence project via a relative URL 
+ *
+ * @implNote {@link FHIRConfiguration} requires a path to the root of the configuration directory
+ * and this class passes the Maven target of the fhir-persistence project via a relative URL
  * ("../fhir-persistence/target/test-classes"). This means that:
  * <ul>
  *   <li>persistence layers under test must be configured outside of this mechanism
@@ -71,7 +73,7 @@ public abstract class AbstractPersistenceTest {
 
     @BeforeClass
     public void configureLogging() throws Exception {
-        final InputStream inputStream = getClass().getResourceAsStream("/logging.unitTest.properties");
+        final InputStream inputStream = AbstractPersistenceTest.class.getResourceAsStream("/logging.unitTest.properties");
         LogManager.getLogManager().readConfiguration(inputStream);
     }
 
@@ -99,15 +101,15 @@ public abstract class AbstractPersistenceTest {
     }
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
         return runQueryTest(resourceType, queryParms);
     }
-    
+
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
@@ -117,7 +119,7 @@ public abstract class AbstractPersistenceTest {
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms) throws Exception {
         return runQueryTest(resourceType, queryParms, null);
     }
-    
+
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
         // ensure that all the query parameters were processed into search parameters (needed because the server ignores invalid params by default)
@@ -134,7 +136,7 @@ public abstract class AbstractPersistenceTest {
                 // strip any modifiers
                 final String finalParamName = paramName.split(":")[0];
 
-                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getName().equals(finalParamName)), 
+                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getName().equals(finalParamName)),
                     "Search parameter '" + key + "' was not successfully parsed into a search parameter");
             }
         }
@@ -153,7 +155,7 @@ public abstract class AbstractPersistenceTest {
     }
 
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
@@ -165,5 +167,42 @@ public abstract class AbstractPersistenceTest {
         MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
         assertNotNull(result.getResource());
         return result.getResource();
+    }
+    
+    /**
+     * If the {@code resourceToFind} is contained in the list of resources this method returns the resource.
+     * Otherwise it returns null.
+     * @param resources
+     */
+    protected Resource findResourceInResponse(Resource resourceToFind, List<? extends Resource> resources) {
+        Resource returnedResource = null;
+        boolean alreadyFound = false;
+        int count = 0;
+        
+        String resourceTypeToFind = FHIRUtil.getResourceTypeName(resourceToFind);
+        String idToFind = resourceToFind.getId().getValue();
+        String versionToFind = resourceToFind.getMeta().getVersionId().getValue();
+        
+        for (Resource r : resources) {
+            String resourceType = FHIRUtil.getResourceTypeName(r);
+            String id = r.getId().getValue();
+            String version = r.getMeta().getVersionId().getValue();
+            if (idToFind.equals(id) && resourceTypeToFind.equals(resourceType)) {
+                if (versionToFind.equals(version)) {
+                    count++;
+                    if (alreadyFound) {
+                        System.out.println("found resource with id " + id + " " + count + " times.");
+                        fail("Resource with id '" + id + "' was returned multiple times in the search.");
+                    }
+                    returnedResource = r;
+                    alreadyFound = true;
+                } else {
+                    fail("Search has returned historical resource for resource id '" + id + "'.\n"
+                            + "Expected: version " + resourceToFind.getMeta().getVersionId().getValue() + "\n"
+                            + "Actual: version " + version);
+                }
+            }
+        }
+        return returnedResource;
     }
 }

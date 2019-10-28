@@ -21,6 +21,7 @@ lastupdated: "2019-09-04"
   * [3.3 Tenant-specific configuration properties](#33-tenant-specific-configuration-properties)
   * [3.4 Persistence layer configuration](#34-persistence-layer-configuration)
 - [4 Customization options](#4-customization-options)
+  * [4.1 Extended operations](#41-extended-operations)
   * [4.2 Notification Service](#42-notification-service)
   * [4.3 Persistence interceptors](#43-persistence-interceptors)
   * [4.4 Resource validation](#44-resource-validation)
@@ -29,8 +30,7 @@ lastupdated: "2019-09-04"
   * [4.7 FHIR command-line interface (fhir-cli)](#47-fhir-command-line-interface-fhir-cli)
   * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
   * [4.9 Multi-tenancy](#49-multi-tenancy)
-  * [4.10 Extended operations](#410-extended-operations)
-  * [4.11 CADF audit logging service](#411-CADF-audit-logging-service)
+  * [4.10 CADF audit logging service](#410-CADF-audit-logging-service)
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
@@ -56,7 +56,7 @@ View information about recent changes that were made to this document. For more 
 * Added section on upgrading from one version to the next
 
 ###	Release 2.1
-IBM FHIR Server version 2.1 was developed under the Watson Health development organization. 
+IBM FHIR Server version 2.1 was developed under the Watson Health development organization.
 
 ###	Release 1.2
 *	Added information about the update/create feature.
@@ -193,8 +193,7 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
      "fhirServer":{
         "core":{
             "truststoreLocation":"resources/security/fhirTruststore.jks",
-            "truststorePassword":"{xor}change-me=",
-            "userDefinedSchematronEnabled":true
+            "truststorePassword":"change-password",
         }
     …
     }
@@ -211,7 +210,7 @@ In general, the configuration properties for a particular tenant are stored in t
 
 [FHIRSearchConfiguration.md](FHIRSearchConfiguration.md)
 
-More information about multi-tenant support can be found in [Section 4.10 Multi-tenancy](#410-multi-tenancy).
+More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
 ## 3.4 Persistence layer configuration
 The FHIR server is architected in a way that allows deployers to select the persistence layer implementation that fits their needs. Currently, the FHIR server includes a JDBC persistence layer which supports both Derby and Db2.
@@ -457,270 +456,44 @@ For a Derby-related datasource definition, any bean property supported by the `E
 
 
 # 4 Customization options
-You can modify the default server implementation by taking advantage of the FHIR server's extensibility. The following extension points are available:
- * Virtual resource types: FHIR REST API consumers can define custom resource types and treat them like standard FHIR resource types. The FHIR server does the work between incoming and outgoing requests so that custom resources are indistinguishable from specification-defined ones.
- * Notification service: Logging and auditing options available with Websockets, Apache Kafka
- * Persistence interceptors: Customers can specify code to be called before or after persistence operations, to enforce custom governance rules when a resource operation occurs.
- * Resource validation: Supports validation of FHIR resources on creation or update with spec-defined ISO schematron rules out of box, but also supports user-defined schematrons. A 'validate' operation is also bundled into the FHIR REST API layer to verify resources before ingestion.
- * Custom operations framework: The IBM FHIR Server implementation defines an extended operations framework that standardizes the inputs and outputs and the URI patterns for extensions to the standard REST API. By using the custom operations framework, developers can  extend the capabilities of the FHIR server by developing adapters, wrappers, or connectors to other services.
+You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
+ * Custom operations framework: The IBM FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
+ * Pluggable audit service: Logging and auditing options with Cloud Auditing Data Federation (CADF) over Apache Kafka.
+ * Persistence interceptors: Intercept requests before and/or after each persistence operation.
+ * Resource validation: Supports FHIRPath-based validation of FHIR resources on create or update and allows for the addition of custom constraints based on FHIR StructureDefinition profiles.
 
-## 4.1 Virtual resource types
+## 4.1 Extended operations
+In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
 
-### 4.1.1 Introduction
-The FHIR specification recommends the use of FHIR extension elements on existing resource types as a mechanism for providing data elements that do not map to existing resource types. The specification also discourages the development of custom resource types. The alternative is to use the Basic resource type along with extension elements. The Basic resource type has a few standard fields (`id`,`meta`,`subject`,`author`,and `created`) but its semantics are given based on the extension elements that are added. The trouble with using Basic resource types with extensions, rather than defining a custom resource type, is that the syntax is cumbersome and error prone. To address the difficulties related to supporting new data elements, the FHIR server enables you to define virtual resource types.
+### 4.1.1 Packaged operations
+The FHIR team provides implementations for the standard `$validate` and `$document` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
 
-A virtual resource type is a JSON structure that is structured just like a standard FHIR resource type. Before the FHIR server  processes a create or update operation that involves a virtual resource, the server automatically converts the JSON structure into a valid FHIR Basic-with-extensions structure. For read operations, such as read, vread, history, and search, the FHIR server does the opposite, converting Basic-with-extensions structures back to virtual resource structures.
+No other extended operations are packaged with the server at this time, but you can extend the server with your own operations.
 
-For example, the following JSON defines a virtual resource type called `WeatherDetail`:
+#### 4.1.1.1 $validate
+The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type.
 
-```
-{
-  "resourceType": "WeatherDetail",
-  "geolocation": {
-    "latitude": 35.732652,
-    "longitude": -78.850286
-  },
-  "references": {
-    "reference": "Patient/1234"
-  },
-  "measurements": [
-    {
-      "type": "humidity",
-      "value": 35
-    },
-    {
-      "type": "chanceOfRain",
-      "value": 0
-    }
-  ],
-  "description": "70 degrees farenheit and sunny"
-}
-```
+https://www.hl7.org/fhir/r4/resource-operations.html#validate
 
-The FHIR server converts the preceding `WeatherDetail` virtual resource into a Basic resource with extensions, as represented by the following JSON:
-```
-{
-  "resourceType": "Basic",
-  "extension": [
-    {
-      "url": "http://ibm.com/fhir/extension/geolocation",
-      "extension": [
-        {
-          "url": "http://ibm.com/fhir/extension/latitude",
-          "valueDecimal": 35.732652
-        },
-        {
-          "url": "http://ibm.com/fhir/extension/longitude",
-          "valueDecimal": -78.850286
-        }
-      ]
-    },
-    {
-      "url": "http://ibm.com/fhir/extension/references",
-      "valueReference": {
-        "reference": "Patient/1234"
-      }
-    },
-    {
-      "url": "http://ibm.com/fhir/extension/measurements",
-      "extension": [
-        {
-          "url": "_item",
-          "extension": [
-            {
-              "url": "http://ibm.com/fhir/extension/type",
-              "valueString": "humidity"
-            },
-            {
-              "url": "http://ibm.com/fhir/extension/value",
-              "valueInteger": 35
-            }
-          ]
-        },
-        {
-          "url": "_item",
-          "extension": [
-            {
-              "url": "http://ibm.com/fhir/extension/type",
-              "valueString": "chanceOfRain"
-            },
-            {
-              "url": "http://ibm.com/fhir/extension/value",
-              "valueInteger": 0
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "url": "http://ibm.com/fhir/extension/description",
-      "valueString": "70 degrees farenheit and sunny"
-    }
-  ],
-  "code": {
-    "coding": [
-      {
-        "system": "http://ibm.com/fhir/basic-resource-type",
-        "code": "WeatherDetail"
-      }
-    ]
-  }
-}
-```
+#### 4.1.1.2 $document
+The `$document` operation generates a fully bundled document from a composition resource.
 
-A `WeatherDetail` resource can be retrieved as a virtual resource or a Basic with extensions resource, depending on the URI pattern that is specified in the request URL:
+https://www.hl7.org/fhir/r4/composition-operations.html#document
 
-`<base>/WeatherDetail/<id>` for virtual resource
+#### 4.1.1.3 $healthcheck
+The `$healthcheck` operation returns the health of the FHIR server and its datastore. In the default JDBC persistence layer, this operation creates a connection to the configured database and return its status. The operations returns `200 OK` when healthy. Otherwise, it returns an HTTP error code and an `OperationOutcome` with one or more issues.
 
-`<base>/Basic/<id>` for Basic with extensions
+### 4.1.2 Custom operations
+In addition to the provided operations, the FHIR server supports user-provided custom operations through a Java Service Provider Interface (SPI).
 
-Virtual resource types that are used in the preceding fashion can use any of the following FHIR data types:
-*	String
-*	Boolean
-*	Decimal
-*	Integer
-*	Uri
-*	CodeableConcept
-*	Quantity
-*	Reference
+To contribute an operation:
 
-Virtual resource types support arbitrary nesting and the use of the preceding data types in JSON arrays and objects.
+1. Implement each operation as a Java class that extends `com.ibm.fhir.operation.AbstractOperation` from `fhir-operation.jar`. Ensure that your implementation returns an appropriate `OperationDefinition` in its `getDefinition()` method, because the framework validates both the request and response payloads to ensure that they conform to the definition.
+2. Create a file named `com.ibm.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
+3. Include your jar file under the `<WLP_HOME>/wlp/usr/servers/fhir-server/userlib/` directory of your installation.
+4. Restart the FHIR server. Changes to custom operations require a server restart, because the server discovers and instantiates operations during server startup only.
 
-### 4.1.2 Virtual resource type configuration
-You configure Virtual Resource Types through properties in the `fhir-server-config.json` file, as in the following example:
-
-```
-{
-    "fhirServer":{
-        ...
-        "virtualResources":{
-            "enabled":true,
-            "allowableResourceTypes":[
-                "WeatherDetail"
-            ]
-        },
-        …
-    }
-}
-```
-
-The `fhirServer/virtualResources/enabled` property enables or disables the feature. The default value is `false`.
-
-The `fhirServer/virtualResources/allowableResourceTypes` property specifies the names of the allowable virtual resource types. The value of this property is a JSON array of strings. To allow any virtual resource type to be used, specify the value `[“*”]` (that is, an array with the single string `“*”`)
-
-Requests to perform FHIR operations on virtual resource types that are not configured through one of the preceding methods result in an error returned to the client.
-
-### 4.1.3 Using structure definitions with virtual resource types
-You can use virtual resource types without pre-defining their structure to the FHIR server, but that usage pattern restricts you to the subset of allowable datatypes mentioned in [Section 4.1.1 Introduction](#411-introduction). This prevents you from using more complex structures, because the FHIR server has to guess at your intent when it encounters a virtual resource type.
-
-A `StructureDefinition` can be used to fully describe the structure and datatypes that are associated with a virtual resource type. Virtual resource types for which you pre-define a structure can use any of the standard FHIR datatypes, can have more complex structures among the range of FHIR data types that are used within the virtual resource type, and can support basic validation.
-
-The following example show how you might define the structure for the `WeatherDetail` virtual resource type:
-
-```
-<StructureDefinition xmlns="http://hl7.org/fhir" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-    <id value="WeatherDetail"/>
-    <url value="http://hl7.org/fhir/StructureDefinition/WeatherDetail"/>
-    <name value="WeatherDetail"/>
-    <status value="draft"/>
-    <kind value="resource"/>
-    <abstract value="false"/>
-    <base value="Basic"/>
-    <differential>
-        <element>
-            <path value="WeatherDetail"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type>
-                <code value="Basic"/>
-            </type>
-        </element>
-        <element>
-            <path value="WeatherDetail.geolocation"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type>
-                <code value="BackboneElement"/>
-            </type>
-        </element>
-        <element>
-            <path value="WeatherDetail.geolocation.latitude"/>
-            <min value="1"/>
-            <max value="1"/>
-            <type>
-                <code value="decimal"/>
-            </type>
-        </element>
-        <element>
-            <path value="WeatherDetail.geolocation.longitude"/>
-            <min value="1"/>
-            <max value="1"/>
-            <type>
-                <code value="decimal"/>
-            </type>
-        </element>
-        <element>
-            <path value="WeatherDetail.references"/>
-            <min value="1"/>
-            <max value="1"/>
-            <type>
-                <code value="Reference"/>
-            </type>
-        </element>
-        <element>
-            <path value="WeatherDetail.measurements"/>
-            <min value="0"/>
-            <max value="*"/>
-            <type>
-                <code value="BackboneElement"/>
-            </type>
-        </element>
-        <element>
-            <path value="WeatherDetail.measurements.type"/>
-            <min value="1"/>
-            <max value="1"/>
-            <type>
-                <code value="string"/>
-            </type>
-        </element>
-        <element>
-            <path value="WeatherDetail.measurements.value"/>
-            <min value="1"/>
-            <max value="1"/>
-            <type>
-                <code value="decimal"/>
-            </type>
-        </element>
-        <element>
-            <path value="WeatherDetail.description"/>
-            <min value="0"/>
-            <max value="1"/>
-            <type>
-                <code value="string"/>
-            </type>
-        </element>
-    </differential>
-</StructureDefinition>
-```
-
-Note that this `StructureDefinition` refers to `Basic` as the base and that only the `differential` is specified. Structure definitions must be defined as if they were standard resource types and the preceding example contains all of the elements required for a valid definition. Structure definitions for virtual resource types must be added to the `resource` element in the Bundle entry of the `$⁠{server.config.dir}/config/<tenant-id>/profiles-virtual-resources.xml` file, as shown in the following example:
-
-```
-<Bundle
-    xmlns="http://hl7.org/fhir">
-    <id value="virtualResourceProfiles" />
-    <type value="collection" />
-    <!-- insert structure definition bundle entries here (one bundle entry for each structure definition) -->
-    <entry>
-        <fullUrl value="http://hl7.org/fhir/StructureDefinition/WeatherDetail" />
-        <resource>
-            <!-- StructureDefinition element goes here -->
-        </resource>
-    </entry>
-</Bundle>
-```
-
-As compared with a virtual resource type for which no pre-defined structure is defined, using structure definitions with virtual resource types increases the number of available datatypes from 8 to 34 (that is the full range of value types supported by a FHIR extension element). Specifying structure definitions also allows us to apply basic minimum and maximum cardinality constraints and type checking.
+After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
 
 ## 4.2 Notification Service
 The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_ and _update_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
@@ -836,60 +609,12 @@ With the `includeResourceTypes`property set as in the preceding example, the FHI
 The FHIR server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This could be used to enforce application-specific business rules associated with resources. Interceptor methods can be called immediately before or after _create_ and _update_ persistence operations.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
-A persistence interceptor implementation must implement the following `com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
-interface:
-
-```
-package com.ibm.fhir.persistence.interceptor;
-
-/**
- * This interface describes a persistence interceptor.
- * Persistence interceptors are invoked by the FHIR server to allow
- * users to inject business logic into the REST API processing flow.
- * To make use of this interceptor, develop a class that implements this interface,
- * then store your implementation class name in a file called
- * META-INF/services/com.ibm.fhir.persistence.FHIRPersistenceInterceptor within
- * your jar file.
- */
-public interface FHIRPersistenceInterceptor {
-
-    /**
-     * This method is called during the processing of a _create_ REST API invocation,
-     * immediately before the new resource is stored by the persistence layer.
-     * @param event information about the _create_ event
-     * @throws FHIRPersistenceInterceptorException
-     */
-    void beforeCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException;
-
-    /**
-     * This method is called during the processing of a _create_ REST API invocation,
-     * immediately after the new resource has been stored by the persistence layer.
-     * @param event information about the _create_ event
-     * @throws FHIRPersistenceInterceptorException
-     */
-    void afterCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException;
-
-    /**
-     * This method is called during the processing of an _update_ REST API invocation,
-     * immediately before the updated resource is stored by the persistence layer.
-     * @param event information about the _update_ event
-     * @throws FHIRPersistenceInterceptorException
-     */
-    void beforeUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException;
-
-    /**
-     * This method is called during the processing of an _update_ REST API invocation,
-     * immediately after the updated resource has been stored by the persistence layer.
-     * @param event information about the _update_ event
-     * @throws FHIRPersistenceInterceptorException
-     */
-    void afterUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException;
-}
-```
+A persistence interceptor implementation must implement the `com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
+interface.
 
 Each interceptor method receives a parameter of type `FHIRPersistenceEvent`, which contains context information related to the request being processed at the time that the interceptor method is invoked. It includes the FHIR resource, security information, request URI information, and the collection of HTTP headers associated with the request.
 
-There are two primary use-cases for persistence interceptors:
+There are two primary use cases for persistence interceptors:
 
 1.	Enforce certain application-specific governance rules, such as making sure that a patient has signed a consent form prior to allowing his/her data to be stored in the FHIR server's datastore. In this case, the `beforeCreate` or `beforeUpdate` interceptor methods could verify that the patient has a consent agreement on file, and if not then throw a `FHIRPersistenceInterceptorException` to prevent the _create_ or _update_ persistence events from completing normally. The exception thrown by the interceptor method will be propagated back to the FHIR server request processing flow and would result in an `OperationOutcome` being returned in the REST API response, along with a `Bad Request` HTTP status code.
 
@@ -921,14 +646,19 @@ The FHIR specification provides a number of different validation resources inclu
 2.	ISO XML Schematron rules
 3.	Structure Definitions / Profiles for standard resource types, data types and built-in value sets
 
-The FHIR server validates incoming resources for create and update interactions using numbers 1 and 2 in the preceding list. Additionally, the WHC FHIR server provides the following `validate` interaction that API consumers can use to POST resources and get validation feedback:
+The FHIR server validates incoming resources for create and update interactions using the resource definitions and their corresponding FHIRPath constraints. Additionally, the FHIR server provides the following `$validate` operation that API consumers can use to POST resources and get validation feedback:
  `POST <base>/Resource/$validate`
 
-### 4.4.2 User-defined validation support
-In addition to the standard validations that are performed on resources, users can provide additional schematron rules that will get applied to incoming resources as well. For example, let's say that we have the following Patient resource:
+### 4.4.2 User-provided validation
+The IBM FHIR Server can be extended with custom profile validation. This allows one to apply validation rules on the basis of the `Resource.meta.profile` codes included on the resource instance.
+
+For example, you can configure a set of FHIRPath Constraints to run for resources that claim conformance to the `http://ibm.com/fhir/profile/partner` profile when you see an input resource like the following:
 ```
 {
     "resourceType" : "Patient",
+    "meta": {
+        "profile": [ "http://ibm.com/fhir/profile/partner" ]
+    },
     "name" : [ {
         "family" : [ "Doe" ],
         "given" : [ "John" ]
@@ -942,170 +672,7 @@ In addition to the standard validations that are performed on resources, users c
 }
 ```
 
-This resources would be validated using the XML schemas and ISO schematron rules. If we omit a value for the given name, as in the following example:
-```
-{
-    "resourceType" : "Patient",
-    "name" : [ {
-        "family" : [ "Doe" ],
-        "given" : [ "" ]
-    } ],
-    "telecom" : [ {
-        "value" : "555-1234",
-        "system": "phone",
-        "use" : "home"
-    } ],
-    "birthDate" : "1950-08-15"
-}
-```
-the validation operation returns the following response to indicate that the 'given' name field cannot be empty:
-```
-{
-  "resourceType": "OperationOutcome",
-  "id": "validationfail",
-  "text": {
-    "status": "generated"
-  },
-  "issue": [
-    {
-      "severity": "error",
-      "code": "invalid",
-      "diagnostics": "cvc-minLength-valid: Value '' with length = '0' is not facet-valid with respect to minLength '1' for type 'string-primitive'.",
-      "location": [
-        "/f:Patient/f:name/f:given"
-      ]
-    },
-    {
-      "severity": "error",
-      "code": "invalid",
-      "diagnostics": "cvc-attribute.3: The value '' of attribute 'value' on element 'given' is not valid with respect to its type, 'string-primitive'.",
-      "location": [
-        "/f:Patient/f:name/f:given"
-      ]
-    }
-  ]
-}
-```
-
-Now, let's say that we want to add an extension to this `Patient` resource as in the following example:
-
-```
-{
-    "resourceType" : "Patient",
-    "name" : [ {
-        "family" : [ "Doe" ],
-        "given" : [ "" ]
-    } ],
-    "telecom" : [ {
-        "value" : "555-1234",
-        "system": "phone",
-        "use" : "home"
-    } ],
-    "birthDate" : "1950-08-15",
-    "extension": [{
-        "url": "http://ibm.com/fhir/extension/partner/study_ID",
-        "valueString": "abc-1234"
-    }]
-}
-```
-
-We could validate this extension by providing the following schematron rule:
-
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
-  <sch:ns prefix="f" uri="http://hl7.org/fhir"/>
-  <sch:ns prefix="h" uri="http://www.w3.org/1999/xhtml"/>
-  <sch:pattern>
-    <sch:rule context="//f:Patient">
-      <sch:assert test="exists(f:extension[@url='http://ibm.com/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
-    </sch:rule>
-  </sch:pattern>
-</sch:schema>
-```
-
-This validation rule runs after the XML schema and ISO schematron rules that are defined in the FHIR specification are applied. In validating this extension of the `Patient` resource, if no `study_ID` extension element is specified, the following error message will be returned to the client for the validate operation:
-
-```
-{
-  "resourceType": "OperationOutcome",
-  "id": "validationfail",
-  "text": {
-    "status": "generated"
-  },
-  "issue": [
-    {
-      "severity": "error",
-      "code": "invalid",
-      "diagnostics": "partner-1: Patient must have a study ID specified.",
-      "location": [
-        "/*:Patient[namespace-uri()='http://hl7.org/fhir'][1]"
-      ]
-    }
-  ]
-}
-```
-
-### 4.4.3 User-Defined validation configuration
-All user-defined schematron rules must use the following naming format:
-     `<lowercase resource type name>.sch` (for example. `patient.sch`).
-
-User-defined schematron rules must be stored in the following location:
-     `${server.config.dir}/config/<tenant-id>/schematron`
-
-Provide only one file per resource type per tenant. That is, include all patient rules for a tenant in one `patient.sch` file within the tenant's `schematron` directory. Enable or disable the use of user-defined schematrons by setting the `fhirServer/core/userDefinedSchematronEnabled` property in the `fhir-server-config.json` file, as in the following example:
-
-```
-{
-    "fhirServer":{
-        "core":{
-            "userDefinedSchematronEnabled":true
-        }
-        …
-    }
-}
-```
-
-The deployer can add new schematron rules files or update existing ones at any time and the FHIR server will “see” the new or updated files the next time it needs validation rules associated with a particular tenant. Any requests associated with that tenant that are received after the updates are made will be processed using the new or updated validation rules, without requiring a server re-start.
-
-### 4.4.4 Using profiles
-You might want to organize your user-defined schematron rules so that they only fire if a reference to a specific profile is present in the resource. For example, we could modify our original patient resource as follows:
-```
-
-{
-    "resourceType" : "Patient",
-    "meta": {
-        "profile": [ "http://ibm.com/fhir/profile/partner" ]
-    },
-    "name" : [ {
-        "family" : [ "Doe" ],
-        "given" : [ "" ]
-    } ],
-    "telecom" : [ {
-        "value" : "555-1234",
-        "system": "phone",
-        "use" : "home"
-    } ],
-    "birthDate" : "1950-08-15"
-}
-```
-
-and then we could modify the user-defined schematron rule as follows:
-
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
-  <sch:ns prefix="f" uri="http://hl7.org/fhir"/>
-  <sch:ns prefix="h" uri="http://www.w3.org/1999/xhtml"/>
-  <sch:pattern>
-    <sch:rule context="//f:Patient[./f:meta/f:profile/@value='http://ibm.com/fhir/profile/partner']">
-      <sch:assert test="exists(f:extension[@url='http://ibm.com/fhir/extension/partner/study_ID'])">partner-1: Patient must have a study ID specified.</sch:assert>
-    </sch:rule>
-  </sch:pattern>
-</sch:schema>
-```
-
-By doing this, we have a much more flexible user-defined validation mechanism that allows us to apply rules only when 'http://ibm.com/fhir/profile/partner' is present in the instance.
+TODO: add more information about how to extend the server with Implementation Guide artifacts.
 
 ## 4.5 “Update/Create” feature
 Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
@@ -1497,36 +1064,29 @@ This would be useful in an environment where the applications might already be u
 
 
 ### 4.9.2 Configuration properties
-The FHIR server allows a deployer to configure a subset of the supported configuration properties on a tenant-specific basis. For example, one tenant might want to enable virtual resources, but another tenant might want to explicitly disable it for security reasons.
-
-For example, the following configuration properties can be specified on a tenant-specific basis:
-*	`fhirServer/core/userDefinedSchematronEnabled` – This property allows each tenant to specify whether or not user-defined schematron rules for resource validation are enabled; if this feature is enabled, the FHIR server will load the tenant's user-defined schematron rules from the `$⁠{server.config.dir}/config/<tenant-id>/schematron` directory.
-*	`fhirServer/virtualResources/enabled`,`fhirServer/virtualResources/allowableResourceTypes` – These properties allow each tenant to specify whether or not virtual resources are enabled and if so, the names of the allowable virtual resource types.
-
+The FHIR server allows a deployer to configure a subset of the supported configuration properties on a tenant-specific basis.
 For a complete list of configuration properties supported on a per-tenant basis, see [Section 5.1.3 Property attributes](#513-property-attributes).
 
-When the FHIR server needs to retrieve any of the tenant-specific configuration properties, it does so dynamically each time the property value is needed. This means that a deployer can change the value of a tenant-specific property within a tenant's configuration file on disk, and the FHIR server will immediately “see” the new value the next time it tries to retrieve it. For example, suppose the deployer initially defines the `acme` tenant's `fhir-server-config.json` file such that the `fhirServer/virtualResources/enabled` property is set to false.
+When the FHIR server needs to retrieve any of the tenant-specific configuration properties, it does so dynamically each time the property value is needed. This means that a deployer can change the value of a tenant-specific property within a tenant's configuration file on disk, and the FHIR server will immediately “see” the new value the next time it tries to retrieve it. For example, suppose the deployer initially defines the `acme` tenant's `fhir-server-config.json` file such that the `fhirServer/core/defaultPrettyPrint` property is set to true.
 
-    An incoming REST API request specifying the `acme` tenant would not be allowed to create an instance of a virtual resource type, and would result in a `400 “Bad Request”` response. Now suppose the deployer then changes the value of that property to true within the `acme` tenant's `fhir-server-config.json` file. A subsequent REST API request attempting to create an instance of a virtual resource type would then succeed since the FHIR server now sees the value of that property as true.
+Requests from the `acme` tenant would result in pretty-printed responses (with newlines and indentation), making it easier for humans to read.
+Now suppose the deployer changes the value of that property to true within the `acme` tenant's `fhir-server-config.json` file.
+A subsequent REST API request would then see the output condensed into a single line with minimal whitespace.
 
 #### 4.9.2.1 Examples
-This section contains an example of the FHIR server's global configuration, along with two tenant-specific configurations. The global configuration contains non-tenant specific configuration parameters (that is, configuration parameters that are not resolved or used on a tenant-specific basis), as well as default values for tenant-specific configuration parameters.
+This section contains examples of both a global (default) configuration and a tenant-specific configuration.
 
 ##### Global configuration (default)
+The global configuration contains non-tenant specific configuration parameters (configuration parameters that are not resolved or used on a tenant-specific basis), as well as default values for tenant-specific configuration parameters.
+
 `${server.config.dir}/config/default/fhir-server-config.json`
 ```
 {
     "__comment":"FHIR server global (default) configuration",
     "fhirServer":{
         "core":{
-            "userDefinedSchematronEnabled":false,
+            "defaultPrettyPrint":false,
             "tenantIdHeaderName":"X-FHIR-TENANT-ID"
-        },
-        "virtualResources":{
-            "enabled":false,
-            "allowableResourceTypes":[
-                "*"
-            ]
         },
         "notifications":{
             "common":{
@@ -1551,9 +1111,10 @@ This section contains an example of the FHIR server's global configuration, alon
                 }
             }
         },
-        "audit":{
-            "logPath":"logs/",
-            "logMaxSize": 20
+        "audit": {
+            "serviceClassName" : "com.ibm.fhir.audit.logging.impl.DisabledAuditLogService",
+            "serviceProperties" : {
+            }
         },
         "persistence":{
             "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
@@ -1573,69 +1134,26 @@ This section contains an example of the FHIR server's global configuration, alon
 ```
 
 ##### Acme Healthcare, Inc. (acme)
+The Acme Healthcare, Inc tenant configuration overrides the `fhirServer/core/defaultPrettyPrint` property so that the development
+team can more easilly read the messages.
+
 `${server.config.dir}/config/acme/fhir-server-config.json`
 ```
 {
     "__comment":"FHIR server configuration for tenant: Acme Healthcare, Inc.",
     "fhirServer":{
         "core":{
-            "userDefinedSchematronEnabled":true
-        },
-       
+            "defaultPrettyPrint":true
+        }
     }
 }
 ```
 
-##### Quality Pharmaceuticals, Inc. (qpharma)
-`${server.config.dir}/config/qpharma/fhir-server-config.json`
-```
-{
-    "__comment":"FHIR server configuration for tenant: Quality Pharmaceuticals, Inc.",
-    "fhirServer":{
-        
-    }
-}
-```
+It is also possible to configure the persistence properties for a specific tenant, for example to set an alternate
+database hostname or database schema name.
 
-In the preceding examples, you can see that in the global configuration, the user-defined validation feature has both been disabled by default.
-
-For the `Quality Pharmaceuticals, Inc.` tenant, the user-defined validation feature is disabled, and the virtual resources feature is enabled (with any virtual resource type allowed). Note that because the user-defined validation feature is disabled by default within the global configuration, we didn't need to explicitly set that configuration parameter in the `Quality Pharmaceuticals` configuration file.
-
-## 4.10 Extended operations
-In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
-
-### 4.10.1 Packaged operations
-The FHIR team provides implementations for the standard `$validate` and `$document` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
-
-No other extended operations are packaged with the server at this time, but you can extend the server with your own operations.
-
-#### 4.10.1.1 $validate
-The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type.
-
-https://www.hl7.org/fhir/r4/resource-operations.html#validate
-
-#### 4.10.1.2 $document
-The `$document` operation generates a fully bundled document from a composition resource.
-
-https://www.hl7.org/fhir/r4/composition-operations.html#document
-
-#### 4.10.1.3 $healthcheck
-The `$healthcheck` operation returns the health of the FHIR server and its datastore. In the default JDBC persistence layer, this operation creates a connection to the configured database and return its status. The operations returns `200 OK` when healthy. Otherwise, it returns an HTTP error code and an `OperationOutcome` with one or more issues.
-
-### 4.10.2 Custom operations
-In addition to the provided operations, the FHIR server supports user-provided custom operations through a Java Service Provider Interface (SPI).
-
-To contribute an operation:
-
-1. Implement each operation as a Java class that extends `com.ibm.fhir.operation.AbstractOperation` from `fhir-operation.jar`. Ensure that your implementation returns an appropriate `OperationDefinition` in its `getDefinition()` method, because the framework validates both the request and response payloads to ensure that they conform to the definition.
-2. Create a file named `com.ibm.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
-3. Include your jar file under the `<WLP_HOME>/wlp/usr/servers/fhir-server/userlib/` directory of your installation.
-4. Restart the FHIR server. Changes to custom operations require a server restart, because the server discovers and instantiates operations during server startup only.
-
-After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
-
-## 4.11 CADF audit logging service 
-The CADF audit logging service pushs FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)]( https://www.dmtf.org/standards/cadf) standard format to IBM Cloud Event Streams service, these FHIR operations include create, read, update, delete, version read, history, search, validate, custom operation, meta and bundle, these operations are mapped to CADF actions as following: 
+## 4.11 CADF audit logging service
+The CADF audit logging service pushs FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)]( https://www.dmtf.org/standards/cadf) standard format to IBM Cloud Event Streams service, these FHIR operations include create, read, update, delete, version read, history, search, validate, custom operation, meta and bundle, these operations are mapped to CADF actions as following:
 
 | FHIR Operation                 | CADF Action   |
 |--------------------------------| --------------|
@@ -1645,13 +1163,13 @@ The CADF audit logging service pushs FHIR server audit events for FHIR operation
 |`delete`                        |    delete     |
 |`operation,bundle`                        |    unknown     |
 
-Each FHIR create, update, delete, bundle or custom operation triggers 2 CADF events - begins with an event with "pending" outcome and ends with an event with "success" or "failure" outcome; All the other FHIR operations only trigger 1 CADF event with either "success" or "failure" outcome. 
+Each FHIR create, update, delete, bundle or custom operation triggers 2 CADF events - begins with an event with "pending" outcome and ends with an event with "success" or "failure" outcome; All the other FHIR operations only trigger 1 CADF event with either "success" or "failure" outcome.
 
 ### 4.11.1 Enable CADF audit logging service
 Please refer to the properties names started wtih fhirServer/audit/ in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure CADF audit logging service.
 
 ### 4.11.2 Event Streams configuation of CADF audit logging service
-The CADF audit logging service gets event streams service credential from env variable EVENT_STREAMS_AUDIT_BINDING with values like this: 
+The CADF audit logging service gets event streams service credential from env variable EVENT_STREAMS_AUDIT_BINDING with values like this:
 ```
     {
   "api_key": "xxxxxxxxxxxxxxxx_xxxxx_xxxxxxxxxxxxxxxxxxx",
@@ -1672,7 +1190,7 @@ The service credential is generated automatically when you run
 ```
     ibmcloud ks cluster-service-bind --cluster <cluster_name_or_ID> --namespace <namespace> --service <event_streams_service_instance_name> ...
 ```
-to bind your event streams service instance to your Kubernetes cluster. 
+to bind your event streams service instance to your Kubernetes cluster.
 
 And then in the YAML file for your Kubernetes deployment, specify the environment variable EVENT_STREAMS_AUDIT_BINDING that references the binding key of the generated secret(binding-<event_streams_service_instance_name>) as following:
 ```
@@ -1719,13 +1237,12 @@ This section contains reference information about each of the configuration prop
 ### 5.1.1 Property descriptions
 | Property Name                 | Type | Description     |
 |-------------------------------|------|-----------------|
-|`fhirServer/core/userDefinedSchematronEnabled`|boolean|A boolean flag which indicates whether or not user-defined validation rules should be used to validate resources contained within _create_ and _update_ requests.|
 |`fhirServer/core/defaultPrettyPrint`|boolean|A boolean flag which indicates whether JSON "Pretty Printing" or XML Formatted output should be the container default for responses.|
 |`fhirServer/core/tenantIdHeaderName`|string|The name of the request header that will be used to specify the tenant-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/dataSourceIdHeaderName`|string|The name of the request header that will be used to specify the datastore-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/jsonParserLenient`|boolean|A boolean flag which indicates whether the FHIRJsonParser will be lenient with respect to element cardinality (singleton vs array) and string values for numbers/booleans.|
 |`fhirServer/core/jsonParserValidating`|boolean|A boolean flag which indicates whether the FHIRJsonParser will do limited validation during the parse including checking for missing required fields and unrecognized fields.|
-|`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [Section 4.10.3.1 Filtering of search parameters](#41031-filtering-of-search-parameters) for more information.|
+|`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](FHIRSearchConfiguration.md#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
@@ -1750,7 +1267,6 @@ This section contains reference information about each of the configuration prop
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
 |-------------------------------| ----------------|
-|`fhirServer/core/userDefinedSchematronEnabled`|false|
 |`fhirServer/core/defaultPrettyPrint`|false|
 |`fhirServer/core/tenantIdHeaderName`|`X-FHIR-TENANT-ID`|
 |`fhirServer/core/dataSourceIdHeaderName`|`X-FHIR-DSID`|
@@ -1780,7 +1296,6 @@ This section contains reference information about each of the configuration prop
 ### 5.1.3 Property attributes
 | Property Name                 | Tenant-specific? | Dynamic? |
 |-------------------------------|------------------|----------|
-|`fhirServer/core/userDefinedSchematronEnabled`|Y|Y|
 |`fhirServer/core/defaultPrettyPrint`|Y|Y|
 |`fhirServer/core/tenantIdHeaderName`|N|Y|
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
@@ -2037,7 +1552,7 @@ For more information about topics related to configuring a FHIR server, see the 
 
 <b id="f3">3</b> The names of these request headers are configurable within the FHIR server's fhir-server-config.json file.  For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a3)
 
-<b id="f4">4</b> For more information on multi-tenant support, including multi-tenant configuration properties, jump to [Section 4.10 Multi-Tenancy](#410multi-tenancy). [↩](#a4)
+<b id="f4">4</b> For more information on multi-tenant support, including multi-tenant configuration properties, jump to [Section 4.9 Multi-Tenancy](#49-multi-tenancy). [↩](#a4)
 
 <b id="f5">5</b> An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL.  Examples:  `https://fhirserver1:9443/fhir-server/api/v1/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
 
@@ -2059,4 +1574,3 @@ For more information about topics related to configuring a FHIR server, see the 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
 
 [a]:https://www.ibm.com/support/knowledgecenter/en/SSD28V_9.0.0/com.ibm.websphere.wlp.core.doc/ae/cwlp_pwd_encrypt.html
-

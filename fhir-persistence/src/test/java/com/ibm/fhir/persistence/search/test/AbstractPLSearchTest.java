@@ -7,13 +7,15 @@
 package com.ibm.fhir.persistence.search.test;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -26,7 +28,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompositionStatus;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
@@ -131,7 +132,19 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
      * @throws Exception
      */
     protected boolean searchReturnsResource(String searchParamCode, String queryValue, Resource expectedResource) throws Exception {
-        List<? extends Resource> resources = runQueryTest(expectedResource.getClass(), searchParamCode, queryValue, Integer.MAX_VALUE);
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        if (searchParamCode != null && queryValue != null) {
+            queryParms.put(searchParamCode, Collections.singletonList(queryValue));
+        }
+        return searchReturnsResource(expectedResource.getClass(), queryParms, expectedResource);
+    }
+    
+    /**
+     * Executes the query test and returns whether the expected resource was in the result set
+     * @throws Exception
+     */
+    protected boolean searchReturnsResource(Class<? extends Resource> resourceTypeToSearch, Map<String, List<String>> queryParms, Resource expectedResource) throws Exception {
+        List<? extends Resource> resources = runQueryTest(resourceTypeToSearch, queryParms, Integer.MAX_VALUE);
         assertNotNull(resources);
         if (resources.size() > 0) {
             Resource returnedResource = findResourceInResponse(expectedResource, resources);
@@ -140,43 +153,6 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
             }
         }
         return false;
-    }
-
-    /**
-     * If the {@code resourceToFind} is contained in the list of resources this method returns the resource.
-     * Otherwise it returns null.
-     * @param resources
-     */
-    protected Resource findResourceInResponse(Resource resourceToFind, List<? extends Resource> resources) {
-        Resource returnedResource = null;
-        boolean alreadyFound = false;
-        int count = 0;
-        
-        String resourceTypeToFind = FHIRUtil.getResourceTypeName(resourceToFind);
-        String idToFind = resourceToFind.getId().getValue();
-        String versionToFind = resourceToFind.getMeta().getVersionId().getValue();
-        
-        for (Resource r : resources) {
-            String resourceType = FHIRUtil.getResourceTypeName(r);
-            String id = r.getId().getValue();
-            String version = r.getMeta().getVersionId().getValue();
-            if (idToFind.equals(id) && resourceTypeToFind.equals(resourceType)) {
-                if (versionToFind.equals(version)) {
-                    count++;
-                    if (alreadyFound) {
-                        System.out.println("found resource with id " + id + " " + count + " times.");
-                        fail("Resource with id '" + id + "' was returned multiple times in the search.");
-                    }
-                    returnedResource = r;
-                    alreadyFound = true;
-                } else {
-                    fail("Search has returned historical resource for resource id '" + id + "'.\n"
-                            + "Expected: version " + resourceToFind.getMeta().getVersionId().getValue() + "\n"
-                            + "Actual: version " + version);
-                }
-            }
-        }
-        return returnedResource;
     }
 
     /**

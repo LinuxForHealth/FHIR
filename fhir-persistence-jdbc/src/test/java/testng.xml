@@ -24,7 +24,8 @@
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCCompartmentTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCMultiResourceTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCSortTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCWholeSystemSearchTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCPagingTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCIncludeRevincludeTest" />
         </classes>
     </test>
     <test name="JDBCSearchTests">
@@ -36,6 +37,7 @@
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchStringTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchTokenTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchURITest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCWholeSystemSearchTest" />
         </classes>
     </test>
 </suite>

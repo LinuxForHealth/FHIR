@@ -12,13 +12,14 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractWholeSystemSearchTest;
+import com.ibm.fhir.persistence.test.common.AbstractPagingTest;
 
-public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
+
+public class JDBCPagingTest extends AbstractPagingTest {
     
     private Properties testProps;
     
-    public JDBCWholeSystemSearchTest() throws Exception {
+    public JDBCPagingTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 

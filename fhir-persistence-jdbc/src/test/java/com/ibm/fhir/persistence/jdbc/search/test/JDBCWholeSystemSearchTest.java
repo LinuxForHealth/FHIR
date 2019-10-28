@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.test;
+package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
@@ -12,14 +12,13 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractCompartmentTest;
+import com.ibm.fhir.persistence.search.test.AbstractWholeSystemSearchTest;
 
-
-public class JDBCCompartmentTest extends AbstractCompartmentTest {
+public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
     
     private Properties testProps;
     
-    public JDBCCompartmentTest() throws Exception {
+    public JDBCWholeSystemSearchTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 

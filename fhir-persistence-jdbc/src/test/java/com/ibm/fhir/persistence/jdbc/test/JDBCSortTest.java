@@ -12,10 +12,10 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractQuerySortTest;
+import com.ibm.fhir.persistence.test.common.AbstractSortTest;
 
 
-public class JDBCSortTest extends AbstractQuerySortTest {
+public class JDBCSortTest extends AbstractSortTest {
     
     private Properties testProps;
     

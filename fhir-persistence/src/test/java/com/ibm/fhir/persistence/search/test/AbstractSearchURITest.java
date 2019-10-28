@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -49,13 +56,24 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         assertSearchReturnsComposition("subject:Basic.uri", "http://hl7.org/fhir/DSTU2");
         assertSearchReturnsComposition("subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
         
+        // https://github.com/IBM/FHIR/issues/273
         // Matches are supposed to be precise (e.g. case, accent, and escape sensitive), but aren't
-        // 
+        
 //        assertSearchDoesntReturnComposition("subject:Basic.uri", "http://HL7.org/FHIR/dstu2");
 //        assertSearchDoesntReturnComposition("subject:Basic.uri", "urn:uuid:53FEFA32-1111-2222-3333-55EE120877B7");
         
         // TODO add test for diacritics and other unusual characters
     }
+    
+    @Test
+    public void testSearchURI_uri_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("uri", Collections.singletonList("http://hl7.org/fhir/DSTU2"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+    
     
     @Test
     public void testSearchURI_uri_below() throws Exception {
