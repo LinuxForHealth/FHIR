@@ -873,7 +873,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public List<String> searchSTR_VALUES(SqlQueryData queryData)
+    public List<String> searchStringValues(SqlQueryData queryData)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchSTR_VALUES";
         log.entering(CLASSNAME, METHODNAME);

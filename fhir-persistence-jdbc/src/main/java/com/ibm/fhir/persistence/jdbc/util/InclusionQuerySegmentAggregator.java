@@ -220,7 +220,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // ('Patient/326faf57-2aff-4ae5-ab41-87eace6c8f33')
             SqlQueryData subQueryData = new SqlQueryData(subQueryString.toString(), bindVariables);
             boolean isFirstItem = true;
-            for (String strValue: this.resourceDao.searchSTR_VALUES(subQueryData)) {
+            for (String strValue: this.resourceDao.searchStringValues(subQueryData)) {
                 if (!isFirstItem) {
                     queryString.append(" , ");
                 }
