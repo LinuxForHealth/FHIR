@@ -8,8 +8,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <build>
@@ -221,6 +222,17 @@
                     <url>https://api.bintray.com/maven/${bintray.org}/${bintray.repo}/fhir-examples/;publish=${publish}</url>
                 </repository>
             </distributionManagement>
+        </profile>
+        
+        <profile>
+            <id>switch-jdk-11</id>
+            <!-- preference is towards 11, when 11-->
+            <activation>
+                <jdk>!1.8</jdk>
+            </activation>
+            <properties>
+                <java.version>11</java.version>
+            </properties>
         </profile>
     </profiles>
 </project>

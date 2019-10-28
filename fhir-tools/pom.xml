@@ -17,7 +17,7 @@
         <jacoco.plugin.version>0.8.2</jacoco.plugin.version>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <build>
@@ -474,6 +474,16 @@
                 </repository>
             </distributionManagement>
             
+        </profile>
+        <profile>
+            <id>switch-jdk-11</id>
+            <!-- preference is towards 11, when 11-->
+            <activation>
+                <jdk>!1.8</jdk>
+            </activation>
+            <properties>
+                <java.version>11</java.version>
+            </properties>
         </profile>
     </profiles>
 </project>

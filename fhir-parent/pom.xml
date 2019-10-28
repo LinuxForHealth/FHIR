@@ -297,10 +297,10 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
                     <configuration>
-                        <source>11</source>
-                        <target>11</target>
-                        <testSource>11</testSource>
-                        <testTarget>11</testTarget>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <testSource>${java.version}</testSource>
+                        <testTarget>${java.version}</testTarget>
                         <debug>true</debug>
                         <debuglevel>source,lines,vars</debuglevel>
                         <parameters>true</parameters>
@@ -861,6 +861,16 @@
                     <url>https://api.bintray.com/maven/${bintray.org}/${bintray.repo}/${project.artifactId}/;publish=${publish}</url>
                 </repository>
             </distributionManagement>
+        </profile>
+        <profile>
+            <id>switch-jdk-11</id>
+            <!-- preference is towards 11, when 11-->
+            <activation>
+                <jdk>!1.8</jdk>
+            </activation>
+            <properties>
+                <java.version>11</java.version>
+            </properties>
         </profile>
     </profiles>
 </project>
