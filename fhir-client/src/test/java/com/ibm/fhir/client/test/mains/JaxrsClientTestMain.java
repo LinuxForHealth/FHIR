@@ -8,6 +8,7 @@ package com.ibm.fhir.client.test.mains;
 
 import static com.ibm.fhir.model.type.String.string;
 
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -47,7 +48,7 @@ public class JaxrsClientTestMain {
         FHIRGenerator.generator( Format.XML, false).generate(patient, System.out);
         
         Client client = ClientBuilder.newBuilder()
-                .register(new FHIRProvider())
+                .register(new FHIRProvider(RuntimeType.CLIENT))
                 .build();
         
         WebTarget target = client.target("http://localhost:9080/fhir-server/api/v4");

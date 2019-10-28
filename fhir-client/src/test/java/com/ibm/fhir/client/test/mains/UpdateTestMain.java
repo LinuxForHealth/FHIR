@@ -11,6 +11,7 @@ import static com.ibm.fhir.model.type.String.string;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -29,7 +30,7 @@ import com.ibm.fhir.provider.FHIRProvider;
 public class UpdateTestMain {
     public static void main(String[] args) throws Exception {
         Client client = ClientBuilder.newBuilder()
-                .register(new FHIRProvider())
+                .register(new FHIRProvider(RuntimeType.CLIENT))
                 .build();
         
         WebTarget target = client.target("http://localhost:9080/fhir-server/api/v4");
