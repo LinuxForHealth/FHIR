@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -69,6 +76,15 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         // I think this should return the resource but it currently doesn't.
         // https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
 //        assertSearchReturnsComposition("Quantity", "25||sec");
+    }
+    
+    @Test
+    public void testSearchQuantity_Quantity_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("Quantity", Collections.singletonList("25|http://unitsofmeasure.org|s"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
     
     @Test

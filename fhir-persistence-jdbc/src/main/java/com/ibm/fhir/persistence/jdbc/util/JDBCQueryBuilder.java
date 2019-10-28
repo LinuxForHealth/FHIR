@@ -429,22 +429,25 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     /**
      * Contains special logic for handling chained reference search parameters.
+     * <p>
+     * Nested sub-selects are built to realize the chaining logic required. Here is a sample chained query for an
+     * Observation given this search parameter: device:Device.patient.family=Monella
+     *
+     * <pre>
+     * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
+     * Observation_RESOURCES R, Observation_LOGICAL_RESOURCES LR , Observation_STR_VALUES P1 WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND
+     * P1.RESOURCE_ID = R.RESOURCE_ID AND
+     * P1.PARAMETER_NAME_ID = 107 AND
+     * (p1.STR_VALUE IN
+     *    (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
+     *        CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *          CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN
+     *                 (SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE
+     *                     CR2.RESOURCE_ID = CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
+     *                     CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')));
+     * </pre>
      * 
-     * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13) Nested sub-selects are built to realize
-     *      the chaining logic required. Here is a sample chained query for an Observation given this search parameter:
-     *      device:Device.patient.family=Monella
-     *
-     *      SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA,
-     *      LR.LOGICAL_ID FROM Observation_RESOURCES R, Observation_LOGICAL_RESOURCES LR , Observation_STR_VALUES P1
-     *      WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND
-     *      P1.PARAMETER_NAME_ID = 107 AND (p1.STR_VALUE IN (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
-     *      Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CR1.LOGICAL_RESOURCE_ID AND
-     *      CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN (SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM
-     *      Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE CR2.RESOURCE_ID =
-     *      CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.LOGICAL_RESOURCE_ID = CR2.LOGICAL_RESOURCE_ID AND
-     *      CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')));
-     *
+     * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13)
      * @param queryParm
      *            - A Parameter representing a chained query.
      * @return SqlQueryData - The query segment for a chained parameter reference search.
@@ -637,34 +640,66 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * This method is the entry point for processing inclusion criteria, which define resources that are part of a
      * comparment-based search.
      * 
+     * Example inclusion criteria for AuditEvent in the Patient compartment:
+     * <pre>
+     * {
+     *        "name": "AuditEvent",
+     *        "inclusionCriteria": ["patient",          This is a simple attribute inclusion criterion
+     *        "participant.patient:Device",             This is a chained inclusion criterion
+     *        "participant.patient:RelatedPerson",      This is a chained inclusion criterion
+     *        "reference.patient:*"]                    This is a chained inclusion criterion with wildcard. The wildcard means "any resource type".
+     * }
+     * </pre>
+     * 
+     * <p>
+     * Here is a sample generated query for this inclusion criteria:
+     * <li>PARAMETER_NAME_ID 13 = 'participant'
+     * <li>PARAMETER_NAME_ID 14 = 'patient'
+     * <li>PARAMETER_NAME_ID 16 = 'reference'
+     * 
+     * <pre>
+     *    SELECT COUNT(R.RESOURCE_ID) FROM
+     *    AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR , AuditEvent_STR_VALUES P1 WHERE
+     *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
+     *    R.IS_DELETED <> 'Y' AND
+     *    P1.RESOURCE_ID = R.RESOURCE_ID AND
+     *    ((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR
+     *     ((P1.PARAMETER_NAME_ID=13 AND
+     *      (P1.STR_VALUE IN
+     *        (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
+     *            Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
+     *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
+     *            CR1.IS_DELETED <> 'Y' AND
+     *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
+     *    ((P1.PARAMETER_NAME_ID=13 AND
+     *     (P1.STR_VALUE IN
+     *        (SELECT 'RelatedPerson' || '/' || CLR1.LOGICAL_ID FROM
+     *            RelatedPerson_RESOURCES CR1, RelatedPerson_LOGICAL_RESOURCES CLR1, RelatedPerson_STR_VALUES CP1 WHERE
+     *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
+     *            CR1.IS_DELETED <> 'Y' AND
+     *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
+     *     ((P1.PARAMETER_NAME_ID=16 AND
+     *      (P1.STR_VALUE IN
+     *        (SELECT 'AuditEvent' || '/' || CLR1.LOGICAL_ID FROM
+     *            auditevent_RESOURCES CR1, auditevent_LOGICAL_RESOURCES CLR1, auditevent_STR_VALUES CP1 WHERE
+     *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
+     *            CR1.IS_DELETED <> 'Y' AND
+     *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?
+     *            UNION
+     *            SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
+     *                device_RESOURCES CR1, device_LOGICAL_RESOURCES CLR1, device_STR_VALUES CP1 WHERE
+     *                CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
+     *                CR1.IS_DELETED <> 'Y' AND
+     *                CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *                CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
+     * </pre>
+     * 
      * @throws Exception
      * @see compartments.json for the specificaiton of compartments, resources contained in each compartment, and the
-     *      criteria that must be for a resource to be included in a compartment. Example inclusion criteria for
-     *      AuditEvent in the Patient compartment: { "name": "AuditEvent", "inclusionCriteria": ["patient", This is a
-     *      simple attribute inclusion criterion "participant.patient:Device", This is a chained inclusion criterion
-     *      "participant.patient:RelatedPerson", This is a chained inclusion criterion "reference.patient:*"] This is a
-     *      chained inclusion criterion with wildcard. The wildcard means "any resource type". }
-     *
-     *      Here is a sample generated query for this inclusion criteria: --PARAMETER_NAME_ID 13 = 'participant'
-     *      --PARAMETER_NAME_ID 14 = 'patient' --PARAMETER_NAME_ID 16 = 'reference'
-     *
-     *      SELECT COUNT(R.RESOURCE_ID) FROM AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR ,
-     *      AuditEvent_STR_VALUES P1 WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND
-     *      P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND ((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR
-     *      ((P1.PARAMETER_NAME_ID=13 AND (P1.STR_VALUE IN (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
-     *      Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
-     *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR ((P1.PARAMETER_NAME_ID=13 AND (P1.STR_VALUE IN (SELECT
-     *      'RelatedPerson' || '/' || CLR1.LOGICAL_ID FROM RelatedPerson_RESOURCES CR1, RelatedPerson_LOGICAL_RESOURCES
-     *      CLR1, RelatedPerson_STR_VALUES CP1 WHERE CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <>
-     *      'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
-     *      ((P1.PARAMETER_NAME_ID=16 AND (P1.STR_VALUE IN (SELECT 'AuditEvent' || '/' || CLR1.LOGICAL_ID FROM
-     *      auditevent_RESOURCES CR1, auditevent_LOGICAL_RESOURCES CLR1, auditevent_STR_VALUES CP1 WHERE CR1.RESOURCE_ID
-     *      = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
-     *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ? UNION SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
-     *      device_RESOURCES CR1, device_LOGICAL_RESOURCES CLR1, device_STR_VALUES CP1 WHERE CR1.RESOURCE_ID =
-     *      CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
-     *      CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
+     *      criteria for a resource to be included in a compartment.
      */
     @Override
     protected SqlQueryData processInclusionCriteria(Parameter queryParm) throws Exception {

@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -62,6 +69,16 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 //        assertSearchReturnsComposition("subject:Basic.boolean", "http://hl7.org/fhir/special-values|true");
         assertSearchDoesntReturnComposition("subject:Basic.boolean", "http://hl7.org/fhir/special-values|false");
     }
+    
+    @Test
+    public void testSearchToken_boolean_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("boolean", Collections.singletonList("true"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+    
     
     @Test
     public void testSearchToken_boolean_missing() throws Exception {

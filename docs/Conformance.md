@@ -23,12 +23,12 @@ Search parameters defined in the specification can be found by browsing the R4 F
 In addition, the following search parameters are supported on all resources:
 * `_id`
 * `_lastUpdated`
+* `_tag`
 * `_profile`
 * `_security`
 * `_source`
-* `_tag`
 
-The `_content`, `_query`, and `_text` parameters are not supported at this time.
+The `_text`, `_content`, `_list`, `_has`, `_type`, `_query`, and `_filter` parameters are not supported at this time.
 
 Finally, the specification defines a set of <q>Search result parameters</q> for controlling the search behavior. The IBM FHIR Server supports the following:
 * `_sort`
@@ -39,6 +39,8 @@ Finally, the specification defines a set of <q>Search result parameters</q> for 
 * `_elements`
 
 The `_count` parameter can be used to return at most 1000 records. If the client specifies a `_count` of over 1000, the page size is capped at 1000. If the client specifies a `_count` of 1000 or less, the server honors the client request.
+
+The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 
 The `_total`, `_contained`, and `_containedType` parameters are not supported at this time.
 
@@ -54,7 +56,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |--------------------------|-------------------|-----------------------------------------------------|
 |String                 |`:exact`,`:contains`,`:missing` |Performs a "starts with" search that is case-insensitive and accent-insensitive|
 |Reference              |`:[type]`,`:missing`            |Performs an exact match search|
-|URI                    |`:below`,`:missing`             |Performs a "starts with" search|
+|URI                    |`:below`,`:missing`             |Performs a "starts with" search (issue #273)|
 |Token                  |`:below`,`:not`,`:missing`      |Performs an exact match search|
 |Number                 |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|
 |Date                   |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|

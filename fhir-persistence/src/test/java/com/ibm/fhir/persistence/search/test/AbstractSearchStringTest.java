@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -61,6 +68,18 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         
         // TODO add test for diacritics and other unusual characters
     }
+    
+    @Test
+    public void testSearchString_string_revinclude() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.string:exact", "testString");
+        
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("string:exact", Collections.singletonList("testString"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+    
     
     @Test
     public void testSearchString_string_missing() throws Exception {

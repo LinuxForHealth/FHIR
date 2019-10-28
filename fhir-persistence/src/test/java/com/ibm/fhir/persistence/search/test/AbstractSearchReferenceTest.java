@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -54,6 +61,15 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
 //        assertSearchReturnsComposition("subject:Basic.Reference-id", "https://example.com/Patient/123");
         
 //        assertSearchReturnsComposition("subject:Basic.Reference-id:Patient", "123");
+    }
+    
+    @Test
+    public void testSearchReference_Reference_id_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("Reference-id", Collections.singletonList("123"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
     
     @Test
