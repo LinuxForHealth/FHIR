@@ -53,8 +53,8 @@ public class FHIRApplication extends Application {
         try {
             if (singletons == null) {
                 singletons = new HashSet<Object>();
-                singletons.add(new FHIRProvider());
-                singletons.add(new FHIRJsonProvider());
+                singletons.add(new FHIRProvider(RuntimeType.SERVER));
+                singletons.add(new FHIRJsonProvider(RuntimeType.SERVER));
                 singletons.add(new FHIRJsonPatchProvider(RuntimeType.SERVER));
             }
             return singletons;

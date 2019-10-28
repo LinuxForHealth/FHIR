@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,7 @@ import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -50,6 +52,12 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
     
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     private static final JsonWriterFactory JSON_WRITER_FACTORY = Json.createWriterFactory(null);
+    
+    private final RuntimeType runtimeType;
+    
+    public FHIRJsonProvider(RuntimeType runtimeType) {
+        this.runtimeType = Objects.requireNonNull(runtimeType);
+    }
 
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -87,10 +95,12 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
             writer.writeObject(t);
         } catch (JsonException e) {
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
-            Response response = buildResponse(
-                buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), mediaType);
-            throw new WebApplicationException(response);
+            if (RuntimeType.SERVER.equals(runtimeType)) {
+                Response response = buildResponse(
+                    buildOperationOutcome(Collections.singletonList(
+                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), mediaType);
+                throw new WebApplicationException(response);
+            }
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");
         }
