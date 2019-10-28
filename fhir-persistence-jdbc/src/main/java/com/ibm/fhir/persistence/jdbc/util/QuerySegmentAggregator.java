@@ -39,12 +39,10 @@ class QuerySegmentAggregator {
     private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
     protected static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R JOIN {0}_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
-    private static final String PARAMETER_TABLE_VAR = "P";
     protected static final String PARAMETER_TABLE_ALIAS = "pX";
     private static final String FROM = " FROM ";
     private static final String UNION = " UNION ALL ";
     protected static final String ON = " ON ";
-    private static final String JOIN = " JOIN ";
     private static final String AND = " AND ";
     protected static final String COMBINED_RESULTS = " COMBINED_RESULTS";
     private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
@@ -102,16 +100,6 @@ class QuerySegmentAggregator {
     
     /**
      * Builds a complete SQL Query based upon the encapsulated query segments and bind variables.
-     * A simple example query produced by this method:
-     * 
-     * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
-     *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
-     *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-     *     P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND
-     *     (P1.PARAMETER_NAME_ID = 4 AND
-     *     P1.STR_VALUE LIKE ? ESCAPE '+')
-     *   ORDER BY r.RESOURCE_ID ASC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY
-     * 
      * @return SqlQueryData - contains the complete SQL query string and any associated bind variables.
      * @throws Exception 
      */
@@ -148,15 +136,6 @@ class QuerySegmentAggregator {
     
     /**
      *   Builds a complete SQL count query based upon the encapsulated query segments and bind variables.
-     *   A simple example query produced by this method:
-     *   
-     *     SELECT COUNT(R.RESOURCE_ID)FROM
-     *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
-     *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-     *     (P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND
-     *     (P1.PARAMETER_NAME_ID = 4 AND
-     *     P1.STR_VALUE LIKE ? ESCAPE '+'))
-     * 
      * @return SqlQueryData - contains the complete SQL count query string and any associated bind variables.
      * @throws Exception 
      */
@@ -193,24 +172,6 @@ class QuerySegmentAggregator {
      * Build a system level query or count query, based upon the encapsulated query segments and bind variables and
      * the passed select-root strings.
      * A FHIR system level query spans multiple resource types, and therefore spans multiple tables in the database. 
-     * Here is an example of a system level query, assuming that only 3 different resource types have been persisted
-     * in the database:
-     * SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM 
-     *  (SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
-     *    RiskAssessment_RESOURCES R, RiskAssessment_LOGICAL_RESOURCES LR , RiskAssessment_DATE_VALUES P1 WHERE 
-     *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
-     *    (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))
-     *  UNION ALL 
-     *  SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
-     *   Group_RESOURCES R, Group_LOGICAL_RESOURCES LR , Group_DATE_VALUES P1 WHERE 
-     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
-     *  (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251'))) 
-     *  UNION ALL  
-     *  SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
-     *   Questionnaire_RESOURCES R, Questionnaire_LOGICAL_RESOURCES LR , Questionnaire_DATE_VALUES P1 WHERE
-     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
-     *   (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))) COMBINED_RESULTS; 
-     * 
      * @param selectRoot - The text of the outer SELECT ('SELECT' to 'FROM')
      * @param subSelectRoot - The text of the inner SELECT root to use in each sub-select
      * @param addFinalClauses - Indicates whether or not ordering and pagination clauses should be generated.

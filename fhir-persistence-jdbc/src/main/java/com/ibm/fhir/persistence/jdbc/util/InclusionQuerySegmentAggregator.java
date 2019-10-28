@@ -199,10 +199,41 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
             queryString.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND ");
             // ('Organization/' || LR.LOGICAL_ID IN 
-            queryString.append("('").append(includeParm.getSearchParameterTargetType()).append("/' || LR.LOGICAL_ID IN ");
-            queryString.append("(?))");
-                        
-            this.addBindVariables(bindVariables);
+            queryString.append("('").append(includeParm.getSearchParameterTargetType()).append("/' || LR.LOGICAL_ID IN ("); 
+
+            // Run the following sub Query only once to improve performance.
+            StringBuilder subQueryString = new StringBuilder();
+            // SELECT P1.STR_VALUE FROM OBSERVATION_STR_VALUES P1 WHERE
+            subQueryString.append("SELECT P1.STR_VALUE FROM ").append(this.resourceType.getSimpleName()).append("_STR_VALUES P1 WHERE ");
+            // P1.PARAMETER_NAME_ID=xx AND 
+            subQueryString.append("P1.PARAMETER_NAME_ID=").append(this.getParameterNameId(includeParm.getSearchParameter())).append(" AND ");
+            // P1.RESOURCE_ID IN 
+            subQueryString.append("P1.LOGICAL_RESOURCE_ID IN ");
+            // (SELECT R.LOGICAL_RESOURCE_ID  
+            subQueryString.append("(SELECT R.LOGICAL_RESOURCE_ID ");
+            // Add FROM clause for "root" resource type
+            subQueryString.append(super.buildFromClause());
+            // Add WHERE clause for "root" resource type
+            subQueryString.append(super.buildWhereClause());
+            subQueryString.append(")");    
+
+            // ('Patient/326faf57-2aff-4ae5-ab41-87eace6c8f33')
+            SqlQueryData subQueryData = new SqlQueryData(subQueryString.toString(), bindVariables);
+            boolean isFirstItem = true;
+            for (String strValue: this.resourceDao.searchSTR_VALUES(subQueryData)) {
+                if (!isFirstItem) {
+                    queryString.append(" , ");
+                }
+                if (strValue != null) {
+                    queryString.append("'").append(strValue).append("'");
+                    isFirstItem = false;
+                }
+            }
+            // if nothing added so far, then need to add '', otherwise sql will fail. 
+            if (isFirstItem) {
+                queryString.append("''");
+            }
+            queryString.append("))");
         }
         log.exiting(CLASSNAME, METHODNAME);
     }

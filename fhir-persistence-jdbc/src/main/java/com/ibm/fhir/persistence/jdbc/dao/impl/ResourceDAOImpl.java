@@ -872,4 +872,19 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         return count;
     }
 
+    @Override
+    public List<String> searchSTR_VALUES(SqlQueryData queryData)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchSTR_VALUES";
+        log.entering(CLASSNAME, METHODNAME);
+
+        String sqlSelect = queryData.getQueryString();
+        Object[] bindVariables = queryData.getBindVariables().toArray();
+        try {
+            return this.runQuery_STR_VALUES(sqlSelect, bindVariables);
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
 }
