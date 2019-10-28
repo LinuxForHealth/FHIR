@@ -18,15 +18,15 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build tools
-      run: mvn -B install --file fhir-tools/pom.xml
+      run: mvn -B install --file fhir-tools/pom.xml --no-transfer-progress
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Build sample generator
-      run: mvn -B package --file fhir-examples-generator/pom.xml
+      run: mvn -B package --file fhir-examples-generator/pom.xml --no-transfer-progress
     - name: Build benchmark
-      run: mvn -B package --file fhir-benchmark/pom.xml
+      run: mvn -B package --file fhir-benchmark/pom.xml --no-transfer-progress
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -39,9 +39,9 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent with tests
-      run: mvn -B -T2C package --file fhir-parent/pom.xml
+      run: mvn -B -T2C package --file fhir-parent/pom.xml --no-transfer-progress
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
@@ -54,14 +54,14 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Server Integration Tests
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
-        mvn test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true
+        mvn -B test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true --no-transfer-progress
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()
