@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.connectathon.patient;
+package com.ibm.fhir.client.test.mains;
 
 import static com.ibm.fhir.client.FHIRRequestHeader.header;
 import static com.ibm.fhir.model.type.String.string;
@@ -16,8 +16,6 @@ import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRClientFactory;
@@ -62,12 +60,10 @@ public class PatientTrackTest {
         System.out.println(msg);
     }
 
-    @Test
     public void printHeader() {
-        log("Starting execution of PatientTrackTest (c) IBM Corporation, 2016.");
+        log("Starting execution of PatientTrackTest (C) IBM Corporation 2016,2019.");
     }
 
-    @Test(dependsOnMethods = { "printHeader" })
     public void connectToServer() throws Exception {
         // Load up our properties file.
         Properties clientProperties = readProperties(CLIENT_PROPERTIES_FILENAME);
@@ -79,7 +75,6 @@ public class PatientTrackTest {
         log("Connecting to FHIR endpoint: " + baseUrl);
     }
 
-    @Test(dependsOnMethods = { "connectToServer" })
     public void inspectConformanceStatement() throws Exception {
         FHIRResponse response = client.metadata();
         if (response.getStatus() != Status.OK.getStatusCode()) {
@@ -118,7 +113,6 @@ public class PatientTrackTest {
         log("Server supports search? " + (supportsSearch ? "yes" : "no"));
     }
 
-    @Test(dependsOnMethods = { "inspectConformanceStatement" })
     public void registerPatient() throws Exception {
 
         String location;
@@ -154,7 +148,6 @@ public class PatientTrackTest {
         patient = displayResponsePatient("Retrieved newly-registered patient:", client, response);
     }
 
-    @Test(dependsOnMethods = { "registerPatient" })
     public void updatePatient() throws Exception {
         log("\n2) Update a patient");
         if (!supportsUpdate) {
@@ -195,7 +188,6 @@ public class PatientTrackTest {
         }
     }
 
-    @Test(dependsOnMethods = { "updatePatient" })
     public void retrieveHistory() throws Exception {
         log("\n3) Retrieve patient history");
         if (!supportsHistory) {
@@ -217,7 +209,6 @@ public class PatientTrackTest {
 
     }
 
-    @Test(dependsOnMethods = { "retrieveHistory" })
     public void searchByName() throws Exception {
         // 4) Search for a patient by name.
         log("\n4) Search for a patient by name");
@@ -332,5 +323,16 @@ public class PatientTrackTest {
         patient = patient.toBuilder().name(newNames).extension(newExtensions).build();
 
         return patient;
+    }
+    
+    public static void main(String[] args) throws Exception {
+        PatientTrackTest test = new PatientTrackTest();
+        test.printHeader();
+        test.connectToServer();
+        test.inspectConformanceStatement();
+        test.registerPatient();
+        test.updatePatient();
+        test.retrieveHistory();
+        test.searchByName();
     }
 }
