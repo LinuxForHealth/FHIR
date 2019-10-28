@@ -78,5 +78,5 @@ jobs:
       if: always()
       uses: actions/upload-artifact@master
       with:
-        name: integration-test-results
+        name: integration-test-results-${{ matrix.java }}
         path: SIT/integration-test-results
