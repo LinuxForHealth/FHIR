@@ -26,3 +26,6 @@ test-output/
 /server-logs/
 /integration-test-results/
 /integration-test-results.zip
+
+# Don't import pom backups
+**/pom.xml.versionsBackup
