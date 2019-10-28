@@ -154,7 +154,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
-    private static final String FHIR_COPY_RIGHT = "(c) Copyright IBM Corporation 2018, 2019";
+    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2019";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
 
     private static final String LOCAL_REF_PREFIX = "urn:";
@@ -3628,9 +3628,24 @@ public class FHIRResource implements FHIRResourceHelpers {
         format.add(Code.of(FHIRMediaType.APPLICATION_XML));
         format.add(Code.of(FHIRMediaType.APPLICATION_FHIR_XML));
 
-        // Finally, create the Conformance resource itself.
-        CapabilityStatement conformance =
-                CapabilityStatement.builder().status(PublicationStatus.ACTIVE).date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC))).kind(CapabilityStatementKind.CAPABILITY).fhirVersion(FHIRVersion.VERSION_4_0_0).format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH)).version(string(buildInfo.getBuildVersion())).name(string(FHIR_SERVER_NAME)).description(com.ibm.fhir.model.type.Markdown.of(buildDescription)).copyright(com.ibm.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT)).publisher(string("IBM Corporation")).software(CapabilityStatement.Software.builder().name(string(FHIR_SERVER_NAME)).version(string(buildInfo.getBuildVersion())).id(buildInfo.getBuildId()).build()).rest(rest).build();
+        // Finally, create the CapabilityStatement resource itself.
+        CapabilityStatement conformance = CapabilityStatement.builder()
+                .status(PublicationStatus.ACTIVE)
+                .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
+                .kind(CapabilityStatementKind.CAPABILITY)
+                .fhirVersion(FHIRVersion.VERSION_4_0_0)
+                .format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH))
+                .version(string(buildInfo.getBuildVersion()))
+                .name(string(FHIR_SERVER_NAME))
+                .description(com.ibm.fhir.model.type.Markdown.of(buildDescription))
+                .copyright(com.ibm.fhir.model.type.Markdown.of(FHIR_COPYRIGHT))
+                .publisher(string("IBM Corporation"))
+                .software(CapabilityStatement.Software.builder()
+                          .name(string(FHIR_SERVER_NAME))
+                          .version(string(buildInfo.getBuildVersion()))
+                          .id(buildInfo.getBuildId()).build())
+                .rest(rest)
+                .build();
 
         try {
             conformance = addExtensionElements(conformance);

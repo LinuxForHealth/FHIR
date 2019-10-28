@@ -274,19 +274,6 @@ public class FHIRConfigHelperTest {
         l = FHIRConfigHelper.getStringListProperty("collection/groupB/stringList1");
         assertNotNull(l);
         assertEquals(expectedList1, l);
-        
-        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup("whclsfRouter/config");
-        assertNotNull(pg);
-        assertNotNull(pg.getBooleanProperty("supportsTransaction"));
-        assertNotNull(pg.getArrayProperty("routingRules"));
-        
-        b = FHIRConfigHelper.getBooleanProperty("whclsfRouter/consentEnforcementEnabled", null);
-        assertNotNull(b);
-        assertEquals(Boolean.TRUE, b);
-        
-        b = FHIRConfigHelper.getBooleanProperty("whclsfRouter/consentManagementEnabled", null);
-        assertNotNull(b);
-        assertEquals(Boolean.FALSE, b);
     }
     
     @Test

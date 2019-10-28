@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.client.sample;
+package com.ibm.fhir.client.test.mains;
 
 import static com.ibm.fhir.model.type.String.string;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,6 +20,7 @@ import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
@@ -36,7 +36,6 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.ObservationStatus;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
  * This class is sample code that demonstrates the use of the FHIR Server's Client API. This sample is not necessarily
@@ -49,9 +48,6 @@ public class FHIRClientSample {
     public static void main(String[] args) throws Exception {
         FHIRClientSample sample = new FHIRClientSample();
         sample.run();
-    }
-
-    public FHIRClientSample() {
     }
 
     public void run() throws Exception {
@@ -169,9 +165,7 @@ public class FHIRClientSample {
     private void displayOperationOutcome(FHIRResponse response) {
         try {
             OperationOutcome oo = response.getResource(OperationOutcome.class);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            FHIRUtil.write(oo, Format.JSON, baos);
-            System.out.println("OperationOutcome: \n" + baos.toString());
+            FHIRGenerator.generator(Format.JSON).generate(oo, System.out);
         } catch (Throwable t) {
             System.out.println("Could not display OperationOutcome from REST API response.");
         }

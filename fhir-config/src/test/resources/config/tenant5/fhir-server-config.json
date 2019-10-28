@@ -1,17 +1,11 @@
 {
-	"collection": {
-		"tenant": "tenant5",
-		"groupA": {
-		    "newProp1": "newValue1"
-		},
-		"groupB": {
-		    "newBoolProp1": "true"
-		}
-	},
-	"whclsfRouter": {
-	   "config": {
-	       "supportsTransaction": false,
-	       "routingRules": []
-	   }
-	}
+    "collection": {
+        "tenant": "tenant5",
+        "groupA": {
+            "newProp1": "newValue1"
+        },
+        "groupB": {
+            "newBoolProp1": "true"
+        }
+    }
 }
