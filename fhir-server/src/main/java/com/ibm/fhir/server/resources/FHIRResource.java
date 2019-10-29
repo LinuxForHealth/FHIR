@@ -3738,7 +3738,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         throws FHIROperationException {
         
         // throws if we have a count of more than 2,147,483,647 resources
-        UnsignedInt totalCount = com.ibm.fhir.model.type.UnsignedInt.of(Math.toIntExact(searchContext.getTotalCount()));
+        UnsignedInt totalCount = UnsignedInt.of(searchContext.getTotalCount());
         // generate ID for this bundle and set total
         Bundle.Builder bundleBuider = Bundle.builder()
                                             .type(BundleType.SEARCHSET)
@@ -3781,7 +3781,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         throws FHIROperationException {
         
         // throws if we have a count of more than 2,147,483,647 resources
-        UnsignedInt totalCount = com.ibm.fhir.model.type.UnsignedInt.of(Math.toIntExact(historyContext.getTotalCount()));
+        UnsignedInt totalCount = UnsignedInt.of(historyContext.getTotalCount());
         // generate ID for this bundle and set the "total" field for the bundle
         Bundle.Builder bundleBuilder = Bundle.builder()
                                              .type(BundleType.HISTORY)
