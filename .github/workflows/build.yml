@@ -122,8 +122,11 @@ jobs:
         rm -fr ${it_results} 2>/dev/null
         mkdir -p ${it_results}/server-logs
         mkdir -p ${it_results}/fhir-server-test
+        mkdir -p ${it_results}/derby
         echo "Gathering post-test server logs..."
         cp -pr SIT/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
+        echo "Gathering post-test derby..."
+        cp -pr SIT/wlp/usr/servers/fhir-server/derby ${it_results}/derby
         echo "Gathering integration test output"
         cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     - name: Upload logs
