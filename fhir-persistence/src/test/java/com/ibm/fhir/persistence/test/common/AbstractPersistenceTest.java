@@ -119,9 +119,12 @@ public abstract class AbstractPersistenceTest {
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms) throws Exception {
         return runQueryTest(resourceType, queryParms, null);
     }
-
+    
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
+        return runQueryTest(SearchUtil.parseQueryParameters(resourceType, queryParms), resourceType, queryParms, maxPageSize).getResource();
+    }
+    
+    protected MultiResourceResult<Resource> runQueryTest(FHIRSearchContext searchContext, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         // ensure that all the query parameters were processed into search parameters (needed because the server ignores invalid params by default)
         int expectedCount = 0;
         for (String key : queryParms.keySet()) {
@@ -147,7 +150,7 @@ public abstract class AbstractPersistenceTest {
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
         MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
         assertNotNull(result.getResource());
-        return result.getResource();
+        return result;
     }
 
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {

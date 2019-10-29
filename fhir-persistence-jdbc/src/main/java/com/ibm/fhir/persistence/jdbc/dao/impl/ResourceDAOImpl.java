@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,8 +135,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (!resources.isEmpty()) {
                 resource = resources.get(0);
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return resource;
@@ -157,8 +157,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (!resources.isEmpty()) {
                 resource = resources.get(0);
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return resource;
@@ -184,12 +183,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             resource.setLogicalId(resultSet.getString("LOGICAL_ID"));
             resource.setVersionId(resultSet.getInt("VERSION_ID"));
             resource.setDeleted(resultSet.getString("IS_DELETED").equals("Y") ? true : false);
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure creating Resource DTO.");
             throw severe(log, fx, e);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
 
@@ -211,30 +208,25 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 if (this.isDb2Database()) {
                     stmtString = stmtString + DB2_PAGINATION_PARMS;
                     resources = this.runQuery(stmtString, logicalId, fromDateTime, maxResults, offset);
-                }
-                else {
+                } else {
                     stmtString = stmtString + DERBY_PAGINATION_PARMS;
                     resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
                 }
-            }
-            else {
+            } else {
                 stmtString = String.format(SQL_HISTORY, resourceType, resourceType);
                 if (this.isDb2Database()) {
                     stmtString = stmtString + DB2_PAGINATION_PARMS;
                     resources = this.runQuery(stmtString, logicalId, maxResults, offset);
-                }
-                else {
+                } else {
                     stmtString = stmtString + DERBY_PAGINATION_PARMS;
                     resources = this.runQuery(stmtString, logicalId, offset, maxResults);
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure running history query");
             String errMsg = "Failure running history query: " + stmtString;
             throw severe(log, fx, errMsg, e);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] {resources}));
         }
         return resources;
@@ -252,13 +244,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (fromDateTime != null) {
                 stmtString = String.format(SQL_HISTORY_FROM_DATETIME_COUNT, resourceType, resourceType);
                 count = this.runCountQuery(stmtString, logicalId, fromDateTime);
-            }
-            else {
+            } else {
                 stmtString = String.format(SQL_HISTORY_COUNT, resourceType, resourceType);
                 count = this.runCountQuery(stmtString, logicalId);
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return count;
@@ -275,8 +265,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
         try {
             resources = this.runQuery(sqlSelect, bindVariables);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
 
@@ -294,8 +283,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
         try {
             count = this.runCountQuery(sqlSelectCount, bindVariables);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return count;
@@ -335,13 +323,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
                 log.fine("DB read all resource type complete. executionTime=" + dbCallDuration + "ms");
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             final String errMsg = "Failure retrieving all Resource type names.";
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
             throw severe(log, fx, e);
-        }
-        finally {
+        } finally {
             this.cleanup(stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -377,16 +363,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 log.fine("DB read resource type id complete. executionTime=" + dbCallDuration + "ms");
             }
             parameterNameId = stmt.getInt(2);
-        }
-        catch(FHIRPersistenceDBConnectException e) {
+        } catch(FHIRPersistenceDBConnectException e) {
             throw e;
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             final String errMsg = "Failure storing Resource type name id: name=" + resourceType;
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
             throw severe(log, fx, e);
-        }
-        finally {
+        } finally {
             this.cleanup(stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -409,7 +392,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             connection = this.getConnection();
             stmt = connection.prepareStatement(queryData.getQueryString());
             // Inject arguments into the prepared stmt.
-            for (int i = 0; i < queryData.getBindVariables().size();  i++) {
+            for (int i = 0; i < queryData.getBindVariables().size(); i++) {
                 stmt.setObject(i+1, queryData.getBindVariables().get(i));
             }
             dbCallStartTime = System.nanoTime();
@@ -418,19 +401,16 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("DB search for ids complete. executionTime=" + dbCallDuration + "ms");
             }
-            while(resultSet.next())     {
+            while(resultSet.next()) {
                 resourceIds.add(resultSet.getLong(1));
             }
-        }
-        catch(FHIRPersistenceException e) {
+        } catch(FHIRPersistenceException e) {
             throw e;
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids");
             final String errMsg = "Failure retrieving FHIR Resource Ids. SqlQueryData=" + queryData;
             throw severe(log, fx, errMsg, e);
-        }
-        finally {
+        } finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -441,6 +421,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     public List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchByIds";
         log.entering(CLASSNAME, METHODNAME);
+        
+        if (resourceIds.isEmpty()) {
+            return Collections.emptyList();
+        }
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -473,16 +457,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 log.fine("DB search by ids complete. executionTime=" + dbCallDuration + "ms");
             }
             resources = this.createDTOs(resultSet);
-        }
-        catch(FHIRPersistenceException e) {
+        } catch(FHIRPersistenceException e) {
             throw e;
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources");
             errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
             throw severe(log, fx, errMsg, e);
-        }
-        finally {
+        } finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -490,7 +471,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     protected String getSearchByIdsSql(String resourceType) {
-
         String stmtString;
         stmtString = String.format(SQL_SEARCH_BY_IDS, resourceType, resourceType);
         return stmtString;
@@ -515,14 +495,12 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 try {
                     trxSynchRegistry.registerInterposedSynchronization(rtCacheUpdater);
                     log.fine("Registered ResourceTypeCacheUpdater.");
-                }
-                catch(Throwable e) {
+                } catch(Throwable e) {
                     throw new FHIRPersistenceException("Failure registering ResourceTypesCacheUpdater", e);
                 }
             }
             this.newResourceTypeIds.put(resourceType, resourceTypeId);
         }
-
 
         log.exiting(CLASSNAME, METHODNAME);
 
@@ -537,12 +515,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             try {
                 if (this.isDb2Database()) {
                     resource = this.insertToDb2(resource, parameters, parameterDao);
-                }
-                else {
+                } else {
                     resource = this.insertToDerby(resource, parameters, parameterDao);
                 }
-            }
-            catch(SQLException e) {
+            } catch(SQLException e) {
                 throw new FHIRPersistenceDataAccessException("Failure determining database type.",e);
             }
 
@@ -584,8 +560,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 acquiredFromCache = false;
                 resourceTypeId = this.readResourceTypeId(resource.getResourceType());
                 this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            }
-            else {
+            } else {
                 acquiredFromCache = true;
             }
             if (log.isLoggable(Level.FINE)) {
@@ -625,33 +600,26 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 }
             }
 
-
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
             }
-        }
-        catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+        } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
             throw e;
-        }
-        catch(SQLIntegrityConstraintViolationException e) {
+        } catch(SQLIntegrityConstraintViolationException e) {
             FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
             throw severe(log, fx, e);
-        }
-        catch(SQLException e) {
+        } catch(SQLException e) {
             if ("99001".equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            }
-            else {
+            } else {
                 FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.");
                 throw severe(log, fx, e);
             }
-        }
-        catch(Throwable e) {
+        } catch(Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
             throw severe(log, fx, e);
-        }
-        finally {
+        } finally {
             this.cleanup(stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -692,8 +660,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 acquiredFromCache = false;
                 resourceTypeId = derbyResourceDAO.getOrCreateResourceType(resource.getResourceType());
                 this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            }
-            else {
+            } else {
                 acquiredFromCache = true;
             }
 
@@ -724,29 +691,23 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
             }
-        }
-        catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+        } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
             throw e;
-        }
-        catch(SQLIntegrityConstraintViolationException e) {
+        } catch(SQLIntegrityConstraintViolationException e) {
             FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
             throw severe(log, fx, e);
-        }
-        catch(SQLException e) {
+        } catch(SQLException e) {
             if ("99001".equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            }
-            else {
+            } else {
                 FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("SQLException encountered while inserting Resource.");
                 throw severe(log, fx, e);
             }
-        }
-        catch(Throwable e) {
+        } catch(Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
             throw severe(log, fx, e);
-        }
-        finally {
+        } finally {
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -764,8 +725,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 
         try {
             resources = this.runQuery(sqlSelect);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
                 
@@ -787,20 +747,17 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sqlSelect);
             resultSet = stmt.executeQuery();
-            while(resultSet.next())     {
+            while (resultSet.next()) {
                 resourceIds.add(resultSet.getLong(1));
             }
-        }
-        catch(FHIRPersistenceException e) {
+        } catch(FHIRPersistenceException e) {
             throw e;
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             // Log the SQL but don't expose it in the exception
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids.");
             errMsg = "Failure retrieving FHIR Resource Ids. SQL=" + sqlSelect;
             throw severe(log, fx, errMsg, e);
-        } 
-        finally {
+        } finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -811,6 +768,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     public List<Resource> searchByIds(List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchByIds";
         log.entering(CLASSNAME, METHODNAME);
+        
+        if (resourceIds.isEmpty()) {
+            return Collections.emptyList();
+        }
         
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -833,23 +794,19 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             connection = this.getConnection();
             stmt = connection.prepareStatement(idQuery.toString());
             // Inject IDs into the prepared stmt.
-            for (int i = 0; i < resourceIds.size();  i++) {
+            for (int i = 0; i < resourceIds.size(); i++) {
                 stmt.setObject(i+1, resourceIds.get(i));
             }
             resultSet = stmt.executeQuery();
             resources = this.createDTOs(resultSet);
-        }
-        catch(FHIRPersistenceException e) {
+        } catch(FHIRPersistenceException e) {
             throw e;
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             // Log the SQL but don't expose it in the exception
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources.");
             errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
             throw severe(log, fx, errMsg, e);
-
-        } 
-        finally {
+        } finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -865,8 +822,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 
         try {
             count = this.runCountQuery(sqlSelectCount);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return count;
@@ -882,8 +838,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         Object[] bindVariables = queryData.getBindVariables().toArray();
         try {
             return this.runQuery_STR_VALUES(sqlSelect, bindVariables);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }

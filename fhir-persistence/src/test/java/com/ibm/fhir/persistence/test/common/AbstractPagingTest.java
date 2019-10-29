@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.test.common;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -21,6 +22,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
@@ -29,11 +31,14 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This class contains a collection of search result sorting related tests that will be run against
@@ -133,7 +138,6 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(results.size(), 1, "expected number of results");
         assertEquals(results.get(0).getMeta().getVersionId().getValue(), "3", "expected version");
         
-        
         historyContext = FHIRPersistenceContextFactory.createHistoryContext();
         historyContext.setPageSize(1);
         historyContext.setPageNumber(2);
@@ -156,26 +160,148 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         results = result.getResource();
         assertEquals(results.size(), 1, "expected number of results");
         assertEquals(results.get(0).getMeta().getVersionId().getValue(), "1", "expected version");
+        
+        historyContext = FHIRPersistenceContextFactory.createHistoryContext();
+        historyContext.setLenient(true);
+        historyContext.setPageSize(1);
+        historyContext.setPageNumber(0);
+        context = this.getPersistenceContextForHistory(historyContext);
+        
+        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        assertTrue(result.isSuccess());
+        results = result.getResource();
+        assertEquals(results.size(), 1, "expected number of results");
+        assertEquals(results.get(0).getMeta().getVersionId().getValue(), "3", "expected version");
+        OperationOutcome outcome = result.getOutcome();
+        assertTrue(outcome != null);
+        assertEquals(outcome.getIssue().size(), 1);
+        assertEquals(outcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
+        
+        historyContext = FHIRPersistenceContextFactory.createHistoryContext();
+        historyContext.setLenient(true);
+        historyContext.setPageSize(1);
+        historyContext.setPageNumber(4);
+        context = this.getPersistenceContextForHistory(historyContext);
+        
+        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        assertTrue(result.isSuccess());
+        results = result.getResource();
+        assertEquals(results.size(), 1, "expected number of results");
+        assertEquals(results.get(0).getMeta().getVersionId().getValue(), "1", "expected version");
+        outcome = result.getOutcome();
+        assertTrue(outcome != null);
+        assertEquals(outcome.getIssue().size(), 1);
+        assertEquals(outcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
+        
+        historyContext = FHIRPersistenceContextFactory.createHistoryContext();
+        historyContext.setLenient(false);
+        historyContext.setPageSize(1);
+        historyContext.setPageNumber(0);
+        context = this.getPersistenceContextForHistory(historyContext);
+        
+        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        assertFalse(result.isSuccess());
+        results = result.getResource();
+        assertEquals(results.size(), 0, "expected number of results");
+        outcome = result.getOutcome();
+        assertTrue(outcome != null);
+        assertEquals(outcome.getIssue().size(), 1);
+        assertEquals(outcome.getIssue().get(0).getSeverity(), IssueSeverity.ERROR);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
+        
+        historyContext = FHIRPersistenceContextFactory.createHistoryContext();
+        historyContext.setLenient(false);
+        historyContext.setPageSize(1);
+        historyContext.setPageNumber(4);
+        context = this.getPersistenceContextForHistory(historyContext);
+        
+        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        assertFalse(result.isSuccess());
+        results = result.getResource();
+        assertEquals(results.size(), 0, "expected number of results");
+        outcome = result.getOutcome();
+        assertTrue(outcome != null);
+        assertEquals(outcome.getIssue().size(), 1);
+        assertEquals(outcome.getIssue().get(0).getSeverity(), IssueSeverity.ERROR);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
     }
     
-    @Test(expectedExceptions = FHIRPersistenceException.class)
+    @Test
     public void testInvalidPage0() throws Exception {
         Map<String, List<String>> queryParameters;
         queryParameters = new HashMap<>();
         queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("0"));
-        runQueryTest(Basic.class, queryParameters, 1);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertFalse(result.getResource().isEmpty());
+        OperationOutcome outcome = result.getOutcome();
+        assertTrue(outcome != null);
+        assertEquals(outcome.getIssue().size(), 1);
+        assertEquals(outcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
     }
     
-    @Test(expectedExceptions = FHIRPersistenceException.class)
+    @Test
+    public void testInvalidPage0Strict() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_sort", Collections.singletonList("integer"));
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("0"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(false);
+        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getResource().isEmpty());
+        OperationOutcome outcome = result.getOutcome();
+        assertTrue(outcome != null);
+        assertEquals(outcome.getIssue().size(), 1);
+        assertEquals(outcome.getIssue().get(0).getSeverity(), IssueSeverity.ERROR);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
+    }
+    
+    @Test
     public void testInvalidPage4() throws Exception {
         Map<String, List<String>> queryParameters;
         queryParameters = new HashMap<>();
         queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("4"));
-        runQueryTest(Basic.class, queryParameters, 1);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertFalse(result.getResource().isEmpty());
+        OperationOutcome outcome = result.getOutcome();
+        assertTrue(outcome != null);
+        assertEquals(outcome.getIssue().size(), 1);
+        assertEquals(outcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
+    }
+    
+    @Test
+    public void testInvalidPage4Strict() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_sort", Collections.singletonList("integer"));
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("4"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(false);
+        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getResource().isEmpty());
+        OperationOutcome outcome = result.getOutcome();
+        assertTrue(outcome != null);
+        assertEquals(outcome.getIssue().size(), 1);
+        assertEquals(outcome.getIssue().get(0).getSeverity(), IssueSeverity.ERROR);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
     }
     
     private Meta tag(String tag) {

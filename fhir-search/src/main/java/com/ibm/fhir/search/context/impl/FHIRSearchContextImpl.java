@@ -23,7 +23,6 @@ import com.ibm.fhir.search.parameters.SortParameter;
  *
  */
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
-
     private List<Parameter> searchParameters = new ArrayList<>();
     private List<SortParameter> sortParameters = new ArrayList<>();
     private List<InclusionParameter> includeParameters = new ArrayList<>();

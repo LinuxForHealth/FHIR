@@ -82,6 +82,4 @@ public interface FHIRSearchContext extends FHIRPagingContext {
      * Set the value of the summary parameter.
      */
     void setSummaryParameter(SummaryValueSet summary);
-
-    
 }
