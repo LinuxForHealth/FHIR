@@ -183,6 +183,47 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         return queryData;
     }
     
+    /**
+     * Appends values like ({@code ('Patient/<resource_id>', 'Patient/<resource_id>' ...)}) to the queryString
+     */
+    private void executeIncludeSubQuery(StringBuilder queryString, InclusionParameter includeParm, 
+            List<Object> bindVariables) throws Exception{
+        StringBuilder subQueryString = new StringBuilder();
+        // SELECT P1.STR_VALUE FROM OBSERVATION_STR_VALUES P1 WHERE
+        subQueryString.append("SELECT P1.STR_VALUE FROM ").append(this.resourceType.getSimpleName()).append("_STR_VALUES P1 WHERE ");
+        // P1.PARAMETER_NAME_ID=xx AND 
+        subQueryString.append("P1.PARAMETER_NAME_ID=").append(this.getParameterNameId(includeParm.getSearchParameter())).append(" AND ");
+        // P1.RESOURCE_ID IN 
+        subQueryString.append("P1.LOGICAL_RESOURCE_ID IN ");
+        // (SELECT R.LOGICAL_RESOURCE_ID  
+        subQueryString.append("(SELECT R.LOGICAL_RESOURCE_ID ");
+        // Add FROM clause for "root" resource type
+        subQueryString.append(super.buildFromClause());
+        // Add WHERE clause for "root" resource type
+        subQueryString.append(super.buildWhereClause());
+        subQueryString.append(")");    
+
+        //The subquery should return a list of strings in the FHIR Reference String value format 
+        //(e.g. {@code "Patient/<resource_id>"})
+        SqlQueryData subQueryData = new SqlQueryData(subQueryString.toString(), bindVariables);
+        boolean isFirstItem = true;
+        for (String strValue: this.resourceDao.searchStringValues(subQueryData)) {
+            if (!isFirstItem) {
+                queryString.append(" , ");
+            }
+            if (strValue != null) {
+                queryString.append("'").append(strValue).append("'");
+                isFirstItem = false;
+            }
+        }
+        // if nothing added so far, then need to add '', otherwise sql will fail. 
+        if (isFirstItem) {
+            queryString.append("''");
+        }
+        queryString.append("))");
+    }
+
+
     private void processIncludeParameters(StringBuilder queryString, List<Object> bindVariables) throws Exception {
         final String METHODNAME = "processIncludeParameters";
         log.entering(CLASSNAME, METHODNAME);
@@ -201,39 +242,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // ('Organization/' || LR.LOGICAL_ID IN 
             queryString.append("('").append(includeParm.getSearchParameterTargetType()).append("/' || LR.LOGICAL_ID IN ("); 
 
-            // Run the following sub Query only once to improve performance.
-            StringBuilder subQueryString = new StringBuilder();
-            // SELECT P1.STR_VALUE FROM OBSERVATION_STR_VALUES P1 WHERE
-            subQueryString.append("SELECT P1.STR_VALUE FROM ").append(this.resourceType.getSimpleName()).append("_STR_VALUES P1 WHERE ");
-            // P1.PARAMETER_NAME_ID=xx AND 
-            subQueryString.append("P1.PARAMETER_NAME_ID=").append(this.getParameterNameId(includeParm.getSearchParameter())).append(" AND ");
-            // P1.RESOURCE_ID IN 
-            subQueryString.append("P1.LOGICAL_RESOURCE_ID IN ");
-            // (SELECT R.LOGICAL_RESOURCE_ID  
-            subQueryString.append("(SELECT R.LOGICAL_RESOURCE_ID ");
-            // Add FROM clause for "root" resource type
-            subQueryString.append(super.buildFromClause());
-            // Add WHERE clause for "root" resource type
-            subQueryString.append(super.buildWhereClause());
-            subQueryString.append(")");    
-
-            // ('Patient/326faf57-2aff-4ae5-ab41-87eace6c8f33')
-            SqlQueryData subQueryData = new SqlQueryData(subQueryString.toString(), bindVariables);
-            boolean isFirstItem = true;
-            for (String strValue: this.resourceDao.searchStringValues(subQueryData)) {
-                if (!isFirstItem) {
-                    queryString.append(" , ");
-                }
-                if (strValue != null) {
-                    queryString.append("'").append(strValue).append("'");
-                    isFirstItem = false;
-                }
-            }
-            // if nothing added so far, then need to add '', otherwise sql will fail. 
-            if (isFirstItem) {
-                queryString.append("''");
-            }
-            queryString.append("))");
+            // Execute sub query to get the string values for constructing the query string.
+            // This avoids DB engine to run this sub query once for each record in the previously joined tables.
+            executeIncludeSubQuery(queryString, includeParm, bindVariables);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
