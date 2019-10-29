@@ -73,13 +73,13 @@ echo "Waiting for fhir-server to complete initialization..."
 metadata_url="https://localhost:9443/fhir-server/api/v4/metadata"
 tries=0
 status=0
-while [ $status -ne 200 -a $tries -lt ${MAX_TRIES} ]; do
+while [ $(($status)) -ne 200 -a $tries -lt ${MAX_TRIES} ]; do
     tries=$((tries + 1))
     cmd="curl -sS -k -o ${WORKSPACE}/metadata.json -I -w '%{http_code}' -u fhiruser:change-password $metadata_url "
     echo "Executing[$tries]: $cmd"
     status=$($cmd)
     echo "Status code: $status"
-    if [ $status -ne 200 ]
+    if [ $(($status)) -ne 200 ]
     then
        echo "Sleeping for ${SLEEP_INTERVAL} secs..."
        sleep ${SLEEP_INTERVAL}
