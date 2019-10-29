@@ -217,6 +217,19 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>org.glassfish.tyrus</groupId>
+                <artifactId>tyrus-container-grizzly-client</artifactId>
+                <version>1.15</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!--  required for the Tyrus client to work on Java 11 -->
+                <groupId>javax.xml.ws</groupId>
+                <artifactId>jaxws-api</artifactId>
+                <version>2.3.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
@@ -863,15 +876,14 @@
                 </repository>
             </distributionManagement>
         </profile>
-        <profile>
+        <!-- <profile>
             <id>switch-jdk-11</id>
-            <!-- preference is towards 11, when 11-->
             <activation>
                 <jdk>!1.8</jdk>
             </activation>
             <properties>
                 <java.version>11</java.version>
             </properties>
-        </profile>
+        </profile> -->
     </profiles>
 </project>

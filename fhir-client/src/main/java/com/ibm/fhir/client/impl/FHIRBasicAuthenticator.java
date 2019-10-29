@@ -57,7 +57,7 @@ public class FHIRBasicAuthenticator implements ClientRequestFilter {
         if (getUsername() != null && !getUsername().isEmpty()) {
             MultivaluedMap<String, Object> headers = ctxt.getHeaders();
             String basicAuthToken = getUsername() + ":" + getPassword();
-            String basicAuthString = "Basic " + Base64.getEncoder().encode(basicAuthToken.getBytes());
+            String basicAuthString = "Basic " + Base64.getEncoder().encodeToString(basicAuthToken.getBytes());
             headers.add("Authorization", basicAuthString);  
         }
     }

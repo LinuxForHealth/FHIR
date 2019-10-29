@@ -49,7 +49,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
         target = getWebTarget();
         endpoint = getWebsocketClientEndpoint();
         assertNotNull(endpoint);
-
+        
         // A specific CI pipeline issue triggered adding this value
         // as such this a conditional ignore. 
         // -DskipWebSocketTest=true
