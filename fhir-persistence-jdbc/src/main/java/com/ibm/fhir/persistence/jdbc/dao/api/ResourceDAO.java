@@ -75,7 +75,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      */
     int historyCount(String resourceType, String logicalId, Timestamp fromDateTime)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-    
+
     /**
      * Executes the search contained in the passed SqlQueryData, using it's encapsulated search string and bind variables.
      * @param queryData - Contains a search string and (optionally) bind variables.
@@ -84,6 +84,19 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDBConnectException
      */
     List<Resource> search(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+
+    /**
+     * Executes the search contained in the passed SqlQueryData, using it's encapsulated search string and bind variables.
+     * @param queryData - Contains a search string and (optionally) bind variables.
+     * @return List<String> A list of strings satisfying the passed search.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     * @implNote This method is used within searches which have _include or _revinclude parameters 
+     *           in order to return a list of Reference values (e.g. {@code "Patient/<UUID>"}) 
+     *           to use for filtering the list of resources to be included with the response.
+     */
+    List<String> searchStringValues(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+    
     
     /**
      * Executes the passed fully-formed SQL Select statement and returns the results

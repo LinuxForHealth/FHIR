@@ -39,12 +39,11 @@ class QuerySegmentAggregator {
     private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
     protected static final String FROM_CLAUSE_ROOT = "FROM {0}_RESOURCES R JOIN {0}_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
-    private static final String PARAMETER_TABLE_VAR = "P";
     protected static final String PARAMETER_TABLE_ALIAS = "pX";
     private static final String FROM = " FROM ";
     private static final String UNION = " UNION ALL ";
     protected static final String ON = " ON ";
-    private static final String JOIN = " JOIN ";
+    private static final String AND = " AND ";
     protected static final String COMBINED_RESULTS = " COMBINED_RESULTS";
     private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
         
@@ -101,16 +100,6 @@ class QuerySegmentAggregator {
     
     /**
      * Builds a complete SQL Query based upon the encapsulated query segments and bind variables.
-     * A simple example query produced by this method:
-     * 
-     * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
-     *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
-     *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-     *     P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND
-     *     (P1.PARAMETER_NAME_ID = 4 AND
-     *     P1.STR_VALUE LIKE ? ESCAPE '+')
-     *   ORDER BY r.RESOURCE_ID ASC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY
-     * 
      * @return SqlQueryData - contains the complete SQL query string and any associated bind variables.
      * @throws Exception 
      */
@@ -147,15 +136,6 @@ class QuerySegmentAggregator {
     
     /**
      *   Builds a complete SQL count query based upon the encapsulated query segments and bind variables.
-     *   A simple example query produced by this method:
-     *   
-     *     SELECT COUNT(R.RESOURCE_ID)FROM
-     *     PATIENT_RESOURCES R, PATIENT_LOGICAL_RESOURCES LR, PATIENT_STR_VALUES P1 WHERE  
-     *     R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-     *     (P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND
-     *     (P1.PARAMETER_NAME_ID = 4 AND
-     *     P1.STR_VALUE LIKE ? ESCAPE '+'))
-     * 
      * @return SqlQueryData - contains the complete SQL count query string and any associated bind variables.
      * @throws Exception 
      */
@@ -192,24 +172,6 @@ class QuerySegmentAggregator {
      * Build a system level query or count query, based upon the encapsulated query segments and bind variables and
      * the passed select-root strings.
      * A FHIR system level query spans multiple resource types, and therefore spans multiple tables in the database. 
-     * Here is an example of a system level query, assuming that only 3 different resource types have been persisted
-     * in the database:
-     * SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM 
-     *  (SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
-     *    RiskAssessment_RESOURCES R, RiskAssessment_LOGICAL_RESOURCES LR , RiskAssessment_DATE_VALUES P1 WHERE 
-     *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
-     *    (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))
-     *  UNION ALL 
-     *  SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
-     *   Group_RESOURCES R, Group_LOGICAL_RESOURCES LR , Group_DATE_VALUES P1 WHERE 
-     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
-     *  (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251'))) 
-     *  UNION ALL  
-     *  SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM 
-     *   Questionnaire_RESOURCES R, Questionnaire_LOGICAL_RESOURCES LR , Questionnaire_DATE_VALUES P1 WHERE
-     *   R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND P1.RESOURCE_ID = R.RESOURCE_ID AND 
-     *   (P1.PARAMETER_NAME_ID=3 AND ((P1.DATE_VALUE = '2017-06-15 21:30:58.251')))) COMBINED_RESULTS; 
-     * 
      * @param selectRoot - The text of the outer SELECT ('SELECT' to 'FROM')
      * @param subSelectRoot - The text of the inner SELECT root to use in each sub-select
      * @param addFinalClauses - Indicates whether or not ordering and pagination clauses should be generated.
@@ -249,7 +211,11 @@ class QuerySegmentAggregator {
             }
             queryString.append(subSelectRoot).append(tempFromClause);
             resourceTypeProcessed = true;
-            queryString.append(this.buildWhereClause());
+
+            tempFromClause = this.buildWhereClause();
+            tempFromClause = tempFromClause.replaceAll("Resource_", resourceTypeName);
+            queryString.append(tempFromClause);
+
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
@@ -276,43 +242,8 @@ class QuerySegmentAggregator {
         final String METHODNAME = "buildFromClause";
         log.entering(CLASSNAME, METHODNAME);
         
-        boolean isLocationQuery;
-        int parameterTableAliasIndex = 1;
         StringBuilder fromClause = new StringBuilder();
-        String resourceTypeName = this.resourceType.getSimpleName();
         fromClause.append(MessageFormat.format(FROM_CLAUSE_ROOT, this.resourceType.getSimpleName()));
-        
-        for (Parameter searchQueryParm : this.searchQueryParameters) {
-            if (Modifier.MISSING.equals(searchQueryParm.getModifier())) {
-                // No need to join on the VALUES table for search params with the :missing modifier
-                continue;
-            }
-            fromClause.append(JOIN).append(resourceTypeName);
-            isLocationQuery = Location.class.equals(this.resourceType) && searchQueryParm.getName().equals(AbstractQueryBuilder.NEAR);
-            switch(searchQueryParm.getType()) {
-                case URI :
-                case REFERENCE : 
-                case STRING :   fromClause.append("_STR_VALUES ");
-                     break;
-                case NUMBER :   fromClause.append("_NUMBER_VALUES "); 
-                     break;
-                case QUANTITY : fromClause.append("_QUANTITY_VALUES ");
-                     break;
-                case DATE :     fromClause.append("_DATE_VALUES ");
-                     break;
-                case TOKEN :    if (isLocationQuery) {
-                                    fromClause.append("_LATLNG_VALUES ");
-                                }
-                                else {
-                                    fromClause.append("_TOKEN_VALUES ");
-                                }
-                     break;
-            }
-            fromClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex);
-            fromClause.append(ON).append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".LOGICAL_RESOURCE_ID=R.LOGICAL_RESOURCE_ID");
-            
-            parameterTableAliasIndex++;
-        }
         fromClause.append(" ");
             
         log.exiting(CLASSNAME, METHODNAME);
@@ -328,39 +259,48 @@ class QuerySegmentAggregator {
     protected String buildWhereClause() {
         final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
+        boolean isLocationQuery;
         
-        int parameterTableAliasIndex = 1;
         StringBuilder whereClause = new StringBuilder();
-        String resolvedTableAlias;
         String whereClauseSegment;
-        boolean querySegmentProcessed = false;
                          
         whereClause.append(WHERE_CLAUSE_ROOT);
-        whereClause.append(" AND ");
         if (!this.querySegments.isEmpty()) {
             for(int i = 0; i < this.querySegments.size(); i++) {
                 SqlQueryData querySegment = this.querySegments.get(i);
                 Parameter param = this.searchQueryParameters.get(i);
-                
-                if (querySegmentProcessed) {
-                    whereClause.append(" AND ");
-                }
+
                 whereClauseSegment = querySegment.getQueryString();
-                if (!Modifier.MISSING.equals(param.getModifier())) {
-                    whereClause.append(PARAMETER_TABLE_VAR).append(parameterTableAliasIndex).append(".").append("LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND ");
+                if (Modifier.MISSING.equals(param.getModifier())) {
+                    whereClause.append(AND).append(whereClauseSegment);
+                } else {
+                    
+                    whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (SELECT LOGICAL_RESOURCE_ID FROM ");
+                    whereClause.append(this.resourceType.getSimpleName());
+                    isLocationQuery = Location.class.equals(this.resourceType) && param.getName().equals(AbstractQueryBuilder.NEAR);
+                    switch(param.getType()) {
+                        case URI :
+                        case REFERENCE : 
+                        case STRING :   whereClause.append("_STR_VALUES ");
+                             break;
+                        case NUMBER :   whereClause.append("_NUMBER_VALUES "); 
+                             break;
+                        case QUANTITY : whereClause.append("_QUANTITY_VALUES ");
+                             break;
+                        case DATE :     whereClause.append("_DATE_VALUES ");
+                             break;
+                        case TOKEN :    if (isLocationQuery) {
+                                            whereClause.append("_LATLNG_VALUES ");
+                                        }
+                                        else {
+                                            whereClause.append("_TOKEN_VALUES ");
+                                        }
+                             break;
+                    }
+                    whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
+                    whereClause.append(" WHERE ").append(whereClauseSegment).append(")");
                 }
-                resolvedTableAlias = PARAMETER_TABLE_VAR + parameterTableAliasIndex + ".";
-                whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", resolvedTableAlias);
-                whereClause.append(whereClauseSegment);
-                querySegmentProcessed = true;
-                parameterTableAliasIndex++;
             }
-        }
-        else {
-            // When no query segments are present (such as in a search for all instances of a particular resource type),
-            // The following must be added to the WHERE clause to ensure that only the latest version of each Resource
-            // is retrieved.
-            whereClause.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID");
         }
         
         log.exiting(CLASSNAME, METHODNAME);
@@ -391,5 +331,4 @@ class QuerySegmentAggregator {
                        .append(" FETCH NEXT ").append(this.pageSize).append(" ROWS ONLY");
         }
     }
-
 }

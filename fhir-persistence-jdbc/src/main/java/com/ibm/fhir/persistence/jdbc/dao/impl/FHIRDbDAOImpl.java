@@ -525,4 +525,59 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIRPersistenceDataAccessException(msg).withIssue(ooi);
     }
+
+    /**
+     * Creates and executes a PreparedStatement using the passed parameters that returns a collection of String values.
+     * @param sql - The SQL template to execute.
+     * @param searchArgs - An array of arguments to be substituted into the SQL template.
+     * @return List<String> - A List of strings resulting from the executed query.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException 
+     */
+    protected List<String> runQuery_STR_VALUES(String sql, Object... searchArgs) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "runQuery_STR_VALUES";
+        log.entering(CLASSNAME, METHODNAME);
+        List<String> strValues = new ArrayList<String>();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String errMsg;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            connection = this.getConnection();
+            stmt = connection.prepareStatement(sql);
+            // Inject arguments into the prepared stmt.
+            for (int i = 0; i <searchArgs.length;  i++) {
+                stmt.setObject(i+1, searchArgs[i]);
+            }
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;  
+
+            while(resultSet.next()) {
+                strValues.add(resultSet.getString(1));
+            }
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully retrieved string values. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) + 
+                         " executionTime=" + dbCallDuration + "ms");
+            }
+        } 
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch (Throwable e) {
+            // avoid leaking SQL because the exception message might be returned to a client
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving string values");
+            errMsg = "Failure retrieving string values. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs);
+            throw severe(log, fx, errMsg, e);
+        } 
+        finally {
+            this.cleanup(resultSet, stmt, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return strValues;
+    }
 }
