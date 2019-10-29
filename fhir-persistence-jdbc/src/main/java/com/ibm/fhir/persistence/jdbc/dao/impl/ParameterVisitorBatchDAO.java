@@ -217,7 +217,14 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     @Override
     public void numberValue(String parameterName, BigDecimal value, BigDecimal valueLow, BigDecimal valueHigh) throws FHIRPersistenceException {
         try {
-            numbers.setInt(1, getParameterNameId(parameterName));
+            int parameterNameId = getParameterNameId(parameterName);
+            
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("numberValue: " + parameterName + "[" + parameterNameId + "], " 
+                        + value + " [" + valueLow + ", " + valueHigh + "]");
+            }
+            
+            numbers.setInt(1, parameterNameId);
             numbers.setBigDecimal(2, value);
             numbers.setLong(3, logicalResourceId);
             numbers.addBatch();
@@ -238,6 +245,12 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
             int parameterNameId = getParameterNameId(parameterName);
             
             if (isBase) {
+                // store in the base (resource) table
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("baseDateValue: " + parameterName + "[" + parameterNameId + "], " 
+                            + date + " [" + dateStart + ", " + dateEnd + "]");
+                }
+                
                 // Insert record into the base level date attribute table
                 resourceDates.setInt(1, parameterNameId);
                 resourceDates.setTimestamp(2, date);
@@ -251,7 +264,12 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
                     resourceDateCount = 0;
                 }
             }
-            else {        
+            else {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], " 
+                            + date + " [" + dateStart + ", " + dateEnd + "]");
+                }
+                
                 dates.setInt(1, parameterNameId);
                 dates.setTimestamp(2, date);
                 dates.setTimestamp(3, dateStart);
@@ -325,6 +343,8 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     @Override
     public void quantityValue(String parameterName, String code, String codeSystem, BigDecimal quantityValue, BigDecimal quantityLow, BigDecimal quantityHigh) throws FHIRPersistenceException {
 
+        // XXX why no check for isBase on this one?
+        
         // Skip anything with a null code
         if (code == null || code.isEmpty()) {
             if (logger.isLoggable(Level.FINE)) {
@@ -333,7 +353,14 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
         else {
             try {
-                quantities.setInt(1, getParameterNameId(parameterName));
+                int parameterNameId = getParameterNameId(parameterName);
+                
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("quantityValue: " + parameterName + "[" + parameterNameId + "], " 
+                            + quantityValue + " [" + quantityLow + ", " + quantityHigh + "]");
+                }
+                
+                quantities.setInt(1, parameterNameId);
                 quantities.setInt(2, getCodeSystemId(codeSystem));
                 quantities.setString(3, code);
                 quantities.setBigDecimal(4, quantityValue);
