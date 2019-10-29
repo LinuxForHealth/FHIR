@@ -201,8 +201,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         subQueryString.append(super.buildFromClause());
         // Add WHERE clause for "root" resource type
         subQueryString.append(super.buildWhereClause());
-        subQueryString.append(")");    
+        subQueryString.append(")");
 
+        queryString.append("(");
         //The subquery should return a list of strings in the FHIR Reference String value format 
         //(e.g. {@code "Patient/<resource_id>"})
         SqlQueryData subQueryData = new SqlQueryData(subQueryString.toString(), bindVariables);
@@ -220,14 +221,14 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         if (isFirstItem) {
             queryString.append("''");
         }
-        queryString.append("))");
+        queryString.append(")");
     }
 
 
     private void processIncludeParameters(StringBuilder queryString, List<Object> bindVariables) throws Exception {
         final String METHODNAME = "processIncludeParameters";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         for (InclusionParameter includeParm : this.includeParameters) {
             // UNION ALL
             queryString.append(UNION_ALL);
@@ -240,11 +241,12 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
             queryString.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND ");
             // ('Organization/' || LR.LOGICAL_ID IN 
-            queryString.append("('").append(includeParm.getSearchParameterTargetType()).append("/' || LR.LOGICAL_ID IN ("); 
+            queryString.append("('").append(includeParm.getSearchParameterTargetType()).append("/' || LR.LOGICAL_ID IN "); 
 
             // Execute sub query to get the string values for constructing the query string.
             // This avoids DB engine to run this sub query once for each record in the previously joined tables.
             executeIncludeSubQuery(queryString, includeParm, bindVariables);
+            queryString.append(")");
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
