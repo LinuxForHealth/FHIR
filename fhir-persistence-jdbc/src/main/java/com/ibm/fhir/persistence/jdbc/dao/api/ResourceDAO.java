@@ -87,7 +87,6 @@ public interface ResourceDAO extends FHIRDbDAO {
 
     /**
      * Executes the search contained in the passed SqlQueryData, using it's encapsulated search string and bind variables.
-     * This function is used by _include search only
      * @param queryData - Contains a search string and (optionally) bind variables.
      * @return List<String> A list of strings satisfying the passed search.
      * @throws FHIRPersistenceDataAccessException
