@@ -423,7 +423,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         log.entering(CLASSNAME, METHODNAME);
         
         if (resourceIds.isEmpty()) {
-            log.exiting(CLASSNAME, METHODNAME);
             return Collections.emptyList();
         }
 
@@ -771,7 +770,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         log.entering(CLASSNAME, METHODNAME);
         
         if (resourceIds.isEmpty()) {
-            log.exiting(CLASSNAME, METHODNAME);
             return Collections.emptyList();
         }
         

@@ -10,9 +10,11 @@ public interface FHIRPagingContext {
     int getLastPageNumber();
     int getPageNumber();
     int getPageSize();
-    long getTotalCount();
+    int getTotalCount();
     void setLastPageNumber(int lastPageNumber);
     void setPageNumber(int pageNumber);
     void setPageSize(int pageSize);
-    void setTotalCount(long totalCount);
+    void setTotalCount(int totalCount);
+    boolean isLenient();
+    void setLenient(boolean lenient);
 }

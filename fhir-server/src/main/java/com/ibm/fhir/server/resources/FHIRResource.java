@@ -1705,7 +1705,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), isSearchLenient(requestProperties));
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), isLenient(requestProperties));
             }
 
             // Start a new txn in the persistence layer if one is not already active.
@@ -1923,7 +1923,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType =
                     (Class<? extends Resource>) getResourceType(resourceTypeName);
             FHIRHistoryContext historyContext =
-                    FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
+                    FHIRPersistenceUtil.parseHistoryParameters(queryParameters, isLenient(requestProperties));
 
             // Start a new txn in the persistence layer if one is not already active.
             txn.begin();
@@ -2032,7 +2032,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
             FHIRSearchContext searchContext =
-                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isSearchLenient(requestProperties));
+                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isLenient(requestProperties));
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
@@ -2088,7 +2088,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
-    private boolean isSearchLenient(Map<String, String> requestProperties) {
+    private boolean isLenient(Map<String, String> requestProperties) {
         boolean lenient = true;
 
         String handlingStringValue = getHeaderValue(requestProperties, "Prefer", "handling");

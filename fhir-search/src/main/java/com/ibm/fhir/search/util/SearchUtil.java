@@ -527,6 +527,7 @@ public class SearchUtil {
         throws Exception {
         
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
+        context.setLenient(lenient);
         List<Parameter> parameters = new ArrayList<>();
 
         // Retrieve the SearchParameters that will apply to this resource type (including those for Resource.class).
@@ -859,6 +860,7 @@ public class SearchUtil {
     private static void parseSearchResultParameter(Class<?> resourceType, FHIRSearchContext context, String name, List<String> values, boolean lenient) throws FHIRSearchException {
         try {
             String first = values.get(0);
+            // pageSize and pageNumber validation occurs in the persistence layer
             if (SearchConstants.COUNT.equals(name)) {
                 int pageSize = Integer.parseInt(first);
 
