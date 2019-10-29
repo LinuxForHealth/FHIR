@@ -45,22 +45,29 @@ jobs:
   e2e-java8:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: wget "https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u232-b09_openj9-0.17.0/OpenJDK8U-jdk_x64_linux_openj9_8u232b09_openj9-0.17.0.tar.gz"
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Download OpenJDK 8
+      run: wget "https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u232-b09_openj9-0.17.0/OpenJDK8U-jdk_x64_linux_openj9_8u232b09_openj9-0.17.0.tar.gz"
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
         java-version: 8
         architecture: x64
         jdkFile: OpenJDK8U-jdk_x64_linux_openj9_8u232b09_openj9-0.17.0.tar.gz
+    - name: Print env vars
+      run: env
     - name: Build samples
       run: mvn install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
       run: mvn install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Server Integration Tests
+      env:
+        LC_ALL: en_US.UTF-8
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
+        env
         mvn test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true --no-transfer-progress
         build/post-integration-test.sh
     - name: Gather error logs
@@ -83,22 +90,29 @@ jobs:
   e2e-java11:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: wget "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk11u-2019-10-16-10-43/OpenJDK11U-jdk_x64_linux_openj9_2019-10-16-10-43.tar.gz"
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Download OpenJDK 11
+      run: wget "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk11u-2019-10-16-10-43/OpenJDK11U-jdk_x64_linux_openj9_2019-10-16-10-43.tar.gz"
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
         java-version: 11
         architecture: x64
         jdkFile: OpenJDK11U-jdk_x64_linux_openj9_2019-10-16-10-43.tar.gz
+    - name: Print env vars
+      run: env
     - name: Build samples
       run: mvn install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
       run: mvn install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Server Integration Tests
+      env:
+        LC_ALL: en_US.UTF-8
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
+        env
         mvn test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true --no-transfer-progress
         build/post-integration-test.sh
     - name: Gather error logs
