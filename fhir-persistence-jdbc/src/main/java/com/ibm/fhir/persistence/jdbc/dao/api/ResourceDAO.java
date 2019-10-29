@@ -92,6 +92,9 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @return List<String> A list of strings satisfying the passed search.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
+     * @implNote This method is used within searches which have _include or _revinclude parameters 
+     *           in order to return a list of Reference values (e.g. {@code "Patient/<UUID>"}) 
+     *           to use for filtering the list of resources to be included with the response.
      */
     List<String> searchStringValues(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
     
