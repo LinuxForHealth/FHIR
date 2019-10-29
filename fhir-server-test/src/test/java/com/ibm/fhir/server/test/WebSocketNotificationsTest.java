@@ -46,22 +46,25 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
     @BeforeClass
     public void startup() throws InterruptedException {
-        target = getWebTarget();
-        endpoint = getWebsocketClientEndpoint();
-        assertNotNull(endpoint);
-
+        
         // A specific CI pipeline issue triggered adding this value
         // as such this a conditional ignore. 
         // -DskipWebSocketTest=true
         String shouldSkip = System.getProperty(SKIP_TESTS, "false");
         if (shouldSkip.compareTo("true") == 0) {
             skip = true;
+        } else { 
+            target = getWebTarget();
+            endpoint = getWebsocketClientEndpoint();
+            assertNotNull(endpoint);
         }
     }
 
     @AfterClass
     public void shutdown() {
-        endpoint.close();
+        if(!skip) {
+            endpoint.close();
+        }
     }
 
     public FHIRNotificationEvent getEvent(String id) throws InterruptedException {
