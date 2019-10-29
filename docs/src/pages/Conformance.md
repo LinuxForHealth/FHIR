@@ -1,4 +1,10 @@
-# PLEASE USE the files in src/pages/ as it is part of the build now
+---
+layout: post
+title:  Conformance
+description: Notes on the Conformance of the IBM FHIR Server
+date:   2019-10-08 09:59:05 -0400
+permalink: /conformance/
+---
 
 # Conformance to the HL7 FHIR Specification
 The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR specification, version 4.0.0 (R4). However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
@@ -60,7 +66,7 @@ The `_total`, `_contained`, and `_containedType` parameters are not supported at
 ### Custom search parameters
 Custom search parameters are search parameters that are not defined in the FHIR R4 specification, but are configured for search on the IBM FHIR Server. You can configure custom parameters for either extension elements or for elements that are defined in the specification but without a corresponding search parameter.
 
-For information on how to specify custom search parameters, see [FHIRSearchConfiguration.md](FHIRSearchConfiguration.md).
+For information on how to specify custom search parameters, see [FHIRSearchConfiguration.md](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration).
 
 ### Search modifiers
 FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#modifiers and vary by search parameter type. The IBM FHIR Server implements a subset of the spec-defined search modifiers that is defined in the following table:
@@ -155,6 +161,6 @@ Similar to Numeric searches, the FHIR Server does not compute an implicit range 
 URI searches on the IBM FHIR Server are case-insensitive, similar to the default behavior of searching on string values.
 
 ## HL7 FHIR R4 (v4.0.0) errata
-We will add information here as we find issues with the artifacts provided with this version of the specification.
+We add information here as we find issues with the artifacts provided with this version of the specification.
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

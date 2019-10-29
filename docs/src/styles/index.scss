@@ -1,0 +1,30 @@
+// Base global
+@import './internal/global';
+
+// Global stylesheet to inject global dependencies via shadowing
+@import 'global';
+
+//---------------------------------------
+// Page styles
+//---------------------------------------
+
+@import './internal/page';
+
+@import 'homepage.scss';
+@import 'global-search.scss';
+@import 'page-table.scss';
+@import 'do-dont-example.scss';
+@import 'caption.scss';
+@import 'resource-card.scss';
+@import 'resource-card-group.scss';
+@import 'article-card.scss';
+@import 'feature-card.scss';
+@import 'image-card.scss';
+@import 'aspect-ratio.scss';
+
+//---------------------------------------
+// Included last to ensure that class
+// names take precedence over includes
+// inside component class names
+//---------------------------------------
+@include carbon--type-classes();
