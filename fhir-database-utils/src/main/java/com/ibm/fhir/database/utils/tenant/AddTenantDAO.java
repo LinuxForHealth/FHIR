@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * DAO to create a free tenant slot (to align with a new partition)
- * @author rarnold
  */
 public class AddTenantDAO implements IDatabaseStatement {
     private final String schemaName;
@@ -26,11 +25,10 @@ public class AddTenantDAO implements IDatabaseStatement {
 
     /**
      * Public constructor
+     * 
      * @param schemaName
      * @param tenantId
      * @param tenantName
-     * @param tenantKey
-     * @param tenantSalt
      */
     public AddTenantDAO(String schemaName, int tenantId, String tenantName) {
         DataDefinitionUtil.assertValidName(schemaName);
@@ -40,13 +38,13 @@ public class AddTenantDAO implements IDatabaseStatement {
     }
     
     
-    /**
-     * Execute the encapsulated query against the database and stream the result data to the
-     * configured target
-     * @param c
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
+        /*
+         * Execute the encapsulated query against the database and stream the result data to the
+         * configured target
+         */
+        
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
         final String SQL = ""
                 + "   INSERT INTO " + tableName + "(mt_id, tenant_status, tenant_name)"

@@ -16,9 +16,8 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.AccountStatus;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -32,6 +31,8 @@ import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.AccountStatus;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -41,15 +42,18 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Account extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "AccountStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether the account is available to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/account-status|4.0.0"
     )
+    @Required
     private final AccountStatus status;
+    @Summary
     @Binding(
         bindingName = "AccountType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -57,11 +61,17 @@ public class Account extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/account-type"
     )
     private final CodeableConcept type;
+    @Summary
     private final String name;
+    @Summary
     private final List<Reference> subject;
+    @Summary
     private final Period servicePeriod;
+    @Summary
     private final List<Coverage> coverage;
+    @Summary
     private final Reference owner;
+    @Summary
     private final String description;
     private final List<Guarantor> guarantor;
     private final Reference partOf;
@@ -809,8 +819,10 @@ public class Account extends DomainResource {
      * the account.
      */
     public static class Coverage extends BackboneElement {
+        @Summary
         @Required
         private final Reference coverage;
+        @Summary
         private final PositiveInt priority;
 
         private volatile int hashCode;

@@ -16,13 +16,12 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.DaysOfWeek;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
@@ -33,6 +32,8 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DaysOfWeek;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -42,11 +43,17 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PractitionerRole extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     private final Period period;
+    @Summary
     private final Reference practitioner;
+    @Summary
     private final Reference organization;
+    @Summary
     @Binding(
         bindingName = "PractitionerRole",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -54,6 +61,7 @@ public class PractitionerRole extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/practitioner-role"
     )
     private final List<CodeableConcept> code;
+    @Summary
     @Binding(
         bindingName = "PractitionerSpecialty",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -61,8 +69,10 @@ public class PractitionerRole extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
+    @Summary
     private final List<Reference> location;
     private final List<Reference> healthcareService;
+    @Summary
     private final List<ContactPoint> telecom;
     private final List<AvailableTime> availableTime;
     private final List<NotAvailable> notAvailable;

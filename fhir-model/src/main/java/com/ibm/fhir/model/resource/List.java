@@ -16,9 +16,9 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -26,13 +26,14 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
-import com.ibm.fhir.model.type.ListMode;
-import com.ibm.fhir.model.type.ListStatus;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ListMode;
+import com.ibm.fhir.model.type.code.ListStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -63,23 +64,27 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class List extends DomainResource {
     private final java.util.List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ListStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The current state of the list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-status|4.0.0"
     )
-    private final ListStatus status;
     @Required
+    private final ListStatus status;
+    @Summary
     @Binding(
         bindingName = "ListMode",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The processing mode that applies to this list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.0"
     )
+    @Required
     private final ListMode mode;
+    @Summary
     private final String title;
+    @Summary
     @Binding(
         bindingName = "ListPurpose",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -87,9 +92,12 @@ public class List extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/list-example-codes"
     )
     private final CodeableConcept code;
+    @Summary
     private final Reference subject;
     private final Reference encounter;
+    @Summary
     private final DateTime date;
+    @Summary
     private final Reference source;
     @Binding(
         bindingName = "ListOrder",

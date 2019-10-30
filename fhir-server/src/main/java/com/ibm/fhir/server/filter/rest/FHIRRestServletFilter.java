@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,12 +25,13 @@ import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
@@ -44,9 +45,11 @@ public class FHIRRestServletFilter implements Filter {
 
     private static String tenantIdHeaderName = null;
     private static String datastoreIdHeaderName = null;
+    private static final String preferHeaderName = "Prefer";
+    private static final String preferReturnHeaderSectionName = "return";
     
     private static String defaultTenantId = null;
-    
+    private static final HTTPReturnPreference defaultHttpReturnPref = HTTPReturnPreference.MINIMAL;
 
     /*
      * (non-Javadoc)
@@ -63,6 +66,7 @@ public class FHIRRestServletFilter implements Filter {
         
         String tenantId = defaultTenantId;
         String dsId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
+        HTTPReturnPreference returnPref = defaultHttpReturnPref;
         
         // Wrap the incoming servlet request with our own implementation.
         if (request instanceof HttpServletRequest) {
@@ -80,6 +84,16 @@ public class FHIRRestServletFilter implements Filter {
             t = ((HttpServletRequest) request).getHeader(datastoreIdHeaderName);
             if (t != null) {
                 dsId = t;
+            }
+            
+            String returnPrefString = ((HttpServletRequest) request).getHeader(preferHeaderName + ":" + preferReturnHeaderSectionName);
+            if (returnPrefString != null && !returnPrefString.isEmpty()) {
+                try {
+                    returnPref = HTTPReturnPreference.from(returnPrefString);
+                } catch (IllegalArgumentException e) {
+                    log.fine("Invalid HTTP return preference passed in header 'Prefer': '" + returnPrefString + "'; "
+                            + "using " + returnPref.value());
+                }
             }
         }
 
@@ -102,6 +116,7 @@ public class FHIRRestServletFilter implements Filter {
         try {
             // Create a new FHIRRequestContext and set it on the current thread.
             FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
+            context.setReturnPreference(returnPref);
             FHIRRequestContext.set(context);
 
             // Pass the request through to the next filter in the chain.
@@ -109,7 +124,7 @@ public class FHIRRestServletFilter implements Filter {
         } catch (FHIRException e) {
             log.log(Level.INFO, "Error while setting request context or processing request", e);
             
-            OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.ValueSet.INVALID, IssueSeverity.ValueSet.FATAL, false);
+            OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.INVALID, IssueSeverity.FATAL, false);
             
             if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
                 HttpServletRequest httpRequest = (HttpServletRequest) request;

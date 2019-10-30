@@ -15,7 +15,9 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
-import com.ibm.fhir.model.type.NameUse;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.NameUse;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -24,6 +26,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class HumanName extends Element {
+    @Summary
     @Binding(
         bindingName = "NameUse",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -31,11 +34,17 @@ public class HumanName extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/name-use|4.0.0"
     )
     private final NameUse use;
+    @Summary
     private final String text;
+    @Summary
     private final String family;
+    @Summary
     private final List<String> given;
+    @Summary
     private final List<String> prefix;
+    @Summary
     private final List<String> suffix;
+    @Summary
     private final Period period;
 
     private volatile int hashCode;

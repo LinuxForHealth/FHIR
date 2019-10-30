@@ -13,19 +13,16 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.persistence.jdbc.SchemaType;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 /**
  * This class contains bootstrapping code for the Derby Database.
- * @author hjagann
- *
  */
 public class DerbyBootstrapper {
     private static final Logger log = Logger.getLogger(DerbyBootstrapper.class.getName());
@@ -33,19 +30,12 @@ public class DerbyBootstrapper {
 
     /**
      * Bootstraps the FHIR database (only for Derby databases)
-     * Note: Since R4 we no longer need the derby-sproc as it has been replaced by equivalent DML statements
-     *       run by the persistence layer 
-     * Note: Since R4, the schema is generated and applied using fhir-persistence-schema, not liquibase
-     * @param schemaType - An enumerated value indicating the schema type to be used when bootstrapping the database.
+     * Note: Since v4.0.0, the schema is generated and applied using fhir-persistence-schema, not liquibase
      * @throws SQLException 
      */
-    public static void bootstrapDb(DataSource fhirDb, SchemaType schemaType) throws SQLException  {
+    public static void bootstrapDb(DataSource fhirDb) throws SQLException  {
         if (log.isLoggable(Level.FINER)) {
             log.entering(className, "bootstrapDb");
-        }
-        
-        if (schemaType == SchemaType.BASIC) {
-            throw new SQLException("Only normalized schema supported since FHIR R4");
         }
         
         Connection connection = null;

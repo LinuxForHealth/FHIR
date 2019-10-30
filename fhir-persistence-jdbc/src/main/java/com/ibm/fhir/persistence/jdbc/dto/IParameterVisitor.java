@@ -7,13 +7,12 @@
 package com.ibm.fhir.persistence.jdbc.dto;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * A visitor passed to the parameter visit method
- * @author rarnold
- *
  */
 public interface IParameterVisitor {
 

@@ -8,19 +8,18 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 
 /**
  * Adapter to provide access to cached code system values managed by
- * the {@link ParameterNormalizedDAO} implementation.
- * @author rarnold
+ * the {@link ParameterDAO} implementation.
  *
  */
 public class CodeSystemCacheAdapter implements ICodeSystemCache {
     
-    private final ParameterNormalizedDAO delegate;
+    private final ParameterDAO delegate;
     
-    public CodeSystemCacheAdapter(ParameterNormalizedDAO delegate) {
+    public CodeSystemCacheAdapter(ParameterDAO delegate) {
         this.delegate = delegate;
     }
 

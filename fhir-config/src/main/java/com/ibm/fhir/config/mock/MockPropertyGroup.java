@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,13 +9,16 @@ package com.ibm.fhir.config.mock;
 import java.io.ByteArrayInputStream;
 
 import javax.json.Json;
+import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 
 import com.google.gson.Gson;
 import com.ibm.fhir.config.PropertyGroup;
 
 public class MockPropertyGroup extends PropertyGroup {
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     public MockPropertyGroup(JsonObject jsonObj) {
         super(jsonObj);
@@ -90,14 +93,15 @@ public class MockPropertyGroup extends PropertyGroup {
     }
 
 
-    protected JsonObject toJson(com.google.gson.JsonObject gsonObj) {
+    protected JsonObject toJson(com.google.gson.JsonObject gsonObj) throws JsonException{
         // Serialize the Gson object.
         String gsonString = gsonObj.toString();
-        
+        JsonObject jsonObj = null;
         // De-serialize the string into a JsonObject.
         ByteArrayInputStream bais = new ByteArrayInputStream(gsonString.getBytes());
-        JsonReader reader = Json.createReader(bais);
-        JsonObject jsonObj = reader.readObject();
+        try (JsonReader reader = JSON_READER_FACTORY.createReader(bais)) {
+            jsonObj = reader.readObject();
+        }
         return jsonObj;
     }
 

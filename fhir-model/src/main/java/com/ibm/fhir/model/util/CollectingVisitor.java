@@ -18,13 +18,14 @@ import java.util.List;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.visitor.AbstractVisitor;
+import com.ibm.fhir.model.visitor.DefaultVisitor;
 
-public class CollectingVisitor<T> extends AbstractVisitor {
+public class CollectingVisitor<T> extends DefaultVisitor {
     protected final List<T> result = new ArrayList<>();
     protected final Class<T> type;
 
     public CollectingVisitor(Class<T> type) {
+        super(true);
         this.type = type;
     }
 

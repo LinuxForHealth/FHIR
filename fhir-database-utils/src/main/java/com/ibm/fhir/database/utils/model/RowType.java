@@ -15,9 +15,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 /**
  * Represents the ROW type used to pass parameters to the add_resource stored procedures
  *         CREATE OR REPLACE TYPE <schema>.t_str_values AS ROW (parameter_name_id INTEGER, str_value VARCHAR(511 OCTETS), str_value_lcase   VARCHAR(511 OCTETS))
-
- * @author rarnold
- *
  */
 public class RowType extends BaseObject {
     private final List<ColumnBase> columns = new ArrayList<>();
@@ -27,17 +24,11 @@ public class RowType extends BaseObject {
         this.columns.addAll(cols);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#apply(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void apply(IDatabaseAdapter target) {
         target.createRowType(getSchemaName(), getObjectName(), columns);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#drop(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void drop(IDatabaseAdapter target) {
         target.dropType(getSchemaName(), getObjectName());
@@ -45,7 +36,6 @@ public class RowType extends BaseObject {
     
     /**
      * Builder pattern
-     * @author rarnold
      *
      */
     public static class Builder extends ColumnDefBuilder {

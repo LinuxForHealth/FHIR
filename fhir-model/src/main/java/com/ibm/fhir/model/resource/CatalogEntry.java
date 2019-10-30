@@ -16,10 +16,9 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
-import com.ibm.fhir.model.type.CatalogEntryRelationType;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -29,9 +28,11 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.CatalogEntryRelationType;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -40,10 +41,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CatalogEntry extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     private final CodeableConcept type;
+    @Summary
     @Required
     private final Boolean orderable;
+    @Summary
     @Required
     private final Reference referencedItem;
     private final List<Identifier> additionalIdentifier;
@@ -902,13 +906,13 @@ public class CatalogEntry extends DomainResource {
      * Used for example, to point to a substance, or to a device used to administer a medication.
      */
     public static class RelatedEntry extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "CatalogEntryRelationType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relations between entries.",
             valueSet = "http://hl7.org/fhir/ValueSet/relation-type|4.0.0"
         )
+        @Required
         private final CatalogEntryRelationType relationtype;
         @Required
         private final Reference item;

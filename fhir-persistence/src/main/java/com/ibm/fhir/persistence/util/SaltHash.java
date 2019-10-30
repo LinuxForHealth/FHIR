@@ -8,11 +8,10 @@ package com.ibm.fhir.persistence.util;
 
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Base64.Encoder;
 
 /**
  * Envelope for holding the salt and hash together for convenience
- * @author rarnold
+
  *
  */
 public class SaltHash {

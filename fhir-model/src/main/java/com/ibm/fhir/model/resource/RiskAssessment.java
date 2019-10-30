@@ -18,9 +18,9 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -34,9 +34,10 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.RiskAssessmentStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.RiskAssessmentStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -59,30 +60,39 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RiskAssessment extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     private final Reference basedOn;
     private final Reference parent;
-    @Required
+    @Summary
     @Binding(
         bindingName = "RiskAssessmentStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
+    @Required
     private final RiskAssessmentStatus status;
+    @Summary
     @Binding(
         bindingName = "RiskAssessmentMethod",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The mechanism or algorithm used to make the assessment; e.g. TIMI, PRISM, Cardiff Type 2 diabetes, etc."
     )
     private final CodeableConcept method;
+    @Summary
     private final CodeableConcept code;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element occurrence;
+    @Summary
     private final Reference condition;
+    @Summary
     private final Reference performer;
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
+import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
  * This utility class initializes and bootstraps a FHIR Derby database for unit testing. 
@@ -24,7 +24,6 @@ import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
  * the FHIR schema is applied.
  * 
  * It's intended that this class be consumed by testng tests in the fhir-persistence-jdbc project.
- * @author markd
  *
  */
 public class DerbyInitializer {
@@ -77,7 +76,7 @@ public class DerbyInitializer {
     }
     
     /**
-     * Get the name of the schema holding all the FHIR normalized resource tables
+     * Get the name of the schema holding all the FHIR resource tables
      * @return
      */
     protected String getDataSchemaName() {
@@ -89,9 +88,6 @@ public class DerbyInitializer {
      * @throws SQLException 
      */
     public void bootstrapDb(boolean reset) throws FHIRPersistenceDBConnectException, SQLException {
-        final String adminSchemaName = "FHIR_ADMIN";
-        final String dataSchemaName = getDataSchemaName();
-        
         if (reset) {
             // wipes the disk content of the database. Hopefully there aren't any
             // open connections at this point
@@ -116,14 +112,7 @@ public class DerbyInitializer {
         }
         else {
             System.out.println("Bootstrapping database");
-            final String url = DERBY_TRANSLATOR.getUrl(dbProps);
-            try (Connection connection = DriverManager.getConnection(url + ";create=true")) {
-                connection.setAutoCommit(false);
-                DerbyBootstrapper.bootstrap(connection, adminSchemaName, dataSchemaName);
-            }
-            catch (SQLException x) {
-                throw DERBY_TRANSLATOR.translate(x);
-            } 
+            new DerbyFhirDatabase();
         }
     }
 

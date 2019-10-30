@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 /**
  * This cache update writes its Code Systems cache candidates to the CodeSystemsCache upon a transaction commit.
- * @author markd
- *
  */
 public class CodeSystemsCacheUpdater extends CacheUpdater {
     private static final String CLASSNAME = CodeSystemsCacheUpdater.class.getName();

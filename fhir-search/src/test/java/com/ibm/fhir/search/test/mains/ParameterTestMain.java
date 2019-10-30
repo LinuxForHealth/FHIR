@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,7 +36,7 @@ public class ParameterTestMain extends BaseSearchTest {
         Class<? extends Resource> resourceType = Observation.class;
         Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
         queryParameters.put("subject", Collections.singletonList("http://localhost:9080/fhir-server/api/v4/Patient/1234"));
-        for (Parameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters, null).getSearchParameters()) {
+        for (Parameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters).getSearchParameters()) {
             System.out.println(parameter);
             System.out.println("");
         }

@@ -38,6 +38,7 @@ import javax.json.stream.JsonGenerator;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.DomainResource;
@@ -85,7 +86,7 @@ public class FHIROpenApiGenerator {
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "FHIR REST API");
-        info.add("description", "IBM Server for HL7 FHIR API");
+        info.add("description", "IBM FHIR Server API");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
@@ -184,7 +185,7 @@ public class FHIROpenApiGenerator {
     private static void populateStructureDefinitionMap(Map<Class<?>, StructureDefinition> structureDefinitionMap,
             String structureDefinitionFile) throws Exception {
         InputStream stream = FHIROpenApiGenerator.class.getClassLoader().getResourceAsStream(structureDefinitionFile);
-        Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, stream);
+        Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);
         for (Entry entry : bundle.getEntry()) {
             if (entry.getResource() instanceof StructureDefinition) {
                 StructureDefinition structureDefinition = (StructureDefinition) entry.getResource();
@@ -687,7 +688,7 @@ public class FHIROpenApiGenerator {
     }
 
     private static void generateRequestBody(Class<?> modelClass, JsonObjectBuilder requestBodies) {
-        if (FHIRUtil.isStandardResourceType(modelClass.getSimpleName())) {
+        if (ModelSupport.isResourceType(modelClass.getSimpleName())) {
 //        "Coverage": {
 //            "content": {
 //                "application/fhir+json": {

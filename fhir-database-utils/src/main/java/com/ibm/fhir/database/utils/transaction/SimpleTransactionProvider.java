@@ -11,8 +11,7 @@ import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 
 /**
- * @author rarnold
- *
+ * Simple Transaction Wrapper and provider
  */
 public class SimpleTransactionProvider implements ITransactionProvider {
     
@@ -26,9 +25,6 @@ public class SimpleTransactionProvider implements ITransactionProvider {
         this.connectionProvider = cp;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.ITransactionProvider#getTransaction()
-     */
     @Override
     public ITransaction getTransaction() {
         // Start a transaction, connected to the connectionProvider we've

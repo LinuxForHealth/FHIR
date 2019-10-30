@@ -16,9 +16,9 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -33,9 +33,10 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.VisionBase;
-import com.ibm.fhir.model.type.VisionEyes;
-import com.ibm.fhir.model.type.VisionStatus;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.VisionBase;
+import com.ibm.fhir.model.type.code.VisionEyes;
+import com.ibm.fhir.model.type.code.VisionStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,23 +46,29 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class VisionPrescription extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "VisionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
+    @Required
     private final VisionStatus status;
+    @Summary
     @Required
     private final DateTime created;
+    @Summary
     @Required
     private final Reference patient;
     private final Reference encounter;
+    @Summary
     @Required
     private final DateTime dateWritten;
+    @Summary
     @Required
     private final Reference prescriber;
+    @Summary
     @Required
     private final List<LensSpecification> lensSpecification;
 
@@ -686,21 +693,23 @@ public class VisionPrescription extends DomainResource {
      * certified professionals.
      */
     public static class LensSpecification extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "VisionProduct",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A coded concept describing the vision products.",
             valueSet = "http://hl7.org/fhir/ValueSet/vision-product"
         )
-        private final CodeableConcept product;
         @Required
+        private final CodeableConcept product;
+        @Summary
         @Binding(
             bindingName = "VisionEyes",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "A coded concept listing the eye codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.0.0"
         )
+        @Required
         private final VisionEyes eye;
         private final Decimal sphere;
         private final Decimal cylinder;
@@ -1394,13 +1403,13 @@ public class VisionPrescription extends DomainResource {
         public static class Prism extends BackboneElement {
             @Required
             private final Decimal amount;
-            @Required
             @Binding(
                 bindingName = "VisionBase",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "A coded concept listing the base codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/vision-base-codes|4.0.0"
             )
+            @Required
             private final VisionBase base;
 
             private volatile int hashCode;

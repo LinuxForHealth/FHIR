@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -85,8 +85,8 @@ public class FHIRException extends Exception {
     }
 
     @Override
-    public String getMessage() {
-        String superMsg = super.getMessage();
+    public String toString() {
+        String superMsg = super.toString();
         StringBuilder myMsg = new StringBuilder();
 
         if (superMsg != null && !superMsg.isEmpty()) {

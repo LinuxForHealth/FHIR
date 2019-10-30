@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ package com.ibm.fhir.client.test.mains;
 
 import static com.ibm.fhir.model.type.String.string;
 
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -19,21 +20,21 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
-import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Observation.Component;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.ContactPointSystem;
-import com.ibm.fhir.model.type.ContactPointUse;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.ObservationStatus;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.ContactPointSystem;
+import com.ibm.fhir.model.type.code.ContactPointUse;
+import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.provider.FHIRProvider;
 
 public class JaxrsClientTestMain {
@@ -47,7 +48,7 @@ public class JaxrsClientTestMain {
         FHIRGenerator.generator( Format.XML, false).generate(patient, System.out);
         
         Client client = ClientBuilder.newBuilder()
-                .register(new FHIRProvider())
+                .register(new FHIRProvider(RuntimeType.CLIENT))
                 .build();
         
         WebTarget target = client.target("http://localhost:9080/fhir-server/api/v4");

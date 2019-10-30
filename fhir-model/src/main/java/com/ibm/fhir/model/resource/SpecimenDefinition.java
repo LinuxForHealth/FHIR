@@ -17,8 +17,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -32,9 +32,10 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.SimpleQuantity;
-import com.ibm.fhir.model.type.SpecimenContainedPreference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.SpecimenContainedPreference;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -43,7 +44,9 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SpecimenDefinition extends DomainResource {
+    @Summary
     private final Identifier identifier;
+    @Summary
     @Binding(
         bindingName = "CollectedSpecimenType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -51,6 +54,7 @@ public class SpecimenDefinition extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
     )
     private final CodeableConcept typeCollected;
+    @Summary
     @Binding(
         bindingName = "PreparePatient",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -58,7 +62,9 @@ public class SpecimenDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/prepare-patient-prior-specimen-collection"
     )
     private final List<CodeableConcept> patientPreparation;
+    @Summary
     private final String timeAspect;
+    @Summary
     @Binding(
         bindingName = "SpecimenCollection",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -625,13 +631,13 @@ public class SpecimenDefinition extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
         )
         private final CodeableConcept type;
-        @Required
         @Binding(
             bindingName = "SpecimenContainedPreference",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Degree of preference of a type of conditioned specimen.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.0.0"
         )
+        @Required
         private final SpecimenContainedPreference preference;
         private final Container container;
         private final String requirement;
@@ -1637,7 +1643,6 @@ public class SpecimenDefinition extends DomainResource {
              * Citrate, EDTA.
              */
             public static class Additive extends BackboneElement {
-                @Required
                 @Choice({ CodeableConcept.class, Reference.class })
                 @Binding(
                     bindingName = "ContainerAdditive",
@@ -1645,6 +1650,7 @@ public class SpecimenDefinition extends DomainResource {
                     description = "Substance added to specimen container.",
                     valueSet = "http://terminology.hl7.org/ValueSet/v2-0371"
                 )
+                @Required
                 private final Element additive;
 
                 private volatile int hashCode;

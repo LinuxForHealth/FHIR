@@ -16,7 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.BindingStrength;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
@@ -25,9 +25,10 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.ResearchSubjectStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ResearchSubjectStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -36,18 +37,23 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ResearchSubject extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ResearchSubjectStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the progression of a study subject through a study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.0.0"
     )
+    @Required
     private final ResearchSubjectStatus status;
+    @Summary
     private final Period period;
+    @Summary
     @Required
     private final Reference study;
+    @Summary
     @Required
     private final Reference individual;
     private final String assignedArm;

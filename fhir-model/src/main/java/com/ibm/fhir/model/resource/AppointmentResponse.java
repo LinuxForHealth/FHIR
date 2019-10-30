@@ -17,7 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.BindingStrength;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
@@ -26,10 +26,11 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.ParticipantStatus;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ParticipantStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,11 +46,14 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AppointmentResponse extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Required
     private final Reference appointment;
     private final Instant start;
     private final Instant end;
+    @Summary
     @Binding(
         bindingName = "ParticipantType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -57,14 +61,16 @@ public class AppointmentResponse extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
     )
     private final List<CodeableConcept> participantType;
+    @Summary
     private final Reference actor;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ParticipantStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The Participation status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.0"
     )
+    @Required
     private final ParticipantStatus participantStatus;
     private final String comment;
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,9 +33,7 @@ public class PropertyGroup {
     /**
      * This constant represents the separator character used within a hierarchical property name. 
      * Example: 
-     * <xmp>
-     *     fhir-server/server-core/truststoreLocation 
-     * </xmp>
+     * <code>fhir-server/server-core/truststoreLocation</code>
      */
     public static final String PATH_ELEMENT_SEPARATOR = "/";
 
@@ -341,7 +339,7 @@ public class PropertyGroup {
      * This function will find the JSON "sub object" rooted at "this.jsonObj" that is associated with the specified
      * hierarchical property name. 
      * <p>For example, consider the following JSON structure: 
-     * <xmp>
+     * <pre>
      * { 
      *     "level1":{ 
      *         "level2":{
@@ -349,7 +347,7 @@ public class PropertyGroup {
      *         } 
      *     } 
      * } 
-     * </xmp> 
+     * </pre> 
      * If this function was invoked with a property name of "level1/level2/myProperty", 
      * then the result will be the JsonObject associated with the "level2" field within the JSON
      * structure above.

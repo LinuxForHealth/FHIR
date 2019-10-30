@@ -18,14 +18,12 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
-import com.ibm.fhir.model.type.ConceptMapEquivalence;
-import com.ibm.fhir.model.type.ConceptMapGroupUnmappedMode;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
@@ -35,10 +33,13 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
+import com.ibm.fhir.model.type.code.ConceptMapGroupUnmappedMode;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -76,25 +77,37 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ConceptMap extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final Identifier identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -104,8 +117,10 @@ public class ConceptMap extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Summary
     @Choice({ Uri.class, Canonical.class })
     private final Element source;
+    @Summary
     @Choice({ Uri.class, Canonical.class })
     private final Element target;
     private final List<Group> group;
@@ -1834,13 +1849,13 @@ public class ConceptMap extends DomainResource {
             public static class Target extends BackboneElement {
                 private final Code code;
                 private final String display;
-                @Required
                 @Binding(
                     bindingName = "ConceptMapEquivalence",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The degree of equivalence between concepts.",
                     valueSet = "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.0.0"
                 )
+                @Required
                 private final ConceptMapEquivalence equivalence;
                 private final String comment;
                 private final List<DependsOn> dependsOn;
@@ -2626,13 +2641,13 @@ public class ConceptMap extends DomainResource {
          * the unmapped element is ignored in a code is specified to have equivalence = unmatched.
          */
         public static class Unmapped extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ConceptMapGroupUnmappedMode",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines which action to take if there is no match in the group.",
                 valueSet = "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.0.0"
             )
+            @Required
             private final ConceptMapGroupUnmappedMode mode;
             private final Code code;
             private final String display;

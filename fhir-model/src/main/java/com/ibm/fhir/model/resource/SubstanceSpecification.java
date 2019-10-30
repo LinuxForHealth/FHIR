@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -41,24 +42,43 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceSpecification extends DomainResource {
+    @Summary
     private final Identifier identifier;
+    @Summary
     private final CodeableConcept type;
+    @Summary
     private final CodeableConcept status;
+    @Summary
     private final CodeableConcept domain;
+    @Summary
     private final String description;
+    @Summary
     private final List<Reference> source;
+    @Summary
     private final String comment;
+    @Summary
     private final List<Moiety> moiety;
+    @Summary
     private final List<Property> property;
+    @Summary
     private final Reference referenceInformation;
+    @Summary
     private final Structure structure;
+    @Summary
     private final List<Code> code;
+    @Summary
     private final List<Name> name;
+    @Summary
     private final List<SubstanceSpecification.Structure.Isotope.MolecularWeight> molecularWeight;
+    @Summary
     private final List<Relationship> relationship;
+    @Summary
     private final Reference nucleicAcid;
+    @Summary
     private final Reference polymer;
+    @Summary
     private final Reference protein;
+    @Summary
     private final Reference sourceMaterial;
 
     private volatile int hashCode;
@@ -1093,12 +1113,19 @@ public class SubstanceSpecification extends DomainResource {
      * Moiety, for structural modifications.
      */
     public static class Moiety extends BackboneElement {
+        @Summary
         private final CodeableConcept role;
+        @Summary
         private final Identifier identifier;
+        @Summary
         private final String name;
+        @Summary
         private final CodeableConcept stereochemistry;
+        @Summary
         private final CodeableConcept opticalActivity;
+        @Summary
         private final String molecularFormula;
+        @Summary
         @Choice({ Quantity.class, String.class })
         private final Element amount;
 
@@ -1519,11 +1546,16 @@ public class SubstanceSpecification extends DomainResource {
      * General specifications for this substance, including how it is related to other substances.
      */
     public static class Property extends BackboneElement {
+        @Summary
         private final CodeableConcept category;
+        @Summary
         private final CodeableConcept code;
+        @Summary
         private final String parameters;
+        @Summary
         @Choice({ Reference.class, CodeableConcept.class })
         private final Element definingSubstance;
+        @Summary
         @Choice({ Quantity.class, String.class })
         private final Element amount;
 
@@ -1888,13 +1920,21 @@ public class SubstanceSpecification extends DomainResource {
      * Structural information.
      */
     public static class Structure extends BackboneElement {
+        @Summary
         private final CodeableConcept stereochemistry;
+        @Summary
         private final CodeableConcept opticalActivity;
+        @Summary
         private final String molecularFormula;
+        @Summary
         private final String molecularFormulaByMoiety;
+        @Summary
         private final List<Isotope> isotope;
+        @Summary
         private final SubstanceSpecification.Structure.Isotope.MolecularWeight molecularWeight;
+        @Summary
         private final List<Reference> source;
+        @Summary
         private final List<Representation> representation;
 
         private volatile int hashCode;
@@ -1967,7 +2007,7 @@ public class SubstanceSpecification extends DomainResource {
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
          * 
          * @return
-         *     An immutable object of type {@link MolecularWeight}.
+         *     An immutable object of type {@link SubstanceSpecification.Structure.Isotope.MolecularWeight}.
          */
         public SubstanceSpecification.Structure.Isotope.MolecularWeight getMolecularWeight() {
             return molecularWeight;
@@ -2401,10 +2441,15 @@ public class SubstanceSpecification extends DomainResource {
          * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
          */
         public static class Isotope extends BackboneElement {
+            @Summary
             private final Identifier identifier;
+            @Summary
             private final CodeableConcept name;
+            @Summary
             private final CodeableConcept substitution;
+            @Summary
             private final Quantity halfLife;
+            @Summary
             private final MolecularWeight molecularWeight;
 
             private volatile int hashCode;
@@ -2755,8 +2800,11 @@ public class SubstanceSpecification extends DomainResource {
              * The molecular weight or weight range (for proteins, polymers or nucleic acids).
              */
             public static class MolecularWeight extends BackboneElement {
+                @Summary
                 private final CodeableConcept method;
+                @Summary
                 private final CodeableConcept type;
+                @Summary
                 private final Quantity amount;
 
                 private volatile int hashCode;
@@ -3050,8 +3098,11 @@ public class SubstanceSpecification extends DomainResource {
          * Molecular structural representation.
          */
         public static class Representation extends BackboneElement {
+            @Summary
             private final CodeableConcept type;
+            @Summary
             private final String representation;
+            @Summary
             private final Attachment attachment;
 
             private volatile int hashCode;
@@ -3342,10 +3393,15 @@ public class SubstanceSpecification extends DomainResource {
      * Codes associated with the substance.
      */
     public static class Code extends BackboneElement {
+        @Summary
         private final CodeableConcept code;
+        @Summary
         private final CodeableConcept status;
+        @Summary
         private final DateTime statusDate;
+        @Summary
         private final String comment;
+        @Summary
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -3717,17 +3773,28 @@ public class SubstanceSpecification extends DomainResource {
      * Names applicable to this substance.
      */
     public static class Name extends BackboneElement {
+        @Summary
         @Required
         private final String name;
+        @Summary
         private final CodeableConcept type;
+        @Summary
         private final CodeableConcept status;
+        @Summary
         private final Boolean preferred;
+        @Summary
         private final List<CodeableConcept> language;
+        @Summary
         private final List<CodeableConcept> domain;
+        @Summary
         private final List<CodeableConcept> jurisdiction;
+        @Summary
         private final List<SubstanceSpecification.Name> synonym;
+        @Summary
         private final List<SubstanceSpecification.Name> translation;
+        @Summary
         private final List<Official> official;
+        @Summary
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -4416,8 +4483,11 @@ public class SubstanceSpecification extends DomainResource {
          * Details of the official nature of this name.
          */
         public static class Official extends BackboneElement {
+            @Summary
             private final CodeableConcept authority;
+            @Summary
             private final CodeableConcept status;
+            @Summary
             private final DateTime date;
 
             private volatile int hashCode;
@@ -4708,14 +4778,21 @@ public class SubstanceSpecification extends DomainResource {
      * A link between this substance and another, with details of the relationship.
      */
     public static class Relationship extends BackboneElement {
+        @Summary
         @Choice({ Reference.class, CodeableConcept.class })
         private final Element substance;
+        @Summary
         private final CodeableConcept relationship;
+        @Summary
         private final Boolean isDefining;
+        @Summary
         @Choice({ Quantity.class, Range.class, Ratio.class, String.class })
         private final Element amount;
+        @Summary
         private final Ratio amountRatioLowLimit;
+        @Summary
         private final CodeableConcept amountType;
+        @Summary
         private final List<Reference> source;
 
         private volatile int hashCode;

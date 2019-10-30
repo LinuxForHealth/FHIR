@@ -7,14 +7,13 @@
 package com.ibm.fhir.persistence.jdbc.test.spec;
 
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.spec.test.ResourceComparatorVisitor;
+import com.ibm.fhir.model.util.test.ResourceComparatorVisitor;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
 import com.ibm.fhir.persistence.util.SaltHash;
 
 /**
  * Create the resource using the persistence
- * @author rarnold
  *
  */
 public abstract class BaseOperation implements ITestResourceOperation {

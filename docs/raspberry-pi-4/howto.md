@@ -1,6 +1,6 @@
-# IBM Server for HL7 FHIR on the Raspberry Pi 4
+# IBM FHIR Server on the Raspberry Pi 4
 
-![IBM Server for HL7 FHIR on Raspberry Pi 4](/docs/raspberry-pi-4/piOnFhir30.jpg)
+![IBM FHIR Server on Raspberry Pi 4](/docs/raspberry-pi-4/piOnFhir30.jpg)
 
 FHIR Specification: https://hl7.org/fhir/R4/
 
@@ -476,4 +476,4 @@ The response is a FHIR bundle resource containing both versions of the Patient. 
 
 ```
 
-# END-OF-DOCUMENT
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

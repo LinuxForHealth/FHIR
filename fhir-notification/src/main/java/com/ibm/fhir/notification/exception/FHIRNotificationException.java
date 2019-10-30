@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,13 +7,11 @@
 package com.ibm.fhir.notification.exception;
 
 public class FHIRNotificationException extends Exception {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
 
     /**
-     * 
+     * a notification exception
      * @param message
      */
     public FHIRNotificationException(String message) {
@@ -21,7 +19,7 @@ public class FHIRNotificationException extends Exception {
     }
 
     /**
-     * 
+     * a notification exception with a throwable
      * @param message
      * @param cause
      */

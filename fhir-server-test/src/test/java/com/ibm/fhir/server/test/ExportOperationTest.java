@@ -32,6 +32,8 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 
 /**
+ * These tests exercise the $export operation, a BulkData specification defined operation.
+ * 
  * @author pbastide
  *
  */
@@ -55,7 +57,10 @@ public class ExportOperationTest extends FHIRServerTestBase {
             doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
         assertEquals(response.getStatus(), 202);
 
+        // Debug the content-location that's returned. 
         String contentLocation = response.getHeaderString("Content-Location");
+        System.out.println("Content Location: " + contentLocation);
+        
         assertEquals(contentLocation, "/fhir-server/api/v4/$export-status?job=1");
 
     }
@@ -83,10 +88,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
     }
 
     /*
+     * 
      * @param outputFormat
      * @param since
      * @param types
+     * @param typeFilters
      * @return
+     * @throws FHIRGeneratorException
+     * @throws IOException
      */
     private Parameters generateParameters(String outputFormat, Instant since, List<String> types,
         List<String> typeFilters) throws FHIRGeneratorException, IOException {
@@ -123,11 +132,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     /**
      * add query parameter list
-     * 
-     * @param target
-     * @param header
-     * @param val
-     * @return
      */
     public WebTarget addQueryParameterList(WebTarget target, String header, List<String> vals) {
         if (header != null && vals != null && !vals.isEmpty()) {
@@ -139,11 +143,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     /**
      * adds the query parameter
-     * 
-     * @param builder
-     * @param header
-     * @param vals
-     * @return
      */
     public WebTarget addQueryParameter(WebTarget target, String header, String val) {
         if (header != null && val != null) {
@@ -162,7 +161,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
         // String contentLocation = response.getHeaderString("Content-Location");
         // assertEquals(contentLocation,
-        // "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/job1_Patient_0.ndjson");
+        // "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/job1/Patient_1.ndjson");
 
     }
 

@@ -28,10 +28,10 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
- * @author rarnold
- *
+ * BaseObject
  */
 public abstract class BaseObject implements IDatabaseObject {
+    
     private static final Logger logger = Logger.getLogger(BaseObject.class.getName());
     
     // Used to randomize a sleep after a deadlock failure
@@ -53,11 +53,13 @@ public abstract class BaseObject implements IDatabaseObject {
     // The version number of the application schema this object applies to
     private final int version;
     
-    
     /**
      * Public constructor
+     *
      * @param schemaName
      * @param objectName
+     * @param objectType
+     * @param version
      */
     public BaseObject(String schemaName, String objectName, DatabaseObjectType objectType, int version) {
         this.schemaName = schemaName;
@@ -76,7 +78,6 @@ public abstract class BaseObject implements IDatabaseObject {
         return this.objectType;
     }
 
-    
     @Override
     public int hashCode() {
         return this.objectType.hashCode() + 23 * (37 * schemaName.hashCode() + objectName.hashCode());
@@ -98,7 +99,6 @@ public abstract class BaseObject implements IDatabaseObject {
     public String getTypeAndName() {
         return getObjectType().name() + ":" + getQualifiedName();
     }
-
 
     /**
      * Add the given tags to our tag map
@@ -165,9 +165,6 @@ public abstract class BaseObject implements IDatabaseObject {
         return getName();
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#collect(com.ibm.fhir.task.api.ITaskCollector, com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public ITaskGroup collect(final ITaskCollector tc, final IDatabaseAdapter target, final ITransactionProvider tp, final IVersionHistoryService vhs) {
         // Make sure that anything we depend on gets processed first
@@ -185,9 +182,6 @@ public abstract class BaseObject implements IDatabaseObject {
         return tc.makeTaskGroup(this.getTypeAndName(), () -> applyTx(target, tp, vhs), children);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#applyTx(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void applyTx(IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
         // Wrap the apply operation in its own transaction, as this is likely
@@ -255,7 +249,6 @@ public abstract class BaseObject implements IDatabaseObject {
 
     /**
      * Sleep a random amount of time.
-     * @param ms
      */
     protected void safeSleep() {
         long ms = random.nextInt(5000);
@@ -267,9 +260,6 @@ public abstract class BaseObject implements IDatabaseObject {
         }
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#getTags()
-     */
     @Override
     public Map<String, String> getTags() {
         return Collections.unmodifiableMap(this.tags);
@@ -290,7 +280,7 @@ public abstract class BaseObject implements IDatabaseObject {
      * Internal method which can be override by different object types which may need
      * to call a different grant method on the adapter
      * @param target
-     * @param privileges
+     * @param group
      * @param toUser
      */
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {

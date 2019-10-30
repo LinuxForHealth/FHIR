@@ -17,13 +17,11 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
-import com.ibm.fhir.model.type.CapabilityStatementKind;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.CodeSearchSupport;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
@@ -32,11 +30,14 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.CapabilityStatementKind;
+import com.ibm.fhir.model.type.code.CodeSearchSupport;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -88,25 +89,36 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TerminologyCapabilities extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     @Required
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -115,17 +127,22 @@ public class TerminologyCapabilities extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
+    @Summary
     private final Markdown copyright;
-    @Required
+    @Summary
     @Binding(
         bindingName = "CapabilityStatementKind",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "How a capability statement is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.0"
     )
+    @Required
     private final CapabilityStatementKind kind;
+    @Summary
     private final Software software;
+    @Summary
     private final Implementation implementation;
+    @Summary
     private final Boolean lockedDate;
     private final List<CodeSystem> codeSystem;
     private final Expansion expansion;
@@ -1324,8 +1341,10 @@ public class TerminologyCapabilities extends DomainResource {
      * capabilities of a particular software version, independent of an installation.
      */
     public static class Software extends BackboneElement {
+        @Summary
         @Required
         private final String name;
+        @Summary
         private final String version;
 
         private volatile int hashCode;
@@ -1592,8 +1611,10 @@ public class TerminologyCapabilities extends DomainResource {
      * particular installation, rather than the capabilities of a software program.
      */
     public static class Implementation extends BackboneElement {
+        @Summary
         @Required
         private final String description;
+        @Summary
         private final Url url;
 
         private volatile int hashCode;
@@ -2170,7 +2191,9 @@ public class TerminologyCapabilities extends DomainResource {
          * For the code system, a list of versions that are supported by the server.
          */
         public static class Version extends BackboneElement {
+            @Summary
             private final String code;
+            @Summary
             private final Boolean isDefault;
             private final Boolean compositional;
             private final List<Code> language;

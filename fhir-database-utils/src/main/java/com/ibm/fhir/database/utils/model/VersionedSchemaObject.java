@@ -10,7 +10,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Base class for the schema object builders which also carry a version (change) number
- * @author rarnold
  */
 public class VersionedSchemaObject {
 

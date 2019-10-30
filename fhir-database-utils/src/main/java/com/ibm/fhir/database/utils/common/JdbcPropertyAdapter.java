@@ -10,8 +10,6 @@ import java.util.Properties;
 
 /**
  * Base adapter for common JDBC connection properties
- * @author rarnold
- *
  */
 public class JdbcPropertyAdapter {
     protected final Properties properties;

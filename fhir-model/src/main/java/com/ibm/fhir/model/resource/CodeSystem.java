@@ -18,13 +18,11 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.CodeSystemContentMode;
-import com.ibm.fhir.model.type.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactDetail;
@@ -32,19 +30,22 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.FilterOperator;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PropertyType;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.CodeSystemContentMode;
+import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
+import com.ibm.fhir.model.type.code.FilterOperator;
+import com.ibm.fhir.model.type.code.PropertyType;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -68,25 +69,37 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CodeSystem extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -96,8 +109,11 @@ public class CodeSystem extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Summary
     private final Boolean caseSensitive;
+    @Summary
     private final Canonical valueSet;
+    @Summary
     @Binding(
         bindingName = "CodeSystemHierarchyMeaning",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -105,19 +121,26 @@ public class CodeSystem extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.0"
     )
     private final CodeSystemHierarchyMeaning hierarchyMeaning;
+    @Summary
     private final Boolean compositional;
+    @Summary
     private final Boolean versionNeeded;
-    @Required
+    @Summary
     @Binding(
         bindingName = "CodeSystemContentMode",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.0"
     )
+    @Required
     private final CodeSystemContentMode content;
+    @Summary
     private final Canonical supplements;
+    @Summary
     private final UnsignedInt count;
+    @Summary
     private final List<Filter> filter;
+    @Summary
     private final List<Property> property;
     private final List<Concept> concept;
 
@@ -1424,17 +1447,21 @@ public class CodeSystem extends DomainResource {
      * A filter that can be used in a value set compose statement when selecting concepts using a filter.
      */
     public static class Filter extends BackboneElement {
+        @Summary
         @Required
         private final Code code;
+        @Summary
         private final String description;
-        @Required
+        @Summary
         @Binding(
             bindingName = "FilterOperator",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The kind of operation to perform as a part of a property based filter.",
             valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
         )
+        @Required
         private final List<FilterOperator> operator;
+        @Summary
         @Required
         private final String value;
 
@@ -1791,17 +1818,21 @@ public class CodeSystem extends DomainResource {
      * A property defines an additional slot through which additional information can be provided about a concept.
      */
     public static class Property extends BackboneElement {
+        @Summary
         @Required
         private final Code code;
+        @Summary
         private final Uri uri;
+        @Summary
         private final String description;
-        @Required
+        @Summary
         @Binding(
             bindingName = "PropertyType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of a property value.",
             valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.0.0"
         )
+        @Required
         private final PropertyType type;
 
         private volatile int hashCode;
@@ -2918,8 +2949,8 @@ public class CodeSystem extends DomainResource {
         public static class Property extends BackboneElement {
             @Required
             private final Code code;
-            @Required
             @Choice({ Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class })
+            @Required
             private final Element value;
 
             private volatile int hashCode;

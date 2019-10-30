@@ -11,25 +11,21 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.persistence.context.FHIRReplicationContext;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
 
 /**
  * Tests associated with the FHIRPersistenceContextImpl class.
  */
-public class FHIRPersistenceEventTest extends FHIRModelTestBase {
-    private static final String PATIENT_A = "patient-example-a.json";
-    
+public class FHIRPersistenceEventTest {
     @Test
-    public void test1() {
+    public void testDefaultEvent() {
         FHIRPersistenceEvent pe = new FHIRPersistenceEvent();
         assertNull(pe.getFhirResource());
         assertNull(pe.getFhirResourceType());
@@ -40,15 +36,12 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
         assertNull(pe.getRequestProperties());
         assertNull(pe.getSecurityContext());
         assertNull(pe.getUriInfo());
-        assertNull(pe.getTransactionCorrelationId());
-        assertNull(pe.getRequestCorrelationId());
-        assertNull(pe.getReplicationContext());
         assertNull(pe.getPersistenceImpl());
     }
     
     @Test
-    public void test2() throws Exception {
-        Patient patient = readResource(Patient.class, PATIENT_A);
+    public void testSimpleProps() throws Exception {
+        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         Map<String, Object> properties = new HashMap<>();
         
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
@@ -60,48 +53,38 @@ public class FHIRPersistenceEventTest extends FHIRModelTestBase {
         assertEquals("Patient", pe.getFhirResourceType());
         assertEquals("id1", pe.getFhirResourceId());
         assertEquals("v1", pe.getFhirVersionId());
-        assertNull(pe.getReplicationContext());
     }
     
     @Test
-    public void test3() throws Exception {
-        Patient patient = readResource(Patient.class, PATIENT_A);
+    public void testReplicationContext() throws Exception {
+        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         Map<String, Object> properties = new HashMap<>();
         
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "id1");
         properties.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, "v1");
         
-        java.time.Instant lastUpdated = Instant.now();
-        FHIRReplicationContext expectedRC = new FHIRReplicationContext("999999", lastUpdated);
-        properties.put(FHIRPersistenceEvent.PROPNAME_REPLICATION_CONTEXT, expectedRC);
-        
         FHIRPersistenceEvent pe = new FHIRPersistenceEvent(patient, properties);
         assertNotNull(pe.getFhirResource());
         assertEquals("Patient", pe.getFhirResourceType());
         assertEquals("id1", pe.getFhirResourceId());
         assertEquals("v1", pe.getFhirVersionId());
-        FHIRReplicationContext actualRC = pe.getReplicationContext();
-        assertNotNull(actualRC);
-        assertEquals(expectedRC.getVersionId(), actualRC.getVersionId());
-        assertEquals(expectedRC.getLastUpdated(), actualRC.getLastUpdated());
+        
     }
     
     @Test
     public void testGetHeaderString() throws Exception {
-        Patient patient = readResource(Patient.class, PATIENT_A);
+        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         Map<String, Object> properties = new HashMap<>();
         
         Map<String, String> reqProps = new HashMap<String, String>();
-        reqProps.put("X-WHC-LSF-resourcename", "ResourceName1");
-        reqProps.put("X-WHC-LSF-rolename", "role1");
+        reqProps.put("X-Custom-Header", "value1");
         
         properties.put(FHIRPersistenceEvent.PROPNAME_REQUEST_PROPERTIES, reqProps);
         
         FHIRPersistenceEvent pe = new FHIRPersistenceEvent(patient, properties);
         
-        assertEquals("ResourceName1", pe.getHeaderString("X-WHC-LSF-resourcename"));
-        assertEquals("role1", pe.getHeaderString("X-WHC-LSF-rolename"));
-        assertNull(pe.getHeaderString("X-WHC-LSF-studyid"));
+        assertEquals("value1", pe.getHeaderString("X-Custom-Header"));
+        assertNull(pe.getHeaderString("X-Fake-Header"));
     }
 }

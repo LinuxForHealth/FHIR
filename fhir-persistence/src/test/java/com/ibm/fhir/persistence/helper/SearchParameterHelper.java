@@ -15,17 +15,17 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Markdown;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Range;
-import com.ibm.fhir.model.type.ResourceType;
-import com.ibm.fhir.model.type.SearchParamType;
 import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.SearchParamType;
 
 /**
  * Helper class to create {@link SearchParameter} model objects
  * 
- * @author rarnold
+
  *
  */
 public class SearchParameterHelper {
@@ -42,7 +42,14 @@ public class SearchParameterHelper {
         List<ResourceType> base = new ArrayList<>();
         base.add(ResourceType.PATIENT);
 
-        return SearchParameter.builder().url(Uri.of(dummyUri)).name(string(name)).status(PublicationStatus.ACTIVE).description(Markdown.of(description)).code(Code.of(code)).base(base).type(SearchParamType.STRING).build();
+        return SearchParameter.builder()
+                              .url(Uri.of(dummyUri)).name(string(name))
+                              .status(PublicationStatus.ACTIVE)
+                              .description(Markdown.of(description))
+                              .code(Code.of(code))
+                              .base(base)
+                              .type(SearchParamType.STRING)
+                              .build();
 
     }
 

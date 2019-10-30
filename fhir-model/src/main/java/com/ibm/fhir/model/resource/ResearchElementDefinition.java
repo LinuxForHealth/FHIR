@@ -18,8 +18,8 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -32,22 +32,23 @@ import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Expression;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.GroupMeasure;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
-import com.ibm.fhir.model.type.ResearchElementType;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
-import com.ibm.fhir.model.type.VariableType;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.GroupMeasure;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.ResearchElementType;
+import com.ibm.fhir.model.type.code.VariableType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -64,21 +65,29 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ResearchElementDefinition extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
+    @Summary
     private final String shortTitle;
     private final String subtitle;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -88,12 +97,18 @@ public class ResearchElementDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
     private final Element subject;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     private final Markdown description;
     private final List<String> comment;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -106,6 +121,7 @@ public class ResearchElementDefinition extends DomainResource {
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
+    @Summary
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
@@ -120,13 +136,14 @@ public class ResearchElementDefinition extends DomainResource {
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
     private final List<Canonical> library;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ResearchElementType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The possible types of research elements (E.g. Population, Exposure, Outcome).",
         valueSet = "http://hl7.org/fhir/ValueSet/research-element-type|4.0.0"
     )
+    @Required
     private final ResearchElementType type;
     @Binding(
         bindingName = "VariableType",
@@ -135,6 +152,7 @@ public class ResearchElementDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.0"
     )
     private final VariableType variableType;
+    @Summary
     @Required
     private final List<Characteristic> characteristic;
 
@@ -1799,8 +1817,9 @@ public class ResearchElementDefinition extends DomainResource {
      * semantics.
      */
     public static class Characteristic extends BackboneElement {
-        @Required
+        @Summary
         @Choice({ CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class })
+        @Required
         private final Element definition;
         private final List<UsageContext> usageContext;
         private final Boolean exclude;

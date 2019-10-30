@@ -22,14 +22,14 @@ import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
+import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 
 /**
  * Base class for fhir-client TestNG tests.
  */
-public abstract class FHIRClientTestBase extends FHIRModelTestBase {
+public abstract class FHIRClientTestBase {
     protected Properties testProperties = null;
     protected FHIRClient client = null;
     
@@ -42,7 +42,7 @@ public abstract class FHIRClientTestBase extends FHIRModelTestBase {
      */
     @BeforeClass
     public void setUp() throws Exception {
-        testProperties = readTestProperties("test.properties");
+        testProperties = TestUtil.readTestProperties("test.properties");
     }
     
     @BeforeMethod
@@ -130,7 +130,7 @@ public abstract class FHIRClientTestBase extends FHIRModelTestBase {
      * For the specified response, this function will extract the logical id value from the
      * response's Location header.
      * The format of a location header value should be:
-     *     "[base]/<resource-type>/<id>/_history/<version>"
+     *     <code>[base]/<resource-type>/<id>/_history/<version></code>
      * @param response the response object for a REST API invocation
      * @return the logical id value
      */

@@ -17,11 +17,10 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.CompartmentType;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
@@ -29,11 +28,13 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PublicationStatus;
-import com.ibm.fhir.model.type.ResourceType;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.CompartmentType;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,36 +50,48 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CompartmentDefinition extends DomainResource {
+    @Summary
     @Required
     private final Uri url;
+    @Summary
     private final String version;
+    @Summary
     @Required
     private final String name;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
     private final Markdown purpose;
-    @Required
+    @Summary
     @Binding(
         bindingName = "CompartmentType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Which type a compartment definition describes.",
         valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.0"
     )
+    @Required
     private final CompartmentType code;
+    @Summary
     @Required
     private final Boolean search;
+    @Summary
     private final List<Resource> resource;
 
     private volatile int hashCode;
@@ -925,14 +938,16 @@ public class CompartmentDefinition extends DomainResource {
      * Information about how a resource is related to the compartment.
      */
     public static class Resource extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )
+        @Required
         private final ResourceType code;
+        @Summary
         private final List<String> param;
         private final String documentation;
 

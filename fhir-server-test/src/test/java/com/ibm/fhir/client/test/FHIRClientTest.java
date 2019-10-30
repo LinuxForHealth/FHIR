@@ -8,6 +8,7 @@ package com.ibm.fhir.client.test;
 
 import static com.ibm.fhir.client.FHIRRequestHeader.header;
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -23,24 +24,25 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRParameters;
-import com.ibm.fhir.client.FHIRRequestHeader;
-import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.client.FHIRParameters.Modifier;
 import com.ibm.fhir.client.FHIRParameters.ValuePrefix;
+import com.ibm.fhir.client.FHIRRequestHeader;
+import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Patient.Contact;
-import com.ibm.fhir.model.type.BundleType;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.ContactPointSystem;
-import com.ibm.fhir.model.type.ContactPointUse;
-import com.ibm.fhir.model.type.HTTPVerb;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.ContactPointSystem;
+import com.ibm.fhir.model.type.code.ContactPointUse;
+import com.ibm.fhir.model.type.code.HTTPVerb;
+import com.ibm.fhir.model.util.JsonSupport;
 
 /**
  * Basic tests related to the FHIR Client API.
@@ -118,7 +120,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test
     public void testCreatePatient() throws Exception {
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
 
         // Create the patient and then validate the response.
@@ -143,14 +145,58 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test
     public void testCreatePatientJsonObject() throws Exception {
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
-        JsonObject jsonObj = FHIRUtil.toJsonObject(patient);
+        JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 
         FHIRResponse response = client.create(jsonObj);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
 
+        assertNotNull(response.getLocation());
+        assertNotNull(response.getLocationURI());
+        assertNotNull(response.getETag());
+        assertNotNull(response.getLastModified());
+    }
+
+    @Test
+    public void testCreatePatientWithReturnPref() throws Exception {
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
+        assertNotNull(patient);
+
+        FHIRRequestHeader preferHeader;
+        FHIRResponse response;
+        
+        // Create the patient with return=minimal and then validate the response.
+        preferHeader = new FHIRRequestHeader("Prefer", "return=minimal");
+        response = client.create(patient, preferHeader);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+        assertTrue(response.isEmpty());
+        assertNotNull(response.getLocation());
+        assertNotNull(response.getLocationURI());
+        assertNotNull(response.getETag());
+        assertNotNull(response.getLastModified());
+        
+        // Create the patient with return=representation and then validate the response.
+        preferHeader = new FHIRRequestHeader("Prefer", "return=representation");
+        response = client.create(patient, preferHeader);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+        assertFalse(response.isEmpty());
+        assertNotNull(response.getResource(Patient.class));
+        assertNotNull(response.getLocation());
+        assertNotNull(response.getLocationURI());
+        assertNotNull(response.getETag());
+        assertNotNull(response.getLastModified());
+
+        // Create the patient with return=OperationOutcome and then validate the response.
+        preferHeader = new FHIRRequestHeader("Prefer", "return=representation");
+        response = client.create(patient, preferHeader);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+        assertNotNull(response.getResource(OperationOutcome.class));
         assertNotNull(response.getLocation());
         assertNotNull(response.getLocationURI());
         assertNotNull(response.getETag());
@@ -212,7 +258,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
                         .use(ContactPointUse.WORK)
                         .value(string("408-400-7448")).build()).build()).build();     
         
-        JsonObject jsonObj = FHIRUtil.toJsonObject(patient);
+        JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 
         // Update the patient and then validate the response.
         response = client.update(jsonObj);
@@ -418,7 +464,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test
     public void testValidatePatient() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
 
         // Create the patient and then validate the response.
@@ -432,9 +478,9 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test
     public void testValidatePatientJsonObject() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
-        JsonObject jsonObj = FHIRUtil.toJsonObject(patient);
+        JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 
         FHIRResponse response = client.validate(jsonObj);
         assertNotNull(response);
@@ -494,6 +540,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertEquals(BundleType.TRANSACTION_RESPONSE.getValue(), responseBundle.getType().getValue());
     }
 
+    
     private Bundle addRequestToBundle(Bundle bundle, HTTPVerb method, String url, Resource resource) throws Exception {
           
         Bundle.Entry.Request request = Bundle.Entry.Request.builder().method(method).url(Uri.of(url)).build();   

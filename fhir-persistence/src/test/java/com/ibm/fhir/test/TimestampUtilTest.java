@@ -19,7 +19,7 @@ import com.ibm.fhir.persistence.util.TimestampUtil;
 
 /**
  * Unit test for {@link TimestampUtil}
- * @author rarnold
+
  *
  */
 public class TimestampUtilTest {

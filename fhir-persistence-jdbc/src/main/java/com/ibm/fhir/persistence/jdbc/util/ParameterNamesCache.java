@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,17 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * This class provides a static cache for FHIR Search Parameter names. This data is gathered from tables
- * defined as part of the "normalized" relational database schema.
- * @author markd
- *
+ * This class provides a static cache for FHIR Search Parameter names.
  */
-
 public class ParameterNamesCache {
     private static final String CLASSNAME = ParameterNamesCache.class.getName(); 
     private static final Logger log = Logger.getLogger(CLASSNAME);
@@ -130,7 +126,7 @@ public class ParameterNamesCache {
      * @param dao A Parameter DAO instance
      * @return String - A report detailing cache/db discrepancies.
      */
-    public static String reportCacheDiscrepancies(ParameterNormalizedDAO dao) {
+    public static String reportCacheDiscrepancies(ParameterDAO dao) {
         
         String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
         ConcurrentHashMap<String,Integer> cachedMap = parameterNameIdMaps.get(tenantDatstoreCacheName);

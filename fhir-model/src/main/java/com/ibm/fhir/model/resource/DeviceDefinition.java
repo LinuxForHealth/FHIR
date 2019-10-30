@@ -17,14 +17,13 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.DeviceNameType;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
@@ -37,6 +36,8 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DeviceNameType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -60,6 +61,7 @@ public class DeviceDefinition extends DomainResource {
     private final CodeableConcept type;
     private final List<Specialization> specialization;
     private final List<String> version;
+    @Summary
     @Binding(
         bindingName = "Safety",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -77,6 +79,7 @@ public class DeviceDefinition extends DomainResource {
     private final Uri onlineInformation;
     private final List<Annotation> note;
     private final Quantity quantity;
+    @Summary
     private final Reference parentDevice;
     private final List<Material> material;
 
@@ -1662,13 +1665,13 @@ public class DeviceDefinition extends DomainResource {
     public static class DeviceName extends BackboneElement {
         @Required
         private final String name;
-        @Required
         @Binding(
             bindingName = "DeviceNameType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
         )
+        @Required
         private final DeviceNameType type;
 
         private volatile int hashCode;

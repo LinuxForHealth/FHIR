@@ -15,9 +15,9 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -31,9 +31,10 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.SimpleQuantity;
-import com.ibm.fhir.model.type.SpecimenStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.SpecimenStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -42,8 +43,11 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Specimen extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Identifier accessionIdentifier;
+    @Summary
     @Binding(
         bindingName = "SpecimenStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -51,6 +55,7 @@ public class Specimen extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/specimen-status|4.0.0"
     )
     private final SpecimenStatus status;
+    @Summary
     @Binding(
         bindingName = "SpecimenType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -58,13 +63,16 @@ public class Specimen extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
     )
     private final CodeableConcept type;
+    @Summary
     private final Reference subject;
+    @Summary
     private final DateTime receivedTime;
     private final List<Reference> parent;
     private final List<Reference> request;
     private final Collection collection;
     private final List<Processing> processing;
     private final List<Container> container;
+    @Summary
     @Binding(
         bindingName = "SpecimenCondition",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -934,9 +942,12 @@ public class Specimen extends DomainResource {
      * Details concerning the specimen collection.
      */
     public static class Collection extends BackboneElement {
+        @Summary
         private final Reference collector;
+        @Summary
         @Choice({ DateTime.class, Period.class })
         private final Element collected;
+        @Summary
         private final Duration duration;
         private final SimpleQuantity quantity;
         @Binding(
@@ -953,6 +964,7 @@ public class Specimen extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
         private final CodeableConcept bodySite;
+        @Summary
         @Choice({ CodeableConcept.class, Duration.class })
         @Binding(
             bindingName = "FastingStatus",
@@ -1748,6 +1760,7 @@ public class Specimen extends DomainResource {
      * addressed here.
      */
     public static class Container extends BackboneElement {
+        @Summary
         private final List<Identifier> identifier;
         private final String description;
         @Binding(

@@ -1,0 +1,532 @@
+{
+    "resourceType": "Bundle",
+    "type": "collection",
+    "entry": [{
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-boolean",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-boolean",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-boolean",
+            "name": "boolean",
+            "status": "active",
+            "description": "test param",
+            "code": "boolean",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/boolean').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/boolean']/f:valueBoolean",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-integer",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-integer",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-integer",
+            "name": "integer",
+            "status": "active",
+            "description": "test param",
+            "code": "integer",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/integer').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/integer']/f:valueInteger",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-string",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-string",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-string",
+            "name": "string",
+            "status": "active",
+            "description": "test param",
+            "code": "string",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/string').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/string']/f:valueString",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-code",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-code",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-code",
+            "name": "code",
+            "status": "active",
+            "description": "test param",
+            "code": "code",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/code').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/code']/f:valueCode",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-decimal",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-decimal",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-decimal",
+            "name": "decimal",
+            "status": "active",
+            "description": "test param",
+            "code": "decimal",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/decimal').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/decimal']/f:valueDecimal",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-uri",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-uri",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-uri",
+            "name": "uri",
+            "status": "active",
+            "description": "test param",
+            "code": "uri",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/uri').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/uri']/f:valueUri",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-instant",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-instant",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-instant",
+            "name": "instant",
+            "status": "active",
+            "description": "test param",
+            "code": "instant",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/instant').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/instant']/f:valueInstant",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-date",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-date",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-date",
+            "name": "date",
+            "status": "active",
+            "description": "test param",
+            "code": "date",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/date').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/date']/f:valueDate",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-dateTime",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-dateTime",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-dateTime",
+            "name": "dateTime",
+            "status": "active",
+            "description": "test param",
+            "code": "dateTime",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/dateTime').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/dateTime']/f:valueDateTime",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Period",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Period",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Period",
+            "name": "Period",
+            "status": "active",
+            "description": "test param",
+            "code": "Period",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Period').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Period']/f:valuePeriod",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Timing",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Timing",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Timing",
+            "name": "Timing",
+            "status": "active",
+            "description": "test param",
+            "code": "Timing",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Timing').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Timing']/f:valueTiming",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Quantity",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Quantity",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Quantity",
+            "name": "Quantity",
+            "status": "active",
+            "description": "test param",
+            "code": "Quantity",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Quantity').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Quantity']/f:valueQuantity",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Reference",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Reference",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Reference",
+            "name": "Reference",
+            "status": "active",
+            "description": "test param",
+            "code": "Reference",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Reference').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Reference']/f:valueReference",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Coding",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Coding",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Coding",
+            "name": "Coding",
+            "status": "active",
+            "description": "test param",
+            "code": "Coding",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Coding').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Coding']/f:valueCoding",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-CodeableConcept",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept",
+            "name": "CodeableConcept",
+            "status": "active",
+            "description": "test param",
+            "code": "CodeableConcept",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/CodeableConcept').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/CodeableConcept']/f:valueCodeableConcept",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Identifier",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Identifier",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Identifier",
+            "name": "Identifier",
+            "status": "active",
+            "description": "test param",
+            "code": "Identifier",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Identifier').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Identifier']/f:valueIdentifier",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-ContactPoint",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-ContactPoint",
+            "name": "ContactPoint",
+            "status": "active",
+            "description": "test param",
+            "code": "ContactPoint",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/ContactPoint').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/ContactPoint']/f:valueContactPoint",
+            "xpathUsage": "normal"
+        }
+    },
+    
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-instant-precise",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-instant-precise",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-instant-precise",
+            "name": "instant-precise",
+            "status": "active",
+            "description": "test param",
+            "code": "instant-precise",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/instant-precise').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/instant-precise']/f:valueInstant",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-dateTime-precise",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-dateTime-precise",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-dateTime-precise",
+            "name": "dateTime-precise",
+            "status": "active",
+            "description": "test param",
+            "code": "dateTime-precise",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/dateTime-precise').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/dateTime-precise']/f:valueDateTime",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Period-noStart",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Period-noStart",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Period-noStart",
+            "name": "Period-noStart",
+            "status": "active",
+            "description": "test param",
+            "code": "Period-noStart",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Period-noStart').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Period-noStart']/f:valuePeriod",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Period-noEnd",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Period-noEnd",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Period-noEnd",
+            "name": "Period-noEnd",
+            "status": "active",
+            "description": "test param",
+            "code": "Period-noEnd",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Period-noEnd').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Period-noEnd']/f:valuePeriod",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Period-noStartOrEnd",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Period-noStartOrEnd",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Period-noStartOrEnd",
+            "name": "Period-noStartOrEnd",
+            "status": "active",
+            "description": "test param",
+            "code": "Period-noStartOrEnd",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Period-noStartOrEnd').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Period-noStartOrEnd']/f:valuePeriod",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Timing-eventsOnly",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Timing-eventsOnly",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Timing-eventsOnly",
+            "name": "Timing-eventsOnly",
+            "status": "active",
+            "description": "test param",
+            "code": "Timing-eventsOnly",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Timing-eventsOnly').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Timing-eventsOnly']/f:valuePeriod",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundQuantity",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Timing-boundQuantity",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundQuantity",
+            "name": "Timing-boundQuantity",
+            "status": "active",
+            "description": "test param",
+            "code": "Timing-boundQuantity",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Timing-boundQuantity').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Timing-boundQuantity']/f:valueTiming",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundRange",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Timing-boundRange",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundRange",
+            "name": "Basic-Timing-boundRange",
+            "status": "active",
+            "description": "test param",
+            "code": "Basic-Timing-boundRange",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Basic-Timing-boundRange').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Basic-Timing-boundRange']/f:valueTiming",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundPeriod",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Timing-boundPeriod",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Timing-boundPeriod",
+            "name": "Timing-boundPeriod",
+            "status": "active",
+            "description": "test param",
+            "code": "Timing-boundPeriod",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/Timing-boundPeriod').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Timing-boundPeriod']/f:valueTiming",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-missing-instant",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-missing-instant",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-missing-instant",
+            "name": "missing-instant",
+            "status": "active",
+            "description": "test param",
+            "code": "missing-instant",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/missing-instant').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/missing-instant']/f:valueInstant",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-missing-date",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-missing-date",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-missing-date",
+            "name": "missing-date",
+            "status": "active",
+            "description": "test param",
+            "code": "missing-date",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/missing-date').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/missing-date']/f:valueDate",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-missing-dateTime",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-missing-dateTime",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-missing-dateTime",
+            "name": "missing-dateTime",
+            "status": "active",
+            "description": "test param",
+            "code": "missing-dateTime",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/missing-dateTime').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/missing-dateTime']/f:valueDateTime",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-missing-Period",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-missing-Period",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-missing-Period",
+            "name": "missing-Period",
+            "status": "active",
+            "description": "test param",
+            "code": "missing-Period",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/missing-Period').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/missing-Period']/f:valuePeriod",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-missing-Period",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-missing-Period",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-missing-Period",
+            "name": "missing-Period",
+            "status": "active",
+            "description": "test param",
+            "code": "missing-Period",
+            "base": ["Basic"],
+            "type": "date",
+            "expression": "Basic.extension.where(url='http://example.org/missing-Period').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/missing-Period']/f:valuePeriod",
+            "xpathUsage": "normal"
+        }
+    }]
+}

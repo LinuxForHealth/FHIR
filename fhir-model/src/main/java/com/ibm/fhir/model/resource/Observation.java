@@ -18,9 +18,9 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -33,7 +33,6 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.ObservationStatus;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Range;
@@ -45,6 +44,8 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -74,16 +75,20 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Observation extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ObservationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes providing the status of an observation.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
     )
+    @Required
     private final ObservationStatus status;
     @Binding(
         bindingName = "ObservationCategory",
@@ -92,21 +97,29 @@ public class Observation extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
     )
     private final List<CodeableConcept> category;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ObservationCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes identifying names of simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
+    @Required
     private final CodeableConcept code;
+    @Summary
     private final Reference subject;
+    @Summary
     private final List<Reference> focus;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class, Timing.class, Instant.class })
     private final Element effective;
+    @Summary
     private final Instant issued;
+    @Summary
     private final List<Reference> performer;
+    @Summary
     @Choice({ Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class })
     private final Element value;
     @Binding(
@@ -141,8 +154,11 @@ public class Observation extends DomainResource {
     private final Reference specimen;
     private final Reference device;
     private final List<ReferenceRange> referenceRange;
+    @Summary
     private final List<Reference> hasMember;
+    @Summary
     private final List<Reference> derivedFrom;
+    @Summary
     private final List<Component> component;
 
     private volatile int hashCode;
@@ -1960,14 +1976,16 @@ public class Observation extends DomainResource {
      * pressure measurement and multiple component observations for genetics observations.
      */
     public static class Component extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "ObservationCode",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes identifying names of simple observations.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
         )
+        @Required
         private final CodeableConcept code;
+        @Summary
         @Choice({ Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class })
         private final Element value;
         @Binding(

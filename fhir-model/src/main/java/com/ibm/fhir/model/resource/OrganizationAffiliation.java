@@ -15,7 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
-import com.ibm.fhir.model.type.BindingStrength;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -28,6 +28,7 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -37,12 +38,19 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OrganizationAffiliation extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     private final Period period;
+    @Summary
     private final Reference organization;
+    @Summary
     private final Reference participatingOrganization;
+    @Summary
     private final List<Reference> network;
+    @Summary
     @Binding(
         bindingName = "OrganizationAffiliation",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -50,6 +58,7 @@ public class OrganizationAffiliation extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/organization-role"
     )
     private final List<CodeableConcept> code;
+    @Summary
     @Binding(
         bindingName = "OrganizationSpecialty",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -57,8 +66,10 @@ public class OrganizationAffiliation extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
+    @Summary
     private final List<Reference> location;
     private final List<Reference> healthcareService;
+    @Summary
     private final List<ContactPoint> telecom;
     private final List<Reference> endpoint;
 

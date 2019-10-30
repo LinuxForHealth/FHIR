@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -124,7 +124,7 @@ public class ExpressionTree extends BaseSearchTest {
     public static void main(String[] args) throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
         queryParameters.put("language", Arrays.asList("FR,NL", "EN"));
-        List<Parameter> parameters = SearchUtil.parseQueryParameters(Patient.class, queryParameters, null).getSearchParameters();
+        List<Parameter> parameters = SearchUtil.parseQueryParameters(Patient.class, queryParameters).getSearchParameters();
 
         Expression left = null, right = null;
 

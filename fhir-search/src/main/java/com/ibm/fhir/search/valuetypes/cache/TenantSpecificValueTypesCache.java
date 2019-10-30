@@ -40,19 +40,11 @@ public class TenantSpecificValueTypesCache extends TenantSpecificFileBasedCache<
         super(CACHE_NAME);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.core.TenantSpecificFileBasedCache#getCacheEntryFilename(java.lang.String)
-     */
     @Override
     public String getCacheEntryFilename(String tenantId) {
         return FHIRConfiguration.getConfigHome() + FHIRConfiguration.CONFIG_LOCATION + File.separator + tenantId + File.separator + VT_SP_FILE_BASENAME_JSON;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.core.TenantSpecificFileBasedCache#createCachedObject(java.lang.String)
-     */
     @Override
     public Map<String,Set<Class<?>>> createCachedObject(File f) throws Exception {
         try {

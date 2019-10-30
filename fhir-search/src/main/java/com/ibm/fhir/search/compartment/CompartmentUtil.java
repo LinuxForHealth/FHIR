@@ -31,7 +31,7 @@ import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CompartmentDefinition;
 import com.ibm.fhir.model.resource.CompartmentDefinition.Resource;
-import com.ibm.fhir.model.type.BundleType;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
@@ -39,16 +39,17 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
  * The compartments are defined using FHIR R4 CompartmentDefinitions. <br>
  * The R4 CompartmentDefintions and boundaries are defined at https://www.hl7.org/fhir/compartmentdefinition.html <br>
  * <br>
- * CompartmentDefintion: <br>
+ * CompartmentDefintion:
+ * <ul>
  * <li>Patient - https://www.hl7.org/fhir/compartmentdefinition-patient.json</li>
  * <li>Encounter - https://www.hl7.org/fhir/compartmentdefinition-encounter.json</li>
  * <li>RelatedPerson - https://www.hl7.org/fhir/compartmentdefinition-relatedperson.json</li>
- * <li>Practioner - https://www.hl7.org/fhir/compartmentdefinition-practitioner.json</li>
- * <li>Device - https://www.hl7.org/fhir/compartmentdefinition-device.json</li> <br>
+ * <li>Practitioner - https://www.hl7.org/fhir/compartmentdefinition-practitioner.json</li>
+ * <li>Device - https://www.hl7.org/fhir/compartmentdefinition-device.json</li>
+ * </ul>
  * 
- * This class extracts the Compartment Logic from SearchUtil, converted the Custom Compartment logic and format into the
- * ComponentDefintion, adds support for the the default definition, and refactors the code to create constants and limit
- * extraneous strings and duplicate definitions<br/>
+ * This class extracts the Compartment Logic from SearchUtil, converts the Custom Compartment logic and format into the
+ * ComponentDefintion, adds support for the the default definition.
  * 
  * <br>
  * Load the class in the classloader to initialize static members. Call this before using the class in order to avoid a
@@ -105,7 +106,7 @@ public class CompartmentUtil {
      * Builds an in-memory model of the Compartment map defined in compartments.json, for supporting compartment based
      * FHIR searches.
      *
-     * @return Map<String, CompartmentCache>
+     * @return a map of compartment caches 
      * @throws IOException
      */
     public static final Map<String, CompartmentCache> buildCompartmentMap() {

@@ -1,19 +1,12 @@
 {
 	"__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
 	"fhirServer": {
-		"core": {
-			"userDefinedSchematronEnabled": true
-		},
 		"searchParameterFilter": {
 			"Observation": ["subject",
 			"patient",
 			"component-value-quantity"],
 			"Resource": ["_id"],
 			"*": ["*"]
-		},
-		"virtualResources": {
-			"enabled": true,
-			"allowableResourceTypes": ["WeatherDetail"]
 		},
 		"persistence": {
 			"datasources": {

@@ -15,7 +15,6 @@ import com.ibm.fhir.persistence.util.SaltHash;
 
 /**
  * context maintained as each operation is applied
- * @author rarnold
  *
  */
 public class TestContext {
@@ -26,7 +25,7 @@ public class TestContext {
 	private final Supplier<FHIRPersistenceContext> persistenceContextSupplier;
 
 	// The current persistence context used for history operations
-	   private final Supplier<FHIRPersistenceContext> historyContextSupplier;
+	private final Supplier<FHIRPersistenceContext> historyContextSupplier;
 
 	// The fingerprint of the original resource
 	private SaltHash originalFingerprint;

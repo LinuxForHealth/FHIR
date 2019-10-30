@@ -30,6 +30,7 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -86,9 +87,9 @@ import com.ibm.fhir.model.type.Xhtml;
 public final class ModelSupport {
     public static boolean DEBUG = false;
     
+    private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
-    private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
         Base64Binary.class, 
@@ -159,6 +160,9 @@ public final class ModelSupport {
         private final boolean choice;
         private final Set<Class<?>> choiceTypes;
         private final Binding binding;
+        private final boolean summary;
+        
+        private final Set<String> choiceElementNames;
         
         ElementInfo(String name,
                 Class<?> type, 
@@ -167,7 +171,8 @@ public final class ModelSupport {
                 boolean repeating, 
                 boolean choice, 
                 Set<Class<?>> choiceTypes, 
-                Binding binding) {
+                Binding binding,
+                boolean isSummary) {
             this.name = name;
             this.declaringType = declaringType;
             this.type = type;
@@ -176,6 +181,14 @@ public final class ModelSupport {
             this.choice = choice;
             this.choiceTypes = choiceTypes;
             this.binding = binding;
+            this.summary = isSummary;
+            Set<String> choiceElementNames = new LinkedHashSet<>();
+            if (this.choice) {
+                for (Class<?> choiceType : this.choiceTypes) {
+                    choiceElementNames.add(getChoiceElementName(this.name, choiceType));
+                }
+            }
+            this.choiceElementNames = Collections.unmodifiableSet(choiceElementNames);
         }
         
         public String getName() {
@@ -198,6 +211,10 @@ public final class ModelSupport {
             return required;
         }
         
+        public boolean isSummary() {
+            return summary;
+        }
+        
         public boolean isRepeating() {
             return repeating;
         }
@@ -216,6 +233,10 @@ public final class ModelSupport {
         
         public boolean hasBinding() {
             return (binding != null);
+        }
+        
+        public Set<String> getChoiceElementNames() {
+            return choiceElementNames;
         }
     }
 
@@ -252,6 +273,7 @@ public final class ModelSupport {
                     Class<?> type = getFieldType(field);
                     Class<?> declaringType = field.getDeclaringClass();
                     boolean required = isRequired(field);
+                    boolean summary = isSummary(field);
                     boolean repeating = isRepeating(field);
                     boolean choice = isChoice(field);
                     Binding binding = field.getAnnotation(Binding.class);
@@ -264,7 +286,8 @@ public final class ModelSupport {
                             repeating, 
                             choice, 
                             choiceTypes, 
-                            binding
+                            binding,
+                            summary
                         )
                     );
                 }
@@ -316,7 +339,7 @@ public final class ModelSupport {
         return new LinkedHashSet<>(Arrays.asList(field.getAnnotation(Choice.class).value()));
     }
 
-    private static List<Class<?>> getClosure(Class<?> modelClass) {
+    public static List<Class<?>> getClosure(Class<?> modelClass) {
         List<Class<?>> closure = new ArrayList<>();
         while (!Object.class.equals(modelClass)) {
             closure.add(modelClass);
@@ -345,6 +368,15 @@ public final class ModelSupport {
         return MODEL_CLASS_ELEMENT_INFO_MAP.getOrDefault(modelClass, Collections.emptyMap()).values();
     }
     
+    public static ElementInfo getChoiceElementInfo(Class<?> modelClass, String typeSpecificElementName) {
+        for (ElementInfo elementInfo : getElementInfo(modelClass)) {
+            if (elementInfo.isChoice() && elementInfo.getChoiceElementNames().contains(typeSpecificElementName)) {
+                return elementInfo;
+            }
+        }
+        return null;
+    }
+    
     /**
      * Get the actual element name from a Java field.
      */
@@ -355,7 +387,7 @@ public final class ModelSupport {
     /**
      * Get the actual element name from a Java field name.
      * This method reverses any encoding that was required to represent the FHIR element name in Java,
-     * such as converting class -> clazz.
+     * such as converting class to clazz.
      */
     public static String getElementName(String fieldName) {
         if ("clazz".equals(fieldName)) {
@@ -426,6 +458,15 @@ public final class ModelSupport {
         return typeName;
     }
     
+    public static Set<String> getTypeNames(Class<?> modelClass) {
+        Set<String> typeNames = new HashSet<>();
+        while (!Object.class.equals(modelClass)) {
+            typeNames.add(getTypeName(modelClass));
+            modelClass = modelClass.getSuperclass();
+        }
+        return typeNames;
+    }
+
     public static boolean isBackboneElementType(Class<?> modelClass) {
         return BackboneElement.class.isAssignableFrom(modelClass);
     }
@@ -444,6 +485,10 @@ public final class ModelSupport {
     
     public static boolean isChoiceElementType(Class<?> type) {
         return CHOICE_ELEMENT_TYPES.contains(type);
+    }
+    
+    public static boolean isCodeSubtype(Class<?> type) {
+        return Code.class.isAssignableFrom(type) && !Code.class.equals(type);
     }
 
     public static boolean isElement(Object modelObject) {
@@ -492,6 +537,10 @@ public final class ModelSupport {
         return field.isAnnotationPresent(Required.class);
     }
     
+    private static boolean isSummary(Field field) {
+        return field.isAnnotationPresent(Summary.class);
+    }
+    
     public static boolean isRequiredElement(Class<?> modelClass, String elementName) {
         ElementInfo elementInfo = getElementInfo(modelClass, elementName);
         if (elementInfo != null) {
@@ -510,5 +559,13 @@ public final class ModelSupport {
     
     public static boolean isResourceType(String name) {
         return RESOURCE_TYPE_MAP.containsKey(name);
+    }
+    
+    public static boolean isSummaryElement(Class<?> modelClass, String elementName) {
+        ElementInfo elementInfo = getElementInfo(modelClass, elementName);
+        if (elementInfo != null) {
+            return elementInfo.isSummary();
+        }
+        return false;
     }
 }

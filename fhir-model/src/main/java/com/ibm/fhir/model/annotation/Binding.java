@@ -11,7 +11,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.ibm.fhir.model.type.BindingStrength;
+import com.ibm.fhir.model.type.code.BindingStrength;
 
 /**
  * Used to annotate coded elements that are bound to a value set.

@@ -24,12 +24,11 @@ import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.PrintTarget;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 
-
 /**
  * Set up an instance of Derby for use with unit tests
- * @author rarnold
  */
 public class DerbyMaster implements AutoCloseable {
+    
     private static final Logger logger = Logger.getLogger(DerbyMaster.class.getName());
     
     // The directory holding our derby databases
@@ -118,7 +117,6 @@ public class DerbyMaster implements AutoCloseable {
         }
     }
 
-    
     /**
      * Create a connection to the in-memory Derby database, creating the
      * database if necessary
@@ -153,7 +151,7 @@ public class DerbyMaster implements AutoCloseable {
     
     /**
      * Ask the schema to apply itself to our target (adapter pattern)
-     * @param s
+     * @param pdm
      */
     public void createSchema(PhysicalDataModel pdm) {
         final IVersionHistoryService vhs = new AllVersionHistoryService();
@@ -195,9 +193,6 @@ public class DerbyMaster implements AutoCloseable {
         
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.AutoCloseable#close()
-     */
     @Override
     public void close() throws Exception {
         // Drop the database we created

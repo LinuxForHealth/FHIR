@@ -14,17 +14,13 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.test.ResourceComparatorVisitor;
 
 /**
  * Tests that serialization generates a valid object, which matches the original
- * @author rarnold
- *
  */
 public class SerializationProcessor implements IExampleProcessor {
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.test.spec.IExampleProcessor#process(java.lang.String, com.ibm.fhir.model.resource.Resource)
-     */
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
         

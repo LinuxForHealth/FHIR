@@ -23,7 +23,7 @@ import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.valuetypes.impl.ValueTypesR4Impl;
 
@@ -112,8 +112,8 @@ public class ValueTypesTool {
     }
 
     /**
-     * 
-     * @param path
+     * discovers the type through a walk of the Structured definition. 
+     * @param expression
      * @return
      */
     public static String discoverType(String expression) {

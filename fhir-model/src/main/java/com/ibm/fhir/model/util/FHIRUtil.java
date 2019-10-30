@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,13 +15,13 @@ import static java.util.Objects.nonNull;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.json.Json;
+import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
@@ -54,6 +55,7 @@ import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -81,8 +83,6 @@ import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Money;
@@ -96,7 +96,6 @@ import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
-import com.ibm.fhir.model.type.ResourceType;
 import com.ibm.fhir.model.type.SampledData;
 import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.SimpleQuantity;
@@ -109,12 +108,16 @@ import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.Xhtml;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.visitor.Visitable;
 
 /**
  * Utility methods for working with the FHIR object model. 
  */
 public class FHIRUtil {
+    private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
@@ -171,6 +174,13 @@ public class FHIRUtil {
         UsageContext.class,
         Dosage.class));
     private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
+    private static final OperationOutcome ALL_OK = OperationOutcome.builder()
+                                                            .issue(Issue.builder()
+                                                                    .severity(IssueSeverity.INFORMATION)
+                                                                    .code(IssueType.INFORMATIONAL)
+                                                                    .details(CodeableConcept.builder().text(string("All OK")).build())
+                                                                    .build())
+                                                            .build();
 
     private FHIRUtil() { }
 
@@ -282,7 +292,7 @@ public class FHIRUtil {
     }
 
     /**
-     * @deprecated use {@link ModelSupport#getTypeName(Class)}
+     * use {@link ModelSupport#getTypeName(Class)}
      */
     @Deprecated
     public static String getTypeName(Class<?> type) {
@@ -325,11 +335,10 @@ public class FHIRUtil {
      * Read JSON from InputStream {@code stream} and parse it into a FHIR resource. Non-mandatory elements which are not
      * in {@code elementsToInclude} will be filtered out.
      * 
-     * @param stream
-     * @param elements
+     * @param resourceType
+     * @param in
+     * @param elementsToInclude
      *            a list of element names to include in the returned resource; null to skip filtering
-     * @param lenient
-     * @param validating
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in
      *         the JSON)
      * @deprecated use {@link FHIRParser} directly
@@ -360,11 +369,12 @@ public class FHIRUtil {
     }
 
     /**
-     * Read JSON from {@code reader} and parse it into a FHIR resource. Non-mandatory elements which are not in
-     * {@code elementsToInclude} will be filtered out.
+     * Read JSON from {@link java.io.Reader#read()} and parse it into a FHIR resource. Non-mandatory elements which are not in
+     * elementsToInclude will be filtered out.
      * 
+     * @param resourceType
      * @param reader
-     * @param elements
+     * @param elementsToInclude
      *            a list of element names to include in the returned resource; null to skip filtering
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in
      *         the JSON)
@@ -427,23 +437,9 @@ public class FHIRUtil {
         FHIRGenerator.generator(format, prettyPrinting).generate(resource, writer);
     }
 
-    public static JsonObject toJsonObject(Resource resource) throws FHIRGeneratorException {
-        // write Resource to String
-        StringWriter writer = new StringWriter();
-        FHIRGenerator.generator(Format.JSON).generate(resource, writer);
-        String jsonString = writer.toString();
-
-        // read JsonObject from String
-        return Json.createReader(new StringReader(jsonString)).readObject();
-    }
-
-    public static JsonObjectBuilder toJsonObjectBuilder(Resource resource) throws FHIRException {
-        return toJsonObjectBuilder(toJsonObject(resource));
-    }
-
     // copy an immutable JsonObject into a mutable JsonObjectBuilder
     public static JsonObjectBuilder toJsonObjectBuilder(JsonObject jsonObject) {
-        JsonObjectBuilder builder = Json.createObjectBuilder();
+        JsonObjectBuilder builder = BUILDER_FACTORY.createObjectBuilder();
         // JsonObject is a Map<String, JsonValue>
         for (String key : jsonObject.keySet()) {
             JsonValue value = jsonObject.get(key);
@@ -452,23 +448,32 @@ public class FHIRUtil {
         return builder;
     }
 
-    public static OperationOutcome.Issue buildOperationOutcomeIssue(String msg, IssueType.ValueSet code) {
-        return buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, code, msg, "<empty>");
+    public static OperationOutcome.Issue buildOperationOutcomeIssue(String msg, IssueType code) {
+        return buildOperationOutcomeIssue(IssueSeverity.FATAL, code, msg, "<empty>");
     }
 
-    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet code, String details,
+    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
         String expression) {
         if (expression == null || expression.isEmpty()) {
             expression = "<no expression>";
         }
-        return OperationOutcome.Issue.builder().severity(IssueSeverity.of(severity)).code(IssueType.of(code)).details(CodeableConcept.builder().text(string(details)).build()).expression(Collections.singletonList(string(expression))).build();
+        return OperationOutcome.Issue.builder()
+                    .severity(severity)
+                    .code(code)
+                    .details(CodeableConcept.builder().text(string(details)).build())
+                    .expression(Collections.singletonList(string(expression)))
+                    .build();
     }
 
     /**
      * Build an OperationOutcome that contains the specified list of operation outcome issues.
      */
-    public static OperationOutcome buildOperationOutcome(List<OperationOutcome.Issue> issues) {
-        // Build an OperationOutcome and stuff the issues into it.
+    public static OperationOutcome buildOperationOutcome(Collection<OperationOutcome.Issue> issues) {
+        // If there are no issues, then return the ALL OK OperationOutcome
+        if (issues == null || issues.isEmpty()) {
+            return ALL_OK;
+        }
+        // Otherwise build an OperationOutcome and stuff the issues into it.
         return OperationOutcome.builder().issue(issues).build();
     }
 
@@ -504,7 +509,7 @@ public class FHIRUtil {
     /**
      * Build an OperationOutcome for the specified exception.
      */
-    public static OperationOutcome buildOperationOutcome(Exception exception, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity,
+    public static OperationOutcome buildOperationOutcome(Exception exception, IssueType issueType, IssueSeverity severity,
         boolean includeCausedByClauses) {
         // First, build a set of exception messages to be included in the OperationOutcome.
         // We'll include the exception message from each exception in the hierarchy,
@@ -533,16 +538,16 @@ public class FHIRUtil {
      * @param severity
      *            defaults to IssueSeverityList.FATAL
      */
-    public static OperationOutcome buildOperationOutcome(String message, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity) {
+    public static OperationOutcome buildOperationOutcome(String message, IssueType issueType, IssueSeverity severity) {
         if (issueType == null) {
-            issueType = IssueType.ValueSet.PROCESSING;
+            issueType = IssueType.PROCESSING;
         }
         if (severity == null) {
-            severity = IssueSeverity.ValueSet.FATAL;
+            severity = IssueSeverity.FATAL;
         }
         // Build an OperationOutcomeIssue that contains the exception messages.
         OperationOutcome.Issue ooi =
-                OperationOutcome.Issue.builder().severity(IssueSeverity.of(severity)).code(IssueType.of(issueType)).details(CodeableConcept.builder().text(string(message)).build()).build();
+                OperationOutcome.Issue.builder().severity(severity).code(issueType).details(CodeableConcept.builder().text(string(message)).build()).build();
 
         // Next, build the OperationOutcome.
         OperationOutcome oo = OperationOutcome.builder().issue(Collections.singletonList(ooi)).build();
@@ -551,7 +556,7 @@ public class FHIRUtil {
 
     /**
      * Builds a relative "Location" header value for the specified resource. This will be a string of the form
-     * "<resource-type>/<id>/_history/<version>". Note that the server will turn this into an absolute URL prior to
+     * <code>"<resource-type>/<id>/_history/<version>"</code>. Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
      *
      * @param resource
@@ -765,7 +770,16 @@ public class FHIRUtil {
         return false;
     }
     
-    public static Resource addTag(Resource resource, Coding tag) {
+    /**
+     * Return a copy of resource {@code resource} with tag {@code tag}
+     * @param <T>
+     * @param resource
+     *          the resource to add the tag too
+     * @param tag
+     *          the tag to add
+     * @return a copy of the resource with the new tag (if it didn't already exist), or the resource passed in if the tag is already present
+     */
+    public static <T extends Resource> T addTag(T resource, Coding tag) {
         Objects.requireNonNull(resource);
         Objects.requireNonNull(tag);
         if (hasTag(resource, tag)) {
@@ -774,43 +788,23 @@ public class FHIRUtil {
         Meta meta = resource.getMeta();
         Meta.Builder metaBuilder = (meta == null) ? Meta.builder() : meta.toBuilder();
         // re-build resource with updated meta element
-        return resource.toBuilder()
-                .meta(metaBuilder
-                    .tag(tag)
-                    .build())
-                .build();
+        @SuppressWarnings("unchecked")
+        T updatedResource = (T) resource.toBuilder()
+                                    .meta(metaBuilder
+                                        .tag(tag)
+                                        .build())
+                                    .build();
+        return updatedResource;
     }
 
-    // add for FHIRResource.java
-    private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/fhir/basic-resource-type";
-
     /**
-     * Returns the resource type (as a String) of the specified resource. For a virtual resource, this will be the
-     * actual virtual resource type (not Basic).
+     * Returns the resource type (as a String) of the specified resource. 
      * 
      * @param resource
      *            the resource
      * @return the name of the resource type associated with the resource
      */
     public static String getResourceTypeName(Resource resource) {
-        if (resource instanceof Basic) {
-            Basic basic = (Basic) resource;
-            CodeableConcept cc = basic.getCode();
-            if (cc != null) {
-                List<Coding> codingList = cc.getCoding();
-                if (codingList != null) {
-                    for (Coding coding : codingList) {
-                        if (coding.getSystem() != null) {
-                            String system = coding.getSystem().getValue();
-                            if (BASIC_RESOURCE_TYPE_URL.equals(system)) {
-                                return coding.getCode().getValue();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         return resource.getClass().getSimpleName();
     }
 

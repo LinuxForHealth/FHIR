@@ -18,13 +18,13 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -65,9 +65,6 @@ import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.SampledData;
 import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.model.type.TaskIntent;
-import com.ibm.fhir.model.type.TaskPriority;
-import com.ibm.fhir.model.type.TaskStatus;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
@@ -76,6 +73,10 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.TaskIntent;
+import com.ibm.fhir.model.type.code.TaskPriority;
+import com.ibm.fhir.model.type.code.TaskStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -92,38 +93,47 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Task extends DomainResource {
     private final List<Identifier> identifier;
+    @Summary
     private final Canonical instantiatesCanonical;
+    @Summary
     private final Uri instantiatesUri;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final Identifier groupIdentifier;
+    @Summary
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "TaskStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The current status of the task.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-status|4.0.0"
     )
+    @Required
     private final TaskStatus status;
+    @Summary
     @Binding(
         bindingName = "TaskStatusReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes to identify the reason for current status.  These will typically be specific to a particular workflow."
     )
     private final CodeableConcept statusReason;
+    @Summary
     @Binding(
         bindingName = "TaskBusinessStatus",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The domain-specific business-contextual sub-state of the task.  For example: \"Blood drawn\", \"IV inserted\", \"Awaiting physician signature\", etc."
     )
     private final CodeableConcept businessStatus;
-    @Required
+    @Summary
     @Binding(
         bindingName = "TaskIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Distinguishes whether the task is a proposal, plan or full order.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-intent|4.0.0"
     )
+    @Required
     private final TaskIntent intent;
     @Binding(
         bindingName = "TaskPriority",
@@ -132,6 +142,7 @@ public class Task extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final TaskPriority priority;
+    @Summary
     @Binding(
         bindingName = "TaskCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -139,13 +150,20 @@ public class Task extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/task-code"
     )
     private final CodeableConcept code;
+    @Summary
     private final String description;
+    @Summary
     private final Reference focus;
+    @Summary
     private final Reference _for;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final Period executionPeriod;
     private final DateTime authoredOn;
+    @Summary
     private final DateTime lastModified;
+    @Summary
     private final Reference requester;
     @Binding(
         bindingName = "TaskPerformerType",
@@ -154,7 +172,9 @@ public class Task extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
     )
     private final List<CodeableConcept> performerType;
+    @Summary
     private final Reference owner;
+    @Summary
     private final Reference location;
     @Binding(
         bindingName = "TaskReason",
@@ -1961,15 +1981,15 @@ public class Task extends DomainResource {
      * Additional information that may be needed in the execution of the task.
      */
     public static class Input extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "TaskInputParameterType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes to identify types of input parameters.  These will typically be specific to a particular workflow.  E.g. \"Comparison source\", \"Applicable consent\", \"Concomitent Medications\", etc."
         )
-        private final CodeableConcept type;
         @Required
+        private final CodeableConcept type;
         @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
+        @Required
         private final Element value;
 
         private volatile int hashCode;
@@ -2291,15 +2311,15 @@ public class Task extends DomainResource {
      * Outputs produced by the Task.
      */
     public static class Output extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "TaskOutputParameterType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Codes to identify types of input parameters.  These will typically be specific to a particular workflow.  E.g. \"Identified issues\", \"Preliminary results\", \"Filler order\", \"Final results\", etc."
         )
-        private final CodeableConcept type;
         @Required
+        private final CodeableConcept type;
         @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
+        @Required
         private final Element value;
 
         private volatile int hashCode;

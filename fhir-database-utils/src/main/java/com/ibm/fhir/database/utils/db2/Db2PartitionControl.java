@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.common.DateMath;
 
 /**
  * Business logic to add new partitions to the given table
- * @author rarnold
  */
 public class Db2PartitionControl {
 
@@ -30,6 +29,7 @@ public class Db2PartitionControl {
     /**
      * Public constructor
      * @param ica
+     * @param today
      */
     public Db2PartitionControl(ICatalogAccess ica, Date today) {
         this.catalog = ica;
@@ -38,10 +38,13 @@ public class Db2PartitionControl {
         
     /**
      * Make sure the named table has at least N future partitions
+     *
      * @param schema
      * @param table
-     * @param units
+     * @param future
      * @param pu
+     * @param unitsToKeep
+     * @param partMaintBatchSize
      */
     public void pushAhead(final String schema, final String table, int future, PartitionUnit pu, int unitsToKeep, int partMaintBatchSize) {
 
@@ -129,10 +132,12 @@ public class Db2PartitionControl {
      * detach it into a standalone table, and then an asynchronous process makes that
      * standalone table available at some later point in time. So we can't drop the
      * table right away, we have to wait for it to become available 
+     * 
      * @param schema
      * @param table
      * @param unitsToKeep
      * @param pu
+     * @param partMaintBatchSize
      */
     public void rollOff(final String schema, final String table, int unitsToKeep, PartitionUnit pu, int partMaintBatchSize) {
         int count = 0;

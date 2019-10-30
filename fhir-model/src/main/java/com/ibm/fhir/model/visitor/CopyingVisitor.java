@@ -22,19 +22,23 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.util.ModelSupport;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * Copy a Resource or Element. Because model objects are immutable, by default this will return a reference to
  * the exact same object that was originally visited.
  * 
  * However, subclasses may override this class in order to modify the copied Resource or Element
- * by setting new values on the current builder via ({@code getBuilder())) and marking it dirty via ({@code markDirty())).  
+ * by setting new values on the current builder via ({@link BuilderWrapper#getBuilder()) and 
+ * marking it dirty via ({@link BuilderWrapper#markDirty())).
  *  
  * Note: this class is NOT threadsafe.  Only one object should be visited at a time.
  * 
  * @author lmsurpre
  * @param <T> The type to copy. Only visitables of this type should be visited.
  */
-public class CopyingVisitor<T extends Visitable> extends AbstractVisitor {
+@NotThreadSafe
+public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     private final Stack<BuilderWrapper> builderStack = new Stack<>();
     private Stack<ListWrapper> listStack = new Stack<>();
     private Object result;
@@ -56,13 +60,8 @@ public class CopyingVisitor<T extends Visitable> extends AbstractVisitor {
         return (T)result;
     }
     
-    @Override
-    public boolean preVisit(Element element) {
-        return true;
-    }
-    @Override
-    public boolean preVisit(Resource resource) {
-        return true;
+    public CopyingVisitor() {
+        super(true);
     }
     
     /**

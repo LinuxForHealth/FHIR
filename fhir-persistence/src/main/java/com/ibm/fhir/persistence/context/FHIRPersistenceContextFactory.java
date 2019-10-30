@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,5 +62,15 @@ public class FHIRPersistenceContextFactory {
      */
     public static FHIRHistoryContext createHistoryContext() {
         return new FHIRHistoryContextImpl();
+    }
+
+    /**
+     * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
+     * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
+     * @param includeDeleted flag to tell the persistence layer to include deleted resources in the operation results
+     * @param searchContext the FHIRSearchContext instance to be contained in the FHIRPersistenceContext instance
+     */
+    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted, FHIRSearchContext searchContext) {
+        return new FHIRPersistenceContextImpl(event, includeDeleted, searchContext);
     }
 }

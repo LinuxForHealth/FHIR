@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,6 +68,17 @@ public interface FHIRResourceHelpers {
      * Performs a 'read' operation to retrieve a Resource.
      * @param type the resource type associated with the Resource to be retrieved
      * @param id the id of the Resource to be retrieved
+     * @param queryParameters for supporting _summary for resource read
+     * @return the Resource
+     * @throws Exception
+     */
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties, Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
+
+
+    /**
+     * Performs a 'read' operation to retrieve a Resource.
+     * @param type the resource type associated with the Resource to be retrieved
+     * @param id the id of the Resource to be retrieved
      * @return the Resource
      * @throws Exception
      */
@@ -86,12 +97,11 @@ public interface FHIRResourceHelpers {
     /**
      * Performs the work of retrieving versions of a Resource.
      * 
-     * @param type
-     *            the resource type associated with the Resource to be retrieved
-     * @param id
-     *            the id of the Resource to be retrieved
-     * @param queryparameters
-     *            a Map containing the query parameters from the request URL
+     * @param type the resource type associated with the Resource to be retrieved
+     * @param id the id of the Resource to be retrieved
+     * @param queryParameters a Map containing the query parameters from the request URL
+     * @param requestUri
+     * @param requestProperties
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */

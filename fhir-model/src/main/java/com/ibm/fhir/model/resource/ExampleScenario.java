@@ -17,26 +17,27 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.ExampleScenarioActorType;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.FHIRResourceType;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ExampleScenarioActorType;
+import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -52,23 +53,34 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ExampleScenario extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1115,13 +1127,13 @@ public class ExampleScenario extends DomainResource {
     public static class Actor extends BackboneElement {
         @Required
         private final String actorId;
-        @Required
         @Binding(
             bindingName = "ExampleScenarioActorType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of actor - system or human.",
             valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.0.0"
         )
+        @Required
         private final ExampleScenarioActorType type;
         private final String name;
         private final Markdown description;
@@ -1456,13 +1468,13 @@ public class ExampleScenario extends DomainResource {
     public static class Instance extends BackboneElement {
         @Required
         private final String resourceId;
-        @Required
         @Binding(
             bindingName = "FHIRResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of resource.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )
+        @Required
         private final FHIRResourceType resourceType;
         private final String name;
         private final Markdown description;
@@ -2437,6 +2449,7 @@ public class ExampleScenario extends DomainResource {
      * Each major process - a group of operations.
      */
     public static class Process extends BackboneElement {
+        @Summary
         @Required
         private final String title;
         private final Markdown description;
@@ -3297,7 +3310,7 @@ public class ExampleScenario extends DomainResource {
                  * Each resource instance used by the initiator.
                  * 
                  * @return
-                 *     An immutable object of type {@link ContainedInstance}.
+                 *     An immutable object of type {@link ExampleScenario.Instance.ContainedInstance}.
                  */
                 public ExampleScenario.Instance.ContainedInstance getRequest() {
                     return request;
@@ -3307,7 +3320,7 @@ public class ExampleScenario extends DomainResource {
                  * Each resource instance used by the responder.
                  * 
                  * @return
-                 *     An immutable object of type {@link ContainedInstance}.
+                 *     An immutable object of type {@link ExampleScenario.Instance.ContainedInstance}.
                  */
                 public ExampleScenario.Instance.ContainedInstance getResponse() {
                     return response;

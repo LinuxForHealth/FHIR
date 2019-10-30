@@ -18,7 +18,6 @@ import com.ibm.fhir.persistence.jdbc.util.QueryBuilderUtil;
 
 /**
  * Unit test for parameter DateTime utilities provided by {@link QueryBuilderUtil}
- * @author rarnold
  *
  */
 public class QueryBuilderUtilTest {

@@ -16,21 +16,17 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * Refactor of the normalized DAO implementation which focuses on the
- * database interaction for parameter_names. Caching etc is handled
- * elsewhere...we're just doing JDBC stuff here.
- * 
  * This DAO uses a connection provided to its constructor. It's therefore
- * assumed to be a short-lived object, created on-the-fly
+ * assumed to be a short-lived object, created on-the-fly. Caching etc is handled
+ * elsewhere...we're just doing JDBC stuff here.
  */
 public class CodeSystemDAOImpl implements CodeSystemDAO {
-    private static final Logger log = Logger.getLogger(ParameterDAONormalizedImpl.class.getName());
-    private static final String CLASSNAME = ParameterDAONormalizedImpl.class.getName(); 
+    private static final Logger log = Logger.getLogger(ParameterDAOImpl.class.getName());
+    private static final String CLASSNAME = ParameterDAOImpl.class.getName(); 
     
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
         
@@ -97,11 +93,10 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
     /**
      * Calls a stored procedure to read the system contained in the passed Parameter in the Code_Systems table.
      * If it's not in the DB, it will be stored and a unique id will be returned.
-     * @param parameter
-     * @return Integer - The generated id of the stored system.
-     * @throws FHIRPersistenceDBConnectException 
-     * @throws FHIRPersistenceDataAccessException 
-     * @throws FHIRPersistenceException
+     * @param systemName
+     * 
+     * @return The generated id of the stored system.
+     * @throws FHIRPersistenceDataAccessException
      */
     @Override
     public int readOrAddCodeSystem(String systemName) throws FHIRPersistenceDataAccessException   {

@@ -18,8 +18,8 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -28,21 +28,22 @@ import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.FHIRVersion;
-import com.ibm.fhir.model.type.GuidePageGeneration;
-import com.ibm.fhir.model.type.GuideParameterCode;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.ResourceType;
-import com.ibm.fhir.model.type.SPDXLicense;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.FHIRVersion;
+import com.ibm.fhir.model.type.code.GuidePageGeneration;
+import com.ibm.fhir.model.type.code.GuideParameterCode;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.SPDXLicense;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -74,26 +75,37 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImplementationGuide extends DomainResource {
+    @Summary
     @Required
     private final Uri url;
+    @Summary
     private final String version;
+    @Summary
     @Required
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -102,8 +114,10 @@ public class ImplementationGuide extends DomainResource {
     )
     private final List<CodeableConcept> jurisdiction;
     private final Markdown copyright;
+    @Summary
     @Required
     private final Id packageId;
+    @Summary
     @Binding(
         bindingName = "SPDXLicense",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -111,15 +125,18 @@ public class ImplementationGuide extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/spdx-license|4.0.0"
     )
     private final SPDXLicense license;
-    @Required
+    @Summary
     @Binding(
         bindingName = "FHIRVersion",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "All published FHIR Versions.",
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
     )
+    @Required
     private final List<FHIRVersion> fhirVersion;
+    @Summary
     private final List<DependsOn> dependsOn;
+    @Summary
     private final List<Global> global;
     private final Definition definition;
     private final Manifest manifest;
@@ -1232,9 +1249,12 @@ public class ImplementationGuide extends DomainResource {
      * profiles etc.defined in other implementation guides.
      */
     public static class DependsOn extends BackboneElement {
+        @Summary
         @Required
         private final Canonical uri;
+        @Summary
         private final Id packageId;
+        @Summary
         private final String version;
 
         private volatile int hashCode;
@@ -1531,14 +1551,16 @@ public class ImplementationGuide extends DomainResource {
      * A set of profiles that all resources covered by this implementation guide must conform to.
      */
     public static class Global extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )
+        @Required
         private final ResourceType type;
+        @Summary
         @Required
         private final Canonical profile;
 
@@ -2962,18 +2984,18 @@ public class ImplementationGuide extends DomainResource {
          * A page / section in the implementation guide. The root page is the implementation guide home page.
          */
         public static class Page extends BackboneElement {
-            @Required
             @Choice({ Url.class, Reference.class })
+            @Required
             private final Element name;
             @Required
             private final String title;
-            @Required
             @Binding(
                 bindingName = "GuidePageGeneration",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "A code that indicates how the page is generated.",
                 valueSet = "http://hl7.org/fhir/ValueSet/guide-page-generation|4.0.0"
             )
+            @Required
             private final GuidePageGeneration generation;
             private final List<ImplementationGuide.Definition.Page> page;
 
@@ -3334,13 +3356,13 @@ public class ImplementationGuide extends DomainResource {
          * Defines how IG is built by tools.
          */
         public static class Parameter extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "GuideParameterCode",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Code of parameter that is input to the guide.",
                 valueSet = "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.0.0"
             )
+            @Required
             private final GuideParameterCode code;
             @Required
             private final String value;
@@ -3918,7 +3940,9 @@ public class ImplementationGuide extends DomainResource {
      * Information about an assembled implementation guide, created by the publication tooling.
      */
     public static class Manifest extends BackboneElement {
+        @Summary
         private final Url rendering;
+        @Summary
         @Required
         private final List<Resource> resource;
         private final List<Page> page;
@@ -4373,6 +4397,7 @@ public class ImplementationGuide extends DomainResource {
          * example resource.
          */
         public static class Resource extends BackboneElement {
+            @Summary
             @Required
             private final Reference reference;
             @Choice({ Boolean.class, Canonical.class })

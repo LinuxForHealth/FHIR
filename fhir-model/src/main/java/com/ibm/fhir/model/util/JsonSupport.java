@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -39,6 +40,8 @@ public final class JsonSupport {
     
     private static final Map<Class<?>, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap(false);
     private static final Map<Class<?>, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildElementNameMap(true);
+    private static final Map<Class<?>, Set<String>> SUMMARY_ELEMENT_NAME_MAP = buildSummaryElementNameMap();
+    private static final Map<Class<?>, Set<String>> SUMMARY_DATA_ELEMENT_NAME_MAP = new LinkedHashMap<>();
     
     private JsonSupport() { }
 
@@ -78,9 +81,43 @@ public final class JsonSupport {
         }
         return Collections.unmodifiableMap(elementNameMap);
     }
+    
+    
+    private static Map<Class<?>, Set<String>> buildSummaryElementNameMap() {
+        Map<Class<?>, Set<String>> summaryElementNameMap = new LinkedHashMap<>();
+        for (Class<?> modelClass : ModelSupport.getModelClasses()) {
+            if (ModelSupport.isPrimitiveType(modelClass)) {
+                continue;
+            }
+            Set<String> elementNames = new LinkedHashSet<>();
+            for (String elementName : ModelSupport.getElementNames(modelClass)) {
+                if (!ModelSupport.isSummaryElement(modelClass, elementName)) {
+                    continue;
+                }
+                elementNames.add(elementName);
+            }
+            summaryElementNameMap.put(modelClass, Collections.unmodifiableSet(elementNames));
+        }
+        return Collections.unmodifiableMap(summaryElementNameMap);
+    }
 
     public static Set<String> getElementNames(Class<?> type) {
         return ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet());
+    }
+    
+    public static Set<String> getSummaryElementNames(Class<?> type) {
+        return Collections.unmodifiableSet(SUMMARY_ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet()));
+    }
+    
+    public static Set<String> getSummaryDataElementNames(Class<?> type) {
+        if (SUMMARY_DATA_ELEMENT_NAME_MAP.get(type) != null) {
+            return Collections.unmodifiableSet(SUMMARY_DATA_ELEMENT_NAME_MAP.get(type));
+        } else {
+            Set<String> summaryData = ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet())
+                .stream().filter(e -> !"text".equals(e)).collect(Collectors.toSet());
+            SUMMARY_DATA_ELEMENT_NAME_MAP.put(type, summaryData);
+            return summaryData;
+        }
     }
     
     public static Set<String> getRequiredElementNames(Class<?> type) {
@@ -118,7 +155,8 @@ public final class JsonSupport {
     public static <T extends JsonValue> T getJsonValue(JsonObject jsonObject, String key, Class<T> expectedType) {
         JsonValue jsonValue = jsonObject.get(key);
         if (jsonValue != null && !expectedType.isInstance(jsonValue)) {
-            throw new IllegalArgumentException("Expected: " + expectedType.getSimpleName() + " but found: " + jsonValue.getValueType());
+            throw new IllegalArgumentException("Expected: " + expectedType.getSimpleName() + " but found: " + jsonValue.getValueType() 
+                                                + " for element: " + key);
         }
         return expectedType.cast(jsonValue);
     }

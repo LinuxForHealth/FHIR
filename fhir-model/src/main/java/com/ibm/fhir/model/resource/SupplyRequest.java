@@ -17,8 +17,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -33,10 +33,11 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.RequestPriority;
-import com.ibm.fhir.model.type.SupplyRequestStatus;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.RequestPriority;
+import com.ibm.fhir.model.type.code.SupplyRequestStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,7 +46,9 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SupplyRequest extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "SupplyRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -53,6 +56,7 @@ public class SupplyRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-status|4.0.0"
     )
     private final SupplyRequestStatus status;
+    @Summary
     @Binding(
         bindingName = "SupplyRequestKind",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -60,6 +64,7 @@ public class SupplyRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-kind"
     )
     private final CodeableConcept category;
+    @Summary
     @Binding(
         bindingName = "RequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -67,7 +72,7 @@ public class SupplyRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final RequestPriority priority;
-    @Required
+    @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SupplyRequestItem",
@@ -75,14 +80,20 @@ public class SupplyRequest extends DomainResource {
         description = "The item that was requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
     )
+    @Required
     private final Element item;
+    @Summary
     @Required
     private final Quantity quantity;
     private final List<Parameter> parameter;
+    @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
+    @Summary
     private final DateTime authoredOn;
+    @Summary
     private final Reference requester;
+    @Summary
     private final List<Reference> supplier;
     @Binding(
         bindingName = "SupplyRequestReason",

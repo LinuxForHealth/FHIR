@@ -16,12 +16,11 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.DocumentReferenceStatus;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
@@ -30,6 +29,8 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DocumentReferenceStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -38,16 +39,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentManifest extends DomainResource {
+    @Summary
     private final Identifier masterIdentifier;
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "DocumentReferenceStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the document reference.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
     )
+    @Required
     private final DocumentReferenceStatus status;
+    @Summary
     @Binding(
         bindingName = "v3Act",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -55,12 +60,16 @@ public class DocumentManifest extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
     )
     private final CodeableConcept type;
+    @Summary
     private final Reference subject;
     private final DateTime created;
+    @Summary
     private final List<Reference> author;
     private final List<Reference> recipient;
     private final Uri source;
+    @Summary
     private final String description;
+    @Summary
     @Required
     private final List<Reference> content;
     private final List<Related> related;

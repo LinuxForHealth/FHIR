@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,6 @@ package com.ibm.fhir.operation.validate;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
-import static com.ibm.fhir.model.util.FHIRUtil.isFailure;
 
 import java.io.InputStream;
 import java.util.Collections;
@@ -19,16 +18,16 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.NarrativeStatus;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.operation.AbstractOperation;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
@@ -43,7 +42,7 @@ public class ValidateOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("validate.json");){
-            return FHIRParser.parser(Format.JSON).parse(in);            
+            return FHIRParser.parser(Format.JSON).parse(in);
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -55,16 +54,12 @@ public class ValidateOperation extends AbstractOperation {
         try {
             Parameter parameter = getParameter(parameters, "resource");
             if (parameter == null) {
-                throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.ValueSet.INVALID);
+                throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.INVALID);
             }
-            
+
             Resource resource = parameter.getResource() ;
             List<Issue> issues = FHIRValidator.validator().validate(resource);
-                       
-            if (issues.stream().anyMatch(issue -> isFailure(issue.getSeverity()))) {
-                throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
-            }
-            
+
             return FHIROperationUtil.getOutputParameters(buildResourceValidOperationOutcome(issues));
         } catch (FHIROperationException e) {
             throw e;
@@ -83,12 +78,16 @@ public class ValidateOperation extends AbstractOperation {
                             .build())
                         .build());
         }
+        
+        boolean hasError = issues.stream().anyMatch(issue -> IssueSeverity.ERROR.equals(issue.getSeverity())
+                || IssueSeverity.FATAL.equals(issue.getSeverity()));
                 
         OperationOutcome operationOutcome = OperationOutcome.builder()
-                .id(Id.of("NoError"))
+                .id(Id.of(hasError? "Error" : "NoError"))
                 .text(Narrative.builder()
                     .status(NarrativeStatus.ADDITIONAL)
-                    .div(xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No ERROR</p></div>"))
+                    .div(xhtml(hasError? "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>ERROR</p></div>"
+                            : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No error</p></div>" ))
                     .build())
                 .issue(issues)
                 .build();

@@ -9,16 +9,15 @@ package com.ibm.fhir.persistence.jdbc.util;
 import java.util.List;
 
 /**
- * This class assists the JDBCNormalizedQueryBuilder by encapsulating either a where clause segment or a complete SQL query along with any associated bind variables.
- * @author markd
- *
+ * This class assists the JDBCQueryBuilder by encapsulating either a where clause segment or a complete SQL query along 
+ * with any associated bind variables.
  */
 public class SqlQueryData {
     
     private String queryString;
-    private List<Object> bindVariables;
+    private List<? extends Object> bindVariables;
 
-    public SqlQueryData(String query, List<Object> vars) {
+    public SqlQueryData(String query, List<? extends Object> vars) {
         super();
         this.queryString = query;
         this.bindVariables = vars;
@@ -29,7 +28,7 @@ public class SqlQueryData {
         return queryString;
     }
 
-    public List<Object> getBindVariables() {
+    public List<? extends Object> getBindVariables() {
         return bindVariables;
     }
 

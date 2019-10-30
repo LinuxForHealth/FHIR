@@ -16,27 +16,28 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.DaysOfWeek;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
-import com.ibm.fhir.model.type.LocationMode;
-import com.ibm.fhir.model.type.LocationStatus;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DaysOfWeek;
+import com.ibm.fhir.model.type.code.LocationMode;
+import com.ibm.fhir.model.type.code.LocationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -46,7 +47,9 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Location extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "LocationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -54,6 +57,7 @@ public class Location extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/location-status|4.0.0"
     )
     private final LocationStatus status;
+    @Summary
     @Binding(
         bindingName = "OperationalStatus",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -61,9 +65,12 @@ public class Location extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0116"
     )
     private final Coding operationalStatus;
+    @Summary
     private final String name;
     private final List<String> alias;
+    @Summary
     private final String description;
+    @Summary
     @Binding(
         bindingName = "LocationMode",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -71,6 +78,7 @@ public class Location extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/location-mode|4.0.0"
     )
     private final LocationMode mode;
+    @Summary
     @Binding(
         bindingName = "LocationType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -80,6 +88,7 @@ public class Location extends DomainResource {
     private final List<CodeableConcept> type;
     private final List<ContactPoint> telecom;
     private final Address address;
+    @Summary
     @Binding(
         bindingName = "PhysicalType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -88,6 +97,7 @@ public class Location extends DomainResource {
     )
     private final CodeableConcept physicalType;
     private final Position position;
+    @Summary
     private final Reference managingOrganization;
     private final Reference partOf;
     private final List<HoursOfOperation> hoursOfOperation;

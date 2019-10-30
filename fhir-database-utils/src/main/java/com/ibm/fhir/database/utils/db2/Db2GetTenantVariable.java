@@ -18,26 +18,21 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 /**
  * DAO to fetch the current value of FHIRADMIN.SV_TENANT_ID. Useful for
  * debugging - the value isn't useful outside of the database.
- * @author rarnold
- *
  */
 public class Db2GetTenantVariable implements IDatabaseSupplier<Integer> {
+    
     // The schema where the set_tenant procedure resides
     private final String schemaName;
     
     /**
      * Public constructor
      * @param schemaName
-     * @param tenantName
      */
     public Db2GetTenantVariable(String schemaName) {
         DataDefinitionUtil.assertValidName(schemaName);
         this.schemaName = schemaName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public Integer run(IDatabaseTranslator translator, Connection c) {
         final String fqn = DataDefinitionUtil.getQualifiedName(schemaName, "SV_TENANT_ID");

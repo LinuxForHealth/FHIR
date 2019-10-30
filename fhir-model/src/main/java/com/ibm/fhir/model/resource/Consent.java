@@ -18,16 +18,13 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.ConsentDataMeaning;
-import com.ibm.fhir.model.type.ConsentProvisionType;
-import com.ibm.fhir.model.type.ConsentState;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
@@ -38,6 +35,10 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ConsentDataMeaning;
+import com.ibm.fhir.model.type.code.ConsentProvisionType;
+import com.ibm.fhir.model.type.code.ConsentState;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -82,38 +83,48 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Consent extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ConsentState",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the state of the consent.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.0.0"
     )
-    private final ConsentState status;
     @Required
+    private final ConsentState status;
+    @Summary
     @Binding(
         bindingName = "ConsentScope",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The four anticipated uses for the Consent Resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-scope"
     )
-    private final CodeableConcept scope;
     @Required
+    private final CodeableConcept scope;
+    @Summary
     @Binding(
         bindingName = "ConsentCategory",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "A classification of the type of consents found in a consent statement.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-category"
     )
+    @Required
     private final List<CodeableConcept> category;
+    @Summary
     private final Reference patient;
+    @Summary
     private final DateTime dateTime;
+    @Summary
     private final List<Reference> performer;
+    @Summary
     private final List<Reference> organization;
+    @Summary
     @Choice({ Attachment.class, Reference.class })
     private final Element source;
     private final List<Policy> policy;
+    @Summary
     @Binding(
         bindingName = "ConsentPolicyRule",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -121,7 +132,9 @@ public class Consent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/consent-policy"
     )
     private final CodeableConcept policyRule;
+    @Summary
     private final List<Verification> verification;
+    @Summary
     private final Provision provision;
 
     private volatile int hashCode;
@@ -1255,6 +1268,7 @@ public class Consent extends DomainResource {
      * or another authorized person.
      */
     public static class Verification extends BackboneElement {
+        @Summary
         @Required
         private final Boolean verified;
         private final Reference verifiedWith;
@@ -1554,6 +1568,7 @@ public class Consent extends DomainResource {
      * An exception to the base policy of this consent. An exception can be an addition or removal of access permissions.
      */
     public static class Provision extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "ConsentProvisionType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1561,8 +1576,10 @@ public class Consent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/consent-provision-type|4.0.0"
         )
         private final ConsentProvisionType type;
+        @Summary
         private final Period period;
         private final List<Actor> actor;
+        @Summary
         @Binding(
             bindingName = "ConsentAction",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1570,6 +1587,7 @@ public class Consent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/consent-action"
         )
         private final List<CodeableConcept> action;
+        @Summary
         @Binding(
             bindingName = "SecurityLabels",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1577,6 +1595,7 @@ public class Consent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
         )
         private final List<Coding> securityLabel;
+        @Summary
         @Binding(
             bindingName = "PurposeOfUse",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1584,6 +1603,7 @@ public class Consent extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
         )
         private final List<Coding> purpose;
+        @Summary
         @Binding(
             bindingName = "ConsentContentClass",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1591,6 +1611,7 @@ public class Consent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/consent-content-class"
         )
         private final List<Coding> clazz;
+        @Summary
         @Binding(
             bindingName = "ConsentContentCode",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1598,7 +1619,9 @@ public class Consent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/consent-content-code"
         )
         private final List<CodeableConcept> code;
+        @Summary
         private final Period dataPeriod;
+        @Summary
         private final List<Data> data;
         private final List<Consent.Provision> provision;
 
@@ -2308,13 +2331,13 @@ public class Consent extends DomainResource {
          * 'admitting officers').
          */
         public static class Actor extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ConsentActorRole",
                 strength = BindingStrength.ValueSet.EXTENSIBLE,
                 description = "How an actor is involved in the consent considerations.",
                 valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
             )
+            @Required
             private final CodeableConcept role;
             @Required
             private final Reference reference;
@@ -2587,14 +2610,16 @@ public class Consent extends DomainResource {
          * The resources controlled by this rule if specific resources are referenced.
          */
         public static class Data extends BackboneElement {
-            @Required
+            @Summary
             @Binding(
                 bindingName = "ConsentDataMeaning",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "How a resource reference is interpreted when testing consent restrictions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.0.0"
             )
+            @Required
             private final ConsentDataMeaning meaning;
+            @Summary
             @Required
             private final Reference reference;
 

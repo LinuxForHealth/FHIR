@@ -9,21 +9,28 @@ package com.ibm.fhir.database.utils.query;
 /**
  * Adapter to help build the WHERE clause expression. To allow a fluent
  * style, we construct an expression tree
- * @author rarnold
- *
+ * 
  */
 public class WhereAdapter {
+    
     // The select statement for this where clause
     private final Select select;
 
     /**
      * Public constructor
-     * @param from
+     * 
+     * @param select
+     * @param predicate
      */
     public WhereAdapter(Select select, String predicate) {
         this.select = select;
     }
     
+    /**
+     * 
+     * @param predicate
+     * @return
+     */
     public WhereAdapter where(String predicate) {
         // Add this predicate to the select statement
         return this;
@@ -47,7 +54,6 @@ public class WhereAdapter {
         return new OrderByAdapter(select);
     }
 
-    
     public Select build() {
         return select;
     }

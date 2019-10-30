@@ -18,17 +18,10 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.ActionCardinalityBehavior;
-import com.ibm.fhir.model.type.ActionConditionKind;
-import com.ibm.fhir.model.type.ActionGroupingBehavior;
-import com.ibm.fhir.model.type.ActionPrecheckBehavior;
-import com.ibm.fhir.model.type.ActionRelationshipType;
-import com.ibm.fhir.model.type.ActionRequiredBehavior;
-import com.ibm.fhir.model.type.ActionSelectionBehavior;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -45,12 +38,20 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
-import com.ibm.fhir.model.type.RequestIntent;
-import com.ibm.fhir.model.type.RequestPriority;
-import com.ibm.fhir.model.type.RequestStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.ActionCardinalityBehavior;
+import com.ibm.fhir.model.type.code.ActionConditionKind;
+import com.ibm.fhir.model.type.code.ActionGroupingBehavior;
+import com.ibm.fhir.model.type.code.ActionPrecheckBehavior;
+import com.ibm.fhir.model.type.code.ActionRelationshipType;
+import com.ibm.fhir.model.type.code.ActionRequiredBehavior;
+import com.ibm.fhir.model.type.code.ActionSelectionBehavior;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.RequestIntent;
+import com.ibm.fhir.model.type.code.RequestPriority;
+import com.ibm.fhir.model.type.code.RequestStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -67,28 +68,35 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RequestGroup extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
     private final List<Reference> basedOn;
     private final List<Reference> replaces;
+    @Summary
     private final Identifier groupIdentifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "RequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes identifying the lifecycle stage of a request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
     )
-    private final RequestStatus status;
     @Required
+    private final RequestStatus status;
+    @Summary
     @Binding(
         bindingName = "RequestIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
     )
+    @Required
     private final RequestIntent intent;
+    @Summary
     @Binding(
         bindingName = "RequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -96,6 +104,7 @@ public class RequestGroup extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
     )
     private final RequestPriority priority;
+    @Summary
     private final CodeableConcept code;
     private final Reference subject;
     private final Reference encounter;
@@ -1169,7 +1178,9 @@ public class RequestGroup extends DomainResource {
     public static class Action extends BackboneElement {
         private final String prefix;
         private final String title;
+        @Summary
         private final String description;
+        @Summary
         private final String textEquivalent;
         @Binding(
             bindingName = "RequestPriority",
@@ -2150,13 +2161,13 @@ public class RequestGroup extends DomainResource {
          * An expression that describes applicability criteria, or start/stop conditions for the action.
          */
         public static class Condition extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ActionConditionKind",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The kind of condition for the action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.0"
             )
+            @Required
             private final ActionConditionKind kind;
             private final Expression expression;
 
@@ -2425,13 +2436,13 @@ public class RequestGroup extends DomainResource {
         public static class RelatedAction extends BackboneElement {
             @Required
             private final Id actionId;
-            @Required
             @Binding(
                 bindingName = "ActionRelationshipType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines the types of relationships between actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.0"
             )
+            @Required
             private final ActionRelationshipType relationship;
             @Choice({ Duration.class, Range.class })
             private final Element offset;

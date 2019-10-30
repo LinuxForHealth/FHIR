@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * DAO to create a free tenant slot (to align with a new partition)
- * @author rarnold
  */
 public class UpdateTenantStatusDAO implements IDatabaseStatement {
     private final String schemaName;
@@ -27,8 +26,9 @@ public class UpdateTenantStatusDAO implements IDatabaseStatement {
     /**
      * Get partition information for all tables in the tableSchema, using
      * the catalogSchema as the schema containing the DATAPARTITIONS system table
-     * @param translator
-     * @param catalogSchema
+     * 
+     * @param schemaName
+     * @param tenantId
      * @param tenantStatus
      */
     public UpdateTenantStatusDAO(String schemaName, int tenantId, TenantStatus tenantStatus) {
@@ -38,14 +38,12 @@ public class UpdateTenantStatusDAO implements IDatabaseStatement {
         this.tenantStatus = tenantStatus;
     }
     
-    
-    /**
-     * Execute the encapsulated query against the database and stream the result data to the
-     * configured target
-     * @param c
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
+        /*
+         * Execute the encapsulated query against the database and stream the result data to the
+         * configured target
+         */
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
         final String DML = ""
                 + "   UPDATE " + tableName

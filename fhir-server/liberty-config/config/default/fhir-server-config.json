@@ -4,11 +4,8 @@
         "core": {
             "truststoreLocation": "resources/security/fhirTruststore.jks",
             "truststorePassword": "change-password",
-            "userDefinedSchematronEnabled": false,
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
-            "datastoreIdHeaderName": "X-FHIR-DSID",
-            "jsonParserLenient": false,
-            "jsonParserValidating": true
+            "datastoreIdHeaderName": "X-FHIR-DSID"
         },
         "authFilter": {
             "enabled": false,
@@ -19,18 +16,6 @@
             "regUrl": "https://<host>:9443/oidc/endpoint/oidc-provider/registration",
             "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
             "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
-        },
-        "encryption": {
-            "enabled": false,
-            "keystoreLocation": "resources/security/fhirkeys.jceks",
-            "keystorePassword": "change-password",
-            "keyPassword": "change-password"
-        },
-        "virtualResources": {
-            "enabled": false,
-            "allowableResourceTypes": [
-                "*"
-            ]
         },
         "notifications": {
             "common": {
@@ -128,11 +113,8 @@
                 }
             },
             "jdbc": {
-                "__comment": "Configuration properties for the JDBC persistence implementation",
+                "__comment": "Configuration properties for the JDBC persistence implementation, Use jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "bootstrapDb": true,
-                "__comment1": "schemaType allowed values are: basic or normalized",
-                "schemaType": "normalized",
-                "__comment2": "Change this to jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "dataSourceJndiName": "jdbc/fhirProxyDataSource",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
@@ -141,9 +123,6 @@
             "audit": {
                 "bootstrapDb": true
             }
-        },
-        "whclsfRouter": {
-            "replicationInterceptorEnabled": false
         }
     }
 }

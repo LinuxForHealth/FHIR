@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.util.ValidationSupport;
+import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A URI that is a literal reference
@@ -40,6 +41,21 @@ public class Url extends Uri {
 
     public static Uri uri(java.lang.String value) {
         return Url.builder().value(value).build();
+    }
+
+    @Override
+    public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
+        if (visitor.preVisit(this)) {
+            visitor.visitStart(elementName, elementIndex, this);
+            if (visitor.visit(elementName, elementIndex, this)) {
+                // visit children
+                accept(id, "id", visitor);
+                accept(extension, "extension", visitor, Extension.class);
+                accept(value, "value", visitor);
+            }
+            visitor.visitEnd(elementName, elementIndex, this);
+            visitor.postVisit(this);
+        }
     }
 
     @Override

@@ -37,7 +37,7 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.NarrativeStatus;
+import com.ibm.fhir.model.type.code.NarrativeStatus;
 
 public class FHIRPathNodeVisitorTest {
     private static final List<String> EXPECTED = Arrays.asList(

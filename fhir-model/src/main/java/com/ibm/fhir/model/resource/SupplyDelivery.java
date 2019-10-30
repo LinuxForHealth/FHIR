@@ -16,8 +16,8 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -30,9 +30,10 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.SimpleQuantity;
-import com.ibm.fhir.model.type.SupplyDeliveryStatus;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.SupplyDeliveryStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -42,8 +43,11 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SupplyDelivery extends DomainResource {
     private final List<Identifier> identifier;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> partOf;
+    @Summary
     @Binding(
         bindingName = "SupplyDeliveryStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -60,6 +64,7 @@ public class SupplyDelivery extends DomainResource {
     )
     private final CodeableConcept type;
     private final SuppliedItem suppliedItem;
+    @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
     private final Reference supplier;

@@ -16,17 +16,15 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.DeviceNameType;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.FHIRDeviceStatus;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
@@ -34,8 +32,11 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.model.type.UDIEntryType;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DeviceNameType;
+import com.ibm.fhir.model.type.code.FHIRDeviceStatus;
+import com.ibm.fhir.model.type.code.UDIEntryType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -47,7 +48,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Device extends DomainResource {
     private final List<Identifier> identifier;
     private final Reference definition;
+    @Summary
     private final List<UdiCarrier> udiCarrier;
+    @Summary
     @Binding(
         bindingName = "FHIRDeviceStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -87,6 +90,7 @@ public class Device extends DomainResource {
     private final Reference location;
     private final Uri url;
     private final List<Annotation> note;
+    @Summary
     private final List<CodeableConcept> safety;
     private final Reference parent;
 
@@ -1420,10 +1424,13 @@ public class Device extends DomainResource {
      * jurisdictions it could have been sold.
      */
     public static class UdiCarrier extends BackboneElement {
+        @Summary
         private final String deviceIdentifier;
         private final Uri issuer;
         private final Uri jurisdiction;
+        @Summary
         private final Base64Binary carrierAIDC;
+        @Summary
         private final String carrierHRF;
         @Binding(
             bindingName = "UDIEntryType",
@@ -1845,13 +1852,13 @@ public class Device extends DomainResource {
     public static class DeviceName extends BackboneElement {
         @Required
         private final String name;
-        @Required
         @Binding(
             bindingName = "DeviceNameType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
         )
+        @Required
         private final DeviceNameType type;
 
         private volatile int hashCode;

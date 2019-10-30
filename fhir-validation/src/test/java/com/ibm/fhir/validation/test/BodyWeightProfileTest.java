@@ -24,9 +24,9 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.ObservationStatus;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class BodyWeightProfileTest {
@@ -34,7 +34,7 @@ public class BodyWeightProfileTest {
 
     @Test
     public static void testBodyWeightProfile() throws Exception {
-        List<Constraint> constraints = getConstraints(BODY_WEIGHT_PROFILE_URL);
+        List<Constraint> constraints = getConstraints(BODY_WEIGHT_PROFILE_URL, Observation.class);
 
         Assert.assertEquals(constraints.size(), 3);
         Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-1")).count() == 1);
@@ -68,8 +68,27 @@ public class BodyWeightProfileTest {
                 .unit(string("lbs"))
                 .build())
             .build();
+        
+        bodyWeight = bodyWeight.toBuilder()
+                .value(bodyWeight.getValue().as(Quantity.class).toBuilder()
+                    .value(Decimal.of(210))
+                    .build())
+                .build();
 
         List<Issue> issues = FHIRValidator.validator().validate(bodyWeight);
+        Assert.assertEquals(issues.size(), 2);
+        Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
+        Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("vs-1")).count() == 1);
+        
+        bodyWeight = bodyWeight.toBuilder()
+                .meta(null)
+                .build();
+        
+        issues = FHIRValidator.validator().validate(bodyWeight);
+        Assert.assertEquals(issues.size(), 1);
+        Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
+        
+        issues = FHIRValidator.validator().validate(bodyWeight, BODY_WEIGHT_PROFILE_URL);
         Assert.assertEquals(issues.size(), 2);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("vs-1")).count() == 1);

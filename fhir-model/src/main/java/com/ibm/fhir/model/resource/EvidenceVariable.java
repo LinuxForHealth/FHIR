@@ -18,9 +18,9 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -31,17 +31,14 @@ import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.type.EvidenceVariableType;
 import com.ibm.fhir.model.type.Expression;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.GroupMeasure;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.String;
@@ -49,6 +46,10 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.EvidenceVariableType;
+import com.ibm.fhir.model.type.code.GroupMeasure;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -64,27 +65,40 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EvidenceVariable extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
+    @Summary
     private final String shortTitle;
     private final String subtitle;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     private final Markdown description;
     private final List<Annotation> note;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -95,6 +109,7 @@ public class EvidenceVariable extends DomainResource {
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
+    @Summary
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
@@ -108,6 +123,7 @@ public class EvidenceVariable extends DomainResource {
     private final List<ContactDetail> reviewer;
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
+    @Summary
     @Binding(
         bindingName = "EvidenceVariableType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -115,6 +131,7 @@ public class EvidenceVariable extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.0"
     )
     private final EvidenceVariableType type;
+    @Summary
     @Required
     private final List<Characteristic> characteristic;
 
@@ -1561,8 +1578,9 @@ public class EvidenceVariable extends DomainResource {
      */
     public static class Characteristic extends BackboneElement {
         private final String description;
-        @Required
+        @Summary
         @Choice({ Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class })
+        @Required
         private final Element definition;
         private final List<UsageContext> usageContext;
         private final Boolean exclude;

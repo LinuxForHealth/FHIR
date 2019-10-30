@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -20,10 +21,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Population extends BackboneElement {
+    @Summary
     @Choice({ Range.class, CodeableConcept.class })
     private final Element age;
+    @Summary
     private final CodeableConcept gender;
+    @Summary
     private final CodeableConcept race;
+    @Summary
     private final CodeableConcept physiologicalCondition;
 
     private volatile int hashCode;

@@ -1,5 +1,5 @@
-/*
- * (C) Copyright IBM Corp. 2017,2018,2019
+/**
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,7 @@ import java.util.Properties;
 import javax.websocket.ClientEndpointConfig;
 import javax.websocket.ClientEndpointConfig.Configurator;
 import javax.websocket.ContainerProvider;
+import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -42,26 +43,25 @@ import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.model.resource.CapabilityStatement;
-import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
-import com.ibm.fhir.model.type.RestfulCapabilityMode;
-import com.ibm.fhir.model.type.SystemRestfulInteraction;
-import com.ibm.fhir.model.type.TypeRestfulInteraction;
-import com.ibm.fhir.persistence.test.common.FHIRModelTestBase;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
+import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
+import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.validation.FHIRValidator;
 
 /**
  * Base class for fhir-server unit tests.
  */
-public abstract class FHIRServerTestBase extends FHIRModelTestBase {
+public abstract class FHIRServerTestBase {
 
     protected FHIRClient client = null;
 
@@ -72,12 +72,12 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
     // Default values for FHIRClient properties that we use here.
     private static final String DEFAULT_TRUSTSTORE_LOCATION = "fhirClientTruststore.jks";
-    private static final String DEFAULT_TRUSTSTORE_PASSWORD = "password";
+    private static final String DEFAULT_TRUSTSTORE_PASSWORD = "change-password";
     private static final String DEFAULT_KEYSTORE_LOCATION = "fhirClientKeystore.jks";
-    private static final String DEFAULT_KEYSTORE_PASSWORD = "password";
+    private static final String DEFAULT_KEYSTORE_PASSWORD = "change-password";
     private static final String DEFAULT_USERNAME = "fhiruser";
-    private static final String DEFAULT_PASSWORD = "fhiruser";
-
+    private static final String DEFAULT_PASSWORD = "change-password";
+    
     // Constants that define test property names.
     private static final String PROPNAME_WEBSOCKET_URL = "test.websocket.url";
     private static final String PROPNAME_KAFKA_CONNINFO = "test.kafka.connectionInfo";
@@ -98,7 +98,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String tsPassword = null;
     private String ksLocation = null;
     private String ksPassword = null;
-
+    
     protected static final String MEDIATYPE_JSON = FHIRMediaType.APPLICATION_JSON;
     protected static final String MEDIATYPE_JSON_FHIR = FHIRMediaType.APPLICATION_FHIR_JSON;
     protected static final String MEDIATYPE_XML = FHIRMediaType.APPLICATION_XML;
@@ -108,7 +108,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
 
     public FHIRServerTestBase() {
     }
-
+    
     protected String getWebSocketURL() {
         return websocketUrl;
     }
@@ -144,7 +144,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     private String getKsPassword() {
         return ksPassword;
     }
-
+    
     /**
      * We'll resolve all the supported test properties. We have two ways of setting
      * properties: 1) store them in a file called "test.properties" which is in the
@@ -165,6 +165,18 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         } catch (Exception e) {
             // Ignore any errors while trying to load the file.
         }
+        
+        setUp(properties);
+    }
+
+    /**
+     * We'll resolve all the supported test properties. We have two ways of setting
+     * properties: 1) store them in a file called "test.properties" which is in the
+     * classpath. 2) set each individual property as a JVM system property.
+     *
+     * Supported property names: test.host test.port test.urlprefix
+     */
+    public void setUp(Properties properties) throws Exception {
 
         // Create our FHIRClient instance based on the properties we just read in.
         client = FHIRClientFactory.getClient(properties);
@@ -183,13 +195,14 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                 .decode(getProperty(properties, FHIRClient.PROPNAME_TRUSTSTORE_PASSWORD, DEFAULT_TRUSTSTORE_PASSWORD));
         ksLocation = getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_LOCATION);
         ksPassword = FHIRUtilities
-                .decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_LOCATION, DEFAULT_KEYSTORE_PASSWORD));
+                .decode(getProperty(properties, FHIRClient.PROPNAME_KEYSTORE_PASSWORD , DEFAULT_KEYSTORE_PASSWORD));
+
     }
 
     /**
-     * Tries to find the property named <propertyName> first as a System property,
-     * then as a property within the <properties> object. If neither are found, then
-     * the <defaultValue> is returned.
+     * Tries to find the property named "propertyName" first as a System property,
+     * then as a property within the "properties" object. If neither are found, then
+     * the "defaultValue" is returned.
      *
      * @param properties   Properties object containing the properties loaded from
      *                     our properties file.
@@ -242,7 +255,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                     headers.put("Authorization", values);
                 }
             }).build();
-
+            
             String webSocketURL = getWebSocketURL();
             if (webSocketURL.startsWith("wss")) {
                 String tsLoc = getAbsoluteFilename(getTsLocation());
@@ -266,9 +279,20 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
                         false);
                 sslEngineConfigurator.setHostVerificationEnabled(false);
                 config.getUserProperties().put(PROPNAME_SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
+                
             }
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            container.connectToServer(endpoint, config, new URI(webSocketURL));
+            Session session = container.connectToServer(endpoint, config, new URI(webSocketURL));
+            
+            // Add a Delay
+            int count = 10;
+            while ( !session.isOpen() && count > 0) {
+                System.out.println(">>> " + count + " waiting");
+                Thread.sleep(1000l);
+                count--;
+            }
+            
+            endpoint.setSession(session);
             return endpoint;
         } catch (Exception e) {
             e.printStackTrace();
@@ -495,7 +519,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
     /**
      * For the specified response, this function will extract the logical id value
      * from the response's Location header. The format of a location header value
-     * should be: "[base]/<resource-type>/<id>/_history/<version>"
+     * should be: <code>[base]/<resource-type>/<id>/_history/<version></code>
      *
      * @param response the response object for a REST API invocation
      * @return the logical id value
@@ -599,5 +623,39 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
             assertTrue("Passed with no issues in validation", true);
         }
         
+    }
+    
+    /**
+     * Parses a location URI into the resourceType, resourceId, and (optionally) the version id.
+     * @param location
+     * @return
+     */
+    public static String[] parseLocationURI(String location) {
+        String[] result = null;
+        if (location == null) {
+            throw new NullPointerException("The 'location' parameter was specified as null.");
+        }
+
+        String[] tokens = location.split("/");
+        // Check if we should expect 4 tokens or only 2.
+        if (location.contains("_history")) {
+            if (tokens.length >= 4) {
+                result = new String[3];
+                result[0] = tokens[tokens.length - 4];
+                result[1] = tokens[tokens.length - 3];
+                result[2] = tokens[tokens.length - 1];
+            } else {
+                throw new IllegalArgumentException("Incorrect location value specified: " + location);
+            }
+        } else {
+            if (tokens.length >= 2) {
+                result = new String[2];
+                result[0] = tokens[tokens.length - 2];
+                result[1] = tokens[tokens.length - 1];
+            } else {
+                throw new IllegalArgumentException("Incorrect location value specified: " + location);
+            }
+        }
+        return result;
     }
 }

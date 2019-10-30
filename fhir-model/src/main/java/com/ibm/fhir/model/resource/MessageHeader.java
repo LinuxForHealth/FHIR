@@ -17,8 +17,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -30,10 +30,11 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.ResponseType;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ResponseType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,7 +45,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
-    @Required
+    @Summary
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
@@ -52,14 +53,22 @@ public class MessageHeader extends DomainResource {
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
+    @Required
     private final Element event;
+    @Summary
     private final List<Destination> destination;
+    @Summary
     private final Reference sender;
+    @Summary
     private final Reference enterer;
+    @Summary
     private final Reference author;
+    @Summary
     @Required
     private final Source source;
+    @Summary
     private final Reference responsible;
+    @Summary
     @Binding(
         bindingName = "EventReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -67,8 +76,11 @@ public class MessageHeader extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/message-reason-encounter"
     )
     private final CodeableConcept reason;
+    @Summary
     private final Response response;
+    @Summary
     private final List<Reference> focus;
+    @Summary
     private final Canonical definition;
 
     private volatile int hashCode;
@@ -783,10 +795,14 @@ public class MessageHeader extends DomainResource {
      * The destination application which the message is intended for.
      */
     public static class Destination extends BackboneElement {
+        @Summary
         private final String name;
+        @Summary
         private final Reference target;
+        @Summary
         @Required
         private final Url endpoint;
+        @Summary
         private final Reference receiver;
 
         private volatile int hashCode;
@@ -1116,10 +1132,15 @@ public class MessageHeader extends DomainResource {
      * The source application from which this message originated.
      */
     public static class Source extends BackboneElement {
+        @Summary
         private final String name;
+        @Summary
         private final String software;
+        @Summary
         private final String version;
+        @Summary
         private final ContactPoint contact;
+        @Summary
         @Required
         private final Url endpoint;
 
@@ -1479,16 +1500,19 @@ public class MessageHeader extends DomainResource {
      * Information about the message that this message is a response to. Only present if this message is a response.
      */
     public static class Response extends BackboneElement {
+        @Summary
         @Required
         private final Id identifier;
-        @Required
+        @Summary
         @Binding(
             bindingName = "ResponseType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The kind of response to a message.",
             valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.0"
         )
+        @Required
         private final ResponseType code;
+        @Summary
         private final Reference details;
 
         private volatile int hashCode;

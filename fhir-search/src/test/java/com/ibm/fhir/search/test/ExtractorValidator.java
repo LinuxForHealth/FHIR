@@ -50,9 +50,8 @@ public class ExtractorValidator {
     }
 
     /**
-     * 
+     * validates the FHIR Path expectations for a specific search parameter. 
      * @param output
-     * @param ignoreExtra
      */
     public void validate(Map<SearchParameter, List<FHIRPathNode>> output) {
 

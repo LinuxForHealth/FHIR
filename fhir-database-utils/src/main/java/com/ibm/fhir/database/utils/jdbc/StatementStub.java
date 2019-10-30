@@ -15,8 +15,6 @@ import java.sql.Statement;
 /**
  * Simple stub implementation of a JDBC statement, useful for some simple unit-tests
  * of things beyond the capability of Derby
- * @author rarnold
- *
  */
 public class StatementStub implements Statement {
     private final ConnectionStub connection;
@@ -25,9 +23,6 @@ public class StatementStub implements Statement {
         this.connection = connection;
     }
 
-    /* (non-Javadoc)
-     * @see java.sql.Wrapper#isWrapperFor(java.lang.Class)
-     */
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
         // TODO Auto-generated method stub

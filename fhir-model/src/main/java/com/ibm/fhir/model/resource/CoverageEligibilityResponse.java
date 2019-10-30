@@ -18,16 +18,14 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.type.EligibilityResponsePurpose;
-import com.ibm.fhir.model.type.EligibilityResponseStatus;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
@@ -36,10 +34,13 @@ import com.ibm.fhir.model.type.Money;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.RemittanceOutcome;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.EligibilityResponsePurpose;
+import com.ibm.fhir.model.type.code.EligibilityResponseStatus;
+import com.ibm.fhir.model.type.code.RemittanceOutcome;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -56,40 +57,47 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CoverageEligibilityResponse extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "EligibilityResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
-    private final EligibilityResponseStatus status;
     @Required
+    private final EligibilityResponseStatus status;
+    @Summary
     @Binding(
         bindingName = "EligibilityResponsePurpose",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the types of information being requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.0.0"
     )
+    @Required
     private final List<EligibilityResponsePurpose> purpose;
+    @Summary
     @Required
     private final Reference patient;
     @Choice({ Date.class, Period.class })
     private final Element serviced;
+    @Summary
     @Required
     private final DateTime created;
     private final Reference requestor;
+    @Summary
     @Required
     private final Reference request;
-    @Required
+    @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The outcome of the processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
     )
+    @Required
     private final RemittanceOutcome outcome;
     private final String disposition;
+    @Summary
     @Required
     private final Reference insurer;
     private final List<Insurance> insurance;
@@ -992,6 +1000,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * Financial instruments for reimbursement for the health care products and services.
      */
     public static class Insurance extends BackboneElement {
+        @Summary
         @Required
         private final Reference coverage;
         private final Boolean inforce;
@@ -2092,13 +2101,13 @@ public class CoverageEligibilityResponse extends DomainResource {
              * Benefits used to date.
              */
             public static class Benefit extends BackboneElement {
-                @Required
                 @Binding(
                     bindingName = "BenefitType",
                     strength = BindingStrength.ValueSet.EXAMPLE,
                     description = "Deductable, visits, co-pay, etc.",
                     valueSet = "http://hl7.org/fhir/ValueSet/benefit-type"
                 )
+                @Required
                 private final CodeableConcept type;
                 @Choice({ UnsignedInt.class, String.class, Money.class })
                 private final Element allowed;
@@ -2415,13 +2424,13 @@ public class CoverageEligibilityResponse extends DomainResource {
      * Errors encountered during the processing of the request.
      */
     public static class Error extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "AdjudicationError",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The error codes for adjudication processing.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication-error"
         )
+        @Required
         private final CodeableConcept code;
 
         private volatile int hashCode;

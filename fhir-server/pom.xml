@@ -20,7 +20,7 @@
 
     <packaging>jar</packaging>
 
-    <name>FHIR Server REST API Implementation</name>
+    <name>IBM FHIR Server - REST API Implementation</name>
 
     <properties>
     </properties>
@@ -67,11 +67,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-replication-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

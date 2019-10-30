@@ -21,6 +21,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-bulkimportexport-webapp</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-server-webapp</artifactId>
             <version>${project.version}</version>
             <type>war</type>
@@ -58,7 +64,6 @@
                         <phase>package</phase>
                         <configuration>
                             <finalName>fhir-server-distribution</finalName>
-                            <outputDirectory>${publish.dir}</outputDirectory>
                             <appendAssemblyId>false</appendAssemblyId>
                             <attach>true</attach>
                             <descriptors>
@@ -70,4 +75,44 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>aggregate-report</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>report-aggregate</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report-aggregate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/jacoco-report.xml</descriptor>
+                            </descriptors>
+                            <archiveBaseDirectory>${project.reporting.outputDirectory}</archiveBaseDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

@@ -18,8 +18,8 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -32,16 +32,17 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
-import com.ibm.fhir.model.type.MessageHeaderResponseRequest;
-import com.ibm.fhir.model.type.MessageSignificanceCategory;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PublicationStatus;
-import com.ibm.fhir.model.type.ResourceType;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.MessageHeaderResponseRequest;
+import com.ibm.fhir.model.type.code.MessageSignificanceCategory;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -65,27 +66,41 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageDefinition extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
+    @Summary
     private final List<Canonical> replaces;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     @Required
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -93,11 +108,14 @@ public class MessageDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
     private final List<CodeableConcept> jurisdiction;
+    @Summary
     private final Markdown purpose;
     private final Markdown copyright;
+    @Summary
     private final Canonical base;
+    @Summary
     private final List<Canonical> parent;
-    @Required
+    @Summary
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
@@ -105,7 +123,9 @@ public class MessageDefinition extends DomainResource {
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
+    @Required
     private final Element event;
+    @Summary
     @Binding(
         bindingName = "MessageSignificanceCategory",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -113,6 +133,7 @@ public class MessageDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.0.0"
     )
     private final MessageSignificanceCategory category;
+    @Summary
     private final List<Focus> focus;
     @Binding(
         bindingName = "messageheader-response-request",
@@ -1407,15 +1428,17 @@ public class MessageDefinition extends DomainResource {
      * message or two Account records for a merge.
      */
     public static class Focus extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
         )
+        @Required
         private final ResourceType code;
         private final Canonical profile;
+        @Summary
         @Required
         private final UnsignedInt min;
         private final String max;

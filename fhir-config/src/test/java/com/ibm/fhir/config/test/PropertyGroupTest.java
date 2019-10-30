@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import static org.testng.AssertJUnit.fail;
 import java.util.List;
 
 import javax.json.Json;
+import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 
 import org.testng.annotations.BeforeClass;
@@ -24,6 +25,7 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 
 public class PropertyGroupTest {
+    private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     private JsonObject jsonObj1 = null;
     private JsonObject jsonObj2 = null;
     
@@ -33,42 +35,42 @@ public class PropertyGroupTest {
     public void setup() {
 
         // Build a JSON object for testing.
-        jsonObj1 = Json.createObjectBuilder()
-                .add("level1", Json.createObjectBuilder()
-                    .add("level2", Json.createObjectBuilder()
-                        .add("level3", Json.createObjectBuilder()
+        jsonObj1 = BUILDER_FACTORY.createObjectBuilder()
+                .add("level1", BUILDER_FACTORY.createObjectBuilder()
+                    .add("level2", BUILDER_FACTORY.createObjectBuilder()
+                        .add("level3", BUILDER_FACTORY.createObjectBuilder()
                             .add("stringProp", "stringValue")
                             .add("intProp", 123)
                             .add("booleanProp", true))))
                 .build();
 
         // Simulate a snippet of the fhir-server config.
-        jsonObj2 = Json.createObjectBuilder()
-                .add("fhir-server", Json.createObjectBuilder()
-                    .add("server-core", Json.createObjectBuilder()
+        jsonObj2 = BUILDER_FACTORY.createObjectBuilder()
+                .add("fhir-server", BUILDER_FACTORY.createObjectBuilder()
+                    .add("server-core", BUILDER_FACTORY.createObjectBuilder()
                         .add("truststoreLocation", "XYZ")
                         .add("truststorePassword", "change-password"))
-                    .add("notifications", Json.createObjectBuilder()
-                        .add("common", Json.createObjectBuilder()
-                            .add("includeResourceTypes", Json.createArrayBuilder()
+                    .add("notifications", BUILDER_FACTORY.createObjectBuilder()
+                        .add("common", BUILDER_FACTORY.createObjectBuilder()
+                            .add("includeResourceTypes", BUILDER_FACTORY.createArrayBuilder()
                                 .add("Patient")
                                 .add("Observation")))
-                        .add("kafka", Json.createObjectBuilder()
+                        .add("kafka", BUILDER_FACTORY.createObjectBuilder()
                             .add("enabled", true)
-                            .add("connectionProperties", Json.createObjectBuilder()
+                            .add("connectionProperties", BUILDER_FACTORY.createObjectBuilder()
                                 .add("groupId", "group1")
                                 .add("bootstrap.servers", "localhost:1234")
                                 .add("change-password", "change-password"))
                             )
                         )
-                    .add("object-array", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
+                    .add("object-array", BUILDER_FACTORY.createArrayBuilder()
+                        .add(BUILDER_FACTORY.createObjectBuilder()
                             .add("url", "http://localhost")
                             .add("type", "insecure"))
-                        .add(Json.createObjectBuilder()
+                        .add(BUILDER_FACTORY.createObjectBuilder()
                             .add("url", "https://localhost")
                             .add("type", "secure")))
-                    .add("int-array", Json.createArrayBuilder()
+                    .add("int-array", BUILDER_FACTORY.createArrayBuilder()
                         .add(1)
                         .add(2)
                         .add(3)))

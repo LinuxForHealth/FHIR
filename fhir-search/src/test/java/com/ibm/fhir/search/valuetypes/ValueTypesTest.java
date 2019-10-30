@@ -38,7 +38,6 @@ import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.test.BaseSearchTest;
-import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
  * Tests ValueType Gets

@@ -354,6 +354,22 @@ public class CodeBuilder {
         return statement("%s.%s(%s)", ref, methodName, String.join(", ", arguments));
     }
     
+    public CodeBuilder decl(List<String> modifiers, String typeName, String identifier) {
+        String mods = "";
+        if (!modifiers.isEmpty()) {
+            mods = String.join(" ", modifiers);
+        }
+        return statement("%s %s %s", mods, typeName, identifier);
+    }
+    
+    public CodeBuilder decl(List<String> modifiers, String typeName, String identifier, String init) {
+        String mods = "";
+        if (!modifiers.isEmpty()) {
+            mods = String.join(" ", modifiers);
+        }
+        return statement("%s %s %s = %s", mods, typeName, identifier, init);
+    }
+    
     public CodeBuilder decl(String typeName, String identifier) {
         return statement("%s %s", typeName, identifier);
     }

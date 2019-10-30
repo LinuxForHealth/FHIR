@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.search.context;
 import java.util.List;
 
 import com.ibm.fhir.core.context.FHIRPagingContext;
+import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.SortParameter;
@@ -61,7 +62,24 @@ public interface FHIRSearchContext extends FHIRPagingContext {
 
     /**
      * @param elementToInclude
-     * @return
      */
     void addElementsParameter(String elementToInclude);
+    
+    
+    /**
+     * @return true when the summary parameter is not null
+     */
+    boolean hasSummaryParameter();
+    
+    /**
+     * Get the summary parameter.
+     * 
+     * @return the value of the summary parameter
+     */
+    SummaryValueSet getSummaryParameter();
+
+    /**
+     * Set the value of the summary parameter.
+     */
+    void setSummaryParameter(SummaryValueSet summary);
 }

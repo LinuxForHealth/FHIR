@@ -8,11 +8,8 @@ package com.ibm.fhir.database.utils.common;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-
 /**
- * @author rarnold
- *
+ * Tests the DataDefinitionUtil 
  */
 public class DataDefinitionUtilTest {
 

@@ -6,9 +6,18 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
 /**
@@ -17,18 +26,15 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
  */
 public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 
+    protected Basic getBasicResource() throws Exception {
+        return TestUtil.readExampleResource("json/ibm/basic/BasicString.json");
+    }
+
+    protected void setTenant() throws Exception {
+        FHIRRequestContext.get().setTenantId("string");
+    }
+
     @Test
-    public void testCreateBasicResource() throws Exception {
-        Basic resource = readResource(Basic.class, "BasicString.json");
-        saveBasicResource(resource);
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
-    public void testCreateChainedBasicResource() throws Exception {
-        createCompositionReferencingSavedResource();
-    }
-
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
     public void testSearchString_string() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "testString");
         
@@ -45,7 +51,7 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         // TODO add test for diacritics and other unusual characters
     }
     
-    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+    @Test
     public void testSearchString_string_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.string:exact", "testString");
         
@@ -63,7 +69,19 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         // TODO add test for diacritics and other unusual characters
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
+    public void testSearchString_string_revinclude() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.string:exact", "testString");
+        
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("string:exact", Collections.singletonList("testString"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+    
+    
+    @Test
     public void testSearchString_string_missing() throws Exception {
         assertSearchReturnsSavedResource("string:missing", "false");
         assertSearchDoesntReturnSavedResource("string:missing", "true");
@@ -72,25 +90,25 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-string:missing", "false");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchString_string_or() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "foo,testString,bar");
         assertSearchDoesntReturnSavedResource("string:exact", "foo\\,testString,bar");
         assertSearchDoesntReturnSavedResource("string:exact", "foo,testString\\,bar");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" })
+    @Test
     public void testSearchString_string_escaping() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "special testChars & : ; \\$ \\| \\, \\\\");
         assertSearchReturnsSavedResource("string:contains", "& : ; \\$ \\| \\, \\\\");
     }
     
-    @Test(dependsOnMethods = { "testCreateBasicResource" }, expectedExceptions = { FHIRSearchException.class })
+    @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchString_string_invalidEscaping() throws Exception {
-        runQueryTest(Basic.class, persistence, "string", "\\", Integer.MAX_VALUE);
+        runQueryTest(Basic.class, "string", "\\", Integer.MAX_VALUE);
     }
     
-//    @Test(dependsOnMethods = { "testCreateChainedBasicResource" })
+//    @Test
 //    public void testSearchString_string_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.string:missing", "false");
 //        assertSearchDoesntReturnComposition("subject:Basic.string:missing", "true");

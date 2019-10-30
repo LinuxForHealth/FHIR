@@ -27,7 +27,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.model.visitor.PathAwareAbstractVisitor;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
 public class FHIRPathEvaluatorTest {
     public static void main(java.lang.String[] args) throws Exception {
@@ -67,6 +67,7 @@ public class FHIRPathEvaluatorTest {
         Patient patient = Patient.builder()
                 .id(id)
                 .active(Boolean.TRUE)
+                .deceased(Boolean.FALSE)
                 .multipleBirth(Integer.of(2))
                 .meta(meta)
                 .name(name)
@@ -83,13 +84,13 @@ public class FHIRPathEvaluatorTest {
         
         System.out.println("");
         
-        PathAwareAbstractVisitor.DEBUG = true;
+        PathAwareVisitor.DEBUG = true;
         
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(patient);
         
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "Patient.name.given.first().as(System.String)");
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "Patient.deceased.exists() and Patient.deceased != false");
         
         System.out.println("result: " + result);
     }

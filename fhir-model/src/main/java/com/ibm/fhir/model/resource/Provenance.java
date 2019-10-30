@@ -17,8 +17,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -29,10 +29,11 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
-import com.ibm.fhir.model.type.ProvenanceEntityRole;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ProvenanceEntityRole;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -47,10 +48,12 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Provenance extends DomainResource {
+    @Summary
     @Required
     private final List<Reference> target;
     @Choice({ Period.class, DateTime.class })
     private final Element occurred;
+    @Summary
     @Required
     private final Instant recorded;
     private final List<Uri> policy;
@@ -845,6 +848,7 @@ public class Provenance extends DomainResource {
      * taking place.
      */
     public static class Agent extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "ProvenanceAgentType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -859,6 +863,7 @@ public class Provenance extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
         private final List<CodeableConcept> role;
+        @Summary
         @Required
         private final Reference who;
         private final Reference onBehalfOf;
@@ -1211,14 +1216,16 @@ public class Provenance extends DomainResource {
      * An entity used in this activity.
      */
     public static class Entity extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "ProvenanceEntityRole",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "How an entity was used in an activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.0.0"
         )
+        @Required
         private final ProvenanceEntityRole role;
+        @Summary
         @Required
         private final Reference what;
         private final List<Provenance.Agent> agent;

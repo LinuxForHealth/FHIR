@@ -16,8 +16,8 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Date;
@@ -28,13 +28,14 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Money;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.NoteType;
-import com.ibm.fhir.model.type.PaymentReconciliationStatus;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.RemittanceOutcome;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.NoteType;
+import com.ibm.fhir.model.type.code.PaymentReconciliationStatus;
+import com.ibm.fhir.model.type.code.RemittanceOutcome;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,17 +45,21 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PaymentReconciliation extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PaymentReconciliationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
     )
+    @Required
     private final PaymentReconciliationStatus status;
+    @Summary
     private final Period period;
+    @Summary
     @Required
     private final DateTime created;
+    @Summary
     private final Reference paymentIssuer;
     private final Reference request;
     private final Reference requestor;
@@ -66,8 +71,10 @@ public class PaymentReconciliation extends DomainResource {
     )
     private final RemittanceOutcome outcome;
     private final String disposition;
+    @Summary
     @Required
     private final Date paymentDate;
+    @Summary
     @Required
     private final Money paymentAmount;
     private final Identifier paymentIdentifier;
@@ -927,13 +934,13 @@ public class PaymentReconciliation extends DomainResource {
     public static class Detail extends BackboneElement {
         private final Identifier identifier;
         private final Identifier predecessor;
-        @Required
         @Binding(
             bindingName = "PaymentType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The reason for the amount: payment, adjustment, advance.",
             valueSet = "http://hl7.org/fhir/ValueSet/payment-type"
         )
+        @Required
         private final CodeableConcept type;
         private final Reference request;
         private final Reference submitter;

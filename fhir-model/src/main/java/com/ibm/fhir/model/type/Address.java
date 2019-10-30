@@ -15,8 +15,10 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
-import com.ibm.fhir.model.type.AddressType;
-import com.ibm.fhir.model.type.AddressUse;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.code.AddressType;
+import com.ibm.fhir.model.type.code.AddressUse;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -27,6 +29,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Address extends Element {
+    @Summary
     @Binding(
         bindingName = "AddressUse",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -34,6 +37,7 @@ public class Address extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/address-use|4.0.0"
     )
     private final AddressUse use;
+    @Summary
     @Binding(
         bindingName = "AddressType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -41,13 +45,21 @@ public class Address extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/address-type|4.0.0"
     )
     private final AddressType type;
+    @Summary
     private final String text;
+    @Summary
     private final List<String> line;
+    @Summary
     private final String city;
+    @Summary
     private final String district;
+    @Summary
     private final String state;
+    @Summary
     private final String postalCode;
+    @Summary
     private final String country;
+    @Summary
     private final Period period;
 
     private volatile int hashCode;

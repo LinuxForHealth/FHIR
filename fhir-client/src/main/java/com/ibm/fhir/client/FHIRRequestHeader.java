@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,13 +55,13 @@ public class FHIRRequestHeader {
     /**
      * This static method can be used as a shortcut for instantiating a new FHIRRequestHeader.
      * Example:
-     * <xmp>
+     * <pre>
      *      import static com.ibm.fhir.client.FHIRRequestHeader.header;
      *      
      *      ...
      *      
      *      response = client.create(myPatient, header("Header1","value1"), header("Header2","value2"));
-     * </xmp> 
+     * </pre> 
      * 
      * @param name the name of the request header 
      * @param value the value of the request header

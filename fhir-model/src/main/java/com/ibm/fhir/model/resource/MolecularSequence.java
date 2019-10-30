@@ -17,8 +17,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -29,15 +29,16 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.OrientationType;
-import com.ibm.fhir.model.type.QualityType;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.RepositoryType;
-import com.ibm.fhir.model.type.SequenceType;
-import com.ibm.fhir.model.type.StrandType;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.OrientationType;
+import com.ibm.fhir.model.type.code.QualityType;
+import com.ibm.fhir.model.type.code.RepositoryType;
+import com.ibm.fhir.model.type.code.SequenceType;
+import com.ibm.fhir.model.type.code.StrandType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -67,7 +68,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MolecularSequence extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "sequenceType",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -75,20 +78,34 @@ public class MolecularSequence extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/sequence-type|4.0.0"
     )
     private final SequenceType type;
+    @Summary
     @Required
     private final Integer coordinateSystem;
+    @Summary
     private final Reference patient;
+    @Summary
     private final Reference specimen;
+    @Summary
     private final Reference device;
+    @Summary
     private final Reference performer;
+    @Summary
     private final Quantity quantity;
+    @Summary
     private final ReferenceSeq referenceSeq;
+    @Summary
     private final List<Variant> variant;
+    @Summary
     private final String observedSeq;
+    @Summary
     private final List<Quality> quality;
+    @Summary
     private final Integer readCoverage;
+    @Summary
     private final List<Repository> repository;
+    @Summary
     private final List<Reference> pointer;
+    @Summary
     private final List<StructureVariant> structureVariant;
 
     private volatile int hashCode;
@@ -1039,6 +1056,7 @@ public class MolecularSequence extends DomainResource {
      * A sequence that is used as a reference to describe variants that are present in a sequence analyzed.
      */
     public static class ReferenceSeq extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "chromosome-human",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1046,7 +1064,9 @@ public class MolecularSequence extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/chromosome-human"
         )
         private final CodeableConcept chromosome;
+        @Summary
         private final String genomeBuild;
+        @Summary
         @Binding(
             bindingName = "orientationType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1054,6 +1074,7 @@ public class MolecularSequence extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/orientation-type|4.0.0"
         )
         private final OrientationType orientation;
+        @Summary
         @Binding(
             bindingName = "sequenceReference",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1061,8 +1082,11 @@ public class MolecularSequence extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-referenceSeq"
         )
         private final CodeableConcept referenceSeqId;
+        @Summary
         private final Reference referenceSeqPointer;
+        @Summary
         private final String referenceSeqString;
+        @Summary
         @Binding(
             bindingName = "strandType",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1070,7 +1094,9 @@ public class MolecularSequence extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/strand-type|4.0.0"
         )
         private final StrandType strand;
+        @Summary
         private final Integer windowStart;
+        @Summary
         private final Integer windowEnd;
 
         private volatile int hashCode;
@@ -1569,11 +1595,17 @@ public class MolecularSequence extends DomainResource {
      * string.
      */
     public static class Variant extends BackboneElement {
+        @Summary
         private final Integer start;
+        @Summary
         private final Integer end;
+        @Summary
         private final String observedAllele;
+        @Summary
         private final String referenceAllele;
+        @Summary
         private final String cigar;
+        @Summary
         private final Reference variantPointer;
 
         private volatile int hashCode;
@@ -1981,14 +2013,16 @@ public class MolecularSequence extends DomainResource {
      * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
      */
     public static class Quality extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "qualityType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Type for quality report.",
             valueSet = "http://hl7.org/fhir/ValueSet/quality-type|4.0.0"
         )
+        @Required
         private final QualityType type;
+        @Summary
         @Binding(
             bindingName = "qualityStandardSequence",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1996,9 +2030,13 @@ public class MolecularSequence extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-standardSequence"
         )
         private final CodeableConcept standardSequence;
+        @Summary
         private final Integer start;
+        @Summary
         private final Integer end;
+        @Summary
         private final Quantity score;
+        @Summary
         @Binding(
             bindingName = "qualityMethod",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -2006,14 +2044,23 @@ public class MolecularSequence extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-method"
         )
         private final CodeableConcept method;
+        @Summary
         private final Decimal truthTP;
+        @Summary
         private final Decimal queryTP;
+        @Summary
         private final Decimal truthFN;
+        @Summary
         private final Decimal queryFP;
+        @Summary
         private final Decimal gtFP;
+        @Summary
         private final Decimal precision;
+        @Summary
         private final Decimal recall;
+        @Summary
         private final Decimal fScore;
+        @Summary
         private final Roc roc;
 
         private volatile int hashCode;
@@ -2703,12 +2750,19 @@ public class MolecularSequence extends DomainResource {
          * Receiver Operator Characteristic (ROC) Curve to give sensitivity/specificity tradeoff.
          */
         public static class Roc extends BackboneElement {
+            @Summary
             private final List<Integer> score;
+            @Summary
             private final List<Integer> numTP;
+            @Summary
             private final List<Integer> numFP;
+            @Summary
             private final List<Integer> numFN;
+            @Summary
             private final List<Decimal> precision;
+            @Summary
             private final List<Decimal> sensitivity;
+            @Summary
             private final List<Decimal> fMeasure;
 
             private volatile int hashCode;
@@ -3264,18 +3318,24 @@ public class MolecularSequence extends DomainResource {
      * target's observedSeq.
      */
     public static class Repository extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "repositoryType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Type for access of external URI.",
             valueSet = "http://hl7.org/fhir/ValueSet/repository-type|4.0.0"
         )
+        @Required
         private final RepositoryType type;
+        @Summary
         private final Uri url;
+        @Summary
         private final String name;
+        @Summary
         private final String datasetId;
+        @Summary
         private final String variantsetId;
+        @Summary
         private final String readsetId;
 
         private volatile int hashCode;
@@ -3669,6 +3729,7 @@ public class MolecularSequence extends DomainResource {
      * Information about chromosome structure variation.
      */
     public static class StructureVariant extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "LOINC LL379-9 answerlist",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -3676,9 +3737,13 @@ public class MolecularSequence extends DomainResource {
             valueSet = "http://loinc.org/vs/LL379-9|4.0.0"
         )
         private final CodeableConcept variantType;
+        @Summary
         private final Boolean exact;
+        @Summary
         private final Integer length;
+        @Summary
         private final Outer outer;
+        @Summary
         private final Inner inner;
 
         private volatile int hashCode;
@@ -4029,7 +4094,9 @@ public class MolecularSequence extends DomainResource {
          * Structural variant outer.
          */
         public static class Outer extends BackboneElement {
+            @Summary
             private final Integer start;
+            @Summary
             private final Integer end;
 
             private volatile int hashCode;
@@ -4292,7 +4359,9 @@ public class MolecularSequence extends DomainResource {
          * Structural variant inner.
          */
         public static class Inner extends BackboneElement {
+            @Summary
             private final Integer start;
+            @Summary
             private final Integer end;
 
             private volatile int hashCode;

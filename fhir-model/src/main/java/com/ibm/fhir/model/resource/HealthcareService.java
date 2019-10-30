@@ -16,14 +16,13 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.DaysOfWeek;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
@@ -35,6 +34,8 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DaysOfWeek;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -43,9 +44,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class HealthcareService extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
+    @Summary
     private final Reference providedBy;
+    @Summary
     @Binding(
         bindingName = "service-category",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -53,6 +58,7 @@ public class HealthcareService extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     @Binding(
         bindingName = "service-type",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -60,6 +66,7 @@ public class HealthcareService extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> type;
+    @Summary
     @Binding(
         bindingName = "service-specialty",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -67,10 +74,14 @@ public class HealthcareService extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
+    @Summary
     private final List<Reference> location;
+    @Summary
     private final String name;
+    @Summary
     private final String comment;
     private final Markdown extraDetails;
+    @Summary
     private final Attachment photo;
     private final List<ContactPoint> telecom;
     private final List<Reference> coverageArea;

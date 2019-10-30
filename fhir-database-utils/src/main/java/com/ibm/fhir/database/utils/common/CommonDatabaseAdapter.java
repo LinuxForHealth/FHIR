@@ -39,8 +39,6 @@ import com.ibm.fhir.database.utils.tenant.UpdateTenantStatusDAO;
 
 /**
  * Provides schema control functions common to our supported databases (DB2 and Derby)
- * @author rarnold
- *
  */
 public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDatabaseTypeAdapter {
     private static final Logger logger = Logger.getLogger(CommonDatabaseAdapter.class.getName());
@@ -57,7 +55,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     
     /**
      * Protected constructor
-     * @param c the database connection
+     * @param tgt database targeted 
      * @param dt the translator for this type of database
      */
     protected CommonDatabaseAdapter(IDatabaseTarget tgt, IDatabaseTranslator dt) {
@@ -108,10 +106,12 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     
     /**
      * Generate a create table statement suitable for Derby
+     * 
      * @param schema
      * @param name
      * @param columns
      * @param pkDef
+     * @param tablespaceName
      * @return
      */
     protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, String tablespaceName) {
@@ -148,11 +148,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         return result.toString();
     }
 
-
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createUniqueIndex(java.lang.String, java.lang.String, java.util.List, java.util.List)
-     */
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns, List<String> includeColumns) {
@@ -161,9 +156,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         runStatement(ddl);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createUniqueIndex(java.lang.String, java.lang.String, java.util.List)
-     */
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
@@ -172,9 +164,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         runStatement(ddl);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.schema.model.IDatabase#createIndex(java.lang.String, java.lang.String, java.util.List)
-     */
     @Override
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
@@ -330,10 +319,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             throw x;
         }
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#allocateTenant(java.lang.String, java.lang.String)
-     */
+
     @Override
     public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey, String tenantSalt, String idSequenceName) {
         // Need a mutable integer
@@ -374,9 +360,9 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     /**
      * Update the tenant status
-     * @param schemaName
-     * @param tenantName
-     * @param allocated
+     * @param adminSchemaName
+     * @param tenantId
+     * @param status
      */
     @Override
     public void updateTenantStatus(String adminSchemaName, int tenantId, TenantStatus status) {
@@ -421,17 +407,15 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         }
         
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createSequence(java.lang.String, java.lang.String, int)
-     */
+
     @Override
     public void createSequence(String schemaName, String sequenceName, int cache) {
-        /*CREATE SEQUENCE fhir_sequence
+        /*
+         * <CODE>CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
           CACHE 1000
-       NO CYCLE;
+       NO CYCLE;</CODE>
     */
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 CACHE " + cache + " NO CYCLE";
@@ -439,9 +423,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#dropSequence(java.lang.String, java.lang.String)
-     */
     @Override
     public void dropSequence(String schemaName, String sequenceName) {
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
@@ -455,9 +436,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#findTenantId(java.lang.String, java.lang.String)
-     */
     @Override
     public int findTenantId(String adminSchemaName, String tenantName) {
         FindTenantIdDAO dao = new FindTenantIdDAO(adminSchemaName, tenantName);
@@ -473,9 +451,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         return privileges.stream().map(Object::toString).collect(Collectors.joining(","));
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#grantObjectPrivileges(java.lang.String, java.lang.String, java.util.Collection, java.lang.String)
-     */
     @Override
     public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges, String toUser) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);

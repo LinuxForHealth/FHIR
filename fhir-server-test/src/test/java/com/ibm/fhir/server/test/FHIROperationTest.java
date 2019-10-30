@@ -36,13 +36,14 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.CompositionStatus;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.CompositionStatus;
 
 public class FHIROperationTest extends FHIRServerTestBase {
     private Patient savedCreatedPatient = null;
@@ -57,7 +58,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Practitioner and then call the 'create' API.
-        Practitioner practitioner = readResource(Practitioner.class, "Practitioner.json");
+        Practitioner practitioner = TestUtil.readLocalResource("Practitioner.json");
         Entity<Practitioner> entity = Entity.entity(practitioner, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Practitioner").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -71,7 +72,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         Practitioner reponsePractitioner = response.readEntity(Practitioner.class);
         savedCreatedPractitioner = reponsePractitioner;
 
-        assertResourceEquals(practitioner, reponsePractitioner);
+        TestUtil.assertResourceEquals(practitioner, reponsePractitioner);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePractitioner" })
@@ -80,7 +81,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
         // Build a new Patient and then call the 'create' API.
         String practitionerId = savedCreatedPractitioner.getId().getValue();
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         patient = patient.toBuilder()
                 .generalPractitioner(Reference.builder().reference(string("Practitioner/" + practitionerId)).build())
                 .build();
@@ -98,7 +99,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatient = responsePatient;
 
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePatient" })
@@ -107,7 +108,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
         // Next, create an Observation belonging to the new patient.
         String patientId = savedCreatedPatient.getId().getValue();
-        Observation observation = buildObservation(patientId, "Observation1.json");
+        Observation observation = TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -121,7 +122,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         Observation responseObs = response.readEntity(Observation.class);
         savedCreatedObservation = responseObs;
 
-        assertResourceEquals(observation, responseObs);
+        TestUtil.assertResourceEquals(observation, responseObs);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePatient" })
@@ -144,7 +145,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         Condition responseCondition = response.readEntity(Condition.class);
         savedCreatedCondition = responseCondition;
 
-        assertResourceEquals(condition, responseCondition);
+        TestUtil.assertResourceEquals(condition, responseCondition);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePatient" })
@@ -169,7 +170,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         AllergyIntolerance responseAllergyIntolerance = response.readEntity(AllergyIntolerance.class);
         savedCreatedAllergyIntolerance = responseAllergyIntolerance;
 
-        assertResourceEquals(allergyIntolerance, responseAllergyIntolerance);
+        TestUtil.assertResourceEquals(allergyIntolerance, responseAllergyIntolerance);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreateObservation" })
@@ -198,7 +199,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         Composition responseComposition = response.readEntity(Composition.class);
         savedCreatedComposition = responseComposition;
 
-        assertResourceEquals(composition, responseComposition);
+        TestUtil.assertResourceEquals(composition, responseComposition);
     }
 
     private Composition buildComposition(String practitionerId, String patientId, String observationId,
@@ -231,13 +232,13 @@ public class FHIROperationTest extends FHIRServerTestBase {
     }
 
     private Condition buildCondition(String patientId, String fileName) throws Exception {
-        Condition condition = readResource(Condition.class, fileName);
+        Condition condition = TestUtil.readLocalResource(fileName);
         condition = condition.toBuilder().subject(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
         return condition;
     }
 
     private AllergyIntolerance buildAllergyIntolerance(String patientId, String fileName) throws Exception {
-        AllergyIntolerance allergyIntolerance = readResource(AllergyIntolerance.class, fileName);
+        AllergyIntolerance allergyIntolerance = TestUtil.readLocalResource(fileName);
         allergyIntolerance = allergyIntolerance
                 .toBuilder().patient(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
         return allergyIntolerance;
@@ -330,7 +331,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" })
     // Testcase for "POST [baseUrl]/{resourceTypeName}/${operationName}"
     public void testPostRscValidateOperation() throws Exception {
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         Parameters parameters = Parameters.builder()
                 .parameter(Parameter.builder().name(string("resource")).resource(patient).build()).build();
@@ -398,22 +399,22 @@ public class FHIROperationTest extends FHIRServerTestBase {
         assertTrue(document.getEntry().size() == 6);
 
         Composition composition = (Composition) document.getEntry().get(0).getResource();
-        assertResourceEquals(savedCreatedComposition, composition);
+        TestUtil.assertResourceEquals(savedCreatedComposition, composition);
 
         Patient patient = (Patient) document.getEntry().get(1).getResource();
-        assertResourceEquals(savedCreatedPatient, patient);
+        TestUtil.assertResourceEquals(savedCreatedPatient, patient);
 
         Practitioner practitioner = (Practitioner) document.getEntry().get(2).getResource();
-        assertResourceEquals(savedCreatedPractitioner, practitioner);
+        TestUtil.assertResourceEquals(savedCreatedPractitioner, practitioner);
 
         Observation observation = (Observation) document.getEntry().get(3).getResource();
-        assertResourceEquals(savedCreatedObservation, observation);
+        TestUtil.assertResourceEquals(savedCreatedObservation, observation);
 
         Condition condition = (Condition) document.getEntry().get(4).getResource();
-        assertResourceEquals(savedCreatedCondition, condition);
+        TestUtil.assertResourceEquals(savedCreatedCondition, condition);
 
         AllergyIntolerance allergyIntolerance = (AllergyIntolerance) document.getEntry().get(5).getResource();
-        assertResourceEquals(savedCreatedAllergyIntolerance, allergyIntolerance);
+        TestUtil.assertResourceEquals(savedCreatedAllergyIntolerance, allergyIntolerance);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePatient" })
@@ -452,21 +453,21 @@ public class FHIROperationTest extends FHIRServerTestBase {
         assertTrue(document.getEntry().size() == 6);
 
         Composition composition = (Composition) document.getEntry().get(0).getResource();
-        assertResourceEquals(savedCreatedComposition, composition);
+        TestUtil.assertResourceEquals(savedCreatedComposition, composition);
 
         Patient patient = (Patient) document.getEntry().get(1).getResource();
-        assertResourceEquals(savedCreatedPatient, patient);
+        TestUtil.assertResourceEquals(savedCreatedPatient, patient);
 
         Practitioner practitioner = (Practitioner) document.getEntry().get(2).getResource();
-        assertResourceEquals(savedCreatedPractitioner, practitioner);
+        TestUtil.assertResourceEquals(savedCreatedPractitioner, practitioner);
 
         Observation observation = (Observation) document.getEntry().get(3).getResource();
-        assertResourceEquals(savedCreatedObservation, observation);
+        TestUtil.assertResourceEquals(savedCreatedObservation, observation);
 
         Condition condition = (Condition) document.getEntry().get(4).getResource();
-        assertResourceEquals(savedCreatedCondition, condition);
+        TestUtil.assertResourceEquals(savedCreatedCondition, condition);
 
         AllergyIntolerance allergyIntolerance = (AllergyIntolerance) document.getEntry().get(5).getResource();
-        assertResourceEquals(savedCreatedAllergyIntolerance, allergyIntolerance);
+        TestUtil.assertResourceEquals(savedCreatedAllergyIntolerance, allergyIntolerance);
     }
 }

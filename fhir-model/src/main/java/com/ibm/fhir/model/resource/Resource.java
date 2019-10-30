@@ -9,12 +9,13 @@ package com.ibm.fhir.model.resource;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.builder.AbstractBuilder;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 
 /**
@@ -22,8 +23,11 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public abstract class Resource extends AbstractVisitable {
+    @Summary
     protected final Id id;
+    @Summary
     protected final Meta meta;
+    @Summary
     protected final Uri implicitRules;
     @Binding(
         bindingName = "Language",

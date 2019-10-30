@@ -16,9 +16,8 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.AdministrativeGender;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -29,12 +28,14 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.ObservationDataType;
-import com.ibm.fhir.model.type.ObservationRangeCategory;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ObservationDataType;
+import com.ibm.fhir.model.type.code.ObservationRangeCategory;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,6 +45,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ObservationDefinition extends DomainResource {
+    @Summary
     @Binding(
         bindingName = "ObservationCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -51,14 +53,16 @@ public class ObservationDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
     )
     private final List<CodeableConcept> category;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ObservationCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes identifying names of simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
+    @Required
     private final CodeableConcept code;
+    @Summary
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "ObservationDataType",

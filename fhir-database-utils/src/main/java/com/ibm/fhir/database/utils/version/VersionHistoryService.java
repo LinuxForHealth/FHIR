@@ -19,8 +19,6 @@ import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 
 /**
  * Encapsulation of the transaction needed to read the version history table
- * @author rarnold
- *
  */
 public class VersionHistoryService implements IVersionHistoryService {
 
@@ -46,7 +44,7 @@ public class VersionHistoryService implements IVersionHistoryService {
     
     /**
      * For injection of the {@link IConnectionProvider}
-     * @param cp
+     * @param tp
      */
     public void setTransactionProvider(ITransactionProvider tp) {
         this.transactionProvider = tp;
@@ -69,8 +67,6 @@ public class VersionHistoryService implements IVersionHistoryService {
      * is no longer required, which is probably going to end in tears.
      * But it's OK. A second attempt will see that the change has
      * already been applied, so won't try again.
-     * @param schemaName
-     * @return
      */
     public void init() {
         // defend
@@ -104,8 +100,7 @@ public class VersionHistoryService implements IVersionHistoryService {
     /**
      * Insert all the entries in the versionHistoryMap. This must be called in the
      * context of an existing transaction
-     * @param schemaName
-     * @param versionHistoryMap
+     * @param versionHistories
      */
     public void insertVersionHistoriesInTx(Collection<TypeNameVersion> versionHistories) {
         for (TypeNameVersion tuple: versionHistories) {
@@ -115,6 +110,8 @@ public class VersionHistoryService implements IVersionHistoryService {
     
     /**
      * Insert the version history for the objectType/objectName/version.
+     * 
+     * @param objectSchema
      * @param objectType
      * @param objectName
      * @param version
@@ -127,8 +124,7 @@ public class VersionHistoryService implements IVersionHistoryService {
     /**
      * Insert all the entries in the versionHistoryMap in a new transaction (useful
      * for testing).
-     * @param schemaName
-     * @param versionHistoryMap
+     * @param versionHistories
      */
     public void insertVersionHistory(Collection<TypeNameVersion> versionHistories) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
@@ -145,6 +141,8 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     /**
      * Factory method for creating a {@link TypeNameVersion} tuple
+     * 
+     * @param objectSchema
      * @param type
      * @param name
      * @param version
@@ -184,17 +182,11 @@ public class VersionHistoryService implements IVersionHistoryService {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IVersionHistoryService#addVersion(java.lang.String, java.lang.String, int)
-     */
     @Override
     public void addVersion(String objectSchema, String objectType, String objectName, int version) {
         insertVersionHistoryInTx(objectSchema, objectType, objectName, version);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IVersionHistoryService#applies(java.lang.String, java.lang.String, int)
-     */
     @Override
     public boolean applies(String objectSchema, String objectType, String objectName, int changeVersion) {
         String key = objectSchema + ":" + objectType + ":" + objectName;

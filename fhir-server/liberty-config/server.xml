@@ -2,22 +2,17 @@
 
     <!-- Enable features -->
     <featureManager>
-        <feature>localConnector-1.0</feature>
-        <feature>jaxrs-2.1</feature>
-        <!-- <feature>openidConnectClient-1.0</feature> -->
-        <feature>openidConnectServer-1.0</feature>
         <feature>appSecurity-2.0</feature>
-        <feature>transportSecurity-1.0</feature>
-        <feature>cdi-2.0</feature>
-        <feature>jsonp-1.1</feature>
-        <feature>jsf-2.3</feature>
-        <feature>servlet-4.0</feature>
-        <feature>websocket-1.1</feature>
-        <!-- db2 jdbc driver 4.24.92 doesn't fully implement jdbc-4.2 -->
-        <feature>jdbc-4.1</feature>
-        <feature>mpOpenAPI-1.0</feature>
         <feature>batchManagement-1.0</feature>
-        <feature>jaxb-2.2</feature>
+        <feature>jaxrs-2.1</feature>
+        <!-- the db2 jcc driver for 11.5.0.0 doesn't fully implement jdbc-4.2 -->
+        <feature>jdbc-4.1</feature>
+        <feature>jsonp-1.1</feature>
+        <feature>mpOpenAPI-1.0</feature>
+        <feature>openidConnectServer-1.0</feature>
+        <feature>servlet-4.0</feature>
+        <feature>transportSecurity-1.0</feature>    
+        <feature>websocket-1.1</feature>
     </featureManager>
 
     <!-- Disable welcome page so that internal server info won't be revealed in responses
@@ -32,7 +27,7 @@
         displaytextwhennoerrorpagedefined="Unexpected request/response. Please check the URL and try again."
         deferServletLoad="false" />
 
-    <!-- FHIR Server's keystore and truststore configuration -->
+    <!-- IBM FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
     <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeystore.jks" password="change-password"/>
     <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTruststore.jks" password="change-password"/>
@@ -119,7 +114,7 @@
 
     <applicationMonitor updateTrigger="mbean"/>
 
-    <!-- This is the main FHIR Server REST API war -->
+    <!-- This is the main IBM FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
@@ -130,7 +125,7 @@
         </application-bnd>
     </webApplication>
 
-    <!-- This is the openapi definition for the FHIR Server -->
+    <!-- This is the openapi definition for the IBM FHIR Server -->
     <webApplication id="fhir-openapi" location="fhir-openapi.war" name="fhir-openapi"/>
     
     <!-- 
@@ -144,7 +139,7 @@
     
     <!-- 
         This sharedlib can contain user-contributed jars that are intended to augment
-        the FHIR Server installation (persistence interceptors, persistence layer impl's,
+        the IBM FHIR Server installation (persistence interceptors, persistence layer impl's,
         custom operation impl's, etc.)
      -->
     <library id="fhirUserLib">

@@ -17,44 +17,40 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * @author rarnold
- *
+ * Drops the DB2 Tablespace
  */
 public class Db2DropTablespace implements IDatabaseStatement {
+    
     private final String tablespaceName;
 
-
     /**
-     * Public constructor
-     * @param tableName
-     * @param partitionId
+     * 
+     * @param tablespaceName
      */
     public Db2DropTablespace(String tablespaceName) {
         DataDefinitionUtil.assertValidName(tablespaceName);
         this.tablespaceName = tablespaceName;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         String ddl = "DROP TABLESPACE " + this.tablespaceName;
-        
-        // We are optimistic and assume that the tablespace currently exists. 
+
+        // We are optimistic and assume that the tablespace currently exists.
         try (Statement s = c.createStatement()) {
             s.executeUpdate(ddl);
-        }
-        catch (SQLException x) {
-            // Perhaps it has already been dropped. Only propagate an error if it's still there
+        } catch (SQLException x) {
+            // Perhaps it has already been dropped. Only propagate an error if it's still
+            // there
             if (tablespaceExists(translator, c)) {
                 throw translator.translate(x);
             }
         }
     }
-    
+
     /**
      * Check if the given tablespace exists
+     * 
      * @param translator
      * @param c
      * @return
@@ -66,8 +62,7 @@ public class Db2DropTablespace implements IDatabaseStatement {
             ps.setString(1, this.tablespaceName);
             ResultSet rs = ps.executeQuery();
             result = rs.next();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
         return result;

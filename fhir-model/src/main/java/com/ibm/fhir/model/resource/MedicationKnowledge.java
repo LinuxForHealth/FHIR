@@ -17,9 +17,9 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -28,7 +28,6 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Markdown;
-import com.ibm.fhir.model.type.MedicationKnowledgeStatus;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Money;
 import com.ibm.fhir.model.type.Narrative;
@@ -37,6 +36,8 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.MedicationKnowledgeStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,6 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationKnowledge extends DomainResource {
+    @Summary
     @Binding(
         bindingName = "MedicationFormalRepresentation",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -52,6 +54,7 @@ public class MedicationKnowledge extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
     private final CodeableConcept code;
+    @Summary
     @Binding(
         bindingName = "MedicationKnowledgeStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -59,6 +62,7 @@ public class MedicationKnowledge extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.0.0"
     )
     private final MedicationKnowledgeStatus status;
+    @Summary
     private final Reference manufacturer;
     @Binding(
         bindingName = "MedicationForm",
@@ -67,7 +71,9 @@ public class MedicationKnowledge extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-form-codes"
     )
     private final CodeableConcept doseForm;
+    @Summary
     private final SimpleQuantity amount;
+    @Summary
     private final List<String> synonym;
     private final List<RelatedMedicationKnowledge> relatedMedicationKnowledge;
     private final List<Reference> associatedMedication;
@@ -1956,8 +1962,8 @@ public class MedicationKnowledge extends DomainResource {
      * Identifies a particular constituent of interest in the product.
      */
     public static class Ingredient extends BackboneElement {
-        @Required
         @Choice({ CodeableConcept.class, Reference.class })
+        @Required
         private final Element item;
         private final Boolean isActive;
         private final Ratio strength;
@@ -3462,8 +3468,8 @@ public class MedicationKnowledge extends DomainResource {
          * gender, etc.).
          */
         public static class PatientCharacteristics extends BackboneElement {
-            @Required
             @Choice({ CodeableConcept.class, SimpleQuantity.class })
+            @Required
             private final Element characteristic;
             private final List<String> value;
 

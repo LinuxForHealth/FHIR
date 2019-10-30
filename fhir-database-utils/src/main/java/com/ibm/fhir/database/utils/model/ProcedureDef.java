@@ -14,8 +14,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 /**
  * The definition of a stored procedure, whose content is provided by a Supplier<String>
  * function
- * @author rarnold
- *
  */
 public class ProcedureDef extends BaseObject {
     

@@ -26,6 +26,7 @@ import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
 
 /**
@@ -57,7 +58,7 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
 
             // Read a JSON Patient and set the id.
             String patientLogicalId = UUID.randomUUID().toString();
-            Patient patient = readResource(Patient.class, "Patient_SalMonella.json");
+            Patient patient = TestUtil.readLocalResource("Patient_SalMonella.json");
             patient = patient.toBuilder().id(Id.of(patientLogicalId)).build();
 
             // Initialize multi-thread Executor Service.

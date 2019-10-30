@@ -15,11 +15,8 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
-import com.ibm.fhir.model.type.BiologicallyDerivedProductCategory;
-import com.ibm.fhir.model.type.BiologicallyDerivedProductStatus;
-import com.ibm.fhir.model.type.BiologicallyDerivedProductStorageScale;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -35,6 +32,10 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.BiologicallyDerivedProductCategory;
+import com.ibm.fhir.model.type.code.BiologicallyDerivedProductStatus;
+import com.ibm.fhir.model.type.code.BiologicallyDerivedProductStorageScale;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,6 +45,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class BiologicallyDerivedProduct extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "BiologicallyDerivedProductCategory",

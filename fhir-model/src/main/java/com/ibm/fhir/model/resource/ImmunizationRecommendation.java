@@ -18,8 +18,8 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -33,6 +33,7 @@ import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,12 +50,16 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationRecommendation extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Required
     private final Reference patient;
+    @Summary
     @Required
     private final DateTime date;
     private final Reference authority;
+    @Summary
     @Required
     private final List<Recommendation> recommendation;
 
@@ -571,6 +576,7 @@ public class ImmunizationRecommendation extends DomainResource {
      * Vaccine administration recommendations.
      */
     public static class Recommendation extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "VaccineCode",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -578,6 +584,7 @@ public class ImmunizationRecommendation extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
         )
         private final List<CodeableConcept> vaccineCode;
+        @Summary
         @Binding(
             bindingName = "TargetDisease",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -585,6 +592,7 @@ public class ImmunizationRecommendation extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-target-disease"
         )
         private final CodeableConcept targetDisease;
+        @Summary
         @Binding(
             bindingName = "VaccineCode",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -592,14 +600,16 @@ public class ImmunizationRecommendation extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
         )
         private final List<CodeableConcept> contraindicatedVaccineCode;
-        @Required
+        @Summary
         @Binding(
             bindingName = "ImmunizationRecommendationStatus",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "The patient's status with respect to a vaccination protocol.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-status"
         )
+        @Required
         private final CodeableConcept forecastStatus;
+        @Summary
         @Binding(
             bindingName = "ImmunizationRecommendationReason",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -610,6 +620,7 @@ public class ImmunizationRecommendation extends DomainResource {
         private final List<DateCriterion> dateCriterion;
         private final String description;
         private final String series;
+        @Summary
         @Choice({ PositiveInt.class, String.class })
         private final Element doseNumber;
         @Choice({ PositiveInt.class, String.class })
@@ -1324,13 +1335,13 @@ public class ImmunizationRecommendation extends DomainResource {
          * Vaccine date recommendations. For example, earliest date to administer, latest date to administer, etc.
          */
         public static class DateCriterion extends BackboneElement {
-            @Required
             @Binding(
                 bindingName = "ImmunizationRecommendationDateCriterion",
                 strength = BindingStrength.ValueSet.EXAMPLE,
                 description = "Classifies date criterion with respect to conveying information about a patient's vaccination status (e.g. due date, latest to give date, etc.).",
                 valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-date-criterion"
             )
+            @Required
             private final CodeableConcept code;
             @Required
             private final DateTime value;

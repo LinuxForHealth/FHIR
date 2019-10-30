@@ -49,6 +49,11 @@ public abstract class TenantSpecificFileBasedCache<T> {
     public abstract String getCacheEntryFilename(String tenantId);
     public abstract T createCachedObject(File file) throws Exception;
     
+    /**
+     * @param tenantId
+     * @return the cached object for the tenant or null if it could not be found
+     * @throws Exception
+     */
     public T getCachedObjectForTenant(String tenantId) throws Exception {
         if (log.isLoggable(Level.FINEST)) {
             log.entering(this.getClass().getName(), "getCachedObjectForTenant");

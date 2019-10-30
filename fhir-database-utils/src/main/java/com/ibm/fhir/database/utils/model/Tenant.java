@@ -10,8 +10,6 @@ import com.ibm.fhir.database.utils.api.TenantStatus;
 
 /**
  * DTO representing a tenant
- * @author rarnold
- *
  */
 public class Tenant {
     

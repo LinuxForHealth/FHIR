@@ -8,16 +8,17 @@ package com.ibm.fhir.database.utils.query;
 
 import static com.ibm.fhir.database.utils.query.Select.alias;
 import static com.ibm.fhir.database.utils.query.Select.predicate;
-import static com.ibm.fhir.database.utils.query.TestConstants.*;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_ID;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_NAME;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_TAB;
+import static com.ibm.fhir.database.utils.query.TestConstants.FOO_TOWN;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.expression.Predicate;
 
 /**
  * Unit-test for direct manipulation of the Select class
- * @author rarnold
  */
 public class SelectTest {
     @Test

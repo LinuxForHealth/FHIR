@@ -18,8 +18,8 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -36,12 +36,13 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.ParameterDefinition;
 import com.ibm.fhir.model.type.Period;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -59,28 +60,36 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Library extends DomainResource {
+    @Summary
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     private final String name;
+    @Summary
     private final String title;
     private final String subtitle;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
-    private final PublicationStatus status;
-    private final Boolean experimental;
     @Required
+    private final PublicationStatus status;
+    @Summary
+    private final Boolean experimental;
+    @Summary
     @Binding(
         bindingName = "LibraryType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "The type of knowledge asset this library contains.",
         valueSet = "http://hl7.org/fhir/ValueSet/library-type"
     )
+    @Required
     private final CodeableConcept type;
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
@@ -90,11 +99,17 @@ public class Library extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
     private final Element subject;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
+    @Summary
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -107,6 +122,7 @@ public class Library extends DomainResource {
     private final Markdown copyright;
     private final Date approvalDate;
     private final Date lastReviewDate;
+    @Summary
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
@@ -122,6 +138,7 @@ public class Library extends DomainResource {
     private final List<RelatedArtifact> relatedArtifact;
     private final List<ParameterDefinition> parameter;
     private final List<DataRequirement> dataRequirement;
+    @Summary
     private final List<Attachment> content;
 
     private volatile int hashCode;

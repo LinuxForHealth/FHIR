@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,12 +28,12 @@ import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.AccountStatus;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -69,8 +69,10 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
+import com.ibm.fhir.model.type.code.AccountStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.fhir.persistence.util.AbstractProcessor;
 import com.ibm.fhir.persistence.util.Processor;
@@ -79,7 +81,7 @@ import com.ibm.fhir.persistence.util.Processor;
  * TODO update tests
  * TODO add processor support for R4 types
  * Rewritten for R4 to drive tests by introspecting model
- * @author rarnold
+
  *
  */
 public class ProcessorTest {
@@ -416,6 +418,26 @@ public class ProcessorTest {
         @Override
         public String process(SearchParameter parameter, BigDecimal value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, BigDecimal)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, com.ibm.fhir.model.type.Boolean value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, com.ibm.fhir.model.type.Boolean)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, com.ibm.fhir.model.type.Integer value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, com.ibm.fhir.model.type.Integer)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, Canonical value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, Canonical)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, Url value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, Url)";
         }
     }
 }

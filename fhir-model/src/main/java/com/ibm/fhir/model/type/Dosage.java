@@ -16,7 +16,9 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -25,8 +27,11 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Dosage extends BackboneElement {
+    @Summary
     private final Integer sequence;
+    @Summary
     private final String text;
+    @Summary
     @Binding(
         bindingName = "AdditionalInstruction",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -34,8 +39,11 @@ public class Dosage extends BackboneElement {
         valueSet = "http://hl7.org/fhir/ValueSet/additional-instruction-codes"
     )
     private final List<CodeableConcept> additionalInstruction;
+    @Summary
     private final String patientInstruction;
+    @Summary
     private final Timing timing;
+    @Summary
     @Choice({ Boolean.class, CodeableConcept.class })
     @Binding(
         bindingName = "MedicationAsNeededReason",
@@ -44,6 +52,7 @@ public class Dosage extends BackboneElement {
         valueSet = "http://hl7.org/fhir/ValueSet/medication-as-needed-reason"
     )
     private final Element asNeeded;
+    @Summary
     @Binding(
         bindingName = "MedicationAdministrationSite",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -51,6 +60,7 @@ public class Dosage extends BackboneElement {
         valueSet = "http://hl7.org/fhir/ValueSet/approach-site-codes"
     )
     private final CodeableConcept site;
+    @Summary
     @Binding(
         bindingName = "RouteOfAdministration",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -58,6 +68,7 @@ public class Dosage extends BackboneElement {
         valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
     )
     private final CodeableConcept route;
+    @Summary
     @Binding(
         bindingName = "MedicationAdministrationMethod",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -65,9 +76,13 @@ public class Dosage extends BackboneElement {
         valueSet = "http://hl7.org/fhir/ValueSet/administration-method-codes"
     )
     private final CodeableConcept method;
+    @Summary
     private final List<DoseAndRate> doseAndRate;
+    @Summary
     private final Ratio maxDosePerPeriod;
+    @Summary
     private final SimpleQuantity maxDosePerAdministration;
+    @Summary
     private final SimpleQuantity maxDosePerLifetime;
 
     private volatile int hashCode;
@@ -720,6 +735,7 @@ public class Dosage extends BackboneElement {
      * The amount of medication administered.
      */
     public static class DoseAndRate extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "DoseAndRateType",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -727,8 +743,10 @@ public class Dosage extends BackboneElement {
             valueSet = "http://hl7.org/fhir/ValueSet/dose-rate-type"
         )
         private final CodeableConcept type;
+        @Summary
         @Choice({ Range.class, SimpleQuantity.class })
         private final Element dose;
+        @Summary
         @Choice({ Ratio.class, Range.class, SimpleQuantity.class })
         private final Element rate;
 

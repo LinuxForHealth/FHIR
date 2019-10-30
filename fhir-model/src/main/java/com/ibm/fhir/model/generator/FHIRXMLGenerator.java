@@ -47,11 +47,11 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.NarrativeStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Xhtml;
+import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.util.XMLSupport.StreamWriterDelegate;
 import com.ibm.fhir.model.visitor.Visitable;
 
@@ -101,11 +101,6 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
         return prettyPrinting;
     }
 
-    @Override
-    public void reset() {
-        // do nothing
-    }
-    
     @Override
     public boolean isPropertySupported(java.lang.String name) {
         if (FHIRGenerator.PROPERTY_INDENT_AMOUNT.equals(name)) {

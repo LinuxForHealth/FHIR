@@ -18,9 +18,11 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.FHIRAllTypes;
-import com.ibm.fhir.model.type.SortDirection;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.FHIRAllTypes;
+import com.ibm.fhir.model.type.code.SortDirection;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,15 +46,18 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DataRequirement extends Element {
-    @Required
+    @Summary
     @Binding(
         bindingName = "FHIRAllTypes",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
         valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
     )
+    @Required
     private final FHIRAllTypes type;
+    @Summary
     private final List<Canonical> profile;
+    @Summary
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
@@ -61,10 +66,15 @@ public class DataRequirement extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
     private final Element subject;
+    @Summary
     private final List<String> mustSupport;
+    @Summary
     private final List<CodeFilter> codeFilter;
+    @Summary
     private final List<DateFilter> dateFilter;
+    @Summary
     private final PositiveInt limit;
+    @Summary
     private final List<Sort> sort;
 
     private volatile int hashCode;
@@ -597,9 +607,13 @@ public class DataRequirement extends Element {
      * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
      */
     public static class CodeFilter extends BackboneElement {
+        @Summary
         private final String path;
+        @Summary
         private final String searchParam;
+        @Summary
         private final Canonical valueSet;
+        @Summary
         private final List<Coding> code;
 
         private volatile int hashCode;
@@ -959,8 +973,11 @@ public class DataRequirement extends Element {
      * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
      */
     public static class DateFilter extends BackboneElement {
+        @Summary
         private final String path;
+        @Summary
         private final String searchParam;
+        @Summary
         @Choice({ DateTime.class, Period.class, Duration.class })
         private final Element value;
 
@@ -1272,15 +1289,17 @@ public class DataRequirement extends Element {
      * Specifies the order of the results to be returned.
      */
     public static class Sort extends BackboneElement {
+        @Summary
         @Required
         private final String path;
-        @Required
+        @Summary
         @Binding(
             bindingName = "SortDirection",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The possible sort directions, ascending or descending.",
             valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.0.0"
         )
+        @Required
         private final SortDirection direction;
 
         private volatile int hashCode;

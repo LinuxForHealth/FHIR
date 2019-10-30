@@ -18,9 +18,9 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -28,7 +28,6 @@ import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.GoalLifecycleStatus;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
@@ -40,6 +39,8 @@ import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.GoalLifecycleStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -57,14 +58,16 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Goal extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "GoalLifecycleStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.0.0"
     )
+    @Required
     private final GoalLifecycleStatus lifecycleStatus;
+    @Summary
     @Binding(
         bindingName = "GoalAchievementStatus",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -72,6 +75,7 @@ public class Goal extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/goal-achievement"
     )
     private final CodeableConcept achievementStatus;
+    @Summary
     @Binding(
         bindingName = "GoalCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -79,6 +83,7 @@ public class Goal extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/goal-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     @Binding(
         bindingName = "GoalPriority",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -86,16 +91,19 @@ public class Goal extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/goal-priority"
     )
     private final CodeableConcept priority;
-    @Required
+    @Summary
     @Binding(
         bindingName = "GoalDescription",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes providing the details of a particular goal.  This will generally be system or implementation guide-specific.  In many systems, only the text element will be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
+    @Required
     private final CodeableConcept description;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     @Choice({ Date.class, CodeableConcept.class })
     @Binding(
         bindingName = "GoalStartEvent",
@@ -105,8 +113,10 @@ public class Goal extends DomainResource {
     )
     private final Element start;
     private final List<Target> target;
+    @Summary
     private final Date statusDate;
     private final String statusReason;
+    @Summary
     private final Reference expressedBy;
     private final List<Reference> addresses;
     private final List<Annotation> note;
@@ -1082,6 +1092,7 @@ public class Goal extends DomainResource {
      * Indicates what should be done by when.
      */
     public static class Target extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "GoalTargetMeasure",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -1089,6 +1100,7 @@ public class Goal extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
         )
         private final CodeableConcept measure;
+        @Summary
         @Choice({ Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class })
         @Binding(
             bindingName = "GoalTargetDetail",
@@ -1096,6 +1108,7 @@ public class Goal extends DomainResource {
             description = "Codes to identify the target value of the focus to be achieved to signify the fulfillment of the goal."
         )
         private final Element detail;
+        @Summary
         @Choice({ Date.class, Duration.class })
         private final Element due;
 

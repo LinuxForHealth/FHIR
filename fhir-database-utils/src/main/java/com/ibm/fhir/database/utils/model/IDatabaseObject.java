@@ -16,8 +16,7 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
- * @author rarnold
- *
+ * Defines the Database Object's expected methods. 
  */
 public interface IDatabaseObject {
 
@@ -30,14 +29,13 @@ public interface IDatabaseObject {
     /**
      * Apply the DDL for this object to the target database
      * @param target the database target
-     * @param vhs the service interface for adding this object to the version history table
      */
     public void apply(IDatabaseAdapter target);
     
     /**
      * Apply the DDL, but within its own transaction
      * @param target the target database we apply to
-     * @param provider of thread-specific transactions
+     * @param cp of thread-specific transactions
      * @param vhs the service interface for adding this object to the version history table
      */
     public void applyTx(IDatabaseAdapter target, ITransactionProvider cp, IVersionHistoryService vhs);
@@ -69,7 +67,8 @@ public interface IDatabaseObject {
      * executed concurrently (but in the right order)
      * @param tc
      * @param target
-     * @param access to thread-based transactions
+     * @param tp 
+     * @param vhs
      */
     public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs);
     
@@ -109,7 +108,7 @@ public interface IDatabaseObject {
     
     /**
      * Add the collection of dependencies to this object
-     * @param obj
+     * @param deps
      */
     public void addDependencies(Collection<IDatabaseObject> deps);
     

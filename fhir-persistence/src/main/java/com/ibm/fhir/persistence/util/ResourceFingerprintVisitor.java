@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.persistence.util;
 
-
-
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -21,16 +19,14 @@ import java.time.YearMonth;
 import java.time.ZonedDateTime;
 
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.visitor.PathAwareVisitorAdapter;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
 /**
  * Compute a cryptographic hash of the visited nodes, skipping those which
  * may be altered by the persistence layer.
- * @author rarnold
- *
+
  */
-public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
-    
+public class ResourceFingerprintVisitor extends PathAwareVisitor {
     
     // 32 bytes chosen as a matching entropy of SHA-256
     private static final int BYTES_FOR_256_BITS = 256 / 8;
@@ -49,7 +45,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     
     /**
      * Public constructor. Uses the given salt
-     * @param b64Salt
+     * @param salt
      */
     public ResourceFingerprintVisitor(byte[] salt) {
         this.salt = salt;
@@ -66,7 +62,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     /**
      * Public constructor. Uses the salt from the given SaltHash
      * Preferred, to avoid confusion between salt and hash
-     * @param salt
+     * @param baseline
      */
     public ResourceFingerprintVisitor(SaltHash baseline) {
         this(baseline.getSalt());
@@ -74,7 +70,6 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     
     /**
      * Public constructor. Generates a new salt
-     * @param b64Salt
      */
     public ResourceFingerprintVisitor() {
         this.salt = new byte[BYTES_FOR_256_BITS];
@@ -194,7 +189,6 @@ public class ResourceFingerprintVisitor extends PathAwareVisitorAdapter {
     
     /**
      * Test whether or not the current path value should be included in the fingerprint
-     * @param key
      * @return
      */
     protected boolean includePath() {

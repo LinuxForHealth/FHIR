@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * This exception class represents failures encountered while attempting to close/cleanup JDBC resources.
  * TODO use Builder fluent pattern to align with R4 model style
- * @author markd
- *
  */
 public class FHIRPersistenceDBCleanupException extends FHIRPersistenceException {
 

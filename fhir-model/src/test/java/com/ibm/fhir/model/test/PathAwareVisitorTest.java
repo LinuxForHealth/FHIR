@@ -22,8 +22,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.model.visitor.PathAwareAbstractVisitor;
-import com.ibm.fhir.model.visitor.PathAwareVisitorAdapter;
+import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
 public class PathAwareVisitorTest {
     public static void main(java.lang.String[] args) throws Exception {
@@ -69,8 +68,8 @@ public class PathAwareVisitorTest {
                 .birthDate(Date.of(LocalDate.now()))
                 .build();
         
-        PathAwareAbstractVisitor.DEBUG = true;
-        patient.accept(new PathAwareVisitorAdapter());
+        PathAwareVisitor.DEBUG = true;
+        patient.accept(new PathAwareVisitor());
         
         FHIRGenerator.generator(Format.JSON, true).generate(patient, System.out);
     }

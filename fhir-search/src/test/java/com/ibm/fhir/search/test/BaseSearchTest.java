@@ -24,24 +24,15 @@ import org.testng.annotations.BeforeMethod;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  *
  * @author paulbastide
- *
  */
 public abstract class BaseSearchTest {
 
     public static final boolean DEBUG = false;
-
-    /*
-     * used in test to make the compiled code accessible.
-     */
-    static {
-        // If issues, you should uncomment the following :
-        // System.setProperty("javax.xml.accessExternalSchema","file");
-    }
 
     @BeforeMethod
     public void startMethod(Method method) {
@@ -71,7 +62,7 @@ public abstract class BaseSearchTest {
     /**
      * This function returns a list containing the names of the SearchParameters contained in the input list.
      * 
-     * @param result
+     * @param spList
      *            the list of SearchParameter from which to collect the names
      * @return the list of search parameter names
      */

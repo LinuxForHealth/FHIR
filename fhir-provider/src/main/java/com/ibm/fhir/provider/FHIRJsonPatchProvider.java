@@ -42,8 +42,8 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 
 @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
 @Produces({ FHIRMediaType.APPLICATION_JSON_PATCH })
@@ -75,7 +75,7 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
             String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
+                    buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");
@@ -98,7 +98,7 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
             String acceptHeader = (String) httpHeaders.getFirst(HttpHeaders.ACCEPT);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
+                    buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");

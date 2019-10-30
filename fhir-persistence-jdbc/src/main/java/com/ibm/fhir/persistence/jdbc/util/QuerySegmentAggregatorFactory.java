@@ -8,15 +8,12 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 import java.util.logging.Logger;
 
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
  * Encapsulates the logic for creating QuerySegmentAggegator and subclass instances.
- * @author markd
- *
  */
 public class QuerySegmentAggregatorFactory {
     private static final String CLASSNAME = QuerySegmentAggregatorFactory.class.getName();
@@ -27,7 +24,7 @@ public class QuerySegmentAggregatorFactory {
      *
      */
     public static QuerySegmentAggregator buildQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, 
-                                    ParameterNormalizedDAO parameterDao, ResourceNormalizedDAO resourceDao, FHIRSearchContext searchContext) {
+                                    ParameterDAO parameterDao, ResourceDAO resourceDao, FHIRSearchContext searchContext) {
         final String METHODNAME = "buildQuerySegmentAggregator";
         log.entering(CLASSNAME, METHODNAME);
         

@@ -8,23 +8,19 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 /**
  * Adapter to provide access to the cached parameter name ids managed
- * by the {@link ParameterNormalizedDAO} implementation.
- * @author rarnold
+ * by the {@link ParameterDAO} implementation.
  */
 public class ParameterNameCacheAdapter implements IParameterNameCache {
     
-    private final ParameterNormalizedDAO delegate;
+    private final ParameterDAO delegate;
     
-    public ParameterNameCacheAdapter(ParameterNormalizedDAO delegate) {
+    public ParameterNameCacheAdapter(ParameterDAO delegate) {
         this.delegate = delegate;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache#readOrAddParameterNameId(java.lang.String)
-     */
     @Override
     public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceException {
         return delegate.acquireParameterNameId(parameterName);

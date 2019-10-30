@@ -26,9 +26,10 @@ import com.ibm.fhir.model.resource.MedicationAdministration;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.HTTPVerb;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 
 /**
  * This class tests delete interactions.
@@ -57,7 +58,7 @@ public class DeleteTest extends FHIRServerTestBase {
     @Test
     public void testCreateNewResource() throws Exception {
         // Create a MedicationAdministration resource.
-        MedicationAdministration ma = readResource(MedicationAdministration.class, "MedicationAdministration.json");
+        MedicationAdministration ma = TestUtil.readLocalResource("MedicationAdministration.json");
         FHIRResponse response = client.create(ma);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
@@ -144,7 +145,7 @@ public class DeleteTest extends FHIRServerTestBase {
     }
 
     /**
-     * Ensure we get back a 404 Not Found for deleting a resource with an invalid id
+     * Ensure we get back a 200 OK for deleting a resource with an invalid id
      * @throws Exception
      */
     @Test()
@@ -155,8 +156,7 @@ public class DeleteTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.delete(MedicationAdministration.class.getSimpleName(), "invalid-resource-id-testDeleteInvalidResource");
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.NOT_FOUND.getStatusCode());
-        // 404 doesn't have an etag in the response
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
     }
 
 
@@ -211,7 +211,7 @@ public class DeleteTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.update(deletedResource);
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
     }
 
     @Test(dependsOnMethods = {
@@ -320,7 +320,7 @@ public class DeleteTest extends FHIRServerTestBase {
         patientIds = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             // Read in the resource template.
-            Patient patient = readResource(Patient.class, "Patient_MookieBetts.json");
+            Patient patient = TestUtil.readLocalResource("Patient_MookieBetts.json");
 
             // Add the uniqueFamily name         
             patient = setUniqueFamilyName(patient, uniqueFamilyName);
@@ -401,17 +401,17 @@ public class DeleteTest extends FHIRServerTestBase {
         
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
-        Observation obs = readResource(Observation.class, "Observation1.json");
+        Observation obs = TestUtil.readLocalResource("Observation1.json");
         
         obs = obs.toBuilder().id(Id.of(obsId)).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
 
         
-        // First conditional delete should find no matches, so we should get back a 404.
+        // First conditional delete should find no matches, so we should get back a 200 OK.
         FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
         FHIRResponse response = client.conditionalDelete("Observation", query);
         assertNotNull(response);
         if (deleteSupported) {
-            assertResponse(response.getResponse(), Response.Status.NOT_FOUND.getStatusCode());
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,6 +37,12 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     }
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRSearchContext sc) {
         this.persistenceEvent = pe;
+        this.searchContext = sc;
+    }
+
+    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted, FHIRSearchContext sc) {
+        this.persistenceEvent = pe;
+        setIncludeDeleted(includeDeleted);
         this.searchContext = sc;
     }
 

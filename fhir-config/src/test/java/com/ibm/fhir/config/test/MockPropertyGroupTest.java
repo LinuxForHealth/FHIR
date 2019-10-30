@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
 import javax.json.Json;
+import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 
 import org.testng.annotations.BeforeClass;
@@ -19,16 +20,17 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.mock.MockPropertyGroup;
 
 public class MockPropertyGroupTest {
+    private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     private JsonObject jsonObj1 = null;
 
     @BeforeClass
     public void setup() {
 
         // Build a JSON object for testing.
-        jsonObj1 = Json.createObjectBuilder()
-                .add("level1", Json.createObjectBuilder()
-                    .add("level2", Json.createObjectBuilder()
-                        .add("level3", Json.createObjectBuilder()
+        jsonObj1 = BUILDER_FACTORY.createObjectBuilder()
+                .add("level1", BUILDER_FACTORY.createObjectBuilder()
+                    .add("level2", BUILDER_FACTORY.createObjectBuilder()
+                        .add("level3", BUILDER_FACTORY.createObjectBuilder()
                             .add("stringProp", "stringValue")
                             .add("intProp", 123)
                             .add("booleanProp", true))))

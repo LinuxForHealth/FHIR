@@ -56,7 +56,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * 
      * <p>Type checking on {@code FHIR_ANY} will always return 'true'.
      * 
-     * @param environment
+     * @param evaluationContext
      *     the evaluation environment
      * @param context
      *     the current evaluation context

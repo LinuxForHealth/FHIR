@@ -24,10 +24,9 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
  * Batch insert into the parameter values tables. Avoids having to create one stored procedure
- * per resource type, because it the row type array approach apparently won't work with dynamic
+ * per resource type, because in the row type array approach apparently won't work with dynamic
  * SQL (EXECUTE ... USING ...). Unfortunately this means we have more database round-trips, we
  * don't have a choice.
- * @author rarnold
  *
  */
 public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseable {
@@ -134,8 +133,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     /**
-     * Look up the normalized id for the parameter, adding it to the parameter_names table
-     * if it doesn't yet exist
+     * Look up the normalized id for the parameter, adding it to the parameter_names table if it doesn't yet exist
      * @param parameterName
      * @return
      */
@@ -153,9 +151,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         return codeSystemCache.readOrAddCodeSystem(codeSystem);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#stringValue(java.lang.String, java.lang.String)
-     */
     @Override
     public void stringValue(String parameterName, String value, boolean isBase) throws FHIRPersistenceException {
         while (value != null && value.getBytes().length > FhirSchemaConstants.MAX_SEARCH_STRING_BYTES) {
@@ -219,9 +214,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#numberValue(java.lang.String, double)
-     */
     @Override
     public void numberValue(String parameterName, BigDecimal value, BigDecimal valueLow, BigDecimal valueHigh) throws FHIRPersistenceException {
         try {
@@ -240,9 +232,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#dateValue(java.lang.String, java.sql.Timestamp, java.sql.Timestamp, java.sql.Timestamp)
-     */
     @Override
     public void dateValue(String parameterName, Timestamp date, Timestamp dateStart, Timestamp dateEnd, boolean isBase) throws FHIRPersistenceException {
         try {
@@ -282,9 +271,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#tokenValue(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void tokenValue(String parameterName, String codeSystem, String tokenValue, boolean isBase) throws FHIRPersistenceException {
         
@@ -336,9 +322,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#quantityValue(java.lang.String, java.lang.String, java.lang.String, java.lang.Double, java.lang.Double, java.lang.Double)
-     */
     @Override
     public void quantityValue(String parameterName, String code, String codeSystem, BigDecimal quantityValue, BigDecimal quantityLow, BigDecimal quantityHigh) throws FHIRPersistenceException {
 
@@ -375,9 +358,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor#locationValue(java.lang.String, double, double)
-     */
     @Override
     public void locationValue(String parameterName, double lat, double lng) throws FHIRPersistenceException {
         try {
@@ -396,9 +376,6 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.AutoCloseable#close()
-     */
     @Override
     public void close() throws Exception {
         // flush any stragglers, remembering to reset each count because

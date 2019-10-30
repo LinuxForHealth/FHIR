@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,9 +25,10 @@ public class FHIRPersistenceUtil {
     private final static double EARTH_RADIUS_KILOMETERS = 6371.0; // earth radius in kilometers
 
     // Parse history parameters into a FHIRHistoryContext
-    public static FHIRHistoryContext parseHistoryParameters(Map<String, List<String>> queryParameters) throws FHIRPersistenceException {
+    public static FHIRHistoryContext parseHistoryParameters(Map<String, List<String>> queryParameters, boolean lenient) throws FHIRPersistenceException {
         log.entering(FHIRPersistenceUtil.class.getName(), "parseHistoryParameters");
         FHIRHistoryContext context = FHIRPersistenceContextFactory.createHistoryContext();
+        context.setLenient(lenient);
         try {
             for (String name : queryParameters.keySet()) {
                 List<String> values = queryParameters.get(name);

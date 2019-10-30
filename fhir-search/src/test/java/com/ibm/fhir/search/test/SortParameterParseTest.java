@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,10 +49,9 @@ public class SortParameterParseTest extends BaseSearchTest {
     public void testInvalidDirection() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_sort:xxx=birthdate";
 
         queryParameters.put("_sort:xxx", Collections.singletonList("birthdate"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
 
     /**
@@ -69,7 +68,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         // In lenient mode, invalid search parameters should be ignored
         queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         assertTrue(searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty());
 
@@ -81,11 +80,10 @@ public class SortParameterParseTest extends BaseSearchTest {
     public void testUnknownSortParm_strict() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_sort=bogusSortParm";
 
         // In strict mode (lenient=false), the search should throw a FHIRSearchException
         queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
     }
 
     /**
@@ -103,7 +101,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         String queryString = "&_sort:" + direction.value() + "=" + sortParmName;
 
         queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
 
         // Do sort parameter validation
@@ -112,7 +110,6 @@ public class SortParameterParseTest extends BaseSearchTest {
         SortParameter sortParm = searchContext.getSortParameters().get(0);
         assertEquals(sortParmName, sortParm.getName());
         assertEquals(direction, sortParm.getDirection());
-        assertEquals(1, sortParm.getQueryStringIndex());
         assertEquals(Type.DATE, sortParm.getType());
 
         // Do search parameter validation
@@ -138,7 +135,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         String queryString = "&_sort:" + direction.value() + "=" + sortParmName;
 
         queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
 
         // Do sort parameter validation
         assertNotNull(searchContext);
@@ -147,7 +144,6 @@ public class SortParameterParseTest extends BaseSearchTest {
         SortParameter sortParm = searchContext.getSortParameters().get(0);
         assertEquals(sortParmName, sortParm.getName());
         assertEquals(direction, sortParm.getDirection());
-        assertEquals(1, sortParm.getQueryStringIndex());
         assertEquals(Type.DATE, sortParm.getType());
 
         // Do search parameter validation
@@ -169,10 +165,9 @@ public class SortParameterParseTest extends BaseSearchTest {
         FHIRSearchContext searchContext;
         Class<Patient> resourceType = Patient.class;
         String sortParmName = "birthdate";
-        String queryString = "&_sort" + "=" + sortParmName;
 
         queryParameters.put("_sort", Collections.singletonList(sortParmName));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
 
         // Do sort parameter validation
         assertNotNull(searchContext);
@@ -181,7 +176,6 @@ public class SortParameterParseTest extends BaseSearchTest {
         SortParameter sortParm = searchContext.getSortParameters().get(0);
         assertEquals(sortParmName, sortParm.getName());
         assertEquals(SortDirection.ASCENDING, sortParm.getDirection());
-        assertEquals(1, sortParm.getQueryStringIndex());
         assertEquals(Type.DATE, sortParm.getType());
 
         // Do search parameter validation
@@ -210,11 +204,10 @@ public class SortParameterParseTest extends BaseSearchTest {
         String searchParmValue = "Practitioner/1";
         String queryStringPart1 = "&" + searchParmName + "=" + searchParmValue;
         String queryStringPart2 = "&_sort:" + direction.value() + "=" + sortParmName;
-        String queryString = queryStringPart1 + queryStringPart2;
 
         queryParameters.put("_sort:" + direction.value(), Collections.singletonList(sortParmName));
         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString.toString());
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
 
         // Do sort parameter validation
         assertNotNull(searchContext);
@@ -222,7 +215,6 @@ public class SortParameterParseTest extends BaseSearchTest {
         assertEquals(1, searchContext.getSortParameters().size());
         SortParameter sortParm = searchContext.getSortParameters().get(0);
         assertEquals(sortParmName, sortParm.getName());
-        assertTrue(sortParm.getQueryStringIndex() > 0);
         assertEquals(direction, sortParm.getDirection());
         assertEquals(Type.REFERENCE, sortParm.getType());
 
@@ -266,15 +258,13 @@ public class SortParameterParseTest extends BaseSearchTest {
         String queryStringPart4 = "&_sort:" + directionDesc.value() + "=" + sortParmName4;
         String queryStringPart5 = "&_sort" + "=" + sortParmName5;
         String queryStringPart6 = "&" + searchParmName + "=" + searchParmValue;
-        String queryString = queryStringPart1 + queryStringPart2 + queryStringPart3 + queryStringPart4 + queryStringPart5 + queryStringPart6;
 
-        queryParameters.put("_sort:" + directionAsc.value(), Arrays.asList(new String[] { sortParmName2, sortParmName1 }));
-        queryParameters.put("_sort:" + directionDesc.value(), Arrays.asList(new String[] { sortParmName4, sortParmName3 }));
+        queryParameters.put("_sort:" + directionAsc.value(), Arrays.asList(new String[] { sortParmName1, sortParmName2 }));
+        queryParameters.put("_sort:" + directionDesc.value(), Arrays.asList(new String[] { sortParmName3, sortParmName4 }));
         queryParameters.put("_sort", Arrays.asList(new String[] { sortParmName5 }));
         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, queryString);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
 
-        // Do sort parameter validation
         assertNotNull(searchContext);
         assertNotNull(searchContext.getSortParameters());
         assertEquals(5, searchContext.getSortParameters().size());
@@ -282,31 +272,26 @@ public class SortParameterParseTest extends BaseSearchTest {
         SortParameter sortParm1 = searchContext.getSortParameters().get(0);
         assertEquals(sortParmName1, sortParm1.getName());
         assertEquals(directionAsc, sortParm1.getDirection());
-        assertTrue(sortParm1.getQueryStringIndex() > 0);
         assertEquals(Type.REFERENCE, sortParm1.getType());
 
         SortParameter sortParm2 = searchContext.getSortParameters().get(1);
         assertEquals(sortParmName2, sortParm2.getName());
         assertEquals(directionAsc, sortParm2.getDirection());
-        assertTrue(sortParm2.getQueryStringIndex() > 0);
         assertEquals(Type.TOKEN, sortParm2.getType());
 
         SortParameter sortParm3 = searchContext.getSortParameters().get(2);
         assertEquals(sortParmName3, sortParm3.getName());
         assertEquals(directionDesc, sortParm3.getDirection());
-        assertTrue(sortParm3.getQueryStringIndex() > 0);
         assertEquals(Type.STRING, sortParm3.getType());
 
         SortParameter sortParm4 = searchContext.getSortParameters().get(3);
         assertEquals(sortParmName4, sortParm4.getName());
         assertEquals(directionDesc, sortParm4.getDirection());
-        assertTrue(sortParm4.getQueryStringIndex() > 0);
         assertEquals(Type.DATE, sortParm4.getType());
 
         SortParameter sortParm5 = searchContext.getSortParameters().get(4);
         assertEquals(sortParmName5, sortParm5.getName());
         assertEquals(directionAsc, sortParm5.getDirection());
-        assertTrue(sortParm5.getQueryStringIndex() > 0);
         assertEquals(Type.QUANTITY, sortParm5.getType());
 
         // Do search parameter validation

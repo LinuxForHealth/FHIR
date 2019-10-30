@@ -13,7 +13,9 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.type.QuantityComparator;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.QuantityComparator;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -30,7 +32,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Quantity extends Element {
+    @Summary
     protected final Decimal value;
+    @Summary
     @Binding(
         bindingName = "QuantityComparator",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -38,8 +42,11 @@ public class Quantity extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.0"
     )
     protected final QuantityComparator comparator;
+    @Summary
     protected final String unit;
+    @Summary
     protected final Uri system;
+    @Summary
     protected final Code code;
 
     private volatile int hashCode;

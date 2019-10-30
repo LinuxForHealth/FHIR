@@ -15,6 +15,8 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -24,10 +26,15 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Meta extends Element {
+    @Summary
     private final Id versionId;
+    @Summary
     private final Instant lastUpdated;
+    @Summary
     private final Uri source;
+    @Summary
     private final List<Canonical> profile;
+    @Summary
     @Binding(
         bindingName = "SecurityLabels",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -35,6 +42,7 @@ public class Meta extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
     private final List<Coding> security;
+    @Summary
     @Binding(
         bindingName = "Tags",
         strength = BindingStrength.ValueSet.EXAMPLE,

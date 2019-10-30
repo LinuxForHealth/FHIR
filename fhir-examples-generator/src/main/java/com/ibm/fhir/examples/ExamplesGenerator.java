@@ -16,7 +16,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceType;
 
 public class ExamplesGenerator {
     DataCreatorBase minimalDataCreator;

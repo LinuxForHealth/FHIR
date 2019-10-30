@@ -18,26 +18,21 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 
 /**
- * @author rarnold
- *
+ * Checks Compatibility with the DB2 Implementation that is used. 
  */
 public class Db2CheckCompatibility implements IDatabaseStatement {
+    
     private final String adminSchema;
     
     /**
      * Public constructor
      * @param adminSchema
-     * @param partitionId
      */
     public Db2CheckCompatibility(String adminSchema) {
         DataDefinitionUtil.assertValidName(adminSchema);
         this.adminSchema = adminSchema;
     }
 
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         // a suitable SQL statement with a TIMESTAMP column

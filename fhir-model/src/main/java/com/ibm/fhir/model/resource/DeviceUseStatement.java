@@ -17,12 +17,11 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.DeviceUseStatementStatus;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
@@ -33,6 +32,8 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DeviceUseStatementStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -42,27 +43,39 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceUseStatement extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Reference> basedOn;
-    @Required
+    @Summary
     @Binding(
         bindingName = "DeviceUseStatementStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept indicating the current status of the Device Usage.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.0.0"
     )
+    @Required
     private final DeviceUseStatementStatus status;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final List<Reference> derivedFrom;
+    @Summary
     @Choice({ Timing.class, Period.class, DateTime.class })
     private final Element timing;
+    @Summary
     private final DateTime recordedOn;
+    @Summary
     private final Reference source;
+    @Summary
     @Required
     private final Reference device;
+    @Summary
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
+    @Summary
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.ValueSet.EXAMPLE,

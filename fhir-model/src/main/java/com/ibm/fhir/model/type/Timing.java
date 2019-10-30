@@ -17,10 +17,12 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.DayOfWeek;
-import com.ibm.fhir.model.type.EventTiming;
-import com.ibm.fhir.model.type.UnitsOfTime;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DayOfWeek;
+import com.ibm.fhir.model.type.code.EventTiming;
+import com.ibm.fhir.model.type.code.UnitsOfTime;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -95,8 +97,11 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Timing extends BackboneElement {
+    @Summary
     private final List<DateTime> event;
+    @Summary
     private final Repeat repeat;
+    @Summary
     @Binding(
         bindingName = "TimingAbbreviation",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -419,12 +424,18 @@ public class Timing extends BackboneElement {
      * A set of rules that describe when the event is scheduled.
      */
     public static class Repeat extends BackboneElement {
+        @Summary
         @Choice({ Duration.class, Range.class, Period.class })
         private final Element bounds;
+        @Summary
         private final PositiveInt count;
+        @Summary
         private final PositiveInt countMax;
+        @Summary
         private final Decimal duration;
+        @Summary
         private final Decimal durationMax;
+        @Summary
         @Binding(
             bindingName = "UnitsOfTime",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -432,10 +443,15 @@ public class Timing extends BackboneElement {
             valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.0"
         )
         private final UnitsOfTime durationUnit;
+        @Summary
         private final PositiveInt frequency;
+        @Summary
         private final PositiveInt frequencyMax;
+        @Summary
         private final Decimal period;
+        @Summary
         private final Decimal periodMax;
+        @Summary
         @Binding(
             bindingName = "UnitsOfTime",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -443,13 +459,16 @@ public class Timing extends BackboneElement {
             valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.0"
         )
         private final UnitsOfTime periodUnit;
+        @Summary
         @Binding(
             bindingName = "DayOfWeek",
             strength = BindingStrength.ValueSet.REQUIRED,
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
         )
         private final List<DayOfWeek> dayOfWeek;
+        @Summary
         private final List<Time> timeOfDay;
+        @Summary
         @Binding(
             bindingName = "EventTiming",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -457,6 +476,7 @@ public class Timing extends BackboneElement {
             valueSet = "http://hl7.org/fhir/ValueSet/event-timing|4.0.0"
         )
         private final List<EventTiming> when;
+        @Summary
         private final UnsignedInt offset;
 
         private volatile int hashCode;

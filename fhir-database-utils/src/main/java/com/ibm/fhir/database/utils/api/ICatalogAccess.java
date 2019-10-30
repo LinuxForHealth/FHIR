@@ -10,8 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author rarnold
- *
+ * Catalog Access to the backend adminstrative functions
  */
 public interface ICatalogAccess {
 
@@ -27,7 +26,7 @@ public interface ICatalogAccess {
      * Add a new monthly partition to the given table
      * @param schema
      * @param table
-     * @param highValue
+     * @param lowValue
      */
     void addMonthPartition(String schema, String table, Date lowValue);
     
@@ -35,7 +34,7 @@ public interface ICatalogAccess {
      * Add a new daily partition to the given table
      * @param schema
      * @param table
-     * @param highValue
+     * @param lowValue
      */
     void addDayPartition(String schema, String table, Date lowValue);
     

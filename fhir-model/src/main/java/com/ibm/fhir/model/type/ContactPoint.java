@@ -13,8 +13,10 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.type.ContactPointSystem;
-import com.ibm.fhir.model.type.ContactPointUse;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ContactPointSystem;
+import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -31,6 +33,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ContactPoint extends Element {
+    @Summary
     @Binding(
         bindingName = "ContactPointSystem",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -38,7 +41,9 @@ public class ContactPoint extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.0.0"
     )
     private final ContactPointSystem system;
+    @Summary
     private final String value;
+    @Summary
     @Binding(
         bindingName = "ContactPointUse",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -46,7 +51,9 @@ public class ContactPoint extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.0.0"
     )
     private final ContactPointUse use;
+    @Summary
     private final PositiveInt rank;
+    @Summary
     private final Period period;
 
     private volatile int hashCode;

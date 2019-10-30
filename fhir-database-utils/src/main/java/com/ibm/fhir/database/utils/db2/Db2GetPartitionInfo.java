@@ -19,7 +19,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Functional wrapper to get the catalog information
- * @author rarnold
  *
  */
 public class Db2GetPartitionInfo implements IDatabaseStatement {
@@ -32,9 +31,10 @@ public class Db2GetPartitionInfo implements IDatabaseStatement {
     /**
      * Get partition information for all tables in the tableSchema, using
      * the catalogSchema as the schema containing the DATAPARTITIONS system table
-     * @param translator
+     * 
      * @param catalogSchema
      * @param tableSchema
+     * @param consumer
      */
     public Db2GetPartitionInfo(String catalogSchema, String tableSchema,
             Consumer<PartitionInfo> consumer) {
@@ -44,14 +44,13 @@ public class Db2GetPartitionInfo implements IDatabaseStatement {
         this.consumer = consumer;
     }
     
-    
-    /**
-     * Execute the encapsulated query against the database and stream the result data to the
-     * configured target
-     * @param c
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
+        /**
+         * Execute the encapsulated query against the database and stream the result data to the
+         * configured target
+         */
+        
         final String SQL = ""
                 + "   SELECT tabname, datapartitionname, seqno, lowinclusive, lowvalue, highinclusive, highvalue "
                 + "     FROM " + catalogSchema + ".DATAPARTITIONS "

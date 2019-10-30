@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.fhir.core.context.impl.FHIRPagingContextImpl;
+import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.Parameter;
@@ -22,12 +23,12 @@ import com.ibm.fhir.search.parameters.SortParameter;
  *
  */
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
-
     private List<Parameter> searchParameters = new ArrayList<>();
     private List<SortParameter> sortParameters = new ArrayList<>();
     private List<InclusionParameter> includeParameters = new ArrayList<>();
     private List<InclusionParameter> revIncludeParameters = new ArrayList<>();
     private List<String> elementsParameters = null;
+    private SummaryValueSet summaryParameter = null; 
 
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<>();
@@ -109,5 +110,21 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     public String toString() {
         return "FHIRSearchContextImpl [searchParameters=" + searchParameters + ", sortParameters=" + sortParameters + ", includeParameters=" + includeParameters
                 + ", revIncludeParameters=" + revIncludeParameters + ", elementsParameters=" + elementsParameters + "]";
+    }
+
+    @Override
+    public boolean hasSummaryParameter() {
+        return this.summaryParameter != null;
+    }
+
+    @Override
+    public SummaryValueSet getSummaryParameter() {
+        return this.summaryParameter;
+    }
+
+    @Override
+    public void setSummaryParameter(SummaryValueSet summary) {
+        this.summaryParameter = summary;
+        
     }
 }

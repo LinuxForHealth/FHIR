@@ -39,7 +39,7 @@ public class Time extends Element {
      * The actual value
      * 
      * @return
-     *     An immutable object of type {@link LocalTime}.
+     *     An immutable object of type {@link java.time.LocalTime}.
      */
     public LocalTime getValue() {
         return value;

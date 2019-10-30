@@ -7,7 +7,7 @@
     <artifactId>fhir-parent</artifactId>
     <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>IBM Server for HL7 FHIR</name>
+    <name>IBM FHIR Server</name>
 
     <properties>
         <liberty.version>19.0.0.8</liberty.version>
@@ -20,12 +20,12 @@
         <jacoco.plugin.version>0.8.2</jacoco.plugin.version>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
+        <my.maven.jar.plugin>3.1.2</my.maven.jar.plugin>
     </properties>
 
     <modules>
         <module>../fhir-core</module>
-        <module>../fhir-task-api</module>
-        <module>../fhir-task-core</module>
         <module>../fhir-database-utils</module>
         <module>../fhir-config</module>
         <module>../fhir-audit</module>
@@ -34,7 +34,6 @@
         <module>../fhir-registry</module>
         <module>../fhir-ig-us-core</module>
         <module>../fhir-persistence</module>
-        <module>../fhir-replication-api</module>
         <module>../fhir-persistence-proxy</module>
         <module>../fhir-persistence-schema</module>
         <module>../fhir-persistence-jdbc</module>
@@ -58,10 +57,9 @@
         <module>../fhir-swagger-generator</module>
         <module>../fhir-openapi</module>
         <module>../fhir-install</module>
-        <module>../fhir-coverage-reports</module>
     </modules>
 
-    <!-- This section "enforces" that we're using consistent versions of
+    <!-- This section "enforces" that we're using consistent versions of 
         artifacts within our modules -->
     <dependencyManagement>
         <dependencies>
@@ -192,11 +190,6 @@
                 <version>1.1.1</version>
             </dependency>
             <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.6</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.9.3</version>
@@ -219,7 +212,7 @@
             <dependency>
                 <groupId>org.glassfish.tyrus.bundles</groupId>
                 <artifactId>tyrus-standalone-client-jdk</artifactId>
-                <version>1.12</version>
+                <version>1.15</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -257,17 +250,17 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.9.9.3</version>
+                <version>2.9.10.1</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>2.9.9</version>
+                <version>2.9.10</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.9.9</version>
+                <version>2.9.10</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.annotation</groupId>
@@ -280,11 +273,6 @@
                 <version>2.3.2</version>
             </dependency>
             <dependency>
-                <groupId>com.ibm.cos</groupId>
-                <artifactId>ibm-cos-java-sdk</artifactId>
-                <version>2.1.0</version>
-            </dependency>
-            <dependency>
                 <groupId>jakarta.batch</groupId>
                 <artifactId>jakarta.batch-api</artifactId>
                 <version>1.0.2</version>
@@ -292,6 +280,16 @@
             <dependency>
                 <groupId>jakarta.inject</groupId>
                 <artifactId>jakarta.inject-api</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ibm.cos</groupId>
+                <artifactId>ibm-cos-java-sdk</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
                 <version>1.0</version>
             </dependency>
         </dependencies>
@@ -315,7 +313,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>${my.maven.jar.plugin}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -341,7 +339,12 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>${my.maven.war.plugin}</version>
+                    <!-- Upgraded maven-war-plugin to avoid 'An illegal reflective 
+                        access operation' in OpenJDK 11 The dependency 'xstream.converters.collections.TreeMapConverter' 
+                        used an out-of-date approach. This comment is left here to allow others to 
+                        find the reason for the change, and in case another library introduces a 
+                        similar issue in the code base. -->
                     <configuration>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                         <archiveClasses>false</archiveClasses>
@@ -353,7 +356,7 @@
                             <manifestEntries>
                                 <Implementation-Title>${project.name}</Implementation-Title>
                                 <Implementation-Version>${project.version}
-                                    - ${build.id}</Implementation-Version>
+                                    - ${BUILD_ID}</Implementation-Version>
                                 <Build-Time>${maven.build.timestamp}</Build-Time>
                                 <Build-Number>${BUILD_ID}</Build-Number>
                                 <Git-Commit>${GIT_COMMIT}</Git-Commit>
@@ -400,36 +403,6 @@
                     <configuration></configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-checkstyle-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [3.0.0,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>check</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <execute />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco.plugin.version}</version>
@@ -468,7 +441,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                     <configuration>
                         <configLocation>checkstyle.xml</configLocation>
                         <consoleOutput>true</consoleOutput>
@@ -511,6 +484,11 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -549,6 +527,62 @@
 
     <profiles>
         <profile>
+            <id>m2e</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name>
+                </property>
+            </activation>
+            <properties>
+                <my.maven.war.plugin>2.6</my.maven.war.plugin>
+                <my.maven.jar.plugin>2.6</my.maven.jar.plugin>
+                <!-- m2e plugin was deactivated and has unintended side effects. 
+                    these settings are left here for historic purposes. <m2e.wtp.activation>false</m2e.wtp.activation> -->
+                <m2e.jaxrs.activation>false</m2e.jaxrs.activation>
+                <m2e.jpa.activation>false</m2e.jpa.activation>
+                <m2e.jsf.activation>false</m2e.jsf.activation>
+                <m2e.cdi.activation>true</m2e.cdi.activation>
+            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!-- This Lifecycle is limited to Eclipse only -->
+                        <plugin>
+                            <groupId>org.eclipse.m2e</groupId>
+                            <artifactId>lifecycle-mapping</artifactId>
+                            <version>1.0.0</version>
+                            <configuration>
+                                <lifecycleMappingMetadata>
+                                    <pluginExecutions>
+                                        <pluginExecution>
+                                            <pluginExecutionFilter>
+                                                <groupId>
+                                                    org.apache.maven.plugins
+                                                </groupId>
+                                                <artifactId>
+                                                    maven-checkstyle-plugin
+                                                </artifactId>
+                                                <versionRange>
+                                                    [3.0.0,)
+                                                </versionRange>
+                                                <goals>
+                                                    <goal>check</goal>
+                                                </goals>
+                                            </pluginExecutionFilter>
+                                            <action>
+                                                <execute />
+                                            </action>
+                                        </pluginExecution>
+                                    </pluginExecutions>
+                                </lifecycleMappingMetadata>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
             <id>sandbox</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -583,13 +617,81 @@
                 <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
             </properties>
             <build>
+                <pluginManagement>
+                    <plugins>
+                        <!-- limit the javadoc plugin to jenkins only -->
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>3.1.0</version>
+                            <configuration>
+                                <minmemory>128m</minmemory>
+                                <maxmemory>1g</maxmemory>
+                                <archive>
+                                    <manifestEntries>
+                                        <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
+                                    </manifestEntries>
+                                </archive>
+                                <doclint>none</doclint>
+                                <tags>
+                                    <tag>
+                                        <name>xmp</name>
+                                        <placement>a</placement>
+                                        <head>code</head>
+                                    </tag>
+                                </tags>
+                                <additionalparam>-Xdoclint:none</additionalparam>
+                                <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>aggregate</id>
+                                    <goals>
+                                        <goal>aggregate-jar</goal>
+                                    </goals>
+                                    <phase>site</phase>
+                                    <configuration>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>attach-javadocs</id>
+                                    <goals>
+                                        <goal>jar</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>model-all-tests</id>
+            <properties>
+                <!-- for the fhir-model project -->
+                <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
+            </properties>
+        </profile>
+        <profile>
+            <id>jdbc-all-tests</id>
+            <properties>
+                <!-- for the fhir-persistence-jdbc -->
+                <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
+            </properties>
+        </profile>
+        <profile>
+            <id>fhir-javadocs</id>
+            <build>
                 <plugins>
                     <!-- limit the javadoc plugin to jenkins only -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.1.1</version>
                         <configuration>
+                            <verbose>false</verbose>
+                            <doclint>none</doclint>
+                            <additionalparam>-Xdoclint:none</additionalparam>
                             <minmemory>128m</minmemory>
                             <maxmemory>1g</maxmemory>
                             <archive>
@@ -597,25 +699,40 @@
                                     <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
                                 </manifestEntries>
                             </archive>
-                            <doclint>none</doclint>
-                            <tags>
-                                <tag>
-                                    <name>xmp</name>
-                                    <placement>a</placement>
-                                    <head>code</head>
-                                </tag>
-                            </tags>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                            <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a>]]></bottom>
+                            <destDir>target/apidocs/${project.artifactId}</destDir>
+                            <additionalOptions>
+                                <additionalOption>--frames</additionalOption>
+                            </additionalOptions>
+                            <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <author>false</author>
+                            <detectJavaApiLink>false</detectJavaApiLink>
                         </configuration>
                         <executions>
                             <execution>
                                 <id>aggregate</id>
                                 <goals>
-                                    <goal>aggregate-jar</goal>
+                                    <goal>javadoc-no-fork</goal>
+                                    <goal>test-javadoc-no-fork</goal>
                                 </goals>
                                 <phase>site</phase>
                                 <configuration>
+                                    <verbose>false</verbose>
+                                    <doclint>none</doclint>
+                                    <additionalparam>-Xdoclint:none</additionalparam>
+                                    <minmemory>128m</minmemory>
+                                    <maxmemory>1g</maxmemory>
+                                    <archive>
+                                        <manifestEntries>
+                                            <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
+                                        </manifestEntries>
+                                    </archive>
+                                    <destDir>target/apidocs/${project.artifactId}</destDir>
+                                    <additionalOptions>
+                                        <additionalOption>--frames</additionalOption>
+                                    </additionalOptions>
+                                    <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                                    <author>false</author>
+                                    <detectJavaApiLink>false</detectJavaApiLink>
                                 </configuration>
                             </execution>
                             <execution>
@@ -630,10 +747,125 @@
             </build>
         </profile>
         <profile>
-            <id>all-tests</id>
+            <id>deploy-version-rc</id>
+            <!-- This profile enables automation to change version and DEPLOY 
+                rc to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-rc 
+                -f fhir-tools/pom.xml -->
             <properties>
-                <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
+                <!-- the version to be set -->
+                <rc>1</rc>
+                <deploy.version>4.0.0-rc${rc}-${maven.build.timestamp}</deploy.version>
+                <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
             </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.7</version>
+                        <configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set</goal>
+                                </goals>
+                                <phase>clean</phase>
+                                <configuration>
+                                    <oldVersion>*</oldVersion>
+                                    <newVersion>${deploy.version}</newVersion>
+                                    <generateBackupPoms>true</generateBackupPoms>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deploy-version-release</id>
+            <!-- This profile enables automation to change version and DEPLOY 
+                release to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release 
+                -f fhir-tools/pom.xml -->
+            <properties>
+                <!-- the version to be set -->
+                <deploy.version>4.0.0</deploy.version>
+                <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.7</version>
+                        <configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>set</goal>
+                                </goals>
+                                <phase>clean</phase>
+                                <configuration>
+                                    <oldVersion>*</oldVersion>
+                                    <newVersion>${deploy.version}</newVersion>
+                                    <generateBackupPoms>true</generateBackupPoms>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deploy-bintray</id>
+            <!-- This profile enables automation DEPLOY to bintray. There 
+                are three input values. mvn clean install deploy -Pdeploy-bintray -f fhir-tools/pom.xml -->
+            <properties>
+                <!-- switch to 1 to publish automatically -Dpublish=1 -->
+                <publish>0</publish>
+                <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+                <bintray.repo>ibm-fhir-server-snapshots</bintray.repo>
+                <bintray.org>ibm-watson-health</bintray.org>
+                <bintray.package>fhir-tools</bintray.package>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- Do not move this up to top level as it'll cause 
+                            a conflict with m2e restrictions on v2.6 -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                </manifest>
+                                <manifestEntries>
+                                    <Build-Time>${maven.build.timestamp}</Build-Time>
+                                    <Build-Number>${BUILD_ID}</Build-Number>
+                                    <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                                    <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                                    <Git-URL>${GIT_URL}</Git-URL>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <distributionManagement>
+                <repository>
+                    <id>bintray-ibm-watson-health-ibm-fhir-server-snapshots</id>
+                    <name>ibm-watson-health-ibm-fhir-server-snapshots</name>
+                    <url>https://api.bintray.com/maven/${bintray.org}/${bintray.repo}/${project.artifactId}/;publish=${publish}</url>
+                </repository>
+            </distributionManagement>
         </profile>
     </profiles>
 </project>

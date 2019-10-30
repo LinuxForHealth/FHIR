@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.client.Entity;
@@ -41,15 +42,17 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.type.AdministrativeGender;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Quantity;
-import com.ibm.fhir.model.type.SortDirection;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.SortDirection;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.JsonSupport;
 
 public class SortingTest extends FHIRServerTestBase {
 
@@ -73,7 +76,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -88,7 +91,7 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test
@@ -96,7 +99,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_DavidOrtiz.json");
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -111,7 +114,7 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test
@@ -119,7 +122,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "patient-example-a.json");
+        Patient patient = TestUtil.readLocalResource("patient-example-a.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -133,7 +136,7 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test
@@ -141,7 +144,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "patient-example-c.json");
+        Patient patient = TestUtil.readLocalResource("patient-example-c.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -155,7 +158,7 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test
@@ -163,7 +166,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "patient-example-a1.json");
+        Patient patient = TestUtil.readLocalResource("patient-example-a1.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -177,14 +180,14 @@ public class SortingTest extends FHIRServerTestBase {
                 target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1" })
     public void testCreateObservation1() throws Exception {
         WebTarget target = getWebTarget();
 
-        Observation observation = buildObservation(patientId, "Observation1.json");
+        Observation observation = TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -200,14 +203,14 @@ public class SortingTest extends FHIRServerTestBase {
 
         // use it for search
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1" })
     public void testCreateObservation2() throws Exception {
         WebTarget target = getWebTarget();
 
-        Observation observation = buildObservation(patientId, "Observation2.json");
+        Observation observation = TestUtil.buildPatientObservation(patientId, "Observation2.json");
         Entity<Observation> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -223,14 +226,14 @@ public class SortingTest extends FHIRServerTestBase {
 
         // use it for search
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1" })
     public void testCreateObservation3() throws Exception {
         WebTarget target = getWebTarget();
 
-        Observation observation = buildObservation(patientId, "Observation3.json");
+        Observation observation = TestUtil.buildPatientObservation(patientId, "Observation3.json");
         Entity<Observation> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -246,14 +249,14 @@ public class SortingTest extends FHIRServerTestBase {
 
         // use it for search
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" })
     public void testCreateObservation5() throws Exception {
         WebTarget target = getWebTarget();
 
-        Observation observation = buildObservation("1", "Observation5.json");
+        Observation observation = TestUtil.buildPatientObservation("1", "Observation5.json");
         Entity<Observation> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -269,7 +272,7 @@ public class SortingTest extends FHIRServerTestBase {
 
         // use it for search
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     // Patient?gender=male&_sort:asc=family
@@ -279,7 +282,8 @@ public class SortingTest extends FHIRServerTestBase {
     public void testSortAscending() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50").queryParam("_sort:asc", "family").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
+                .queryParam("_sort:asc", "family").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -313,12 +317,15 @@ public class SortingTest extends FHIRServerTestBase {
     public void testSortAscending_filter_elements() throws Exception {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50").queryParam("_sort:asc", "family").queryParam("_elements", "gender", "name").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
+                .queryParam("_sort:asc", "family").queryParam("_elements", "gender", "name")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         Coding subsettedTag =
-                Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
+                Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
+                .code(Code.of("SUBSETTED")).display(string("subsetted")).build();
 
         boolean result = false;
         for (Bundle.Entry entry : bundle.getEntry()) {
@@ -384,7 +391,8 @@ public class SortingTest extends FHIRServerTestBase {
     public void testSortDescending() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50").queryParam("_sort:desc", "family").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
+                .queryParam("_sort:desc", "family").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -418,7 +426,8 @@ public class SortingTest extends FHIRServerTestBase {
     public void testSortTelecom() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50").queryParam("_sort", "telecom").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
+                .queryParam("_sort", "telecom").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -452,7 +461,8 @@ public class SortingTest extends FHIRServerTestBase {
     public void testSortBirthDate() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50").queryParam("_sort:desc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
+                .queryParam("_sort:desc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -474,7 +484,8 @@ public class SortingTest extends FHIRServerTestBase {
     public void testSortTwoParameters() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("_count", "50").queryParam("_sort:desc", "family").queryParam("_sort:asc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("_count", "50").queryParam("_sort:desc", "family")
+                .queryParam("_sort:asc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -508,7 +519,8 @@ public class SortingTest extends FHIRServerTestBase {
                     }
                     if (previousFamily != null && previousFamily.equals(currentFamily)) {
                         assertTrue(previousBirthDate == null || currentBirthDate == null
-                                || (getInstantFromPartial(previousBirthDate.getValue()).compareTo(getInstantFromPartial(currentBirthDate.getValue())) <= 0));
+                                || (getInstantFromPartial(previousBirthDate.getValue())
+                                        .compareTo(getInstantFromPartial(currentBirthDate.getValue())) <= 0));
                     }
                     list.add(currentFamily);
 
@@ -527,7 +539,8 @@ public class SortingTest extends FHIRServerTestBase {
     public void testSortTwoParametersDescending() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("_count", "50").queryParam("_sort:desc", "family").queryParam("_sort:desc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("_count", "50").queryParam("_sort:desc", "family")
+                .queryParam("_sort:desc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -557,7 +570,8 @@ public class SortingTest extends FHIRServerTestBase {
                     }
                     if (previousFamily != null && previousFamily.equals(currentFamily)) {
                         assertTrue(previousBirthDate == null || currentBirthDate == null
-                                || (getInstantFromPartial(previousBirthDate.getValue()).compareTo(getInstantFromPartial(currentBirthDate.getValue())) >= 0));
+                                || (getInstantFromPartial(previousBirthDate.getValue())
+                                        .compareTo(getInstantFromPartial(currentBirthDate.getValue())) >= 0));
                     }
                     list.add(currentFamily);
 
@@ -578,7 +592,9 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         // we do support coding instead of code for the pipe search.
         Response response =
-                target.path("Observation").queryParam("status", "final").queryParam("code", "55284-4").queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Observation").queryParam("status", "final").queryParam("code", "55284-4")
+                .queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -761,6 +777,179 @@ public class SortingTest extends FHIRServerTestBase {
         }
 
         return ZonedDateTime.of(result, ZoneOffset.UTC).toInstant();
+    }
+    
+    
+    // Patient?gender=male&_sort:asc=family
+    @SuppressWarnings("rawtypes")
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
+            "testCreatePatient5" })
+    public void testSortAscending_filter_summary() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("gender", "male")
+                .queryParam("_count", "50").queryParam("_sort:asc", "family")
+                .queryParam("_summary", "true").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        Coding subsettedTag =
+                Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
+                .code(Code.of("SUBSETTED")).display(string("subsetted")).build();
+
+        boolean result = false;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+
+            if (DEBUG_SEARCH) {
+
+                SearchAllTest.generateOutput(entry.getResource());
+                System.out.println(result + " "
+                        + FHIRUtil.hasTag(entry.getResource(), subsettedTag));
+            }
+
+            result = result
+                    || FHIRUtil.hasTag(entry.getResource(), subsettedTag);
+        }
+        assertTrue(result);
+
+        assertTrue(bundle.getEntry().size() > 1);
+        List<String> list = new ArrayList<String>();
+
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            Patient patient = (Patient) entry.getResource();
+            if (patient.getName() != null
+                    && patient.getName().size() > 0) {
+                // Since a patient can have multiple family names, we need to pick the right one to add to the list
+                // variable,
+                // whose ordering will be checked later. Since we are sorting by family name ascending, we need to pick
+                // the FIRST family name in the natural ordering to add to the list.
+                List<String> familyNames = getFamilyNames(patient, SortDirection.ASCENDING);
+                if (familyNames.size() > 0) {
+                    list.add(this.getFamilyNames(patient, SortDirection.ASCENDING).get(0));
+
+                    // Validate Patient _summary filtering
+                    Method[] patientMethods = Patient.class.getMethods();
+                    Set <String> summaryElements = JsonSupport.getSummaryElementNames(Patient.class);
+                    for (int j = 0; j < patientMethods.length; j++) {
+                        Method patientMethod = patientMethods[j];
+                        if (patientMethod.getName().startsWith("get")) {
+                            Object elementValue = patientMethod.invoke(patient);
+                            // Only these summary elements should be present.
+                            if (!summaryElements.stream().anyMatch(patientMethod.getName().substring(3)::equalsIgnoreCase)) {
+                                if (elementValue instanceof List) {
+                                    assertEquals(0, ((List) elementValue).size()); 
+                                } else if (!patientMethod.getName().equals("getClass")){
+                                    assertNull(elementValue);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        assertTrueNaturalOrderingString(list);
+    }
+    
+    
+    
+    
+    // Patient?gender=male&_sort:asc=family
+    @SuppressWarnings("rawtypes")
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
+            "testCreatePatient5" })
+    public void testSortAscending_filter_elements_summary() throws Exception {
+        WebTarget target = getWebTarget();
+        // The _summary=true should be ignored.
+        Response response =
+                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
+                .queryParam("_sort:asc", "family").queryParam("_elements", "gender", "name")
+                .queryParam("_summary", "true")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        Coding subsettedTag =
+                Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
+                .code(Code.of("SUBSETTED")).display(string("subsetted")).build();
+
+        boolean result = false;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+
+            if (DEBUG_SEARCH) {
+
+                SearchAllTest.generateOutput(entry.getResource());
+                System.out.println(result + " "
+                        + FHIRUtil.hasTag(entry.getResource(), subsettedTag));
+            }
+
+            result = result
+                    || FHIRUtil.hasTag(entry.getResource(), subsettedTag);
+        }
+        assertTrue(result);
+
+        assertTrue(bundle.getEntry().size() > 1);
+        List<String> list = new ArrayList<String>();
+
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            Patient patient = (Patient) entry.getResource();
+            if (patient.getName() != null
+                    && patient.getName().size() > 0) {
+                // Since a patient can have multiple family names, we need to pick the right one to add to the list
+                // variable,
+                // whose ordering will be checked later. Since we are sorting by family name ascending, we need to pick
+                // the FIRST family name in the natural ordering to add to the list.
+                List<String> familyNames = getFamilyNames(patient, SortDirection.ASCENDING);
+                if (familyNames.size() > 0) {
+                    list.add(this.getFamilyNames(patient, SortDirection.ASCENDING).get(0));
+
+                    // Validate Patient element filtering, the summary filter should have been ignored
+                    Method[] patientMethods = Patient.class.getMethods();
+                    for (int j = 0; j < patientMethods.length; j++) {
+                        Method patientMethod = patientMethods[j];
+                        if (patientMethod.getName().startsWith("get")) {
+                            Object elementValue = patientMethod.invoke(patient);
+                            // Only these elements should be present.
+                            if (patientMethod.getName().equals("getId")
+                                    || patientMethod.getName().equals("getMeta")
+                                    || patientMethod.getName().equals("getGender")
+                                    || patientMethod.getName().equals("getName")) {
+                                assertNotNull(elementValue);
+                            } else if (!patientMethod.getName().equals("getClass")) {
+                                if (elementValue instanceof List) {
+                                    assertEquals(0, ((List) elementValue).size());
+                                } else {
+                                    assertNull(elementValue);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        assertTrueNaturalOrderingString(list);
+    }
+    
+    
+    // Patient?gender=male&_sort:asc=family
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
+            "testCreatePatient5" })
+    public void testSortAscending_filter_summary_count() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
+                .queryParam("_sort:asc", "family").queryParam("_summary", "count")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        // There should be no entry
+        assertTrue(bundle.getEntry().size() == 0);
+        // There should be no previous and next links.
+        assertTrue(bundle.getLink().size() == 1);
+        
     }
 
 }

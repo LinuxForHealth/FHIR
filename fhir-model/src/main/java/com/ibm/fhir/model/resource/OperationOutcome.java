@@ -16,18 +16,19 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationOutcome extends DomainResource {
+    @Summary
     @Required
     private final List<Issue> issue;
 
@@ -402,22 +404,25 @@ public class OperationOutcome extends DomainResource {
      * An error, warning, or information message that results from a system action.
      */
     public static class Issue extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "IssueSeverity",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "How the issue affects the success of the action.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.0"
         )
-        private final IssueSeverity severity;
         @Required
+        private final IssueSeverity severity;
+        @Summary
         @Binding(
             bindingName = "IssueType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "A code that describes the type of issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.0"
         )
+        @Required
         private final IssueType code;
+        @Summary
         @Binding(
             bindingName = "IssueDetails",
             strength = BindingStrength.ValueSet.EXAMPLE,
@@ -425,8 +430,11 @@ public class OperationOutcome extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/operation-outcome"
         )
         private final CodeableConcept details;
+        @Summary
         private final String diagnostics;
+        @Summary
         private final List<String> location;
+        @Summary
         private final List<String> expression;
 
         private volatile int hashCode;

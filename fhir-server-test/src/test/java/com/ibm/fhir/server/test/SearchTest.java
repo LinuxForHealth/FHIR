@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2017,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,12 +34,14 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Person;
 import com.ibm.fhir.model.resource.Person.Link;
-import com.ibm.fhir.model.type.AdministrativeGender;
+import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
@@ -49,6 +51,7 @@ public class SearchTest extends FHIRServerTestBase {
     private String patientId;
     private String observationId;
     private Boolean compartmentSearchSupported = null;
+    private String practitionerId;
 
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
@@ -67,7 +70,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
         Entity<Patient> entity =
@@ -84,7 +87,7 @@ public class SearchTest extends FHIRServerTestBase {
                 + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        assertResourceEquals(patient, responsePatient);
+        TestUtil.assertResourceEquals(patient, responsePatient);
     }
 
     @Test(groups = { "server-search" })
@@ -111,7 +114,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertEquals(responseBundle.getEntry().size(), 1);
         Person responsePerson =
                 (Person) responseBundle.getEntry().get(0).getResource();
-        assertResourceEquals(person, responsePerson);
+        TestUtil.assertResourceEquals(person, responsePerson);
     }
 
     @Test(groups = { "server-search" })
@@ -138,7 +141,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertEquals(responseBundle.getEntry().size(), 1);
         Person responsePerson =
                 (Person) responseBundle.getEntry().get(0).getResource();
-        assertResourceEquals(person, responsePerson);
+        TestUtil.assertResourceEquals(person, responsePerson);
     }
 
     // Uncomment in order to test the limits when using the 'normalized' model with
@@ -173,12 +176,20 @@ public class SearchTest extends FHIRServerTestBase {
     // assertResponse(response, Response.Status.REQUEST_ENTITY_TOO_LARGE.getStatusCode());
     // }
 
-    private Person createPersonWithIdentifierAndLink(String identifier,
-        String patientRef) throws Exception {
+    private Person createPersonWithIdentifierAndLink(String identifier, String patientRef) throws Exception {
         String id = UUID.randomUUID().toString();
 
         Person person =
-                Person.builder().id(Id.of(id)).identifier(Identifier.builder().value(string(identifier)).system(uri("test")).build()).link(Link.builder().target(Reference.builder().reference(string(patientRef)).build()).build()).build();
+                Person.builder()
+                      .id(Id.of(id))
+                      .identifier(Identifier.builder()
+                                            .value(string(identifier))
+                                            .system(uri("test"))
+                                            .build())
+                      .link(Link.builder()
+                                .target(Reference.builder().reference(string(patientRef)).build())
+                                .build())
+                      .build();
 
         FHIRResponse createResponse = client.update(person);
         assertResponse(createResponse, Response.Status.CREATED.getStatusCode());
@@ -360,7 +371,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Observation observation =
-                buildObservation(patientId, "Observation5.json");
+                TestUtil.buildPatientObservation(patientId, "Observation5.json");
         Entity<Observation> entity =
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -379,7 +390,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         // use it for serach
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {
@@ -486,7 +497,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Observation observation =
-                buildObservation(patientId, "Observation1.json");
+                TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> entity =
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -509,7 +520,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         // use it for serach
         observationId = responseObservation.getId().getValue();
-        assertResourceEquals(observation, responseObservation);
+        TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {
@@ -884,4 +895,107 @@ public class SearchTest extends FHIRServerTestBase {
                 client._search("Observation", parameters, tenantHeader, preferStrictHeader);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
     }
+    
+    @Test(groups = { "server-search" })
+    public void testCreatePractitioner() throws Exception {
+        // Build a new Practitioner and then call the 'create' API.
+        Practitioner practitioner = TestUtil.readLocalResource("Practitioner.json");
+        assertNotNull(practitioner);
+        WebTarget target = getWebTarget();
+
+        Entity<Practitioner> entity =
+                Entity.entity(practitioner, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("Practitioner").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        practitionerId = getLocationLogicalId(response);
+    }
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = {
+    "testCreatePractitioner" })
+    public void testSearchPractitioner_Summary_Text() {
+    WebTarget target = getWebTarget();
+    Response response =
+            target.path("Practitioner").queryParam("_id", practitionerId)
+            .queryParam("_summary", "text")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+    assertResponse(response, Response.Status.OK.getStatusCode());
+    Bundle bundle = response.readEntity(Bundle.class);
+    assertNotNull(bundle);
+    assertTrue(bundle.getEntry().size() == 1);
+    
+    Practitioner practitioner = (Practitioner) bundle.getEntry().get(0).getResource();
+    assertNotNull(practitioner);
+    assertNotNull(practitioner.getText());
+    }
+    
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = {
+    "testCreatePractitioner" })
+    public void testSearchPractitioner_Summary_Data() {
+    WebTarget target = getWebTarget();
+    Response response =
+            target.path("Practitioner").queryParam("_id", practitionerId)
+            .queryParam("_summary", "data")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+    assertResponse(response, Response.Status.OK.getStatusCode());
+    Bundle bundle = response.readEntity(Bundle.class);
+    assertNotNull(bundle);
+    assertTrue(bundle.getEntry().size() == 1);
+    
+    Practitioner practitioner = (Practitioner) bundle.getEntry().get(0).getResource();
+    assertNotNull(practitioner);
+    assertNull(practitioner.getText());
+    }
+    
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = {
+    "testCreateObservation" })
+    public void testSearchObservationWithSubjectIncluded_summary_text() {
+    WebTarget target = getWebTarget();
+    Response response =
+            target.path("Observation").queryParam("subject", "Patient/"+ patientId)
+            .queryParam("_include", "Observation:subject")
+            .queryParam("_summary", "text")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+    assertResponse(response, Response.Status.OK.getStatusCode());
+    Bundle bundle = response.readEntity(Bundle.class);
+    assertNotNull(bundle);
+    assertTrue(bundle.getEntry().size() == 1);
+    }
+    
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = {
+    "testCreateObservation" })
+    public void testSearchPatientWithObservationRevIncluded_summary_text() {
+    WebTarget target = getWebTarget();
+    Response response =
+            target.path("Patient").queryParam("_id", patientId)
+            .queryParam("_revinclude", "Observation:patient")
+            .queryParam("_summary", "text")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+    assertResponse(response, Response.Status.OK.getStatusCode());
+    Bundle bundle = response.readEntity(Bundle.class);
+    assertNotNull(bundle);
+    assertTrue(bundle.getEntry().size() == 1);
+    }
+    
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = {
+    "testCreateObservation" })
+    public void testSearchPatientWithObservationRevIncluded_summary_invalid_strict() {
+    WebTarget target = getWebTarget();
+    Response response =
+            target.path("Patient").queryParam("_id", patientId)
+            .queryParam("_revinclude", "Observation:patient")
+            .queryParam("_summary", "invalid")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+            .header("X-FHIR-TENANT-ID", "tenant1")
+            .header("Prefer", "handling=strict")
+            .get();
+    assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+    assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+            "An error occurred while parsing search parameter '_summary'");
+    }
+    
 }

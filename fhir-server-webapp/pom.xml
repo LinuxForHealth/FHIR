@@ -22,9 +22,8 @@
 
     <packaging>war</packaging>
 
-    <name>FHIR Server REST API WebApp</name>
-    <url>http://maven.apache.org</url>
-
+    <name>IBM FHIR Server - REST API WebApp</name>
+    
     <properties>
         <fhir.server.war.name>fhir-server</fhir.server.war.name>
     </properties>
@@ -80,6 +79,16 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-operation-bulkdata</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -90,10 +99,6 @@
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -107,6 +112,16 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-registry</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-config</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

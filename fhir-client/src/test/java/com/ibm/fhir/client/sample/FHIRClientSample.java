@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,13 +11,13 @@ import java.util.Properties;
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRParameters;
-import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.client.FHIRParameters.ValuePrefix;
+import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.type.BundleType;
+import com.ibm.fhir.model.type.code.BundleType;
 
 /**
  * This class is sample code that demonstrates the use of the FHIR Server's Client API.

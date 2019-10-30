@@ -251,7 +251,7 @@ public class CodeGenerator {
             generateCodeSubtypeClasses(structureDefinition, basePath);
         }
         generateVisitorInterface(basePath);
-        generateAbstractVisitorClass(basePath);
+        generateDefaultVisitorClass(basePath);
         generateJsonParser(basePath);
         generateXMLParser(basePath);
         generateModelClassesFile(basePath);
@@ -293,7 +293,7 @@ public class CodeGenerator {
         }
     }
 
-    private void generateAbstractVisitorClass(String basePath) {
+    private void generateDefaultVisitorClass(String basePath) {
         CodeBuilder cb = new CodeBuilder();
         
         String packageName = "com.ibm.fhir.model.visitor";
@@ -306,7 +306,7 @@ public class CodeGenerator {
         cb._import("java.time.Year");
         cb._import("java.time.YearMonth");
         cb._import("java.time.ZonedDateTime");
-        
+        cb._import("javax.annotation.Generated");
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.resource.*");
@@ -316,7 +316,44 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.type.String");
         cb.newLine();
         
-        cb._class(mods("public", "abstract"), "AbstractVisitor", null, implementsInterfaces("Visitor"));
+        cb.javadocStart();
+        cb.javadoc("DefaultVisitor provides a default implementation of the Visitor interface which uses the");
+        cb.javadoc("value of the passed {@code visitChildren} boolean to control whether or not to");
+        cb.javadoc("visit the children of the Resource or Element being visited.");
+        cb.javadoc("");
+        cb.javadoc("Subclasses can override the default behavior in a number of places, including:");
+        cb.javadoc("<ul>",false);
+        cb.javadoc("<li>preVisit methods to control whether a given Resource or Element gets visited",false);
+        cb.javadoc("<li>visitStart methods to provide setup behavior prior to the visit",false);
+        cb.javadoc("<li>defaultAction methods to perform some common action on all visited Resources and Elements",false);
+        cb.javadoc("<li>specific visit methods to perform unique behavior that varies by the type being visited",false);
+        cb.javadoc("<li>visitEnd methods to provide initial cleanup behavior after a Resource or Element has been visited",false);
+        cb.javadoc("<li>postVisit methods to provide final cleanup behavior after a Resource or Element has been visited",false);
+        cb.javadoc("</ul>",false);
+        cb.javadocEnd();
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
+        cb._class(mods("public"), "DefaultVisitor", null, implementsInterfaces("Visitor"));
+        
+        cb.decl(mods("protected"), "boolean", "visitChildren");
+        cb.newLine();
+        
+        cb.javadocStart();
+        cb.javadoc("Subclasses can override this method to provide a default action for all visit methods.");
+        cb.javadocReturn("whether to visit the children of this resource; returns the value of the {@code visitChildren} boolean by default");
+        cb.javadocEnd();
+        cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", "Visitable visitable"));
+        cb._return("visitChildren");
+        cb.end();
+        cb.newLine();
+        
+        cb.javadocStart();
+        cb.javadocParam("visitChildren", "Whether to visit children of a Resource or Element by default. " +
+                        "Note that subclasses may override the visit methods and/or the defaultAction methods " +
+                        "and decide whether to use the passed boolean or not.");
+        cb.javadocEnd();
+        cb.constructor(mods("public"), "DefaultVisitor", params("boolean visitChildren"));
+        cb.assign(_this("visitChildren"), "visitChildren");
+        cb.end().newLine();
         
         cb.override();
         cb.method(mods("public"), "boolean", "preVisit", params("Element element"))._return("true").end().newLine();
@@ -351,15 +388,27 @@ public class CodeGenerator {
         Collections.sort(generatedClassNames);
         
         for (String className : generatedClassNames) {
-            if (isPrimitiveSubtype(className)) {
+            if (isNestedType(className)) {
                 continue;
             }
             String paramName = camelCase(className).replace(".", "");
             if (SourceVersion.isKeyword(paramName)) {
                 paramName = "_" + paramName;
             }
+            
+            String supertype = superClassMap.get(className);
+            if (supertype == null) {
+                supertype = "Visitable";
+            }
+            
+            cb.javadocStart();
+            cb.javadoc("Delegates to {@link #visit(elementName, elementIndex, " + supertype + ")}");
+            cb.javadocReturn("{@inheritDoc}");
+            cb.javadocEnd();
             cb.override();
-            cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName))._return("true").end().newLine();
+            cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName));
+            cb._return("visit(elementName, elementIndex, (" + supertype + ") " + paramName + ")");
+            cb.end().newLine();
         }
 
         cb.override();
@@ -394,7 +443,7 @@ public class CodeGenerator {
 
         cb._end();
         
-        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/AbstractVisitor.java");
+        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/DefaultVisitor.java");
 
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(cb.toString());
@@ -404,7 +453,7 @@ public class CodeGenerator {
     }
 
     private void generateAcceptMethod(JsonObject structureDefinition, String className, String path, CodeBuilder cb) {
-        if (isAbstract(structureDefinition) || isPrimitiveSubtype(structureDefinition)) {
+        if (isAbstract(structureDefinition) || isCodeSubtype(className)) {
             return;
         }
         
@@ -499,8 +548,7 @@ public class CodeGenerator {
         List<String> requiredElementNames = new ArrayList<>();
                  
         for (JsonObject elementDefinition : elementDefinitions) {
-            String basePath = elementDefinition.getJsonObject("base").getString("path");
-            boolean declaredBy = elementDefinition.getString("path").equals(basePath) && !isProfiledType(className);
+            boolean declaredBy = isDeclaredBy(className, elementDefinition);
             
             String fieldName = getFieldName(elementDefinition, path);
             String fieldType = getFieldType(structureDefinition, elementDefinition);
@@ -684,6 +732,17 @@ public class CodeGenerator {
         cb._end();
     }
 
+    /**
+     * @param className The name of the class currently being generated
+     * @param elementDefinition
+     * @return true if the element specified by the ElementDefintion is declared by the class being generated
+     */
+    private boolean isDeclaredBy(String className, JsonObject elementDefinition) {
+        String basePath = elementDefinition.getJsonObject("base").getString("path");
+        boolean declaredBy = elementDefinition.getString("path").equals(basePath) && !isProfiledType(className);
+        return declaredBy;
+    }
+
     private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String paramType, CodeBuilder cb) {
         String definition = elementDefinition.getString("definition");
         cb.javadocStart();
@@ -748,7 +807,7 @@ public class CodeGenerator {
         cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
         
-        generateImports(structureDefinition, cb);
+        generateImports(structureDefinition, className, cb);
     
         String path = getElementDefinitions(structureDefinition).get(0).getString("path");
         generateClass(structureDefinition, Collections.singletonList(path), cb, false);
@@ -881,14 +940,17 @@ public class CodeGenerator {
                 if (elementDefinition.getString("path").equals(basePath)) {
                     String fieldName = getFieldName(elementDefinition, path);
                     String fieldType = getFieldType(structureDefinition, elementDefinition);
-                    if (isRequired(elementDefinition)) {
-                        cb.annotation("Required");
+                    if (isSummary(elementDefinition)) {
+                        cb.annotation("Summary");
                     }
                     if (isChoiceElement(elementDefinition)) {
                         String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                         cb.annotation("Choice", "{ " + types + " }");
                     }
                     generateBindingAnnotation(structureDefinition, cb, className, elementDefinition);
+                    if (isRequired(elementDefinition)) {
+                        cb.annotation("Required");
+                    }
                     cb.field(mods(visibility, "final"), fieldType, fieldName);
                     if (isBackboneElement(elementDefinition)) {
                         nestedPaths.add(elementDefinition.getString("path"));
@@ -1279,11 +1341,8 @@ public class CodeGenerator {
             reference = reference.substring(reference.lastIndexOf(".") + 1);
             cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + ".");
         } else {
-            String reference = fieldType;
-            if (!"java.lang.String".equals(fieldType)) {
-                reference = fieldType.substring(fieldType.lastIndexOf(".") + 1);
-            }
-            fieldType.substring(fieldType.lastIndexOf(".") + 1);
+            // Processes the JavaDoc Link into an absolute path where available. 
+            String reference = getFieldTypeForJavaDocLink(structureDefinition, elementDefinition, fieldType);
             cb.javadocReturn("An immutable object of type " + javadocLink(reference) + ".");
         }
         cb.javadocEnd();
@@ -1415,7 +1474,7 @@ public class CodeGenerator {
         }
     }
     
-    private void generateImports(JsonObject structureDefinition, CodeBuilder cb) {
+    private void generateImports(JsonObject structureDefinition, String className, CodeBuilder cb) {
         String name = structureDefinition.getString("name");
                 
         Set<String> imports = new HashSet<>();
@@ -1430,7 +1489,7 @@ public class CodeGenerator {
         if ("Resource".equals(name) || "Element".equals(name)) {
             imports.add("com.ibm.fhir.model.visitor.AbstractVisitable");
         }
-        if (!isAbstract(structureDefinition) && !isPrimitiveSubtype(structureDefinition)) {
+        if (!isAbstract(structureDefinition) && !isCodeSubtype(className)) {
             imports.add("com.ibm.fhir.model.visitor.Visitor");
         }
         
@@ -1470,6 +1529,10 @@ public class CodeGenerator {
                 imports.add("com.ibm.fhir.model.annotation.Required");
             }
             
+            if (isSummary(elementDefinition) && isDeclaredBy(className, elementDefinition)) {
+                imports.add("com.ibm.fhir.model.annotation.Summary");
+            }
+            
             if (isChoiceElement(elementDefinition)) {
                 imports.add("com.ibm.fhir.model.util.ValidationSupport");
                 if (isResource(structureDefinition)) {
@@ -1485,9 +1548,7 @@ public class CodeGenerator {
                     path.equals(basePath) && 
                     !"ElementDefinition".equals(name) && 
                     !isProfiledType(name)) {
-                if (isResource(structureDefinition)) {
-                    imports.add("com.ibm.fhir.model.type.BindingStrength");
-                }
+                imports.add("com.ibm.fhir.model.type.code.BindingStrength");
                 imports.add("com.ibm.fhir.model.annotation.Binding");
             }
             
@@ -1501,9 +1562,11 @@ public class CodeGenerator {
                 definition = structureDefinitionMap.get(camelCase(fieldType));
             }
             
-            if (isResource(structureDefinition) && (isDataType(definition)) || hasRequiredBinding(elementDefinition)) {
+            if (isResource(structureDefinition) && isDataType(definition)) {
                 imports.add("com.ibm.fhir.model.type." + fieldType);
-            }
+            } else if (hasRequiredBinding(elementDefinition)) {
+                imports.add("com.ibm.fhir.model.type.code." + fieldType);
+            } 
             
             if (isProhibited(elementDefinition)) {
                 imports.add("com.ibm.fhir.model.util.ValidationSupport");
@@ -1689,7 +1752,7 @@ public class CodeGenerator {
         List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
         for (JsonObject elementDefinition : elementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
-            boolean declaredBy = elementDefinition.getString("path").equals(basePath);            
+            boolean declaredBy = elementDefinition.getString("path").equals(basePath);
             if (declaredBy) {
                 String elementName = getElementName(elementDefinition, path);
                 String fieldName = getFieldName(elementName);
@@ -1741,45 +1804,45 @@ public class CodeGenerator {
         cb._importstatic("com.ibm.fhir.model.util.XMLSupport", "isResourceContainer");
         cb._importstatic("com.ibm.fhir.model.util.XMLSupport", "parseDiv");
         cb._importstatic("com.ibm.fhir.model.util.XMLSupport", "requireNamespace");
-
         cb.newLine();
         
         cb._import("java.io.InputStream");
         cb._import("java.io.Reader");
         cb._import("java.util.Stack");
         cb._import("java.util.StringJoiner");
-        
         cb.newLine();
         
+        cb._import("javax.annotation.Generated");
         cb._import("javax.xml.stream.XMLStreamException");
         cb._import("javax.xml.stream.XMLStreamReader");
-        
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.parser.FHIRParser");
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
+        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
         cb._import("com.ibm.fhir.model.util.XMLSupport.StreamReaderDelegate");
-        
         cb.newLine();
         
+        cb._import("net.jcip.annotations.NotThreadSafe");
+        cb.newLine();
+        
+        cb.annotation("NotThreadSafe");
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRXMLParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
-        
         cb.newLine();
         
         cb.field(mods("private", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
-        
         cb.newLine();
         
         cb.constructor(mods(), "FHIRXMLParser");
         cb.comment("only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)");
         cb.end();
-        
         cb.newLine();
 
         // public <T extends Resource> T parse(InputStream in) throws FHIRParserException
@@ -1787,6 +1850,7 @@ public class CodeGenerator {
         cb.override();
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRParserException"))
             ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(in)")
+                .invoke("reset", args())
                 ._while("delegate.hasNext()")
                     .assign("int eventType", "delegate.next()")
                     ._switch("eventType")
@@ -1800,7 +1864,6 @@ public class CodeGenerator {
                 ._throw(_new("FHIRParserException", args("e.getMessage()", "getPath()", "e")))
             ._end()
         .end();
-        
         cb.newLine();
         
         // public <T extends Resource> T parse(Reader reader) throws FHIRParserException
@@ -1808,6 +1871,7 @@ public class CodeGenerator {
         cb.override();
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRParserException"))
             ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(reader)")
+                .invoke("reset", args())
                 ._while("delegate.hasNext()")
                     .assign("int eventType", "delegate.next()")
                     ._switch("eventType")
@@ -1821,14 +1885,11 @@ public class CodeGenerator {
                 ._throw(_new("FHIRParserException", args("e.getMessage()", "getPath()", "e")))
             ._end()
         .end();
-        
         cb.newLine();
         
-        cb.override();
-        cb.method(mods("public"), "void", "reset")
+        cb.method(mods("private"), "void", "reset")
             .invoke("stack", "clear", args())
         .end();
-        
         cb.newLine();
                 
         cb.method(mods("private"), "Resource", "parseResource", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"));
@@ -1847,7 +1908,6 @@ public class CodeGenerator {
         cb._end();
         cb._return("null");
         cb.end();
-        
         cb.newLine();
         
         Collections.sort(generatedClassNames);
@@ -2110,7 +2170,6 @@ public class CodeGenerator {
         cb._importstatic("com.ibm.fhir.model.util.JsonSupport", "nonClosingInputStream");
         cb._importstatic("com.ibm.fhir.model.util.JsonSupport", "nonClosingReader");
         cb._importstatic("com.ibm.fhir.model.util.ModelSupport", "getChoiceElementName");
-        
         cb.newLine();
         
         cb._import("java.io.InputStream");
@@ -2119,9 +2178,9 @@ public class CodeGenerator {
         cb._import("java.util.Collection");
         cb._import("java.util.Stack");
         cb._import("java.util.StringJoiner");
-        
         cb.newLine();
         
+        cb._import("javax.annotation.Generated");
         cb._import("javax.json.Json");
         cb._import("javax.json.JsonArray");
         cb._import("javax.json.JsonNumber");
@@ -2130,34 +2189,35 @@ public class CodeGenerator {
         cb._import("javax.json.JsonReaderFactory");
         cb._import("javax.json.JsonString");
         cb._import("javax.json.JsonValue");
-        
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.parser.FHIRParser");
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
+        cb._import("com.ibm.fhir.model.type.code.*");
         cb._import("com.ibm.fhir.model.type.Boolean");
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
         cb._import("com.ibm.fhir.model.util.ElementFilter");
-        
         cb.newLine();
         
+        cb._import("net.jcip.annotations.NotThreadSafe");
+        cb.newLine();
+        
+        cb.annotation("NotThreadSafe");
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRJsonParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
-        
         cb.newLine();
         
         cb.field(mods("private", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
-        
         cb.newLine();
         
         cb.constructor(mods(), "FHIRJsonParser");
         cb.comment("only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)");
         cb.end();
-        
         cb.newLine();
         
         // public <T extends Resource> T parse(InputStream in) throws FHIRException
@@ -2165,7 +2225,6 @@ public class CodeGenerator {
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(in, null)")
         .end();
-        
         cb.newLine();
         
         // public <T extends Resource> T parseAndFilter(InputStream in, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
@@ -2173,11 +2232,12 @@ public class CodeGenerator {
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingInputStream(in), StandardCharsets.UTF_8)")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
+            ._catch("FHIRParserException e")
+                ._throw("e")
             ._catch("Exception e")
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
-        
         cb.newLine();
      
         // public <T extends Resource> T parse(Reader reader) throws FHIRException
@@ -2185,7 +2245,6 @@ public class CodeGenerator {
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(reader, null)")
         .end();
-        
         cb.newLine();
         
         // public <T extends Resource> T parseAndFilter(Reader reader, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
@@ -2193,17 +2252,17 @@ public class CodeGenerator {
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingReader(reader))")
                 .assign("JsonObject jsonObject", "jsonReader.readObject()")
                 ._return("parseAndFilter(jsonObject, elementsToInclude)")
+            ._catch("FHIRParserException e")
+                ._throw("e")
             ._catch("Exception e")
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
-        
         cb.newLine();
         
         cb.method(mods("public"), "<T extends Resource> T", "parse", args("JsonObject jsonObject"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(jsonObject, null)")
         .end();
-    
         cb.newLine();
         
         // public <T extends Resource> T parseAndFilter(JsonObject jsonObject, java.util.List<java.lang.String> elementsToInclude)
@@ -2221,14 +2280,11 @@ public class CodeGenerator {
                 ._throw("new FHIRParserException(e.getMessage(), getPath(), e)")
             ._end()
         .end();
-        
         cb.newLine();
         
-        cb.override();
-        cb.method(mods("public"), "void", "reset")
+        cb.method(mods("private"), "void", "reset")
             .invoke("stack", "clear", args())
         .end();
-        
         cb.newLine();
         
         cb.method(mods("private"), "Resource", "parseResource", params("java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
@@ -2247,7 +2303,6 @@ public class CodeGenerator {
         cb._end();
         cb._return("null");
         cb.end();
-        
         cb.newLine();
         
         Collections.sort(generatedClassNames);
@@ -2585,13 +2640,20 @@ public class CodeGenerator {
                 valueSet = tokens[0];
                 
                 CodeBuilder cb = new CodeBuilder();
-                String packageName = "com.ibm.fhir.model.type";
+                String packageName = "com.ibm.fhir.model.type.code";
                 cb.lines(HEADER).newLine();
                 cb._package(packageName).newLine();
+                
+                cb._import("com.ibm.fhir.model.type.Code");
+                cb._import("com.ibm.fhir.model.type.Extension");
+                cb._import("com.ibm.fhir.model.type.String").newLine();
                 
                 cb._import("java.util.Collection");
                 cb._import("java.util.Objects").newLine();
                 
+                cb._import("javax.annotation.Generated").newLine();
+                
+                cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
                 cb._class(mods("public"), bindingName, "Code");
                 
                 List<JsonObject> concepts = getConcepts(valueSet);
@@ -2654,11 +2716,11 @@ public class CodeGenerator {
                 
                 cb.method(mods("public"), "Builder", "toBuilder")
                     .assign("Builder builder", "new Builder()")
-                    .assign("builder.id", "id")
-                    .invoke("builder.extension", "addAll", args("extension"))
-                    .assign("builder.value", "value")
+                    .invoke("builder", "id", args("id"))
+                    .invoke("builder", "extension", args("extension"))
+                    .invoke("builder", "value", args("value"))
                     ._return("builder")
-                .end().newLine();                
+                .end().newLine();
                 
                 cb.method(mods("public", "static"), "Builder", "builder")
                     ._return(_new("Builder"))
@@ -2687,11 +2749,11 @@ public class CodeGenerator {
                 
                 cb.override();
                 cb.method(mods("public"), "Builder", "value", args("java.lang.String value"))
-                    ._return("(Builder) super.value(ValueSet.from(value).value())")
+                    ._return("(value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this")
                 .end().newLine();
                 
                 cb.method(mods("public"), "Builder", "value", args("ValueSet value"))
-                    ._return("(Builder) super.value(value.value())")
+                    ._return("(value != null) ? (Builder) super.value(value.value()) : this")
                 .end().newLine();
                 
                 cb.override();
@@ -2776,6 +2838,7 @@ public class CodeGenerator {
         cb._import("java.time.Year");
         cb._import("java.time.YearMonth");
         cb._import("java.time.ZonedDateTime");
+        cb._import("javax.annotation.Generated");
         
         cb.newLine();
         
@@ -2786,30 +2849,67 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.type.String");
         cb.newLine();
         
+        cb.javadocStart();
+        cb.javadoc("Visitor interface for visiting FHIR model objects that implement Visitable.");
+        cb.javadoc("");
+        cb.javadoc("Each model object can accept a visitor and contains logic for invoking the corresponding visit method for itself and all its members.");
+        cb.javadoc("");
+        cb.javadoc("At each level, the visitor can control traversal by returning true or false as indicated in the following snippet:");
+        cb.javadoc("<pre>", false);
+        cb.javadoc("if (visitor.preVisit(this)) {");
+        cb.javadoc("    visitor.visitStart(elementName, elementIndex, this);");
+        cb.javadoc("    if (visitor.visit(elementName, elementIndex, this)) {");
+        cb.javadoc("        // visit children");
+        cb.javadoc("    }");
+        cb.javadoc("    visitor.visitEnd(elementName, elementIndex, this);");
+        cb.javadoc("    visitor.postVisit(this);");
+        cb.javadoc("}");
+        cb.javadoc("</pre>", false);
+        cb.javadocEnd();
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._interface(mods("public"), "Visitor");
         
-        cb.abstractMethod(mods(), "boolean", "preVisit", params("Element element"));
-        cb.abstractMethod(mods(), "boolean", "preVisit", params("Resource resource"));
+        cb.javadocStart();
+        cb.javadoc("@return true if this Element should be visited; otherwise false");
+        cb.javadocEnd();
+        cb.abstractMethod(mods(), "boolean", "preVisit", params("Element element")).newLine();
+        cb.javadocStart();
+        cb.javadoc("@return true if this Resource should be visited; otherwise false");
+        cb.javadocEnd();
+        cb.abstractMethod(mods(), "boolean", "preVisit", params("Resource resource")).newLine();
+        
         cb.abstractMethod(mods(), "void", "postVisit", params("Element element"));
         cb.abstractMethod(mods(), "void", "postVisit", params("Resource resource"));
+        cb.newLine();
         cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "int elementIndex", "Element element"));
         cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
         cb.abstractMethod(mods(), "void", "visitStart", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type"));
+        cb.newLine();
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Element element"));
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "int elementIndex", "Resource resource"));
         cb.abstractMethod(mods(), "void", "visitEnd", params("java.lang.String elementName", "java.util.List<? extends Visitable> visitables", "Class<?> type"));
+        cb.newLine();
+        
+        cb.javadocStart();
+        cb.javadocReturn("true if the children of this visitable should be visited; otherwise false");
+        cb.javadocEnd();
+        cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", "Visitable visitable"));
         
         Collections.sort(generatedClassNames);
         
         for (String className : generatedClassNames) {
-            if (isPrimitiveSubtype(className)) {
+            if (isNestedType(className)) {
                 continue;
             }
             String paramName = camelCase(className).replace(".", "");
             if (SourceVersion.isKeyword(paramName)) {
                 paramName = "_" + paramName;
             }
+            cb.javadocStart();
+            cb.javadocReturn("true if the children of this " + paramName + " should be visited; otherwise false");
+            cb.javadocEnd();
             cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", className + " " + paramName));
+            cb.newLine();
         }
 
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "byte[] value"));
@@ -3067,6 +3167,47 @@ public class CodeGenerator {
         return getFieldType(structureDefinition, elementDefinition, isRepeating(elementDefinition));
     }
 
+    /**
+     * uses to rewrite the javadoc return link where the path is value. 
+     * 
+     * @param structureDefinition
+     * @param elementDefinition 
+     * @param fieldType
+     * 
+     * @return
+     */
+    public String getFieldTypeForJavaDocLink(JsonObject structureDefinition, JsonObject elementDefinition, String fieldType) {
+        String path = elementDefinition.getString("path");
+        
+        if (isPrimitiveType(structureDefinition) && path.endsWith("value")) {
+            String name = structureDefinition.getString("name");
+            switch (name) {
+            case "base64Binary":
+                return "java.lang.byte[]";
+            case "boolean":
+                return "java.lang.Boolean";
+            case "date":
+            case "dateTime":
+                return "java.time.TemporalAccessor";
+            case "decimal":
+                return "java.math.BigDecimal";
+            case "instant":
+                return "java.time.ZonedDateTime";
+            case "integer":
+            case "unsignedInt":
+            case "positiveInt":
+                return "java.lang.Integer";
+            case "time":
+                return "java.time.LocalTime";
+            default:
+                return "java.lang.String";
+            }
+        }
+        
+        // Not found, and drop through. 
+        return fieldType;
+    }
+    
     private String getFieldType(JsonObject structureDefinition, JsonObject elementDefinition, boolean repeating) {
         String path = elementDefinition.getString("path");
         String basePath = elementDefinition.getJsonObject("base").getString("path");
@@ -3268,6 +3409,18 @@ public class CodeGenerator {
         List<JsonObject> types = getTypes(elementDefinition);
         return !types.isEmpty() && "BackboneElement".equals(types.get(0).getString("code", null));
     }
+    
+    /**
+     * Whether the classNameWithoutPackage implies this is a nested type or not.
+     * For example:
+     * <ul>
+     * <li>"Bundle" returns false
+     * <li>"Bundle.Entry" returns true
+     * </ul>
+     */
+    private boolean isNestedType(String classNameWithoutpackage) {
+        return classNameWithoutpackage.contains(".");
+    }
 
     private boolean isBase64Binary(JsonObject structureDefinition) {
         return "base64Binary".equals(structureDefinition.getString("name"));
@@ -3349,10 +3502,6 @@ public class CodeGenerator {
         return "positiveInt".equals(structureDefinition.getString("name"));
     }
     
-    private boolean isPrimitiveSubtype(JsonObject structureDefinition) {
-        return isStringSubtype(structureDefinition) || isUriSubtype(structureDefinition) || isIntegerSubtype(structureDefinition);
-    }
-
     private boolean isPrimitiveSubtype(String className) {
         return isStringSubtype(className) || 
                 isCodeSubtype(className) || 
@@ -3399,6 +3548,10 @@ public class CodeGenerator {
     
     private boolean isRequired(JsonObject elementDefinition) {
         return getMin(elementDefinition) > 0;
+    }
+    
+    private boolean isSummary(JsonObject elementDefinition) {
+        return elementDefinition.getBoolean("isSummary", false);
     }
     
     private boolean isResource(JsonObject structureDefinition) {

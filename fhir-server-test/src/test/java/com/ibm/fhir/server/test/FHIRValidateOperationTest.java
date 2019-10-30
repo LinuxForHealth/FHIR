@@ -10,6 +10,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import javax.json.Json;
+import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -19,9 +20,10 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.type.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueSeverity;
 
-public class FHIRValidateOperationTest extends FHIRServerTestBase {    
+public class FHIRValidateOperationTest extends FHIRServerTestBase {
+    private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     @Test(groups = { "validate-operation" })
     public void testValidatePatient() {        
         JsonObject patient = buildPatient();
@@ -32,6 +34,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
         
+        assertEquals(operationOutcome.getId().getValue(), "NoError");
         assertEquals(operationOutcome.getIssue().size(), 1);
         assertEquals(operationOutcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
         assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("dom-6"));
@@ -44,9 +47,10 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
 
         WebTarget target = getWebTarget();
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
         
+        assertEquals(operationOutcome.getId().getValue(), "Error");
         assertEquals(operationOutcome.getIssue().size(), 2);
         assertEquals(operationOutcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
         assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("dom-6"));
@@ -55,15 +59,15 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
     }
 
     private JsonObject buildPatient() {
-        return Json.createObjectBuilder().add("resourceType", "Patient")
-            .add("name", Json.createArrayBuilder()
-                .add(Json.createObjectBuilder()
+        return BUILDER_FACTORY.createObjectBuilder().add("resourceType", "Patient")
+            .add("name", BUILDER_FACTORY.createArrayBuilder()
+                .add(BUILDER_FACTORY.createObjectBuilder()
                     .add("family", "Doe")
-                    .add("given", Json.createArrayBuilder()
+                    .add("given", BUILDER_FACTORY.createArrayBuilder()
                         .add("John"))))
             .add("birthDate", "1950-08-15")
-            .add("telecom", Json.createArrayBuilder()
-                .add(Json.createObjectBuilder()
+            .add("telecom", BUILDER_FACTORY.createArrayBuilder()
+                .add(BUILDER_FACTORY.createObjectBuilder()
                     .add("use", "home")
                     .add("system", "phone")
                     .add("value", "555-1234")))
@@ -71,15 +75,15 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
     }
 
     private JsonObject buildInvalidPatient() {
-        return Json.createObjectBuilder().add("resourceType", "Patient")
-            .add("name", Json.createArrayBuilder()
-                .add(Json.createObjectBuilder()
+        return BUILDER_FACTORY.createObjectBuilder().add("resourceType", "Patient")
+            .add("name", BUILDER_FACTORY.createArrayBuilder()
+                .add(BUILDER_FACTORY.createObjectBuilder()
                     .add("family", "Doe")
-                    .add("given", Json.createArrayBuilder()
+                    .add("given", BUILDER_FACTORY.createArrayBuilder()
                         .add("John"))))
             .add("birthDate", "1950-08-15")
-            .add("telecom", Json.createArrayBuilder()
-                .add(Json.createObjectBuilder()
+            .add("telecom", BUILDER_FACTORY.createArrayBuilder()
+                .add(BUILDER_FACTORY.createObjectBuilder()
                     .add("use", "home")
 //                  .add("system", "phone")
                     .add("value", "555-1234")))

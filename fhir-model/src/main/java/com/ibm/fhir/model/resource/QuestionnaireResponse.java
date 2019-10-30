@@ -18,9 +18,9 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -36,11 +36,12 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Quantity;
-import com.ibm.fhir.model.type.QuestionnaireResponseStatus;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.QuestionnaireResponseStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -57,22 +58,32 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class QuestionnaireResponse extends DomainResource {
+    @Summary
     private final Identifier identifier;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> partOf;
+    @Summary
     private final Canonical questionnaire;
-    @Required
+    @Summary
     @Binding(
         bindingName = "QuestionnaireResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Lifecycle status of the questionnaire response.",
         valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.0"
     )
+    @Required
     private final QuestionnaireResponseStatus status;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     private final DateTime authored;
+    @Summary
     private final Reference author;
+    @Summary
     private final Reference source;
     private final List<Item> item;
 

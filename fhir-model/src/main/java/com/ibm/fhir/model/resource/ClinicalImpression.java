@@ -17,10 +17,9 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
-import com.ibm.fhir.model.type.ClinicalImpressionStatus;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -34,6 +33,8 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ClinicalImpressionStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -46,14 +47,16 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpression extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ClinicalImpressionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The workflow state of a clinical impression.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.0.0"
     )
+    @Required
     private final ClinicalImpressionStatus status;
     @Binding(
         bindingName = "ClinicalImpressionStatusReason",
@@ -61,21 +64,29 @@ public class ClinicalImpression extends DomainResource {
         description = "Codes identifying the reason for the current state of a clinical impression."
     )
     private final CodeableConcept statusReason;
+    @Summary
     @Binding(
         bindingName = "ClinicalImpressionCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Identifies categories of clinical impressions.  This is a place-holder only.  It may be removed."
     )
     private final CodeableConcept code;
+    @Summary
     private final String description;
+    @Summary
     @Required
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element effective;
+    @Summary
     private final DateTime date;
+    @Summary
     private final Reference assessor;
     private final Reference previous;
+    @Summary
     private final List<Reference> problem;
     private final List<Investigation> investigation;
     private final List<Uri> protocol;
@@ -1236,13 +1247,13 @@ public class ClinicalImpression extends DomainResource {
      * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
      */
     public static class Investigation extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "InvestigationGroupType",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "A name/code for a set of investigations.",
             valueSet = "http://hl7.org/fhir/ValueSet/investigation-sets"
         )
+        @Required
         private final CodeableConcept code;
         private final List<Reference> item;
 

@@ -18,14 +18,13 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.GroupType;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
@@ -37,6 +36,8 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.GroupType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -54,26 +55,34 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Group extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final Boolean active;
-    @Required
+    @Summary
     @Binding(
         bindingName = "GroupType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Types of resources that are part of group.",
         valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.0.0"
     )
+    @Required
     private final GroupType type;
+    @Summary
     @Required
     private final Boolean actual;
+    @Summary
     @Binding(
         bindingName = "GroupKind",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Kind of particular resource; e.g. cow, syringe, lake, etc."
     )
     private final CodeableConcept code;
+    @Summary
     private final String name;
+    @Summary
     private final UnsignedInt quantity;
+    @Summary
     private final Reference managingEntity;
     private final List<Characteristic> characteristic;
     private final List<Member> member;
@@ -763,20 +772,20 @@ public class Group extends DomainResource {
      * Identifies traits whose presence r absence is shared by members of the group.
      */
     public static class Characteristic extends BackboneElement {
-        @Required
         @Binding(
             bindingName = "GroupCharacteristicKind",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "List of characteristics used to describe group members; e.g. gender, age, owner, location, etc."
         )
-        private final CodeableConcept code;
         @Required
+        private final CodeableConcept code;
         @Choice({ CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class })
         @Binding(
             bindingName = "GroupCharacteristicValue",
             strength = BindingStrength.ValueSet.EXAMPLE,
             description = "Value of descriptive member characteristic; e.g. red, male, pneumonia, Caucasian, etc."
         )
+        @Required
         private final Element value;
         @Required
         private final Boolean exclude;

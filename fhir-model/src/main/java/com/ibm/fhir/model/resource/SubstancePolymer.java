@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Boolean;
@@ -35,11 +36,17 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstancePolymer extends DomainResource {
+    @Summary
     private final CodeableConcept clazz;
+    @Summary
     private final CodeableConcept geometry;
+    @Summary
     private final List<CodeableConcept> copolymerConnectivity;
+    @Summary
     private final List<String> modification;
+    @Summary
     private final List<MonomerSet> monomerSet;
+    @Summary
     private final List<Repeat> repeat;
 
     private volatile int hashCode;
@@ -611,7 +618,9 @@ public class SubstancePolymer extends DomainResource {
      * Todo.
      */
     public static class MonomerSet extends BackboneElement {
+        @Summary
         private final CodeableConcept ratioType;
+        @Summary
         private final List<StartingMaterial> startingMaterial;
 
         private volatile int hashCode;
@@ -889,9 +898,13 @@ public class SubstancePolymer extends DomainResource {
          * Todo.
          */
         public static class StartingMaterial extends BackboneElement {
+            @Summary
             private final CodeableConcept material;
+            @Summary
             private final CodeableConcept type;
+            @Summary
             private final Boolean isDefining;
+            @Summary
             private final SubstanceAmount amount;
 
             private volatile int hashCode;
@@ -1213,9 +1226,13 @@ public class SubstancePolymer extends DomainResource {
      * Todo.
      */
     public static class Repeat extends BackboneElement {
+        @Summary
         private final Integer numberOfUnits;
+        @Summary
         private final String averageMolecularFormula;
+        @Summary
         private final CodeableConcept repeatUnitAmountType;
+        @Summary
         private final List<RepeatUnit> repeatUnit;
 
         private volatile int hashCode;
@@ -1555,10 +1572,15 @@ public class SubstancePolymer extends DomainResource {
          * Todo.
          */
         public static class RepeatUnit extends BackboneElement {
+            @Summary
             private final CodeableConcept orientationOfPolymerisation;
+            @Summary
             private final String repeatUnit;
+            @Summary
             private final SubstanceAmount amount;
+            @Summary
             private final List<DegreeOfPolymerisation> degreeOfPolymerisation;
+            @Summary
             private final List<StructuralRepresentation> structuralRepresentation;
 
             private volatile int hashCode;
@@ -1949,7 +1971,9 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              */
             public static class DegreeOfPolymerisation extends BackboneElement {
+                @Summary
                 private final CodeableConcept degree;
+                @Summary
                 private final SubstanceAmount amount;
 
                 private volatile int hashCode;
@@ -2208,8 +2232,11 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              */
             public static class StructuralRepresentation extends BackboneElement {
+                @Summary
                 private final CodeableConcept type;
+                @Summary
                 private final String representation;
+                @Summary
                 private final Attachment attachment;
 
                 private volatile int hashCode;

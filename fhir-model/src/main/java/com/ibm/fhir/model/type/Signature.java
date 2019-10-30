@@ -16,6 +16,8 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -26,18 +28,22 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Signature extends Element {
-    @Required
+    @Summary
     @Binding(
         bindingName = "SignatureType",
         strength = BindingStrength.ValueSet.PREFERRED,
         description = "An indication of the reason that an entity signed the object.",
         valueSet = "http://hl7.org/fhir/ValueSet/signature-type"
     )
+    @Required
     private final List<Coding> type;
+    @Summary
     @Required
     private final Instant when;
+    @Summary
     @Required
     private final Reference who;
+    @Summary
     private final Reference onBehalfOf;
     @Binding(
         bindingName = "MimeType",

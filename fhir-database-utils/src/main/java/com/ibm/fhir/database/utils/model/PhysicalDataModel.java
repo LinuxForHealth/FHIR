@@ -29,7 +29,6 @@ import com.ibm.fhir.task.api.ITaskCollector;
  * Represents the set of tables and other schema objects that make up the
  * schema we want to build and manage. This is created as code and not in a DDL text file
  * on purpose. Doing so makes it much easier to test.
- * @author rarnold
  */
 public class PhysicalDataModel implements IDataModel {
     private static final Logger logger = Logger.getLogger(PhysicalDataModel.class.getName());
@@ -96,7 +95,8 @@ public class PhysicalDataModel implements IDataModel {
      * time it takes to provision a schema.
      * @param tc collects and manages the object creation tasks and their dependencies
      * @param target the target database adapter
-     * @param cp the connection provider (pool)
+     * @param tp
+     * @param vhs
      */
     public void collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
         for (IDatabaseObject obj: allObjects) {
@@ -149,7 +149,10 @@ public class PhysicalDataModel implements IDataModel {
     /**
      * Drop the model from the target database. This is done
      * in reverse order
+     * 
      * @param target
+     * @param tagGroup
+     * @param tag
      */
     public void drop(IDatabaseAdapter target, String tagGroup, String tag) {
         // The simplest way to reverse the list is add everything into an array list
@@ -200,8 +203,11 @@ public class PhysicalDataModel implements IDataModel {
     /**
      * Make sure every tenant-partitioned table has a partition for the given
      * tenantId
+     * 
      * @param adapter
+     * @param schemaName
      * @param tenantId
+     * @param extentSizeKB
      */
     public void addTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId, int extentSizeKB) {
         final String tenantIdColumn = "MT_ID";
@@ -213,9 +219,11 @@ public class PhysicalDataModel implements IDataModel {
 
     /**
      * remove the partition from each of the tenant-based tables
+     * 
      * @param adapter
      * @param schemaName
      * @param tenantId
+     * @param partitionStagingTable
      */
     public void removeTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId, String partitionStagingTable) {
         final String tenantIdColumn = "MT_ID";
@@ -229,9 +237,14 @@ public class PhysicalDataModel implements IDataModel {
      * Add a stored procedure definition. The given {@link Supplier} will be called upon
      * to provide the DDL body for the procedure at the point in time it is being applied
      * to the database, not when constructing the model.
+     * 
      * @param schemaName
      * @param objectName the name of the procedure object
+     * @param version
      * @param templateProvider supplier of the procedure text
+     * @param dependencies
+     * @param privileges
+     * @return
      */
     public ProcedureDef addProcedure(String schemaName, String objectName, int version, Supplier<String> templateProvider,
             Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
@@ -259,9 +272,6 @@ public class PhysicalDataModel implements IDataModel {
         
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDataModel#findTable(java.lang.String, java.lang.String)
-     */
     @Override
     public Table findTable(String schemaName, String tableName) {
         Table result = tables.get(DataDefinitionUtil.getQualifiedName(schemaName, tableName));
@@ -335,6 +345,7 @@ public class PhysicalDataModel implements IDataModel {
      * Call the given {@link Consumer} for each of the tables found in the
      * schema identified by schemaName
      * @param schemaName
+     * @param c
      */
     public void processTablesInSchema(String schemaName, Consumer<Table> c) {
         for (Table t: tables.values()) {
@@ -360,6 +371,7 @@ public class PhysicalDataModel implements IDataModel {
      * Apply the grants for the given group to the user
      * @param target
      * @param groupName
+     * @param username
      */
     public void applyGrants(IDatabaseAdapter target, String groupName, String username) {
         int total = allObjects.size();

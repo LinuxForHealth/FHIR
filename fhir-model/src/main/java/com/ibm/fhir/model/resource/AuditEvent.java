@@ -18,12 +18,9 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.AuditEventAction;
-import com.ibm.fhir.model.type.AuditEventAgentNetworkType;
-import com.ibm.fhir.model.type.AuditEventOutcome;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -38,6 +35,10 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.AuditEventAction;
+import com.ibm.fhir.model.type.code.AuditEventAgentNetworkType;
+import com.ibm.fhir.model.type.code.AuditEventOutcome;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -54,14 +55,16 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AuditEvent extends DomainResource {
-    @Required
+    @Summary
     @Binding(
         bindingName = "AuditEventType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-type"
     )
+    @Required
     private final Coding type;
+    @Summary
     @Binding(
         bindingName = "AuditEventSubType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -69,6 +72,7 @@ public class AuditEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-sub-type"
     )
     private final List<Coding> subtype;
+    @Summary
     @Binding(
         bindingName = "AuditEventAction",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -77,8 +81,10 @@ public class AuditEvent extends DomainResource {
     )
     private final AuditEventAction action;
     private final Period period;
+    @Summary
     @Required
     private final Instant recorded;
+    @Summary
     @Binding(
         bindingName = "AuditEventOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -86,7 +92,9 @@ public class AuditEvent extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.0.0"
     )
     private final AuditEventOutcome outcome;
+    @Summary
     private final String outcomeDesc;
+    @Summary
     @Binding(
         bindingName = "AuditPurposeOfUse",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -858,9 +866,11 @@ public class AuditEvent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
         private final List<CodeableConcept> role;
+        @Summary
         private final Reference who;
         private final String altId;
         private final String name;
+        @Summary
         @Required
         private final Boolean requestor;
         private final Reference location;
@@ -1760,6 +1770,7 @@ public class AuditEvent extends DomainResource {
      */
     public static class Source extends BackboneElement {
         private final String site;
+        @Summary
         @Required
         private final Reference observer;
         @Binding(
@@ -2086,6 +2097,7 @@ public class AuditEvent extends DomainResource {
      * Specific instances of data or objects that have been accessed.
      */
     public static class Entity extends BackboneElement {
+        @Summary
         private final Reference what;
         @Binding(
             bindingName = "AuditEventEntityType",
@@ -2115,8 +2127,10 @@ public class AuditEvent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
         )
         private final List<Coding> securityLabel;
+        @Summary
         private final String name;
         private final String description;
+        @Summary
         private final Base64Binary query;
         private final List<Detail> detail;
 
@@ -2634,8 +2648,8 @@ public class AuditEvent extends DomainResource {
         public static class Detail extends BackboneElement {
             @Required
             private final String type;
-            @Required
             @Choice({ String.class, Base64Binary.class })
+            @Required
             private final Element value;
 
             private volatile int hashCode;

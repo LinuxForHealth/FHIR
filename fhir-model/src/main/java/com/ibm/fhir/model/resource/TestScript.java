@@ -17,11 +17,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.AssertionDirectionType;
-import com.ibm.fhir.model.type.AssertionOperatorType;
-import com.ibm.fhir.model.type.AssertionResponseTypes;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -30,19 +27,23 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.FHIRDefinedType;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.model.type.TestScriptRequestMethodCode;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.AssertionDirectionType;
+import com.ibm.fhir.model.type.code.AssertionOperatorType;
+import com.ibm.fhir.model.type.code.AssertionResponseTypes;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.FHIRDefinedType;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.TestScriptRequestMethodCode;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -150,27 +151,39 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TestScript extends DomainResource {
+    @Summary
     @Required
     private final Uri url;
+    @Summary
     private final Identifier identifier;
+    @Summary
     private final String version;
+    @Summary
     @Required
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1462,13 +1475,13 @@ public class TestScript extends DomainResource {
     public static class Origin extends BackboneElement {
         @Required
         private final Integer index;
-        @Required
         @Binding(
             bindingName = "TestScriptProfileOriginType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of origin profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-origin-types"
         )
+        @Required
         private final Coding profile;
 
         private volatile int hashCode;
@@ -1739,13 +1752,13 @@ public class TestScript extends DomainResource {
     public static class Destination extends BackboneElement {
         @Required
         private final Integer index;
-        @Required
         @Binding(
             bindingName = "TestScriptProfileDestinationType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
             description = "The type of destination profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-destination-types"
         )
+        @Required
         private final Coding profile;
 
         private volatile int hashCode;
@@ -6723,7 +6736,7 @@ public class TestScript extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Operation}.
              */
             public TestScript.Setup.Action.Operation getOperation() {
                 return operation;
@@ -6733,7 +6746,7 @@ public class TestScript extends DomainResource {
              * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
              * 
              * @return
-             *     An immutable object of type {@link Assert}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Assert}.
              */
             public TestScript.Setup.Action.Assert getassert() {
                 return _assert;
@@ -7238,7 +7251,7 @@ public class TestScript extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Operation}.
              */
             public TestScript.Setup.Action.Operation getOperation() {
                 return operation;

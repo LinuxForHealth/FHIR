@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.api;
 
 /**
  * Translation of a duplicate key or value constraint SQLException.
- * @author rarnold
- *
  */
 public class DuplicateValueException extends DataAccessException {
 

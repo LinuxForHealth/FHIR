@@ -38,7 +38,6 @@ import com.ibm.fhir.database.utils.model.Tablespace;
 /**
  * Generates the FHIRADMIN schema which holds the TENANTS
  * and TENANT_KEYS tables and supporting stored procedures
- * @author rarnold
  */
 public class AdminSchemaGenerator {
     private final String adminSchemaName;
@@ -54,7 +53,6 @@ public class AdminSchemaGenerator {
 
     private Table tenantsTable;
     private Table tenantKeysTable;
-
 
     // Privileges needed for reading the sv_tenant_id variable
     List<GroupPrivilege> variablePrivileges = new ArrayList<>();
@@ -74,8 +72,6 @@ public class AdminSchemaGenerator {
     // A NOP marker used to ensure procedures are only applied after all the create
     // table statements are applied - to avoid DB2 catalog deadlocks
     private IDatabaseObject allTablesComplete;
-
-
 
     public AdminSchemaGenerator(String adminSchemaName) {
         this.adminSchemaName = adminSchemaName;
@@ -125,8 +121,6 @@ public class AdminSchemaGenerator {
         model.addObject(sessionVariable);
     }
 
-
-
     /**
      * Create a table to manage the list of tenants. The tenant id is used
      * as a partition value for all the other tables
@@ -141,8 +135,7 @@ public class AdminSchemaGenerator {
                 .addUniqueIndex(IDX + "TENANT_TN", TENANT_NAME)
                 .addPrimaryKey("TENANT_PK", MT_ID)
                 .setTablespace(fhirTablespace)
-                .build(model)
-                ;
+                .build(model);
 
         this.procedureDependencies.add(tenantsTable);
         model.addTable(tenantsTable);
@@ -167,8 +160,7 @@ public class AdminSchemaGenerator {
                 .addPrimaryKey("TENANT_KEY_PK", TENANT_KEY_ID)
                 .addForeignKeyConstraint(FK + TENANT_KEYS + "_TNID", adminSchemaName, TENANTS, MT_ID) // dependency
                 .setTablespace(fhirTablespace)
-                .build(model)
-                ;
+                .build(model);
 
         this.procedureDependencies.add(tenantKeysTable);
         model.addTable(tenantKeysTable);
@@ -176,11 +168,11 @@ public class AdminSchemaGenerator {
     }
 
     /**
-CREATE SEQUENCE fhir_sequence
-             AS BIGINT
-     START WITH 1
-          CACHE 1000
-       NO CYCLE;
+    CREATE SEQUENCE fhir_sequence
+                 AS BIGINT
+         START WITH 1
+              CACHE 1000
+           NO CYCLE;
      * 
      * @param pdm
      */

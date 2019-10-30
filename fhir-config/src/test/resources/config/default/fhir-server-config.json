@@ -1,25 +1,21 @@
 {
-	"collection": {
-		"tenant": "default",
-		"groupA": {
-			"stringProp1": "defaultValue1",
-			"stringProp2": "defaultValue2"
-		},
-		"groupB": {
-			"boolProp1": false,
-			"boolProp2": "false",
-			"stringList1": ["token1",
-			"token2"]
-		},
+    "collection": {
+        "tenant": "default",
+        "groupA": {
+            "stringProp1": "defaultValue1",
+            "stringProp2": "defaultValue2"
+        },
+        "groupB": {
+            "boolProp1": false,
+            "boolProp2": "false",
+            "stringList1": ["token1",
+            "token2"]
+        },
         "groupC": {
             "intProp1": 12345,
             "intProp2": "12345",
             "doubleProp1": 12345.001,
             "doubleProp2": "12345.001"
         }
-	},
-	"whclsfRouter": {
-	   "consentEnforcementEnabled": "true",
-	   "consentManagementEnabled": "false"
-	}
+    }
 }

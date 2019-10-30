@@ -17,15 +17,13 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
-import com.ibm.fhir.model.type.CommunicationPriority;
-import com.ibm.fhir.model.type.CommunicationStatus;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
@@ -36,6 +34,9 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.CommunicationPriority;
+import com.ibm.fhir.model.type.code.CommunicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,20 +46,27 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Communication extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Canonical> instantiatesCanonical;
+    @Summary
     private final List<Uri> instantiatesUri;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> partOf;
     private final List<Reference> inResponseTo;
-    @Required
+    @Summary
     @Binding(
         bindingName = "CommunicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the communication.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
     )
+    @Required
     private final CommunicationStatus status;
+    @Summary
     @Binding(
         bindingName = "CommunicationNotDoneReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -73,6 +81,7 @@ public class Communication extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/communication-category"
     )
     private final List<CodeableConcept> category;
+    @Summary
     @Binding(
         bindingName = "CommunicationPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -87,6 +96,7 @@ public class Communication extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ParticipationMode"
     )
     private final List<CodeableConcept> medium;
+    @Summary
     private final Reference subject;
     @Binding(
         bindingName = "CommunicationTopic",
@@ -96,11 +106,13 @@ public class Communication extends DomainResource {
     )
     private final CodeableConcept topic;
     private final List<Reference> about;
+    @Summary
     private final Reference encounter;
     private final DateTime sent;
     private final DateTime received;
     private final List<Reference> recipient;
     private final Reference sender;
+    @Summary
     @Binding(
         bindingName = "CommunicationReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -108,6 +120,7 @@ public class Communication extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     private final List<Reference> reasonReference;
     private final List<Payload> payload;
     private final List<Annotation> note;
@@ -1439,8 +1452,8 @@ public class Communication extends DomainResource {
      * Text, attachment(s), or resource(s) that was communicated to the recipient.
      */
     public static class Payload extends BackboneElement {
-        @Required
         @Choice({ String.class, Attachment.class, Reference.class })
+        @Required
         private final Element content;
 
         private volatile int hashCode;

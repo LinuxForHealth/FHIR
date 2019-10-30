@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,9 +11,6 @@ import com.ibm.fhir.config.PropertyGroup;
 
 /**
  * Defines the internal FHIR Server APIs for audit logging
- * 
- * @author markd
- *
  */
 public interface AuditLogService {
 

@@ -28,12 +28,10 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
-import com.ibm.fhir.model.type.FHIRResourceType;
+import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
- * Encapsules the generation of the FHIR schema artifacts
- * @author rarnold
- *
+ * Encapsulates the generation of the FHIR schema artifacts
  */
 public class FhirSchemaGenerator {
 
@@ -124,6 +122,8 @@ public class FhirSchemaGenerator {
 
     /**
      * Public constructor
+     * 
+     * @param adminSchemaName
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName) {
@@ -150,10 +150,10 @@ public class FhirSchemaGenerator {
         // both TENANT_NAME and TENANT_KEY to be provided.
         variablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.READ));
         
-        // FHIRSERVER gets to use the 
+        // FHIRSERVER gets to use the FHIR sequence
         sequencePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.USAGE));
 
-        // All the resource types we will create tables for
+        // Create tables for each resource type
         for (FHIRResourceType.ValueSet rt: FHIRResourceType.ValueSet.values()) {
             resourceTypes.add(rt.value());
         }
@@ -212,7 +212,6 @@ public class FhirSchemaGenerator {
         model.addObject(this.sessionVariable);
     }
 
-
     /**
      * Create a table to manage the list of tenants. The tenant id is used
      * as a partition value for all the other tables
@@ -227,8 +226,7 @@ public class FhirSchemaGenerator {
                 .addUniqueIndex(IDX + "TENANT_TN", TENANT_NAME)
                 .addPrimaryKey("TENANT_PK", MT_ID)
                 .setTablespace(fhirTablespace)
-                .build(model)
-                ;
+                .build(model);
 
         this.tenantsTable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         this.adminProcedureDependencies.add(tenantsTable);
@@ -254,8 +252,7 @@ public class FhirSchemaGenerator {
                 .addPrimaryKey("TENANT_KEY_PK", TENANT_KEY_ID)
                 .addForeignKeyConstraint(FK + TENANT_KEYS + "_TNID", adminSchemaName, TENANTS, MT_ID) // dependency
                 .setTablespace(fhirTablespace)
-                .build(model)
-                ;
+                .build(model);
 
         this.tenantKeysTable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         this.adminProcedureDependencies.add(tenantKeysTable);
@@ -264,11 +261,13 @@ public class FhirSchemaGenerator {
     }
 
     /**
-CREATE SEQUENCE fhir_sequence
+    <pre>
+    CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
           CACHE 1000
        NO CYCLE;
+     </pre>
      * 
      * @param pdm
      */
@@ -281,16 +280,14 @@ CREATE SEQUENCE fhir_sequence
         pdm.addObject(tenantSequence);
     }
 
-
-
     /**
      * Create the schema using the given target
-     * @param target
+     * @param model
      */
     public void buildSchema(PhysicalDataModel model) {
 
         // Build the complete physical model so that we know it's consistent
-        buildAdminSchema(model);        
+        buildAdminSchema(model);
         addFhirSequence(model);
         addFhirRefSequence(model);
         addParameterNames(model);
@@ -337,7 +334,7 @@ CREATE SEQUENCE fhir_sequence
      * denormalized, stored in both LOGICAL_RESOURCES and <RESOURCE_TYPE>_LOGICAL_RESOURCES.
      * This avoids an additional join, and simplifies the migration to this
      * new schema model.
-     * @param prefix
+     * @param pdm
      */
     public void addLogicalResources(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCES;
@@ -365,7 +362,7 @@ CREATE SEQUENCE fhir_sequence
     /**
      * Add the system-wide TOKEN_VALUES table which is used for
      * _tag and _security search properties in R4
-     * @param prefix
+     * @param pdm
      */
     public void addResourceTokenValues(PhysicalDataModel pdm) {
 
@@ -387,8 +384,7 @@ CREATE SEQUENCE fhir_sequence
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .build(pdm)
-                ;
+                .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -400,8 +396,7 @@ CREATE SEQUENCE fhir_sequence
     /**
      * Add system-wide RESOURCE_STR_VALUES table to support _profile
      * properties (which are of type REFERENCE). 
-     * @param group
-     * @param prefix
+     * @param pdm
      */
     public void addResourceStrValues(PhysicalDataModel pdm) {
         final int msb = MAX_SEARCH_STRING_BYTES;
@@ -421,8 +416,7 @@ CREATE SEQUENCE fhir_sequence
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .build(pdm)
-                ;
+                .build(pdm);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(tbl);
@@ -455,8 +449,7 @@ CREATE SEQUENCE fhir_sequence
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .build(model)
-                ;
+                .build(model);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(tbl);
@@ -466,14 +459,16 @@ CREATE SEQUENCE fhir_sequence
 
 
     /**
-    CREATE TABLE resource_types (
-      resource_type_id INT NOT NULL
-      CONSTRAINT pk_resource_type PRIMARY KEY,
-      resource_type   VARCHAR(64) NOT NULL
-);
-
--- make sure resource_type values are unique
-CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
+     * <pre>
+        CREATE TABLE resource_types (
+            resource_type_id INT NOT NULL
+            CONSTRAINT pk_resource_type PRIMARY KEY,
+            resource_type   VARCHAR(64) NOT NULL
+        );
+        
+        -- make sure resource_type values are unique
+        CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
+        </pre>
      * 
      * @param model
      */
@@ -496,7 +491,6 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         model.addTable(resourceTypesTable);
         model.addObject(resourceTypesTable);
     }
-
 
     /**
      * Add the collection of tables for each of the listed
@@ -521,23 +515,17 @@ CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
             // Make this group a dependency for all the stored procedures.
             this.procedureDependencies.add(group);
             model.addObject(group);
-
         }
     }
-
 
     /**
      * Add the sequence objects to the given model object
      * -------------------------------------------------------------------------------
-
-
-CREATE SEQUENCE test_sequence
+        CREATE SEQUENCE test_sequence
              AS BIGINT
-     START WITH 1
+         START WITH 1
           CACHE 1000
-       NO CYCLE;
-
-
+           NO CYCLE;
      * @param model
      */
     protected void addSequences(PhysicalDataModel model) {
@@ -547,13 +535,13 @@ CREATE SEQUENCE test_sequence
     /**
      * 
      * 
-CREATE TABLE parameter_names (
-  parameter_name_id INT NOT NULL
-                CONSTRAINT pk_parameter_name PRIMARY KEY,
-  parameter_name   VARCHAR(255 OCTETS) NOT NULL
-);
-
-CREATE UNIQUE INDEX unq_parameter_name_rtnm ON parameter_names(parameter_name) INCLUDE (parameter_name_id);
+    CREATE TABLE parameter_names (
+      parameter_name_id INT NOT NULL
+                    CONSTRAINT pk_parameter_name PRIMARY KEY,
+      parameter_name   VARCHAR(255 OCTETS) NOT NULL
+    );
+    
+    CREATE UNIQUE INDEX unq_parameter_name_rtnm ON parameter_names(parameter_name) INCLUDE (parameter_name_id);
 
      * @param model
      */
@@ -583,13 +571,13 @@ CREATE UNIQUE INDEX unq_parameter_name_rtnm ON parameter_names(parameter_name) I
 
     /**
      * Add the code_systems table to the database schema
-CREATE TABLE code_systems (
-  code_system_id         INT NOT NULL
-   CONSTRAINT pk_code_system PRIMARY KEY,
-  code_system_name       VARCHAR(255 OCTETS) NOT NULL
-);
-
-CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
+    CREATE TABLE code_systems (
+      code_system_id         INT NOT NULL
+       CONSTRAINT pk_code_system PRIMARY KEY,
+      code_system_name       VARCHAR(255 OCTETS) NOT NULL
+    );
+    
+    CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
      * @param model
      */
@@ -639,11 +627,13 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
         return SchemaGeneratorUtil.readTemplate(this.adminSchemaName, this.schemaName, ADD_RESOURCE_TEMPLATE, replacers);
     }
 
-
     /**
      * Add the types we need for passing parameters to the stored procedures
-       CREATE OR REPLACE TYPE <schema>.t_str_values AS ROW (parameter_name_id INTEGER, str_value VARCHAR(511 OCTETS), str_value_lcase   VARCHAR(511 OCTETS))
-       CREATE OR REPLACE TYPE <schema>.t_str_values_arr AS <schema>.t_str_values ARRAY[256]
+       <pre>
+       CREATE OR REPLACE TYPE SCHEMA.t_str_values AS ROW (parameter_name_id INTEGER, str_value VARCHAR(511 OCTETS), str_value_lcase   VARCHAR(511 OCTETS))
+       CREATE OR REPLACE TYPE SCHEMA.t_str_values_arr AS SCHEMA.t_str_values ARRAY[256]
+       </pre>
+       @param pdm
      */
     protected void addProcedureParameterTypes(PhysicalDataModel pdm) {
         // We get a deadlock: 'SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2' if we try to create
@@ -666,11 +656,11 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_str_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addVarcharColumn(STR_VALUE, 511, false)
-        .addVarcharColumn(STR_VALUE_LCASE, 511, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_str_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addVarcharColumn(STR_VALUE, 511, false)
+            .addVarcharColumn(STR_VALUE_LCASE, 511, false);
 
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -689,22 +679,24 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
     /**
      *     
+     *     
+     * <pre>
     t_token_values AS ROW ( parameter_name_id INTEGER, code_system_id    INTEGER, token_value       VARCHAR(255 OCTETS))';
     t_token_values_arr AS ' || CURRENT SCHEMA || '.t_token_values ARRAY[256]';
-
-
+    </pre>
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addTokenValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_token_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addIntColumn(CODE_SYSTEM_ID, false)
-        .addVarcharColumn(TOKEN_VALUE, 255, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_token_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addIntColumn(CODE_SYSTEM_ID, false)
+            .addVarcharColumn(TOKEN_VALUE, 255, false);
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rt.addDependencies(Arrays.asList(dob));
@@ -722,22 +714,25 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
     }
 
     /**
+     * <pre>
     t_date_values AS ROW ( parameter_name_id         INT, date_value          TIMESTAMP, date_start          TIMESTAMP, date_end            TIMESTAMP)';
     t_date_values_arr AS ' || CURRENT SCHEMA || '.t_date_values ARRAY[256]';
+    </pre>
      * 
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addDateValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_date_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addTimestampColumn(DATE_VALUE, false)
-        .addTimestampColumn(DATE_START, false)
-        .addTimestampColumn(DATE_END, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_date_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addTimestampColumn(DATE_VALUE, false)
+            .addTimestampColumn(DATE_START, false)
+            .addTimestampColumn(DATE_END, false);
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rt.addDependencies(Arrays.asList(dob));
@@ -755,21 +750,23 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
     }
 
     /**
+     * <pre>
     t_number_values AS ROW ( parameter_name_id      INT, number_value        DOUBLE)';
     t_number_values_arr AS ' || CURRENT SCHEMA || '.t_number_values ARRAY[256]';
-
+    </pre>
      * 
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addNumberValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_number_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addDoubleColumn(NUMBER_VALUE, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_number_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addDoubleColumn(NUMBER_VALUE, false);
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rt.addDependencies(Arrays.asList(dob));
@@ -787,25 +784,27 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
     }
 
     /**
+     * 
+     * <pre>
     t_quantity_values AS ROW ( parameter_name_id        INT, code                 VARCHAR(255 OCTETS), quantity_value        DOUBLE, quantity_value_low    DOUBLE, quantity_value_high   DOUBLE, code_system_id           INT)';
     t_quantity_values_arr AS ' || CURRENT SCHEMA || '.t_quantity_values ARRAY[256]';
-
-
+     </pre>
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addQuantityValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_quantity_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addVarcharColumn(CODE, 255, false)
-        .addDoubleColumn(QUANTITY_VALUE, false)
-        .addDoubleColumn(QUANTITY_VALUE_LOW, false)
-        .addDoubleColumn(QUANTITY_VALUE_HIGH, false)
-        .addIntColumn(CODE_SYSTEM_ID, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_quantity_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addVarcharColumn(CODE, 255, false)
+            .addDoubleColumn(QUANTITY_VALUE, false)
+            .addDoubleColumn(QUANTITY_VALUE_LOW, false)
+            .addDoubleColumn(QUANTITY_VALUE_HIGH, false)
+            .addIntColumn(CODE_SYSTEM_ID, false);
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rt.addDependencies(Arrays.asList(dob));
@@ -822,13 +821,15 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
         return rat;
     }
 
-
     /**
+    
+    <pre> 
     CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
           CACHE 1000
        NO CYCLE;
+       </pre>
      * 
      * @param pdm
      */
@@ -852,21 +853,23 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
     /**
      *     
+     *<pre>
     t_latlng_values AS ROW ( parameter_name_id      INT, latitude_value      DOUBLE, longitude_value     DOUBLE)';
     t_latlng_values_arr AS ' || CURRENT SCHEMA || '.t_latlng_values ARRAY[256]';
-
+    </pre>
      * @param pdm
+     * @param dob
      */
     protected IDatabaseObject addLatLngValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
 
         // Add the row type first
         RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
         strValuesBuilder
-        .setSchemaName(this.schemaName)
-        .setTypeName("t_latlng_values")
-        .addBigIntColumn(PARAMETER_NAME_ID, false)
-        .addDoubleColumn(LATITUDE_VALUE, false)
-        .addDoubleColumn(LONGITUDE_VALUE, false);
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_latlng_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addDoubleColumn(LATITUDE_VALUE, false)
+            .addDoubleColumn(LONGITUDE_VALUE, false);
 
         IDatabaseObject rt = strValuesBuilder.build();
         rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -886,6 +889,7 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
     /**
      * Visitor for the resource types
+     * @param consumer
      */
     public void applyResourceTypes(Consumer<String> consumer) {
         for (String resourceType: this.resourceTypes) {

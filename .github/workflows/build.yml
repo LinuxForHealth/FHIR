@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  pull_request:
+    paths-ignore:
+    - 'docs/**'
+
+jobs:
+  build-tools:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build tools
+      run: mvn -B install --file fhir-tools/pom.xml
+    - name: Build samples
+      run: mvn -B install --file fhir-examples/pom.xml
+    - name: Build parent without tests
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
+    - name: Build sample generator
+      run: mvn -B package --file fhir-examples-generator/pom.xml
+    - name: Build benchmark
+      run: mvn -B package --file fhir-benchmark/pom.xml
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build samples
+      run: mvn -B install --file fhir-examples/pom.xml
+    - name: Build parent with tests
+      run: mvn -B -T2C package --file fhir-parent/pom.xml
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build samples
+      run: mvn -B install --file fhir-examples/pom.xml
+    - name: Build parent without tests
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
+    - name: Server Integration Tests
+      run: |
+        export WORKSPACE=${GITHUB_WORKSPACE}
+        build/pre-integration-test.sh
+        mvn test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true
+        build/post-integration-test.sh
+    - name: Gather error logs
+      if: failure()
+      run: |
+        it_results=SIT/integration-test-results
+        rm -fr ${it_results} 2>/dev/null
+        mkdir -p ${it_results}/server-logs
+        mkdir -p ${it_results}/fhir-server-test
+        echo "Gathering post-test server logs..."
+        cp -pr SIT/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
+        echo "Gathering integration test output"
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@master
+      with:
+        name: integration-test-results
+        path: SIT/integration-test-results

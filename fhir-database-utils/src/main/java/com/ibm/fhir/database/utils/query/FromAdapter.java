@@ -6,17 +6,12 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Adapter for building the FROM clause of a SELECT statement
- * @author rarnold
  *
  */
 public class FromAdapter {
+    
     // the select statement being built
     private final Select select;
 
@@ -61,7 +56,7 @@ public class FromAdapter {
     }
 
     /**
-     * Start building a sub-query. This isn't added to the from until {@link FromSubQueryAdapter#subEnd()}
+     * Start building a sub-query. This isn't added to the from until {@link FromSubQueryAdapter#subEnd(String)}
      * is called
      * @return
      */

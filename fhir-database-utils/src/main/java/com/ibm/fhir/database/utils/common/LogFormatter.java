@@ -6,31 +6,23 @@
 
 package com.ibm.fhir.database.utils.common;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 
 /**
  * A slightly nicer formatter for Java util logging output
- * @author rarnold
- * 
  * Modified to write out logs to a specified file
- * @author asabesa
  *
  */
 public class LogFormatter extends Formatter {
-    /**
-     * Copyright Add or Change the 2nd year when the source has changed more
-     * than 5% for example (C) COPYRIGHT 2005, 2007
-     */
-    static final String COPYRIGHT = "(C) Copyright IBM Corp. 2015 All Rights Reserved"; //$NON-NLS-1$
 
     private static final String ISO_TIME = "yyyy-MM-dd HH:mm:ss.SSS";
     /**

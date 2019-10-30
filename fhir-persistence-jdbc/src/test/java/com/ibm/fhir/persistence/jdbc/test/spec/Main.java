@@ -12,14 +12,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.model.spec.test.DriverMetrics;
+import com.ibm.fhir.model.spec.test.DriverStats;
 import com.ibm.fhir.model.spec.test.Expectation;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.spec.test.SerializationProcessor;
@@ -27,19 +31,22 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCNormalizedImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
 /**
  * Integration test using a multi-tenant schema in DB2 as the target for the
  * FHIR R4 Examples.
- * @author rarnold
+ * 
+ * TODO refactor to reduce duplication with the fhir-server-test Main app.
  * 
  * Usage 
+ * <code>
  *   java com.ibm.fhir.persistence.jdbc.test.spec.Main
  *   --parse
  *   --validate
+ *   --derby
  *   --expectation OK
  *   --file-name file:/path/to/foo.json
  *   --file-name file:/path/to/bar.json
@@ -51,8 +58,9 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  *   java com.ibm.fhir.persistence.jdbc.test.spec.Main
  *   --parse
  *   --validate
+ *   --derby
  *   --index-file file:/path/to/my/index.txt
- * 
+ * </code>
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -73,6 +81,21 @@ public class Main {
     private String indexFileName;
     
     private boolean validate;
+    
+    // Number of threads to use if running concurrency checks
+    private int threads = 0;
+    
+    // The number of times we perform the read each time. Useful for performance analysis
+    private int readIterations = 1;
+    
+    // The number of requests which can be submitted to the pool before blocking
+    private int maxInflight;
+
+    // The thread pool used for concurrent request processing
+    private ExecutorService pool;
+
+    // number of ms to wait for the thread pool to shut down
+    private long poolShutdownWaitTime = 60000;
     
     private List<FileExpectation> fileExpectations = new ArrayList<>();
 
@@ -105,6 +128,22 @@ public class Main {
                 }
                 else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--threads":
+                if (++i < args.length) {
+                    this.threads = Integer.parseInt(args[i]);
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for --threads argument at posn: " + i);
+                }
+                break;
+            case "--read-iterations":
+                if (++i < args.length) {
+                    this.readIterations = Integer.parseInt(args[i]);
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for --read-iterations argument at posn: " + i);
                 }
                 break;
             case "--tenant-key":
@@ -164,6 +203,14 @@ public class Main {
             case "--validate":
                 this.validate = true;
                 break;
+            case "--max-inflight":
+                if (++i < args.length) {
+                    this.maxInflight = Integer.parseInt(args[i]);
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for --max-inflight argument at posn: " + i);
+                }
+                break;
             default:
                 throw new IllegalArgumentException("Invalid argument: " + arg);
             }
@@ -184,6 +231,31 @@ public class Main {
         catch (IOException x) {
             throw new IllegalArgumentException(x);
         }
+    }
+    
+    /**
+     * Configure the class using the values collected from parseArgs
+     */
+    protected void configure() {
+        if (threads > 0) {
+            pool = Executors.newFixedThreadPool(threads);
+            
+            if (maxInflight == 0) {
+                maxInflight = threads * 2;
+            }
+        }
+    }
+
+    /**
+     * Render a quick report on the time taken for various steps we've instrumented.
+     * TODO: add as part of a regression test
+     * @param dm
+     * @param elapsed
+     */
+    protected void renderReport(DriverMetrics dm, long elapsed) {
+        // how many seconds did we run for?
+        double secs = elapsed / 1000.0;
+        dm.render(new DriverStats(System.out, secs));
     }
 
     /**
@@ -231,7 +303,7 @@ public class Main {
         }
 
         
-        persistence = new FHIRPersistenceJDBCNormalizedImpl(this.configProps, cp);
+        persistence = new FHIRPersistenceJDBCImpl(this.configProps, cp);
         R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
             () -> createPersistenceContext(),
             () -> createHistoryPersistenceContext());
@@ -260,27 +332,60 @@ public class Main {
             driver.processAllExamples();        
         }
     }
+    
+    /**
+     * Populate the list of operations we want to use for the configured test
+     * @param operations
+     */
+    protected void populateOperationsList(List<ITestResourceOperation> operations, DriverMetrics dm) {
+        operations.add(new CreateOperation(dm));
+        operations.add(new ReadOperation(dm, this.readIterations));
+    }
 
     /**
      * Use a derby target to process the examples
      * @throws Exception
      */
     protected void processDerby() throws Exception {
-        
-        // Set up a connection provider pointing to the DB2 instance described
-        // by the configProps
+
+        // The DerbyFhirDatabase encapsulates Derby and provides an
+        // IConnectionProvider implementation used by the persistence
+        // layer to obtain connections. TODO: We need to start using
+        // a simple connection pool to speed up the connection process.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
-        
-            persistence = new FHIRPersistenceJDBCNormalizedImpl(this.configProps, database);
+            persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
+            
+            // create a custom list of operations to apply in order to each resource
+            DriverMetrics dm = new DriverMetrics();
+            List<ITestResourceOperation> operations = new ArrayList<>();
+            populateOperationsList(operations, dm);
+
             R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
                 () -> createPersistenceContext(),
-                () -> createHistoryPersistenceContext());
+                () -> createHistoryPersistenceContext(),
+                operations);
                     
             // The driver will iterate over all the JSON examples in the R4 specification, parse
             // the resource and call the processor.
+            long start = System.nanoTime();
             R4ExamplesDriver driver = new R4ExamplesDriver();
+            driver.setMetrics(dm);
             driver.setProcessor(processor);
+
+            // enable optional validation
+            if (this.validate) {
+                driver.setValidator(new ValidationProcessor());
+            }
+            
+            if (pool != null) {
+                driver.setPool(pool, maxInflight);
+            }
+            
             runDriver(driver);
+            
+            // print out some simple stats
+            long elapsed = (System.nanoTime() - start) / DriverMetrics.NANOS_MS;
+            renderReport(dm, elapsed);
         }
     }
     
@@ -339,6 +444,7 @@ public class Main {
         Main m = new Main();
         try {
             m.parseArgs(args);
+            m.configure();
             m.process();
         }
         catch (Exception x) {

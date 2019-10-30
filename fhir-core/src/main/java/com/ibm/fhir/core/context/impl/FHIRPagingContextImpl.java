@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,8 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     protected int lastPageNumber;
     protected int pageNumber;
     protected int pageSize;
-    protected long totalCount;
+    protected int totalCount;
+    protected boolean lenient = true;
     
     public FHIRPagingContextImpl() {
         this.pageNumber = DEFAULT_PAGE_NUMBER;
@@ -40,7 +41,7 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     }
     
     @Override
-    public long getTotalCount() {
+    public int getTotalCount() {
         return totalCount;
     }
 
@@ -60,7 +61,17 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     }
 
     @Override
-    public void setTotalCount(long totalCount) {
+    public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
+    }
+    
+    @Override
+    public boolean isLenient() {
+        return lenient;
+    }
+
+    @Override
+    public void setLenient(boolean lenient) {
+        this.lenient = lenient;
     }
 }

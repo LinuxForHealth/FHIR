@@ -16,9 +16,9 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactDetail;
@@ -31,9 +31,10 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
-import com.ibm.fhir.model.type.ResearchStudyStatus;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ResearchStudyStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,18 +46,24 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ResearchStudy extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String title;
+    @Summary
     private final List<Reference> protocol;
+    @Summary
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ResearchStudyStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes that convey the current status of the research study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-status|4.0.0"
     )
+    @Required
     private final ResearchStudyStatus status;
+    @Summary
     @Binding(
         bindingName = "ResearchStudyPrimaryPurposeType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -64,6 +71,7 @@ public class ResearchStudy extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-prim-purp-type"
     )
     private final CodeableConcept primaryPurposeType;
+    @Summary
     @Binding(
         bindingName = "ResearchStudyPhase",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -71,18 +79,21 @@ public class ResearchStudy extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-phase"
     )
     private final CodeableConcept phase;
+    @Summary
     @Binding(
         bindingName = "ResearchStudyCategory",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes that describe the type of research study.  E.g. Study phase, Interventional/Observational, blinding type, etc."
     )
     private final List<CodeableConcept> category;
+    @Summary
     @Binding(
         bindingName = "ResearchStudyFocus",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Codes for medications, devices and other interventions."
     )
     private final List<CodeableConcept> focus;
+    @Summary
     @Binding(
         bindingName = "ConditionCode",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -90,14 +101,17 @@ public class ResearchStudy extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
     private final List<CodeableConcept> condition;
+    @Summary
     private final List<ContactDetail> contact;
     private final List<RelatedArtifact> relatedArtifact;
+    @Summary
     @Binding(
         bindingName = "ResearchStudyKeyword",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "Words associated with the study that may be useful in discovery."
     )
     private final List<CodeableConcept> keyword;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -106,11 +120,17 @@ public class ResearchStudy extends DomainResource {
     )
     private final List<CodeableConcept> location;
     private final Markdown description;
+    @Summary
     private final List<Reference> enrollment;
+    @Summary
     private final Period period;
+    @Summary
     private final Reference sponsor;
+    @Summary
     private final Reference principalInvestigator;
+    @Summary
     private final List<Reference> site;
+    @Summary
     @Binding(
         bindingName = "ResearchStudyReasonStopped",
         strength = BindingStrength.ValueSet.EXAMPLE,

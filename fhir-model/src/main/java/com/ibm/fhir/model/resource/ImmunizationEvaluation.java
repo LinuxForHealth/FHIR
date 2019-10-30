@@ -17,7 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.BindingStrength;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -25,13 +25,14 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
-import com.ibm.fhir.model.type.ImmunizationEvaluationStatus;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ImmunizationEvaluationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -42,35 +43,40 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationEvaluation extends DomainResource {
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ImmunizationEvaluationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the evaluation being done.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.0.0"
     )
+    @Required
     private final ImmunizationEvaluationStatus status;
+    @Summary
     @Required
     private final Reference patient;
     private final DateTime date;
     private final Reference authority;
-    @Required
+    @Summary
     @Binding(
         bindingName = "EvaluationTargetDisease",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The vaccine preventable disease the dose is being evaluated against.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-target-disease"
     )
+    @Required
     private final CodeableConcept targetDisease;
+    @Summary
     @Required
     private final Reference immunizationEvent;
-    @Required
+    @Summary
     @Binding(
         bindingName = "EvaluationDoseStatus",
         strength = BindingStrength.ValueSet.EXAMPLE,
         description = "The status of the administered dose relative to the published recommendations for the target disease.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status"
     )
+    @Required
     private final CodeableConcept doseStatus;
     @Binding(
         bindingName = "EvaluationDoseStatusReason",

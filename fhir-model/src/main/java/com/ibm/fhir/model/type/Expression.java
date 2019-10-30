@@ -14,6 +14,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -30,9 +32,11 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Expression extends Element {
+    @Summary
     private final String description;
+    @Summary
     private final Id name;
-    @Required
+    @Summary
     @Binding(
         bindingName = "ExpressionLanguage",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -40,8 +44,11 @@ public class Expression extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/expression-language",
         maxValueSet = "http://www.rfc-editor.org/bcp/bcp13.txt"
     )
+    @Required
     private final Code language;
+    @Summary
     private final String expression;
+    @Summary
     private final Uri reference;
 
     private volatile int hashCode;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2017,2018,2019
+ * (C) Copyright IBM Corp. 2016,2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,11 +17,13 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -41,8 +43,8 @@ import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.IssueSeverity;
-import com.ibm.fhir.model.type.IssueType;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 
 @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
@@ -53,6 +55,12 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     private UriInfo uriInfo;
     @Context
     private HttpHeaders requestHeaders;
+    
+    private final RuntimeType runtimeType;
+    
+    public FHIRProvider(RuntimeType runtimeType) {
+        this.runtimeType = Objects.requireNonNull(runtimeType);
+    }
     
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -70,7 +78,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))), getMediaType(acceptHeader));
+                    buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))), getMediaType(acceptHeader));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");
@@ -90,10 +98,12 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             FHIRGenerator.generator(getFormat(mediaType), isPretty(requestHeaders)).generate(t, entityStream);
         } catch (FHIRGeneratorException e) {
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
-            Response response = buildResponse(
-                buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), e.getPath()))), mediaType);
-            throw new WebApplicationException(response);
+            if (RuntimeType.SERVER.equals(runtimeType)) {
+                Response response = buildResponse(
+                    buildOperationOutcome(Collections.singletonList(
+                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), e.getPath()))), mediaType);
+                throw new WebApplicationException(response);
+            }
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");
         }

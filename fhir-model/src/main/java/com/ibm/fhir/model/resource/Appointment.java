@@ -17,9 +17,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.AppointmentStatus;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -29,14 +28,16 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.ParticipantRequired;
-import com.ibm.fhir.model.type.ParticipationStatus;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.AppointmentStatus;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ParticipantRequired;
+import com.ibm.fhir.model.type.code.ParticipationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -74,45 +75,53 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Appointment extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
-    @Required
+    @Summary
     @Binding(
         bindingName = "AppointmentStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The free/busy status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.0.0"
     )
+    @Required
     private final AppointmentStatus status;
+    @Summary
     @Binding(
         bindingName = "cancelation-reason",
         strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/appointment-cancellation-reason"
     )
     private final CodeableConcept cancelationReason;
+    @Summary
     @Binding(
         bindingName = "service-category",
         strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
+    @Summary
     @Binding(
         bindingName = "service-type",
         strength = BindingStrength.ValueSet.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
+    @Summary
     @Binding(
         bindingName = "specialty",
         strength = BindingStrength.ValueSet.PREFERRED,
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
+    @Summary
     @Binding(
         bindingName = "appointment-type",
         strength = BindingStrength.ValueSet.PREFERRED,
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0276"
     )
     private final CodeableConcept appointmentType;
+    @Summary
     @Binding(
         bindingName = "ApptReason",
         strength = BindingStrength.ValueSet.PREFERRED,
@@ -124,7 +133,9 @@ public class Appointment extends DomainResource {
     private final UnsignedInt priority;
     private final String description;
     private final List<Reference> supportingInformation;
+    @Summary
     private final Instant start;
+    @Summary
     private final Instant end;
     private final PositiveInt minutesDuration;
     private final List<Reference> slot;
@@ -1397,6 +1408,7 @@ public class Appointment extends DomainResource {
      * List of participants involved in the appointment.
      */
     public static class Participant extends BackboneElement {
+        @Summary
         @Binding(
             bindingName = "ParticipantType",
             strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -1404,7 +1416,9 @@ public class Appointment extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
         )
         private final List<CodeableConcept> type;
+        @Summary
         private final Reference actor;
+        @Summary
         @Binding(
             bindingName = "ParticipantRequired",
             strength = BindingStrength.ValueSet.REQUIRED,
@@ -1412,13 +1426,14 @@ public class Appointment extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.0.0"
         )
         private final ParticipantRequired required;
-        @Required
+        @Summary
         @Binding(
             bindingName = "ParticipationStatus",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The Participation status of an appointment.",
             valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.0"
         )
+        @Required
         private final ParticipationStatus status;
         private final Period period;
 

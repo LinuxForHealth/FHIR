@@ -9,8 +9,6 @@ package com.ibm.fhir.database.utils.api;
 /**
  * Translated exception for a SQLException representing a lock timeout or deadlock
  * exception
- * @author rarnold
- *
  */
 public class LockException extends DataAccessException {
 

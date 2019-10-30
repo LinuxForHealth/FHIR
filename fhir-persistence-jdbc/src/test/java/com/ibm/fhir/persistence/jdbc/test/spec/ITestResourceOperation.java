@@ -10,16 +10,13 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * A test operation on a Resource
- * @author rarnold
- *
  */
 @FunctionalInterface
 public interface ITestResourceOperation {
 
 	/**
 	 * Process the resource and update the context as needed
-	 * @param r
-	 * @return
+	 * @param context
 	 */
 	public void process(TestContext context) throws FHIRPersistenceException;
 }

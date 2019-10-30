@@ -14,7 +14,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.type.NarrativeStatus;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -37,13 +38,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Narrative extends Element {
-    @Required
     @Binding(
         bindingName = "NarrativeStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of a resource narrative.",
         valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.0.0"
     )
+    @Required
     private final NarrativeStatus status;
     @Required
     private final Xhtml div;

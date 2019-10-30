@@ -17,9 +17,9 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.Attachment;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
@@ -29,7 +29,6 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.MediaStatus;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
@@ -37,6 +36,8 @@ import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.MediaStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -46,17 +47,22 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Media extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final List<Reference> basedOn;
+    @Summary
     private final List<Reference> partOf;
-    @Required
+    @Summary
     @Binding(
         bindingName = "MediaStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes identifying the lifecycle stage of an event.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
     )
+    @Required
     private final MediaStatus status;
+    @Summary
     @Binding(
         bindingName = "MediaType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -64,6 +70,7 @@ public class Media extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/media-type"
     )
     private final CodeableConcept type;
+    @Summary
     @Binding(
         bindingName = "MediaModality",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -71,6 +78,7 @@ public class Media extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/media-modality"
     )
     private final CodeableConcept modality;
+    @Summary
     @Binding(
         bindingName = "MediaView",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -78,12 +86,18 @@ public class Media extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/media-view"
     )
     private final CodeableConcept view;
+    @Summary
     private final Reference subject;
+    @Summary
     private final Reference encounter;
+    @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element created;
+    @Summary
     private final Instant issued;
+    @Summary
     private final Reference operator;
+    @Summary
     @Binding(
         bindingName = "MediaReason",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -91,6 +105,7 @@ public class Media extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
     private final List<CodeableConcept> reasonCode;
+    @Summary
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -98,12 +113,19 @@ public class Media extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept bodySite;
+    @Summary
     private final String deviceName;
+    @Summary
     private final Reference device;
+    @Summary
     private final PositiveInt height;
+    @Summary
     private final PositiveInt width;
+    @Summary
     private final PositiveInt frames;
+    @Summary
     private final Decimal duration;
+    @Summary
     @Required
     private final Attachment content;
     private final List<Annotation> note;

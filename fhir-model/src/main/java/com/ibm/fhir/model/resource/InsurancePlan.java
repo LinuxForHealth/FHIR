@@ -17,9 +17,9 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactPoint;
@@ -32,11 +32,12 @@ import com.ibm.fhir.model.type.Money;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.PositiveInt;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -47,12 +48,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "ipn-1",
     level = "Rule",
     location = "(base)",
-    description = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
+    description = "The organization SHALL at least have a name or an identifier, and possibly more than one",
     expression = "(identifier.count() + name.count()) > 0"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class InsurancePlan extends DomainResource {
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -60,6 +63,7 @@ public class InsurancePlan extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
     private final PublicationStatus status;
+    @Summary
     @Binding(
         bindingName = "InsurancePlanType",
         strength = BindingStrength.ValueSet.EXAMPLE,
@@ -67,11 +71,15 @@ public class InsurancePlan extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-type"
     )
     private final List<CodeableConcept> type;
+    @Summary
     private final String name;
     private final List<String> alias;
     private final Period period;
+    @Summary
     private final Reference ownedBy;
+    @Summary
     private final Reference administeredBy;
+    @Summary
     private final List<Reference> coverageArea;
     private final List<Contact> contact;
     private final List<Reference> endpoint;
@@ -2279,8 +2287,10 @@ public class InsurancePlan extends DomainResource {
      * Details about an insurance plan.
      */
     public static class Plan extends BackboneElement {
+        @Summary
         private final List<Identifier> identifier;
         private final CodeableConcept type;
+        @Summary
         private final List<Reference> coverageArea;
         private final List<Reference> network;
         private final List<GeneralCost> generalCost;

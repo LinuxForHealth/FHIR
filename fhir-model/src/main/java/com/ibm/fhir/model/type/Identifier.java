@@ -12,7 +12,9 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
-import com.ibm.fhir.model.type.IdentifierUse;
+import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.IdentifierUse;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -21,6 +23,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Identifier extends Element {
+    @Summary
     @Binding(
         bindingName = "IdentifierUse",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -28,6 +31,7 @@ public class Identifier extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.0.0"
     )
     private final IdentifierUse use;
+    @Summary
     @Binding(
         bindingName = "IdentifierType",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -35,9 +39,13 @@ public class Identifier extends Element {
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )
     private final CodeableConcept type;
+    @Summary
     private final Uri system;
+    @Summary
     private final String value;
+    @Summary
     private final Period period;
+    @Summary
     private final Reference assigner;
 
     private volatile int hashCode;

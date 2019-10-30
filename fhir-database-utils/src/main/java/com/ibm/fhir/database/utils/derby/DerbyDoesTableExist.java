@@ -18,10 +18,9 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * For this implementation we simply run a select against the table
  * and see if it kicks back with an error (which isn't related to
  * connection failure).
- * @author rarnold
- *
  */
 public class DerbyDoesTableExist implements IDatabaseSupplier<Boolean> {
+    
     // The schema of the table
     private final String schemaName;
 
@@ -31,16 +30,13 @@ public class DerbyDoesTableExist implements IDatabaseSupplier<Boolean> {
     /**
      * Public constructor
      * @param schemaName
-     * @param tenantName
+     * @param tableName
      */
     public DerbyDoesTableExist(String schemaName, String tableName) {
         this.schemaName = DataDefinitionUtil.assertValidName(schemaName);
         this.tableName = DataDefinitionUtil.assertValidName(tableName);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public Boolean run(IDatabaseTranslator translator, Connection c) {
         Boolean result;

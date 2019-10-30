@@ -17,8 +17,8 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
+import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
-import com.ibm.fhir.model.type.BindingStrength;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -28,19 +28,20 @@ import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.ExtensionContextType;
-import com.ibm.fhir.model.type.FHIRVersion;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
-import com.ibm.fhir.model.type.PublicationStatus;
 import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.model.type.StructureDefinitionKind;
-import com.ibm.fhir.model.type.TypeDerivationRule;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.ExtensionContextType;
+import com.ibm.fhir.model.type.code.FHIRVersion;
+import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StructureDefinitionKind;
+import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -218,27 +219,39 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StructureDefinition extends DomainResource {
+    @Summary
     @Required
     private final Uri url;
+    @Summary
     private final List<Identifier> identifier;
+    @Summary
     private final String version;
+    @Summary
     @Required
     private final String name;
+    @Summary
     private final String title;
-    @Required
+    @Summary
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
     )
+    @Required
     private final PublicationStatus status;
+    @Summary
     private final Boolean experimental;
+    @Summary
     private final DateTime date;
+    @Summary
     private final String publisher;
+    @Summary
     private final List<ContactDetail> contact;
     private final Markdown description;
+    @Summary
     private final List<UsageContext> useContext;
+    @Summary
     @Binding(
         bindingName = "Jurisdiction",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -248,6 +261,7 @@ public class StructureDefinition extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Summary
     @Binding(
         bindingName = "StructureDefinitionKeyword",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
@@ -255,6 +269,7 @@ public class StructureDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/definition-use"
     )
     private final List<Coding> keyword;
+    @Summary
     @Binding(
         bindingName = "FHIRVersion",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -263,27 +278,34 @@ public class StructureDefinition extends DomainResource {
     )
     private final FHIRVersion fhirVersion;
     private final List<Mapping> mapping;
-    @Required
+    @Summary
     @Binding(
         bindingName = "StructureDefinitionKind",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Defines the type of structure that a definition is describing.",
         valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.0"
     )
+    @Required
     private final StructureDefinitionKind kind;
+    @Summary
     @Required
     private final Boolean _abstract;
+    @Summary
     private final List<Context> context;
+    @Summary
     private final List<String> contextInvariant;
-    @Required
+    @Summary
     @Binding(
         bindingName = "FHIRDefinedTypeExt",
         strength = BindingStrength.ValueSet.EXTENSIBLE,
         description = "Either a resource or a data type, including logical model types.",
         valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
     )
+    @Required
     private final Uri type;
+    @Summary
     private final Canonical baseDefinition;
+    @Summary
     @Binding(
         bindingName = "TypeDerivationRule",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -2000,14 +2022,16 @@ public class StructureDefinition extends DomainResource {
      * Identifies the types of resource or data type elements to which the extension can be applied.
      */
     public static class Context extends BackboneElement {
-        @Required
+        @Summary
         @Binding(
             bindingName = "ExtensionContextType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "How an extension context is interpreted.",
             valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.0"
         )
+        @Required
         private final ExtensionContextType type;
+        @Summary
         @Required
         private final String expression;
 
