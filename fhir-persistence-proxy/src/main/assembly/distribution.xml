@@ -16,9 +16,6 @@
             <outputDirectory>usr/shared/resources/lib/fhir</outputDirectory>
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
-            <excludes>
-                <exclude>javax.ws.rs:javax.ws.rs-api:*</exclude>
-            </excludes>
         </dependencySet>
     </dependencySets>
 </assembly>

@@ -142,7 +142,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
             return "jdbc:derby:memory:" + adapter.getDatabase();
         }
         else {
-            return "jdbc:derby:" + adapter.getDatabase();            
+            return "jdbc:derby:" + adapter.getDatabase();
         }
     }
     
@@ -150,5 +150,4 @@ public class DerbyTranslator implements IDatabaseTranslator {
     public boolean clobSupportsInline() {
         return false;
     }
-
 }

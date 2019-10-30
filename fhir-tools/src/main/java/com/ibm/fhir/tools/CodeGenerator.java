@@ -977,6 +977,7 @@ public class CodeGenerator {
                 if (elementDefinition.getString("path").equals(basePath)) {
                     String elementName = getElementName(elementDefinition, path);
                     String fieldName = getFieldName(elementName);
+                    
                     if (isRequired(elementDefinition)) {
                         if (isRepeating(elementDefinition)) {
                             cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder." + fieldName + ", " + quote(elementName) + "))");
@@ -996,7 +997,13 @@ public class CodeGenerator {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                                 cb.assign(fieldName, "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
-                                cb.assign(fieldName, "builder." + fieldName);
+                                // Instant and DateTime values require special handling
+                                if ((isInstant(structureDefinition) || isDateTime(structureDefinition))
+                                        && "value".equals(fieldName)) {
+                                    cb.assign(fieldName, "ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS)");
+                                } else {
+                                    cb.assign(fieldName, "builder." + fieldName);
+                                }
                             }
                         }
                     }
@@ -1588,6 +1595,8 @@ public class CodeGenerator {
         
         if (isDateTime(structureDefinition) || isInstant(structureDefinition)) {
             imports.add("java.time.ZonedDateTime");
+            imports.add("java.time.temporal.ChronoUnit");
+            imports.add("com.ibm.fhir.model.util.ModelSupport");
         }
         
         if (isTime(structureDefinition)) {
