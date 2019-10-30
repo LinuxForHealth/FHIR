@@ -58,9 +58,26 @@
             <artifactId>fhir-examples</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
+        <!-- Use the Grizzly container instead due to https://github.com/eclipse-ee4j/tyrus/issues/676 -->
+        <!-- <dependency>
             <groupId>org.glassfish.tyrus.bundles</groupId>
             <artifactId>tyrus-standalone-client-jdk</artifactId>
+            <scope>test</scope>
+        </dependency> -->
+        <!-- <dependency>
+            <groupId>org.glassfish.tyrus.bundles</groupId>
+            <artifactId>tyrus-standalone-client</artifactId>
+            <version>1.15</version>
+        </dependency> -->
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-grizzly-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- required for the Tyrus client to work on Java 11 -->
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

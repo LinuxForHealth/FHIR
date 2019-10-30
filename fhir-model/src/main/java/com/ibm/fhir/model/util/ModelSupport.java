@@ -14,6 +14,13 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -567,5 +574,27 @@ public final class ModelSupport {
             return elementInfo.isSummary();
         }
         return false;
+    }
+    
+    public static ZonedDateTime truncateTime(ZonedDateTime dateTime, ChronoUnit unit) {
+        return dateTime == null ? null : dateTime.truncatedTo(unit);
+    }
+    
+    public static TemporalAccessor truncateTime(TemporalAccessor ta, ChronoUnit unit) {
+        if (ta instanceof java.time.Instant) {
+            ta = ((java.time.Instant) ta).truncatedTo(unit);
+        } else if (ta instanceof ZonedDateTime) {
+            ta = ((ZonedDateTime) ta).truncatedTo(unit);
+        } else if (ta instanceof LocalDateTime) {
+            ta = ((LocalDateTime) ta).truncatedTo(unit);
+        } else if (ta instanceof LocalTime) {
+            ta = ((LocalTime) ta).truncatedTo(unit);
+        } else if (ta instanceof OffsetTime) {
+            ta = ((OffsetTime) ta).truncatedTo(unit);
+        } else if (ta instanceof OffsetDateTime) {
+            ta = ((OffsetDateTime) ta).truncatedTo(unit);
+        }
+        
+        return ta;
     }
 }

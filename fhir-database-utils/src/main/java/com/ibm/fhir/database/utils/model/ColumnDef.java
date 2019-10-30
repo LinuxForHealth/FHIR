@@ -14,7 +14,7 @@ public class ColumnDef implements Comparable<ColumnDef> {
     private boolean nullable;
     private ColumnType columnType;
     private long size;
-    private int precision;
+    private Integer precision;
     private int inlineSize;
     
     /**
@@ -47,7 +47,7 @@ public class ColumnDef implements Comparable<ColumnDef> {
     public void setSize(long size) {
         this.size = size;
     }
-    public int getPrecision() {
+    public Integer getPrecision() {
         return precision;
     }
     public void setPrecision(int precision) {
