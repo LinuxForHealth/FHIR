@@ -753,7 +753,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
     
     /**
-     * Validate pageSize and pageNumber in the FHIRPagingContext and update invalid paging context parameters.
+     * Validate pageSize and pageNumber in the FHIRPagingContext instance and update 
+     * paging context parameters accordingly.
      * 
      * @param pagingContext
      *     the FHIRPagingContext instance (FHIRSearchContext or FHIRHistoryContext)
