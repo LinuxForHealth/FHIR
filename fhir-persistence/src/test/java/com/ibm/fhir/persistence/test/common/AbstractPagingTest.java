@@ -228,6 +228,21 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
     }
     
+    public void testPageSizeEqualsZero() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_sort", Collections.singletonList("integer"));
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("1"));
+        queryParameters.put("_count", Collections.singletonList("0"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertTrue(result.getResource().isEmpty());
+        assertTrue(result.getOutcome() == null);
+    }
+    
     @Test
     public void testInvalidPage0() throws Exception {
         Map<String, List<String>> queryParameters;
