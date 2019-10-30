@@ -425,13 +425,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                         return resultBuilder.success(false).build();
                     }
                 }
-                
-                if (searchContext.getPageSize() == 0) {
-                    searchContext.setSummaryParameter(SummaryValueSet.COUNT);
-                }
                                 
-                // For _summary=count, we don't need to return any resource
-                if (searchResultCount > 0 && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter())) {
+                // For _summary=count or pageSize == 0, we return only the count
+                if (searchResultCount > 0 && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter()) && searchContext.getPageSize() > 0) {
                     query = queryBuilder.buildQuery(resourceType, searchContext);
                     
                     List<String> elements = searchContext.getElementsParameters();
