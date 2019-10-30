@@ -998,16 +998,9 @@ public class CodeGenerator {
                                 cb.assign(fieldName, "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
                                 // Instant and DateTime values require special handling
-                                if (isInstant(structureDefinition) && "value".equals(fieldName)) {
-                                    cb.assign(fieldName, "builder.value == null ? null : builder.value.truncatedTo(ChronoUnit.MICROS)");
-                                } else if (isDateTime(structureDefinition) && "value".equals(fieldName)) {
-                                    cb._if("builder.value instanceof java.time.Instant")
-                                      .assign(fieldName, "((java.time.Instant) builder.value).truncatedTo(ChronoUnit.MICROS)")
-                                    ._elseif("builder.value instanceof ZonedDateTime")
-                                      .assign(fieldName, "((ZonedDateTime) builder.value).truncatedTo(ChronoUnit.MICROS)")
-                                    ._else()
-                                      .assign(fieldName, "builder." + fieldName)
-                                    .end();
+                                if ((isInstant(structureDefinition) || isDateTime(structureDefinition))
+                                        && "value".equals(fieldName)) {
+                                    cb.assign(fieldName, "ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS)");
                                 } else {
                                     cb.assign(fieldName, "builder." + fieldName);
                                 }
@@ -1603,6 +1596,7 @@ public class CodeGenerator {
         if (isDateTime(structureDefinition) || isInstant(structureDefinition)) {
             imports.add("java.time.ZonedDateTime");
             imports.add("java.time.temporal.ChronoUnit");
+            imports.add("com.ibm.fhir.model.util.ModelSupport");
         }
         
         if (isTime(structureDefinition)) {

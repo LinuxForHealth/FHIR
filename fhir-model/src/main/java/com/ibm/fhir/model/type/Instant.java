@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -33,7 +34,7 @@ public class Instant extends Element {
 
     private Instant(Builder builder) {
         super(builder);
-        value = builder.value == null ? null : builder.value.truncatedTo(ChronoUnit.MICROS);
+        value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
         ValidationSupport.requireValueOrChildren(this);
     }
 

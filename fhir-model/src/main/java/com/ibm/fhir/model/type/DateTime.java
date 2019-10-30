@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -39,13 +40,7 @@ public class DateTime extends Element {
 
     private DateTime(Builder builder) {
         super(builder);
-        if (builder.value instanceof java.time.Instant) {
-            value = ((java.time.Instant) builder.value).truncatedTo(ChronoUnit.MICROS);
-        } else if (builder.value instanceof ZonedDateTime) {
-            value = ((ZonedDateTime) builder.value).truncatedTo(ChronoUnit.MICROS);
-        } else {
-            value = builder.value;
-        }
+        value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
         ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
         ValidationSupport.requireValueOrChildren(this);
     }
