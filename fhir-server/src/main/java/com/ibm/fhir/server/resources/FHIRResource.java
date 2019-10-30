@@ -3894,7 +3894,8 @@ public class FHIRResource implements FHIRResourceHelpers {
         // If for search with _summary=count, then don't add previous and next links.
         if (!(context instanceof FHIRSearchContext 
                 && ((FHIRSearchContext) context).getSummaryParameter() != null
-                && ((FHIRSearchContext) context).getSummaryParameter().equals(SummaryValueSet.COUNT))) {
+                && ((FHIRSearchContext) context).getSummaryParameter().equals(SummaryValueSet.COUNT))
+                && ((FHIRSearchContext) context).getPageSize() > 0) {
             int nextPageNumber = context.getPageNumber() + 1;
             if (nextPageNumber <= context.getLastPageNumber()) {
 
