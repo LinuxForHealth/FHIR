@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -65,11 +66,11 @@ public class Instant extends Element {
     }
 
     public static Instant now() {
-        return Instant.builder().value(ZonedDateTime.now()).build();
+        return Instant.builder().value(ZonedDateTime.now().truncatedTo(ChronoUnit.MICROS)).build();
     }
 
     public static Instant now(ZoneOffset offset) {
-        return Instant.builder().value(ZonedDateTime.now(offset)).build();
+        return Instant.builder().value(ZonedDateTime.now(offset).truncatedTo(ChronoUnit.MICROS)).build();
     }
 
     @Override
