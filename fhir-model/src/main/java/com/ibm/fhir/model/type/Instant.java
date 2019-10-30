@@ -33,7 +33,7 @@ public class Instant extends Element {
 
     private Instant(Builder builder) {
         super(builder);
-        value = builder.value;
+        value = builder.value == null ? null : builder.value.truncatedTo(ChronoUnit.MICROS);
         ValidationSupport.requireValueOrChildren(this);
     }
 
@@ -66,11 +66,11 @@ public class Instant extends Element {
     }
 
     public static Instant now() {
-        return Instant.builder().value(ZonedDateTime.now().truncatedTo(ChronoUnit.MICROS)).build();
+        return Instant.builder().value(ZonedDateTime.now().truncatedTo(ChronoUnit.MILLIS)).build();
     }
 
     public static Instant now(ZoneOffset offset) {
-        return Instant.builder().value(ZonedDateTime.now(offset).truncatedTo(ChronoUnit.MICROS)).build();
+        return Instant.builder().value(ZonedDateTime.now(offset).truncatedTo(ChronoUnit.MILLIS)).build();
     }
 
     @Override

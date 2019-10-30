@@ -14,6 +14,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.Objects;
@@ -38,7 +39,13 @@ public class DateTime extends Element {
 
     private DateTime(Builder builder) {
         super(builder);
-        value = builder.value;
+        if (builder.value instanceof java.time.Instant) {
+            value = ((java.time.Instant) builder.value).truncatedTo(ChronoUnit.MILLIS);
+        } else if (builder.value instanceof ZonedDateTime) {
+            value = ((ZonedDateTime) builder.value).truncatedTo(ChronoUnit.MILLIS);
+        } else {
+            value = builder.value;
+        }
         ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
         ValidationSupport.requireValueOrChildren(this);
     }
