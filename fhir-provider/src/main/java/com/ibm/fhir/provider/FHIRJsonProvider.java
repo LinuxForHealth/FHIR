@@ -20,6 +20,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.json.Json;
@@ -96,13 +97,13 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
         try (JsonWriter writer = JSON_WRITER_FACTORY.createWriter(nonClosingOutputStream(entityStream))) {
             writer.writeObject(t);
         } catch (JsonException e) {
+            // log the error but don't throw because that seems to block to original IOException from bubbling for some reason
+            log.log(Level.WARNING, "an error occurred during resource serialization", e);
             if (RuntimeType.SERVER.equals(runtimeType)) {
                 Response response = buildResponse(
                     buildOperationOutcome(Collections.singletonList(
                         buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), mediaType);
                 throw new WebApplicationException(response);
-            } else {
-                throw new IOException("an error occurred during resource serialization", e);
             }
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");
