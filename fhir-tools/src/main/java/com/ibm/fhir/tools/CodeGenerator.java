@@ -977,6 +977,7 @@ public class CodeGenerator {
                 if (elementDefinition.getString("path").equals(basePath)) {
                     String elementName = getElementName(elementDefinition, path);
                     String fieldName = getFieldName(elementName);
+                    
                     if (isRequired(elementDefinition)) {
                         if (isRepeating(elementDefinition)) {
                             cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder." + fieldName + ", " + quote(elementName) + "))");
@@ -996,7 +997,20 @@ public class CodeGenerator {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                                 cb.assign(fieldName, "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
-                                cb.assign(fieldName, "builder." + fieldName);
+                                // Instant and DateTime values require special handling
+                                if (isInstant(structureDefinition) && "value".equals(fieldName)) {
+                                    cb.assign(fieldName, "builder.value == null ? null : builder.value.truncatedTo(ChronoUnit.MICROS)");
+                                } else if (isDateTime(structureDefinition) && "value".equals(fieldName)) {
+                                    cb._if("builder.value instanceof java.time.Instant")
+                                      .assign(fieldName, "((java.time.Instant) builder.value).truncatedTo(ChronoUnit.MICROS)")
+                                    ._elseif("builder.value instanceof ZonedDateTime")
+                                      .assign(fieldName, "((ZonedDateTime) builder.value).truncatedTo(ChronoUnit.MICROS)")
+                                    ._else()
+                                      .assign(fieldName, "builder." + fieldName)
+                                    .end();
+                                } else {
+                                    cb.assign(fieldName, "builder." + fieldName);
+                                }
                             }
                         }
                     }
@@ -1381,11 +1395,11 @@ public class CodeGenerator {
             .end().newLine();
             
             cb.method(mods("public", "static"), className, "now")
-                ._return(className + ".builder().value(ZonedDateTime.now()).build()")
+                ._return(className + ".builder().value(ZonedDateTime.now().truncatedTo(ChronoUnit.MILLIS)).build()")
             .end().newLine();
             
             cb.method(mods("public", "static"), className, "now", params("ZoneOffset offset"))
-                ._return(className + ".builder().value(ZonedDateTime.now(offset)).build()")
+                ._return(className + ".builder().value(ZonedDateTime.now(offset).truncatedTo(ChronoUnit.MILLIS)).build()")
             .end().newLine();
         }
 
@@ -1588,6 +1602,7 @@ public class CodeGenerator {
         
         if (isDateTime(structureDefinition) || isInstant(structureDefinition)) {
             imports.add("java.time.ZonedDateTime");
+            imports.add("java.time.temporal.ChronoUnit");
         }
         
         if (isTime(structureDefinition)) {
