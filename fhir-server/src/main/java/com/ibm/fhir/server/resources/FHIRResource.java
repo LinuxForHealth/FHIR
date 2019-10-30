@@ -3891,11 +3891,9 @@ public class FHIRResource implements FHIRResourceHelpers {
                 Bundle.Link.builder().relation(string("self")).url(Url.of(selfUri)).build();
         bundleBuilder.link(selfLink);
         
-        // If for search with _summary=count, then don't add previous and next links.
-        if (!(context instanceof FHIRSearchContext 
-                && ((FHIRSearchContext) context).getSummaryParameter() != null
-                && ((FHIRSearchContext) context).getSummaryParameter().equals(SummaryValueSet.COUNT))
-                && ((FHIRSearchContext) context).getPageSize() > 0) {
+        // If for search with _summary=count or pageSize == 0, then don't add previous and next links.
+        SummaryValueSet summaryParameter = (context instanceof FHIRSearchContext) ? ((FHIRSearchContext) context).getSummaryParameter() : null;
+        if (!SummaryValueSet.COUNT.equals(summaryParameter) && context.getPageSize() > 0) {
             int nextPageNumber = context.getPageNumber() + 1;
             if (nextPageNumber <= context.getLastPageNumber()) {
 
