@@ -203,6 +203,12 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     public String varcharClause(int size) {
         return "VARCHAR(" + size + ")";
     }
+    
+    @Override
+    public String timestampClause(Integer precision) {
+        // Derby doesn't support the timestamp precision argument
+        return "TIMESTAMP";
+    }
 
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, 

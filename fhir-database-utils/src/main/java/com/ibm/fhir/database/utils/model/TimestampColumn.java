@@ -12,17 +12,23 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
  * Timestamp Column 
  */
 public class TimestampColumn extends ColumnBase {
-
     /**
-     * @param name
+     * The number of fractional second decimals to store or null to use the database's default
      */
+    private final Integer precision;
+
     public TimestampColumn(String name, boolean nullable) {
         super(name, nullable);
+        this.precision = null;
+    }
+    
+    public TimestampColumn(String name, boolean nullable, int precision) {
+        super(name, nullable);
+        this.precision = precision;
     }
 
     @Override
-    public String getTypeInfo(IDatabaseTypeAdapter translator) {
-        return "TIMESTAMP";
+    public String getTypeInfo(IDatabaseTypeAdapter adapter) {
+        return adapter.timestampClause(precision);
     }
-
 }
