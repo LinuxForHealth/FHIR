@@ -108,7 +108,6 @@
         <logging traceSpecification="*=info" traceFormat="BASIC"/>
         <logging traceSpecification="*=info:com.ibm.fhir.*=finer" traceFormat="BASIC"/>
     -->
-    <logging traceSpecification="*=info:com.ibm.fhir.*=finer" traceFormat="BASIC"/>
     
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
