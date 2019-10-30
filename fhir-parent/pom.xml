@@ -876,14 +876,5 @@
                 </repository>
             </distributionManagement>
         </profile>
-        <profile>
-            <id>switch-jdk-11</id>
-            <activation>
-                <jdk>!1.8</jdk>
-            </activation>
-            <properties>
-                <java.version>11</java.version>
-            </properties>
-        </profile>
     </profiles>
 </project>
