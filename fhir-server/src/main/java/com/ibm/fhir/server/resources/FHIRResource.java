@@ -3875,10 +3875,13 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private Bundle addLinks(FHIRPagingContext context, Bundle bundle, String requestUri) {
         String selfUri = null;
+        SummaryValueSet summaryParameter = null;
         Bundle.Builder bundleBuilder = bundle.toBuilder();
         if (context instanceof FHIRSearchContext) {
+            FHIRSearchContext searchContext = (FHIRSearchContext) context;
+            summaryParameter = searchContext.getSummaryParameter();
             try {
-                selfUri = SearchUtil.buildSearchSelfUri(requestUri, (FHIRSearchContext) context);
+                selfUri = SearchUtil.buildSearchSelfUri(requestUri, searchContext);
             } catch (Exception e) {
                 log.log(Level.WARNING, "Unable to construct self link for search result bundle; using the request URI instead.", e);
             }
@@ -3892,7 +3895,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         bundleBuilder.link(selfLink);
         
         // If for search with _summary=count or pageSize == 0, then don't add previous and next links.
-        SummaryValueSet summaryParameter = (context instanceof FHIRSearchContext) ? ((FHIRSearchContext) context).getSummaryParameter() : null;
         if (!SummaryValueSet.COUNT.equals(summaryParameter) && context.getPageSize() > 0) {
             int nextPageNumber = context.getPageNumber() + 1;
             if (nextPageNumber <= context.getLastPageNumber()) {
