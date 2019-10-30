@@ -475,5 +475,15 @@
             </distributionManagement>
             
         </profile>
+        <profile>
+            <id>switch-jdk-11</id>
+            <!-- preference is towards 11, when 11-->
+            <activation>
+                <jdk>!1.8</jdk>
+            </activation>
+            <properties>
+                <java.version>11</java.version>
+            </properties>
+        </profile>
     </profiles>
 </project>
