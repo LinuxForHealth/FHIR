@@ -19,7 +19,7 @@ public class TimestampTest {
     @Test
     public void test1() throws Exception {
         
-        String strTimeStamp = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis()));
+        String strTimeStamp = FHIRUtilities.formatTimestamp(new Date());
         //Check if the date format is "yyyy-MM-dd HH:mm:ss.SSS"
         assertTrue(strTimeStamp.matches("([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2}).([0-9]{3})"));
 
