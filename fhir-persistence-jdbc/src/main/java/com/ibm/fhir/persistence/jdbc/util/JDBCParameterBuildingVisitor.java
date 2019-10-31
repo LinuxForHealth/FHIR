@@ -174,11 +174,28 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Address address) {
         Parameter p;
-        
+        for (com.ibm.fhir.model.type.String aLine : address.getLine()) {
+            p = new Parameter();
+            p.setName(name);
+            p.setValueString(aLine.getValue());
+            result.add(p);
+        }
         if (address.getCity() != null) {
             p = new Parameter();
             p.setName(name);
             p.setValueString(address.getCity().getValue());
+            result.add(p);
+        }
+        if (address.getDistrict() != null) {
+            p = new Parameter();
+            p.setName(name);
+            p.setValueString(address.getDistrict().getValue());
+            result.add(p);
+        }
+        if (address.getState() != null) {
+            p = new Parameter();
+            p.setName(name);
+            p.setValueString(address.getState().getValue());
             result.add(p);
         }
         if (address.getCountry() != null) {
@@ -187,51 +204,12 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setValueString(address.getCountry().getValue());
             result.add(p);
         }
-
-        if (address.getDistrict() != null) {
-            p = new Parameter();
-            p.setName(name);
-            p.setValueString(address.getDistrict().getValue());
-            result.add(p);
-        }
-
-        if (address.getLine() != null) {
-            for (com.ibm.fhir.model.type.String aLine : address.getLine()) {
-                p = new Parameter();
-                p.setName(name);
-                p.setValueString(aLine.getValue());
-                result.add(p);
-            }
-        }
-
         if (address.getPostalCode() != null) {
             p = new Parameter();
             p.setName(name);
             p.setValueString(address.getPostalCode().getValue());
             result.add(p);
         }
-
-        if (address.getState() != null) {
-            p = new Parameter();
-            p.setName(name);
-            p.setValueString(address.getState().getValue());
-            result.add(p);
-        }
-
-        if (address.getUse() != null) {
-            p = new Parameter();
-            p.setName(name);
-            p.setValueString(address.getUse().getValue());
-            result.add(p);
-        }
-
-        if (address.getType() != null) {
-            p = new Parameter();
-            p.setName(name);
-            p.setValueString(address.getType().getValue());
-            result.add(p);
-        }
-
         if (address.getText() != null) {
             p = new Parameter();
             p.setName(name);
@@ -274,32 +252,34 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     public boolean visit(java.lang.String elementName, int elementIndex, HumanName humanName) {
         Parameter p;
         if (humanName.getFamily() != null) {
-            // family just a string in R4 (not a list)
+            // family is just a string in R4 (not a list)
             p = new Parameter();
             p.setName(name);
             p.setValueString(humanName.getFamily().getValue());
             result.add(p);
         }
-        if (humanName.getGiven() != null) {
-            for (com.ibm.fhir.model.type.String given : humanName.getGiven()) {
-                p = new Parameter();
-                p.setName(name);
-                p.setValueString(given.getValue());
-                result.add(p);
-            }
+        for (com.ibm.fhir.model.type.String given : humanName.getGiven()) {
+            p = new Parameter();
+            p.setName(name);
+            p.setValueString(given.getValue());
+            result.add(p);
+        }
+        for (com.ibm.fhir.model.type.String prefix : humanName.getPrefix()) {
+            p = new Parameter();
+            p.setName(name);
+            p.setValueString(prefix.getValue());
+            result.add(p);
+        }
+        for (com.ibm.fhir.model.type.String suffix : humanName.getSuffix()) {
+            p = new Parameter();
+            p.setName(name);
+            p.setValueString(suffix.getValue());
+            result.add(p);
         }
         if (humanName.getText() != null) {
             p = new Parameter();
             p.setName(name);
             p.setValueString(humanName.getText().getValue());
-
-            result.add(p);
-        }
-        if (humanName.getUse() != null) {
-            p = new Parameter();
-            p.setName(name);
-            p.setValueString(humanName.getUse().getValue());
-
             result.add(p);
         }
         return false;
