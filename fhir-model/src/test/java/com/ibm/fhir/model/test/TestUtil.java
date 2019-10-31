@@ -244,11 +244,15 @@ public class TestUtil {
     }
 
     /**
-     * If the {@code resourceToFind} is contained in the list of resources this method returns the resource.
-     * Otherwise it returns null.
+     * If the {@code resourceToFind} is contained in the list of resources this method returns true.
+     * Otherwise it returns false.
+     * And This function will fail the test if we either:
+     * A. find the same resource twice; or
+     * B. find different versions of the same resource.
+     * @param resourceToFind
      * @param resources
      */
-    public static boolean findResourceInResponse(Resource resourceToFind, List<? extends Resource> resources) {
+    public static boolean isResourceInResponse(Resource resourceToFind, List<? extends Resource> resources) {
         boolean alreadyFound = false;
         int count = 0;
         

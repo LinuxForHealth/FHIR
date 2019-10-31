@@ -7,7 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.model.test.TestUtil.findResourceInResponse;
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.Code.code;
 import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertEquals;
@@ -1070,7 +1070,7 @@ public class SearchTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(findResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is 
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -1111,7 +1111,7 @@ public class SearchTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(findResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is 
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -1151,7 +1151,7 @@ public class SearchTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(findResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is 
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -1191,7 +1191,7 @@ public class SearchTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(findResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is 
             // no duplicated resource in the search results, Just need to do the verification for the second run.

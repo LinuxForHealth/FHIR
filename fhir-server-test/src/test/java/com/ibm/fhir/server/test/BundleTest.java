@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.server.test;
 
-import static com.ibm.fhir.model.test.TestUtil.findResourceInResponse;
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -845,8 +845,8 @@ public class BundleTest extends FHIRServerTestBase {
             lstRes.add(entry.getResource());
         }
         // B1 is Ortiz, B3 is Ortiz&Jeter
-        assertTrue(findResourceInResponse(patientB3, lstRes));
-        assertTrue(!findResourceInResponse(patientB1, lstRes));
+        assertTrue(isResourceInResponse(patientB3, lstRes));
+        assertTrue(!isResourceInResponse(patientB1, lstRes));
 
         resultSet = (Bundle) responseBundle.getEntry().get(1).getResource();
         assertNotNull(resultSet);
@@ -856,8 +856,8 @@ public class BundleTest extends FHIRServerTestBase {
         for (Bundle.Entry entry : resultSet.getEntry()) {
             lstRes.add(entry.getResource());
         }
-        assertTrue(findResourceInResponse(patientB1, lstRes));
-        assertTrue(!findResourceInResponse(patientB3, lstRes));
+        assertTrue(isResourceInResponse(patientB1, lstRes));
+        assertTrue(!isResourceInResponse(patientB3, lstRes));
 
     }
 
