@@ -74,12 +74,15 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         try {
             return FHIRParser.parser(getFormat(mediaType)).parse(entityStream);
         } catch (FHIRParserException e) {
-            log.log(Level.WARNING, "an error occurred during resource deserialization", e);
-            String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
-            Response response = buildResponse(
-                buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))), getMediaType(acceptHeader));
-            throw new WebApplicationException(response);
+            if (RuntimeType.SERVER.equals(runtimeType)) {
+                String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
+                Response response = buildResponse(
+                    buildOperationOutcome(Collections.singletonList(
+                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))), getMediaType(acceptHeader));
+                throw new WebApplicationException(response);
+            } else {
+                throw new IOException("an error occurred during resource deserialization", e);
+            }
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");
         }
@@ -97,6 +100,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         try {
             FHIRGenerator.generator(getFormat(mediaType), isPretty(requestHeaders)).generate(t, entityStream);
         } catch (FHIRGeneratorException e) {
+            // log the error but don't throw because that seems to block to original IOException from bubbling for some reason
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             if (RuntimeType.SERVER.equals(runtimeType)) {
                 Response response = buildResponse(

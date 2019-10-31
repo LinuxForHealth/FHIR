@@ -10,11 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '1.8', '11.0.1' ]
+        java: [ 'openjdk8', 'openjdk11' ]
+      fail-fast: false
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK
-      uses: actions/setup-java@v1
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
     - name: Build tools
@@ -31,126 +32,43 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '1.8', '11.0.1' ]
+        java: [ 'openjdk8', 'openjdk11' ]
+      fail-fast: false
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK
-      uses: actions/setup-java@v1
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent with tests
-      run: mvn -B -T2C package --file fhir-parent/pom.xml
-  e2e-java8:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Download OpenJDK 8
-      run: wget "https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u232-b09_openj9-0.17.0/OpenJDK8U-jdk_x64_linux_openj9_8u232b09_openj9-0.17.0.tar.gz"
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: 8
-        architecture: x64
-        jdkFile: OpenJDK8U-jdk_x64_linux_openj9_8u232b09_openj9-0.17.0.tar.gz
-    - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
-    - name: Build parent without tests
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
-    - name: Server Integration Tests
-      env:
-        LC_ALL: en_US.UTF-8
-      run: |
-        export WORKSPACE=${GITHUB_WORKSPACE}
-        build/pre-integration-test.sh
-        env
-        mvn -B test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true
-        build/post-integration-test.sh
-    - name: Gather error logs
-      if: failure()
-      run: |
-        it_results=SIT/integration-test-results
-        rm -fr ${it_results} 2>/dev/null
-        mkdir -p ${it_results}/server-logs
-        mkdir -p ${it_results}/fhir-server-test
-        echo "Gathering post-test server logs..."
-        cp -pr SIT/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
-        echo "Gathering integration test output"
-        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
-    - name: Upload logs
-      if: always()
-      uses: actions/upload-artifact@master
-      with:
-        name: integration-test-results-java8
-        path: SIT/integration-test-results
-  e2e-java11:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Download OpenJDK 11
-      run: wget "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk11u-2019-10-16-10-43/OpenJDK11U-jdk_x64_linux_openj9_2019-10-16-10-43.tar.gz"
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
-        architecture: x64
-        jdkFile: OpenJDK11U-jdk_x64_linux_openj9_2019-10-16-10-43.tar.gz
-    - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
-    - name: Build parent without tests
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
-    - name: Server Integration Tests
-      env:
-        LC_ALL: en_US.UTF-8
-      run: |
-        export WORKSPACE=${GITHUB_WORKSPACE}
-        build/pre-integration-test.sh
-        env
-        mvn -B test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true
-        build/post-integration-test.sh
-    - name: Gather error logs
-      if: failure()
-      run: |
-        it_results=SIT/integration-test-results
-        rm -fr ${it_results} 2>/dev/null
-        mkdir -p ${it_results}/server-logs
-        mkdir -p ${it_results}/fhir-server-test
-        mkdir -p ${it_results}/derby
-        echo "Gathering post-test server logs..."
-        cp -pr SIT/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
-        echo "Gathering post-test derby..."
-        cp -pr SIT/wlp/usr/servers/fhir-server/derby ${it_results}/derby
-        echo "Gathering integration test output"
-        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
-    - name: Upload logs
-      if: always()
-      uses: actions/upload-artifact@master
-      with:
-        name: integration-test-results-java11
-        path: SIT/integration-test-results
+      run: mvn -B -T2C package --file fhir-parent/pom.xml --no-transfer-progress
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '11.0.1', '1.8' ]
+        java: [ 'openjdk8', 'openjdk11' ]
+      fail-fast: false
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK
-      uses: actions/setup-java@v1
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Server Integration Tests
+      env:
+        # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
+        LC_ALL: en_US.UTF-8
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
-        mvn -B test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true
+        env
+        mvn -B test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true --no-transfer-progress
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()
