@@ -3,6 +3,7 @@ Our project welcomes external contributions. If you have an itch, please feel
 free to scratch it.
 
 To contribute code or documentation, please submit a [pull request](https://github.com/ibm/fhir/pulls).
+Note that all commits must include a "Signed-off-by" line as indicated [below](#legal).
 
 A good way to familiarize yourself with the codebase and contribution process is
 to look for and tackle low-hanging fruit in the [issue tracker](https://github.com/ibm/fhir/issues).
@@ -34,9 +35,8 @@ For a list of the maintainers, see the [MAINTAINERS.md](MAINTAINERS.md) page.
 
 ## Legal
 
-Each source file must include a license header for the Apache
-Software License 2.0. Using the SPDX format is the simplest approach.
-e.g.
+Each source file must include a license header to indicate its use of the Apache
+Software License 2.0. Using the SPDX format is the simplest approach:
 
 ```
 /*
@@ -52,7 +52,7 @@ same approach - the [Developer's Certificate of Origin 1.1 (DCO)](https://github
 uses to manage code contributions.
 
 We simply ask that when submitting a patch for review, the developer
-must include a sign-off statement in the commit message.
+must include a sign-off statement in each commit message.
 
 Here is an example Signed-off-by line, which indicates that the
 submitter accepts the DCO:
@@ -69,7 +69,7 @@ git commit -s
 ```
 
 ## Communication
-Until we are able to set up a dedicated channel, please connect with us through https://chat.fhir.org/ or by opening an issue in our tracker.
+The IBM FHIR Server team uses the `#ibm` channel at https://chat.fhir.org/#narrow/stream/212434-ibm to discuss the project.  Come join us!
 
 ## Setup
 The IBM FHIR Server is built with Maven and requires Java 8 or higher.  To build the project from the root directory, please execute:
