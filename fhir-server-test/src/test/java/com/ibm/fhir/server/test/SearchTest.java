@@ -1014,8 +1014,14 @@ public class SearchTest extends FHIRServerTestBase {
         Coding tag = Coding.builder().system(uri("system")).code(code("tag")).build();
         Coding tag2 = Coding.builder().system(uri("system")).code(code("tag2")).build();
 
-        patient = patient.toBuilder().meta(Meta.builder().security(security)
-                .tag(tag).tag(tag2).profile(Canonical.of("http://ibm.com/fhir/profile/Profile")).build()).build();
+        patient = patient.toBuilder()
+                .meta(Meta.builder()
+                        .security(security)
+                        .tag(tag)
+                        .tag(tag2)
+                        .profile(Canonical.of("http://ibm.com/fhir/profile/Profile"))
+                        .build())
+                .build();
 
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);

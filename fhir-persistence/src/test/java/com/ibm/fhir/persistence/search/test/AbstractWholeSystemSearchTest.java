@@ -30,6 +30,7 @@ import com.ibm.fhir.model.type.Uri;
 public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest {
     protected final String TAG_SYSTEM = "http://ibm.com/fhir/tag";
     protected final String TAG = UUID.randomUUID().toString();
+    protected final String TAG2 = UUID.randomUUID().toString();
     protected final String SECURITY_SYSTEM = "http://ibm.com/fhir/security";
     protected final String SECURITY = UUID.randomUUID().toString();
     protected final String PROFILE = "http://ibm.com/fhir/profile/" + UUID.randomUUID().toString();
@@ -46,6 +47,9 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         Coding tag = Coding.builder()
                 .system(Uri.of(TAG_SYSTEM))
                 .code(Code.of(TAG)).build();
+        Coding tag2 = Coding.builder()
+                .system(Uri.of(TAG_SYSTEM))
+                .code(Code.of(TAG2)).build();
         Coding security = Coding.builder()
                 .system(Uri.of(SECURITY_SYSTEM))
                 .code(Code.of(SECURITY)).build();
@@ -155,6 +159,34 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, "_elements", "meta", 1000);
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
+        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+    
+    
+    @Test
+    public void testSearchAllUsing2TagsAndNoExistingTag() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, 
+                "_tag", TAG_SYSTEM + "|" + "tag88," + TAG + "," + TAG2);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+    
+    @Test
+    public void testSearchAllUsing2Tags() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, 
+                "_tag", TAG_SYSTEM + "|" + TAG + "," + TAG2);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+    
+    @Test
+    public void testSearchAllUsing2FullTags() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, 
+                "_tag", TAG_SYSTEM + "|" + TAG + "," + TAG_SYSTEM + "|" + TAG2);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
         assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
 }
