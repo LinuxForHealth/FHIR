@@ -9,13 +9,13 @@ package com.ibm.fhir.persistence.search.test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static com.ibm.fhir.model.test.TestUtil.findResourceInResponse;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Basic;
@@ -56,6 +56,8 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
 
         Meta meta = Meta.builder()
                         .tag(tag)
+                        .tag(tag)
+                        .tag(tag2)
                         .security(security)
                         .profile(Canonical.of(PROFILE))
                         .build();
@@ -68,7 +70,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, "_id", savedResource.getId().getValue());
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -76,7 +78,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, "_lastUpdated", savedResource.getMeta().getLastUpdated().getValue().toString());
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -90,7 +92,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -115,7 +117,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -134,7 +136,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, "_tag", TAG_SYSTEM + "|" + TAG);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -142,7 +144,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, "_security", SECURITY_SYSTEM + "|" + SECURITY);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -150,7 +152,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, "_profile", PROFILE);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -159,7 +161,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources = runQueryTest(Resource.class, "_elements", "meta", 1000);
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     
@@ -169,7 +171,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
                 "_tag", TAG_SYSTEM + "|" + "tag88," + TAG + "," + TAG2);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -178,7 +180,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
                 "_tag", TAG_SYSTEM + "|" + TAG + "," + TAG2);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
     
     @Test
@@ -187,6 +189,15 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
                 "_tag", TAG_SYSTEM + "|" + TAG + "," + TAG_SYSTEM + "|" + TAG2);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
-        assertNotNull(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingOneSimpleTag() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, 
+                "_tag", TAG);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(findResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
 }

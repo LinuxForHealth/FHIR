@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.test;
 
+import static com.ibm.fhir.model.test.TestUtil.findResourceInResponse;
 import static com.ibm.fhir.model.type.Code.code;
 import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertNotNull;
@@ -14,7 +15,9 @@ import static org.testng.Assert.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -44,12 +47,13 @@ public class SearchAllTest extends FHIRServerTestBase {
 
     private String patientId;
     private Instant lastUpdated;
+    private Patient patient4DuplicationTest = null;
 
     @Test(groups = { "server-search-all" })
     public void testCreatePatient() throws Exception {
         WebTarget target = getWebTarget();
 
-        // Build a new Patient with 2 tags and then call the 'create' API.
+        // Build a new Patient with 2 tags and one duplicated tag and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         Coding security = Coding.builder().system(uri("http://ibm.com/fhir/security")).code(code("security")).build();
@@ -59,6 +63,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         patient = patient.toBuilder()
                 .meta(Meta.builder()
                         .security(security)
+                        .tag(tag)
                         .tag(tag)
                         .tag(tag2)
                         .profile(Canonical.of("http://ibm.com/fhir/profile/Profile"))
@@ -79,10 +84,10 @@ public class SearchAllTest extends FHIRServerTestBase {
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
-        Patient responsePatient = response.readEntity(Patient.class);
-        TestUtil.assertResourceEquals(patient, responsePatient);
+        patient4DuplicationTest = response.readEntity(Patient.class);
+        TestUtil.assertResourceEquals(patient, patient4DuplicationTest);
 
-        lastUpdated = responsePatient.getMeta().getLastUpdated();
+        lastUpdated = patient4DuplicationTest.getMeta().getLastUpdated();
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
@@ -197,20 +202,25 @@ public class SearchAllTest extends FHIRServerTestBase {
         response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         bundle = response.getResource(Bundle.class);
-        // The second run should only have one more record found.
+        // The second run should only have one more new record found.
         // Because we limit the page size to 1000, so we only do this check when firstRunNumber < 1000.
         if (firstRunNumber < 1000) {
             assertTrue(bundle.getEntry().size() == firstRunNumber + 1);
+            List<Resource> lstRes = new ArrayList<Resource>();
+            for (Bundle.Entry entry : bundle.getEntry()) {
+                lstRes.add(entry.getResource());
+            }
+            assertTrue(findResourceInResponse(patient4DuplicationTest, lstRes));
+        } else {
+            // Just in case there are more than 1000 matches, then simply verify that there is 
+            // no duplicated resource in the search results, Just need to do the verification for the second run.
+            HashSet<String> resourceIdSet = new HashSet<String>();  
+            for (Entry entry: bundle.getEntry()) {
+                resourceIdSet.add(entry.getResource().getClass().getSimpleName()
+                        + ":" + entry.getResource().getId().getValue());
+            }
+            assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }
-        
-        //Verify that there is no duplicated resource in the search results.
-        // Just need to do the verification for the second run.
-        HashSet<String> resourceIdSet = new HashSet<String>();  
-        for (Entry entry: bundle.getEntry()) {
-            resourceIdSet.add(entry.getResource().getClass().getSimpleName()
-                    + ":" + entry.getResource().getId().getValue());
-        }
-        assertTrue(bundle.getEntry().size() == resourceIdSet.size());
     }
     
     
@@ -234,20 +244,25 @@ public class SearchAllTest extends FHIRServerTestBase {
         response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         bundle = response.getResource(Bundle.class);
-        // The second run should only have one more record found.
+        // The second run should only have one more new record found.
         // Because we limit the page size to 1000, so we only do this check when firstRunNumber < 1000.
         if (firstRunNumber < 1000) {
             assertTrue(bundle.getEntry().size() == firstRunNumber + 1);
+            List<Resource> lstRes = new ArrayList<Resource>();
+            for (Bundle.Entry entry : bundle.getEntry()) {
+                lstRes.add(entry.getResource());
+            }
+            assertTrue(findResourceInResponse(patient4DuplicationTest, lstRes));
+        } else {
+            // Just in case there are more than 1000 matches, then simply verify that there is 
+            // no duplicated resource in the search results, Just need to do the verification for the second run.
+            HashSet<String> resourceIdSet = new HashSet<String>();  
+            for (Entry entry: bundle.getEntry()) {
+                resourceIdSet.add(entry.getResource().getClass().getSimpleName()
+                        + ":" + entry.getResource().getId().getValue());
+            }
+            assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }
-        
-        //verify that there is no duplicated resource in the search results.
-        // Just need to do the verification for the second run.
-        HashSet<String> resourceIdSet = new HashSet<String>();  
-        for (Entry entry: bundle.getEntry()) {
-            resourceIdSet.add(entry.getResource().getClass().getSimpleName()
-                    + ":" + entry.getResource().getId().getValue());
-        }
-        assertTrue(bundle.getEntry().size() == resourceIdSet.size());
     }
     
     @Test(groups = { "server-search-all"}, dependsOnMethods = {
@@ -270,19 +285,65 @@ public class SearchAllTest extends FHIRServerTestBase {
         response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         bundle = response.getResource(Bundle.class);
-        // The second run should only have one more record found.
+        // The second run should only have one more new record found.
         // Because we limit the page size to 1000, so we only do this check when firstRunNumber < 1000.
         if (firstRunNumber < 1000) {
             assertTrue(bundle.getEntry().size() == firstRunNumber + 1);
+            List<Resource> lstRes = new ArrayList<Resource>();
+            for (Bundle.Entry entry : bundle.getEntry()) {
+                lstRes.add(entry.getResource());
+            }
+            assertTrue(findResourceInResponse(patient4DuplicationTest, lstRes));
+        } else {
+            // Just in case there are more than 1000 matches, then simply verify that there is 
+            // no duplicated resource in the search results, Just need to do the verification for the second run.
+            HashSet<String> resourceIdSet = new HashSet<String>();  
+            for (Entry entry: bundle.getEntry()) {
+                resourceIdSet.add(entry.getResource().getClass().getSimpleName()
+                        + ":" + entry.getResource().getId().getValue());
+            }
+            assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }
-        
-        //verify that there is no duplicated resource in the search results.
-        // Just need to do the verification for the second run.
-        HashSet<String> resourceIdSet = new HashSet<String>();  
-        for (Entry entry: bundle.getEntry()) {
-            resourceIdSet.add(entry.getResource().getClass().getSimpleName()
-                    + ":" + entry.getResource().getId().getValue());
+    }
+
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreatePatient" })
+    public void testSearchAllUsingOneTag() throws Exception {
+        int firstRunNumber;
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", "tag");
+        parameters.searchParam("_count", "1000");
+        parameters.searchParam("_page", "1");
+        FHIRResponse response = client.searchAll(parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+
+        firstRunNumber = bundle.getEntry().size();
+        assertTrue(firstRunNumber >= 1);
+        // Create one more patient with 2 tags: "tag" and "tag2".
+        testCreatePatient();
+        response = client.searchAll(parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        bundle = response.getResource(Bundle.class);
+        // The second run should only have one more new record found.
+        // Because we limit the page size to 1000, so we only do this check when firstRunNumber < 1000.
+        if (firstRunNumber < 1000) {
+            assertTrue(bundle.getEntry().size() == firstRunNumber + 1);
+            List<Resource> lstRes = new ArrayList<Resource>();
+            for (Bundle.Entry entry : bundle.getEntry()) {
+                lstRes.add(entry.getResource());
+            }
+            assertTrue(findResourceInResponse(patient4DuplicationTest, lstRes));
+        } else {
+            // Just in case there are more than 1000 matches, then simply verify that there is 
+            // no duplicated resource in the search results, Just need to do the verification for the second run.
+            HashSet<String> resourceIdSet = new HashSet<String>();  
+            for (Entry entry: bundle.getEntry()) {
+                resourceIdSet.add(entry.getResource().getClass().getSimpleName()
+                        + ":" + entry.getResource().getId().getValue());
+            }
+            assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }
-        assertTrue(bundle.getEntry().size() == resourceIdSet.size());
     }
 }
