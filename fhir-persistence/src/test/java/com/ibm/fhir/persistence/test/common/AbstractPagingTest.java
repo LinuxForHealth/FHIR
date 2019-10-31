@@ -10,6 +10,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -100,7 +101,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_page", Collections.singletonList("1"));
         results = runQueryTest(Basic.class, queryParameters, 1);
         assertEquals(results.size(), 1, "expected number of results");
-        assertNotNull(findResourceInResponse(resource1, results));
+        assertNotNull(isResourceInResponse(resource1, results));
         
         queryParameters = new HashMap<>();
         queryParameters.put("_sort", Collections.singletonList("integer"));
@@ -108,7 +109,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_page", Collections.singletonList("2"));
         results = runQueryTest(Basic.class, queryParameters, 1);
         assertEquals(results.size(), 1, "expected number of results");
-        assertNotNull(findResourceInResponse(resource2, results));
+        assertTrue(isResourceInResponse(resource2, results));
         
         queryParameters = new HashMap<>();
         queryParameters.put("_sort", Collections.singletonList("integer"));
@@ -116,7 +117,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_page", Collections.singletonList("3"));
         results = runQueryTest(Basic.class, queryParameters, 1);
         assertEquals(results.size(), 1, "expected number of results");
-        assertNotNull(findResourceInResponse(resource3, results));
+        assertTrue(isResourceInResponse(resource3, results));
     }
     
     // history results should be sorted with oldest versions last
