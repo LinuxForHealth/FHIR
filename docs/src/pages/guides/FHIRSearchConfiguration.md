@@ -1,10 +1,11 @@
 ---
 layout: default
-title: IBM FHIR Server - Search Configuration Overview
+title: Search Configuration Overview
 date:   2019-10-09 08:37:05 -0400
-permalink: /fhirsearchconfigurationoverview/
+permalink: /FHIRSearchConfiguration/
 markdown: kramdown
 ---
+
 # IBM FHIR Server - Search Configuration Overview
 The [FHIR Specification](https://www.hl7.org/fhir/r4/search.html) defines a set of searchable fields for each resource type, and corresponding RESTful API.  The IBM FHIR Server supports searching using the specification defined search parameters and using tenant-specific search parameters (extensions). 
 
@@ -141,19 +142,19 @@ The search parameter filtering feature is supported through a set of inclusion r
 {
     "fhirServer": {
         "searchParameterFilter": {
-            "<resource type1>": [
+            "&lt;resource type1&gt;": [
                 "sp-name1",
                 "sp-name2", 
                 ...,
                 "sp-namen"
             ],
-            "<resource type2>": [
+            "&lt;resource type2&gt;": [
                 "sp-name1",
                 "sp-name2", 
                 ...,
                 "sp-namen"
             ],
-            "<resource type3>": [ "*" ],
+            "&lt;resource type3&gt;": [ "*" ],
             "*": [ "*" ]
         }
     }
@@ -260,5 +261,5 @@ In general, the configuration properties for a particular tenant are stored in t
 
 If you have any issues, open an issue with the IBM FHIR Server team. 
 
-<hr>
+<hr></hr>
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

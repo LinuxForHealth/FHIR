@@ -1,0 +1,24 @@
+.callout-link {
+  @include carbon--type-style('body-long-02');
+  margin-top: $spacing-06;
+  display: block;
+}
+
+// Remove the Hero Banner Image 
+[class*='Banner-module--grid--1aCPQ'] {
+  height: 0;
+}
+
+// Remove the Slide Out 
+[class*='bx--header__action'] {
+  visibility: hidden;
+}
+
+// Expand visibile area
+[class*='bx--grid'] {
+  max-width: 80%;
+}
+
+[class*='bx--col-lg-12'] {
+  max-width: 80%;
+}

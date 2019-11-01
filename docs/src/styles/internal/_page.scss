@@ -1,0 +1,113 @@
+.container {
+  background: $ui-01;
+  width: 100%;
+  margin-left: 0;
+  transition: $transition--base ease;
+  position: relative;
+  min-height: calc(100vh - 48px);
+  margin-top: rem(48px);
+}
+
+.container .#{$prefix}--grid {
+  margin: 0;
+  max-width: rem(1584px);
+
+  @include carbon--breakpoint('lg') {
+    padding-left: calc(
+      25% + 2rem
+    ); //2rem to account for 2rem left padding default on grid
+  }
+
+  @include carbon--breakpoint('max') {
+    padding-left: 400px;
+  }
+}
+
+.container .#{$prefix}--col-no-gutter {
+  padding: 0;
+}
+
+//---------------------------------------
+// Header styles
+//---------------------------------------
+.#{$prefix}--header__menu-trigger {
+  @include carbon--breakpoint('lg') {
+    display: none;
+  }
+}
+
+//---------------------------------------
+// Page styles
+//---------------------------------------
+.page-p,
+.component-docs p {
+  @include carbon--type-style('body-long-02');
+  padding: 0 0 $spacing-lg;
+
+  &:empty {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.page-content {
+  > div > div:nth-child(2) h2:before {
+    padding-bottom: rem(80px);
+  }
+
+  > div > div:nth-child(2) h3 {
+    margin-top: rem(48px);
+  }
+
+  // HR dividers
+  hr.divider {
+    display: block;
+    margin: 3rem 0;
+    height: 1px;
+    background: $ui-03;
+    border: 0px transparent;
+  }
+}
+
+.#{$prefix}--platform-header {
+  z-index: 9999;
+}
+
+// images
+img {
+  max-width: 100%;
+}
+
+.gatsby-resp-image-wrapper,
+img[src*='gif'],
+img[src*='svg'] {
+  margin-bottom: $spacing-06;
+}
+
+.gatsby-resp-image-background-image {
+  background: transparent !important; // Need important to override inline style added by gatsby-remark-images
+}
+
+.gatsby-resp-image-image {
+  box-shadow: none !important; // Need important to override inline style added by gatsby-remark-images
+  border: none !important;
+}
+
+//svg and gif images
+.page-content > div > img[src*='svg'],
+.page-content > div > img[src*='gif'] {
+  background: $ui-02;
+}
+
+.page-content iframe {
+  margin-bottom: rem(24px);
+}
+
+.bx--website-switcher {
+  z-index: z('floating');
+}
+
+// ie 11 hidden fix
+[hidden] {
+  display: none;
+}
