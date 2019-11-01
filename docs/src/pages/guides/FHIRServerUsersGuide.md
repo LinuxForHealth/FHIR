@@ -51,63 +51,63 @@ View information about recent changes that were made to this document. For more 
 The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
 2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
-```
-    mkdir fhir-installer
-    cd fhir-installer
-    unzip fhir-server-distribution.zip
-```
+    ```
+        mkdir fhir-installer
+        cd fhir-installer
+        unzip fhir-server-distribution.zip
+    ```
 
 3.  Determine an install location for the OpenLiberty server and the FHIR server webapp. Example:  `/opt/ibm/fhir-server`
 
 4.  Run the `install.sh/.bat` script to install the server:
-```
-    ./fhir-server-dist/install.sh /opt/ibm/fhir-server
-```
-This step installs the OpenLiberty runtime and the FHIR server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
+    ```
+        ./fhir-server-dist/install.sh /opt/ibm/fhir-server
+    ```
+    This step installs the OpenLiberty runtime and the FHIR server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
 
 5.  Configure the fhir-server's `server.xml` file as needed by completing the following steps:
-*   Configure the ports that the server listen on. The server is installed with only port 9443 (HTTPS) enabled by default. To change the port numbers, modify the values in the `httpEndpoint` element.
-*   Configure a server keystore and truststore. The FHIR server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
-*   Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
+    *   Configure the ports that the server listen on. The server is installed with only port 9443 (HTTPS) enabled by default. To change the port numbers, modify the values in the `httpEndpoint` element.
+    *   Configure a server keystore and truststore. The FHIR server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
+    *   Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
 
 6.  Configure the `fhir-server-config.json`<sup id="a1">[1](#f1)</sup> configuration file as needed:
-*   By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. This configuration provides a convenient default, but for production usage it's best to configure the persistence layer to use IBM Db2. For more information, see [Section 3.4 Persistence layer configuration](#34-persistence-layer-configuration).
-* See [Section 3 Configuration](#3-configuration) for more configuration options.
+    *   By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. This configuration provides a convenient default, but for production usage it's best to configure the persistence layer to use IBM Db2. For more information, see [Section 3.4 Persistence layer configuration](#34-persistence-layer-configuration).
+    * See [Section 3 Configuration](#3-configuration) for more configuration options.
 
 7.  Make sure that your selected database product is running and ready to accept requests.
-*   If you're using Db2, make sure that it's listening on the port that is configured in your `fhir-server-config.json`. Also, make sure that you've created or updated the schema to be used, and that you've configured the schema name in the datasource entries of the `fhir-server-config.json` file. As described in [Section 3.4.1.1.2 Db2](#34112-db2), the `fhir-persistence-schema` module uses `fhir-database-utils` to create the database and database schema.
+    *   If you're using Db2, make sure that it's listening on the port that is configured in your `fhir-server-config.json`. Also, make sure that you've created or updated the schema to be used, and that you've configured the schema name in the datasource entries of the `fhir-server-config.json` file. As described in [Section 3.4.1.1.2 Db2](#34112-db2), the `fhir-persistence-schema` module uses `fhir-database-utils` to create the database and database schema.
 
 8.  To start and stop the server, use the Liberty server command:
-```
-<WLP_HOME>/bin/server start fhir-server
-<WLP_HOME>/bin/server stop fhir-server
-```
+    ```
+    <WLP_HOME>/bin/server start fhir-server
+    <WLP_HOME>/bin/server stop fhir-server
+    ```
 
 9.  After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
-```
-curl -k -u <username> https://<host>:<port>/fhir-server/api/v4/$endpoint
-```
-where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).
-The preceding command should produce output similar to the following:
-```
-{
-    "resourceType" : "CapabilityStatement",
-    "version" : "4.0.0",
-    "name" : "IBM FHIR Server",
-    "publisher" : "IBM Corporation",
-    "description" : "IBM FHIR Server version 4.0.0 build id development",
-    "copyright" : "(C) Copyright IBM Corporation 2016, 2019",
-    "kind" : "instance",
-    "software" : {
-        "id" : "development",
+    ```
+    curl -k -u <username> https://<host>:<port>/fhir-server/api/v4/$endpoint
+    ```
+    where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).
+    The preceding command should produce output similar to the following:
+    ```
+    {
+        "resourceType" : "CapabilityStatement",
+        "version" : "4.0.0",
         "name" : "IBM FHIR Server",
-        "version" : "4.0.0"
-    },
-    "fhirVersion" : "4.0.0",
-    "format" : [ "json","xml","application/json","application/fhir+json","application/xml","application/fhir+xml" ]
-    …
-}
-```
+        "publisher" : "IBM Corporation",
+        "description" : "IBM FHIR Server version 4.0.0 build id development",
+        "copyright" : "(C) Copyright IBM Corporation 2016, 2019",
+        "kind" : "instance",
+        "software" : {
+            "id" : "development",
+            "name" : "IBM FHIR Server",
+            "version" : "4.0.0"
+        },
+        "fhirVersion" : "4.0.0",
+        "format" : [ "json","xml","application/json","application/fhir+json","application/xml","application/fhir+xml" ]
+        …
+    }
+    ```
 
 For more information about the capabilities of the implementation, see [Conformance](https://ibm.github.io/FHIR/Conformance).
 
@@ -138,17 +138,18 @@ The output of this command can then be copied and pasted into your `server.xml` 
 
 ## 3.2 Property names
 Configuration properties stored within a `fhir-server-config.json` file are structured in a hierarchical manner. Here is an example:
-```
-{
-    "fhirServer":{
-        "core":{
-            "truststoreLocation":"resources/security/fhirTruststore.jks",
-            "truststorePassword":"change-password",
+
+    ```
+    {
+        "fhirServer":{
+            "core":{
+                "truststoreLocation":"resources/security/fhirTruststore.jks",
+                "truststorePassword":"change-password",
+            }
+        …
         }
-    …
     }
-}
-```
+    ```
 
 Throughout this document, we use a path notation to refer to property names. For example, the name of the `truststorePassword` property in the preceding example would be `fhirServer/test/enabled`.
 
@@ -173,21 +174,21 @@ Before you can configure the FHIR server to use the JDBC persistence layer imple
 ##### 3.4.1.1.1 Embedded Derby (default)
 If you are configuring the FHIR server to use a single embedded Derby database, then you can configure the FHIR server to create the database and the schema and tables during startup. To configure the FHIR server to “bootstrap” the database in this way, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json` as in the following example:
 
-```
-{
-    "fhirServer":{
-        …
-        "persistence":{
+    ```
+    {
+        "fhirServer":{
             …
-            "jdbc":{
-                "bootstrapDb":true,
+            "persistence":{
                 …
-            },
-        …
+                "jdbc":{
+                    "bootstrapDb":true,
+                    …
+                },
+            …
+            }
         }
     }
-}
-```
+    ```
 
 This database bootstrap step is only performed for a Derby database.
 
@@ -202,77 +203,78 @@ TODO: improve documentation on installing the database schema.
 #### 3.4.1.2 FHIR server configuration
 To configure the FHIR server to use the JDBC persistence layer, complete the following steps:
 1.  First, modify the `fhirServer/persistence/factoryClassname` property in `fhir-server-config.json` to specify the JDBC persistence factory, like this:
-```
-{
-    “fhirServer”: {
-        …
-        “persistence”: {
-            "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+    ```
+    {
+        “fhirServer”: {
             …
-        }
-}
-```
+            “persistence”: {
+                "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+                …
+            }
+    }
+    ```
 
 2.  Next, modify the `fhirServer/persistence/jdbc/dataSourceJndiName` property in `fhir-server-config.json` to specify the proxy datasource's JNDI name, like this:
-```
-{
-    “fhirServer”: {
-        …
-        “persistence”: {
+    ```
+    {
+        “fhirServer”: {
             …
-            "jdbc": {
+            “persistence”: {
                 …
-                “dataSourceJndiName”: “jdbc/fhirProxyDataSource”
+                "jdbc": {
+                    …
+                    “dataSourceJndiName”: “jdbc/fhirProxyDataSource”
+                }
+                …
             }
-            …
-        }
-}
-```
+    }
+    ```
 
 3.  Next, modify the `fhirServer/persistence/datasources` property group to reflect the datastore(s) that you want to use. The following example defines the `default` datastore as an embedded derby database located in `wlp/usr/servers/fhir-server/derby/fhirDB`:
-```
-{
-    "fhirServer":{
-        …
-        "persistence":{
+    ```
+    {
+        "fhirServer":{
             …
-            "datasources": {
-                "default": {
-                    "type": "derby",
-                    "connectionProperties": {
-                        "databaseName": "derby/fhirDB"
-                    }
-                },
-            …
-        }
-}
-```
+            "persistence":{
+                …
+                "datasources": {
+                    "default": {
+                        "type": "derby",
+                        "connectionProperties": {
+                            "databaseName": "derby/fhirDB"
+                        }
+                    },
+                …
+            }
+    }
+    ```
 
 The next example defines the `default` datastore as a Db2 database accessible on the `db2server1` host:
-```
-{
-    "fhirServer":{
-        …
-        "persistence":{
-            "datasources": {
-                "default": {
-                    "type": "db2",
-                    "connectionProperties": {
-                        "serverName": "db2server1",
-                        "portNumber": 50000,
-                        "user": "db2inst1",
-                        "password": "********",
-                        "databaseName": "FHIRDB",
-                        "currentSchema": "FHIR1",
-                        "driverType": 4
+    ```
+    {
+        "fhirServer":{
+            …
+            "persistence":{
+                "datasources": {
+                    "default": {
+                        "type": "db2",
+                        "connectionProperties": {
+                            "serverName": "db2server1",
+                            "portNumber": 50000,
+                            "user": "db2inst1",
+                            "password": "********",
+                            "databaseName": "FHIRDB",
+                            "currentSchema": "FHIR1",
+                            "driverType": 4
+                        }
                     }
                 }
+            …
             }
-        …
         }
     }
-}
-```
+    ```
+
 For more information on how to configure datastore properties, see [Section 3.4.2.2 Datastore configuration examples](#3422-datastore-configuration-examples).
 
 ### 3.4.2 Properties-based datastore configuration
@@ -664,15 +666,16 @@ Because the fhir-cli tool is intended to be used by clients that need to access 
 
 1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Artifactory.
 2.  Decompress the `fhir-cli.zip` file into a directory of your choosing, for example:
-```
-cd /mydir
-unzip fhir-cli.zip
-```
+
+    ```
+    cd /mydir
+    unzip fhir-cli.zip
+    ```
 
 3.  [Optional] To enable you to run fhir-cli from multiple directories, run the following command to add `fhir-cli` to your `PATH` environment variable.
-```
-export PATH=$PATH:/mydir/fhir-cli
-```
+    ```
+    export PATH=$PATH:/mydir/fhir-cli
+    ```
 
 ### 4.7.2 Configuring fhir-cli
 The fhir-cli tool requires a properties file containing various configuration properties, such as the base endpoint URL, the username and password for basic authentication, amd so forth. The properties contained in this file are the same properties supported by the FHIR client API. The fhir-cli tool comes with a sample properties file named `fhir-cli.properties` which contains a collection of default property settings.
