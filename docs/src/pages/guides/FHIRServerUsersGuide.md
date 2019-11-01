@@ -117,11 +117,12 @@ The FHIR server does not include an upgrade installer. To upgrade a server to th
 To manage database updates over time, the FHIR server uses custom tools from the `fhir-database-utils` project. Through the use of a metadata table, the database utilities can detect the currently installed version of the database and apply any new changes that are needed to bring the database to the current level.
 
 Complete the following steps to upgrade the server:
-1. Run the fhir-installer on a separate server.
-2. Configure the new server as appropriate (`fhir-server.xml` and anything under the `fhir-server/config` and `fhir-server/userlib` directories).
-3. Back up your database.
-4. Run the migration program (see [Section 3.4.1.1.2 Db2](#34112-db2)).
-5. Disable traffic to the old server and enable traffic to the new server
+
+1. Run the fhir-installer on a separate server.  
+2. Configure the new server as appropriate (`fhir-server.xml` and anything under the `fhir-server/config` and `fhir-server/userlib` directories).  
+3. Back up your database.  
+4. Run the migration program (see [Section 3.4.1.1.2 Db2](#34112-db2)).  
+5. Disable traffic to the old server and enable traffic to the new server  
 
 # 3 Configuration
 This chapter contains information about the various ways in which the FHIR server can be configured by users.
@@ -194,7 +195,9 @@ This database bootstrap step is only performed for a Derby database.
 
 ##### 3.4.1.1.2 Db2
 If you configure the FHIR server to use an IBM Db2 database, you must
-1. create the database if it doesn't already exist; and
+
+1. create the database if it doesn't already exist; and  
+
 2. execute `com.ibm.fhir.schema.app.Main` from the `fhir-persistence-schema` jar file to create the necessary schema (tables, indexes, and other elements).
 
 For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://ibm.github.io/FHIR/DB2OnCloudSetup).
@@ -202,6 +205,7 @@ TODO: improve documentation on installing the database schema.
 
 #### 3.4.1.2 FHIR server configuration
 To configure the FHIR server to use the JDBC persistence layer, complete the following steps:
+
 1.  First, modify the `fhirServer/persistence/factoryClassname` property in `fhir-server-config.json` to specify the JDBC persistence factory, like this:
     ```
     {
@@ -433,8 +437,11 @@ In addition to the provided operations, the FHIR server supports user-provided c
 
 To contribute an operation:
 1. Implement each operation as a Java class that extends `com.ibm.fhir.operation.AbstractOperation` from `fhir-operation.jar`. Ensure that your implementation returns an appropriate `OperationDefinition` in its `getDefinition()` method, because the framework validates both the request and response payloads to ensure that they conform to the definition.
+
 2. Create a file named `com.ibm.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
+
 3. Include your jar file under the `<WLP_HOME>/wlp/usr/servers/fhir-server/userlib/` directory of your installation.
+
 4. Restart the FHIR server. Changes to custom operations require a server restart, because the server discovers and instantiates operations during server startup only.
 
 After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
@@ -586,6 +593,7 @@ To implement a persistence interceptor, complete the following steps:
 
 ### 4.4.1 HL7 spec-defined validation support
 The FHIR specification provides a number of different validation resources including:
+
 1.  XML Schemas
 2.  ISO XML Schematron rules
 3.  Structure Definitions / Profiles for standard resource types, data types and built-in value sets
@@ -1388,29 +1396,29 @@ For more information about topics related to configuring a FHIR server, see the 
 
 <hr/>
 
-<b id="f1">1</b> The fhir-server-config.json file contains configuration information associated with the FHIR server. The global configuration is located in `WLP_HOME/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json`, with tenant-specific configuration contained in `config/TENANT_ID/fhir-server-config.json`. [↩](#a1)
+- <b id="f1">1</b> The fhir-server-config.json file contains configuration information associated with the FHIR server. The global configuration is located in `WLP_HOME/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json`, with tenant-specific configuration contained in `config/TENANT_ID/fhir-server-config.json`. [↩](#a1)
 
-<b id="f2">2</b> When running database-related commands (e.g. createDB.sh, liquibase, etc.) you'll need to make sure that the Db2-related executables are in your PATH, and also that you are logged in as a user that has the necessary authority to create the database and/or create the schema.  Normally, if you log in as the Db2 administrative user (typically "db2inst1") then you should be fine. [↩](#a2)
+- <b id="f2">2</b> When running database-related commands (e.g. createDB.sh, liquibase, etc.) you'll need to make sure that the Db2-related executables are in your PATH, and also that you are logged in as a user that has the necessary authority to create the database and/or create the schema.  Normally, if you log in as the Db2 administrative user (typically "db2inst1") then you should be fine. [↩](#a2)
 
-<b id="f3">3</b> The names of these request headers are configurable within the FHIR server's fhir-server-config.json file.  For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a3)
+- <b id="f3">3</b> The names of these request headers are configurable within the FHIR server's fhir-server-config.json file.  For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a3)
 
-<b id="f4">4</b> For more information on multi-tenant support, including multi-tenant configuration properties, jump to [Section 4.9 Multi-Tenancy](#49-multi-tenancy). [↩](#a4)
+- <b id="f4">4</b> For more information on multi-tenant support, including multi-tenant configuration properties, jump to [Section 4.9 Multi-Tenancy](#49-multi-tenancy). [↩](#a4)
 
-<b id="f5">5</b> An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL.  Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
+- <b id="f5">5</b> An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL.  Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
 
-<b id="f6">6</b> A local reference is a reference used within a request bundle that refers to another resource within the same request bundle and is meaningful only within that request bundle.  A local reference starts with `urn:`. [↩](#a6)
+- <b id="f6">6</b> A local reference is a reference used within a request bundle that refers to another resource within the same request bundle and is meaningful only within that request bundle.  A local reference starts with `urn:`. [↩](#a6)
 
-<b id="f7">7</b> Keystore and truststore files have the same basic structure.   They both provide a secure means for storing certificates.   Typically, we think of a keystore as a file that contains certifcates that consist of a private/public key pair.   And we typically think of a truststore as a file that contains certificates that consist of a public key or trusted certificates. [↩](#a7)
+- <b id="f7">7</b> Keystore and truststore files have the same basic structure.   They both provide a secure means for storing certificates.   Typically, we think of a keystore as a file that contains certifcates that consist of a private/public key pair.   And we typically think of a truststore as a file that contains certificates that consist of a public key or trusted certificates. [↩](#a7)
 
-<b id="f8">8</b> While the instructions here show examples of creating self-signed certificates, in reality the FHIR Server deployer will likely need to use certificates that have been signed by a Certificate Authority (CA) such as Verisign, etc. [↩](#a8)
+- <b id="f8">8</b> While the instructions here show examples of creating self-signed certificates, in reality the FHIR Server deployer will likely need to use certificates that have been signed by a Certificate Authority (CA) such as Verisign, etc. [↩](#a8)
 
-<b id="f9">9</b> The _keytool_ command is provided as part of the Java 8 JRE.  The command can be found in $JAVA_HOME/jre/bin. [↩](#a9)
+- <b id="f9">9</b> The _keytool_ command is provided as part of the Java 8 JRE.  The command can be found in $JAVA_HOME/jre/bin. [↩](#a9)
 
-<b id="f10">10</b> These instructions assume the use of a basic user registry in the server.xml file.  If you are instead using an LDAP registry, then the entire DN associated with the client certificate must match the DN of a user in the LDAP registry. [↩](#a10)
+- <b id="f10">10</b> These instructions assume the use of a basic user registry in the server.xml file.  If you are instead using an LDAP registry, then the entire DN associated with the client certificate must match the DN of a user in the LDAP registry. [↩](#a10)
 
-<b id="f11">11</b> For the JAX-RS 2.0 Client API, you would call the ClientBuilder.truststore() method. [↩](#a11)
+- <b id="f11">11</b> For the JAX-RS 2.0 Client API, you would call the ClientBuilder.truststore() method. [↩](#a11)
 
-<b id="f12">12</b> For the JAX-RS 2.0 Client API, you would call the ClientBuilder.keystore() method. [↩](#a12)
+- <b id="f12">12</b> For the JAX-RS 2.0 Client API, you would call the ClientBuilder.keystore() method. [↩](#a12)
 
 [a]:https://www.ibm.com/support/knowledgecenter/en/SSD28V_9.0.0/com.ibm.websphere.wlp.core.doc/ae/cwlp_pwd_encrypt.html
 
