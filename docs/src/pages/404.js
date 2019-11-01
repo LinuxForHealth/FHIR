@@ -1,3 +1,9 @@
+/*
+ * (C) Copyright IBM Corp. 2019
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React from 'react';
 import { FourOhFour } from 'gatsby-theme-carbon';
 
