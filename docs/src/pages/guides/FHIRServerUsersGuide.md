@@ -1396,30 +1396,54 @@ For more information about topics related to configuring a FHIR server, see the 
 
 <hr/>
 
-- <b id="f1">1</b> The fhir-server-config.json file contains configuration information associated with the FHIR server. The global configuration is located in `WLP_HOME/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json`, with tenant-specific configuration contained in `config/TENANT_ID/fhir-server-config.json`. [↩](#a1)
+- <b name="f1">1</b> 
 
-- <b id="f2">2</b> When running database-related commands (e.g. createDB.sh, liquibase, etc.) you'll need to make sure that the Db2-related executables are in your PATH, and also that you are logged in as a user that has the necessary authority to create the database and/or create the schema.  Normally, if you log in as the Db2 administrative user (typically "db2inst1") then you should be fine. [↩](#a2)
+    The fhir-server-config.json file contains configuration information associated with the FHIR server. The global configuration is located in `WLP_HOME/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json`, with tenant-specific configuration contained in `config/TENANT_ID/fhir-server-config.json`. [↩](#a1)
 
-- <b id="f3">3</b> The names of these request headers are configurable within the FHIR server's fhir-server-config.json file.  For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a3)
+- <b name="f2">2</b>
 
-- <b id="f4">4</b> For more information on multi-tenant support, including multi-tenant configuration properties, jump to [Section 4.9 Multi-Tenancy](#49-multi-tenancy). [↩](#a4)
+    When running database-related commands (e.g. createDB.sh, liquibase, etc.) you'll need to make sure that the Db2-related executables are in your PATH, and also that you are logged in as a user that has the necessary authority to create the database and/or create the schema.  Normally, if you log in as the Db2 administrative user (typically "db2inst1") then you should be fine. [↩](#a2)
 
-- <b id="f5">5</b> An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL.  Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
+- <b id="f3">3</b> 
 
-- <b id="f6">6</b> A local reference is a reference used within a request bundle that refers to another resource within the same request bundle and is meaningful only within that request bundle.  A local reference starts with `urn:`. [↩](#a6)
+    The names of these request headers are configurable within the FHIR server's fhir-server-config.json file.  For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a3)
 
-- <b id="f7">7</b> Keystore and truststore files have the same basic structure.   They both provide a secure means for storing certificates.   Typically, we think of a keystore as a file that contains certifcates that consist of a private/public key pair.   And we typically think of a truststore as a file that contains certificates that consist of a public key or trusted certificates. [↩](#a7)
+- <b id="f4">4</b> 
 
-- <b id="f8">8</b> While the instructions here show examples of creating self-signed certificates, in reality the FHIR Server deployer will likely need to use certificates that have been signed by a Certificate Authority (CA) such as Verisign, etc. [↩](#a8)
+    For more information on multi-tenant support, including multi-tenant configuration properties, jump to [Section 4.9 Multi-Tenancy](#49-multi-tenancy). [↩](#a4)
 
-- <b id="f9">9</b> The _keytool_ command is provided as part of the Java 8 JRE.  The command can be found in $JAVA_HOME/jre/bin. [↩](#a9)
+- <b id="f5">5</b> 
+
+    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL.  Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
+
+- <b id="f6">6</b> 
+
+    A local reference is a reference used within a request bundle that refers to another resource within the same request bundle and is meaningful only within that request bundle.  A local reference starts with `urn:`. [↩](#a6)
+
+- <b id="f7">7</b> 
+
+    Keystore and truststore files have the same basic structure.   They both provide a secure means for storing certificates.   Typically, we think of a keystore as a file that contains certifcates that consist of a private/public key pair.   And we typically think of a truststore as a file that contains certificates that consist of a public key or trusted certificates. [↩](#a7)
+
+- <b id="f8">8</b> 
+
+    While the instructions here show examples of creating self-signed certificates, in reality the FHIR Server deployer will likely need to use certificates that have been signed by a Certificate Authority (CA) such as Verisign, etc. [↩](#a8)
+
+- <b id="f9">9</b> 
+
+    The _keytool_ command is provided as part of the Java 8 JRE.  The command can be found in $JAVA_HOME/jre/bin. [↩](#a9)
 
 - <b id="f10">10</b> These instructions assume the use of a basic user registry in the server.xml file.  If you are instead using an LDAP registry, then the entire DN associated with the client certificate must match the DN of a user in the LDAP registry. [↩](#a10)
 
-- <b id="f11">11</b> For the JAX-RS 2.0 Client API, you would call the ClientBuilder.truststore() method. [↩](#a11)
+- <b id="f11">11</b> 
 
-- <b id="f12">12</b> For the JAX-RS 2.0 Client API, you would call the ClientBuilder.keystore() method. [↩](#a12)
+    For the JAX-RS 2.0 Client API, you would call the ClientBuilder.truststore() method. [↩](#a11)
+
+- <b id="f12">12</b> 
+
+    For the JAX-RS 2.0 Client API, you would call the ClientBuilder.keystore() method. [↩](#a12)
 
 [a]:https://www.ibm.com/support/knowledgecenter/en/SSD28V_9.0.0/com.ibm.websphere.wlp.core.doc/ae/cwlp_pwd_encrypt.html
+
+<hr/>
 
 FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.
