@@ -47,7 +47,7 @@ View information about recent changes that were made to this document. For more 
 # 2 Installation
 
 ## 2.1 Installing a new server
-1.  To install the FHIR server, build or download the `fhir-install` zip installed (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
+1.  To install the FHIR server, build or download the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
 The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
 2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
