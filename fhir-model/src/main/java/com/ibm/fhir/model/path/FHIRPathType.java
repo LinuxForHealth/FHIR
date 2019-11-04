@@ -371,9 +371,9 @@ public enum FHIRPathType {
     }
     
     public boolean isAssignableFrom(FHIRPathType type) {
-    	if (type == FHIR_UNKNOWN_RESOURCE_TYPE && "FHIR".equals(this.namespace)) {
-    		return true;
-    	}
+        if (type == FHIR_UNKNOWN_RESOURCE_TYPE && "FHIR".equals(this.namespace)) {
+            return true;
+        }
         if (type == null) {
             // every type is assignable from null
             return true;
