@@ -135,6 +135,10 @@
             <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
           </configuration>
         </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.0.0-M1</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -161,6 +165,9 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -174,6 +181,235 @@
       <id>jenkins</id>
       <properties>
         <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
+      </properties>
+    </profile>
+    <profile>
+      <id>fhir-javadocs</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.1.1</version>
+            <executions>
+              <execution>
+                <id>aggregate</id>
+                <phase>site</phase>
+                <goals>
+                  <goal>javadoc-no-fork</goal>
+                  <goal>test-javadoc-no-fork</goal>
+                </goals>
+                <configuration>
+                  <verbose>false</verbose>
+                  <doclint>none</doclint>
+                  <additionalparam>-Xdoclint:none</additionalparam>
+                  <minmemory>128m</minmemory>
+                  <maxmemory>1g</maxmemory>
+                  <archive>
+                    <manifestEntries>
+                      <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
+                    </manifestEntries>
+                  </archive>
+                  <destDir>target/apidocs/fhir-tools</destDir>
+                  <additionalOptions>
+                    <additionalOption>--frames</additionalOption>
+                  </additionalOptions>
+                  <bottom>Copyright 2019, &lt;a href="http://www.ibm.com"&gt;IBM Corporation&lt;a&gt;</bottom>
+                  <author>false</author>
+                  <detectJavaApiLink>false</detectJavaApiLink>
+                </configuration>
+              </execution>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <verbose>false</verbose>
+                  <doclint>none</doclint>
+                  <additionalparam>-Xdoclint:none</additionalparam>
+                  <minmemory>128m</minmemory>
+                  <maxmemory>1g</maxmemory>
+                  <archive>
+                    <manifestEntries>
+                      <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
+                    </manifestEntries>
+                  </archive>
+                  <destDir>target/apidocs/fhir-tools</destDir>
+                  <additionalOptions>
+                    <additionalOption>--frames</additionalOption>
+                  </additionalOptions>
+                  <bottom>Copyright 2019, &lt;a href="http://www.ibm.com"&gt;IBM Corporation&lt;a&gt;</bottom>
+                  <author>false</author>
+                  <detectJavaApiLink>false</detectJavaApiLink>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration>
+              <verbose>false</verbose>
+              <doclint>none</doclint>
+              <additionalparam>-Xdoclint:none</additionalparam>
+              <minmemory>128m</minmemory>
+              <maxmemory>1g</maxmemory>
+              <archive>
+                <manifestEntries>
+                  <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
+                </manifestEntries>
+              </archive>
+              <destDir>target/apidocs/fhir-tools</destDir>
+              <additionalOptions>
+                <additionalOption>--frames</additionalOption>
+              </additionalOptions>
+              <bottom>Copyright 2019, &lt;a href="http://www.ibm.com"&gt;IBM Corporation&lt;a&gt;</bottom>
+              <author>false</author>
+              <detectJavaApiLink>false</detectJavaApiLink>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>deploy-version-rc</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>versions-maven-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+              <execution>
+                <phase>clean</phase>
+                <goals>
+                  <goal>set</goal>
+                </goals>
+                <configuration>
+                  <oldVersion>*</oldVersion>
+                  <newVersion>${deploy.version}</newVersion>
+                  <generateBackupPoms>true</generateBackupPoms>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration />
+          </plugin>
+        </plugins>
+      </build>
+      <properties>
+        <rc>1</rc>
+        <deploy.version>4.0.0-rc${rc}-${maven.build.timestamp}</deploy.version>
+        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+      </properties>
+    </profile>
+    <profile>
+      <id>deploy-version-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>versions-maven-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+              <execution>
+                <phase>clean</phase>
+                <goals>
+                  <goal>set</goal>
+                </goals>
+                <configuration>
+                  <oldVersion>*</oldVersion>
+                  <newVersion>${deploy.version}</newVersion>
+                  <generateBackupPoms>true</generateBackupPoms>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration />
+          </plugin>
+        </plugins>
+      </build>
+      <properties>
+        <deploy.version>4.0.0</deploy.version>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+      </properties>
+    </profile>
+    <profile>
+      <id>deploy-bintray</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.1.2</version>
+            <executions>
+              <execution>
+                <id>default-jar</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <archive>
+                    <manifest>
+                      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                    </manifest>
+                    <manifestEntries>
+                      <Build-Time>20191028-0113</Build-Time>
+                      <Build-Number>${BUILD_ID}</Build-Number>
+                      <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                      <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                      <Git-URL>${GIT_URL}</Git-URL>
+                    </manifestEntries>
+                  </archive>
+                </configuration>
+              </execution>
+              <execution>
+                <goals>
+                  <goal>test-jar</goal>
+                </goals>
+                <configuration>
+                  <archive>
+                    <manifest>
+                      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                    </manifest>
+                    <manifestEntries>
+                      <Build-Time>20191028-0113</Build-Time>
+                      <Build-Number>${BUILD_ID}</Build-Number>
+                      <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                      <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                      <Git-URL>${GIT_URL}</Git-URL>
+                    </manifestEntries>
+                  </archive>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                  <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                </manifest>
+                <manifestEntries>
+                  <Build-Time>20191028-0113</Build-Time>
+                  <Build-Number>${BUILD_ID}</Build-Number>
+                  <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                  <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                  <Git-URL>${GIT_URL}</Git-URL>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+      <distributionManagement>
+        <repository>
+          <id>bintray-ibm-watson-health-ibm-fhir-server-snapshots</id>
+          <name>ibm-watson-health-ibm-fhir-server-snapshots</name>
+          <url>https://api.bintray.com/maven/${bintray.org}/${bintray.repo}/fhir-tools/;publish=0</url>
+        </repository>
+      </distributionManagement>
+      <properties>
+        <bintray.package>fhir-tools</bintray.package>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <publish>0</publish>
+        <bintray.repo>ibm-fhir-server-snapshots</bintray.repo>
+        <bintray.org>ibm-watson-health</bintray.org>
       </properties>
     </profile>
   </profiles>

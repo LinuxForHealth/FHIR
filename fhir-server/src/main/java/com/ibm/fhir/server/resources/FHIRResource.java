@@ -154,7 +154,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
-    private static final String FHIR_COPY_RIGHT = "(c) Copyright IBM Corporation 2018, 2019";
+    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2019";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
 
     private static final String LOCAL_REF_PREFIX = "urn:";
@@ -1705,7 +1705,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), isSearchLenient(requestProperties));
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), isLenient(requestProperties));
             }
 
             // Start a new txn in the persistence layer if one is not already active.
@@ -1923,7 +1923,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType =
                     (Class<? extends Resource>) getResourceType(resourceTypeName);
             FHIRHistoryContext historyContext =
-                    FHIRPersistenceUtil.parseHistoryParameters(queryParameters);
+                    FHIRPersistenceUtil.parseHistoryParameters(queryParameters, isLenient(requestProperties));
 
             // Start a new txn in the persistence layer if one is not already active.
             txn.begin();
@@ -2032,7 +2032,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
             FHIRSearchContext searchContext =
-                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isSearchLenient(requestProperties));
+                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isLenient(requestProperties));
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
@@ -2088,7 +2088,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
-    private boolean isSearchLenient(Map<String, String> requestProperties) {
+    private boolean isLenient(Map<String, String> requestProperties) {
         boolean lenient = true;
 
         String handlingStringValue = getHeaderValue(requestProperties, "Prefer", "handling");
@@ -3628,9 +3628,24 @@ public class FHIRResource implements FHIRResourceHelpers {
         format.add(Code.of(FHIRMediaType.APPLICATION_XML));
         format.add(Code.of(FHIRMediaType.APPLICATION_FHIR_XML));
 
-        // Finally, create the Conformance resource itself.
-        CapabilityStatement conformance =
-                CapabilityStatement.builder().status(PublicationStatus.ACTIVE).date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC))).kind(CapabilityStatementKind.CAPABILITY).fhirVersion(FHIRVersion.VERSION_4_0_0).format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH)).version(string(buildInfo.getBuildVersion())).name(string(FHIR_SERVER_NAME)).description(com.ibm.fhir.model.type.Markdown.of(buildDescription)).copyright(com.ibm.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT)).publisher(string("IBM Corporation")).software(CapabilityStatement.Software.builder().name(string(FHIR_SERVER_NAME)).version(string(buildInfo.getBuildVersion())).id(buildInfo.getBuildId()).build()).rest(rest).build();
+        // Finally, create the CapabilityStatement resource itself.
+        CapabilityStatement conformance = CapabilityStatement.builder()
+                .status(PublicationStatus.ACTIVE)
+                .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
+                .kind(CapabilityStatementKind.CAPABILITY)
+                .fhirVersion(FHIRVersion.VERSION_4_0_0)
+                .format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH))
+                .version(string(buildInfo.getBuildVersion()))
+                .name(string(FHIR_SERVER_NAME))
+                .description(com.ibm.fhir.model.type.Markdown.of(buildDescription))
+                .copyright(com.ibm.fhir.model.type.Markdown.of(FHIR_COPYRIGHT))
+                .publisher(string("IBM Corporation"))
+                .software(CapabilityStatement.Software.builder()
+                          .name(string(FHIR_SERVER_NAME))
+                          .version(string(buildInfo.getBuildVersion()))
+                          .id(buildInfo.getBuildId()).build())
+                .rest(rest)
+                .build();
 
         try {
             conformance = addExtensionElements(conformance);
@@ -3723,7 +3738,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         throws FHIROperationException {
         
         // throws if we have a count of more than 2,147,483,647 resources
-        UnsignedInt totalCount = com.ibm.fhir.model.type.UnsignedInt.of(Math.toIntExact(searchContext.getTotalCount()));
+        UnsignedInt totalCount = UnsignedInt.of(searchContext.getTotalCount());
         // generate ID for this bundle and set total
         Bundle.Builder bundleBuider = Bundle.builder()
                                             .type(BundleType.SEARCHSET)
@@ -3766,7 +3781,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         throws FHIROperationException {
         
         // throws if we have a count of more than 2,147,483,647 resources
-        UnsignedInt totalCount = com.ibm.fhir.model.type.UnsignedInt.of(Math.toIntExact(historyContext.getTotalCount()));
+        UnsignedInt totalCount = UnsignedInt.of(historyContext.getTotalCount());
         // generate ID for this bundle and set the "total" field for the bundle
         Bundle.Builder bundleBuilder = Bundle.builder()
                                              .type(BundleType.HISTORY)
@@ -3860,10 +3875,13 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private Bundle addLinks(FHIRPagingContext context, Bundle bundle, String requestUri) {
         String selfUri = null;
+        SummaryValueSet summaryParameter = null;
         Bundle.Builder bundleBuilder = bundle.toBuilder();
         if (context instanceof FHIRSearchContext) {
+            FHIRSearchContext searchContext = (FHIRSearchContext) context;
+            summaryParameter = searchContext.getSummaryParameter();
             try {
-                selfUri = SearchUtil.buildSearchSelfUri(requestUri, (FHIRSearchContext) context);
+                selfUri = SearchUtil.buildSearchSelfUri(requestUri, searchContext);
             } catch (Exception e) {
                 log.log(Level.WARNING, "Unable to construct self link for search result bundle; using the request URI instead.", e);
             }
@@ -3876,10 +3894,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                 Bundle.Link.builder().relation(string("self")).url(Url.of(selfUri)).build();
         bundleBuilder.link(selfLink);
         
-        // If for search with _summary=count, then don't add previous and next links.
-        if (!(context instanceof FHIRSearchContext 
-                && ((FHIRSearchContext) context).getSummaryParameter() != null
-                && ((FHIRSearchContext) context).getSummaryParameter().equals(SummaryValueSet.COUNT))) {
+        // If for search with _summary=count or pageSize == 0, then don't add previous and next links.
+        if (!SummaryValueSet.COUNT.equals(summaryParameter) && context.getPageSize() > 0) {
             int nextPageNumber = context.getPageNumber() + 1;
             if (nextPageNumber <= context.getLastPageNumber()) {
 

@@ -261,6 +261,19 @@ public class Table extends BaseObject {
             columns.add(cd);
             return this;
         }
+        
+        public Builder addTimestampColumn(String columnName, int numberOfFractionalSecondDigits, boolean nullable) {
+            ColumnDef cd = new ColumnDef(columnName);
+            if (columns.contains(cd)) {
+                throw new IllegalArgumentException("Duplicate column: " + columnName);
+            }
+            
+            cd.setNullable(nullable);
+            cd.setColumnType(ColumnType.TIMESTAMP);
+            cd.setPrecision(numberOfFractionalSecondDigits);
+            columns.add(cd);
+            return this;
+        }
 
         public Builder addVarcharColumn(String columnName, int size, boolean nullable) {
             ColumnDef cd = new ColumnDef(columnName);
@@ -498,7 +511,11 @@ public class Table extends BaseObject {
                     column = new DoubleColumn(cd.getName(), cd.isNullable());
                     break;
                 case TIMESTAMP:
-                    column = new TimestampColumn(cd.getName(), cd.isNullable());
+                    if (cd.getPrecision() == null) {
+                        column = new TimestampColumn(cd.getName(), cd.isNullable());
+                    } else {
+                        column = new TimestampColumn(cd.getName(), cd.isNullable(), cd.getPrecision());
+                    }
                     break;
                 case VARCHAR:
                     if (cd.getSize() > Integer.MAX_VALUE) {

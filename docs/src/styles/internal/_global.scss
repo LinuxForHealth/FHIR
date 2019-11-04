@@ -1,0 +1,57 @@
+$prefix: 'bx';
+
+//---------------------------------------
+// Carbon Components
+//---------------------------------------
+$feature-flags: (
+  ui-shell: true,
+  grid-columns-16: false,
+);
+
+// Carbon globals/helpers
+@import '~carbon-components/scss/globals/grid/grid';
+@import '~carbon-components/scss/globals/scss/layout';
+
+// Carbon components
+@import '~carbon-components/scss/components/ui-shell/ui-shell';
+@import '~carbon-components/scss/components/tile/tile';
+@import '~carbon-components/scss/components/code-snippet/code-snippet';
+@import '~carbon-components/scss/components/copy-button/copy-button';
+@import '~carbon-components/scss/components/button/button';
+@import '~carbon-components/scss/components/tabs/tabs';
+@import '~carbon-components/scss/components/list/list';
+
+@import '~@carbon/addons-website/scss/components/website-grid';
+@import '~@carbon/addons-website/scss/components/website-header';
+@import '~@carbon/addons-website/scss/components/website-header-nav';
+@import '~@carbon/addons-website/scss/components/website-side-nav';
+@import '~@carbon/addons-website/scss/components/website-back-to-top-btn';
+
+// Typography
+@include carbon--type-reset();
+@import '~@carbon/elements/scss/type/classes';
+
+// special characters (arrows)
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans&text=←→↑↓↔↕↖↗↘↙↚↛↮⟵⟶⟷↰↱↲↳⬐⬎⬑⬏↴↵');
+
+$font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+$font-family-mono: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono',
+  'Bitstream Vera Sans Mono', Courier, monospace;
+
+//---------------------------------------
+// Global styles
+//---------------------------------------
+body {
+  background: $ui-05;
+}
+
+//---------------------------------------
+// CSS reset overrides
+//---------------------------------------
+body em {
+  font-style: italic;
+}
+
+body button {
+  font-family: inherit;
+}

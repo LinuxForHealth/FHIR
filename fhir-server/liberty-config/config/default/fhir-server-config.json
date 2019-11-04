@@ -5,9 +5,7 @@
             "truststoreLocation": "resources/security/fhirTruststore.jks",
             "truststorePassword": "change-password",
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
-            "datastoreIdHeaderName": "X-FHIR-DSID",
-            "jsonParserLenient": false,
-            "jsonParserValidating": true
+            "datastoreIdHeaderName": "X-FHIR-DSID"
         },
         "authFilter": {
             "enabled": false,
@@ -125,8 +123,6 @@
             "audit": {
                 "bootstrapDb": true
             }
-        },
-        "whclsfRouter": {
         }
     }
 }

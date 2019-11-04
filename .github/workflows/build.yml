@@ -8,12 +8,16 @@ on:
 jobs:
   build-tools:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk8', 'openjdk11' ]
+      fail-fast: false
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
       with:
-        java-version: 1.8
+        java-version: ${{ matrix.java }}
     - name: Build tools
       run: mvn -B install --file fhir-tools/pom.xml
     - name: Build samples
@@ -26,33 +30,45 @@ jobs:
       run: mvn -B package --file fhir-benchmark/pom.xml
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk8', 'openjdk11' ]
+      fail-fast: false
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
       with:
-        java-version: 1.8
+        java-version: ${{ matrix.java }}
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent with tests
-      run: mvn -B -T2C package --file fhir-parent/pom.xml
+      run: mvn -B -T2C package --file fhir-parent/pom.xml --no-transfer-progress
   e2e-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk8', 'openjdk11' ]
+      fail-fast: false
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
       with:
-        java-version: 1.8
+        java-version: ${{ matrix.java }}
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Server Integration Tests
+      env:
+        # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
+        LC_ALL: en_US.UTF-8
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
-        mvn test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true
+        env
+        mvn -B test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true --no-transfer-progress
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()
@@ -69,5 +85,5 @@ jobs:
       if: always()
       uses: actions/upload-artifact@master
       with:
-        name: integration-test-results
+        name: integration-test-results-${{ matrix.java }}
         path: SIT/integration-test-results

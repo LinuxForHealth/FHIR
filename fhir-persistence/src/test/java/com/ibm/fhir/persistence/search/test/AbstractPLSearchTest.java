@@ -11,6 +11,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -146,13 +147,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     protected boolean searchReturnsResource(Class<? extends Resource> resourceTypeToSearch, Map<String, List<String>> queryParms, Resource expectedResource) throws Exception {
         List<? extends Resource> resources = runQueryTest(resourceTypeToSearch, queryParms, Integer.MAX_VALUE);
         assertNotNull(resources);
-        if (resources.size() > 0) {
-            Resource returnedResource = findResourceInResponse(expectedResource, resources);
-            if (returnedResource != null) {
-                return true;
-            }
-        }
-        return false;
+        return isResourceInResponse(expectedResource, resources);
     }
 
     /**

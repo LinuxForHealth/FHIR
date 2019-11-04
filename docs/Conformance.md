@@ -1,13 +1,26 @@
+# PLEASE USE the files in src/pages/ as it is part of the build now
+
 # Conformance to the HL7 FHIR Specification
 The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR specification, version 4.0.0 (R4). However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
 
 ## Capability statement
 The HL7 FHIR specification defines [an interaction](https://www.hl7.org/fhir/R4/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The IBM FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the current server configuration. While the `CapabilityStatement` resource is ideal for certain uses, this markdown document provides a human-readable summary of important details, with a special focus on limitations of the current implementation and deviations from the specification.
 
+The IBM FHIR Server supports only version 4.0.0 of the specification and presently has no support for the MIME-type parameter `fhirVersion`.
+
 ## FHIR HTTP API
-The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements the full API for every resource defined in the specification, with the following exceptions:
+The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements almost the full API for every resource defined in the specification, with the following exceptions:
 * history is only supported at the resource instance level (no resource type history and no whole-system history)
 * there are parts of the FHIR search specification which are not fully implemented as documented in the following section
+
+The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history` interactions, as well as version-aware updates.
+
+### General parameters
+The `_format` parameter is supported and provides a useful mechanism for requesting a specific format (`XML` or `JSON`) in requests made from a browser. In the absence of either an `Accept` header or a `_format` query parameter, the server defaults to `application/fhir+json`.
+
+The `_pretty` parameter is not currently supported, but should be added as part of https://github.com/IBM/FHIR/issues/269.
+
+The `_summary` and `_elements` parameters are supported on the search interaction as documented.
 
 ## Search
 The IBM FHIR Server supports search parameters of type `Number`, `Date/DateTime`, `String`, `Token`, `Reference`, `Quantity`, and `URI`.

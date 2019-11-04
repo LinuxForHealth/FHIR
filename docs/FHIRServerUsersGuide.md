@@ -1,15 +1,8 @@
-<!--
-
 ---
-
-Copyright:
-
-  years: 2017, 2019
+Copyright: years 2017, 2019
 lastupdated: "2019-09-04"
-
 ---
 
--->
 - [1 Overview](#1-overview)
   * [1.1 Recent updates](#11-recent-updates)
 - [2 Installation](#2-installation)
@@ -20,7 +13,7 @@ lastupdated: "2019-09-04"
   * [3.2 Property names](#32-property-names)
   * [3.3 Tenant-specific configuration properties](#33-tenant-specific-configuration-properties)
   * [3.4 Persistence layer configuration](#34-persistence-layer-configuration)
-- [4 Customization options](#4-customization-options)
+- [4 Customization](#4-customization)
   * [4.1 Extended operations](#41-extended-operations)
   * [4.2 Notification Service](#42-notification-service)
   * [4.3 Persistence interceptors](#43-persistence-interceptors)
@@ -35,162 +28,115 @@ lastupdated: "2019-09-04"
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
   * [5.3 Custom HTTP Headers](#53-custom-http-headers)
-  * [5.4 Notes about the FHIRJsonParser](#54-notes-about-the-fhirjsonparser)
 - [6 Related topics](#6-related-topics)
 
 # 1 Overview
-
-The IBM FHIR Server provides a REST API that is patterned after the HL7 FHIR specification and supports the full set of FHIR-defined resource types.
-The FHIR server is intended to be a common component for providing FHIR capabilities within health services and solutions.
+The IBM FHIR Server implements the HL7 FHIR HTTP API and supports the full set of FHIR-defined resource types.
+This FHIR server is intended to be a common component for providing FHIR capabilities within health services and solutions.
 
 ## 1.1 Recent updates
-View information about recent changes that were made to this document. For more information about changes that were made to the FHIR server codebase, see the [CHANGELOG](CHANGELOG.md).
+View information about recent changes that were made to this document. For more information about changes that were made to the FHIR server codebase, see the corresponding release notes from the GitHub Releases tab.
 
-### Release 2.2
-* Moved User Guide to this repo converted to Markdown
-* Split large table in [Section 5.1](#51-configuration-properties-reference) into three separate tables to improve display on GitHub Enterprise
-* Replaced references to Jenkins with links to Artifactory
-* Deleted the <q>Historical Information</q> section
-* Introduced [CHANGELOG.md](CHANGELOG.md) for tracking changes to the FHIR server from one version to the next
-* Introduced [Conformance.md](Conformance.md) for documenting spec coverage and list any deviations
-* Added section on upgrading from one version to the next
-
-###	Release 2.1
-IBM FHIR Server version 2.1 was developed under the Watson Health development organization.
-
-###	Release 1.2
-*	Added information about the update/create feature.
-*	Added information about the new JSON-based configuration model, and updated configuration examples throughout the document.
-*	Updated the information about configuring the FHIR server for IBM Db2&reg;.
-*	Added instructions for creating the database and the schema that is required for OAuth 2.0 support.
-*	Corrected links to Liberty OAuth documentation.
-*	Added the section on Local References within request bundles.
-*	Added information about configuring the JDBC persistence layer.
-*	Added information about tenant-specific configuration parameters.
-*	Added reference table of supported configuration properties ([Section 5.1](#51-configuration-properties-reference)).
-*	Added information about tenant-specific data store configuration.
-*	Added the table of contents.
-*	Corrected link to installer.
+### Release 4.0
+* Initial release of the IBM FHIR Server for HL7 FHIR R4
 
 # 2 Installation
 
 ## 2.1 Installing a new server
-1.	To install the FHIR server, first obtain the installation package `fhir-server-distribution.zip`.
+1.	To install the FHIR server, build or download the `fhir-install` zip installed (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
 The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
-2.	Decompress the `.zip` file into a clean directory (referred to as `/fhir-installer` here):
+2.	Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
 ```
-    mkdir /fhir-installer
-    cd /fhir-installer
-    unzip fhir-install-2.2.0-5-201810161109.zip
+    mkdir fhir-installer
+    cd fhir-installer
+    unzip fhir-server-distribution.zip
 ```
 
-3.	Determine an installation location for the WebSphere&reg; Liberty server and FHIR server web app. Example:  `/opt/ibm/fhir-server`
+3.	Determine an install location for the OpenLiberty server and the FHIR server webapp. Example:  `/opt/ibm/fhir-server`
 
 4.	Run the `install.sh/.bat` script to install the server:
 ```
-    cd /fhir-installer
     ./fhir-server-dist/install.sh /opt/ibm/fhir-server
 ```
-This step installs the WebSphere Liberty runtime and the FHIR server web application. The Liberty runtime is installed in a directory that is called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime is  `/opt/ibm/fhir-server/wlp`.
+This step installs the OpenLiberty runtime and the FHIR server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
 
 5.	Configure the fhir-server's `server.xml` file as needed by completing the following steps:
 *	Configure the ports that the server listen on. The server is installed with only port 9443 (HTTPS) enabled by default. To change the port numbers, modify the values in the `httpEndpoint` element.
 *	Configure a server keystore and truststore. The FHIR server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
-*	Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. More information about configuring user registries, see the WebSphere Liberty documentation.
+*	Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
 
 6.	Configure the `fhir-server-config.json`<sup id="a1">[1](#f1)</sup> configuration file as needed:
-*	By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. This configuration provides a convenient default, but for production usage, it's best to configure the persistence layer to use Db2. For more information, see [Section 3.4 Persistence layer configuration](#34-persistence-layer-configuration).
-*	Configure an encryption key to support the encryption of REST API payloads.
+*	By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. This configuration provides a convenient default, but for production usage it's best to configure the persistence layer to use IBM Db2. For more information, see [Section 3.4 Persistence layer configuration](#34-persistence-layer-configuration).
+* See [Section 3 Configuration](#3-configuration) for more configuration options.
 
 7.	Make sure that your selected database product is running and ready to accept requests.
-*	If you're using Db2, make sure that it's started and that the Db2 server is listening on the port that is configured in your `fhir-server-config.json`. Also, make sure that you've created or updated the schema to be used, and that you've configured the schema name in the datasource entries of the `fhir-server-config.json` file. As described in [Section 3.4.1.1.2 Db2](#34112-db2), the fhir-install package includes scripts that invoke liquibase to create the database and database schema.
+*	If you're using Db2, make sure that it's listening on the port that is configured in your `fhir-server-config.json`. Also, make sure that you've created or updated the schema to be used, and that you've configured the schema name in the datasource entries of the `fhir-server-config.json` file. As described in [Section 3.4.1.1.2 Db2](#34112-db2), the `fhir-persistence-schema` module uses `fhir-database-utils` to create the database and database schema.
 
-8.	Before you start the server, make sure that you are using a FIPS-configured Java&trade; 8, which is required by the FHIR server. Java 8 is installed as part of the installation package, which is in the following directory: `${WLP_HOME}/ibm-java-x86_64-80`. Be sure to set the `JAVA_HOME` environment variable to this location. The FHIR server does not initialize properly if you are not using Java 8, and the IBMJCEFIPS configuration is required due to the encryption requirements of the audit logging component.
-
-9.	To start and stop the server, use the WebSphere Liberty server command:
+8.	To start and stop the server, use the Liberty server command:
 ```
 <WLP_HOME>/bin/server start fhir-server
 <WLP_HOME>/bin/server stop fhir-server
 ```
 
-10.	After you start the server, you can verify that it's running properly by invoking the `metadata` REST API, like this:
+9.	After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
 ```
-curl -k -u <username> https://<host>:<port>/fhir-server/api/v1/metadata
+curl -k -u <username> https://<host>:<port>/fhir-server/api/v4/$endpoint
 ```
 where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).
 The preceding command should produce output similar to the following:
 ```
 {
-    "resourceType" : "Conformance",
-    "version" : "1.0.0",
-    "name" : "IBM FHIR Server server",
+    "resourceType" : "CapabilityStatement",
+    "version" : "4.0.0",
+    "name" : "IBM FHIR Server",
     "publisher" : "IBM Corporation",
-    "date" : "Mon Jun 27 16:06:45 CDT 2016",
-    "description" : "IBM FHIR Server version 1.0.0 build id development",
-    "copyright" : "(c) Copyright IBM Corporation 2016",
+    "description" : "IBM FHIR Server version 4.0.0 build id development",
+    "copyright" : "(C) Copyright IBM Corporation 2016, 2019",
     "kind" : "instance",
     "software" : {
         "id" : "development",
         "name" : "IBM FHIR Server",
-        "version" : "1.0.0"
+        "version" : "4.0.0"
     },
-    "fhirVersion" : "1.0.2 - r4",
-    "format" : [ "application/json", "application/json+fhir", "application/xml", "application/xml+fhir" ]
-    ...
+    "fhirVersion" : "4.0.0",
+    "format" : [ "json","xml","application/json","application/fhir+json","application/xml","application/fhir+xml" ]
+    …
 }
 ```
 
-For more information about the conformance of the implementation, see [Conformance.md](Conformance.md).
+For more information about the capabilities of the implementation, see [Conformance.md](Conformance.md).
 
 ## 2.2 Upgrading an existing server
 The FHIR server does not include an upgrade installer. To upgrade a server to the next version, you can run the installer on a separate server, and then copy the resulting configuration files over to the existing server.
 
-To manage database updates over time, the FHIR server uses [liquibase](https://www.liquibase.org/). By defining all schema updates via changeset, liquibase can detect the currently installed version of the database and apply any new changes that are needed to bring the database to the current level.
+To manage database updates over time, the FHIR server uses custom tools from the `fhir-database-utils` project. Through the use of a metadata table, the database utilities can detect the currently installed version of the database and apply any new changes that are needed to bring the database to the current level.
 
 Complete the following steps to upgrade the server:
 1. Run the fhir-installer on a separate server.
 2. Configure the new server as appropriate (`fhir-server.xml` and anything under the `fhir-server/config` and `fhir-server/userlib` directories).
 3. Back up your database.
-4. Run the liquibase migration script (see example at [Section 3.4.1.1.2 Db2](#34112-db2)).
+4. Run the migration program (see [Section 3.4.1.1.2 Db2](#34112-db2)).
 5. Disable traffic to the old server and enable traffic to the new server
-
-### 2.2.1 Upgrading from 2.1.x to 2.2.0
-The FHIR 2.2.0 release contains a few database updates, which makes it difficult to avoid downtime during an upgrade. Be particularly aware of the following changes during the upgrade:
-1. Issue #53 - expanded stored procedure parametertype arrays; and
-2. Issue #13 - fixed race condition in the `add_resource` stored procedures.
-
-FHIR 2.2.0 upgrades WebSphere Liberty from version 17.0.0.1 to version 18.0.0.2. There are also updates to several Liberty features and a few of the FHIR server dependencies. If you modified your `server.xml`, you might want to merge your changes with the new `server.xml` that was created by the installer.
-
-Finally, for users who extended the FHIR server (via custom operations or custom persistence options), Release 2.2.0 contains a few breaking changes to the Java libraries. The keys changes to be aware of are:
-1. Issue #63 - refactored FHIRException class hierarchy and improved error handling; and
-2. Issue #40 - introduced required getHealth() method on the FHIRPersistence interface (for use with the new $healthcheck operation).
-
-A complete list of changes is available in the [CHANGELOG](CHANGELOG.md).
 
 # 3 Configuration
 This chapter contains information about the various ways in which the FHIR server can be configured by users.
 
 ## 3.1 Encoded passwords
-In the examples contained within the following sections, you'll see encoded passwords and other values which appear as `“{xor}...”`. These values have been encoded by the `securityUtility` command provided by the WebSphere Liberty server.
-To encode a string value, run the following command:
+In the examples within the following sections, you'll see the default password `change-password`. In order to secure your server, these values should be changed.
+
+Optionally, the values can be encoded via the Liberty `securityUtility` command. For example, to encode a string value with the default `{xor}` encoding, run the following command:
 ```
 <WLP_HOME>/bin/securityUtility encode stringToEncode
 ```
 
-and the following output is generated:
-
-`{xor}abc-change-me=`
-
-This output can then be copied and pasted into your server.xml or `fhir-server-config.json` file as needed.
-
-The `fhir-server-config.json` does not support the securityUtility's {aes} encoding at this time, but per the limits to protection through password encryption<sup>[a]</sup>, this encoding does not provide significant additional security beyond `exclusive or` (XOR) encoding.
+The output of this command can then be copied and pasted into your `server.xml` or `fhir-server-config.json` file as needed. The `fhir-server-config.json` does not support the securityUtility's `{aes}` encoding at this time, but per the limits to protection through password encryption<sup>[a]</sup>, this encoding does not provide significant additional security beyond `exclusive or` (XOR) encoding.
 
 ## 3.2 Property names
 Configuration properties stored within a `fhir-server-config.json` file are structured in a hierarchical manner. Here is an example:
 ```
 {
-     "fhirServer":{
+    "fhirServer":{
         "core":{
             "truststoreLocation":"resources/security/fhirTruststore.jks",
             "truststorePassword":"change-password",
@@ -200,61 +146,54 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
 }
 ```
 
-To enable the encryption feature, you would set the “enabled” field within the “encryption” sub-structure to true.
-
-Throughout this document, we use a path notation to refer to property names. For example, the name of the `enabled` property in the preceding example would be `fhirServer/test/enabled`. This refers to the fact that the `enabled` field exists within the `test` field within the `fhirServer` field.
+Throughout this document, we use a path notation to refer to property names. For example, the name of the `truststorePassword` property in the preceding example would be `fhirServer/test/enabled`.
 
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
-In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id. The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` file. Similarly, tenant-specific search parameters are found at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json` whereas the global/default extension search parameters are at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/extension-search-parameters.json`. Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters.
 
-[FHIRSearchConfiguration.md](FHIRSearchConfiguration.md)
+In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id.The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` file. Similarly, tenant-specific search parameters are found at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json` whereas the global/default extension search parameters are at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/extension-search-parameters.json`.
+
+Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters as defined at [FHIRSearchConfiguration.md](FHIRSearchConfiguration.md).
 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
 ## 3.4 Persistence layer configuration
-The FHIR server is architected in a way that allows deployers to select the persistence layer implementation that fits their needs. Currently, the FHIR server includes a JDBC persistence layer which supports both Derby and Db2.
+The FHIR server is architected in a way that allows deployers to select the persistence layer implementation that fits their needs. Currently, the FHIR server includes a JDBC persistence layer which supports both Apache Derby and IBM Db2.
+
 The FHIR server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup. The sections that follow in this chapter will focus on how to configure the JDBC persistence layer implementation with either Embedded Derby or Db2.
 
 ### 3.4.1 Configuring the JDBC persistence layer
 #### 3.4.1.1 Database preparation
 Before you can configure the FHIR server to use the JDBC persistence layer implementation, you first need to prepare the database. This step depends on the database product in use.
+
 ##### 3.4.1.1.1 Embedded Derby (default)
-If you are configuring the FHIR server to use a single embedded Derby database, then you can configure the FHIR server to create the database and the required FHIR server schema DDL (tables, and so on) automatically during server startup. To configure the FHIR server to “bootstrap” the database during server startup, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json`, as in the following example:
+If you are configuring the FHIR server to use a single embedded Derby database, then you can configure the FHIR server to create the database and the schema and tables during startup. To configure the FHIR server to “bootstrap” the database in this way, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json` as in the following example:
 
 ```
 {
     "fhirServer":{
-        ...
+        …
         "persistence":{
-            ...
+            …
             "jdbc":{
                 "bootstrapDb":true,
-                ...
+                …
             },
-	    ...
+        …
         }
     }
 }
 ```
 
-This configuration causes the server to run the liquibase tool during server startup to bring the schema DDL in sync with the currently installed FHIR server code. This database bootstrap step is only performed for a Derby database.
+This database bootstrap step is only performed for a Derby database.
 
 ##### 3.4.1.1.2 Db2
-If you configure the FHIR server to use a Db2 database, you must create the database if it doesn't already exist, and then run the liquibase tool to create the necessary schema (tables, indexes, and other elements). The FHIR server distribution includes some database-related tools, including the `createDB.sh` script. You can use this script to create your database, or you can create it on your own. To run the `createDB.sh` script, run the following command<sup id="a2">[2](#f2)</sup>:
-```
-<WLP_HOME>/fhir/bin/createDB.sh <db-user>
-```
-where `<db-user>` represents the user name of the administrative user for the database. This user name is typically the same as the administrative user associated with the Db2 instance in which the database is being created (typically `db2inst1`). Specify a user name that is appropriate for your situation. If you don't specify a user name, the currently logged in user is  used.
+If you configure the FHIR server to use an IBM Db2 database, you must
+1. create the database if it doesn't already exist; and
+2. execute `com.ibm.fhir.schema.app.Main` from the `fhir-persistence-schema` jar file to create the necessary schema (tables, indexes, and other elements).
 
-Note: The `createDB.sh` script is provided for your convenience, but you can choose the method that you use to create the database. The default name of the database is `FHIRDB`, but you can choose another name. Make sure that you configure the datastore-related properties to reflect your chosen database name.
-
-After the database is created, run the liquibase command to create the schema (tables, indexes, and other elements) as in the following example:
-```
-cd <WLP_HOME>/fhir/bin/schemaddl
-
-./liquibase --defaultsFile=./fhir.properties --changeLogFile=ddl/db2/normalized-schema/fhirserver.db2.normalized.xml update
-```
+For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup.md](DB2OnCloudSetup.md).
+TODO: improve documentation on installing the database schema.
 
 #### 3.4.1.2 FHIR server configuration
 To configure the FHIR server to use the JDBC persistence layer, complete the following steps:
@@ -262,20 +201,21 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
 ```
 {
     “fhirServer”: {
-        ...
+        …
         “persistence”: {
             "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             …
         }
 }
 ```
+
 2.	Next, modify the `fhirServer/persistence/jdbc/dataSourceJndiName` property in `fhir-server-config.json` to specify the proxy datasource's JNDI name, like this:
 ```
 {
     “fhirServer”: {
-        ...
+        …
         “persistence”: {
-            ...
+            …
             "jdbc": {
                 …
                 “dataSourceJndiName”: “jdbc/fhirProxyDataSource”
@@ -284,13 +224,14 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
         }
 }
 ```
+
 3.	Next, modify the `fhirServer/persistence/datasources` property group to reflect the datastore(s) that you want to use. The following example defines the `default` datastore as an embedded derby database located in `wlp/usr/servers/fhir-server/derby/fhirDB`:
 ```
 {
     "fhirServer":{
-        ...
+        …
         "persistence":{
-            ...
+            …
             "datasources": {
                 "default": {
                     "type": "derby",
@@ -303,11 +244,11 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
 }
 ```
 
-The next example defines the `default` datastore as a DB2 database accessible on the `db2server1` host:
+The next example defines the `default` datastore as a Db2 database accessible on the `db2server1` host:
 ```
 {
     "fhirServer":{
-        ...
+        …
         "persistence":{
             "datasources": {
                 "default": {
@@ -323,7 +264,7 @@ The next example defines the `default` datastore as a DB2 database accessible on
                     }
                 }
             }
-	    ...
+        …
         }
     }
 }
@@ -370,11 +311,9 @@ Here is a simple example of a single (default) datastore:
             },
             "jdbc":{
                 “bootstrapDb":true,
-                "schemaType":"normalized",
                 "dataSourceJndiName": "jdbc/fhirDB"
             },
-
-	}
+        }
     }
 }
 ```
@@ -388,10 +327,10 @@ Furthermore, the REST API consumers associated with Acme applications will be co
 {
     "__comment":"Acme's FHIR server configuration",
     "fhirServer":{
-        ...
+        …
         "persistence":{
             "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
-            ...
+            …
             "datasources": {
                 "study1": {
                     "type": "db2",
@@ -416,7 +355,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
                     }
                 }
             }
-            ...
+            …
         }
     }
 }
@@ -448,19 +387,19 @@ Within each tenant's `fhir-server-config.json` file, the `fhirServer/persistence
 }
 ```
 
-The `type` property indicates the database type (currently the supported types are `db2` and `derby`).
+The `type` property indicates the database type (currently only `db2` or `derby`).
 
 The `connectionProperties` property is a set of driver-specific properties needed to connect to an instance of that database type. For a Db2-related datasource definition, any bean property supported by the `DB2XADataSource` class can be specified within the `connectionProperties` property group. For a discussion of the specific properties that can be used to configure a `DB2XADataSource` instance, see the [Db2 Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.apdv.java.doc/src/tpc/imjcc_rjvdsprp.html).
 
 For a Derby-related datasource definition, any bean property supported by the `EmbeddedXADataSource` class can be specified within the `connectionProperties` property group. For more information about the properties supported by the `EmbeddedXADataSource` class, and its super classes, see the [Apache Derby documentation](https://db.apache.org/derby/docs/10.13/publishedapi/org/apache/derby/jdbc/EmbeddedXADataSource.html).
 
 
-# 4 Customization options
+# 4 Customization
 You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
- * Custom operations framework: The IBM FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
- * Pluggable audit service: Logging and auditing options with Cloud Auditing Data Federation (CADF) over Apache Kafka.
- * Persistence interceptors: Intercept requests before and/or after each persistence operation.
- * Resource validation: Supports FHIRPath-based validation of FHIR resources on create or update and allows for the addition of custom constraints based on FHIR StructureDefinition profiles.
+ * Custom operations framework:  The IBM FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
+ * Pluggable audit service:  Logging and auditing options including Cloud Auditing Data Federation (CADF) over Apache Kafka.
+ * Persistence interceptors:  Intercept requests before and/or after each persistence action.
+ * Resource validation:  FHIRPath-based validation of FHIR resources on create or update with the ability to extend the system with custom constraints.
 
 ## 4.1 Extended operations
 In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
@@ -487,7 +426,6 @@ The `$healthcheck` operation returns the health of the FHIR server and its datas
 In addition to the provided operations, the FHIR server supports user-provided custom operations through a Java Service Provider Interface (SPI).
 
 To contribute an operation:
-
 1. Implement each operation as a Java class that extends `com.ibm.fhir.operation.AbstractOperation` from `fhir-operation.jar`. Ensure that your implementation returns an appropriate `OperationDefinition` in its `getDefinition()` method, because the framework validates both the request and response payloads to ensure that they conform to the definition.
 2. Create a file named `com.ibm.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
 3. Include your jar file under the `<WLP_HOME>/wlp/usr/servers/fhir-server/userlib/` directory of your installation.
@@ -506,10 +444,10 @@ The `FHIRNotificationEvent` class defines the information that is published by t
 Field name     | Type   | Description
 |--------------| -----  | ------------|
 `operationType`| String | The operation associated with the notification event. Valid values are _create_ and _update_.
-`location`	   | String	| The location URI of the resource associated with the notification event. To retrieve this resource, invoke a GET request using the location URI value as the URL string.
-`lastUpdated`	   | String |	The date and time of the last update made to the resource associated with the notification event.
-`resourceId`     | String	| The logical id of the resource associated with the notification event.
-`resource`       | String	| A stringified JSON object which is the resource associated with the notification event.
+`location`     | String | The location URI of the resource associated with the notification event. To retrieve this resource, invoke a GET request using the location URI value as the URL string.
+`lastUpdated`  | String | The date and time of the last update made to the resource associated with the notification event.
+`resourceId`   | String | The logical id of the resource associated with the notification event.
+`resource`     | String | A stringified JSON object which is the resource associated with the notification event.
 
 The following JSON is an example of a serialized notification event:
 ```
@@ -518,7 +456,7 @@ The following JSON is an example of a serialized notification event:
   "location":"Observation/3859/_history/1",
   "operationType":"create",
   "resourceId":"3859",
-  "resource":{ ...<contents of resource>... }
+  "resource":{ …<contents of resource>… }
 }
 ```
 
@@ -539,10 +477,10 @@ The WebSocket implementation of the notification service will publish notificati
 }
 ```
 
-The WebSocket location URI is `ws://<host>:<port>/fhir-server/api/v1/notification`, where `<host>` and `<port>` represent the host and port of the FHIR server's REST API endpoint. So for example, if the FHIR server endpoint's base URL is `https://localhost:9080/fhir-server/api/v1` then the corresponding location of the WebSocket would be `ws://localhost:9080/fhir-server/api/v1/notification`.
+The WebSocket location URI is `ws://<host>:<port>/fhir-server/api/v4/notification`, where `<host>` and `<port>` represent the host and port of the FHIR server's REST API endpoint. So for example, if the FHIR server endpoint's base URL is `https://localhost:9443/fhir-server/api/v4` then the corresponding location of the WebSocket would be `ws://localhost:9443/fhir-server/api/v4/notification`.
 
 ### 4.2.3 Kafka
-The Kafka implementation of the notification service will publish notification event messages to a Kafka topic. To configure the Kafka notification publisher, configure properties in the `fhir-server-config.json` file as indicated in the following example:
+The Kafka implementation of the notification service will publish notification event messages to a Kafka topic. To configure the Kafka notification publisher, configure properties in the `fhir-server-config.json` file as indicatesd in the following example:
 
 ```
 {
@@ -695,31 +633,23 @@ The following example shows the JSON for enabling _update_ operations to create 
 ```
 
 ## 4.6 FHIR client API
+
 ### 4.6.1 Overview
-Along with the FHIR server, we also offer a high-level Java API that can be used to invoke the FHIR REST APIs. The FHIR Client API is based on the JAX-RS 2.0 standard and provides several capabilities that make it an attractive client API for use with the FHIR server:
-*	Easily configured via properties.
-*	Supports the use of an SSL transport (HTTPS:) along with the ability to configure a client truststore file.
-*	Can be configured to perform client certificate-based authentication as an alternative to basic authentication.
-*	Supports encryption of REST API payloads, working in concert with the FHIR server.
+In addition to the server, we also offer a Java API for invoking the FHIR REST APIs. The IBM FHIR Client API is based on the JAX-RS 2.0 standard and provides a simple properties-driven client that can be easily configured for a given endpoint, mutual authentication, request/response logging, and more.
 
 ### 4.6.2 Maven coordinates
-The FHIR Client API can be found on the WHC Nexus artifact server. In order to use the FHIR Client API within your own application, you'll need to specify the `fhir-client` artifact as a dependency within your `pom.xml` file, as in the following example:
+To use the FHIR Client from your application, specify the `fhir-client` artifact as a dependency within your `pom.xml` file, as in the following example:
 
 ```
         <dependency>
             <groupId>com.ibm.fhir</groupId>
             <artifactId>fhir-client</artifactId>
-            <version>${fhir.server.version}</version>
+            <version>${fhir.client.version}</version>
         </dependency>
 ```
 
-where `${fhir.server.version}` is one of:
-*	`99-SNAPSHOT` (associated with the 'master' branch)
-*	`1.1.0-SNAPSHOT` (associated with the 'release-1.1.x' branch)
-*	`1.0.0-SNAPSHOT` (associated with the 'release-1.0.x' branch)
-
-### 4.6.3 Sample
-Within the master branch of the FHIR Git repository, you can find the “fhir-client-sample” project which provides a stand-alone sample application that uses the FHIR client API.
+### 4.6.3 Sample usage
+For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
 ## 4.7 FHIR command-line interface (fhir-cli)
 The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [our Artifactory server](
@@ -798,7 +728,7 @@ FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 
 
 Invoking operation _create_... done! (2719ms)
 Status code: 201
-Location URI: http://localhost:9080/fhir-server/api/v1/Patient/26b694ef-cea7-4485-a896-5ac2a1da9f64/_history/1
+Location URI: http://localhost:9443/fhir-server/api/v4/Patient/26b694ef-cea7-4485-a896-5ac2a1da9f64/_history/1
 ETag: W/"1"
 Last modified: 2016-09-13T20:51:21.048Z
 ```
@@ -823,7 +753,7 @@ FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 
 
 Invoking operation _update_... done! (2707ms)
 Status code: 200
-Location URI: http://localhost:9080/fhir-server/api/v1/Patient/26b694ef-cea7-4485-a896-5ac2a1da9f64/_history/2
+Location URI: http://localhost:9443/fhir-server/api/v4/Patient/26b694ef-cea7-4485-a896-5ac2a1da9f64/_history/2
 ETag: W/"2"
 Last modified: 2016-09-13T21:11:48.988Z
 ```
@@ -895,7 +825,7 @@ Response resource:
 ```
 
 ## 4.8 Using local references within request bundles
-Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v1/Patient/12345`, or a relative URL (for example, `“Patient/12345”`).
+Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL (for example, `“Patient/12345”`).
 
 In order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been process (that is, before the new `Patient` resource is created).
 
@@ -910,7 +840,7 @@ Thankfully, the HL7 FHIR specification defines a way to express a dependency bet
         "fullUrl" : "urn:uuid:7113a0bb-d9e0-49df-9855-887409388c69",
         "resource" : {
             "resourceType" : "Patient",
-            ...
+            …
         },
         "request" : {
             "method" : "POST",
@@ -919,11 +849,11 @@ Thankfully, the HL7 FHIR specification defines a way to express a dependency bet
     }, {
         "resource" : {
             "resourceType" : "Observation",
-            ...
+            …
             "subject" : {
                 "reference" : "urn:uuid:7113a0bb-d9e0-49df-9855-887409388c69"
             },
-            ...
+            …
         },
         "request" : {
             "method" : "POST",
@@ -938,13 +868,11 @@ In order to reference a resource via a local reference, you must first define a 
 After you define a local identifier for the referenced resource, you can then define one or more references to that resource by using the local identifier instead of an external identifier. In the preceding example, you can see that the Observation's `subject.reference` field specifies the Patient's local identifier as specified in the `fullUrl` field of the Patient's request entry.
 
 ### 4.8.1 Processing rules
-There is really only one main rule related to the use of local references within a request bundle:
+There is one rule for the use of local references within a request bundle:  A local identifier must be defined via a request entry's `fullUrl` field before that local identifier can be used in a local reference.
 
-A local identifier must be defined via a request entry's `fullUrl` field before that local identifier can be used in a local reference.
+In the example in [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), you can see that there are two POST requests and the `Patient` request entry appears in the bundle before the `Observation` request entry. This example satisfies the rule because the FHIR server will process the POST request entries in the order in which they appear within the request bundle.
 
-In the example in [Section 4.9.0.1](#4901-example-1-observation-references-patient-via-local-reference), you can see that there are two POST requests and the `Patient` request entry appears in the bundle before the `Observation` request entry, so that example satisfies the rule because the FHIR server will process the POST request entries in the order in which they appear within the request bundle.
-
-If, however, those entries were reversed, the FHIR server returns an error when processing the `Observation` request entry, because the `Patient` local identifier is not defined yet.
+If, however, those entries were reversed, the FHIR server would return an error when processing the `Observation` request entry, because the `Patient` local identifier is not defined yet.
 
 The following example also satisfies the rule:
 
@@ -957,11 +885,11 @@ The following example also satisfies the rule:
         "resource" : {
             "resourceType" : "Observation",
             "id" : "25b1fe08-7612-45eb-af80-7e15d9806b2b",
-		...
-		"subject" : {
+    …
+    "subject" : {
                     "reference" : "urn:Patient_1"
-		},
-		...
+    },
+    …
         },
         "request" : {
             "method" : "PUT",
@@ -971,7 +899,7 @@ The following example also satisfies the rule:
         "fullUrl" : "urn:Patient_1",
         "resource" : {
             "resourceType" : "Patient",
-		...
+    …
         },
         "request" : {
             "method" : "POST",
@@ -985,7 +913,7 @@ The FHIR server first processes all POST requests found within a request bundle 
 
 While processing a POST or PUT request entry within a request bundle, the FHIR server will detect the use of a local identifier within the entry's `fullUrl` field, and will establish a mapping between that local identifier and the corresponding external identifier that results from performing the POST or PUT operation.
 
-For example, in Example 1 from [Section 4.9.0.1](#4901-example-1-observation-references-patient-via-local-reference), the FHIR server detects the use of the local identifier in the `Patient` request entry (`urn:uuid:7113a0bb-d9e0-49df-9855-887409388c69`) and -- after creating the new `Patient` resource -- establishes a mapping between the local identifier and the resulting external reference associated with the new `Patient` (for example, `Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b`).
+For example, in Example 1 from [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), the FHIR server detects the use of the local identifier in the `Patient` request entry (`urn:uuid:7113a0bb-d9e0-49df-9855-887409388c69`) and -- after creating the new `Patient` resource -- establishes a mapping between the local identifier and the resulting external reference associated with the new `Patient` (for example, `Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b`).
 
 Then when the FHIR server processes the POST request for the `Observation`, it detects the use of the local reference and substitutes the corresponding external reference for it before creating the new `Observation` resource. Here is an example of a response bundle for the request bundle depicted in Example 1 in which we can see that the Observation's `subject.reference` field now contains a proper external reference to the newly-created `Patient` resource:
 
@@ -998,7 +926,7 @@ Then when the FHIR server processes the POST request for the `Observation`, it d
         "resource" : {
             "resourceType" : "Patient",
             "id" : "1cc5d299-d2be-4f93-8745-a121232ffe5b",
-            ...
+            …
         },
         "response" : {
             "id" : "1cc5d299-d2be-4f93-8745-a121232ffe5b",
@@ -1011,11 +939,11 @@ Then when the FHIR server processes the POST request for the `Observation`, it d
         "resource" : {
             "resourceType" : "Observation",
             "id" : "22b21fcf-8d00-492d-9de0-e25ddd409eaf",
-	    ...
+            …
             "subject" : {
                 "reference" : "Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b"
             },
-	    ...
+            …
         },
         "response" : {
             "id" : "22b21fcf-8d00-492d-9de0-e25ddd409eaf",
@@ -1174,7 +1102,7 @@ The CADF audit logging service gets event streams service credential from env va
     {
   "api_key": "xxxxxxxxxxxxxxxx_xxxxx_xxxxxxxxxxxxxxxxxxx",
   "apikey": "xxxxxxxxxxxxxxxx_xxxxx_xxxxxxxxxxxxxxxxxxx",
-   ...
+   …
   "kafka_brokers_sasl": [
     "broker-1-0server:9093",
     "broker-2-0server:9093",
@@ -1183,23 +1111,23 @@ The CADF audit logging service gets event streams service credential from env va
     "broker-3-0server:9093",
     "broker-0-0server:9093"
   ],
-   ...
+   …
 }
 ```
 The service credential is generated automatically when you run
 ```
-    ibmcloud ks cluster-service-bind --cluster <cluster_name_or_ID> --namespace <namespace> --service <event_streams_service_instance_name> ...
+    ibmcloud ks cluster-service-bind --cluster <cluster_name_or_ID> --namespace <namespace> --service <event_streams_service_instance_name> …
 ```
 to bind your event streams service instance to your Kubernetes cluster.
 
 And then in the YAML file for your Kubernetes deployment, specify the environment variable EVENT_STREAMS_AUDIT_BINDING that references the binding key of the generated secret(binding-<event_streams_service_instance_name>) as following:
 ```
             - name: EVENT_STREAMS_AUDIT_BINDING
-	              valueFrom:
-	                secretKeyRef:
-	                  key: binding
-	                  name: binding-<event_streams_service_instance_name>
-```			  
+                valueFrom:
+                  secretKeyRef:
+                    key: binding
+                    name: binding-<event_streams_service_instance_name>
+```
 please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-binding for detailed instruction if need.
 
 ### 4.11.3 Query CADF events in COS
@@ -1237,11 +1165,9 @@ This section contains reference information about each of the configuration prop
 ### 5.1.1 Property descriptions
 | Property Name                 | Type | Description     |
 |-------------------------------|------|-----------------|
-|`fhirServer/core/defaultPrettyPrint`|boolean|A boolean flag which indicates whether JSON "Pretty Printing" or XML Formatted output should be the container default for responses.|
+|`fhirServer/core/defaultPrettyPrint`|boolean|A boolean flag which indicates whether "Pretty Printing" should be used by default. Applies to both XML and JSON.|
 |`fhirServer/core/tenantIdHeaderName`|string|The name of the request header that will be used to specify the tenant-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/dataSourceIdHeaderName`|string|The name of the request header that will be used to specify the datastore-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
-|`fhirServer/core/jsonParserLenient`|boolean|A boolean flag which indicates whether the FHIRJsonParser will be lenient with respect to element cardinality (singleton vs array) and string values for numbers/booleans.|
-|`fhirServer/core/jsonParserValidating`|boolean|A boolean flag which indicates whether the FHIRJsonParser will do limited validation during the parse including checking for missing required fields and unrecognized fields.|
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](FHIRSearchConfiguration.md#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
@@ -1252,8 +1178,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/common/updateCreateEnabled`|boolean|A boolean flag which indicates whether or not the 'update/create' feature should be enabled in the selected persistence layer.|
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.4.2.3 Datastore configuration reference](#3423-datastore-configuration-reference) for more information.|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|string|The JNDI name of the DataSource to be used by the JDBC persistence layer.|
-|`fhirServer/persistence/jdbc/bootstrapDb`|boolean|A boolean flag which indicates whether the JDBC persistence layer should attempt to run the liquibase-based schema creation at server startup time.|
-|`fhirServer/persistence/jdbc/schemaType`|string|Indicates the type of schema to be used by the JDBC persistence layer. Valid values are “basic” and “normalized”.|
+|`fhirServer/persistence/jdbc/bootstrapDb`|boolean|A boolean flag which indicates whether the JDBC persistence layer should attempt to create or update the database and schema at server startup time.|
 |`fhirServer/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
@@ -1270,8 +1195,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|false|
 |`fhirServer/core/tenantIdHeaderName`|`X-FHIR-TENANT-ID`|
 |`fhirServer/core/dataSourceIdHeaderName`|`X-FHIR-DSID`|
-|`fhirServer/core/jsonParserLenient`|false|
-|`fhirServer/core/jsonParserValidating`|true|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
 |`fhirServer/notifications/common/includeResourceTypes`|["*"]|
 |`fhirServer/notifications/websocket/enabled`|false|
@@ -1283,10 +1206,10 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
-|`fhirServer/persistence/jdbc/schemaType`|“basic”|
 |`fhirServer/oauth/regUrl`|""|
 |`fhirServer/oauth/authUrl`|""|
 |`fhirServer/oauth/tokenUrl`|""|
+|`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|Dallas|
 |`fhirServer/audit/serviceProperties/geoState`|TX|
@@ -1299,8 +1222,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|Y|Y|
 |`fhirServer/core/tenantIdHeaderName`|N|Y|
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
-|`fhirServer/core/jsonParserLenient`|Y|Y|
-|`fhirServer/core/jsonParserValidating`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|
@@ -1312,7 +1233,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|Y|N|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|N|N|
 |`fhirServer/persistence/jdbc/bootstrapDb`|N|N|
-|`fhirServer/persistence/jdbc/schemaType`|N|N|
 |`fhirServer/oauth/regUrl`|N|N|
 |`fhirServer/oauth/authUrl`|N|N|
 |`fhirServer/oauth/tokenUrl`|N|N|
@@ -1398,7 +1318,7 @@ Although the steps required to configure certificate-based authentication for a 
 In the default configuration, the FHIR server acts as an authorization server as well as a resource server. The FHIR server's conformance statement includes the OAuth-related URLs you will need to get started. The following excerpt from a conformance statement shows sample OAuth-related URLs (token, authorize, and register) as values of the `valueUri` elements.
 
 ```
-...
+…
 "rest": [
     {
       "mode": "server",
@@ -1422,7 +1342,7 @@ In the default configuration, the FHIR server acts as an authorization server as
             ]
           }
         ],
-...
+…
 ```
 
 First, a client application (web or mobile) must register itself with the Open ID Connect Provider using the following URL:  
@@ -1430,99 +1350,11 @@ First, a client application (web or mobile) must register itself with the Open I
 
 For more information about client registration, see the [WebSphere Application Server Liberty base documentation](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_client_registration.html).
 
-By default, a Derby database is used to persist the OAuth-related configuration. If you would like to use Db2 instead of Derby, complete the following steps before using the OAuth URLs for client registration or authorization:
+By default, a Derby database is used to persist the OAuth-related configuration.
 
-1. (If you intend to use Db2 for both the persistence layer for FHIR server and for OAuth configuration, skip to Step 2.) Modify `WLP_HOME>/fhir/bin/createDB.sql` to use `OAUTH2B` as the database name instead of `FHIRDB`, and the run the following command to create the `OAUTH2DB` database:
-    ```
-    <WLP_HOME>/fhir/bin/createDB.sh <db-user>
-    ```
-    where `<db-user>` represents the username that will be the administrative user for the database. This is typically the same as the administrative user associated with the Db2 instance in which the database is being created.
-    Complete this step one time only <!--For all client installations? -->.
+TODO: document how to configure Db2 for use with the Liberty OAuth 2.0 feature.
 
-    Use a username which is appropriate for your situation. If omitted, the current logged in user will be used.
-
-    Note: You can create the database using any method you choose. The “createDB.sh” script is simply provided for your convenience. Also, you can choose an alternate name for the database, but make sure you configure the datasource entries in 'server.xml' accordingly. However, we recommend that you do not reuse “FHIRDB” for OAuth configuration.
-
-2. [once after each <!-- Client? --> install] Create or update the schema DDL by completing the following steps:
-
-    a.	Modify <WLP_HOME>/fhir/bin/schemaddl/oauth.properties to reflect your database parameters. In particular, make sure that the url, username, and password properties are set correctly. Note that you can modify the schema name that is configured as part of the url property to suit your requirements (but make sure your datasource entries in 'server.xml' are configured accordingly).
-
-    b.	Run the following commands:
-
-        cd <WLP_HOME>/fhir/bin/schemaddl
-
-        ./liquibase --defaultsFile=./oauth.properties –changeLogFile=ddl/db2/oauth.xml update
-
-
-    This will create or update your schema to ensure that it is in sync with the freshly-installed FHIR server code.
-
-    Note: The preceding instructions assume that you are running commands on the FHIR server host and reference the `<WLP_HOME>` directory (that is, the root installation directory where you installed the FHIR server). To run these commands directly from the Db2 server host, download the `fhir-schemaddl-distribution.zip` file to your Db2 server host from the same location as the `fhir-server-distribution.zip` file, and decompress it into a clean directory. You can then follow the preceding instructions,substituting the directory where you expanded the ZIP file for the `<WLP_HOME>` variable.
-
-3.	Modify the `server.xml` file to uncomment the Db2-related configuration, and also make sure that the `OAuthDataSource` configuration is commented out under the `Derby/Embedded-related configuration` section. The Db2-related configuration consists of a `library` element, and a `dataSource` element.
-
-    The following example presents a typical Db2-related configuration:
-
-    ```
-    <!-- DB2-related configuration -->
-    <library id="db2Lib">
-    <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
-    </library>
-
-    <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
-            <jdbcDriver libraryRef="db2Lib"/>
-            <properties.db2.jcc user="db2inst1" password="change-password" databaseName="OAUTH2DB" currentSchema="OAUTHDBSCHEMA" driverType="4"/>
-    </dataSource>
-    ```
-
-4.	Make sure that you configure the correct `user`, `password`, `serverName` and `portNumber` properties for your Db2 server. For OAuth configuration, do not edit the `currentSchema` property.
-
-5.	Restart the FHIR server.
-
-    After you register a client, it is assigned a `client_id` and `client_secret`. The `client_id`, `client_secret`, `token` URL (`https://<host>:<httpsPort>/oauth2/endpoint/oauth2-provider/token`) and `authorize` URL (`https://<host>:<httpsPort>/oauth2/endpoint/oauth2-provider/authorize`) can be used to obtain an access token. For more information about obtaining an access token using the various authorization grant types, see [OAuth 2.0 service invocation](https://www.ibm.com/support/knowledgecenter/SS7K4U_liberty/com.ibm.websphere.wlp.zseries.doc/ae/cwlp_oauth_invoking.html) in the WebSphere Liberty documentation.
-
-    NOTE: By default, `client_credentials` is configured as the grant type in `server.xml`. To change this, modify the `oauthProvider` configuration as follows for SMART on FHIR applications:
-
-    ```
-    <oauthProvider id="oauth2-provider" oauthOnly="false">
-	<grantType>authorization_code</grantType>
-	<databaseStore dataSourceRef="OAuthDerbyDataSource"/>
-    </oauthProvider>
-    ```
-
-
-    `authorization_code` is the recommended grant type as mentioned by the SMART on FHIR project (http://docs.smarthealthit.org/authorization/best-practices).
-
-You can use the access token that you obtain in the Authorization Header as a Bearer token to access protected resources on fhir-server. For example:
-```
-GET /Patient/<id> HTTP/1.1
-     Host: <host>:<port>/fhir-server/api/v1
-     Authorization: Bearer <access_token>
-```
-
-If you would like to configure a different authorization server, uncomment the following lines in `server.xml`:
-
-```
-<openidConnectClient authorizationEndpointUrl="https://<SERVER>/authorize"
-					clientId="<id>"
-					clientSecret=""
-					id="client01"
-					tokenEndpointUrl="https://<SERVER>/token"> 	
-</openidConnectClient>
-```
-
-After you register your application, you will be assigned an id and secret. Update `clientId` and `clientSecret` with the assigned values. Update the `authorizationEndpointUrl` and `tokenEndpointUrl` to the correct URLs for your authorization server. The application should be registered to use `https://<host>:<httpsPort>/oidcclient/redirect/client01` as a redirect URL. Also, update the published OAuth URLs in the conformance statement by modifying the following values in `fhir-server-config.json`:
-
-```
-"fhirServer":{
-        …...
-        "oauth":{
-        	"regUrl": "https://<host>:9443/oidc/endpoint/oidc-provider/registration",
-        	"authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
-        	"tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
-        },
-```
-
-SMART on FHIR applications use the conformance statement to determine the OAuth URLs to use for authorization.
+SMART on FHIR applications use the capability statement to determine the OAuth URLs to use for authorization.
 
 ## 5.3 Custom HTTP Headers
 IBM FHIR Server Supports the following custom HTTP Headers:
@@ -1531,10 +1363,6 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 |------------------|----------------------------|
 |`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. Header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
 |`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. Header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
-|`X-FHIR-FORMATTED`|Specifies whether the response from FHIR Server should be formatted (pretty-printed). Note that this can inflate the size of responses and affect performance. Possible values "true" or "false" override the default, handled as specified in [Section 5.1 Configuration properties reference](#51-configuration-properties-reference).|
-
-## 5.4 Notes about the FHIRJsonParser
-The FHIRJsonParser can be configured through the `jsonParserLenient` and `jsonParserValidating` properties. Please see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference) for more information. All `fhir_comments` properties that appear in the JSON input structure are dropped during deserialization. Therefore, they will not appear in the output after re-serialization.
 
 # 6 Related topics
 For more information about topics related to configuring a FHIR server, see the following documentation:
@@ -1548,13 +1376,13 @@ For more information about topics related to configuring a FHIR server, see the 
 
 <b id="f1">1</b> The fhir-server-config.json file contains configuration information associated with the FHIR server. The global configuration is located in `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json`, with tenant-specific configuration contained in `config/<tenant-id>/fhir-server-config.json`. [↩](#a1)
 
-<b id="f2">2</b> When running database-related commands (e.g. createDB.sh, liquibase, etc.) you'll need to make sure that the DB2-related executables are in your PATH, and also that you are logged in as a user that has the necessary authority to create the database and/or create the schema.  Normally, if you log in as the DB2 administrative user (typically “db2inst1”) then you should be fine. [↩](#a2)
+<b id="f2">2</b> When running database-related commands (e.g. createDB.sh, liquibase, etc.) you'll need to make sure that the Db2-related executables are in your PATH, and also that you are logged in as a user that has the necessary authority to create the database and/or create the schema.  Normally, if you log in as the Db2 administrative user (typically “db2inst1”) then you should be fine. [↩](#a2)
 
 <b id="f3">3</b> The names of these request headers are configurable within the FHIR server's fhir-server-config.json file.  For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a3)
 
 <b id="f4">4</b> For more information on multi-tenant support, including multi-tenant configuration properties, jump to [Section 4.9 Multi-Tenancy](#49-multi-tenancy). [↩](#a4)
 
-<b id="f5">5</b> An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL.  Examples:  `https://fhirserver1:9443/fhir-server/api/v1/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
+<b id="f5">5</b> An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL.  Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
 
 <b id="f6">6</b> A local reference is a reference used within a request bundle that refers to another resource within the same request bundle and is meaningful only within that request bundle.  A local reference starts with `urn:`. [↩](#a6)
 

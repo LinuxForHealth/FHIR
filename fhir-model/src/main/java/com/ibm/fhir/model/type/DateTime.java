@@ -14,12 +14,14 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -38,7 +40,7 @@ public class DateTime extends Element {
 
     private DateTime(Builder builder) {
         super(builder);
-        value = builder.value;
+        value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
         ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
         ValidationSupport.requireValueOrChildren(this);
     }

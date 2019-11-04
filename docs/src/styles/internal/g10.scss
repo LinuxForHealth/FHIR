@@ -1,0 +1,5 @@
+// These resources get shared with every css module.
+// We only want to import variables/mixins/helpers, not things that generate css.
+@import '~@carbon/themes/scss/theme-maps';
+
+$carbon--theme: $carbon--theme--g10;

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.impl;
 
+import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
@@ -41,6 +42,7 @@ import javax.transaction.UserTransaction;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
@@ -52,6 +54,7 @@ import com.ibm.fhir.model.path.FHIRPathPrimitiveValue;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
@@ -193,8 +196,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         
         try {
             // This create() operation is only called by a REST create. If the given resource
-            // contains an id, the for R4 we need to ignore it and replace it with our
-            // system-generated value. For the update-or-create scenario, see doUpdate()
+            // contains an id, then for R4 we need to ignore it and replace it with our
+            // system-generated value. For the update-or-create scenario, see update().
             // Default version is 1 for a brand new FHIR Resource.
             int newVersionNumber = 1;
             logicalId = UUID.randomUUID().toString();
@@ -391,13 +394,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
         
         List<Resource> resources = Collections.emptyList();
+        MultiResourceResult.Builder<Resource> resultBuilder = new MultiResourceResult.Builder<>();
         FHIRSearchContext searchContext = context.getSearchContext();
         JDBCQueryBuilder queryBuilder;
         List<Long> sortedIdList;
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
         int searchResultCount = 0;
-        int pageSize;
-        int lastPageNumber;
         SqlQueryData countQuery;
         SqlQueryData query;
                 
@@ -406,20 +408,26 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                                                           (ResourceDAO)this.getResourceDao());
              
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
-            if (countQuery != null) {
+            if (countQuery != null) {                
                 searchResultCount = this.getResourceDao().searchCount(countQuery);
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("searchResultCount = " + searchResultCount);
                 }
                 searchContext.setTotalCount(searchResultCount);
-                pageSize = searchContext.getPageSize();
-                lastPageNumber = (int) ((searchResultCount + pageSize - 1) / pageSize);
-                searchContext.setLastPageNumber(lastPageNumber);
                 
-                // For _summary=count, we don't need to return any resource 
-                if (searchResultCount > 0 && 
-                        !(searchContext.getSummaryParameter() != null 
-                        && searchContext.getSummaryParameter().equals(SummaryValueSet.COUNT))) {
+                List<OperationOutcome.Issue> issues = validatePagingContext(searchContext);
+                
+                if (!issues.isEmpty()) {
+                    resultBuilder.outcome(OperationOutcome.builder()
+                        .issue(issues)
+                        .build());
+                    if (!searchContext.isLenient()) {
+                        return resultBuilder.success(false).build();
+                    }
+                }
+                                
+                // For _summary=count or pageSize == 0, we return only the count
+                if (searchResultCount > 0 && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter()) && searchContext.getPageSize() > 0) {
                     query = queryBuilder.buildQuery(resourceType, searchContext);
                     
                     List<String> elements = searchContext.getElementsParameters();
@@ -468,12 +476,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 }
             }
             
-            MultiResourceResult<Resource> result = new MultiResourceResult.Builder<>()
+            return resultBuilder
                     .success(true)
                     .resource(resources)
                     .build();
-            
-            return result;
         }
         catch(FHIRPersistenceException e) {
             throw e;
@@ -680,14 +686,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
         
         List<T> resources = new ArrayList<>();
+        MultiResourceResult.Builder<T> resultBuilder = new MultiResourceResult.Builder<>();
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
         Map<String,List<Integer>> deletedResourceVersions = new HashMap<>();
         FHIRHistoryContext historyContext;
         int resourceCount;
         Instant since;
         Timestamp fromDateTime = null;
-        int pageSize;
-        int lastPageNumber;
         int offset;
                 
         try {
@@ -700,15 +705,21 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             
             resourceCount = this.getResourceDao().historyCount(resourceType.getSimpleName(), logicalId, fromDateTime);
             historyContext.setTotalCount(resourceCount);
-            pageSize = historyContext.getPageSize();
-            lastPageNumber = (int) ((resourceCount + pageSize - 1) / pageSize);
-            historyContext.setLastPageNumber(lastPageNumber);            
             
+            List<OperationOutcome.Issue> issues = validatePagingContext(historyContext);
             
+            if (!issues.isEmpty()) {
+                resultBuilder.outcome(OperationOutcome.builder()
+                    .issue(issues)
+                    .build());
+                if (!historyContext.isLenient()) {
+                    return resultBuilder.success(false).build();
+                }
+            }
             
             if (resourceCount > 0) {
-                offset = (historyContext.getPageNumber() - 1) * pageSize;
-                resourceDTOList = this.getResourceDao().history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, pageSize);
+                offset = (historyContext.getPageNumber() - 1) * historyContext.getPageSize();
+                resourceDTOList = this.getResourceDao().history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, historyContext.getPageSize());
                 for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
                     if (resourceDTO.isDeleted()) {
                         deletedResourceVersions.putIfAbsent(logicalId, new ArrayList<Integer>());
@@ -719,12 +730,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 resources = this.convertResourceDTOList(resourceDTOList, resourceType);
             } 
             
-            MultiResourceResult<T> result = new MultiResourceResult.Builder<T>()
+            return resultBuilder
                     .success(true)
                     .resource(resources)
                     .build();
-            
-            return result;
         }
         catch(FHIRPersistenceException e) {
             throw e;
@@ -738,7 +747,58 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
+    
+    /**
+     * Validate pageSize and pageNumber in the FHIRPagingContext instance and update 
+     * paging context parameters accordingly.
+     * 
+     * @param pagingContext
+     *     the FHIRPagingContext instance (FHIRSearchContext or FHIRHistoryContext)
+     * @return
+     *     a list of operation outcome issues if the paging context has invalid parameters
+     */
+    private List<OperationOutcome.Issue> validatePagingContext(FHIRPagingContext pagingContext) {
+        List<OperationOutcome.Issue> issues = new ArrayList<>();
+        
+        int pageSize = pagingContext.getPageSize();
+        if (pageSize < 0) {
+            issues.add(OperationOutcome.Issue.builder()
+                .severity(pagingContext.isLenient() ? IssueSeverity.WARNING : IssueSeverity.ERROR)
+                .code(IssueType.INVALID)
+                .details(CodeableConcept.builder()
+                    .text(string("Invalid page size: " + pageSize))
+                    .build())
+                .build());
+            pagingContext.setPageSize(10);
+        }
+        
+        int lastPageNumber = Math.max(((pagingContext.getTotalCount() + pageSize - 1) / pageSize), 1);
+        pagingContext.setLastPageNumber(lastPageNumber);
 
+        int pageNumber = pagingContext.getPageNumber();
+        if (pageNumber < 1) {
+            issues.add(OperationOutcome.Issue.builder()
+                .severity(pagingContext.isLenient() ? IssueSeverity.WARNING : IssueSeverity.ERROR)
+                .code(IssueType.INVALID)
+                .details(CodeableConcept.builder()
+                    .text(string("Invalid page number: " + pageNumber))
+                    .build())
+                .build());
+            pagingContext.setPageNumber(1);
+        } else if (pageNumber > lastPageNumber) {
+            issues.add(OperationOutcome.Issue.builder()
+                .severity(pagingContext.isLenient() ? IssueSeverity.WARNING : IssueSeverity.ERROR)
+                .code(IssueType.INVALID)
+                .details(CodeableConcept.builder()
+                    .text(string("Specified page number: " + pageNumber + " is greater than last page number: " + lastPageNumber))
+                    .build())
+                .build());
+            pagingContext.setPageNumber(lastPageNumber);
+        }
+        
+        return issues;
+    }
+    
     /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.FHIRPersistence#vread(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String, java.lang.String)
      */
@@ -942,41 +1002,48 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             map = SearchUtil.extractParameterValues(fhirResource);
             
             for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
-                 
-                code = entry.getKey().getCode().getValue();
-                type = entry.getKey().getType().getValue();
-                expression = entry.getKey().getExpression().getValue();
+                SearchParameter sp = entry.getKey();
+                code = sp.getCode().getValue();
+                type = sp.getType().getValue();
+                expression = sp.getExpression().getValue();
                 
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", expression: " + expression);
                 }
                 
-                JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(code);
+                JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(sp);
                 
                 List<FHIRPathNode> values = entry.getValue();
                 
                 for (FHIRPathNode value : values) {
-                    if (value.isElementNode()) {
-                        // parameterBuilder aggregates the results for later retrieval
-                        value.asElementNode().element().accept(parameterBuilder);
-                    } else if (value.isPrimitiveValue()){
-                        Parameter p = processPrimitiveValue(value.asPrimitiveValue());
-                        p.setName(code);
-                        p.setType(Type.fromValue(type));
-                        p.setResourceId(resourceDTO.getId());
-                        p.setResourceType(fhirResource.getClass().getSimpleName());
-                        allParameters.add(p);
-                        if (log.isLoggable(Level.FINE)) {
-                            log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                    try {
+                        if (value.isElementNode()) {
+                            // parameterBuilder aggregates the results for later retrieval
+                            value.asElementNode().element().accept(parameterBuilder);
+                        } else if (value.isPrimitiveValue()){
+                            Parameter p = processPrimitiveValue(value.asPrimitiveValue());
+                            p.setName(code);
+                            p.setType(Type.fromValue(type));
+                            p.setResourceId(resourceDTO.getId());
+                            p.setResourceType(fhirResource.getClass().getSimpleName());
+                            allParameters.add(p);
+                            if (log.isLoggable(Level.FINE)) {
+                                log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                            }
+                        } else {
+                            // log and continue
+                            if (log.isLoggable(Level.FINE)) {
+                                log.fine("Unable to extract value from '" + value.path() +
+                                        "'; search parameter value extraction can only be performed on Elements and primitive values.");
+                            }
+                            // TODO: return this as a OperationOutcomeIssue with severity of WARNING
+                            continue;
                         }
-                    } else {
-                        // log and continue
-                        if (log.isLoggable(Level.FINE)) {
-                            log.fine("Unable to extract value from '" + value.path() +
-                                    "'; search parameter value extraction can only be performed on Elements and primitive values.");
-                        }
-                        // TODO: return this as a OperationOutcomeIssue with severity of WARNING
-                        continue;
+                    } catch (IllegalArgumentException e) {
+                        // log and continue with the other parameters
+                        log.log(Level.INFO, "Skipping search parameter '" + code + "' "
+                                + " with id '" + sp.getId() + "' for resource type " + fhirResource.getClass().getSimpleName(), e);
+                        // TODO: add an issue to the OperationOutcome in the return object
                     }
                 }
                 // retrieve the list of parameters built from all the FHIRPathElementNode values 

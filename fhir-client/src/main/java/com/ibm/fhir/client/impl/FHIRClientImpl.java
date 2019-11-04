@@ -728,8 +728,8 @@ public class FHIRClientImpl implements FHIRClient {
     protected synchronized Client getClient() throws Exception {
         if (client == null) {
             ClientBuilder cb = ClientBuilder.newBuilder()
-                    .register(new FHIRProvider())
-                    .register(new FHIRJsonProvider())
+                    .register(new FHIRProvider(RuntimeType.CLIENT))
+                    .register(new FHIRJsonProvider(RuntimeType.CLIENT))
                     .register(new FHIRJsonPatchProvider(RuntimeType.CLIENT));
 
             // Add support for basic auth if enabled.
@@ -788,7 +788,7 @@ public class FHIRClientImpl implements FHIRClient {
     @Override
     public WebTarget getWebTarget(String baseURL) throws Exception {
         ClientBuilder cb =
-                ClientBuilder.newBuilder().register(new FHIRProvider()).register(new FHIRJsonProvider()).keyStore(getKeyStore(), getKeyStoreKeyPassword());
+                ClientBuilder.newBuilder().register(new FHIRProvider(RuntimeType.CLIENT)).register(new FHIRJsonProvider(RuntimeType.CLIENT)).keyStore(getKeyStore(), getKeyStoreKeyPassword());
 
         KeyStore ts = getTrustStore();
 
@@ -802,7 +802,7 @@ public class FHIRClientImpl implements FHIRClient {
     @Override
     public WebTarget getWebTargetUsingBasicAuth(String baseURL, String username, String pwd) throws Exception {
         Client client =
-                ClientBuilder.newBuilder().register(new FHIRProvider()).register(new FHIRJsonProvider()).register(new FHIRBasicAuthenticator(username, pwd)).keyStore(getKeyStore(), getKeyStoreKeyPassword()).trustStore(getTrustStore()).build();
+                ClientBuilder.newBuilder().register(new FHIRProvider(RuntimeType.CLIENT)).register(new FHIRJsonProvider(RuntimeType.CLIENT)).register(new FHIRBasicAuthenticator(username, pwd)).keyStore(getKeyStore(), getKeyStoreKeyPassword()).trustStore(getTrustStore()).build();
         return client.target(baseURL);
     }
 

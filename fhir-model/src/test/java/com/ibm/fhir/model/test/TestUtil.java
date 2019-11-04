@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Properties;
 
 import javax.json.Json;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.util.FHIRUtil;
 
 public class TestUtil {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
@@ -239,5 +241,44 @@ public class TestUtil {
             return jsonReader.readObject();
             
         }
+    }
+
+    /**
+     * If the {@code resourceToFind} is contained in the list of resources this method returns true.
+     * Otherwise it returns false.
+     * And This function will fail the test if we either:
+     * A. find the same resource twice; or
+     * B. find different versions of the same resource.
+     * @param resourceToFind
+     * @param resources
+     */
+    public static boolean isResourceInResponse(Resource resourceToFind, List<? extends Resource> resources) {
+        boolean alreadyFound = false;
+        int count = 0;
+        
+        String resourceTypeToFind = FHIRUtil.getResourceTypeName(resourceToFind);
+        String idToFind = resourceToFind.getId().getValue();
+        String versionToFind = resourceToFind.getMeta().getVersionId().getValue();
+        
+        for (Resource r : resources) {
+            String resourceType = FHIRUtil.getResourceTypeName(r);
+            String id = r.getId().getValue();
+            String version = r.getMeta().getVersionId().getValue();
+            if (idToFind.equals(id) && resourceTypeToFind.equals(resourceType)) {
+                if (versionToFind.equals(version)) {
+                    count++;
+                    if (alreadyFound) {
+                        System.out.println("found resource with id " + id + " " + count + " times.");
+                        fail("Resource with id '" + id + "' was returned multiple times in the search.");
+                    }
+                    alreadyFound = true;
+                } else {
+                    fail("Search has returned historical resource for resource id '" + id + "'.\n"
+                            + "Expected: version " + resourceToFind.getMeta().getVersionId().getValue() + "\n"
+                            + "Actual: version " + version);
+                }
+            }
+        }
+        return alreadyFound;
     }
 }

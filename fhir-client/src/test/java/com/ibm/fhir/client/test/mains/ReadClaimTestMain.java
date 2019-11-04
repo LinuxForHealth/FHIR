@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.client.test.mains;
 
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -20,7 +21,7 @@ import com.ibm.fhir.provider.FHIRProvider;
 public class ReadClaimTestMain {
     public static void main(String[] args) throws Exception {
         Client client = ClientBuilder.newBuilder()
-                .register(new FHIRProvider())
+                .register(new FHIRProvider(RuntimeType.CLIENT))
                 .build();
         WebTarget target = client.target("http://fhirtest.uhn.ca/baseDstu2");
         Response response = target.path("Claim/14105").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();

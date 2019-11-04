@@ -499,7 +499,7 @@ public abstract class FHIRServerTestBase {
 
             assertNotNull(ooi.getSeverity());
             assertNotNull(ooi.getSeverity().getValue());
-            assertEquals(IssueSeverity.ERROR.getValue(), ooi.getSeverity().getValue());
+            assertTrue(IssueSeverity.ERROR.equals(ooi.getSeverity()) || IssueSeverity.FATAL.equals(ooi.getSeverity()));
 
             assertNotNull(ooi.getDetails());
             String msg = ooi.getDetails().getText().getValue();

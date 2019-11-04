@@ -71,12 +71,15 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
         try (JsonReader reader = JSON_READER_FACTORY.createReader(nonClosingInputStream(entityStream))) {
             return reader.readArray();
         } catch (JsonException e) {
-            log.log(Level.WARNING, "an error occurred during resource deserialization", e);
-            String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
-            Response response = buildResponse(
-                buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
-            throw new WebApplicationException(response);
+            if (RuntimeType.SERVER.equals(runtimeType)) {
+                String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
+                Response response = buildResponse(
+                    buildOperationOutcome(Collections.singletonList(
+                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
+                throw new WebApplicationException(response);
+            } else {
+                throw new IOException("an error occurred during JSON Patch deserialization", e);
+            }
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");
         }
@@ -94,12 +97,15 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
         try (JsonWriter writer = JSON_WRITER_FACTORY.createWriter(nonClosingOutputStream(entityStream))) {
             writer.writeArray(t);
         } catch (JsonException e) {
-            log.log(Level.WARNING, "an error occurred during resource serialization", e);
-            String acceptHeader = (String) httpHeaders.getFirst(HttpHeaders.ACCEPT);
-            Response response = buildResponse(
-                buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
-            throw new WebApplicationException(response);
+            // log the error but don't throw because that seems to block to original IOException from bubbling for some reason
+            log.log(Level.WARNING, "an error occurred during JSON Patch serialization", e);
+            if (RuntimeType.SERVER.equals(runtimeType)) {
+                String acceptHeader = (String) httpHeaders.getFirst(HttpHeaders.ACCEPT);
+                Response response = buildResponse(
+                    buildOperationOutcome(Collections.singletonList(
+                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), null))), getMediaType(acceptHeader));
+                throw new WebApplicationException(response);
+            }
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");
         }
