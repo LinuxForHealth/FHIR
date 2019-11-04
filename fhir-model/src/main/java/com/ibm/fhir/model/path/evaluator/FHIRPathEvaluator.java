@@ -184,15 +184,16 @@ public class FHIRPathEvaluator {
             ExpressionContext typeName = arguments.get(0);
             String identifier = typeName.getText();
             FHIRPathType type = FHIRPathType.from(identifier);
-            if (type != null) {
-                for (FHIRPathNode node : getCurrentContext()) {
-                    FHIRPathType nodeType = node.type();
-                    if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
-                        nodeType = node.getValue().type();
-                    }
-                    if (type.isAssignableFrom(nodeType)) {
-                        result.add(node);
-                    }
+            if (type == null) {
+                throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
+            }
+            for (FHIRPathNode node : getCurrentContext()) {
+                FHIRPathType nodeType = node.type();
+                if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
+                    nodeType = node.getValue().type();
+                }
+                if (type.isAssignableFrom(nodeType)) {
+                    result.add(node);
                 }
             }
             return result;

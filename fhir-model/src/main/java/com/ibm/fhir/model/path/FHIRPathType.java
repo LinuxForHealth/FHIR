@@ -386,7 +386,7 @@ public enum FHIRPathType {
             // FHIR.Any is assignable from any FHIR type
             return true;
         }
-        return isAssignableFrom(type.baseType);
+        return (type.baseType != null && isAssignableFrom(type.baseType));
     }
     
     public static FHIRPathType from(java.lang.String name) {
