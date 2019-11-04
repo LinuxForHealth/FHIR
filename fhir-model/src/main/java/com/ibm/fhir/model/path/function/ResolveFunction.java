@@ -52,9 +52,9 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * 
      * <pre>Observation.subject.where(resolve() is Patient)</pre>
      * 
-     * <p>If the resource type cannot be inferred from the reference URL or type, then {@code FHIR_ANY} is used.
+     * <p>If the resource type cannot be inferred from the reference URL or type, then {@code FHIR_UNKNOWN_RESOURCE_TYPE} is used.
      * 
-     * <p>Type checking on {@code FHIR_ANY} will always return 'true'.
+     * <p>Type checking on {@code FHIR_UNKNOWN_RESOURCE_TYPE} will always return 'true'.
      * 
      * @param evaluationContext
      *     the evaluation environment
@@ -99,7 +99,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                     resourceType = referenceType;
                 }
                 
-                FHIRPathType type = isResourceType(resourceType) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_ANY;
+                FHIRPathType type = isResourceType(resourceType) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE;
                                 
                 result.add(FHIRPathResourceNode.resourceNode(type));
             }
