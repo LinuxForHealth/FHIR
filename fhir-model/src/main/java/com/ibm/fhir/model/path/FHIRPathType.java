@@ -80,6 +80,9 @@ import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.util.ModelSupport;
 
 public enum FHIRPathType {
+    // FHIR "special" base type returned from resolve() and assignable from any resource type
+    FHIR_UNKNOWN_RESOURCE_TYPE("FHIR", null),
+    
     // FHIR base types
     FHIR_ANY("FHIR", "Any"),
     FHIR_RESOURCE("FHIR", "Resource", FHIR_ANY, Resource.class),
@@ -372,6 +375,10 @@ public enum FHIRPathType {
     public boolean isAssignableFrom(FHIRPathType type) {
         if (type == null) {
             // every type is assignable from null
+            return true;
+        }
+        if (type == FHIR_UNKNOWN_RESOURCE_TYPE && "FHIR".equals(this.namespace)) {
+            // every resource type is assignable from FHIR_UNKNOWN_RESOURCE_TYPE
             return true;
         }
         if (this == type) {

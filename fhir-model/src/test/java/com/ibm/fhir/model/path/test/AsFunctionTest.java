@@ -34,6 +34,18 @@ public class AsFunctionTest {
     }
     
     @Test
+    void testResolveAsOperation() throws Exception {
+        Patient patient = Patient.builder()
+                .generalPractitioner(Reference.builder().reference(string("http://example.com/dummyReference")).build())
+                .build();
+
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.generalPractitioner.resolve() as Basic");
+
+        assertEquals(result.size(), 1, "Number of selected nodes");
+    }
+
+    @Test
     void testAsFunction() throws Exception {
         Condition condition = Condition.builder()
                                        .subject(Reference.builder().display(string("dummy reference")).build())
