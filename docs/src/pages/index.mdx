@@ -1,0 +1,34 @@
+import HomepageTemplate from 'gatsby-theme-carbon/src/templates/Homepage';
+
+export default HomepageTemplate;
+
+<br></br>
+The server can be packaged as a set of jar files, a web application archive (war), an application installer, or a Docker image.
+
+For a detailed description of FHIR conformance, please see [Conformance](/Conformance)
+
+## Running the IBM FHIR Server
+Information on installing and running the IBM FHIR Server is available in the User Guide at [FHIRServerUsersGuide](/guides/FHIRServerUsersGuide).
+
+The IBM FHIR Server is actively developed. To run and develop with the server, you must clone or download the project and build it. 
+See [Setting up for development](https://github.com/IBM/FHIR/wiki/Setting-up-for-development) for more info.
+
+## Building on top of the IBM FHIR Server
+IBM FHIR Server artifacts are available in BinTray with a group ID of `com.ibm.fhir`.
+
+For example, if you are using Maven and use our object model (including our high-performance parser, generator, and validator), you could declare the dependency like this:
+
+``` xml
+...
+<dependencies>
+    <dependency>
+      <groupId>com.ibm.fhir</groupId>
+      <artifactId>fhir-model</artifactId>
+      <version>${fhir.version}</version>
+    </dependency>
+    ...
+</dependencies>
+```
+
+## Contributing to the IBM FHIR Server
+See [CONTRIBUTING](/contributing).

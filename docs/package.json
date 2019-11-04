@@ -1,0 +1,19 @@
+{
+  "name": "gatsby-starter-carbon-theme",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "gatsby build",
+    "dev": "gatsby develop",
+    "dev:clean": "gatsby clean && gatsby develop",
+    "serve": "gatsby serve"
+  },
+  "dependencies": {
+    "gatsby": "^2.13.39",
+    "gatsby-plugin-sitemap": "^2.2.19",
+    "gatsby-plugin-slug": "^1.0.1",
+    "gatsby-theme-carbon": "^1.6.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}

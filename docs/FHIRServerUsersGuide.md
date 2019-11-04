@@ -1,15 +1,8 @@
-<!--
-
 ---
-
-Copyright:
-
-  years: 2017, 2019
+Copyright: years 2017, 2019
 lastupdated: "2019-09-04"
-
 ---
 
--->
 - [1 Overview](#1-overview)
   * [1.1 Recent updates](#11-recent-updates)
 - [2 Installation](#2-installation)

@@ -117,5 +117,45 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 //        assertSearchDoesntReturnComposition("subject:Basic.missing-string:missing", "false");
 //    }
     
-    // TODO add tests for Address and HumanName
+    @Test
+    public void testSearchString_HumanName() throws Exception {
+        /*
+        "use": "usual",
+        "prefix": ["Mr."]
+        "given": ["Topo"],
+        "family": "Gigio",
+        "suffix": ["II"],
+        "text": "Topo Gigio"
+        */
+        assertSearchDoesntReturnSavedResource("HumanName", "usual");
+        assertSearchReturnsSavedResource("HumanName", "Mr.");
+        assertSearchReturnsSavedResource("HumanName", "Topo");
+        assertSearchReturnsSavedResource("HumanName", "Gigio");
+        assertSearchReturnsSavedResource("HumanName", "II");
+        assertSearchReturnsSavedResource("HumanName", "Topo Gigio");
+    }
+    
+    @Test
+    public void testSearchString_Address() throws Exception {
+        /*
+        "use": "work",
+        "type", "both",
+        "text": "4025 S. Miami Blvd., Durham, NC 27703",
+        "line": "4025 S. Miami Blvd.",
+        "city": "Research Triangle Park",
+        "district": "Durham",
+        "state": "NC",
+        "postalCode": "27703",
+        "country": "USA"
+        */
+        assertSearchDoesntReturnSavedResource("Address", "work");
+        assertSearchDoesntReturnSavedResource("Address", "both");
+        assertSearchReturnsSavedResource("Address", "4025 S. Miami Blvd., Durham, NC 27703");
+        assertSearchReturnsSavedResource("Address", "4025 S. Miami Blvd.");
+        assertSearchReturnsSavedResource("Address", "Research Triangle Park");
+        assertSearchReturnsSavedResource("Address", "Durham");
+        assertSearchReturnsSavedResource("Address", "NC");
+        assertSearchReturnsSavedResource("Address", "27703");
+        assertSearchReturnsSavedResource("Address", "USA");
+    }
 }

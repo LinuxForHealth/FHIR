@@ -1,0 +1,74 @@
+.#{$prefix}--feature-card {
+  position: relative;
+  margin-bottom: $spacing-05;
+}
+
+.#{$prefix}--feature-card__row {
+  @include carbon--breakpoint('md') {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: calc(
+      100% + 2rem
+    ); //needed to make the row the same width as other rows with the negative margins
+  }
+}
+
+.#{$prefix}--feature-card__img {
+  position: relative;
+}
+.#{$prefix}--feature-card:hover
+  .#{$prefix}--feature-card__link
+  .#{$prefix}--tile {
+  background: $hover-ui;
+}
+
+.#{$prefix}--feature-card:hover
+  .#{$prefix}--feature-card__link
+  .#{$prefix}--resource-card--dark
+  .#{$prefix}--tile {
+  background: $carbon--gray-80; //$hover-ui for gray 90 theme
+}
+
+// Display image at square aspect ratio only on mobile
+.#{$prefix}--feature-card__img.#{$prefix}--aspect-ratio--1x1 {
+  @include carbon--breakpoint('md') {
+    padding-bottom: 0;
+  }
+}
+
+.#{$prefix}--feature-card__img .#{$prefix}--aspect-ratio--object {
+  @include carbon--breakpoint('md') {
+    position: static;
+  }
+}
+
+@include carbon--breakpoint('sm') {
+  .#{$prefix}--feature-card .gatsby-resp-image-wrapper {
+    position: relative;
+    display: block;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    max-width: 100%;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .#{$prefix}--feature-card .gatsby-resp-image-background-image {
+    padding-bottom: 100%;
+  }
+
+  .#{$prefix}--feature-card .gatsby-resp-image-image {
+    width: auto !important;
+    left: auto !important;
+    right: 0;
+    object-fit: cover;
+  }
+}
+
+// overrides for larger breakpoints
+.#{$prefix}--feature-card .gatsby-resp-image-wrapper {
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+}

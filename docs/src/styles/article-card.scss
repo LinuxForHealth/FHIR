@@ -1,0 +1,116 @@
+.#{$prefix}--article-card .#{$prefix}--tile {
+  background: $ui-background;
+  height: 100%;
+  padding: 0;
+  position: relative;
+  transition: background $duration--fast-01;
+  text-decoration: none;
+  margin-bottom: $spacing-05;
+}
+
+.#{$prefix}--article-card:hover .#{$prefix}--tile {
+  background: $hover-ui;
+}
+
+.#{$prefix}--article-card__tile {
+  padding: $spacing-05 25% $spacing-05 $spacing-05;
+}
+
+.#{$prefix}--article-card__title {
+  @include carbon--type-style('productive-heading-03');
+  text-decoration: none;
+  color: $text-01;
+}
+
+.#{$prefix}--article-card__subtitle {
+  @include carbon--type-style('heading-01');
+  font-weight: 400;
+  text-decoration: none;
+  color: $text-01;
+}
+
+.#{$prefix}--article-card__info {
+  @include carbon--type-style('caption-01');
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  padding: 0;
+  color: $text-02;
+}
+
+.#{$prefix}--article-card__img .gatsby-resp-image-wrapper {
+  margin-bottom: 0;
+}
+
+.#{$prefix}--article-card__icon--action {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 20px;
+  height: 20px;
+}
+
+.#{$prefix}--article-card__icon--action svg {
+  fill: $icon-01;
+}
+
+// Dark
+.#{$prefix}--article-card--dark .#{$prefix}--tile {
+  background: $carbon--gray-90; //$ui-background for gray 90 theme
+}
+
+.#{$prefix}--article-card--dark:hover .#{$prefix}--tile {
+  background: $carbon--gray-80; //$hover-ui for gray 90 theme
+}
+
+.#{$prefix}--article-card--dark .#{$prefix}--article-card__title {
+  color: $text-04;
+}
+
+.#{$prefix}--article-card--dark .#{$prefix}--article-card__info {
+  color: $carbon--gray-30; //$text-02 for gray 90 theme
+}
+
+.#{$prefix}--article-card--dark .#{$prefix}--article-card__icon--action svg {
+  fill: $carbon--gray-10; //$icon-01 for grsay 90 theme
+}
+
+// Disabled
+.#{$prefix}--article-card--disabled {
+  cursor: not-allowed;
+}
+
+.#{$prefix}--article-card--disabled .#{$prefix}--tile:hover {
+  background: $ui-background;
+  cursor: not-allowed;
+}
+
+.#{$prefix}--article-card--disabled .#{$prefix}--article-card__title,
+.#{$prefix}--article-card--disabled .#{$prefix}--article-card__info {
+  color: $disabled-03;
+}
+
+.#{$prefix}--article-card--disabled
+  .#{$prefix}--article-card__icon--action
+  svg {
+  fill: $disabled-02;
+}
+
+// Disabled dark
+.#{$prefix}--article-card--disabled.#{$prefix}--article-card--dark
+  .#{$prefix}--tile:hover {
+  background: $carbon--gray-90; //$ui-background for gray 90 theme
+}
+
+.#{$prefix}--article-card--disabled.#{$prefix}--article-card--dark
+  .#{$prefix}--article-card__title,
+.#{$prefix}--article-card--disabled.#{$prefix}--article-card--dark
+  .#{$prefix}--article-card__info {
+  color: $carbon--gray-50; //$disabled-03 for gray 90
+}
+
+.#{$prefix}--article-card--disabled.#{$prefix}--article-card--dark
+  .#{$prefix}--article-card__icon--action
+  svg {
+  fill: $carbon--gray-70; //$disabled-02 for gray 90
+}

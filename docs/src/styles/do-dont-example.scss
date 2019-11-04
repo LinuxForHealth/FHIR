@@ -1,0 +1,154 @@
+// Example
+.#{$prefix}--example {
+  margin-bottom: $spacing-08;
+  width: 100%;
+}
+
+.#{$prefix}--example--dark .#{$prefix}--example-card {
+  background: $carbon--gray-90;
+  color: $carbon--white-0;
+}
+
+.#{$prefix}--example__content {
+  font-size: 1.25rem;
+  font-weight: 300;
+  width: 100%;
+}
+
+.#{$prefix}--example__content .gatsby-resp-image-link {
+  width: 100%;
+}
+
+.#{$prefix}--example__content img {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.#{$prefix}--example-card {
+  background: $carbon--white-0;
+  width: 100%;
+  position: relative;
+}
+
+.#{$prefix}--example .#{$prefix}--example-card__content {
+  position: relative;
+}
+
+.#{$prefix}--example--square .#{$prefix}--example-card {
+  padding-top: 100%;
+}
+
+.#{$prefix}--example--square .#{$prefix}--example-card__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.#{$prefix}--example__text {
+  padding: 10%;
+  font-weight: 300;
+  font-size: rem(24px);
+  line-height: 1.25;
+}
+
+.#{$prefix}--example-image {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.#{$prefix}--example-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 100%;
+  height: 3px;
+  z-index: 1;
+}
+
+.#{$prefix}--example--correct .#{$prefix}--example-card::before {
+  background: $carbon--green-50;
+}
+
+.#{$prefix}--example--incorrect .#{$prefix}--example-card::before {
+  background: $carbon--magenta-50;
+}
+
+.#{$prefix}--example__icon {
+  display: block;
+  position: absolute;
+  left: calc(1rem - 1px);
+  top: calc(1rem - 1px);
+  z-index: 10;
+  width: 24px;
+  height: 24px;
+}
+
+.#{$prefix}--example__icon--correct {
+  fill: $carbon--green-50;
+}
+
+.#{$prefix}--example__icon--incorrect {
+  fill: $carbon--magenta-50;
+}
+
+.#{$prefix}--example__icon path[dataIconPath='inner-path'],
+.#{$prefix}--example__icon path[data-icon-path='inner-path'] {
+  fill: $carbon--white-0;
+  opacity: 1;
+}
+
+.#{$prefix}--example__caption {
+  padding: $spacing-03 0 0 0;
+  @include carbon--breakpoint('sm') {
+    width: 100%;
+  }
+
+  @include carbon--breakpoint('md') {
+    width: 75%;
+  }
+}
+
+.#{$prefix}--example__title {
+  @include carbon--type-style('body-short-01');
+  font-weight: 600;
+  margin: 0;
+
+  @media (orientation: landscape) {
+    padding: 0 25% 0 0;
+  }
+
+  @include carbon--breakpoint('md') {
+    padding: 0 25% 0 0;
+  }
+}
+
+.#{$prefix}--example__description {
+  @include carbon--type-style('body-short-01');
+  margin: 0;
+  padding: 0;
+  padding-bottom: $spacing-06;
+}
+
+.#{$prefix}--col-lg-4 .#{$prefix}--example__caption {
+  @include carbon--breakpoint('md') {
+    width: 100%;
+  }
+}
+
+.#{$prefix}--example span.gatsby-resp-image-wrapper {
+  max-width: 100% !important; // marked !important to overcome inline styles inserted by gatsby.
+  margin-bottom: 0;
+}
+
+// Video
+.#{$prefix}--example [class^='Video-module--video'] {
+  margin-bottom: 0;
+}

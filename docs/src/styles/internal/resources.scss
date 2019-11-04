@@ -1,0 +1,6 @@
+// These resources get shared with every css module.
+// We only want to import variables/mixins/helpers, not things that generate css.
+
+@import '~carbon-components/scss/globals/scss/vars';
+@import '~carbon-components/scss/globals/scss/layout';
+@import '~@carbon/elements/scss/type/type';

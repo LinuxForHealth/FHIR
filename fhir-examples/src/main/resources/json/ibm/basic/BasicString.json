@@ -15,12 +15,25 @@
     {
       "url": "http://example.org/Address",
       "valueAddress": {
-        "text": "4025 S. Miami Blvd., Durham, NC 27703"
+        "use": "work",
+        "type": "both",
+        "text": "4025 S. Miami Blvd., Durham, NC 27703",
+        "line": ["4025 S. Miami Blvd."],
+        "city": "Research Triangle Park",
+        "district": "Durham",
+        "state": "NC",
+        "postalCode": "27703",
+        "country": "USA"
       }
     },
     {
       "url": "http://example.org/HumanName",
       "valueHumanName": {
+        "use": "usual",
+        "prefix": ["Mr."],
+        "given": ["Topo"],
+        "family": "Gigio",
+        "suffix": ["II"],
         "text": "Topo Gigio"
       }
     },

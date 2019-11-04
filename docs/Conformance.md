@@ -1,3 +1,5 @@
+# PLEASE USE the files in src/pages/ as it is part of the build now
+
 # Conformance to the HL7 FHIR Specification
 The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR specification, version 4.0.0 (R4). However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
 
