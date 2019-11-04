@@ -298,6 +298,7 @@ public enum FHIRPathType {
     FHIR_VALUE_SET("FHIR", "ValueSet", FHIR_DOMAIN_RESOURCE, ValueSet.class),
     FHIR_VERIFICATION_RESULT("FHIR", "VerificationResult", FHIR_DOMAIN_RESOURCE, VerificationResult.class),
     FHIR_VISION_PRESCRIPTION("FHIR", "VisionPrescription", FHIR_DOMAIN_RESOURCE, VisionPrescription.class),
+    FHIR_UNKNOWN_RESOURCE_TYPE("FHIR", "UnknownResourceType"),
     
     // FHIRPath system types
     SYSTEM_ANY("System", "Any"),
@@ -370,6 +371,9 @@ public enum FHIRPathType {
     }
     
     public boolean isAssignableFrom(FHIRPathType type) {
+    	if (type == FHIR_UNKNOWN_RESOURCE_TYPE && "FHIR".equals(this.namespace)) {
+    		return true;
+    	}
         if (type == null) {
             // every type is assignable from null
             return true;
@@ -386,7 +390,7 @@ public enum FHIRPathType {
             // FHIR.Any is assignable from any FHIR type
             return true;
         }
-        return isAssignableFrom(type.baseType);
+        return (type.baseType != null && isAssignableFrom(type.baseType));
     }
     
     public static FHIRPathType from(java.lang.String name) {
