@@ -103,7 +103,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             throw invalidComboException(searchParamType, _boolean);
         }
         p.setName(searchParamCode);
-        p.setValueSystem("http://hl7.org/fhir/special-values");
+        p.setValueSystem("http://terminology.hl7.org/CodeSystem/special-values");
         if (_boolean.getValue()) {
             p.setValueCode("true");
         } else {
@@ -584,6 +584,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
 
     private IllegalArgumentException invalidComboException(SearchParamType paramType, Element value) {
         return new IllegalArgumentException("Data type '" + value.getClass().getSimpleName() + "' is not supported "
-                + "for SearchParameter of type '" + paramType.getValue() + "'");
+                + "for SearchParameter '" + searchParamCode + "' of type '" + paramType.getValue() + "'");
     }
 }
