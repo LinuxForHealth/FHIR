@@ -298,6 +298,10 @@ public enum FHIRPathType {
     FHIR_VALUE_SET("FHIR", "ValueSet", FHIR_DOMAIN_RESOURCE, ValueSet.class),
     FHIR_VERIFICATION_RESULT("FHIR", "VerificationResult", FHIR_DOMAIN_RESOURCE, VerificationResult.class),
     FHIR_VISION_PRESCRIPTION("FHIR", "VisionPrescription", FHIR_DOMAIN_RESOURCE, VisionPrescription.class),
+    
+    /**
+     * "Special" FHIR type returned by the resolve() function when the resource type cannot be determined from a reference.
+     */
     FHIR_UNKNOWN_RESOURCE_TYPE("FHIR", "UnknownResourceType"),
     
     // FHIRPath system types
@@ -370,8 +374,17 @@ public enum FHIRPathType {
         return modelClass;
     }
     
+    /**
+     * Determines if this type is the same as or a supertype of the one specified by the method parameter.
+     * 
+     * @param type
+     *     the type to check against
+     * @return
+     *     true if this type is assignable from the one in the method parameter, false otherwise
+     */
     public boolean isAssignableFrom(FHIRPathType type) {
-        if (type == FHIR_UNKNOWN_RESOURCE_TYPE && "FHIR".equals(this.namespace)) {
+        if (type == FHIR_UNKNOWN_RESOURCE_TYPE && FHIR_RESOURCE.isAssignableFrom(this)) {
+            // every resource type is assignable from FHIR.UnknownResourceType
             return true;
         }
         if (type == null) {
