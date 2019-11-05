@@ -45,20 +45,29 @@ This file contains:
  
 
 ``` shell
+14:05:17-paulbastide@pauls-mbp:~/git/wffh$ unzip -l ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.zip
+Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
-        0  10-09-2019 14:18   fhir-validation-dist/
+        0  10-18-2019 10:40   fhir-validation-dist/
    302248  09-06-2019 15:58   fhir-validation-dist/antlr4-runtime-4.5.3.jar
-  6181816  10-08-2019 06:36   fhir-validation-dist/fhir-model-4.0.0-SNAPSHOT.jar
+  6143682  10-17-2019 14:21   fhir-validation-dist/fhir-model-4.0.0-SNAPSHOT.jar
+ 10307984  10-17-2019 14:21   fhir-validation-dist/fhir-registry-4.0.0-SNAPSHOT.jar
+    16922  10-17-2019 14:20   fhir-validation-dist/fhir-core-4.0.0-SNAPSHOT.jar
    140564  09-06-2019 15:58   fhir-validation-dist/jakarta.json-1.1.5.jar
-    18331  10-08-2019 06:35   fhir-validation-dist/fhir-core-4.0.0-SNAPSHOT.jar
     25058  09-11-2019 15:05   fhir-validation-dist/jakarta.annotation-api-1.3.5.jar
- 10307966  10-08-2019 06:36   fhir-validation-dist/fhir-registry-4.0.0-SNAPSHOT.jar
-   214788  09-06-2019 15:58   fhir-validation-dist/commons-io-2.6.jar
+     2254  09-13-2019 12:39   fhir-validation-dist/jcip-annotations-1.0.jar
+    21970  10-18-2019 10:40   fhir-validation-dist/fhir-validation-4.0.0-SNAPSHOT.jar
 ---------                     -------
- 52769970                     13 files
+ 16960682                     9 files
 ```
 
+# Download Dependencies
+- FHIR [Download from BinTray](https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-snapshots/com/ibm/fhir)
+- Antlr [Antlr](https://repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.5.3/)
+- Json https://repo1.maven.org/maven2/jakarta/json/jakarta.json-api/1.1.5/
+- Annotations https://repo1.maven.org/maven2/jakarta/annotation/jakarta.annotation-api/
+- JCIP https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/
 <p>
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
 </p>

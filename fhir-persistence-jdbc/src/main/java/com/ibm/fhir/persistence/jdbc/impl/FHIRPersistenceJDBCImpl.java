@@ -1041,8 +1041,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                         }
                     } catch (IllegalArgumentException e) {
                         // log and continue with the other parameters
-                        log.log(Level.INFO, "Skipping search parameter '" + code + "' "
-                                + " with id '" + sp.getId() + "' for resource type " + fhirResource.getClass().getSimpleName(), e);
+                        StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
+                        if (sp.getId() != null) {
+                            msg.append(" with id '" + sp.getId().getValue() + "'");
+                        }
+                        msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
+                        log.log(Level.INFO, msg.toString(), e);
                         // TODO: add an issue to the OperationOutcome in the return object
                     }
                 }

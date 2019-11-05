@@ -184,15 +184,16 @@ public class FHIRPathEvaluator {
             ExpressionContext typeName = arguments.get(0);
             String identifier = typeName.getText();
             FHIRPathType type = FHIRPathType.from(identifier);
-            if (type != null) {
-                for (FHIRPathNode node : getCurrentContext()) {
-                    FHIRPathType nodeType = node.type();
-                    if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
-                        nodeType = node.getValue().type();
-                    }
-                    if (type.isAssignableFrom(nodeType)) {
-                        result.add(node);
-                    }
+            if (type == null) {
+                throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
+            }
+            for (FHIRPathNode node : getCurrentContext()) {
+                FHIRPathType nodeType = node.type();
+                if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
+                    nodeType = node.getValue().type();
+                }
+                if (type.isAssignableFrom(nodeType)) {
+                    result.add(node);
                 }
             }
             return result;
@@ -250,11 +251,12 @@ public class FHIRPathEvaluator {
             if (isSingleton(currentContext)) {
                 String identifier = typeName.getText();
                 FHIRPathType type = FHIRPathType.from(identifier);
-                if (type != null) {
-                    FHIRPathNode node = getSingleton(currentContext);
-                    if (type.isAssignableFrom(node.type())) {
-                        return SINGLETON_TRUE;
-                    }
+                if (type == null) {
+                    throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
+                }
+                FHIRPathNode node = getSingleton(currentContext);
+                if (type.isAssignableFrom(node.type())) {
+                    return SINGLETON_TRUE;
                 }
             }
             return SINGLETON_FALSE;
@@ -268,15 +270,16 @@ public class FHIRPathEvaluator {
             ExpressionContext typeName = arguments.get(0);
             String identifier = typeName.getText();
             FHIRPathType type = FHIRPathType.from(identifier);
-            if (type != null) {
-                for (FHIRPathNode node : getCurrentContext()) {
-                    FHIRPathType nodeType = node.type();
-                    if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
-                        nodeType = node.getValue().type();
-                    }
-                    if (type.isAssignableFrom(nodeType)) {
-                        result.add(node);
-                    }
+            if (type == null) {
+                throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
+            }
+            for (FHIRPathNode node : getCurrentContext()) {
+                FHIRPathType nodeType = node.type();
+                if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
+                    nodeType = node.getValue().type();
+                }
+                if (type.isAssignableFrom(nodeType)) {
+                    result.add(node);
                 }
             }
             return result;
@@ -882,20 +885,21 @@ public class FHIRPathEvaluator {
             if (isSingleton(nodes)) {
                 String qualifiedIdentifier = getString(visit(ctx.typeSpecifier()));
                 FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
-                if (type != null) {
-                    FHIRPathNode node = getSingleton(nodes);
-                    switch (operator) {
-                    case "is":
-                        if (type.isAssignableFrom(node.type())) {
-                            result = SINGLETON_TRUE;
-                        }
-                        break;
-                    case "as":
-                        if (type.isAssignableFrom(node.type())) {
-                            result = singleton(node);
-                        }
-                        break;
+                if (type == null) {
+                    throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", qualifiedIdentifier));
+                }
+                FHIRPathNode node = getSingleton(nodes);
+                switch (operator) {
+                case "is":
+                    if (type.isAssignableFrom(node.type())) {
+                        result = SINGLETON_TRUE;
                     }
+                    break;
+                case "as":
+                    if (type.isAssignableFrom(node.type())) {
+                        result = singleton(node);
+                    }
+                    break;
                 }
             }
             
