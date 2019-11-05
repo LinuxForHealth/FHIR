@@ -172,13 +172,6 @@ BEGIN
     SET v_insert_version = p_version;
   ELSE
     SET v_insert_version = v_version + 1;
-
-    -- Check the version number we're going to use matches the version
-    -- number injected by the FHIR server into the JSON payload
-    IF v_insert_version != p_json_version
-    THEN
-        SIGNAL SQLSTATE '99001' SET MESSAGE_TEXT = 'Concurrent update - mismatch of version in JSON';
-    END IF;
   END IF;
 
   -- Create the new resource version.

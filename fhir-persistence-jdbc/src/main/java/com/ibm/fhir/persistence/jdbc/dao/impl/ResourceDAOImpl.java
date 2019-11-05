@@ -61,7 +61,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     //                                                                                 0               
     //                                                                                 1 2 3 4 5 6 7 8 
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
+    // Don't forget that we must account for IN and OUT parameters.
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
