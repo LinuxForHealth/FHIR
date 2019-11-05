@@ -25,12 +25,13 @@ Check the Stored Procedure and object mapping
 The response shows the SQL objects (third column): 
 
 ```
+ SCHEMA     TABLE              OBJECTNAME
  FHIRDATA   ADD_CODE_SYSTEM    SQL191105170018025        84725 BLUADMIN          2 0x38001800                             Q      2019-11-05
  FHIRDATA   ADD_PARAMETER_NAME SQL191105170018126        84726 BLUADMIN          2 0x38001800                             Q      2019-11-05
  FHIRDATA   ADD_ANY_RESOURCE   SQL191105170018328        84728 BLUADMIN          9 0x380038007c006c003c003800380018001400 Q      2019-11-05
 ```
 
-Check to see if the OBJECTNAME
+Check if the FHIRSERVER user has execute privelege on the objectname. 
 
 ```
 select substr(authid,1,20) as authid
@@ -43,8 +44,6 @@ select substr(authid,1,20) as authid
 from sysibmadm.privileges
 where objectschema not like 'SYS%' AND AUTHID='FHIRSERVER' AND PRIVILEGE = 'EXECUTE' 
 ```
-
-Make sure the data includes the object id referenced above. 
 
 If missing, then you'll want to run a grant 
 `GRANT EXECUTE ON PROCEDURE FHIRDATA.ADD_ANY_RESOURCE TO FHIRSERVER`
