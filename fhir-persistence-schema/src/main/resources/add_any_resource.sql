@@ -178,7 +178,7 @@ BEGIN
 
   PREPARE stmt FROM
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
-      || ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      || ' VALUES ( ?, ?, ?, ?, ?, ?, ?)';
   EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted;
 
   IF p_version IS NULL OR p_version > v_version
