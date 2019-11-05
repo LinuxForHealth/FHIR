@@ -6,6 +6,8 @@ date:   2019-10-08 09:59:05 -0400
 permalink: /CreateFHIRValidationAssembly/
 ---
 
+The instructions below can be used to create an assembly than contains all the jar files needed for someone trying to validate FHIR R4 spec compliance of a FHIR resource instance. Useful when you have a FHIR resource that was not created from the model or was recevied from an external system.
+
 ### Pre-Requisites
 
 **Repository**  
