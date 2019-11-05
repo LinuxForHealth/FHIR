@@ -60,7 +60,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
     //                                                                                 0               
-    //                                                                                 1 2 3 4 5 6 7 8 9
+    //                                                                                 1 2 3 4 5 6 7 8
     // Don't forget that we must account for IN and OUT parameters.
     private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
 
