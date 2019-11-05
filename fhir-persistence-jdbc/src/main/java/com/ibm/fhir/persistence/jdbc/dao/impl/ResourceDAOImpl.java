@@ -60,7 +60,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
     //                                                                                 0               
-    //                                                                                 1 2 3 4 5 6 7 8 
+    //                                                                                 1 2 3 4 5 6 7 8
+    // Don't forget that we must account for IN and OUT parameters.
     private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
@@ -587,7 +588,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(20));
+            resource.setId(stmt.getLong(8));
 
             // Parameter time - enable multitenncy on the DAO.
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
