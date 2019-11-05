@@ -588,7 +588,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(20));
+            resource.setId(stmt.getLong(8));
 
             // Parameter time - enable multitenncy on the DAO.
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
