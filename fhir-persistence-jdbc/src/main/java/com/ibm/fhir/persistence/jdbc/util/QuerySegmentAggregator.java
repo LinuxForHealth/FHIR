@@ -45,7 +45,7 @@ class QuerySegmentAggregator {
     protected static final String ON = " ON ";
     private static final String AND = " AND ";
     protected static final String COMBINED_RESULTS = " COMBINED_RESULTS";
-    protected static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
+    private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
         
     protected Class<?> resourceType;
 

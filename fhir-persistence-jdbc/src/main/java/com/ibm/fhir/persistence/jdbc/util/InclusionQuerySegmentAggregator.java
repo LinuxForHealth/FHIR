@@ -31,7 +31,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM ";
     private static final String UNION_ALL = " UNION ALL ";
     private static final String REVINCLUDE_JOIN = "JOIN  {0}_STR_VALUES P1 ON P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID ";
-    protected static final String ORDERING = " ORDER BY R.LOGICAL_RESOURCE_ID ASC ";
+    private static final String ORDERING = " ORDER BY R.LOGICAL_RESOURCE_ID ASC ";
         
     private List<InclusionParameter> includeParameters;
     private List<InclusionParameter> revIncludeParameters;
