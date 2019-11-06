@@ -1158,11 +1158,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = ior.getStatus();
             return ior;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -1444,15 +1444,15 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = ior.getStatus();
             return ior;
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = Response.Status.METHOD_NOT_ALLOWED;
             throw e;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -1510,7 +1510,6 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString,
         Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doDelete");
@@ -1629,19 +1628,19 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             return ior;
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = Response.Status.OK;
             throw e;
         } catch (FHIRPersistenceNotSupportedException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = Response.Status.METHOD_NOT_ALLOWED;
             throw e;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -1670,6 +1669,12 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
+    @Override
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            Map<String, String> requestProperties, Resource contextResource) throws Exception {
+        return doRead(type, id, throwExcOnNull, includeDeleted, requestProperties, contextResource, null);
+    }
+    
     /**
      * Performs a 'read' operation to retrieve a Resource.
      * 
@@ -1682,7 +1687,6 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
         Map<String, String> requestProperties,
         Resource contextResource,
@@ -1704,8 +1708,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
             }
 
-            Class<? extends Resource> resourceType =
-                    (Class<? extends Resource>) getResourceType(resourceTypeName);
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
             
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
@@ -1741,19 +1744,19 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             return resource;
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = Response.Status.NOT_FOUND;
             throw e;
         } catch (FHIRPersistenceResourceDeletedException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = Response.Status.GONE;
             throw e;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -1795,7 +1798,6 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public Resource doVRead(String type, String id, String versionId,
         Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doVRead");
@@ -1848,19 +1850,19 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             return resource;
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = Response.Status.NOT_FOUND;
             throw e;
         } catch (FHIRPersistenceResourceDeletedException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = Response.Status.GONE;
             throw e;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -1903,7 +1905,6 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters,
         String requestUri, Map<String, String> requestProperties)
         throws Exception {
@@ -1956,11 +1957,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             status = Response.Status.OK;
             return bundle;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -2000,7 +2001,6 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return a Bundle containing the search result set
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public Bundle doSearch(String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri,
         Map<String, String> requestProperties, Resource contextResource) throws Exception {
@@ -2060,11 +2060,11 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             return bundle;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -2095,9 +2095,10 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * Uses the handling property from the server config and the Prefer header from the request to determine which mode the server should use.
      * 
-     * @throws IllegalArgumentException if the mode is STRICT and the Prefer header contains an invalid handling value.
+     * @throws FHIRHttpException if the mode is STRICT and the Prefer header contains an invalid handling value.
+     * @throws IllegalArgumentException if the server handling config contains an invalid string value
      */
-    private boolean isLenient(Map<String, String> requestProperties) {
+    private boolean isLenient(Map<String, String> requestProperties) throws FHIRHttpException {
         boolean isLenient = false; // Assign it to appease the compiler
         String stringVal = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_HANDLING, Handling.STRICT.value());
         Handling handlingConfig = Handling.from(stringVal);
@@ -2120,7 +2121,12 @@ public class FHIRResource implements FHIRResourceHelpers {
             String handlingStringValue = getHeaderValue(requestProperties, HEADERNAME_PREFER, "handling");
             if (handlingStringValue != null) {
                 // throws IllegalArgumentException for invalid values
-                isLenient = HTTPHandlingPreference.LENIENT == HTTPHandlingPreference.from(handlingStringValue);
+                try {
+                    isLenient = HTTPHandlingPreference.LENIENT == HTTPHandlingPreference.from(handlingStringValue);
+                } catch (IllegalArgumentException e) {
+                    throw new FHIRHttpException("Received invalid handling value: '" + handlingStringValue + "'; use 'strict' or 'lenient'.", 
+                        Status.BAD_REQUEST);
+                }
             } else {
                 isLenient = false;
             }
@@ -2221,7 +2227,6 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName,
         String logicalId, String versionId, String operationName,
         Resource resource, MultivaluedMap<String, String> queryParameters,
@@ -2283,11 +2288,11 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             return result;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -2353,11 +2358,11 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             return responseBundle;
         } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = e.getHttpStatus();
             throw e;
         } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.WARNING, errMsg, e);
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
             throw e;
         } catch (Throwable t) {
@@ -4128,11 +4133,5 @@ public class FHIRResource implements FHIRResourceHelpers {
             return Response.status(status).location(toUri(getAbsoluteUri(getRequestBaseUri(), locationURI.toString()))).entity(resource).build();
         }
         return Response.status(status).entity(resource).build();
-    }
-
-    @Override
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
-            Map<String, String> requestProperties, Resource contextResource) throws Exception {
-        return doRead(type, id, throwExcOnNull, includeDeleted, requestProperties, contextResource, null);
     }
 }

@@ -749,11 +749,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     
     // Test: retrieve Patient with _summary=invalid.
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
-    public void testReadPatientSummary_Invalid() {
+    public void testReadPatientSummary_Invalid_lenient() {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient/" + savedPatient.getId().getValue())
                 .queryParam("_summary", "invalid")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=lenient")
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         Coding subsettedTag =

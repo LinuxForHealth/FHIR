@@ -474,6 +474,7 @@ public class SearchUtil {
         List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
 
         for (SearchParameter parameter : parameters) {
+            
             com.ibm.fhir.model.type.String expression = parameter.getExpression();
 
             // Outputs the Expression and the Name of the SearchParameter
@@ -491,7 +492,6 @@ public class SearchUtil {
             if (expression != null && !SearchParamType.COMPOSITE.equals(type) && !SearchParamType.SPECIAL.equals(type)) {
 
                 try {
-                   
                     Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
                     
                     if (log.isLoggable(Level.FINEST)) {
@@ -512,9 +512,8 @@ public class SearchUtil {
                     log.fine(String.format(UNSUPPOTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
                 }
             }
-
         }
-
+        
         return result;
     }
 
@@ -528,7 +527,7 @@ public class SearchUtil {
         
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
-        List<Parameter> parameters = new ArrayList<>();
+        List<Parameter> parameters = new ArrayList<>(); 
 
         // Retrieve the SearchParameters that will apply to this resource type (including those for Resource.class).
         Map<String, SearchParameter> applicableSPs = getApplicableSearchParametersMap(resourceType.getSimpleName());
@@ -616,14 +615,18 @@ public class SearchUtil {
                         parameters.add(parameter);
                     }
                 } // end else
-            } catch (Exception e) {
+            }  catch (FHIRSearchException se) {
+                // There's a number of places that throw within this try block. In all cases we want the same behavior:
+                // If we're in lenient mode and there was an issue parsing the query parameter then log and move on to the next one.
+                String msg = "Error while parsing search parameter '" + name + "' for resource type " + resourceType.getSimpleName();
                 if (lenient) {
-                    // log and continue
-                    log.log(Level.FINE, "Error while parsing search parameter '" + name + "' for resource type " + resourceType.getSimpleName(), e);
+                    log.log(Level.FINE, msg, se);
                     continue;
                 } else {
-                    throw SearchExceptionUtil.buildNewParseParameterException(name, e);
+                    throw se;
                 }
+            } catch (Exception e) {
+                throw SearchExceptionUtil.buildNewParseParameterException(name, e);
             }
         } // end for
 
@@ -870,20 +873,13 @@ public class SearchUtil {
                 parseInclusionParameter(resourceType, context, name, values, lenient);
             } else if (SearchConstants.ELEMENTS.equals(name)) {
                 parseElementsParameter(resourceType, context, values, lenient);
-            } else if (SearchConstants.SUMMARY.equals(name) 
-                    && first != null) { 
-                try {
-                    context.setSummaryParameter(SummaryValueSet.from(first));
-                } catch (Exception ex) {
-                    if (!lenient) {
-                        throw ex;
-                    }
-                }
+            } else if (SearchConstants.SUMMARY.equals(name) && first != null) { 
+                context.setSummaryParameter(SummaryValueSet.from(first));
             }
         } catch (FHIRSearchException se) {
             throw se;
         } catch (Exception e) {
-            throw SearchExceptionUtil.buildNewParseException("Error parsing search parameter with name '" + name + "'", e);
+            throw SearchExceptionUtil.buildNewParseParameterException(name, e);
         }
     }
 

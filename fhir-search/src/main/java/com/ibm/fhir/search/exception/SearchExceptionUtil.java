@@ -18,16 +18,10 @@ import com.ibm.fhir.model.util.FHIRUtil;
  */
 public class SearchExceptionUtil {
 
-    private static final String PARSE_EXCEPTION = "Unable to parse search result parameter named: '%s";
-
     private static final String ILLEGAL_EXCEPTION = "SearchParameter filter property values must be an array of String.";
-
     private static final String ILLEGAL_ARGUMENT_EXCEPTION = "No constant with value %s found.";
-
-    private static final String PARSE_PARAMETER_EXCEPTION = "An error occurred while parsing search parameter '%s'.";
-
+    private static final String PARSE_PARAMETER_EXCEPTION = "An error occurred while parsing parameter '%s'.";
     private static final String CHAINED_PARAMETER_EXCEPTION = "Unable to parse chained parameter: '%s'";
-    
     private static final String GET_SEARCH_FAILED = "Unable to process getSearch ";
     
     private SearchExceptionUtil() {
@@ -43,17 +37,6 @@ public class SearchExceptionUtil {
     public static FHIRSearchException buildNewInvalidSearchException(final String msg) {
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID);
         return new FHIRSearchException(msg).withIssue(ooi);
-    }
-
-    /**
-     * create new parse exception
-     * 
-     * @param name
-     * @param e
-     * @return
-     */
-    public static FHIRSearchException buildNewParseException(final String name, Exception e) {
-        return new FHIRSearchException(String.format(PARSE_EXCEPTION, name), e);
     }
 
     /**
