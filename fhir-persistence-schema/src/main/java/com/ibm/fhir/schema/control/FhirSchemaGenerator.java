@@ -187,7 +187,12 @@ public class FhirSchemaGenerator {
         model.addObject(allAdminTablesComplete);
 
         // The set_tenant procedure can be created after all the admin tables are done
-        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName, SET_TENANT, FhirSchemaConstants.INITIAL_VERSION, () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null), Arrays.asList(allAdminTablesComplete), procedurePrivileges);
+        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName, 
+                SET_TENANT, 
+                FhirSchemaConstants.INITIAL_VERSION, 
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null), 
+                Arrays.asList(allAdminTablesComplete), 
+                procedurePrivileges);
         setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         
         // A final marker which is used to block any FHIR data schema activity until the admin schema is completed
@@ -316,16 +321,36 @@ public class FhirSchemaGenerator {
         // to avoid deadlocks, we only apply them after all the tables are done, so we make all
         // procedures depend on the allTablesComplete marker.
         ProcedureDef pd;
-        pd = model.addProcedure(this.schemaName, ADD_CODE_SYSTEM, FhirSchemaConstants.INITIAL_VERSION, () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase() + ".sql", null), Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete), procedurePrivileges);
+        pd = model.addProcedure(this.schemaName, 
+                ADD_CODE_SYSTEM, 
+                FhirSchemaConstants.INITIAL_VERSION, 
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase() + ".sql", null), 
+                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete), 
+                procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         
-        pd = model.addProcedure(this.schemaName, ADD_PARAMETER_NAME, FhirSchemaConstants.INITIAL_VERSION, () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase() + ".sql", null), Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), procedurePrivileges);
+        pd = model.addProcedure(this.schemaName, 
+                ADD_PARAMETER_NAME, 
+                FhirSchemaConstants.INITIAL_VERSION, 
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase() + ".sql", null), 
+                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), 
+                procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName, ADD_RESOURCE_TYPE, FhirSchemaConstants.INITIAL_VERSION, () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null), Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+        pd = model.addProcedure(this.schemaName, 
+                ADD_RESOURCE_TYPE, 
+                FhirSchemaConstants.INITIAL_VERSION, 
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null), 
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), 
+                procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         
-        pd = model.addProcedure(this.schemaName, ADD_ANY_RESOURCE, FhirSchemaConstants.INITIAL_VERSION, () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase() + ".sql", null), Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+        pd = model.addProcedure(this.schemaName, 
+                ADD_ANY_RESOURCE, 
+                FhirSchemaConstants.INITIAL_VERSION, 
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase() + ".sql", null), 
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), 
+                procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
@@ -678,8 +703,6 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     *     
-     *     
      * <pre>
     t_token_values AS ROW ( parameter_name_id INTEGER, code_system_id    INTEGER, token_value       VARCHAR(255 OCTETS))';
     t_token_values_arr AS ' || CURRENT SCHEMA || '.t_token_values ARRAY[256]';
