@@ -520,7 +520,7 @@ public class SearchUtil {
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters)
         throws Exception {
-        return parseQueryParameters(resourceType, queryParameters, true);
+        return parseQueryParameters(resourceType, queryParameters, false);
     }
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient)
@@ -540,15 +540,9 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewInvalidSearchException("_sort search result parameter not supported with _include or _revinclude.");
         }
         
-        /*
-         * keySet is used here as the parameter name is the only part that is used to process iteratively in the inner
-         * loops.
-         */
         for (Entry<String, List<String>> entry : queryParameters.entrySet()) {
-
             String name = entry.getKey();
             try {
-
                 List<String> params = entry.getValue();
                 if (SearchConstants.FORMAT.equals(name)) {
                     continue;
@@ -571,7 +565,6 @@ public class SearchUtil {
                     }
                 } else {
                     // Parse name into parameter name.
-
                     String parameterName = name;
                     SearchConstants.Modifier modifier = null;
                     String modifierResourceTypeName = null;
@@ -599,12 +592,7 @@ public class SearchUtil {
                     SearchParameter searchParameter = applicableSPs.get(parameterName);
                     if (searchParameter == null) {
                         String msg = "Search parameter '" + parameterName + "' for resource type '" + resourceType.getSimpleName() + "' was not found.";
-                        if (lenient) {
-                            log.fine(msg);
-                            continue;
-                        } else {
-                            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                        }
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     }
 
                     // Get the type of parameter so that we can use it to parse the value.
@@ -627,13 +615,17 @@ public class SearchUtil {
                         parameter.getValues().addAll(queryParameterValues);
                         parameters.add(parameter);
                     }
-                }
-
+                } // end else
             } catch (Exception e) {
-                throw SearchExceptionUtil.buildNewParseParameterException(name, e);
+                if (lenient) {
+                    // log and continue
+                    log.log(Level.FINE, "Error while parsing search parameter '" + name + "' for resource type " + resourceType.getSimpleName(), e);
+                    continue;
+                } else {
+                    throw SearchExceptionUtil.buildNewParseParameterException(name, e);
+                }
             }
-
-        }
+        } // end for
 
         context.setSearchParameters(parameters);
         return context;
@@ -888,12 +880,14 @@ public class SearchUtil {
                     }
                 }
             }
+        } catch (FHIRSearchException se) {
+            throw se;
         } catch (Exception e) {
-            throw SearchExceptionUtil.buildNewParseException(name, e);
+            throw SearchExceptionUtil.buildNewParseException("Error parsing search parameter with name '" + name + "'", e);
         }
     }
 
-    private static void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortKeyword, List<String> sortParmNames,
+    private static void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortKeyword, List<String> sortQueryParmValues,
         boolean lenient) throws Exception {
 
         SearchConstants.SortDirection sortDirection;
@@ -912,25 +906,27 @@ public class SearchUtil {
             sortDirection = SearchConstants.SortDirection.ASCENDING;
         }
 
-        for (String sortParmName : sortParmNames) {
-            // Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
-            // type of search parameter.
-            sortParmProxy = getSearchParameter(resourceType, sortParmName);
-            if (sortParmProxy == null) {
-                String msg = "Undefined sort parameter. resourceType=" + resourceType + " sortParmName=" + sortParmName;
-                if (lenient) {
-                    log.fine(msg);
-                    continue;
-                } else {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+        for (String sortParmNames : sortQueryParmValues) {
+            for (String sortParmName : sortParmNames.split(",")) {
+                // Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
+                // type of search parameter.
+                sortParmProxy = getSearchParameter(resourceType, sortParmName);
+                if (sortParmProxy == null) {
+                    String msg = "Undefined sort parameter. resourceType=" + resourceType + " sortParmName=" + sortParmName;
+                    if (lenient) {
+                        log.fine(msg);
+                        continue;
+                    } else {
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
                 }
+                sortParmType = SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
+                sortParm = new SortParameter(sortParmName, sortParmType, sortDirection);
+                if (resourceType.equals(Resource.class) && !SearchConstants.SYSTEM_LEVEL_SORT_PARAMETER_NAMES.contains(sortParm.getName())) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(UNSUPPORTED_SEARCH_PARAMETERS_EXCEPTION, sortParm.getName()));
+                }
+                context.getSortParameters().add(sortParm);
             }
-            sortParmType = SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
-            sortParm = new SortParameter(sortParmName, sortParmType, sortDirection);
-            if (resourceType.equals(Resource.class) && !SearchConstants.SYSTEM_LEVEL_SORT_PARAMETER_NAMES.contains(sortParm.getName())) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(UNSUPPORTED_SEARCH_PARAMETERS_EXCEPTION, sortParm.getName()));
-            }
-            context.getSortParameters().add(sortParm);
         }
     }
 

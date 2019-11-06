@@ -400,7 +400,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             resultSet = stmt.executeQuery();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             if (log.isLoggable(Level.FINE)) {
-                log.fine("DB search for ids complete. executionTime=" + dbCallDuration + "ms");
+                log.fine("DB search for ids complete. " + queryData + "  executionTime=" + dbCallDuration + "ms");
             }
             while(resultSet.next()) {
                 resourceIds.add(resultSet.getLong(1));
@@ -455,7 +455,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             resultSet = stmt.executeQuery();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             if (log.isLoggable(Level.FINE)) {
-                log.fine("DB search by ids complete. executionTime=" + dbCallDuration + "ms");
+                log.fine("DB search by ids complete. SQL=" + idQuery.toString() + "  executionTime=" + dbCallDuration + "ms");
             }
             resources = this.createDTOs(resultSet);
         } catch(FHIRPersistenceException e) {
