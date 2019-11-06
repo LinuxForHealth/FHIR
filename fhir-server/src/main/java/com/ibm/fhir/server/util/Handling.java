@@ -7,7 +7,8 @@ package com.ibm.fhir.server.util;
 
 /**
  * Allowed options for the fhirServer/core/handling config property
- * @see <a href="https://tools.ietf.org/html/rfc7240#section-4.4">href="https://tools.ietf.org/html/rfc7240#section-4.4</a>
+ * 
+ * @see <a href="https://tools.ietf.org/html/rfc7240#section-4.4">https://tools.ietf.org/html/rfc7240#section-4.4</a>
  */
 public enum Handling {
     /**

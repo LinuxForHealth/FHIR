@@ -8,7 +8,7 @@ package com.ibm.fhir.core;
 /**
  * An enumeration of handling preference codes.
  * 
- * @see <a href="https://tools.ietf.org/html/rfc7240#section-4.4">href="https://tools.ietf.org/html/rfc7240#section-4.4</a>
+ * @see <a href="https://tools.ietf.org/html/rfc7240#section-4.4">https://tools.ietf.org/html/rfc7240#section-4.4</a>
  */
 public enum HTTPHandlingPreference {
     /**
