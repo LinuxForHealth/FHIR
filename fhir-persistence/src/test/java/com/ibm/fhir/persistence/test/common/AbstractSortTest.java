@@ -317,7 +317,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     private Meta tag(String tag) {
         return Meta.builder()
                    .tag(Coding.builder()
-                              .display(string(tag))
+                              .code(Code.of(tag))
                               .build())
                    .build();
     }

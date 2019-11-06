@@ -62,10 +62,12 @@ import javax.ws.rs.core.UriInfo;
 
 import org.owasp.encoder.Encode;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -138,6 +140,7 @@ import com.ibm.fhir.server.exception.FHIRHttpException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.helper.FHIRUrlParser;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
+import com.ibm.fhir.server.util.Handling;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -159,6 +162,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";
+    private static final String HEADERNAME_PREFER = "Prefer";
 
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistence persistence = null;
@@ -2088,22 +2092,56 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
+    /**
+     * Uses the handling property from the server config and the Prefer header from the request to determine which mode the server should use.
+     * 
+     * @throws IllegalArgumentException if the mode is STRICT and the Prefer header contains an invalid handling value.
+     */
     private boolean isLenient(Map<String, String> requestProperties) {
-        boolean lenient = true;
+        boolean isLenient = false; // Assign it to appease the compiler
+        String stringVal = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_HANDLING, Handling.STRICT.value());
+        Handling handlingConfig = Handling.from(stringVal);
+        
+        switch(handlingConfig) {
+        case LENIENT: {
+            String handlingStringValue = getHeaderValue(requestProperties, HEADERNAME_PREFER, "handling");
+            if ("strict".equalsIgnoreCase(handlingStringValue)) {
+                isLenient = false;
+            } else {
+                isLenient = true;
+            }
+            break;
+        }
+        case LENIENT_ONLY:
+            isLenient = true;
+            break;
 
-        String handlingStringValue = getHeaderValue(requestProperties, "Prefer", "handling");
-        if ("strict".equals(handlingStringValue)) {
-            lenient = false;
+        case STRICT: {
+            String handlingStringValue = getHeaderValue(requestProperties, HEADERNAME_PREFER, "handling");
+            if (handlingStringValue != null) {
+                // throws IllegalArgumentException for invalid values
+                isLenient = HTTPHandlingPreference.LENIENT == HTTPHandlingPreference.from(handlingStringValue);
+            } else {
+                isLenient = false;
+            }
+            break;
+        }
+        case STRICT_ONLY:
+            isLenient = false;
+            break;
         }
 
-        return lenient;
+        return isLenient;
     }
 
     /**
-     * Helper method for getting header values. Supports retrieval of a specific part from within a multipart header
-     * value.
+     * Helper method for getting header values.
      * 
-     * @partName optional
+     * <p>Supports the retrieval of a specific part from within a multi-part header value like
+     * {@code Prefer: return=representation; handling=lenient;}
+     * 
+     * @partName optional part name to return the value from
+     * @return the header (or header part) value or null if the header (or header part) does not exist
      */
     private String getHeaderValue(Map<String, String> requestProperties, String headerName,
         String partName) {
@@ -2121,7 +2159,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         String[] splitHeaderStringValues = headerStringValue.split(",");
         if (splitHeaderStringValues.length > 1) {
-            log.fine("Found multiple 'Prefer' header values; using the first one with partName '"
+            log.fine("Found multiple '" + headerName + "' header values; using the first one with partName '"
                     + partName + "'");
         }
 
