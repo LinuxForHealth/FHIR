@@ -527,7 +527,7 @@ public class SearchUtil {
         
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
-        List<Parameter> parameters = new ArrayList<>(); 
+        List<Parameter> parameters = new ArrayList<>();
 
         // Retrieve the SearchParameters that will apply to this resource type (including those for Resource.class).
         Map<String, SearchParameter> applicableSPs = getApplicableSearchParametersMap(resourceType.getSimpleName());

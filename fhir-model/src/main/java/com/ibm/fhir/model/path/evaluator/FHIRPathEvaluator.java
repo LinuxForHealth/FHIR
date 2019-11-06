@@ -258,10 +258,8 @@ public class FHIRPathEvaluator {
                 throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
             }
             FHIRPathNode node = getSingleton(currentContext);
-            if (type.isAssignableFrom(node.type())) {
-                return SINGLETON_TRUE;
-            }
-            return SINGLETON_FALSE;
+            
+            return type.isAssignableFrom(node.type()) ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
         private Collection<FHIRPathNode> ofType(List<ExpressionContext> arguments) {
