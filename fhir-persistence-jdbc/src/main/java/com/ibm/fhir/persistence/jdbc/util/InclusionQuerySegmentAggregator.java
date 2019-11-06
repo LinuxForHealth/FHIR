@@ -31,6 +31,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM ";
     private static final String UNION_ALL = " UNION ALL ";
     private static final String REVINCLUDE_JOIN = "JOIN  {0}_STR_VALUES P1 ON P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID ";
+    protected static final String ORDERING = " ORDER BY R.LOGICAL_RESOURCE_ID ASC ";
         
     private List<InclusionParameter> includeParameters;
     private List<InclusionParameter> revIncludeParameters;
@@ -132,9 +133,6 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         queryString.append(super.buildFromClause());
         queryString.append(super.buildWhereClause());
         
-        this.processIncludeParameters(queryString, allBindVariables);
-        this.processRevIncludeParameters(queryString, allBindVariables);
-        
         queryString.append(")");    
         queryString.append(COMBINED_RESULTS);    
         
@@ -166,18 +164,20 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         
         queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT);
         queryString.append("(");
+        queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT);
+        queryString.append("(");
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
         queryString.append(super.buildFromClause());
         queryString.append(super.buildWhereClause());
-        
+        // Add ordering
+        queryString.append(ORDERING);
+        this.addPaginationClauses(queryString);
+        queryString.append(") RESULT ");
         this.processIncludeParameters(queryString, allBindVariables);
         this.processRevIncludeParameters(queryString, allBindVariables);
         
         queryString.append(")");        
-        queryString.append(COMBINED_RESULTS);    
-        
-        this.addPaginationClauses(queryString);
-                 
+        queryString.append(COMBINED_RESULTS);
         queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
@@ -201,6 +201,10 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         subQueryString.append(super.buildFromClause());
         // Add WHERE clause for "root" resource type
         subQueryString.append(super.buildWhereClause());
+        // ORDER BY R.LOGICAL_RESOURCE_ID ASC
+        subQueryString.append(ORDERING);
+        // Only include resources related to the required page of the main resources.
+        this.addPaginationClauses(subQueryString);
         subQueryString.append(")");
 
         queryString.append("(");
@@ -276,6 +280,10 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             queryString.append(super.buildFromClause());
             // Add WHERE clause for "root" resource type
             queryString.append(super.buildWhereClause());
+            // ORDER BY R.LOGICAL_RESOURCE_ID ASC
+            queryString.append(ORDERING);
+            // Only include resources related to the required page of the main resources.
+            this.addPaginationClauses(queryString);
             
             queryString.append(")");
                         
