@@ -42,7 +42,7 @@ public interface IDatabaseTypeAdapter {
      *           and excludes the precision if it is null
      */
     default public String timestampClause(Integer precision) {
-        StringBuilder typeDef = new StringBuilder().append("TIMESTAMP");
+        StringBuilder typeDef = new StringBuilder("TIMESTAMP");
         if (precision != null) {
             typeDef.append("(" + precision + ")");
         }
