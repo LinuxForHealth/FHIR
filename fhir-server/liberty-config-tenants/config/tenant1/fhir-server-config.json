@@ -4,6 +4,7 @@
 		"searchParameterFilter": {
 			"Observation": ["subject",
 			"patient",
+			"value-quantity",
 			"component-value-quantity"],
 			"Resource": ["_id"],
 			"*": ["*"]

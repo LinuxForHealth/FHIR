@@ -60,7 +60,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
     //                                                                                 0               
-    //                                                                                 1 2 3 4 5 6 7 8 
+    //                                                                                 1 2 3 4 5 6 7 8
+    // Don't forget that we must account for IN and OUT parameters.
     private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
@@ -399,7 +400,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             resultSet = stmt.executeQuery();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             if (log.isLoggable(Level.FINE)) {
-                log.fine("DB search for ids complete. executionTime=" + dbCallDuration + "ms");
+                log.fine("DB search for ids complete. " + queryData + "  executionTime=" + dbCallDuration + "ms");
             }
             while(resultSet.next()) {
                 resourceIds.add(resultSet.getLong(1));
@@ -454,14 +455,14 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             resultSet = stmt.executeQuery();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             if (log.isLoggable(Level.FINE)) {
-                log.fine("DB search by ids complete. executionTime=" + dbCallDuration + "ms");
+                log.fine("DB search by ids complete. SQL=[" + idQuery + "]  executionTime=" + dbCallDuration + "ms");
             }
             resources = this.createDTOs(resultSet);
         } catch(FHIRPersistenceException e) {
             throw e;
         } catch (Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources");
-            errMsg = "Failure retrieving FHIR Resources. SQL=" + idQuery;
+            errMsg = "Failure retrieving FHIR Resources. SQL=[" + idQuery + "]";
             throw severe(log, fx, errMsg, e);
         } finally {
             this.cleanup(resultSet, stmt, connection);
@@ -587,7 +588,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(20));
+            resource.setId(stmt.getLong(8));
 
             // Parameter time - enable multitenncy on the DAO.
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context

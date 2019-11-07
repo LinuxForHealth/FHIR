@@ -117,20 +117,6 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
 
-        // lenient is the default, so leaving out the Prefer header should be equivalent
-        response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-
-        // lenient is the default, so a bogus value should be ignored
-        response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=other;strict").get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-
         // in strict mode, an unknown parameter should result in a 400 Bad Request
         response =
                 target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=strict").get();

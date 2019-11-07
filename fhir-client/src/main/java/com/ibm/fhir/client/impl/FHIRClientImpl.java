@@ -765,9 +765,12 @@ public class FHIRClientImpl implements FHIRClient {
             // Set the http client's receive timeout setting
             cb.property("http.receive.timeout", getHttpTimeout()); // defaults to 60s
             
-            // Tell Apache CXF to use the Async HTTP conduit for PATCH operation as the
+            // true: If need, tell Apache CXF to use the Async HTTP conduit for PATCH operation as the
             // default HTTP conduit does not support PATCH
-            cb.property("use.async.http.conduit", true);
+            // false(default): To avoid the http async client time out issue (http://mail-archives.apache.org
+            // /mod_mbox/hc-dev/201909.mbox/%3CJIRA.13256372.1568301069000.62179.1568450580088@Atlassian.JIRA%3E),
+            // please set this to false.
+            cb.property("use.async.http.conduit", false);
 
             // Add request/response logging if enabled.
             if (isLoggingEnabled()) {

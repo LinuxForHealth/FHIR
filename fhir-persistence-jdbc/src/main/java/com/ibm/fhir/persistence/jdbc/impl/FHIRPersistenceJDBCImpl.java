@@ -1045,7 +1045,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                         if (sp.getId() != null) {
                             msg.append(" with id '" + sp.getId().getValue() + "'");
                         }
-                        msg.append("' for resource type " + fhirResource.getClass().getSimpleName());
+                        msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
                         log.log(Level.INFO, msg.toString(), e);
                         // TODO: add an issue to the OperationOutcome in the return object
                     }

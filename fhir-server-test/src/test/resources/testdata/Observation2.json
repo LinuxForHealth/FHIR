@@ -1,43 +1,44 @@
 {
-        "resourceType" : "Observation",
-        "status" : "final",
-        "category" : [{
-            "coding" : [ {
-                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code" : "vital-signs",
-                "display" : "Vital Signs"
-            } ]
-        }],
-        "code" : {
-            "coding" : [ {
-                "system" : "http://loinc.org",
-                "code" : "55284-4",
-                "display" : "Blood pressure systolic and diastolic"
-            } ]
-        },
-        "component" : [ {
-            "code" : {
-                "coding" : [ {
-                    "system" : "http://loinc.org",
-                    "code" : "8459-0",
-                    "display" : "BP sys--sitting"
-                } ]
-            },
-            "valueQuantity" : {
-                "value" : 133.0,
-                "unit" : "mmHg"
-            }
-        }, {
-            "code" : {
-                "coding" : [ {
-                    "system" : "http://loinc.org",
-                    "code" : "8453-3",
-                    "display" : "BP dias--sitting"
-                } ]
-            },
-            "valueQuantity" : {
-                "value" : 68.0,
-                "unit" : "mmHg"
-            }
-        } ]
+	"resourceType": "Observation",
+	"status": "final",
+	"category": [{
+		"coding": [{
+			"system": "http://terminology.hl7.org/CodeSystem/observation-category",
+			"code": "vital-signs",
+			"display": "Vital Signs"
+		}]
+	}],
+	"code": {
+		"coding": [{
+			"system": "http://loinc.org",
+			"code": "55284-4",
+			"display": "Blood pressure systolic and diastolic"
+		}]
+	},
+	"component": [{
+		"code": {
+			"coding": [{
+				"system": "http://loinc.org",
+				"code": "8459-0",
+				"display": "BP sys--sitting"
+			}]
+		},
+		"valueQuantity": {
+			"value": 133.0,
+			"unit": "mmHg"
+		}
+	},
+	{
+		"code": {
+			"coding": [{
+				"system": "http://loinc.org",
+				"code": "8453-3",
+				"display": "BP dias--sitting"
+			}]
+		},
+		"valueQuantity": {
+			"value": 68.0,
+			"unit": "mmHg"
+		}
+	}]
 }
