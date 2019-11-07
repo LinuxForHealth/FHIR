@@ -2124,7 +2124,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
                 "returned multiple matches");
         assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
-                "An error occurred while parsing search parameter");
+                "Search parameter 'BAD' for resource type 'Patient' was not found.");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
@@ -2195,7 +2195,7 @@ public class BundleTest extends FHIRServerTestBase {
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 1);
         assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
-                "An error occurred while parsing search parameter");
+                "Search parameter 'BAD' for resource type 'Patient' was not found.");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
@@ -2229,7 +2229,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
                 "returned multiple matches");
         assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
-                "An error occurred while parsing search parameter");
+                "Search parameter 'NOTASEARCH' for resource type 'Patient' was not found.");
 
         // Next, verify that we have two versions of the Patient resource.
         response = client.history("Patient", patientId, null);
@@ -2296,7 +2296,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
                 "returned multiple matches");
         assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
-                "An error occurred while parsing search parameter");
+                "Search parameter 'NOTASEARCH' for resource type 'Patient' was not found.");
 
         // Next, verify that we can't read the Patient resource.
         response = client.read("Patient", patientId);

@@ -563,27 +563,11 @@ public class SearchUtil {
                         parameters.add(chainedParameter);
                     }
                 } else {
-                    // Parse name into parameter name.
+                    // Parse name into parameter name and modifier (if present).
                     String parameterName = name;
-                    SearchConstants.Modifier modifier = null;
-                    String modifierResourceTypeName = null;
+                    String mod = null;
                     if (parameterName.contains(":")) {
-                        String mod = parameterName.substring(parameterName.indexOf(":") + 1);
-                        if (ModelSupport.isResourceType(mod)) {
-                            modifier = SearchConstants.Modifier.TYPE;
-                            modifierResourceTypeName = mod;
-                        } else {
-                            try {
-                                modifier = SearchConstants.Modifier.fromValue(mod);
-                                if (!SearchConstants.Modifier.isSupported(modifier)) {
-                                    String msg = "Modifier not allowed: " + mod;
-                                    throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                                }
-                            } catch (IllegalArgumentException e) {
-                                String msg = "Undefined Modifier: " + mod;
-                                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                            }
-                        }
+                        mod = parameterName.substring(parameterName.indexOf(":") + 1);
                         parameterName = parameterName.substring(0, parameterName.indexOf(":"));
                     }
 
@@ -596,10 +580,27 @@ public class SearchUtil {
 
                     // Get the type of parameter so that we can use it to parse the value.
                     SearchConstants.Type type = SearchConstants.Type.fromValue(searchParameter.getType().getValue());
-
-                    if (modifier != null && !isAllowed(type, modifier)) {
-                        String msg = "Unsupported type/modifier combination: " + type.value() + "/" + modifier.value();
-                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    
+                    // Process the modifier
+                    SearchConstants.Modifier modifier = null;
+                    String modifierResourceTypeName = null;
+                    if (mod != null) {
+                        if (ModelSupport.isResourceType(mod)) {
+                            modifier = SearchConstants.Modifier.TYPE;
+                            modifierResourceTypeName = mod;
+                        } else {
+                            try {
+                                modifier = SearchConstants.Modifier.fromValue(mod);
+                            } catch (IllegalArgumentException e) {
+                                String msg = "Undefined Modifier: " + mod;
+                                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                            }
+                        }
+    
+                        if (modifier != null && !isAllowed(type, modifier)) {
+                            String msg = "Unsupported type/modifier combination: " + type.value() + "/" + modifier.value();
+                            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                        }
                     }
 
                     for (String queryParameterValueString : queryParameters.get(name)) {
