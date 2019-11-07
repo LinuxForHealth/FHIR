@@ -15,6 +15,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -482,7 +483,65 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         }
          
     }
- 
+
+    private void checkIncludeAndRevIncludeResources(List<Resource> resources, int numOfPatients) {
+        HashSet<String> foundPatientOrgIds = new HashSet<String>();
+        HashSet<String> foundPatientIds = new HashSet<String>();
+        int numOfMatchedOrgs = 0;
+        for (Resource resource : resources) {
+            if (resource instanceof Patient) {
+                if (((Patient)resource).getManagingOrganization() != null) {
+                    foundPatientOrgIds.add(((Patient)resource).getManagingOrganization()
+                            .getReference().getValue().substring(13));
+                }
+                foundPatientIds.add(resource.getId().getValue());
+            } 
+        }
+        // verify the number of patients in the result page.
+        assertTrue(numOfPatients == foundPatientIds.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Observation) {
+                // verify the returned observations are related to the patients of the same page
+                assertTrue(foundPatientIds.contains(((Observation)resource).getSubject()
+                        .getReference().getValue().substring(8)));
+            } else if (resource instanceof Organization) {
+                // verify the returned managing organizations are related to the patients of the same page
+                assertTrue(foundPatientOrgIds.contains(resource.getId().getValue()));
+                numOfMatchedOrgs++;
+            } else if (resource instanceof Patient) {
+                assertTrue(foundPatientIds.contains(resource.getId().getValue()));
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+        // verify all related managing organizations are in the same page.
+        assertTrue(numOfMatchedOrgs == foundPatientOrgIds.size());
+    }
+    /**
+     * This test queries page of Patient with inclusion of the referenced managing organizations. 
+     * and also requests the reverse inclusion of Observations.
+     * It verifies:
+     * (1) the number of patients in the result page; 
+     * (2) the returned managing organizations and observations are related to the patients of the same page;
+     * (3) all related managing organizations are in the same page.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeAndRevIncludeMultiplePatients() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_include", Collections.singletonList("Patient:organization"));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:patient"));
+        queryParms.put("_count", Collections.singletonList("2"));
+        queryParms.put("_page", Collections.singletonList("1"));
+        List<Resource> resources = runQueryTest(Patient.class, queryParms);
+        assertNotNull(resources);
+        // check the first page
+        checkIncludeAndRevIncludeResources(resources, 2);
+        queryParms.put("_page", Collections.singletonList("2"));
+        // check the second page
+        checkIncludeAndRevIncludeResources(resources, 2);
+    }
+
     private Reference reference(String reference) {
         return Reference.builder().reference(string(reference)).build();
     }
