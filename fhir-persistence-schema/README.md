@@ -102,7 +102,7 @@ The schema is then available for use.
 
 # Creating the database 
 
-Create the database and database user, please use the following command.
+To create the database and database user, please use the following command.
 
 ``` shell 
 useradd fhiruser
