@@ -15,6 +15,14 @@ Builds and manages the multi-tenant FHIR R4 RDBMS schema (DB2). Includes Derby s
 --confirm-drop
 ```
 
+## Creates New Schema
+
+```
+--prop-file fhir.properties
+--schema-name FHIRDATA
+--create-schemas
+```
+
 ## Deploy New Schema
 
 ```
