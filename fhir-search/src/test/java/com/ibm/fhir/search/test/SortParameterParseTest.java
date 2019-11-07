@@ -31,12 +31,7 @@ import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
- * 
- * This UNIT test class contains methods that test the parsing of sort parameters in the SearchUtil class.
- * 
- * @author markd
- * @author pbastide
- *
+ * This unit test class contains methods that test the parsing of sort parameters in the SearchUtil class.
  */
 public class SortParameterParseTest extends BaseSearchTest {
 
@@ -60,7 +55,7 @@ public class SortParameterParseTest extends BaseSearchTest {
      * @throws Exception
      */
     @Test
-    public void testUnknownSortParm() throws Exception {
+    public void testUnknownSortParm_lenient() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         FHIRSearchContext searchContext;
         Class<Patient> resourceType = Patient.class;
@@ -68,7 +63,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         // In lenient mode, invalid search parameters should be ignored
         queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty());
 

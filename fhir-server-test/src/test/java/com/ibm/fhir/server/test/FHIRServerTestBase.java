@@ -481,7 +481,7 @@ public abstract class FHIRServerTestBase {
         assertNotNull(ooi.getDetails());
         String msg = ooi.getDetails().getText().getValue();
         assertNotNull(msg);
-        assertTrue(msg.contains(msgPart));
+        assertTrue("Error message '" + msg + "' does not contain expected text '" + msgPart + "'", msg.contains(msgPart));
     }
 
     protected void assertValidationOperationOutcome(OperationOutcome oo, String msgPart) {

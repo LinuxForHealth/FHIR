@@ -1,59 +1,58 @@
 {
-        "resourceType" : "Observation",
-        "status" : "final",
-        "category" : [{
-            "coding" : [ {
-                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code" : "vital-signs",
-                "display" : "Vital Signs"
-            } ]
-        }],
-        "valueRange" : {
-        "low" : {
-            "system":"http://loinc.org",
-             "code":"v15074-8",
-            "value" : 3.0,
-            "unit" : "mg"
-        },
-        "high" : {
-            "value" : 7.0,
-             "system":"http://loinc.org",
-             "code":"v15074-8",
-            "unit" : "mg"
-        }
-    },
-        "code" : {
-            "coding" : [ {
-                "system" : "http://loinc.org",
-                "code" : "55284-4",
-                "display" : "Blood pressure systolic and diastolic"
-            } ]
-        },
-        "component" : [ {
-            "code" : {
-                "coding" : [ {
-                    "system" : "http://loinc.org",
-                    "code" : "8459-0",
-                    "display" : "BP sys--sitting"
-                } ]
-            },
-            "valueQuantity" : {
-                "value" : 124.8,
-                "unit" : "mmHg"
-            }
-           
-        }, {
-            "code" : {
-                "coding" : [ {
-                    "system" : "http://loinc.org",
-                    "code" : "8453-3",
-                    "display" : "BP dias--sitting"
-                } ]
-            },
-            "valueQuantity" : {
-                "value" : 103.7,
-                "unit" : "mmHg"
-            }
-         
-        } ]
+	"resourceType": "Observation",
+	"status": "final",
+	"category": [{
+		"coding": [{
+			"system": "http://terminology.hl7.org/CodeSystem/observation-category",
+			"code": "vital-signs",
+			"display": "Vital Signs"
+		}]
+	}],
+	"valueRange": {
+		"low": {
+			"system": "http://loinc.org",
+			"code": "v15074-8",
+			"value": 3.0,
+			"unit": "mg"
+		},
+		"high": {
+			"value": 7.0,
+			"system": "http://loinc.org",
+			"code": "v15074-8",
+			"unit": "mg"
+		}
+	},
+	"code": {
+		"coding": [{
+			"system": "http://loinc.org",
+			"code": "55284-4",
+			"display": "Blood pressure systolic and diastolic"
+		}]
+	},
+	"component": [{
+		"code": {
+			"coding": [{
+				"system": "http://loinc.org",
+				"code": "8459-0",
+				"display": "BP sys--sitting"
+			}]
+		},
+		"valueQuantity": {
+			"value": 124.8,
+			"unit": "mmHg"
+		}
+	},
+	{
+		"code": {
+			"coding": [{
+				"system": "http://loinc.org",
+				"code": "8453-3",
+				"display": "BP dias--sitting"
+			}]
+		},
+		"valueQuantity": {
+			"value": 103.7,
+			"unit": "mmHg"
+		}
+	}]
 }
