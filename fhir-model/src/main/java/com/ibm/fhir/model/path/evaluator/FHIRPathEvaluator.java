@@ -250,7 +250,7 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             if (currentContext.isEmpty()) {
                 // early exit
-                return empty();
+                return SINGLETON_FALSE;
             } else if (currentContext.size() > 1) {
                 throw new IllegalArgumentException(String.format("Input collection has %d items, but only 1 is allowed", currentContext.size()));
             }
@@ -882,11 +882,7 @@ public class FHIRPathEvaluator {
             indentLevel++;
             
             Collection<FHIRPathNode> nodes = visit(ctx.expression());
-            if (nodes.isEmpty()) {
-                // early exit
-                indentLevel--;
-                return empty();
-            }
+            
             String operator = ctx.getChild(1).getText();
             
             Collection<FHIRPathNode> result = "is".equals(operator) ? SINGLETON_FALSE : new ArrayList<>();
@@ -901,10 +897,11 @@ public class FHIRPathEvaluator {
             case "is":
                 if (!isSingleton(nodes)) {
                     throw new IllegalArgumentException(String.format("Input collection has %d items, but only 1 is allowed", nodes.size()));
-                }
-                FHIRPathNode node = getSingleton(nodes);
-                if (type.isAssignableFrom(node.type())) {
-                    result = SINGLETON_TRUE;
+                } else if (!nodes.isEmpty()) {
+                    FHIRPathNode node = getSingleton(nodes);
+                    if (type.isAssignableFrom(node.type())) {
+                        result = SINGLETON_TRUE;
+                    }
                 }
                 break;
             case "as":
