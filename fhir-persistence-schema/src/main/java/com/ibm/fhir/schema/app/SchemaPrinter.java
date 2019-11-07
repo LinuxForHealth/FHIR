@@ -55,11 +55,23 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 /**
- * A simple main method for printing the DDL of the FHIR Server.<br>
+ * The SchemaPrinter outputs the DDL into three files - schema.sql, grants.sql, stored-procedures.sql.<br>
+ * These files are generated using Mock java.sql objects.  These mock objects follow through the code to<br>
+ * capture the SQL as it flows to the prospective database:<br>
+ * <ul>
+ *  <li>Build a JDBCTarget with PrintConnection</li>
+ *  <li>The Database Tools builds the schema retrieving a PreparedStatement, CallableStatement or Statement
+ *      from the PrintConnection</li>
+ *  <li>The PrintConnection passes a PrintPreparedStatement, PrintCallableStatement, PrintStatement</li>
+ *  <li>As the prepareStatement, execute or executeQuery are executed, the SQL passed is put into the commands or
+ *      stored procedures map.</li>
+ *  <li>the results, after the full schema generation, is printed out to console or files</li>
+ * <ul>
+ * <br>
  * For real work, use {@link Main}.<br>
  * <br>
  * To run this code, build the jar (fhir-database-utils and fhir-persistence-schema) <br>
- * java -cp ./fhir-database-utils.jar:fhir-persistence-schema.jar com.ibm.fhir.schema.app.SimpleSchemaPrinter [--to-file]<br>
+ * java -cp ./fhir-database-utils.jar:fhir-persistence-schema.jar com.ibm.fhir.schema.app.SchemaPrinter [--to-file]<br>
  * <br>
  * Without to-file, the output is the current System.out else it's schema.sql, grants.sql and stored-procedures.sql of <br>
  * the current directory.<br>
@@ -70,7 +82,7 @@ import com.ibm.fhir.schema.control.FhirSchemaGenerator;
  * - stored-procedures.sql {@code db2 -td@ -vf stored-procedures.sql}<br>
  * <br>
  */
-public class SimpleSchemaPrinter {
+public class SchemaPrinter {
     private static final String SCHEMA_NAME = "FHIRAPP";
     private static final String ADMIN_SCHEMA_NAME = "FHIRADMIN";
 
@@ -93,7 +105,7 @@ public class SimpleSchemaPrinter {
     /**
      *  constructor that switches behavior toFile our output stream. 
      */
-    public SimpleSchemaPrinter(boolean toFile) throws FileNotFoundException {
+    public SchemaPrinter(boolean toFile) throws FileNotFoundException {
 
         this.toFile = toFile;
 
@@ -248,7 +260,7 @@ public class SimpleSchemaPrinter {
         }
 
         try {
-            SimpleSchemaPrinter printer = new SimpleSchemaPrinter(outputToFile);
+            SchemaPrinter printer = new SchemaPrinter(outputToFile);
             printer.process();
             printer.print();
             printer.processApplyGrants();
@@ -262,7 +274,7 @@ public class SimpleSchemaPrinter {
      * The following classes are 'dummy implementations' that enable printing of the
      * SQL.
      */
-    public class PrintConnection implements java.sql.Connection {
+    class PrintConnection implements java.sql.Connection {
 
         @Override
         public <T> T unwrap(Class<T> iface) throws SQLException {
@@ -569,7 +581,7 @@ public class SimpleSchemaPrinter {
 
     }
 
-    public class PrintPreparedStatement implements java.sql.PreparedStatement {
+    class PrintPreparedStatement implements java.sql.PreparedStatement {
 
         @Override
         public ResultSet executeQuery(String sql) throws SQLException {
@@ -1103,7 +1115,7 @@ public class SimpleSchemaPrinter {
 
     }
 
-    public class PrintStatement implements java.sql.Statement {
+    class PrintStatement implements java.sql.Statement {
 
         @Override
         public <T> T unwrap(Class<T> iface) throws SQLException {
@@ -1357,7 +1369,7 @@ public class SimpleSchemaPrinter {
 
     }
 
-    public class PrintResultSet implements java.sql.ResultSet {
+    class PrintResultSet implements java.sql.ResultSet {
 
         @Override
         public <T> T unwrap(Class<T> iface) throws SQLException {
@@ -2407,7 +2419,7 @@ public class SimpleSchemaPrinter {
 
     }
 
-    public class PrintCallableStatement implements java.sql.CallableStatement {
+    class PrintCallableStatement implements java.sql.CallableStatement {
 
         @Override
         public ResultSet executeQuery() throws SQLException {

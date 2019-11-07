@@ -96,7 +96,7 @@ Edit `wlp/usr/servers/fhir-server/config/TNT1/fhir-server-config.json` and add t
 To run this code, build the jar (fhir-database-utils and fhir-persistence-schema)
 
 ``` shell 
-java -cp ./fhir-database-utils.jar:fhir-persistence-schema.jar com.ibm.fhir.schema.app.SimpleSchemaPrinter [--to-file]
+java -cp ./fhir-database-utils.jar:fhir-persistence-schema.jar com.ibm.fhir.schema.app.SchemaPrinter [--to-file]
 ```
 
 Without to-file, the output is the current System.out else it's schema.sql, grants.sql and stored-procedures.sql of the current directory.
