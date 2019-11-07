@@ -11,7 +11,7 @@ package com.ibm.fhir.database.utils.api;
  * types like varbinary/varchar as bit data etc.
  */
 public interface IDatabaseTypeAdapter {
-    
+
     /**
      * Generate a clause for binary data type
      * @param size
@@ -42,7 +42,7 @@ public interface IDatabaseTypeAdapter {
      *           and excludes the precision if it is null
      */
     default public String timestampClause(Integer precision) {
-        StringBuilder typeDef = new StringBuilder();
+        StringBuilder typeDef = new StringBuilder().append("TIMESTAMP");
         if (precision != null) {
             typeDef.append("(" + precision + ")");
         }
