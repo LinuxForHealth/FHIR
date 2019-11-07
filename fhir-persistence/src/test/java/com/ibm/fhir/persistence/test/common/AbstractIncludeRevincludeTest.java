@@ -520,13 +520,12 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     /**
      * This test queries page of Patient with inclusion of the referenced managing organizations.
      * and also requests the reverse inclusion of Observations.
-     * <p>
-     * It verifies:
-     * <ul>
-     * <li>(1) the number of patients in the result page;
-     * <li>(2) the returned managing organizations and observations are related to the patients of the same page;
-     * <li>(3) all related managing organizations are in the same page.
-     * </ul>
+     * <p>It verifies:
+     * <ol>
+     * <li>the number of patients in the result page;
+     * <li>the returned managing organizations and observations are related to the patients of the same page;
+     * <li>all related managing organizations are in the same page.
+     * </ol>
      * @throws Exception
      */
     @Test
