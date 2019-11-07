@@ -61,69 +61,69 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
         Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
-        
+
         // an Organization that will be referenced by a Patient
         savedOrg1 = persistence.create(getDefaultPersistenceContext(), org).getResource();
-        
+
         // an Encounter that will be used as a reference within an Observation
         savedEncounter1 = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
-        
+
         // an Observation that has no references to any other resource types
         savedObservation1 = persistence.create(getDefaultPersistenceContext(), observation).getResource();
-        
+
         // a Patient that will be used as a reference within an Observation
         savedPatient1 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
-        
+
         // an Observation with a reference to a patient
         savedObservation2 = observation.toBuilder().subject(reference("Patient/" + savedPatient1.getId().getValue())).build();
         savedObservation2 = persistence.create(getDefaultPersistenceContext(), savedObservation2).getResource();
-        
+
         // an Observation with a reference to a patient and a reference to an Encounter
         savedObservation3 = observation.toBuilder()
                                        .subject(reference("Patient/" + savedPatient1.getId().getValue()))
                                        .encounter(reference("Encounter/" + savedEncounter1.getId().getValue()))
                                        .build();
         savedObservation3 = persistence.create(getDefaultPersistenceContext(), savedObservation3).getResource();
-        
+
         // a Patient that will be used as a reference within an Observation
         savedPatient2 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
         // update the patient
         savedPatient2 = savedPatient2.toBuilder().name(humanName("Vito", "Corleone")).build();
         savedPatient2 = persistence.update(getDefaultPersistenceContext(), savedPatient2.getId().getValue(), savedPatient2).getResource();
-        
+
         // an Observation with a reference to a patient and a reference to an Encounter
         savedObservation4 = observation.toBuilder()
                                        .subject(reference("Patient/" + savedPatient2.getId().getValue()))
                                        .encounter(reference("Encounter/" + savedEncounter1.getId().getValue()))
                                        .build();
         savedObservation4 = persistence.create(getDefaultPersistenceContext(), savedObservation4).getResource();
-        
+
         // a Patient that will be used as a reference within an Observation and a Device
         // also, it will contain a reference to a managing organization
         savedPatient3 = patient.toBuilder().managingOrganization(reference("Organization/" + savedOrg1.getId().getValue())).build();
         savedPatient3 = persistence.create(getDefaultPersistenceContext(), savedPatient3).getResource();
-        
+
         // an Observation with a reference to a patient
         savedObservation5 = observation.toBuilder().subject(reference("Patient/" + savedPatient3.getId().getValue())).build();
         savedObservation5 = persistence.create(getDefaultPersistenceContext(), savedObservation5).getResource();
-        
+
         // a Device with a reference to a patient
         savedDevice1 = device.toBuilder().patient(reference("Patient/" + savedPatient3.getId().getValue())).build();
         savedDevice1 = persistence.create(getDefaultPersistenceContext(), savedDevice1).getResource();
         // update the device
         savedDevice1 = savedDevice1.toBuilder().manufacturer(string("Updated Manufacturer")).build();
         savedDevice1 = persistence.update(getDefaultPersistenceContext(), savedDevice1.getId().getValue(), savedDevice1).getResource();
-        
+
         // a Patient that will have no other resources referencing it
         savedPatient4 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
     }
-    
+
     @AfterClass
     public void deleteResources() throws Exception {
-        Resource[] resources = {savedPatient1, savedPatient2, savedPatient3, savedPatient4, 
+        Resource[] resources = {savedPatient1, savedPatient2, savedPatient3, savedPatient4,
                 savedObservation1, savedObservation2, savedObservation3, savedObservation4, savedObservation5,
                 savedEncounter1, savedDevice1, savedOrg1};
-        
+
         if (persistence.isDeleteSupported()) {
             for (Resource resource : resources) {
                 persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId().getValue());
@@ -133,10 +133,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
      * This test queries an Observation and requests the inclusion of a referenced Patient. The Observation does NOT
-     * contain a referenced patient. 
+     * contain a referenced patient.
      * @throws Exception
      */
     @Test
@@ -150,7 +150,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         assertEquals("Observation", resources.get(0).getClass().getSimpleName());
         assertEquals(savedObservation1.getId().getValue(), resources.get(0).getId().getValue());
     }
-    
+
     /**
      * This test queries an Observation and requests the inclusion of a referenced Patient.
      * The Observation does contain a referenced patient.
@@ -176,9 +176,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries an Observation and requests the inclusion of a referenced Patient and a referenced Encounter. 
+     * This test queries an Observation and requests the inclusion of a referenced Patient and a referenced Encounter.
      * The Observation only contains a referenced patient.
      * @throws Exception
      */
@@ -202,9 +202,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries an Observation and requests the inclusion of a referenced Patient and a referenced Encounter. 
+     * This test queries an Observation and requests the inclusion of a referenced Patient and a referenced Encounter.
      * The Observation contains BOTH a referenced patient and encounter.
      * @throws Exception
      */
@@ -231,10 +231,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries an Observation and requests the inclusion of a referenced Patient and a referenced Encounter. 
-     * The Observation contains BOTH a referenced patient and encounter. The patient referenced has 2 versions; only the 
+     * This test queries an Observation and requests the inclusion of a referenced Patient and a referenced Encounter.
+     * The Observation contains BOTH a referenced patient and encounter. The patient referenced has 2 versions; only the
      * latest version should be returned.
      * @throws Exception
      */
@@ -262,9 +262,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries an Observation, and requests the inclusion of all referenced subjects, which consists of 
+     * This test queries an Observation, and requests the inclusion of all referenced subjects, which consists of
      * resource types: Device, Location, Patient, Group. The Observation contains one referenced patient.
      * @throws Exception
      */
@@ -288,9 +288,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries a Patient and requests the reverse inclusion of an Observation that references the Patient. 
+     * This test queries a Patient and requests the reverse inclusion of an Observation that references the Patient.
      * The Observation does contain a referenced patient.
      * @throws Exception
      */
@@ -315,10 +315,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries a Patient, and requests the reverse inclusion of the resource referred to by Observation.subject.   
-     * Observation.subject can represent multiple resource types. But on a reverse include, the only resource type applicable for subject is the "root" type being 
+     * This test queries a Patient, and requests the reverse inclusion of the resource referred to by Observation.subject.
+     * Observation.subject can represent multiple resource types. But on a reverse include, the only resource type applicable for subject is the "root" type being
      * queried, in this case, Patient.
      * @throws Exception
      */
@@ -343,9 +343,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries a Patient and requests the reverse inclusion of referenced Observations and referenced Devices. 
+     * This test queries a Patient and requests the reverse inclusion of referenced Observations and referenced Devices.
      * There are 2 Observations that refer back to the Patient. There are no Devices referencing the Patient.
      * @throws Exception
      */
@@ -370,9 +370,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries a Patient and requests the reverse inclusion of referenced Observations and referenced Devices. 
+     * This test queries a Patient and requests the reverse inclusion of referenced Observations and referenced Devices.
      * There is 1 Observation1 that refers back to the Patient and one Device referencing the Patient.
      * @throws Exception
      */
@@ -399,10 +399,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries a Patient and requests the reverse inclusion of referenced Observations and referenced Devices. 
-     * There is 1 Observation1 that refers back to the Patient. There are two versions of a single Device referencing 
+     * This test queries a Patient and requests the reverse inclusion of referenced Observations and referenced Devices.
+     * There is 1 Observation1 that refers back to the Patient. There are two versions of a single Device referencing
      * the Patient. The referenced Observation should be returned along with only the latest version of the Device.
      * @throws Exception
      */
@@ -430,9 +430,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
     }
-    
+
     /**
-     * This test queries a Patient and requests the reverse inclusion of referencing Observations and Devices. 
+     * This test queries a Patient and requests the reverse inclusion of referencing Observations and Devices.
      * The Patient is NOT referenced from any other resources.
      * @throws Exception
      */
@@ -452,9 +452,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             fail("Unexpected resource type");
         }
     }
-    
+
     /**
-     * This test queries a Patient and requests the inclusion of the referenced managing organization. 
+     * This test queries a Patient and requests the inclusion of the referenced managing organization.
      * Also, it requests the reverse inclusion of Observations.
      * @throws Exception
      */
@@ -481,7 +481,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 fail("Unexpected resource type returned.");
             }
         }
-         
+
     }
 
     private void checkIncludeAndRevIncludeResources(List<Resource> resources, int numOfPatients) {
@@ -495,7 +495,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                             .getReference().getValue().substring(13));
                 }
                 foundPatientIds.add(resource.getId().getValue());
-            } 
+            }
         }
         // verify the number of patients in the result page.
         assertTrue(numOfPatients == foundPatientIds.size());
@@ -518,10 +518,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         assertTrue(numOfMatchedOrgs == foundPatientOrgIds.size());
     }
     /**
-     * This test queries page of Patient with inclusion of the referenced managing organizations. 
+     * This test queries page of Patient with inclusion of the referenced managing organizations.
      * and also requests the reverse inclusion of Observations.
      * It verifies:
-     * (1) the number of patients in the result page; 
+     * (1) the number of patients in the result page;
      * (2) the returned managing organizations and observations are related to the patients of the same page;
      * (3) all related managing organizations are in the same page.
      * @throws Exception
@@ -538,6 +538,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         // check the first page
         checkIncludeAndRevIncludeResources(resources, 2);
         queryParms.put("_page", Collections.singletonList("2"));
+        resources = runQueryTest(Patient.class, queryParms);
         // check the second page
         checkIncludeAndRevIncludeResources(resources, 2);
     }
@@ -545,7 +546,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     private Reference reference(String reference) {
         return Reference.builder().reference(string(reference)).build();
     }
-    
+
     private HumanName humanName(String firstName, String lastName) {
         return HumanName.builder().given(string(firstName)).family(string(lastName)).build();
     }
