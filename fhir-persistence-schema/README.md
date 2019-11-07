@@ -85,7 +85,7 @@ Edit `wlp/usr/servers/fhir-server/config/TNT1/fhir-server-config.json` and add t
 
 # Printing the Schema
 
-To run this code, build the jar (fhir-database-utils and fhir-persistence-schema) <br>
+To run this code, build the jar (fhir-database-utils and fhir-persistence-schema)
 
 ``` shell 
 java -cp ./fhir-database-utils.jar:fhir-persistence-schema.jar com.ibm.fhir.schema.app.SimpleSchemaPrinter [--to-file]
