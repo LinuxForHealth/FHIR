@@ -96,7 +96,7 @@ public final class ModelSupport {
     
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
-    private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
+    private static final Map<String, Class<? extends Resource>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
         Base64Binary.class, 
@@ -306,11 +306,12 @@ public final class ModelSupport {
         }
     }
 
-    private static Map<String, Class<?>> buildResourceTypeMap() {
-        Map<String, Class<?>> resourceTypeMap = new LinkedHashMap<>(256);
+    @SuppressWarnings("unchecked")
+    private static Map<String, Class<? extends Resource>> buildResourceTypeMap() {
+        Map<String, Class<? extends Resource>> resourceTypeMap = new LinkedHashMap<>(256);
         for (Class<?> modelClass : getModelClasses()) {
             if (isResourceType(modelClass)) {
-                resourceTypeMap.put(modelClass.getSimpleName(), modelClass);
+                resourceTypeMap.put(modelClass.getSimpleName(), (Class<? extends Resource>) modelClass);
             }
         }
         return Collections.unmodifiableMap(resourceTypeMap);
@@ -447,11 +448,11 @@ public final class ModelSupport {
         return MODEL_CLASS_ELEMENT_INFO_MAP.keySet();
     }
     
-    public static Class<?> getResourceType(String name) {
+    public static Class<? extends Resource> getResourceType(String name) {
         return RESOURCE_TYPE_MAP.get(name);
     }
     
-    public static Collection<Class<?>> getResourceTypes() {
+    public static Collection<Class<? extends Resource>> getResourceTypes() {
         return RESOURCE_TYPE_MAP.values();
     }
     

@@ -26,21 +26,21 @@ public interface IDatabaseAdapter {
 
     /**
      * Get the {@link IDatabaseTranslator} associated with this adapter
-     * 
+     *
      * @return
      */
     public IDatabaseTranslator getTranslator();
 
     /**
      * Create a new tablespace with the given name
-     * 
+     *
      * @param tablespaceName
      */
     public void createTablespace(String tablespaceName);
 
     /**
      * Create a new tablespace using the given extent size
-     * 
+     *
      * @param tablespaceName
      * @param extentSizeKB
      */
@@ -48,14 +48,14 @@ public interface IDatabaseAdapter {
 
     /**
      * Drop an existing tablespace, including all of its contents
-     * 
+     *
      * @param tablespaceName
      */
     public void dropTablespace(String tablespaceName);
 
     /**
      * Detach the partition
-     * 
+     *
      * @param schemaName
      * @param tableName
      * @param partitionName
@@ -65,7 +65,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Build the create table DDL
-     * 
+     *
      * @param schemaName
      * @param name
      * @param tenantColumnName optional column name to enable multi-tenancy
@@ -78,12 +78,12 @@ public interface IDatabaseAdapter {
 
     /**
      * Create ROW type used for passing values to stored procedures e.g.:
-     * 
+     *
      * <pre>
      * CREATE OR REPLACE TYPE <schema>.t_str_values AS ROW (parameter_name_id INTEGER,
      * str_value VARCHAR(511 OCTETS), str_value_lcase VARCHAR(511 OCTETS))
      * </pre>
-     * 
+     *
      * @param schemaName
      * @param typeName
      * @param columns
@@ -93,7 +93,7 @@ public interface IDatabaseAdapter {
     /**
      * Create ARRAY type used for passing values to stored procedures e.g.: CREATE
      * OR REPLACE TYPE <schema>.t_str_values_arr AS <schema>.t_str_values ARRAY[256]
-     * 
+     *
      * @param schemaName
      * @param typeName
      * @param valueType
@@ -103,7 +103,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Drop the type object from the schema
-     * 
+     *
      * @param schemaName
      * @param typeName
      */
@@ -111,7 +111,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Create the stored procedure using the DDL text provided by the supplier
-     * 
+     *
      * @param schemaName
      * @param procedureName
      * @param supplier
@@ -120,14 +120,14 @@ public interface IDatabaseAdapter {
 
     /**
      * Drop the given procedure
-     * 
+     *
      * @param schemaName
      * @param procedureName
      */
     public void dropProcedure(String schemaName, String procedureName);
 
     /**
-     * 
+     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -139,7 +139,7 @@ public interface IDatabaseAdapter {
             List<String> indexColumns, List<String> includeColumns);
 
     /**
-     * 
+     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -150,7 +150,7 @@ public interface IDatabaseAdapter {
             List<String> indexColumns);
 
     /**
-     * 
+     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -161,23 +161,23 @@ public interface IDatabaseAdapter {
             List<String> indexColumns);
 
     /**
-     * 
+     *
      * <pre>
      * CREATE VARIABLE ptng.session_tenant INT DEFAULT NULL;
      * </pre>
-     * 
+     *
      * @param schemaName
      * @param variableName
      */
     public void createIntVariable(String schemaName, String variableName);
 
     /**
-     * 
-     * <pre> 
+     *
+     * <pre>
      * CREATE PERMISSION ROW_ACCESS ON ptng.patients FOR ROWS WHERE patients.mt_id =
      * ptng.session_tenant ENFORCED FOR ALL ACCESS ENABLE;
-     * </pre> 
-     * 
+     * </pre>
+     *
      * @param schemaName
      * @param permissionName
      * @param tableName
@@ -186,11 +186,11 @@ public interface IDatabaseAdapter {
     public void createPermission(String schemaName, String permissionName, String tableName, String predicate);
 
     /**
-     * 
-     * 
+     *
+     *
      * <pre> ALTER TABLE <tbl> ACTIVATE ROW ACCESS CONTROL
      * </pre>
-     * 
+     *
      * @param schemaName
      * @param tableName
      */
@@ -199,7 +199,7 @@ public interface IDatabaseAdapter {
     /**
      * Deactivate row access control on a table ALTER TABLE <tbl> DEACTIVATE ROW
      * ACCESS CONTROL
-     * 
+     *
      * @param schemaName
      * @param tableName
      */
@@ -207,7 +207,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Build the DML statement for setting a session variable
-     * 
+     *
      * @param schemaName
      * @param variableName
      * @param value
@@ -216,7 +216,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Drop table from the schema
-     * 
+     *
      * @param schemaName
      * @param name
      */
@@ -224,7 +224,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Drop permission object from the schema
-     * 
+     *
      * @param schemaName
      * @param permissionName
      */
@@ -237,7 +237,7 @@ public interface IDatabaseAdapter {
     public void dropVariable(String schemaName, String variableName);
 
     /**
-     * 
+     *
      * @param constraintName
      * @param schemaName
      * @param name
@@ -251,7 +251,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Allocate a new tenant
-     * 
+     *
      * @param adminSchemaName
      * @param schemaName
      * @param tenantName
@@ -265,7 +265,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Get the tenant id for the given schema and tenant name
-     * 
+     *
      * @param adminSchemaName
      * @param tenantName
      * @return
@@ -274,7 +274,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Create the partitions on each of these tables
-     * 
+     *
      * @param tables
      * @param schemaName
      * @param newTenantId
@@ -286,7 +286,7 @@ public interface IDatabaseAdapter {
      * Detach the partitions from each of the given tables. The tenantStaingTable is
      * the name of the table used to record the "into" table name that the detached
      * partition becomes.
-     * 
+     *
      * @param tables
      * @param schemaName
      * @param tenantId
@@ -297,7 +297,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Update the tenant status
-     * 
+     *
      * @param adminSchemaName
      * @param tenantId
      * @param status
@@ -313,7 +313,7 @@ public interface IDatabaseAdapter {
     public void createSequence(String schemaName, String sequenceName, int cache);
 
     /**
-     * 
+     *
      * @param schemaName
      * @param sequenceName
      */
@@ -323,7 +323,7 @@ public interface IDatabaseAdapter {
      * Grant the list of privileges on the named object to the user. This is a
      * general purpose method which can be used to specify privileges for any object
      * type which doesn't need the object type to be specified in the grant DDL.
-     * 
+     *
      * @param schemaName
      * @param tableName
      * @param privileges
@@ -334,7 +334,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Grant the collection of privileges on the named procedure to the user
-     * 
+     *
      * @param schemaName
      * @param procedureName
      * @param privileges
@@ -345,7 +345,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Grant the collection of privileges on the named variable to the user
-     * 
+     *
      * @param schemaName
      * @param variableName
      * @param privileges
@@ -356,7 +356,7 @@ public interface IDatabaseAdapter {
 
     /**
      * Grant the collection of privileges on the named variable to the user
-     * 
+     *
      * @param schemaName
      * @param objectName
      * @param group
@@ -368,7 +368,7 @@ public interface IDatabaseAdapter {
     /**
      * Run the given supplier statement against the database represented by this
      * adapter
-     * 
+     *
      * @param <T>
      * @param supplier
      * @return
@@ -377,18 +377,28 @@ public interface IDatabaseAdapter {
 
     /**
      * Run the given statement against the database represented by this adapter
-     * 
+     *
      * @param statement
      */
     public void runStatement(IDatabaseStatement statement);
 
     /**
      * Check if the table currently exists
-     * 
+     *
      * @param schemaName
      * @param objectName
      * @return
      */
     public boolean doesTableExist(String schemaName, String objectName);
+
+
+    /**
+     * Create FHIR data and admin schemas
+     *
+     * @param schemaName
+     * @param adminSchemaName
+     */
+    public void createFhirSchemas(String schemaName, String adminSchemaName);
+
 
 }

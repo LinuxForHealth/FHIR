@@ -54,8 +54,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds a complete SQL Query based upon the encapsulated query segments and bind variables. This query
      * contains the necessary clauses to support sorted search results.
+     * <p>
      * A simple example query produced by this method:
-     * 
+     * <pre>
      * SELECT R.RESOURCE_ID,MIN(S1.STR_VALUE) FROM 
      * Patient_RESOURCES R JOIN 
      * Patient_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID  JOIN 
@@ -68,7 +69,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * GROUP BY R.RESOURCE_ID  
      * ORDER BY MIN(S1.STR_VALUE) asc NULLS LAST 
      * OFFSET 0 ROWS FETCH NEXT 100 ROWS ONLY;
-     * 
+     * </pre>
      * @return SqlQueryData - contains the complete SQL query string and any associated bind variables.
      * @throws Exception 
      */
@@ -135,8 +136,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds the SELECT clause necessary to return sorted Resource ids. 
      * For example:
+     * <pre>
      * SELECT R.RESOURCE_ID,MIN(S1.STR_VALUE) FROM 
-     * 
+     * </pre>
      * @throws FHIRPersistenceException
      */
     private String buildSelectClause()     throws FHIRPersistenceException {
@@ -335,8 +337,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds the ORDER BY clause necessary to return sorted Resource ids. 
      * For example:
+     * <pre>
      * ORDER BY MIN(S1.STR_VALUE) asc NULLS LAST,MAX(S2.CODE_SYSTEM_ID) desc NULLS LAST, MAX(S2.TOKEN_VALUE) desc NULLS LAST 
-     * 
+     * </pre>
      * @throws FHIRPersistenceException
      */
     private String buildOrderByClause() throws FHIRPersistenceException {

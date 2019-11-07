@@ -44,13 +44,13 @@ public class ElementsParameterParseTest extends BaseSearchTest {
     }
 
     @Test
-    public void testFake_singleElement() throws Exception {
+    public void testFake_singleElement_lenient() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
         String queryString = "&_elements=_id";
 
         queryParameters.put("_elements", Collections.singletonList("bogus"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         assertNotNull(context);
         assertTrue(context.getElementsParameters() == null || context.getElementsParameters().size() == 0);
 
@@ -68,12 +68,12 @@ public class ElementsParameterParseTest extends BaseSearchTest {
     }
 
     @Test
-    public void testFake_multiElements() throws Exception {
+    public void testFake_multiElements_lenient() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_elements", Arrays.asList("id", "contact", "bogus", "name"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
         assertEquals(3, context.getElementsParameters().size());
@@ -116,16 +116,10 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
-        queryParameters.put("_elements", Arrays.asList("name", "photo", "animal", "identifier"));
+        queryParameters.put("_elements", Arrays.asList("name", "photo", "identifier"));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
-
-        /*
-         * parseElementsParameter is currently skipping animal. [name, photo, animal, identifier] Skipping unknown
-         * element name: animal It's not throwing an exception because it's lenient. The reason in DSTU2 Patient.animal
-         * exists. In R4, status is deleted https://www.hl7.org/fhir/patient.html
-         */
 
         assertEquals(context.getElementsParameters().size(), 3);
         for (String element : context.getElementsParameters()) {
@@ -135,7 +129,6 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains("name"), selfUri + " does not contain expected elements param 'name'");
         assertTrue(selfUri.contains("photo"), selfUri + " does not contain expected elements param 'photo'");
-        assertFalse(selfUri.contains("animal"), selfUri + " does not contain expected elements param 'animal'");
         assertTrue(selfUri.contains("identifier"), selfUri + " does not contain expected elements param 'identifier'");
     }
 
