@@ -186,7 +186,6 @@ public class FhirResourceGroup {
      * data,
      * last_updated,
      * is_deleted,
-  tenant_id                 INT             NOT NULL,
   resource_id            BIGINT             NOT NULL,
   logical_resource_id    BIGINT             NOT NULL,
   version_id                INT             NOT NULL,
@@ -245,8 +244,6 @@ public class FhirResourceGroup {
 
     /**
      * Add the STR_VALUES table for the given resource name prefix
-
-  tenant_id                INT             NOT NULL,
   parameter_name_id        INT             NOT NULL,
   str_value            VARCHAR(511 OCTETS),
   str_value_lcase      VARCHAR(511 OCTETS),
