@@ -216,7 +216,7 @@ public class FHIRPathEvaluator {
             if (arguments.size() < 0 || arguments.size() > 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "exists");
             }
-            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));    
+            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));
             return !nodes.isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
@@ -567,7 +567,12 @@ public class FHIRPathEvaluator {
                     result = singleton(leftValue.asNumberValue().multiply(rightValue.asNumberValue()));
                     break;
                 case "/":
-                    result = singleton(leftValue.asNumberValue().divide(rightValue.asNumberValue()));
+                    try {
+                        result = singleton(leftValue.asNumberValue().divide(rightValue.asNumberValue()));
+                    } catch (ArithmeticException e) {
+                        // TODO: log this
+                        result = empty();
+                    }
                     break;
                 case "div":
                     result = singleton(leftValue.asNumberValue().div(rightValue.asNumberValue()));
@@ -820,13 +825,17 @@ public class FHIRPathEvaluator {
             switch (operator) {
             case "=":
             case "~":
-                if (left.equals(right)) {
+                if (left.isEmpty() || right.isEmpty()) {
+                    result = empty();
+                } else if (left.equals(right)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
             case "!=":
             case "!~":
-                if (!left.equals(right)) {
+                if (left.isEmpty() || right.isEmpty()) {
+                    result = empty();
+                } else if (!left.equals(right)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
