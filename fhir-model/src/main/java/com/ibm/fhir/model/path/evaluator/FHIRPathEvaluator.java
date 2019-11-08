@@ -91,11 +91,11 @@ public class FHIRPathEvaluator {
         return evaluate(new EvaluationContext(element), expr);
     }
     
-    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr) throws FHIRPathException {        
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr) throws FHIRPathException {
         return evaluate(evaluationContext, expr, evaluationContext.getTree().getRoot());
     }
     
-    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, FHIRPathNode node) throws FHIRPathException {        
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, FHIRPathNode node) throws FHIRPathException {
         return evaluate(evaluationContext, expr, singleton(node));
     }
     
