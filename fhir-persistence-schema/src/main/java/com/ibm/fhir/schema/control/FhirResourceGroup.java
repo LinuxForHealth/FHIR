@@ -230,7 +230,7 @@ public class FhirResourceGroup {
                 .addVarcharColumn(CORRELATION_TOKEN, 36, true)
                 .addVarcharColumn(REASON, 255, true)
                 .addVarcharColumn(SERVICE_ID, 32, true)
-                .addVarcharColumn(TENANT_ID, 36, false)
+                .addVarcharColumn(TENANT_ID, 36, true)
                 // End Backwards Compatibility
                 .addUniqueIndex(tableName + "_PRF_IN1", prfIndexCols, prfIncludeCols)
                 .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
