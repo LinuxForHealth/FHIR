@@ -91,4 +91,31 @@ Edit `wlp/usr/servers/fhir-server/config/TNT1/fhir-server-config.json` and add t
 --update-proc
 ```
 
+# Printing the Schema
+
+To run this code, build the jar (fhir-database-utils and fhir-persistence-schema)
+
+``` shell 
+java -cp ./fhir-database-utils.jar:fhir-persistence-schema.jar com.ibm.fhir.schema.app.SchemaPrinter [--to-file]
+```
+
+Without to-file, the output is the current System.out else it's schema.sql, grants.sql and stored-procedures.sql of the current directory.
+ 
+For db2 import to
+- schema.sql `db2 -tvf schema.sql`
+- grants.sql `db2 -tvf grants.sql`
+- stored-procedures.sql `db2 -td@ -vf stored-procedures.sql`
+
+The schema is then available for use. 
+
+# Creating the database 
+
+To create the database and database user, please use the following command.
+
+``` shell 
+useradd fhiruser
+su - db2inst1 -c "db2 CREATE DB FHIRDB using codeset UTF-8 territory us PAGESIZE 32768"
+su - db2inst1 -c "db2 \"connect to fhirdb\" && db2 \"grant connect on database TO USER fhiruser\""
+```
+
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

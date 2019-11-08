@@ -49,7 +49,7 @@ public abstract class FHIRPathAbstractNodeVisitor<T> implements FHIRPathNodeVisi
     @Override
     public final void visit(T param, FHIRPathElementNode node) {
         doVisit(param, node);
-        visitChildren(param, node);        
+        visitChildren(param, node);
     }
 
     @Override
@@ -60,13 +60,13 @@ public abstract class FHIRPathAbstractNodeVisitor<T> implements FHIRPathNodeVisi
     @Override
     public final void visit(T param, FHIRPathQuantityNode node) {
         doVisit(param, node);
-        visitChildren(param, node);        
+        visitChildren(param, node);
     }
 
     @Override
     public final void visit(T param, FHIRPathResourceNode node) {
         doVisit(param, node);
-        visitChildren(param, node);        
+        visitChildren(param, node);
     }
 
     @Override

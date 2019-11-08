@@ -91,11 +91,11 @@ public class FHIRPathEvaluator {
         return evaluate(new EvaluationContext(element), expr);
     }
     
-    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr) throws FHIRPathException {        
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr) throws FHIRPathException {
         return evaluate(evaluationContext, expr, evaluationContext.getTree().getRoot());
     }
     
-    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, FHIRPathNode node) throws FHIRPathException {        
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, FHIRPathNode node) throws FHIRPathException {
         return evaluate(evaluationContext, expr, singleton(node));
     }
     
@@ -216,7 +216,7 @@ public class FHIRPathEvaluator {
             if (arguments.size() < 0 || arguments.size() > 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "exists");
             }
-            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));    
+            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));
             return !nodes.isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
@@ -562,22 +562,27 @@ public class FHIRPathEvaluator {
             String operator = ctx.getChild(1).getText();
 
             if (leftValue.isNumberValue() && rightValue.isNumberValue()) {
-                switch (operator) {
-                case "*":
-                    result = singleton(leftValue.asNumberValue().multiply(rightValue.asNumberValue()));
-                    break;
-                case "/":
-                    result = singleton(leftValue.asNumberValue().divide(rightValue.asNumberValue()));
-                    break;
-                case "div":
-                    result = singleton(leftValue.asNumberValue().div(rightValue.asNumberValue()));
-                    break;
-                case "mod":
-                    result = singleton(leftValue.asNumberValue().mod(rightValue.asNumberValue()));
-                    break;
+                try {
+                    switch (operator) {
+                    case "*":
+                        result = singleton(leftValue.asNumberValue().multiply(rightValue.asNumberValue()));
+                        break;
+                    case "/":
+                        result = singleton(leftValue.asNumberValue().divide(rightValue.asNumberValue()));
+                        break;
+                    case "div":
+                        result = singleton(leftValue.asNumberValue().div(rightValue.asNumberValue()));
+                        break;
+                    case "mod":
+                        result = singleton(leftValue.asNumberValue().mod(rightValue.asNumberValue()));
+                        break;
+                    }
+                } catch (ArithmeticException e) {
+                    // TODO: log this
+                    result = empty();
                 }
             }
-            
+
             indentLevel--;
             return result;
         }
@@ -820,13 +825,17 @@ public class FHIRPathEvaluator {
             switch (operator) {
             case "=":
             case "~":
-                if (left.equals(right)) {
+                if (left.isEmpty() || right.isEmpty()) {
+                    result = empty();
+                } else if (left.equals(right)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
             case "!=":
             case "!~":
-                if (!left.equals(right)) {
+                if (left.isEmpty() || right.isEmpty()) {
+                    result = empty();
+                } else if (!left.equals(right)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
