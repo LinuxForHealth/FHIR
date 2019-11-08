@@ -83,7 +83,7 @@ public class FHIRPathSpecTest implements ITest {
                 Throwable cause = e.getCause();
                 if (cause instanceof UnsupportedOperationException) {
                     throw new SkipException("skipping test of unsupported operation: " + cause.getMessage());
-                } else if (cause instanceof IllegalArgumentException && 
+                } else if (cause instanceof IllegalArgumentException && cause.getMessage() != null &&
                         cause.getMessage().startsWith("Function") && cause.getMessage().endsWith("not found") ) {
                     throw new SkipException("skipping test of unsupported operation: " + cause.getMessage());
                 }
