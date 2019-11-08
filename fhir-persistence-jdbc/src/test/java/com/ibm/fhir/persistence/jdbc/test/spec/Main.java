@@ -38,10 +38,10 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
 /**
  * Integration test using a multi-tenant schema in DB2 as the target for the
  * FHIR R4 Examples.
- * 
+ *
  * TODO refactor to reduce duplication with the fhir-server-test Main app.
- * 
- * Usage 
+ *
+ * Usage
  * <code>
  *   java com.ibm.fhir.persistence.jdbc.test.spec.Main
  *   --parse
@@ -54,7 +54,7 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  *   --file-name file:/path/to/bad.json
  *   --expectation VALIDATION
  *   --file-name json/ibm/minimal/Patient-1.json
- *   
+ *
  *   java com.ibm.fhir.persistence.jdbc.test.spec.Main
  *   --parse
  *   --validate
@@ -64,30 +64,30 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
-    
+
     private static final int EXIT_RUNTIME_ERROR = 1;
 
     // The persistence API
     protected FHIRPersistence persistence = null;
-    
+
     // FHIR datasource configuration properties
     protected Properties configProps = new Properties();
-    
+
     private String schemaName = "FHIRDATA"; // default
     private String tenantName;
     private String tenantKey;
-    
+
     // The name of the index file to use
     private String indexFileName;
-    
+
     private boolean validate;
-    
+
     // Number of threads to use if running concurrency checks
     private int threads = 0;
-    
+
     // The number of times we perform the read each time. Useful for performance analysis
     private int readIterations = 1;
-    
+
     // The number of requests which can be submitted to the pool before blocking
     private int maxInflight;
 
@@ -96,17 +96,17 @@ public class Main {
 
     // number of ms to wait for the thread pool to shut down
     private long poolShutdownWaitTime = 60000;
-    
+
     private List<FileExpectation> fileExpectations = new ArrayList<>();
 
     // mode of operation
     private static enum Operation {
         DB2, DERBY, PARSE
     }
-    
+
     private Operation mode = Operation.DB2;
 
-    
+
     /**
      * Parse the command-line arguments
      * @param args
@@ -116,7 +116,7 @@ public class Main {
         // Make the CLI a little easier by allowing the expectation to
         // set once for a group of --file-name entries
         Expectation currentExpectation = Expectation.OK;
-        
+
         // Arguments are pretty simple, so we go with a basic switch instead of having
         // yet another dependency (e.g. commons-cli).
         for (int i=0; i<args.length; i++) {
@@ -152,7 +152,7 @@ public class Main {
                 }
                 else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }                
+                }
                 break;
             case "--schema-name":
                 if (++i < args.length) {
@@ -215,11 +215,11 @@ public class Main {
                 throw new IllegalArgumentException("Invalid argument: " + arg);
             }
         }
-        
+
         // Inject the data schema name into the configuration properties
         configProps.setProperty("db.default.schema", schemaName);
     }
-    
+
     /**
      * Read the properties from the given file
      * @param filename
@@ -232,14 +232,14 @@ public class Main {
             throw new IllegalArgumentException(x);
         }
     }
-    
+
     /**
      * Configure the class using the values collected from parseArgs
      */
     protected void configure() {
         if (threads > 0) {
             pool = Executors.newFixedThreadPool(threads);
-            
+
             if (maxInflight == 0) {
                 maxInflight = threads * 2;
             }
@@ -275,26 +275,26 @@ public class Main {
             break;
         }
     }
-    
+
     /**
      * Process the examples
      * @throws Exception
      */
     protected void processDB2() throws Exception {
-        
+
         // Set up a connection provider pointing to the DB2 instance described
         // by the configProps
         JdbcPropertyAdapter adapter = new Db2PropertyAdapter(configProps);
         Db2Translator translator = new Db2Translator();
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
-        
+
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
         if (this.tenantName != null) {
             if (tenantKey == null) {
                 throw new IllegalArgumentException("No tenant-key provided");
             }
-            
+
             // Set up the FHIRRequestContext on this thread so that the persistence layer
             // can configure itself for this tenant
             FHIRRequestContext rc = FHIRRequestContext.get();
@@ -302,19 +302,33 @@ public class Main {
             rc.setTenantKey(this.tenantKey);
         }
 
-        
+        long start = System.nanoTime();
         persistence = new FHIRPersistenceJDBCImpl(this.configProps, cp);
-        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
+        DriverMetrics dm = new DriverMetrics();
+        // create a custom list of operations to apply in order to each resource
+        List<ITestResourceOperation> operations = new ArrayList<>();
+        populateOperationsList(operations, dm);
+
+        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence,
             () -> createPersistenceContext(),
-            () -> createHistoryPersistenceContext());
-                
+            () -> createHistoryPersistenceContext(),
+            operations);
+
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
         R4ExamplesDriver driver = new R4ExamplesDriver();
         driver.setProcessor(processor);
+        driver.setMetrics(dm);
+        // enable optional validation
+        if (this.validate) {
+            driver.setValidator(new ValidationProcessor());
+        }
         runDriver(driver);
+
+        long elapsed = (System.nanoTime() - start) / DriverMetrics.NANOS_MS;
+        renderReport(dm, elapsed);
     }
-    
+
     /**
      * Run the driver based on the arguments we have
      * @param driver
@@ -329,10 +343,10 @@ public class Main {
             driver.processIndex(this.indexFileName);
         }
         else {
-            driver.processAllExamples();        
+            driver.processAllExamples();
         }
     }
-    
+
     /**
      * Populate the list of operations we want to use for the configured test
      * @param operations
@@ -354,17 +368,17 @@ public class Main {
         // a simple connection pool to speed up the connection process.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
-            
+
             // create a custom list of operations to apply in order to each resource
             DriverMetrics dm = new DriverMetrics();
             List<ITestResourceOperation> operations = new ArrayList<>();
             populateOperationsList(operations, dm);
 
-            R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence, 
+            R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence,
                 () -> createPersistenceContext(),
                 () -> createHistoryPersistenceContext(),
                 operations);
-                    
+
             // The driver will iterate over all the JSON examples in the R4 specification, parse
             // the resource and call the processor.
             long start = System.nanoTime();
@@ -376,19 +390,19 @@ public class Main {
             if (this.validate) {
                 driver.setValidator(new ValidationProcessor());
             }
-            
+
             if (pool != null) {
                 driver.setPool(pool, maxInflight);
             }
-            
+
             runDriver(driver);
-            
+
             // print out some simple stats
             long elapsed = (System.nanoTime() - start) / DriverMetrics.NANOS_MS;
             renderReport(dm, elapsed);
         }
     }
-    
+
     /**
      * Do a parse-only run through the examples, useful for profiling
      */
@@ -401,7 +415,7 @@ public class Main {
         if (this.validate) {
             driver.setValidator(new ValidationProcessor());
         }
-        
+
         runDriver(driver);
     }
 
@@ -451,6 +465,7 @@ public class Main {
             logger.log(Level.SEVERE, x.getMessage(), x);
             System.exit(EXIT_RUNTIME_ERROR);
         }
+        System.exit(0);
     }
 
 }
