@@ -562,27 +562,27 @@ public class FHIRPathEvaluator {
             String operator = ctx.getChild(1).getText();
 
             if (leftValue.isNumberValue() && rightValue.isNumberValue()) {
-                switch (operator) {
-                case "*":
-                    result = singleton(leftValue.asNumberValue().multiply(rightValue.asNumberValue()));
-                    break;
-                case "/":
-                    try {
+                try {
+                    switch (operator) {
+                    case "*":
+                        result = singleton(leftValue.asNumberValue().multiply(rightValue.asNumberValue()));
+                        break;
+                    case "/":
                         result = singleton(leftValue.asNumberValue().divide(rightValue.asNumberValue()));
-                    } catch (ArithmeticException e) {
-                        // TODO: log this
-                        result = empty();
+                        break;
+                    case "div":
+                        result = singleton(leftValue.asNumberValue().div(rightValue.asNumberValue()));
+                        break;
+                    case "mod":
+                        result = singleton(leftValue.asNumberValue().mod(rightValue.asNumberValue()));
+                        break;
                     }
-                    break;
-                case "div":
-                    result = singleton(leftValue.asNumberValue().div(rightValue.asNumberValue()));
-                    break;
-                case "mod":
-                    result = singleton(leftValue.asNumberValue().mod(rightValue.asNumberValue()));
-                    break;
+                } catch (ArithmeticException e) {
+                    // TODO: log this
+                    result = empty();
                 }
             }
-            
+
             indentLevel--;
             return result;
         }

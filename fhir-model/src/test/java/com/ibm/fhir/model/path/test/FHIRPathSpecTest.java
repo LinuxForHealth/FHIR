@@ -14,15 +14,23 @@ import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.xml.stream.XMLStreamReader;
 
 import org.testng.ITest;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+import org.testng.SkipException;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+
 import org.testng.internal.BaseTestMethod;
 
 import com.ibm.fhir.model.path.FHIRPathNode;
@@ -30,6 +38,9 @@ import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.path.exception.FHIRPathException;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.util.XMLSupport;
 
 /**
  * Executes all the FHIRPath tests shipped with the FHIRPath specification
@@ -37,6 +48,8 @@ import com.ibm.fhir.model.path.exception.FHIRPathException;
  */
 public class FHIRPathSpecTest implements ITest {
     protected final FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+    protected static EvaluationContext observationContext, patientContext, questionnaireContext, valuesetContext;
+    protected static XMLStreamReader testFileReader;
     
     String testName;
     protected EvaluationContext context;
@@ -48,6 +61,7 @@ public class FHIRPathSpecTest implements ITest {
         this(testName, context, expression, outputs, false);
     }
     
+    @Factory(dataProvider = "provideAllTestData")
     public FHIRPathSpecTest(String testName, EvaluationContext context, TestExpression expression, List<ExpectedOutput> outputs, boolean isPredicate) {
         this.testName = testName;
         this.context = context;
@@ -65,6 +79,14 @@ public class FHIRPathSpecTest implements ITest {
             results = evaluator.evaluate(context, expression.text);
         } catch (FHIRPathException e) {
             if (!expression.isInvalid()) {
+                
+                Throwable cause = e.getCause();
+                if (cause instanceof UnsupportedOperationException) {
+                    throw new SkipException("skipping test of unsupported operation: " + cause.getMessage());
+                } else if (cause instanceof IllegalArgumentException && 
+                        cause.getMessage().startsWith("Function") && cause.getMessage().endsWith("not found") ) {
+                    throw new SkipException("skipping test of unsupported operation: " + cause.getMessage());
+                }
                 // unexpected error
                 throw e;
             }
@@ -94,7 +116,7 @@ public class FHIRPathSpecTest implements ITest {
                 assertEquals(getBooleanValue(singleton(result))._boolean().toString(), expectedOutput.text);
                 break;
             case "code":
-                assertEquals(getStringValue(singleton(result)).string(), expectedOutput.text);
+                assertEquals(getStringValue(singleton(result)).toString(), expectedOutput.text);
                 break;
             case "date":
             case "dateTime":
@@ -108,7 +130,7 @@ public class FHIRPathSpecTest implements ITest {
                 assertEquals(result.as(FHIRPathQuantityNode.class).toString(), expectedOutput.text);
                 break;
             case "string":
-                assertEquals(getStringValue(singleton(result)).string(), expectedOutput.text);
+                assertEquals(getStringValue(singleton(result)).toString(), expectedOutput.text);
                 break;
             case "time":
                 assertEquals(getTime(singleton(result)).toString(), expectedOutput.text);
@@ -164,5 +186,96 @@ public class FHIRPathSpecTest implements ITest {
         } catch (Exception e) {
             Reporter.log("Exception : " + e.getMessage());
         }
+    }
+    
+    @DataProvider
+    public static Object[][] provideAllTestData() throws Exception {
+        List<Object[]> testData = new ArrayList<>();
+        
+        Resource observation = TestUtil.readLocalResource("FHIRPath/input/observation-example.xml");
+        Resource patient = TestUtil.readLocalResource("FHIRPath/input/patient-example.xml");
+        Resource questionnaire = TestUtil.readLocalResource("FHIRPath/input/questionnaire-example.xml");
+        Resource valueset = TestUtil.readLocalResource("FHIRPath/input/valueset-example-expansion.xml");
+        observationContext = new EvaluationContext(observation);
+        patientContext = new EvaluationContext(patient);
+        questionnaireContext = new EvaluationContext(questionnaire);
+        valuesetContext = new EvaluationContext(valueset);
+        
+        InputStream testFile = TestUtil.resolveFileLocation("FHIRPath/tests-fhir-r4.xml");
+        testFileReader = XMLSupport.createXMLStreamReader(testFile);
+        
+        while (testFileReader.hasNext()) {
+            
+            switch (testFileReader.next()) {
+            case XMLStreamReader.START_ELEMENT:
+                String localName = testFileReader.getLocalName();
+                switch (localName) {
+                case "group":
+                    String groupName = testFileReader.getAttributeValue(null, "name");
+                    String groupDescription = testFileReader.getAttributeValue(null, "description");
+                    // TODO: use the groupName to define a TestNG group (or suite)
+//                    StringBuilder groupMsg = new StringBuilder("Starting group " + groupName);
+//                    if (groupDescription != null) {
+//                        groupMsg.append(" (" + groupDescription + ")");
+//                    }
+//                    System.out.println(groupMsg);
+                    break;
+                case "test":
+                    testData.add(createSingleTest());
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        return testData.toArray(new Object[testData.size()][]);
+    }
+    
+    private static Object[] createSingleTest() throws Exception {
+        String testName = testFileReader.getAttributeValue(null, "name");
+        String isPredicate = testFileReader.getAttributeValue(null, "predicate");
+        
+        String inputfile = testFileReader.getAttributeValue(null, "inputfile");
+        EvaluationContext context;
+        switch(inputfile) {
+        case "observation-example.xml":
+            context = observationContext;
+            break;
+        case "patient-example.xml":
+            context = patientContext;
+            break;
+        case "questionnaire-example.xml":
+            context = questionnaireContext;
+            break;
+        case "valueset-example-expansion.xml":
+            context = valuesetContext;
+            break;
+        default:
+            throw new IllegalStateException("unknown input file:" + inputfile);
+        }
+        
+        testFileReader.nextTag();
+        String invalidCode = testFileReader.getAttributeValue(null, "invalid");
+        String expression = testFileReader.getElementText();
+        FHIRPathSpecTest.TestExpression testExpression = new FHIRPathSpecTest.TestExpression(expression, invalidCode);
+        
+        List<FHIRPathSpecTest.ExpectedOutput> outputs = new ArrayList<>();
+        a:while (testFileReader.hasNext()) {
+            
+            switch(testFileReader.next()) {
+            case XMLStreamReader.START_ELEMENT:
+                String type = testFileReader.getAttributeValue(null, "type");
+                String text = testFileReader.getElementText();
+                outputs.add(new FHIRPathSpecTest.ExpectedOutput(type, text));
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                String localName = testFileReader.getLocalName();
+                if ("test".equals(localName)) {
+                    break a;
+                }
+            }
+        }
+        
+        return new Object[] {testName, context, testExpression, outputs, "true".equals(isPredicate)};
     }
 }

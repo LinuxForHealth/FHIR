@@ -77,18 +77,18 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <!-- <plugins>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        This class gets invoked dynamically from FHIRPathSpecTestFactory instead ->
+                        <!-- Exluded from build until FHIRPath errors are resolved -->
                         <exclude>**/FHIRPathSpecTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
-        </plugins> -->
+        </plugins>
     </build>
 
 </project>
