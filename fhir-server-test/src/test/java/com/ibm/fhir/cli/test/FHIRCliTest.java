@@ -208,17 +208,25 @@ public class FHIRCliTest extends FHIRServerTestBase {
     
     @Test(dependsOnMethods={"testCreatePatient"})
     public void testConditionalCreatePatient() throws Exception {
-        assertNotNull(patientId);
         runTest("testConditionalCreatePatient", "-p", propsFile(), "--operation", "conditional-create", "--resource", testData("Patient_MookieBetts.json"), "-qp", "_id=" + patientId);
-        // According to https://www.hl7.org/fhir/R4/http.html#create , condition create against an existing resource should return 200
+        // According to https://www.hl7.org/fhir/R4/http.html#ccreate , conditional create against an existing resource should return 200
         verifyConsoleOutput("Status code: 200");
     }
     
     @Test(dependsOnMethods={"testCreatePatient"})
-    public void testConditionalCreatePatientError() throws Exception {
-        assertNotNull(patientId);
-        runTest("testConditionalCreatePatientError", "-p", propsFile(), "--operation", "conditional-create", "--resource", testData("Patient_MookieBetts.json"), "-qp", "BADSEARCHPARAM=XXX");
+    public void testConditionalCreatePatientMultipleMatch() throws Exception {
+        // Create an additional patient just to make sure there's multiple
+        runTest("testCreatePatient", "-p", propsFile(), "--operation", "create", "--resource", testData("Patient_DavidOrtiz.json"));
+        // Now the real test
+        runTest("testConditionalCreatePatientError", "-p", propsFile(), "--operation", "conditional-create", "--resource", testData("Patient_MookieBetts.json"), "-qp", "gender=male");
         verifyConsoleOutput("Status code: 412");
+    }
+    
+    @Test(dependsOnMethods={"testCreatePatient"})
+    public void testConditionalCreatePatientError() throws Exception {
+        runTest("testConditionalCreatePatientError", "-p", propsFile(), "--operation", "conditional-create", "--resource", testData("Patient_MookieBetts.json"), "-qp", "BADSEARCHPARAM=XXX");
+        // Assumes the server is in "strict" mode by default
+        verifyConsoleOutput("Status code: 400");
     }
     
     @Test

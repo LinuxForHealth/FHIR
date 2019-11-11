@@ -1,9 +1,9 @@
-This IBM FHIR Server GitHub site uses Gatsby with the Carbon Theme. The theme is a static site. 
+This IBM FHIR Server GitHub site uses Gatsby with the Carbon Theme to generate a static site.
 
-You can access the source of the theme at 
-https://github.com/carbon-design-system/gatsby-theme-carbon 
+You can access the source of the theme at
+https://github.com/carbon-design-system/gatsby-theme-carbon
 
-The site uses the following gatsby plugins: 
+The site uses the following gatsby plugins:
 - [gatsby-plugin-slug](https://www.gatsbyjs.org/packages/gatsby-plugin-slug/)
     - reoslves inter-page links e.g. conformance to license is resolved to /FHIR/LICENSE
 - [gatsby-plugin-manifest](https://www.gatsbyjs.org/packages/gatsby-plugin-manifest/?=gatsby-plugin-manifest)
@@ -11,20 +11,20 @@ The site uses the following gatsby plugins:
 - [gatsby-plugin-sitemap](https://www.gatsbyjs.org/packages/gatsby-plugin-sitemap/)
     - makes the site searchable
 
-The site supports `mdx` and `md` formatted files. 
+The site supports `mdx` and `md` formatted files.
 
-# Building the Site 
-Execute the following steps: 
+# Building the Site
+Execute the following steps:
 
 1 - npm install
-    - if prompted, install these plugins: 
+    - if prompted, install these plugins:
         npm install --save gatsby-plugin-manifest
         npm install --save gatsby-plugin-slug
         npm install --save gatsby-plugin-manifest
 
 2 - gatsby build --prefix-paths
 
-The build should output: 
+The build should output:
 ```
 08:02:18-paulbastide@pauls-mbp:~/git/wffh/oct27/FHIR/docs$ gatsby build --prefix-paths
 success open and validate gatsby-configs - 0.090 s
@@ -56,16 +56,16 @@ success run page queries - 0.087 s — 19/19 312.56 queries/second
 success Building static HTML for pages - 21.400 s — 19/19 14.81 pages/second
 info Done building in 142.923 sec
 ```
-    
+
 3 - gatsby serve (to check)
 
 4 - on a different repo, copy the files from `public/` over to the gh-pages branch at the root
 
-5 - git add . 
+5 - git add .
 
-6 - git push 
+6 - git push
 
-If you are editing files, I recommend cloning gatsby-theme-carbon repository, and editing locally. 
+If you are editing files, I recommend cloning gatsby-theme-carbon repository, and editing locally.
 
 # Updating Components
 
@@ -78,11 +78,11 @@ Only one column and content area used. (RIGHT column not used)
 
 - Header
 The custom header `src/gatsby-theme-carbon/components/Header.js` is in this file.
-This is the only one that should be edited. 
+This is the only one that should be edited.
 
-The other files are theme. 
+The other files are theme.
 
-# Links 
+# Links
 [Gatsby Theme: Carbon](https://github.com/carbon-design-system/gatsby-theme-carbon)
 [Gatsby Theme Carbon: Guides](https://gatsby-theme-carbon.now.sh/guides/)
 [Carbon Design](https://www.carbondesignsystem.com/components/link/code/)

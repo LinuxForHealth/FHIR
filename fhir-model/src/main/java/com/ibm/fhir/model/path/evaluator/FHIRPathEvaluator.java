@@ -91,11 +91,11 @@ public class FHIRPathEvaluator {
         return evaluate(new EvaluationContext(element), expr);
     }
     
-    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr) throws FHIRPathException {        
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr) throws FHIRPathException {
         return evaluate(evaluationContext, expr, evaluationContext.getTree().getRoot());
     }
     
-    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, FHIRPathNode node) throws FHIRPathException {        
+    public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, FHIRPathNode node) throws FHIRPathException {
         return evaluate(evaluationContext, expr, singleton(node));
     }
     
@@ -176,12 +176,12 @@ public class FHIRPathEvaluator {
             return SINGLETON_TRUE;
         }
 
-        private Collection<FHIRPathNode> as(List<ExpressionContext> arguments) {
+        private Collection<FHIRPathNode> as(Collection<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "as");
             }
             Collection<FHIRPathNode> result = new ArrayList<>();
-            ExpressionContext typeName = arguments.get(0);
+            ExpressionContext typeName = arguments.iterator().next();
             String identifier = typeName.getText();
             FHIRPathType type = FHIRPathType.from(identifier);
             if (type == null) {
@@ -216,7 +216,7 @@ public class FHIRPathEvaluator {
             if (arguments.size() < 0 || arguments.size() > 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "exists");
             }
-            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));    
+            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));
             return !nodes.isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
@@ -242,24 +242,28 @@ public class FHIRPathEvaluator {
             return empty();
         }
 
-        private Collection<FHIRPathNode> is(List<ExpressionContext> arguments) {
+        private Collection<FHIRPathNode> is(Collection<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "is");
             }
-            ExpressionContext typeName = arguments.get(0);
+            
             Collection<FHIRPathNode> currentContext = getCurrentContext();
-            if (isSingleton(currentContext)) {
-                String identifier = typeName.getText();
-                FHIRPathType type = FHIRPathType.from(identifier);
-                if (type == null) {
-                    throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
-                }
-                FHIRPathNode node = getSingleton(currentContext);
-                if (type.isAssignableFrom(node.type())) {
-                    return SINGLETON_TRUE;
-                }
+            if (currentContext.isEmpty()) {
+                // early exit
+                return SINGLETON_FALSE;
+            } else if (currentContext.size() > 1) {
+                throw new IllegalArgumentException(String.format("Input collection has %d items, but only 1 is allowed", currentContext.size()));
             }
-            return SINGLETON_FALSE;
+            
+            ExpressionContext typeName = arguments.iterator().next();
+            String identifier = typeName.getText();
+            FHIRPathType type = FHIRPathType.from(identifier);
+            if (type == null) {
+                throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
+            }
+            FHIRPathNode node = getSingleton(currentContext);
+            
+            return type.isAssignableFrom(node.type()) ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
         private Collection<FHIRPathNode> ofType(List<ExpressionContext> arguments) {
@@ -558,22 +562,27 @@ public class FHIRPathEvaluator {
             String operator = ctx.getChild(1).getText();
 
             if (leftValue.isNumberValue() && rightValue.isNumberValue()) {
-                switch (operator) {
-                case "*":
-                    result = singleton(leftValue.asNumberValue().multiply(rightValue.asNumberValue()));
-                    break;
-                case "/":
-                    result = singleton(leftValue.asNumberValue().divide(rightValue.asNumberValue()));
-                    break;
-                case "div":
-                    result = singleton(leftValue.asNumberValue().div(rightValue.asNumberValue()));
-                    break;
-                case "mod":
-                    result = singleton(leftValue.asNumberValue().mod(rightValue.asNumberValue()));
-                    break;
+                try {
+                    switch (operator) {
+                    case "*":
+                        result = singleton(leftValue.asNumberValue().multiply(rightValue.asNumberValue()));
+                        break;
+                    case "/":
+                        result = singleton(leftValue.asNumberValue().divide(rightValue.asNumberValue()));
+                        break;
+                    case "div":
+                        result = singleton(leftValue.asNumberValue().div(rightValue.asNumberValue()));
+                        break;
+                    case "mod":
+                        result = singleton(leftValue.asNumberValue().mod(rightValue.asNumberValue()));
+                        break;
+                    }
+                } catch (ArithmeticException e) {
+                    // TODO: log this
+                    result = empty();
                 }
             }
-            
+
             indentLevel--;
             return result;
         }
@@ -816,13 +825,17 @@ public class FHIRPathEvaluator {
             switch (operator) {
             case "=":
             case "~":
-                if (left.equals(right)) {
+                if (left.isEmpty() || right.isEmpty()) {
+                    result = empty();
+                } else if (left.equals(right)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
             case "!=":
             case "!~":
-                if (!left.equals(right)) {
+                if (left.isEmpty() || right.isEmpty()) {
+                    result = empty();
+                } else if (!left.equals(right)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
@@ -878,33 +891,39 @@ public class FHIRPathEvaluator {
             indentLevel++;
             
             Collection<FHIRPathNode> nodes = visit(ctx.expression());
+            
             String operator = ctx.getChild(1).getText();
             
-            Collection<FHIRPathNode> result = "is".equals(operator) ? SINGLETON_FALSE : empty();
+            Collection<FHIRPathNode> result = "is".equals(operator) ? SINGLETON_FALSE : new ArrayList<>();
                         
-            if (isSingleton(nodes)) {
-                String qualifiedIdentifier = getString(visit(ctx.typeSpecifier()));
-                FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
-                if (type == null) {
-                    throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", qualifiedIdentifier));
-                }
-                FHIRPathNode node = getSingleton(nodes);
-                switch (operator) {
-                case "is":
+            String qualifiedIdentifier = getString(visit(ctx.typeSpecifier()));
+            FHIRPathType type = FHIRPathType.from(qualifiedIdentifier);
+            if (type == null) {
+                throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", qualifiedIdentifier));
+            }
+
+            switch (operator) {
+            case "is":
+                if (!isSingleton(nodes)) {
+                    throw new IllegalArgumentException(String.format("Input collection has %d items, but only 1 is allowed", nodes.size()));
+                } else if (!nodes.isEmpty()) {
+                    FHIRPathNode node = getSingleton(nodes);
                     if (type.isAssignableFrom(node.type())) {
                         result = SINGLETON_TRUE;
                     }
-                    break;
-                case "as":
-                    if (type.isAssignableFrom(node.type())) {
-                        result = singleton(node);
-                    }
-                    break;
                 }
+                break;
+            case "as":
+                for (FHIRPathNode fhirPathNode : nodes) {
+                    if (type.isAssignableFrom(fhirPathNode.type())) {
+                        result.add(fhirPathNode);
+                    }
+                }
+                break;
             }
             
             indentLevel--;
-            return result;
+            return Collections.unmodifiableCollection(result);
         }
 
         /**
@@ -1134,9 +1153,9 @@ public class FHIRPathEvaluator {
         public Collection<FHIRPathNode> visitFunction(FHIRPathParser.FunctionContext ctx) {
             debug(ctx);
             indentLevel++;
-            
+
             Collection<FHIRPathNode> result = empty();
-            
+
             String functionName = getString(visit(ctx.identifier()));
 
             List<ExpressionContext> arguments = new ArrayList<ExpressionContext>();
@@ -1144,9 +1163,9 @@ public class FHIRPathEvaluator {
             if (paramList != null) {
                 arguments.addAll(ctx.paramList().expression());
             }
-                        
+
             Collection<FHIRPathNode> currentContext = getCurrentContext();
-            
+
             switch (functionName) {
             case "all":
                 result = all(arguments);
