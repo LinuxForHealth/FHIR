@@ -685,7 +685,7 @@
             <id>jdbc-all-tests</id>
             <properties>
                 <!-- for the fhir-persistence-jdbc -->
-                <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
+                <com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType>ALL</com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType>
             </properties>
         </profile>
         <profile>
