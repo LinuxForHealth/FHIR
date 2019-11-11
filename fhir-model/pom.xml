@@ -77,6 +77,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>${fhir-model.testType}</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

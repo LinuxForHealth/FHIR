@@ -22,6 +22,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
         <my.maven.jar.plugin>3.1.2</my.maven.jar.plugin>
+        <fhir-model.testType>MINIMAL</fhir-model.testType>
+        <fhir-persistence-jdbc.testType>MINIMAL</fhir-persistence-jdbc.testType>
         <java.version>1.8</java.version>
     </properties>
 
@@ -678,14 +680,14 @@
             <id>model-all-tests</id>
             <properties>
                 <!-- for the fhir-model project -->
-                <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>ALL</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
+                <fhir-model.testType>ALL</fhir-model.testType>
             </properties>
         </profile>
         <profile>
             <id>jdbc-all-tests</id>
             <properties>
                 <!-- for the fhir-persistence-jdbc -->
-                <com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType>ALL</com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType>
+                <fhir-persistence-jdbc.testType>ALL</fhir-persistence-jdbc.testType>
             </properties>
         </profile>
         <profile>
@@ -757,9 +759,8 @@
         </profile>
         <profile>
             <id>deploy-version-rc</id>
-            <!-- This profile enables automation to change version and DEPLOY 
-                rc to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-rc 
-                -f fhir-tools/pom.xml -->
+            <!-- This profile enables automation to change version and DEPLOY rc to bintray: 
+                mvn clean -Drc=1 -Pdeploy-version-rc -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
                 <rc>1</rc>

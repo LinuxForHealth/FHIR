@@ -43,7 +43,7 @@ jobs:
     - name: Build samples
       run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent with tests
-      run: mvn -B -T2C package --file fhir-parent/pom.xml --no-transfer-progress
+      run: mvn -B -T2C package --file fhir-parent/pom.xml -P jdbc-all-tests --no-transfer-progress
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
