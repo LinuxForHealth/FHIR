@@ -6,7 +6,13 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
-import static com.ibm.fhir.model.type.code.SearchParamType.*;
+import static com.ibm.fhir.model.type.code.SearchParamType.DATE;
+import static com.ibm.fhir.model.type.code.SearchParamType.NUMBER;
+import static com.ibm.fhir.model.type.code.SearchParamType.QUANTITY;
+import static com.ibm.fhir.model.type.code.SearchParamType.REFERENCE;
+import static com.ibm.fhir.model.type.code.SearchParamType.STRING;
+import static com.ibm.fhir.model.type.code.SearchParamType.TOKEN;
+import static com.ibm.fhir.model.type.code.SearchParamType.URI;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -104,7 +110,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         p.setName(searchParamCode);
         p.setValueSystem("http://terminology.hl7.org/CodeSystem/special-values");
-        if (_boolean.getValue()) {
+        if (_boolean.getValue() != null && _boolean.getValue()) {
             p.setValueCode("true");
         } else {
             p.setValueCode("false");
@@ -181,6 +187,9 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Instant instant) {
+        if (instant == null || instant.getValue() == null) {
+            return false;
+        }
         Parameter p = new Parameter();
         if (!DATE.equals(searchParamType)) {
             throw invalidComboException(searchParamType, instant);
@@ -560,6 +569,9 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * @param end
      */
     private void setDateValues(Parameter p, java.time.Instant start, java.time.Instant end) {
+        if (start == null) {
+            return;
+        }
         Timestamp startTime = Timestamp.from(start);
         p.setValueDateStart(startTime);
         p.setValueDate(startTime);
