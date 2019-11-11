@@ -904,14 +904,14 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "is":
-                if (!isSingleton(nodes)) {
+                if (nodes.size() > 1) {
                     throw new IllegalArgumentException(String.format("Input collection has %d items, but only 1 is allowed", nodes.size()));
                 } else if (!nodes.isEmpty()) {
                     FHIRPathNode node = getSingleton(nodes);
                     if (type.isAssignableFrom(node.type())) {
                         result = SINGLETON_TRUE;
                     }
-                }
+                } // else it stays SINGLETON_FALSE
                 break;
             case "as":
                 for (FHIRPathNode fhirPathNode : nodes) {
