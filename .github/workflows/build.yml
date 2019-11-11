@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 
 on:
   pull_request:
@@ -43,7 +43,17 @@ jobs:
     - name: Build samples
       run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent with tests
-      run: mvn -B -T2C package --file fhir-parent/pom.xml -P jdbc-all-tests --no-transfer-progress
+      env:
+        BASE: ${{ github['base_ref'] }}
+        HEAD: ${{ github['head_ref'] }}
+      run: |
+        if [ -n "$(git --no-pager diff --name-only origin/${BASE} origin/${HEAD} -- fhir-search fhir-persistence fhir-persistence-jdbc)" ]; then
+          echo "Changes affect fhir-persistence-jdbc, running ALL"
+          mvn -B -T2C package --file fhir-parent/pom.xml -P jdbc-all-tests --no-transfer-progress
+        else
+          echo "No changes affect fhir-persistence-jdbc, running MINIMAL"
+          mvn -B -T2C package --file fhir-parent/pom.xml --no-transfer-progress
+        fi
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
