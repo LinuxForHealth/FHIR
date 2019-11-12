@@ -51,7 +51,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
         // Overriding the JDBC ALL to Minimal.
         // Unless the profile tells us differently
-        String testType = System.getProperty("com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest", TestType.MINIMAL.toString());
+        String testType = System.getProperty("com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType", TestType.MINIMAL.toString());
         System.setProperty("com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType", testType);
 
         // The driver will iterate over all the JSON examples in the R4 specification, parse
