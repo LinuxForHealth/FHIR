@@ -46,12 +46,37 @@ jobs:
       env:
         BASE: origin/${{ github['base_ref'] }}
       run: |
-        paths=( fhir-search/src/main fhir-persistence/src/main fhir-persistence-schema/src/main fhir-persistence-jdbc )
-        if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${paths[@]})" ]; then
+        jdbc_paths=(
+          fhir-search/src/main
+          fhir-persistence/src/main
+          fhir-persistence-schema/src/main
+          fhir-persistence-jdbc
+        )
+        model_paths=(
+          fhir-model
+        )
+        declare -a PROFILES_ARR
+
+        if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${jdbc_paths[@]})" ]; then
           echo "Changes affect fhir-persistence-jdbc, running ALL"
-          mvn -B -T2C package --file fhir-parent/pom.xml -P jdbc-all-tests --no-transfer-progress
+          PROFILES_ARR+=jdbc-all-tests
         else
           echo "No changes affect fhir-persistence-jdbc, running MINIMAL"
+        fi
+
+        if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${model_paths[@]})" ]; then
+          echo "Changes affect fhir-model, running ALL"
+          PROFILES_ARR+=model-all-tests
+        else
+          echo "No changes affect fhir-model, running MINIMAL"
+        fi
+
+        if [ ${#PROFILES[@]} -eq 0 ]; then
+          # Convert the PROFILES array to a comma-delimited string
+          PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
+          echo "Using profiles ${PROFILES}"
+          mvn -B -T2C package --file fhir-parent/pom.xml -P "${PROFILES}" --no-transfer-progress
+        else
           mvn -B -T2C package --file fhir-parent/pom.xml --no-transfer-progress
         fi
   e2e-tests:
