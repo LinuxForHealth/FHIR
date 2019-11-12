@@ -304,7 +304,7 @@ public class Main {
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
         if (this.tenantName == null || tenantKey == null) {
-            throw new IllegalArgumentException("No tenant-key or tenant-name provided");
+            throw new IllegalArgumentException("Either tenant-key or tenant-name was not provided");
         }
 
         long start = System.nanoTime();
@@ -367,7 +367,7 @@ public class Main {
     }
 
     /**
-     * Use a embedded derby target to process the examples
+     * Use an embedded derby target to process the examples
      * @throws Exception
      */
     protected void processDerby() throws Exception {

@@ -1,6 +1,6 @@
 # IBM FHIR Server - fhir-persistence-jdbc performance tests
 
-Performance tests for derby embedded, derby network and db2.
+Performance tests for derby embedded, derby network, and db2.
 
 
 # Run Configurations
