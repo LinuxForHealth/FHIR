@@ -17,11 +17,16 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
+import com.ibm.fhir.database.utils.derby.DerbyNetworkTranslator;
+import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.DriverStats;
 import com.ibm.fhir.model.spec.test.Expectation;
@@ -83,7 +88,7 @@ public class Main {
     private boolean validate;
 
     // Number of threads to use if running concurrency checks
-    private int threads = 0;
+    private int threads = 8;
 
     // The number of times we perform the read each time. Useful for performance analysis
     private int readIterations = 1;
@@ -101,7 +106,7 @@ public class Main {
 
     // mode of operation
     private static enum Operation {
-        DB2, DERBY, PARSE
+        DB2, DERBY, DERBYNETWORK,PARSE
     }
 
     private Operation mode = Operation.DB2;
@@ -197,6 +202,9 @@ public class Main {
             case "--derby":
                 this.mode = Operation.DERBY;
                 break;
+            case "--derbynetwork":
+                this.mode = Operation.DERBYNETWORK;
+                break;
             case "--parse":
                 this.mode = Operation.PARSE;
                 break;
@@ -270,6 +278,9 @@ public class Main {
         case DERBY:
             processDerby();
             break;
+        case DERBYNETWORK:
+            processDerbyNetwork();
+            break;
         case PARSE:
             processParse();
             break;
@@ -287,32 +298,28 @@ public class Main {
         JdbcPropertyAdapter adapter = new Db2PropertyAdapter(configProps);
         Db2Translator translator = new Db2Translator();
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
+        ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
 
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
-        if (this.tenantName != null) {
-            if (tenantKey == null) {
-                throw new IllegalArgumentException("No tenant-key provided");
-            }
-
-            // Set up the FHIRRequestContext on this thread so that the persistence layer
-            // can configure itself for this tenant
-            FHIRRequestContext rc = FHIRRequestContext.get();
-            rc.setTenantId(this.tenantName);
-            rc.setTenantKey(this.tenantKey);
+        if (this.tenantName == null || tenantKey == null) {
+            throw new IllegalArgumentException("No tenant-key or tenant-name provided");
         }
 
         long start = System.nanoTime();
-        persistence = new FHIRPersistenceJDBCImpl(this.configProps, cp);
         DriverMetrics dm = new DriverMetrics();
         // create a custom list of operations to apply in order to each resource
         List<ITestResourceOperation> operations = new ArrayList<>();
         populateOperationsList(operations, dm);
 
-        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence,
-            () -> createPersistenceContext(),
-            () -> createHistoryPersistenceContext(),
-            operations);
+        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(
+                operations,
+                this.configProps,
+                connectionPool,
+                this.tenantName,
+                this.tenantKey,
+                transactionProvider);
 
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
@@ -322,6 +329,9 @@ public class Main {
         // enable optional validation
         if (this.validate) {
             driver.setValidator(new ValidationProcessor());
+        }
+        if (pool != null) {
+            driver.setPool(pool, maxInflight);
         }
         runDriver(driver);
 
@@ -357,15 +367,14 @@ public class Main {
     }
 
     /**
-     * Use a derby target to process the examples
+     * Use a embedded derby target to process the examples
      * @throws Exception
      */
     protected void processDerby() throws Exception {
 
         // The DerbyFhirDatabase encapsulates Derby and provides an
         // IConnectionProvider implementation used by the persistence
-        // layer to obtain connections. TODO: We need to start using
-        // a simple connection pool to speed up the connection process.
+        // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
 
@@ -375,9 +384,9 @@ public class Main {
             populateOperationsList(operations, dm);
 
             R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence,
-                () -> createPersistenceContext(),
-                () -> createHistoryPersistenceContext(),
-                operations);
+                    () -> createPersistenceContext(),
+                    () -> createHistoryPersistenceContext(),
+                    operations);
 
             // The driver will iterate over all the JSON examples in the R4 specification, parse
             // the resource and call the processor.
@@ -401,6 +410,57 @@ public class Main {
             long elapsed = (System.nanoTime() - start) / DriverMetrics.NANOS_MS;
             renderReport(dm, elapsed);
         }
+    }
+
+
+    /**
+     * Use a network derby target to process the examples
+     * @throws Exception
+     */
+    protected void processDerbyNetwork() throws Exception {
+        // Set up a connection provider pointing to the DB2 instance described
+        // by the configProps
+        JdbcPropertyAdapter adapter = new DerbyPropertyAdapter(configProps);
+        DerbyTranslator translator = new DerbyNetworkTranslator();
+        JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
+        ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+        //persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
+
+        // create a custom list of operations to apply in order to each resource
+        DriverMetrics dm = new DriverMetrics();
+        List<ITestResourceOperation> operations = new ArrayList<>();
+        populateOperationsList(operations, dm);
+
+        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(
+                operations,
+                this.configProps,
+                connectionPool,
+                null,
+                null,
+                transactionProvider);
+
+        // The driver will iterate over all the JSON examples in the R4 specification, parse
+        // the resource and call the processor.
+        long start = System.nanoTime();
+        R4ExamplesDriver driver = new R4ExamplesDriver();
+        driver.setMetrics(dm);
+        driver.setProcessor(processor);
+
+        // enable optional validation
+        if (this.validate) {
+            driver.setValidator(new ValidationProcessor());
+        }
+
+        if (pool != null) {
+            driver.setPool(pool, maxInflight);
+        }
+
+        runDriver(driver);
+
+        // print out some simple stats
+        long elapsed = (System.nanoTime() - start) / DriverMetrics.NANOS_MS;
+        renderReport(dm, elapsed);
     }
 
     /**
