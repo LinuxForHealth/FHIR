@@ -34,9 +34,10 @@ import com.ibm.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.fhir.model.path.FHIRPathIntegerValue;
 import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.FHIRPathNumberValue;
-import com.ibm.fhir.model.path.FHIRPathPrimitiveValue;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
+import com.ibm.fhir.model.path.FHIRPathSystemValue;
+import com.ibm.fhir.model.path.FHIRPathTemporalValue;
 import com.ibm.fhir.model.path.FHIRPathType;
 import com.ibm.fhir.model.path.SimpleTypeInfo;
 import com.ibm.fhir.model.path.TupleTypeInfo;
@@ -90,74 +91,94 @@ public final class FHIRPathUtil {
     }
     
     public static BigDecimal getDecimal(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asNumberValue().decimal();
+        return getSystemValue(nodes).asNumberValue().decimal();
     }
     
     public static Integer getInteger(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asNumberValue().asIntegerValue().integer();
+        return getSystemValue(nodes).asNumberValue().asIntegerValue().integer();
     }
     
     public static String getString(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asStringValue().string();
+        return getSystemValue(nodes).asStringValue().string();
     }
     
     public static Boolean getBoolean(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asBooleanValue()._boolean();
+        return getSystemValue(nodes).asBooleanValue()._boolean();
+    }
+    
+    public static TemporalAccessor getDate(Collection<FHIRPathNode> nodes) {
+        return getSystemValue(nodes).asTemporalValue().asDateValue().date();
     }
     
     public static TemporalAccessor getDateTime(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asDateTimeValue().dateTime();
+        return getSystemValue(nodes).asTemporalValue().asDateTimeValue().dateTime();
     }
     
     public static TemporalAccessor getTime(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asTimeValue().time();
+        return getSystemValue(nodes).asTemporalValue().asTimeValue().time();
     }
     
-    public static boolean hasPrimitiveValue(Collection<FHIRPathNode> nodes) {
+    public static boolean hasSystemValue(Collection<FHIRPathNode> nodes) {
         if (isSingleton(nodes)) {
             FHIRPathNode node = getSingleton(nodes);
-            return (node instanceof FHIRPathPrimitiveValue) || node.hasValue();
+            return (node instanceof FHIRPathSystemValue) || node.hasValue();
         }
         return false;
     }
     
-    public static FHIRPathPrimitiveValue getPrimitiveValue(Collection<FHIRPathNode> nodes) {
-        if (!hasPrimitiveValue(nodes)) {
+    public static FHIRPathSystemValue getSystemValue(Collection<FHIRPathNode> nodes) {
+        if (!hasSystemValue(nodes)) {
             throw new IllegalArgumentException();
         }
         FHIRPathNode node = getSingleton(nodes);
-        if (node instanceof FHIRPathPrimitiveValue) {
-            return (FHIRPathPrimitiveValue) node;
+        if (node instanceof FHIRPathSystemValue) {
+            return (FHIRPathSystemValue) node;
         }
         return node.getValue();
     }
     
     public static FHIRPathStringValue getStringValue(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asStringValue();
+        return getSystemValue(nodes).asStringValue();
+    }
+    
+    public static FHIRPathQuantityValue getQuantityValue(Collection<FHIRPathNode> nodes) {
+        return getSystemValue(nodes).asQuantityValue();
     }
     
     public static FHIRPathIntegerValue getIntegerValue(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asNumberValue().asIntegerValue();
+        return getSystemValue(nodes).asNumberValue().asIntegerValue();
     }
     
     public static FHIRPathNumberValue getNumberValue(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asNumberValue();
+        return getSystemValue(nodes).asNumberValue();
+    }
+    
+    public static FHIRPathTemporalValue getTemporalValue(Collection<FHIRPathNode> nodes) {
+        return getSystemValue(nodes).asTemporalValue();
     }
     
     public static FHIRPathBooleanValue getBooleanValue(Collection<FHIRPathNode> nodes) {
-        return getPrimitiveValue(nodes).asBooleanValue();
+        return getSystemValue(nodes).asBooleanValue();
     }
     
     public static boolean hasBooleanValue(Collection<FHIRPathNode> nodes) {
-        return hasPrimitiveValue(nodes) && getPrimitiveValue(nodes).isBooleanValue();
+        return hasSystemValue(nodes) && getSystemValue(nodes).isBooleanValue();
     }
     
     public static boolean hasNumberValue(Collection<FHIRPathNode> nodes) {
-        return hasPrimitiveValue(nodes) && getPrimitiveValue(nodes).isNumberValue();
+        return hasSystemValue(nodes) && getSystemValue(nodes).isNumberValue();
+    }
+    
+    public static boolean hasTemporalValue(Collection<FHIRPathNode> nodes) {
+        return hasSystemValue(nodes) && getSystemValue(nodes).isTemporalValue();
     }
     
     public static boolean hasStringValue(Collection<FHIRPathNode> nodes) {
-        return hasPrimitiveValue(nodes) && getPrimitiveValue(nodes).isStringValue();
+        return hasSystemValue(nodes) && getSystemValue(nodes).isStringValue();
+    }
+    
+    public static boolean hasQuantityValue(Collection<FHIRPathNode> nodes) {
+        return hasSystemValue(nodes) && getSystemValue(nodes).isQuantityValue();
     }
     
     public static boolean evaluatesToBoolean(Collection<FHIRPathNode> nodes) {
@@ -198,10 +219,6 @@ public final class FHIRPathUtil {
         return emptyList();
     }
     
-    public static boolean hasValueAndUnit(FHIRPathQuantityNode quantityNode) {
-        return quantityNode.getQuantityValue() != null && quantityNode.getQuantityUnit() != null;
-    }
-    
     public static TemporalAccessor getTemporalAccessor(Temporal temporal, Class<?> targetType) {
         if (temporal.getClass().equals(targetType)) {
             return temporal;
@@ -237,12 +254,9 @@ public final class FHIRPathUtil {
         throw new IllegalArgumentException();
     }
 
-    public static TemporalAmount getTemporalAmount(FHIRPathQuantityNode quantityNode) {
-        if (!hasValueAndUnit(quantityNode)) {
-            throw new IllegalArgumentException();
-        }
-        int value = quantityNode.getQuantityValue().intValue();
-        String unit = quantityNode.getQuantityUnit();        
+    public static TemporalAmount getTemporalAmount(FHIRPathQuantityValue quantityValue) {
+        int value = quantityValue.value().intValue();
+        String unit = quantityValue.unit();        
         switch (unit) {
         case "year":
         case "years":

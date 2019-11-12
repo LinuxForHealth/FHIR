@@ -25,7 +25,7 @@ import com.ibm.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.FHIRPathPrimitiveValue;
+import com.ibm.fhir.model.path.FHIRPathSystemValue;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -142,10 +142,10 @@ public class ExtractorValidator {
                 val = "false";
             }
 
-        } else if (node.isPrimitiveValue()) {
-            FHIRPathPrimitiveValue nodeConverted = node.asPrimitiveValue();
-            if (nodeConverted.isDateTimeValue()) {
-                // FHIRPathDateTimeValue v = (FHIRPathDateTimeValue) node;
+        } else if (node.isSystemValue()) {
+            FHIRPathSystemValue nodeConverted = node.asSystemValue();
+            if (nodeConverted.isTemporalValue() && nodeConverted.asTemporalValue().isDateTimeValue()) {
+                // FHIRPathDateTimeValue v = (FHIRPathDateTimeValue) node.asTemporalValue();
 
             } else if (nodeConverted.isStringValue()) {
                 FHIRPathStringValue v = nodeConverted.asStringValue();
@@ -156,14 +156,14 @@ public class ExtractorValidator {
             //
             FHIRPathElementNode tNode = node.asElementNode();
 
-            FHIRPathPrimitiveValue v = tNode.getValue();
+            FHIRPathSystemValue v = tNode.getValue();
             if (v != null) {
 
                 if (v.isStringValue()) {
                     FHIRPathStringValue sv = v.asStringValue();
                     val = "" + sv.string();
-                } else if (v.isDateTimeValue()) {
-                    FHIRPathDateTimeValue vv = v.asDateTimeValue();
+                } else if (v.isTemporalValue() && v.asTemporalValue().isDateTimeValue()) {
+                    FHIRPathDateTimeValue vv = v.asTemporalValue().asDateTimeValue();
                     TemporalAccessor acc = vv.dateTime();
 
                     val = "" + acc.toString(); //DATE_TIME_FORMATTER.format(acc);
@@ -176,8 +176,8 @@ public class ExtractorValidator {
                         FHIRPathElementNode nx = child.asElementNode();
                         val = "" + nx.getValue();
 
-                    } else if (child.isPrimitiveValue()) {
-                        FHIRPathPrimitiveValue v1 = child.asPrimitiveValue();
+                    } else if (child.isSystemValue()) {
+                        FHIRPathSystemValue v1 = child.asSystemValue();
                         if (v1.isStringValue()) {
                             FHIRPathStringValue sv = v1.asStringValue();
                             val = "" + sv.string() + ",";

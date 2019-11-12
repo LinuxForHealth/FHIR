@@ -33,10 +33,6 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         return false;
     }
     
-    public FHIRPathQuantityNode asQuantityNode() {
-        return as(FHIRPathQuantityNode.class);
-    }
-    
     public static FHIRPathElementNode elementNode(Element element) {
         return FHIRPathElementNode.builder(element).build();
     }
@@ -75,7 +71,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
             return (Builder) super.path(path);
         }
         
-        public Builder value(FHIRPathPrimitiveValue value) {
+        public Builder value(FHIRPathSystemValue value) {
             return (Builder) super.value(value);
         }
         
@@ -96,7 +92,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
         if (hasValue()) {
-            if (other instanceof FHIRPathPrimitiveValue) {
+            if (other instanceof FHIRPathSystemValue) {
                 return getValue().isComparableTo(other);
             }
             if (other.hasValue()) {
@@ -111,7 +107,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         if (!isComparableTo(other)) {
             throw new IllegalArgumentException();
         }
-        if (other instanceof FHIRPathPrimitiveValue) {
+        if (other instanceof FHIRPathSystemValue) {
             return getValue().compareTo(other);
         }
         return getValue().compareTo(other.getValue());
@@ -130,8 +126,8 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         }
         FHIRPathNode other = (FHIRPathNode) obj;
         if (hasValue()) {
-            if (other instanceof FHIRPathPrimitiveValue) {
-                return getValue().equals((FHIRPathPrimitiveValue) other);
+            if (other instanceof FHIRPathSystemValue) {
+                return getValue().equals((FHIRPathSystemValue) other);
             }
             if (other.hasValue()) {
                 return getValue().equals(other.getValue());
@@ -156,7 +152,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     }
 
     @Override
-    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
-        visitor.visit(param, this);
+    public void accept(FHIRPathNodeVisitor visitor) {
+        visitor.visit(this);
     }
 }

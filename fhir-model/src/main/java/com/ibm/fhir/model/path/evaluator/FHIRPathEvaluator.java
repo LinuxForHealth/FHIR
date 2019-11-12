@@ -14,16 +14,18 @@ import static com.ibm.fhir.model.path.FHIRPathStringValue.stringValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getInteger;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.getQuantityValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getString;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasValueAndUnit;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSystemValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporalValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasQuantityValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasSystemValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasTemporalValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isTrue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
-import static com.ibm.fhir.model.type.String.string;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,29 +40,29 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import com.ibm.fhir.model.path.FHIRPathBaseVisitor;
 import com.ibm.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.fhir.model.path.FHIRPathDateTimeValue;
+import com.ibm.fhir.model.path.FHIRPathDateValue;
 import com.ibm.fhir.model.path.FHIRPathLexer;
 import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.FHIRPathParser;
 import com.ibm.fhir.model.path.FHIRPathParser.ExpressionContext;
 import com.ibm.fhir.model.path.FHIRPathParser.ParamListContext;
-import com.ibm.fhir.model.path.FHIRPathPrimitiveValue;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.fhir.model.path.FHIRPathQuantityValue;
+import com.ibm.fhir.model.path.FHIRPathSystemValue;
+import com.ibm.fhir.model.path.FHIRPathTemporalValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.fhir.model.path.FHIRPathTree;
 import com.ibm.fhir.model.path.FHIRPathType;
 import com.ibm.fhir.model.path.exception.FHIRPathException;
 import com.ibm.fhir.model.path.function.FHIRPathFunction;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.type.Quantity;
 
 public class FHIRPathEvaluator {
     public static boolean DEBUG = false;
@@ -115,7 +117,7 @@ public class FHIRPathEvaluator {
     }
     
     private static ExpressionContext compile(String expr) {
-        FHIRPathLexer lexer = new FHIRPathLexer(new ANTLRInputStream(expr));
+        FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         FHIRPathParser parser = new FHIRPathParser(tokens);
         return parser.expression();
@@ -351,10 +353,7 @@ public class FHIRPathEvaluator {
             }
             return result;
         }
-
-        /**
-         * expression '[' expression ']'
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitIndexerExpression(FHIRPathParser.IndexerExpressionContext ctx) {
             debug(ctx);
@@ -375,9 +374,6 @@ public class FHIRPathEvaluator {
             return result;
         }
         
-        /**
-         * ('+' | '-') expression
-         */
         @Override
         public Collection<FHIRPathNode> visitPolarityExpression(FHIRPathParser.PolarityExpressionContext ctx) {
             debug(ctx);
@@ -392,7 +388,7 @@ public class FHIRPathEvaluator {
             
             Collection<FHIRPathNode> result = empty();
             
-            FHIRPathPrimitiveValue value = getPrimitiveValue(nodes);
+            FHIRPathSystemValue value = getSystemValue(nodes);
             String polarity = ctx.getChild(0).getText();
             
             if (value.isNumberValue()) {
@@ -410,9 +406,6 @@ public class FHIRPathEvaluator {
             return result;
         }
         
-        /**
-         * expression ('+' | '-' | '&') expression
-         */
         @Override
         public Collection<FHIRPathNode> visitAdditiveExpression(FHIRPathParser.AdditiveExpressionContext ctx) {
             debug(ctx);
@@ -425,9 +418,9 @@ public class FHIRPathEvaluator {
             
             String operator = ctx.getChild(1).getText();
             
-            if (hasPrimitiveValue(left) && hasPrimitiveValue(right)) {
-                FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
-                FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+            if (hasSystemValue(left) && hasSystemValue(right)) {
+                FHIRPathSystemValue leftValue = getSystemValue(left);
+                FHIRPathSystemValue rightValue = getSystemValue(right);
                 
                 if (leftValue.isNumberValue() && rightValue.isNumberValue()) {            
                     switch (operator) {
@@ -442,105 +435,50 @@ public class FHIRPathEvaluator {
                     // concatenation
                     result = singleton(leftValue.asStringValue().concat(rightValue.asStringValue()));
                 }
-            } else if (((hasPrimitiveValue(left) && right.isEmpty()) || (left.isEmpty() && hasPrimitiveValue(right))) && "&".equals(operator)) {
+            } else if (((hasSystemValue(left) && right.isEmpty()) || (left.isEmpty() && hasSystemValue(right))) && "&".equals(operator)) {
                 // concatenation where an empty collection is treated as an empty string
-                if (hasPrimitiveValue(left) && right.isEmpty()) {
-                    FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
+                if (hasSystemValue(left) && right.isEmpty()) {
+                    FHIRPathSystemValue leftValue = getSystemValue(left);
                     if (leftValue.isStringValue()) {
                         result = singleton(leftValue.asStringValue().concat(EMPTY_STRING));
                     }
-                } else if (left.isEmpty() && hasPrimitiveValue(right)) {
-                    FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+                } else if (left.isEmpty() && hasSystemValue(right)) {
+                    FHIRPathSystemValue rightValue = getSystemValue(right);
                     if (rightValue.isStringValue()) {
                         result = singleton(EMPTY_STRING.concat(rightValue.asStringValue()));
                     }
                 } else if (left.isEmpty() && right.isEmpty()) {
                     result = singleton(EMPTY_STRING);
                 }
-            } else if (isSingleton(left) && isSingleton(right)) {
-                FHIRPathNode leftNode = getSingleton(left);
-                FHIRPathNode rightNode = getSingleton(right);
-                
-                if (leftNode instanceof FHIRPathQuantityNode && rightNode instanceof FHIRPathQuantityNode) {
-                    FHIRPathQuantityNode leftQuantity = (FHIRPathQuantityNode) leftNode;
-                    FHIRPathQuantityNode rightQuantity = (FHIRPathQuantityNode) rightNode;
-                    
-                    if (hasValueAndUnit(leftQuantity) && hasValueAndUnit(rightQuantity) && 
-                            // units are the same
-                            leftQuantity.getQuantityUnit().equals(rightQuantity.getQuantityUnit())) {
-                        switch (operator) {
-                        case "+":
-                            result = singleton(leftQuantity.add(rightQuantity));
-                            break;
-                        case "-":
-                            result = singleton(leftQuantity.subtract(rightQuantity));
-                            break;
-                        }
-                    }
-                } else if ((leftNode instanceof FHIRPathDateTimeValue && rightNode instanceof FHIRPathQuantityNode) || 
-                        (leftNode instanceof FHIRPathQuantityNode && rightNode instanceof FHIRPathDateTimeValue)) {
-                    
-                    FHIRPathDateTimeValue dateTimeValue;
-                    if (leftNode instanceof FHIRPathDateTimeValue) {
-                        dateTimeValue = (FHIRPathDateTimeValue) leftNode;
-                    } else {
-                        dateTimeValue = (FHIRPathDateTimeValue) rightNode;
-                    }
-                    
-                    FHIRPathQuantityNode quantityNode;
-                    if (leftNode instanceof FHIRPathQuantityNode) {
-                        quantityNode = (FHIRPathQuantityNode) leftNode;
-                    } else {
-                        quantityNode = (FHIRPathQuantityNode) rightNode;
-                    }
-                    
-                    if (hasValueAndUnit(quantityNode)) {
-                        switch (operator) {
-                        case "+":
-                            result = singleton(dateTimeValue.add(quantityNode));
-                            break;
-                        case "-":
-                            result = singleton(dateTimeValue.subtract(quantityNode));
-                            break;
-                        }
-                    }
-                } else if ((leftNode instanceof FHIRPathTimeValue && rightNode instanceof FHIRPathQuantityNode) || 
-                        (leftNode instanceof FHIRPathQuantityNode && rightNode instanceof FHIRPathTimeValue)) {
-                    
-                    FHIRPathTimeValue timeValue;
-                    if (leftNode instanceof FHIRPathTimeValue) {
-                        timeValue = (FHIRPathTimeValue) leftNode;
-                    } else {
-                        timeValue = (FHIRPathTimeValue) rightNode;
-                    }
-                    
-                    FHIRPathQuantityNode quantityNode;
-                    if (leftNode instanceof FHIRPathQuantityNode) {
-                        quantityNode = (FHIRPathQuantityNode) leftNode;
-                    } else {
-                        quantityNode = (FHIRPathQuantityNode) rightNode;
-                    }
-                    
-                    if (hasValueAndUnit(quantityNode)) {
-                        switch (operator) {
-                        case "+":
-                            result = singleton(timeValue.add(quantityNode));
-                            break;
-                        case "-":
-                            result = singleton(timeValue.subtract(quantityNode));
-                            break;
-                        }
-                    }
+            } else if (hasQuantityValue(left) && hasQuantityValue(right)) {
+                FHIRPathQuantityValue leftQuantity = getQuantityValue(left);
+                FHIRPathQuantityValue rightQuantity = getQuantityValue(right);
+                switch (operator) {
+                case "+":
+                    result = singleton(leftQuantity.add(rightQuantity));
+                    break;
+                case "-":
+                    result = singleton(leftQuantity.subtract(rightQuantity));
+                    break;
+                }
+            } else if ((hasTemporalValue(left) && hasQuantityValue(right)) || 
+                    (hasQuantityValue(left) && hasTemporalValue(right))) {
+                FHIRPathQuantityValue quantityValue = hasQuantityValue(left) ? getQuantityValue(left) : getQuantityValue(right);
+                FHIRPathTemporalValue temporalValue = hasTemporalValue(left) ? getTemporalValue(left) : getTemporalValue(right);
+                switch (operator) {
+                case "+":
+                    result = singleton(temporalValue.add(quantityValue));
+                    break;
+                case "-":
+                    result = singleton(temporalValue.subtract(quantityValue));
+                    break;
                 }
             }
                                     
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression ('*' | '/' | 'div' | 'mod') expression
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitMultiplicativeExpression(FHIRPathParser.MultiplicativeExpressionContext ctx) {
             debug(ctx);
@@ -549,15 +487,15 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            if (!hasPrimitiveValue(left) || !hasPrimitiveValue(right)) {
+            if (!hasSystemValue(left) || !hasSystemValue(right)) {
                 indentLevel--;
                 return empty();
             }
             
             Collection<FHIRPathNode> result = empty();
             
-            FHIRPathPrimitiveValue leftValue = getPrimitiveValue(left);
-            FHIRPathPrimitiveValue rightValue = getPrimitiveValue(right);
+            FHIRPathSystemValue leftValue = getSystemValue(left);
+            FHIRPathSystemValue rightValue = getSystemValue(right);
             
             String operator = ctx.getChild(1).getText();
 
@@ -586,10 +524,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression '|' expression
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitUnionExpression(FHIRPathParser.UnionExpressionContext ctx) {
             debug(ctx);
@@ -605,10 +540,7 @@ public class FHIRPathEvaluator {
 //          return union;
             return new ArrayList<>(union);
         }
-    
-        /**
-         * expression ('or' | 'xor') expression
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitOrExpression(FHIRPathParser.OrExpressionContext ctx) {
             debug(ctx);
@@ -662,10 +594,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression 'and' expression
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitAndExpression(FHIRPathParser.AndExpressionContext ctx) {
             debug(ctx);
@@ -704,10 +633,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression ('in' | 'contains') expression
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitMembershipExpression(FHIRPathParser.MembershipExpressionContext ctx) {
             debug(ctx);
@@ -736,10 +662,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression ('<=' | '<' | '>' | '>=') expression
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitInequalityExpression(FHIRPathParser.InequalityExpressionContext ctx) {
             debug(ctx);
@@ -788,10 +711,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression '.' invocation
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitInvocationExpression(FHIRPathParser.InvocationExpressionContext ctx) {
             debug(ctx);
@@ -804,10 +724,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression ('=' | '~' | '!=' | '!~') expression
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitEqualityExpression(FHIRPathParser.EqualityExpressionContext ctx) {
             debug(ctx);
@@ -844,10 +761,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression 'implies' expression
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitImpliesExpression(FHIRPathParser.ImpliesExpressionContext ctx) {
             debug(ctx);
@@ -870,9 +784,6 @@ public class FHIRPathEvaluator {
             return result;
         }
         
-        /**
-         * term
-         */
         @Override
         public Collection<FHIRPathNode> visitTermExpression(FHIRPathParser.TermExpressionContext ctx) {
             debug(ctx);
@@ -881,10 +792,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * expression ('is' | 'as') typeSpecifier
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitTypeExpression(FHIRPathParser.TypeExpressionContext ctx) {
             debug(ctx);
@@ -925,10 +833,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return Collections.unmodifiableCollection(result);
         }
-
-        /**
-         * invocation
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitInvocationTerm(FHIRPathParser.InvocationTermContext ctx) {
             debug(ctx);
@@ -937,10 +842,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * literal
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitLiteralTerm(FHIRPathParser.LiteralTermContext ctx) {
             debug(ctx);
@@ -949,10 +851,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * externalConstant
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitExternalConstantTerm(FHIRPathParser.ExternalConstantTermContext ctx) {
             debug(ctx);
@@ -961,10 +860,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * '(' expression ')'
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitParenthesizedTerm(FHIRPathParser.ParenthesizedTermContext ctx) {
             debug(ctx);
@@ -973,39 +869,27 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * '{' '}'
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitNullLiteral(FHIRPathParser.NullLiteralContext ctx) {
             debug(ctx);
             return empty();
         }
-    
-        /**
-         * ('true' | 'false')
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitBooleanLiteral(FHIRPathParser.BooleanLiteralContext ctx) {
             debug(ctx);
             Boolean _boolean = Boolean.valueOf(ctx.getText());
             return _boolean ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
-    
-        /**
-         * '\'' (ESC | .)*? '\''
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitStringLiteral(FHIRPathParser.StringLiteralContext ctx) {
             debug(ctx);
             String text = ctx.getText();
             return singleton(stringValue(text.substring(1, text.length() - 1)));
         }
-    
-        /**
-         * [0-9]+('.' [0-9]+)?
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitNumberLiteral(FHIRPathParser.NumberLiteralContext ctx) {
             debug(ctx);
@@ -1018,40 +902,25 @@ public class FHIRPathEvaluator {
                 return singleton(decimalValue(decimal));
             }
         }
-    
-        /**
-         * '@'
-         *  [0-9][0-9][0-9][0-9] // year
-         *  (
-         *      '-'[0-9][0-9] // month
-         *      (
-         *          '-'[0-9][0-9] // day
-         *          (
-         *              'T' TIMEFORMAT
-         *          )?
-         *       )?
-         *   )?
-         *   'Z'? // UTC specifier
-         */
+        
+        @Override
+        public Collection<FHIRPathNode> visitDateLiteral(FHIRPathParser.DateLiteralContext ctx) {
+            debug(ctx);
+            return singleton(FHIRPathDateValue.dateValue(ctx.getText().substring(1)));
+        }
+        
         @Override
         public Collection<FHIRPathNode> visitDateTimeLiteral(FHIRPathParser.DateTimeLiteralContext ctx) {
             debug(ctx);
             return singleton(FHIRPathDateTimeValue.dateTimeValue(ctx.getText().substring(1)));
         }
-    
-        /**
-         * [0-9][0-9] (':'[0-9][0-9] (':'[0-9][0-9] ('.'[0-9]+)?)?)?
-         * ('Z' | ('+' | '-') [0-9][0-9]':'[0-9][0-9])? // timezone
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitTimeLiteral(FHIRPathParser.TimeLiteralContext ctx) {
             debug(ctx);
             return singleton(FHIRPathTimeValue.timeValue(ctx.getText().substring(1)));
         }
-    
-        /**
-         * NUMBER unit?
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitQuantityLiteral(FHIRPathParser.QuantityLiteralContext ctx) {
             debug(ctx);
@@ -1060,10 +929,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * '%' identifier
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitExternalConstant(FHIRPathParser.ExternalConstantContext ctx) {
             debug(ctx);
@@ -1072,10 +938,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return evaluationContext.getExternalConstant(identifier);
         }
-    
-        /**
-         * identifier
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitMemberInvocation(FHIRPathParser.MemberInvocationContext ctx) {
             debug(ctx);
@@ -1101,9 +964,6 @@ public class FHIRPathEvaluator {
             return result;
         }
         
-        /**
-         * function
-         */
         @Override
         public Collection<FHIRPathNode> visitFunctionInvocation(FHIRPathParser.FunctionInvocationContext ctx) {
             debug(ctx);
@@ -1112,19 +972,13 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * '$this'
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitThisInvocation(FHIRPathParser.ThisInvocationContext ctx) {
             debug(ctx);
             return getCurrentContext();
         }
-    
-        /**
-         * '$index'
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitIndexInvocation(FHIRPathParser.IndexInvocationContext ctx) {
             debug(ctx);
@@ -1133,10 +987,7 @@ public class FHIRPathEvaluator {
             indentLevel--;
             return result;
         }
-    
-        /**
-         * '$total'
-         */
+        
         @Override
         public Collection<FHIRPathNode> visitTotalInvocation(FHIRPathParser.TotalInvocationContext ctx) {
             debug(ctx);
@@ -1146,9 +997,6 @@ public class FHIRPathEvaluator {
             return result;
         }
         
-        /**
-         * identifier '(' paramList? ')'
-         */
         @Override
         public Collection<FHIRPathNode> visitFunction(FHIRPathParser.FunctionContext ctx) {
             debug(ctx);
@@ -1229,14 +1077,8 @@ public class FHIRPathEvaluator {
             String number = ctx.NUMBER().getText();
             String text = ctx.unit().getText();
             String unit = text.substring(1, text.length() - 1);
-            
-            Quantity quantity = Quantity.builder()
-                    .value(Decimal.of(number))
-                    .unit(string(unit))
-                    .build();
-            
             indentLevel--;
-            return singleton(FHIRPathQuantityNode.builder(quantity).build());
+            return singleton(FHIRPathQuantityValue.quantityValue(new BigDecimal(number), unit));
         }
     
         @Override

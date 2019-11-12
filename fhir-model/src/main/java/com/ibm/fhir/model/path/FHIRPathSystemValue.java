@@ -6,43 +6,43 @@
 
 package com.ibm.fhir.model.path;
 
-public interface FHIRPathPrimitiveValue extends FHIRPathNode {
+public interface FHIRPathSystemValue extends FHIRPathNode {
     @Override
     default boolean hasValue() {
         return false;
     }
     @Override
-    default boolean isPrimitiveValue() {
+    default boolean isSystemValue() {
         return true;
     }
     default boolean isBooleanValue() {
         return false;
     }
-    default boolean isDateTimeValue() {
-        return false;
-    }
     default boolean isStringValue() {
         return false;
     }
-    default boolean isTimeValue() {
+    default boolean isQuantityValue() {
         return false;
     }
     default boolean isNumberValue() {
         return false;
     }
+    default boolean isTemporalValue() {
+        return false;
+    }
     default FHIRPathBooleanValue asBooleanValue() {
         return as(FHIRPathBooleanValue.class);
-    }
-    default FHIRPathDateTimeValue asDateTimeValue() {
-        return as(FHIRPathDateTimeValue.class);
     }
     default FHIRPathStringValue asStringValue() {
         return as(FHIRPathStringValue.class);
     }
-    default FHIRPathTimeValue asTimeValue() {
-        return as(FHIRPathTimeValue.class);
+    default FHIRPathQuantityValue asQuantityValue() {
+        return as(FHIRPathQuantityValue.class);
     }
     default FHIRPathNumberValue asNumberValue() {
         return as(FHIRPathNumberValue.class);
+    }
+    default FHIRPathTemporalValue asTemporalValue() {
+        return as(FHIRPathTemporalValue.class);
     }
 }

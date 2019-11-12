@@ -6,6 +6,14 @@
 
 package com.ibm.fhir.model.path.function;
 
+import static com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
+
+import java.util.Collection;
+import java.util.List;
+
+import com.ibm.fhir.model.path.FHIRPathNode;
+import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+
 public class MemberOfFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
@@ -20,5 +28,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     @Override
     public int getMaxArity() {
         return 1;
+    }
+    
+    @Override
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        return SINGLETON_TRUE;
     }
 }

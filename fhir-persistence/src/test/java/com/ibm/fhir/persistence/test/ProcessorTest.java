@@ -22,7 +22,7 @@ import com.ibm.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.fhir.model.path.FHIRPathDecimalValue;
 import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathIntegerValue;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
@@ -406,8 +406,8 @@ public class ProcessorTest {
         }
         
         @Override
-        public String process(SearchParameter parameter, FHIRPathQuantityNode value) throws FHIRPersistenceProcessorException {
-            return "process(SearchParameter, FHIRPathQuantityNode)";
+        public String process(SearchParameter parameter, FHIRPathQuantityValue value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathQuantityValue)";
         }
 
         @Override
