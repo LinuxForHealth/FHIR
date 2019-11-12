@@ -94,9 +94,6 @@ public class Main {
     // The thread pool used for concurrent request processing
     private ExecutorService pool;
 
-    // number of ms to wait for the thread pool to shut down
-    private long poolShutdownWaitTime = 60000;
-
     private List<FileExpectation> fileExpectations = new ArrayList<>();
 
     // mode of operation
