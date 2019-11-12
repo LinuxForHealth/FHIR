@@ -44,10 +44,10 @@ jobs:
       run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent with tests
       env:
-        BASE: ${{ github['base_ref'] }}
-        HEAD: ${{ github['head_ref'] }}
+        BASE: origin/${{ github['base_ref'] }}
       run: |
-        if [ -n "$(git --no-pager diff --name-only origin/${BASE} origin/${HEAD} -- fhir-search fhir-persistence fhir-persistence-jdbc)" ]; then
+        paths=( fhir-search/src/main fhir-persistence/src/main fhir-persistence-schema/src/main fhir-persistence-jdbc )
+        if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${paths[@]})" ]; then
           echo "Changes affect fhir-persistence-jdbc, running ALL"
           mvn -B -T2C package --file fhir-parent/pom.xml -P jdbc-all-tests --no-transfer-progress
         else
