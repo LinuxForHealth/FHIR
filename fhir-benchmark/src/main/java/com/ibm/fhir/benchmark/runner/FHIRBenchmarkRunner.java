@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -40,12 +41,13 @@ public class FHIRBenchmarkRunner {
                 .jvmArgsPrepend("-Xms2g", "-Xmx2g")
                 .jvmArgsAppend(properties.toArray(new String[properties.size()]))
                 .verbosity(VerboseMode.NORMAL)
-                .warmupIterations(5)
+                .warmupIterations(2)
                 .warmupTime(TimeValue.seconds(10))
-                .measurementIterations(5)
+                .measurementIterations(2)
                 .measurementTime(TimeValue.seconds(10))
                 .shouldDoGC(true)
                 .forks(1)
+                .mode(Mode.AverageTime)
                 .build();
         return new Runner(opt).run();
     }
