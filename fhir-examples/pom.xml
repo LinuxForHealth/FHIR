@@ -40,63 +40,63 @@
             <id>fhir-javadocs</id>
             <build>
                 <plugins>
-                    <!-- limit the javadoc plugin to jenkins only -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>3.8.2</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>2.9</version>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
+                        <version>3.0.1</version>
                         <configuration>
-                            <verbose>false</verbose>
+                            <!-- no matter the JDK running the javadoc, it's important this be at 
+                            the minimum level we support, which is 8. -->
+                            <source>8</source>
+                            <verbose>true</verbose>
                             <doclint>none</doclint>
                             <additionalparam>-Xdoclint:none</additionalparam>
-                            <minmemory>128m</minmemory>
+                            <minmemory>512m</minmemory>
                             <maxmemory>1g</maxmemory>
-                            <archive>
-                                <manifestEntries>
-                                    <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
-                                </manifestEntries>
-                            </archive>
-                            <destDir>target/apidocs/${project.artifactId}</destDir>
                             <additionalOptions>
+                                <!-- makes the frames visible, disabled and going away eventually -->
                                 <additionalOption>--frames</additionalOption>
+                                <!-- Fixes the undefined redirect in search -->
+                                <additionalOption>--no-module-directories</additionalOption>
                             </additionalOptions>
-                            <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                            <bottom><![CDATA[Copyright 2019. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                             <author>false</author>
-                            <detectJavaApiLink>false</detectJavaApiLink>
+                            <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
+                            <docletArtifact>
+                                <groupId>nl.talsmasoftware</groupId>
+                                <artifactId>umldoclet</artifactId>
+                                <version>2.0.5</version>
+                            </docletArtifact>
+                            <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
+                            <additionalparam>
+                                -umlSkipStandardDoclet true
+                                -umlLogLevel DEBUG
+                                -umlImageFormat png
+                            </additionalparam>
+                            <!-- skips the three entries -->
+                            <nohelp>true</nohelp>
+                            <nodeprecated>true</nodeprecated>
+                            <nodeprecatedlist>true</nodeprecatedlist>
                         </configuration>
                         <executions>
                             <execution>
-                                <id>aggregate</id>
+                                <id>attach-javadocs</id>
                                 <goals>
                                     <goal>javadoc-no-fork</goal>
                                     <goal>test-javadoc-no-fork</goal>
                                 </goals>
                                 <phase>site</phase>
-                                <configuration>
-                                    <verbose>false</verbose>
-                                    <doclint>none</doclint>
-                                    <additionalparam>-Xdoclint:none</additionalparam>
-                                    <minmemory>128m</minmemory>
-                                    <maxmemory>1g</maxmemory>
-                                    <archive>
-                                        <manifestEntries>
-                                            <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
-                                        </manifestEntries>
-                                    </archive>
-                                    <destDir>target/apidocs/${project.artifactId}</destDir>
-                                    <additionalOptions>
-                                        <additionalOption>--frames</additionalOption>
-                                    </additionalOptions>
-                                    <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a>]]></bottom>
-                                    <author>false</author>
-                                    <detectJavaApiLink>false</detectJavaApiLink>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
                             </execution>
                         </executions>
                     </plugin>

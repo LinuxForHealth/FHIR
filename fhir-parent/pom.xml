@@ -500,6 +500,66 @@
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.8.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.9</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <configuration>
+                        <!-- no matter the JDK running the javadoc, it's important this be at 
+                        the minimum level we support, which is 8. -->
+                        <source>8</source>
+                        <verbose>true</verbose>
+                        <doclint>none</doclint>
+                        <additionalparam>-Xdoclint:none</additionalparam>
+                        <minmemory>512m</minmemory>
+                        <maxmemory>1g</maxmemory>
+                        <additionalOptions>
+                            <!-- makes the frames visible, disabled and going away eventually -->
+                            <additionalOption>--frames</additionalOption>
+                            <!-- Fixes the undefined redirect in search -->
+                            <additionalOption>--no-module-directories</additionalOption>
+                        </additionalOptions>
+                        <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                        <bottom><![CDATA[Copyright 2019. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                        <author>false</author>
+                        <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
+                        <docletArtifact>
+                            <groupId>nl.talsmasoftware</groupId>
+                            <artifactId>umldoclet</artifactId>
+                            <version>2.0.5</version>
+                        </docletArtifact>
+                        <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
+                        <additionalparam>
+                            -umlSkipStandardDoclet true
+                            -umlLogLevel DEBUG
+                            -umlImageFormat png
+                        </additionalparam>
+                        <!-- skips the three entries -->
+                        <nohelp>true</nohelp>
+                        <nodeprecated>true</nodeprecated>
+                        <nodeprecatedlist>true</nodeprecatedlist>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>javadoc-no-fork</goal>
+                                <goal>test-javadoc-no-fork</goal>
+                            </goals>
+                            <phase>site</phase>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -528,6 +588,10 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>xml-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -592,7 +656,6 @@
                 </pluginManagement>
             </build>
         </profile>
-
         <profile>
             <id>sandbox</id>
             <activation>
@@ -617,66 +680,6 @@
             </build>
         </profile>
         <profile>
-            <id>javadocs</id>
-            <activation>
-                <property>
-                    <name>profile</name>
-                    <value>jenkins</value>
-                </property>
-            </activation>
-            <properties>
-                <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
-            </properties>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <!-- limit the javadoc plugin to jenkins only -->
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>3.1.0</version>
-                            <configuration>
-                                <minmemory>128m</minmemory>
-                                <maxmemory>1g</maxmemory>
-                                <archive>
-                                    <manifestEntries>
-                                        <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
-                                    </manifestEntries>
-                                </archive>
-                                <doclint>none</doclint>
-                                <tags>
-                                    <tag>
-                                        <name>xmp</name>
-                                        <placement>a</placement>
-                                        <head>code</head>
-                                    </tag>
-                                </tags>
-                                <additionalparam>-Xdoclint:none</additionalparam>
-                                <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <id>aggregate</id>
-                                    <goals>
-                                        <goal>aggregate-jar</goal>
-                                    </goals>
-                                    <phase>site</phase>
-                                    <configuration>
-                                    </configuration>
-                                </execution>
-                                <execution>
-                                    <id>attach-javadocs</id>
-                                    <goals>
-                                        <goal>jar</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
             <id>model-all-tests</id>
             <properties>
                 <!-- for the fhir-model project -->
@@ -691,73 +694,6 @@
             </properties>
         </profile>
         <profile>
-            <id>fhir-javadocs</id>
-            <build>
-                <plugins>
-                    <!-- limit the javadoc plugin to jenkins only -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
-                        <configuration>
-                            <verbose>false</verbose>
-                            <doclint>none</doclint>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                            <minmemory>128m</minmemory>
-                            <maxmemory>1g</maxmemory>
-                            <archive>
-                                <manifestEntries>
-                                    <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
-                                </manifestEntries>
-                            </archive>
-                            <destDir>target/apidocs/${project.artifactId}</destDir>
-                            <additionalOptions>
-                                <additionalOption>--frames</additionalOption>
-                            </additionalOptions>
-                            <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
-                            <author>false</author>
-                            <detectJavaApiLink>false</detectJavaApiLink>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>aggregate</id>
-                                <goals>
-                                    <goal>javadoc-no-fork</goal>
-                                    <goal>test-javadoc-no-fork</goal>
-                                </goals>
-                                <phase>site</phase>
-                                <configuration>
-                                    <verbose>false</verbose>
-                                    <doclint>none</doclint>
-                                    <additionalparam>-Xdoclint:none</additionalparam>
-                                    <minmemory>128m</minmemory>
-                                    <maxmemory>1g</maxmemory>
-                                    <archive>
-                                        <manifestEntries>
-                                            <Automatic-Module-Name>com.ibm.fhir</Automatic-Module-Name>
-                                        </manifestEntries>
-                                    </archive>
-                                    <destDir>target/apidocs/${project.artifactId}</destDir>
-                                    <additionalOptions>
-                                        <additionalOption>--frames</additionalOption>
-                                    </additionalOptions>
-                                    <bottom><![CDATA[Copyright 2019, <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
-                                    <author>false</author>
-                                    <detectJavaApiLink>false</detectJavaApiLink>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>deploy-version-rc</id>
             <!-- This profile enables automation to change version and DEPLOY rc to bintray: 
                 mvn clean -Drc=1 -Pdeploy-version-rc -f fhir-tools/pom.xml -->
@@ -767,7 +703,6 @@
                 <deploy.version>4.0.0-rc${rc}-${maven.build.timestamp}</deploy.version>
                 <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
             </properties>
-
             <build>
                 <plugins>
                     <plugin>
@@ -878,4 +813,56 @@
             </distributionManagement>
         </profile>
     </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <inherited>true</inherited>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <dependencySourceIncludes>com.ibm.fhir:*</dependencySourceIncludes>
+                    <source>8</source>
+                    <minmemory>512m</minmemory> 
+                    <maxmemory>1g</maxmemory>
+                    <doclint>none</doclint>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <author>false</author>
+                    <detectLinks>true</detectLinks>
+                    <docletArtifact>
+                        <groupId>nl.talsmasoftware</groupId>
+                        <artifactId>umldoclet</artifactId>
+                        <version>2.0.5</version>
+                    </docletArtifact>
+                    <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
+                    <additionalparam>
+                        -umlSkipStandardDoclet true
+                        -umlLogLevel DEBUG
+                        -umlImageFormat png
+                    </additionalparam>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <configuration>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
 </project>
