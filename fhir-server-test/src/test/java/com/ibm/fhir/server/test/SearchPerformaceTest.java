@@ -54,11 +54,9 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
     @Test
     public void retrieveConfig() throws Exception {
         compartmentSearchSupported = isComparmentSearchSupported();
-        System.out.println("Compartment-based search supported?: "
-                + compartmentSearchSupported.toString());
     }
 
-    @Test(groups = { "server-search-performance" }, invocationCount = 1)
+    @Test(groups = { "server-search-performance" })
     public void testCreatePatientAndObservation() throws Exception {
         WebTarget target = getWebTarget();
         for (int i = 0; i < numOfPatientObservationsToCreate; i++) {
