@@ -106,7 +106,7 @@ public class Main {
 
     // mode of operation
     private static enum Operation {
-        DB2, DERBY, DERBYNETWORK,PARSE
+        DB2, DERBY, DERBYNETWORK, PARSE
     }
 
     private Operation mode = Operation.DB2;
