@@ -13,6 +13,7 @@ import com.ibm.fhir.model.path.FHIRPathDecimalValue;
 import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathIntegerValue;
 import com.ibm.fhir.model.path.FHIRPathNode;
+import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
@@ -68,6 +69,11 @@ public class FHIRPathDefaultNodeVisitor implements FHIRPathNodeVisitor {
     @Override
     public void visit(FHIRPathQuantityValue value) {
         // do nothing
+    }
+    
+    @Override
+    public void visit(FHIRPathQuantityNode node) {
+        visit((FHIRPathElementNode) node);
     }
 
     @Override

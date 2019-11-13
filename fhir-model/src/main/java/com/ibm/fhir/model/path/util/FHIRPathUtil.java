@@ -34,6 +34,7 @@ import com.ibm.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.fhir.model.path.FHIRPathIntegerValue;
 import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.FHIRPathNumberValue;
+import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathSystemValue;
@@ -88,6 +89,18 @@ public final class FHIRPathUtil {
     
     public static String delimit(String identifier) {
         return String.format("`%s`", identifier);
+    }
+    
+    public static boolean hasQuantityNode(Collection<FHIRPathNode> nodes) {
+        if (isSingleton(nodes)) {
+            FHIRPathNode node = getSingleton(nodes);
+            return (node instanceof FHIRPathQuantityNode);
+        }
+        return false;
+    }
+    
+    public static FHIRPathQuantityNode getQuantityNode(Collection<FHIRPathNode> nodes) {
+        return getSingleton(nodes).asElementNode().asQuantityNode();
     }
     
     public static BigDecimal getDecimal(Collection<FHIRPathNode> nodes) {

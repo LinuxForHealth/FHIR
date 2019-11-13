@@ -14,11 +14,13 @@ import static com.ibm.fhir.model.path.FHIRPathStringValue.stringValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getInteger;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.getQuantityNode;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getQuantityValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getString;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSystemValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporalValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasQuantityNode;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasQuantityValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasSystemValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasTemporalValue;
@@ -53,6 +55,7 @@ import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.FHIRPathParser;
 import com.ibm.fhir.model.path.FHIRPathParser.ExpressionContext;
 import com.ibm.fhir.model.path.FHIRPathParser.ParamListContext;
+import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.FHIRPathSystemValue;
 import com.ibm.fhir.model.path.FHIRPathTemporalValue;
@@ -421,7 +424,6 @@ public class FHIRPathEvaluator {
             if (hasSystemValue(left) && hasSystemValue(right)) {
                 FHIRPathSystemValue leftValue = getSystemValue(left);
                 FHIRPathSystemValue rightValue = getSystemValue(right);
-                
                 if (leftValue.isNumberValue() && rightValue.isNumberValue()) {            
                     switch (operator) {
                     case "+":
@@ -451,26 +453,37 @@ public class FHIRPathEvaluator {
                     result = singleton(EMPTY_STRING);
                 }
             } else if (hasQuantityValue(left) && hasQuantityValue(right)) {
-                FHIRPathQuantityValue leftQuantity = getQuantityValue(left);
-                FHIRPathQuantityValue rightQuantity = getQuantityValue(right);
+                FHIRPathQuantityValue leftValue = getQuantityValue(left);
+                FHIRPathQuantityValue rightValue = getQuantityValue(right);
                 switch (operator) {
                 case "+":
-                    result = singleton(leftQuantity.add(rightQuantity));
+                    result = singleton(leftValue.add(rightValue));
                     break;
                 case "-":
-                    result = singleton(leftQuantity.subtract(rightQuantity));
+                    result = singleton(leftValue.subtract(rightValue));
                     break;
                 }
             } else if ((hasTemporalValue(left) && hasQuantityValue(right)) || 
                     (hasQuantityValue(left) && hasTemporalValue(right))) {
-                FHIRPathQuantityValue quantityValue = hasQuantityValue(left) ? getQuantityValue(left) : getQuantityValue(right);
                 FHIRPathTemporalValue temporalValue = hasTemporalValue(left) ? getTemporalValue(left) : getTemporalValue(right);
+                FHIRPathQuantityValue quantityValue = hasQuantityValue(left) ? getQuantityValue(left) : getQuantityValue(right);
                 switch (operator) {
                 case "+":
                     result = singleton(temporalValue.add(quantityValue));
                     break;
                 case "-":
                     result = singleton(temporalValue.subtract(quantityValue));
+                    break;
+                }
+            } else if (hasQuantityNode(left) && hasQuantityNode(right)) {
+                FHIRPathQuantityNode leftNode = getQuantityNode(left);
+                FHIRPathQuantityNode rightNode = getQuantityNode(right);
+                switch(operator) {
+                case "+":
+                    result = singleton(leftNode.add(rightNode));
+                    break;
+                case "-":
+                    result = singleton(leftNode.subtract(rightNode));
                     break;
                 }
             }

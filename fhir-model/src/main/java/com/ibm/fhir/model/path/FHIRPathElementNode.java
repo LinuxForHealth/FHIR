@@ -33,6 +33,10 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         return false;
     }
     
+    public FHIRPathQuantityNode asQuantityNode() {
+        return as(FHIRPathQuantityNode.class);
+    }
+    
     public static FHIRPathElementNode elementNode(Element element) {
         return FHIRPathElementNode.builder(element).build();
     }
@@ -144,6 +148,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         return Objects.hashCode(element);
     }
     
+    @Override
     public String toString() {
         if (hasValue()) {
             return "FHIRPathElementNode: [type: " + type() + ", value: " + value.toString() + "]";
