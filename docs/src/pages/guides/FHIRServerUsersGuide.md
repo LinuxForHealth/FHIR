@@ -193,7 +193,7 @@ If you are configuring the FHIR server to use a single embedded Derby database, 
 
 This database bootstrap step is only performed for a Derby database.
 
-##### 3.4.1.1.2 DB2
+##### 3.4.1.1.2 Db2
 If you configure the FHIR server to use an IBM Db2 database, you must
 
 1. create the database if it doesn't already exist; and  
