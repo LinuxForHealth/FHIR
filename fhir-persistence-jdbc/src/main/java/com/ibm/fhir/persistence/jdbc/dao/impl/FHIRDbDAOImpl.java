@@ -360,7 +360,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         try {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
-            
             // Inject arguments into the prepared stmt.
             for (int i = 0; i <searchArgs.length;  i++) {
                 stmt.setObject(i+1, searchArgs[i]);

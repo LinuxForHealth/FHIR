@@ -189,7 +189,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         boolean isValidQuery = true;
 
         helper = QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, this.resourceDao, searchContext);
-        
+
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters
         if (Location.class.equals(resourceType)) {
