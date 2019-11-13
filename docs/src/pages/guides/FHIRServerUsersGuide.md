@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2019
-lastupdated: "2019-09-04"
+lastupdated: "2019-11-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -164,7 +164,7 @@ Search parameters are handled like a single configuration properly; providing a 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
 ## 3.4 Persistence layer configuration
-The FHIR server is architected in a way that allows deployers to select the persistence layer implementation that fits their needs. Currently, the FHIR server includes a JDBC persistence layer which supports both Apache Derby and IBM Db2.
+The FHIR server is architected in a way that allows deployers to select the persistence layer implementation that fits their needs. Currently, the FHIR server includes a JDBC persistence layer which supports both Apache Derby and IBM DB2. Apache Derby is used for testing, whereas IBM DB2 is used in production environments.
 
 The FHIR server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup. The sections that follow in this chapter will focus on how to configure the JDBC persistence layer implementation with either Embedded Derby or Db2.
 
@@ -193,7 +193,7 @@ If you are configuring the FHIR server to use a single embedded Derby database, 
 
 This database bootstrap step is only performed for a Derby database.
 
-##### 3.4.1.1.2 Db2
+##### 3.4.1.1.2 DB2
 If you configure the FHIR server to use an IBM Db2 database, you must
 
 1. create the database if it doesn't already exist; and  
