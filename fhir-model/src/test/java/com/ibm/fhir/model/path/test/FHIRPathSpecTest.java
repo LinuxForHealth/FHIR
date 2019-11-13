@@ -49,6 +49,8 @@ public class FHIRPathSpecTest implements ITest {
     protected final FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
     protected static EvaluationContext observationContext, patientContext, questionnaireContext, valuesetContext;
     protected static XMLStreamReader testFileReader;
+    protected static String currentGroupName;
+    protected static String currentGroupDescription;
     
     String testName;
     protected EvaluationContext context;
@@ -209,17 +211,10 @@ public class FHIRPathSpecTest implements ITest {
             case XMLStreamReader.START_ELEMENT:
                 String localName = testFileReader.getLocalName();
                 switch (localName) {
-                case "group":                  
-                    /*
-                    String groupName = testFileReader.getAttributeValue(null, "name");
-                    String groupDescription = testFileReader.getAttributeValue(null, "description");
+                case "group":
+                    currentGroupName = testFileReader.getAttributeValue(null, "name");
+                    currentGroupDescription = testFileReader.getAttributeValue(null, "description");
                     // TODO: use the groupName to define a TestNG group (or suite)
-                    StringBuilder groupMsg = new StringBuilder("Starting group " + groupName);
-                    if (groupDescription != null) {
-                       groupMsg.append(" (" + groupDescription + ")");
-                    }
-                    System.out.println(groupMsg);
-                    */
                     break;
                 case "test":
                     testData.add(createSingleTest());
@@ -234,6 +229,9 @@ public class FHIRPathSpecTest implements ITest {
     
     private static Object[] createSingleTest() throws Exception {
         String testName = testFileReader.getAttributeValue(null, "name");
+        if (testName == null) {
+            testName = currentGroupName;
+        }
         String isPredicate = testFileReader.getAttributeValue(null, "predicate");
         
         String inputfile = testFileReader.getAttributeValue(null, "inputfile");
