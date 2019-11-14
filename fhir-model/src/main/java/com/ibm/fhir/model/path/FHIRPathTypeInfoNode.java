@@ -46,8 +46,8 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
     }
 
     @Override
-    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
-        visitor.visit(param, this);
+    public void accept(FHIRPathNodeVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

@@ -22,13 +22,13 @@ import com.ibm.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.fhir.model.path.FHIRPathDecimalValue;
 import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathIntegerValue;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.fhir.model.path.FHIRPathTree;
 import com.ibm.fhir.model.path.FHIRPathTypeInfoNode;
-import com.ibm.fhir.model.path.visitor.FHIRPathAbstractNodeVisitor;
+import com.ibm.fhir.model.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Date;
@@ -48,7 +48,7 @@ public class FHIRPathNodeVisitorTest {
         "FHIRPathElementNode: Id", 
         "FHIRPathStringValue: 1", 
         "FHIRPathElementNode: Instant", 
-        "FHIRPathBooleanValue: 2019-08-20T20:09:30.841Z", 
+        "FHIRPathDateTimeValue: 2019-08-20T20:09:30.841Z", 
         "FHIRPathElementNode: Narrative", 
         "FHIRPathElementNode: NarrativeStatus", 
         "FHIRPathStringValue: generated", 
@@ -62,7 +62,7 @@ public class FHIRPathNodeVisitorTest {
         "FHIRPathElementNode: String", 
         "FHIRPathStringValue: John", 
         "FHIRPathElementNode: Date", 
-        "FHIRPathBooleanValue: 1980-01-01"
+        "FHIRPathDateTimeValue: 1980-01-01"
     );
     
     @BeforeClass
@@ -72,61 +72,67 @@ public class FHIRPathNodeVisitorTest {
     @Test
     public void testFHIRPathNodeVisitor() {
         Patient patient = buildPatient();
-        FHIRPathTree tree = FHIRPathTree.tree(patient);
-        List<String> list = new ArrayList<>();
-        tree.getRoot().accept(list, new ListBuildingVisitor());
-        Assert.assertEquals(list, EXPECTED);
+        FHIRPathTree tree = FHIRPathTree.tree(patient);        
+        ListBuildingVisitor visitor = new ListBuildingVisitor();
+        tree.getRoot().accept(visitor);
+        Assert.assertEquals(visitor.getResult(), EXPECTED);
     }
     
-    public static class ListBuildingVisitor extends FHIRPathAbstractNodeVisitor<List<String>> {
+    public static class ListBuildingVisitor extends FHIRPathDefaultNodeVisitor {
+        private List<String> result = new ArrayList<>();
+        
+        public List<String> getResult() {
+            return result;
+        }
+        
         @Override
-        protected void doVisit(List<String> param, FHIRPathBooleanValue value) {
-            param.add("FHIRPathBooleanValue: " + value._boolean());
+        public void visit(FHIRPathBooleanValue value) {
+            result.add("FHIRPathBooleanValue: " + value._boolean());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathDateTimeValue value) {
-            param.add("FHIRPathBooleanValue: " + value.dateTime());
+        public void visit(FHIRPathDateTimeValue value) {
+            result.add("FHIRPathDateTimeValue: " + value.dateTime());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathDecimalValue value) {
-            param.add("FHIRPathDecimalValue: " + value.decimal());
+        public void visit(FHIRPathDecimalValue value) {
+            result.add("FHIRPathDecimalValue: " + value.decimal());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathElementNode node) {
-            param.add("FHIRPathElementNode: " + node.element().getClass().getSimpleName());
+        public void doVisit(FHIRPathElementNode node) {
+            result.add("FHIRPathElementNode: " + node.element().getClass().getSimpleName());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathIntegerValue value) {
-            param.add("FHIRPathIntegerValue: " + value.integer());
+        public void visit(FHIRPathIntegerValue value) {
+            result.add("FHIRPathIntegerValue: " + value.integer());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathQuantityNode node) {
-            param.add("FHIRPathQuantityNode: " + node.quantity());
+        public void visit(FHIRPathQuantityValue value) {
+            result.add("FHIRPathQuantityValue: " + value.toString());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathResourceNode node) {
-            param.add("FHIRPathResourceNode: " + node.resource().getClass().getSimpleName());
+        public void doVisit(FHIRPathResourceNode node) {
+            result.add("FHIRPathResourceNode: " + node.resource().getClass().getSimpleName());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathStringValue value) {
-            param.add("FHIRPathStringValue: " + value.string());
+        public void visit(FHIRPathStringValue value) {
+            result.add("FHIRPathStringValue: " + value.string());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathTimeValue value) {
-            param.add("FHIRPathTimeValue: " + value.time());
+        public void visit(FHIRPathTimeValue value) {
+            result.add("FHIRPathTimeValue: " + value.time());
         }
 
         @Override
-        protected void doVisit(List<String> param, FHIRPathTypeInfoNode node) {
-            param.add("FHIRPathTypeInfoNode: " + node.typeInfo());
+        public void visit(FHIRPathTypeInfoNode node) {
+            result.add("FHIRPathTypeInfoNode: " + node.typeInfo());
         }
     }
     

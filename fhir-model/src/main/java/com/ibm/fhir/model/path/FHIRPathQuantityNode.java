@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.model.path;
 
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasValueAndUnit;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.math.BigDecimal;
@@ -17,30 +16,64 @@ import com.ibm.fhir.model.type.Quantity;
 
 public class FHIRPathQuantityNode extends FHIRPathElementNode {    
     private final Quantity quantity;
+    private final String quantitySystem;
+    private final String quantityCode;
+    private final String quantityUnit;
+    private final BigDecimal quantityValue;
     
     protected FHIRPathQuantityNode(Builder builder) {
         super(builder);
         quantity = builder.quantity;
+        quantitySystem = getQuantitySystem(quantity);
+        quantityCode = getQuantityCode(quantity);
+        quantityUnit = getQuantityUnit(quantity);
+        quantityValue = getQuantityValue(quantity);
     }
     
     public Quantity quantity() {
         return quantity;
     }
     
+    public String getQuantitySystem() {
+        return quantitySystem;
+    }
+    
+    public String getQuantityCode() {
+        return quantityCode;
+    }
+    
+    public String getQuantityUnit() {
+        return quantityUnit;
+    }
+    
     public BigDecimal getQuantityValue() {
-        if (quantity.getValue() != null && quantity.getValue().getValue() != null) {
-            return quantity.getValue().getValue();
+        return quantityValue;
+    }
+
+    private String getQuantitySystem(Quantity quantity) {
+        if (quantity.getSystem() != null) {
+            return quantity.getSystem().getValue();
         }
         return null;
     }
     
-    public String getQuantityUnit() {
-        // prefer code over unit
-        if (quantity.getCode() != null && quantity.getCode().getValue() != null) {
+    private String getQuantityCode(Quantity quantity) {
+        if (quantity.getCode() != null) {
             return quantity.getCode().getValue();
         }
-        if (quantity.getUnit() != null && quantity.getUnit().getValue() != null) {
+        return null;
+    }
+
+    private String getQuantityUnit(Quantity quantity) {
+        if (quantity.getUnit() != null) {
             return quantity.getUnit().getValue();
+        }
+        return null;
+    }
+    
+    private BigDecimal getQuantityValue(Quantity quantity) {
+        if (quantity.getValue() != null) {
+            return quantity.getValue().getValue();
         }
         return null;
     }
@@ -71,7 +104,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
             return (Builder) super.path(path);
         }
         
-        public Builder value(FHIRPathPrimitiveValue value) {
+        public Builder value(FHIRPathSystemValue value) {
             return (Builder) super.value(value);
         }
         
@@ -107,17 +140,26 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
-        BigDecimal value = getQuantityValue();
-        if (other instanceof FHIRPathQuantityNode) {
-            return hasValueAndUnit(this) && 
-                    hasValueAndUnit((FHIRPathQuantityNode) other) && 
-                    // units must be equal
-                    getQuantityUnit().equals(((FHIRPathQuantityNode) other).getQuantityUnit());
-        }
-        if (other instanceof FHIRPathNumberValue || other.getValue() instanceof FHIRPathNumberValue) {
-            return value != null;
+        if (hasValue()) {
+            if (other instanceof FHIRPathQuantityValue) {
+                return getValue().isComparableTo(other);
+            }
+            if (other.getValue() instanceof FHIRPathQuantityValue) {
+                return getValue().isComparableTo(other.getValue());
+            }
+        } else if (other instanceof FHIRPathQuantityNode) {
+            return isComparableTo((FHIRPathQuantityNode) other);
+        } else if (other instanceof FHIRPathNumberValue || other.getValue() instanceof FHIRPathNumberValue) {
+            return getQuantityValue() != null;
         }
         return false;
+    }
+    
+    private boolean isComparableTo(FHIRPathQuantityNode other) {
+        return getQuantityValue() != null && other.getQuantityValue() != null && 
+                ((getQuantitySystem() !=null && other.getQuantitySystem() != null && getQuantitySystem().equals(other.getQuantitySystem()) && 
+                        getQuantityCode() != null && other.getQuantityCode() != null && getQuantityCode().equals(other.getQuantityCode())) || 
+                        (getQuantityUnit() != null && other.getQuantityUnit() != null && getQuantityUnit().equals(other.getQuantityUnit())));
     }
 
     @Override
@@ -125,14 +167,21 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         if (!isComparableTo(other)) {
             throw new IllegalArgumentException();
         }
-        BigDecimal value = getQuantityValue();
-        if (other instanceof FHIRPathNumberValue) {
-            return value.compareTo(((FHIRPathNumberValue) other).decimal());
+        if (hasValue()) {
+            if (other instanceof FHIRPathQuantityValue) {
+                return getValue().compareTo(other);
+            }
+            if (other.getValue() instanceof FHIRPathQuantityValue) {
+                return getValue().compareTo(other.getValue());
+            }
+        } else if (other instanceof FHIRPathQuantityNode) {
+            return getQuantityValue().compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+        } else if (other instanceof FHIRPathNumberValue) {
+            return getQuantityValue().compareTo(((FHIRPathNumberValue) other).decimal());
+        } else if (other.getValue() instanceof FHIRPathNumberValue) {
+            return getQuantityValue().compareTo(((FHIRPathNumberValue) other.getValue()).decimal());
         }
-        if (other.getValue() instanceof FHIRPathNumberValue) {
-            return value.compareTo(((FHIRPathNumberValue) other.getValue()).decimal());
-        }
-        return value.compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+        throw new IllegalStateException();
     }
 
     @Override

@@ -100,7 +100,12 @@ public class FHIRPathTree {
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Element element) {
             if (element instanceof Quantity) {
-                builderStack.push(FHIRPathQuantityNode.builder((Quantity) element).name(elementName));
+                Quantity quantity = (Quantity) element;
+                builderStack.push(FHIRPathQuantityNode.builder(quantity).name(elementName));
+                FHIRPathQuantityValue value = FHIRPathQuantityValue.quantityValue(quantity);
+                if (value != null) {
+                    builderStack.peek().value(value);
+                }
             } else {
                 builderStack.push(FHIRPathElementNode.builder(element).name(elementName));
             }

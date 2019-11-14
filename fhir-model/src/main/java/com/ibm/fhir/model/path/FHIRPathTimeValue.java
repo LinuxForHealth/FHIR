@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import com.ibm.fhir.model.path.visitor.FHIRPathNodeVisitor;
 
-public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
+public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {
     private static final DateTimeFormatter TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("'T'HH:mm:ss")
             .optionalStart()
@@ -35,10 +35,12 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
             .toFormatter();
     
     private final TemporalAccessor time;
+    private final Temporal temporal;
     
     protected FHIRPathTimeValue(Builder builder) {
         super(builder);
         time = builder.time;
+        temporal = getTemporal(time);
     }
     
     @Override
@@ -59,6 +61,11 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
     
     public TemporalAccessor time() {
         return time;
+    }
+    
+    @Override
+    public Temporal temporal() {
+        return temporal;
     }
     
     public static FHIRPathTimeValue timeValue(String time) {
@@ -101,7 +108,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
         }
         
         @Override
-        public Builder value(FHIRPathPrimitiveValue value) {
+        public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
@@ -121,15 +128,15 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
         }
     }
     
-    public FHIRPathTimeValue add(FHIRPathQuantityNode quantityNode) {
+    public FHIRPathTimeValue add(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(time);
-        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return timeValue(temporal.plus(temporalAmount));
     }
 
-    public FHIRPathTimeValue subtract(FHIRPathQuantityNode quantityNode) {
+    public FHIRPathTimeValue subtract(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(time);
-        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return timeValue(temporal.minus(temporalAmount));
     }
 
@@ -193,7 +200,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathP
     }
 
     @Override
-    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
-        visitor.visit(param, this);
+    public void accept(FHIRPathNodeVisitor visitor) {
+        visitor.visit(this);
     }
 }

@@ -19,12 +19,11 @@ import java.util.Objects;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathTree;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.model.path.visitor.FHIRPathVoidParameterNodeVisitorAdapter;
+import com.ibm.fhir.model.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
@@ -143,7 +142,7 @@ public class FHIRValidator {
         return new FHIRValidator();
     }
 
-    private static class ValidatingNodeVisitor extends FHIRPathVoidParameterNodeVisitorAdapter {
+    private static class ValidatingNodeVisitor extends FHIRPathDefaultNodeVisitor {
         private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         private EvaluationContext evaluationContext;
         private boolean includeResourceAssertedProfiles;
@@ -166,17 +165,12 @@ public class FHIRValidator {
         }
         
         @Override
-        protected void doVisit(FHIRPathElementNode node) {
+        public void doVisit(FHIRPathElementNode node) {
             validate(node);
         }
         
         @Override
-        protected void doVisit(FHIRPathResourceNode node) {
-            validate(node);
-        }
-        
-        @Override
-        protected void doVisit(FHIRPathQuantityNode node) {
+        public void doVisit(FHIRPathResourceNode node) {
             validate(node);
         }
 

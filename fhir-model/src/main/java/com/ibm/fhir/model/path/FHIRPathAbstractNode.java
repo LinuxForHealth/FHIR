@@ -17,7 +17,7 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
     protected final String name;
     protected final String path;
     protected final FHIRPathType type;
-    protected final FHIRPathPrimitiveValue value;
+    protected final FHIRPathSystemValue value;
     protected final Collection<FHIRPathNode> children;
     
     protected FHIRPathAbstractNode(Builder builder) {
@@ -49,7 +49,7 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
     }
     
     @Override
-    public FHIRPathPrimitiveValue getValue() {
+    public FHIRPathSystemValue getValue() {
         return value;
     }
     
@@ -87,7 +87,7 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
         // optional
         protected String name;
         protected String path;
-        protected FHIRPathPrimitiveValue value;
+        protected FHIRPathSystemValue value;
         protected Collection<FHIRPathNode> children = new ArrayList<>();
         
         protected Builder(FHIRPathType type) {
@@ -108,7 +108,7 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
         }
         
         @Override
-        public Builder value(FHIRPathPrimitiveValue value) {
+        public Builder value(FHIRPathSystemValue value) {
             children.remove(this.value);
             this.value = value;
             children.add(this.value);
