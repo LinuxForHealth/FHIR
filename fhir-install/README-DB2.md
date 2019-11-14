@@ -4,7 +4,7 @@ Running fhir server integration tests using docker db2.
 
 ## Prerequisites
 
-- [Docker]
+- [Docker](https://www.docker.com)
 
 ## Build
 - Access the fhir-install/docker directory;
@@ -15,13 +15,15 @@ Running fhir server integration tests using docker db2.
 ```sh
 docker build -t fhirserverdb2 . --squash
 ```
+
 ## Run
  
 Once the image is built, start it with:
 
 ```sh
-docker run -itd --name fhirdb2 --privileged=true -p 50000:50000 -e LICENSE=accept -e DB2INST1_PASSWORD=change-password -v /db2 -rm fhirserverdb2
+docker run -itd --name fhirdb2 --privileged=true -p 50000:50000 -e LICENSE=accept -e DB2INST1_PASSWORD=change-password  -rm fhirserverdb2
 ```
+
 if docker fails to find the image by name, then please use the image id instead of name for this above command.
 
 ## Configuration
@@ -34,12 +36,13 @@ db2 CREATE DB study using codeset UTF-8 territory us PAGESIZE 32768
 db2 CREATE DB ref using codeset UTF-8 territory us PAGESIZE 32768
 db2 CREATE DB profile using codeset UTF-8 territory us PAGESIZE 32768
 ```
+
 For the created databases fhirdb, study, ref and profile, please use the db schema tool in fhir-persistence-schema project to deploy new schema and grant privileges to data access user "fhiruser". And then add "default" and "tenant1" tenants for fhirdb database, and add "tenant1" tenant for the other 3 databases.  
 
 Configure to use db2 for the default tenant in fhir-server-config.json, e.g:
 
 ```json
-"datasources": {
+			   "datasources": {
                 "default": {
                     "type": "db2",
                     "tenantKey": "<the-base64-tenant-key>",
@@ -116,5 +119,3 @@ Configure to use db2 for the "tenant1" tenant in fhir-server-config.json, e.g:
 Restart fhir server, and then run testng integration tests under the fhir-server-test project.
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
-
-[Docker]: <http://docker.com>
