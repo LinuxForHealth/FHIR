@@ -61,9 +61,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     public static final String EXCEPTION_MSG_NAME_ONLY = "Unexpected error while processing parameter [%s]";
 
     // Datetime Limits from
-    // DB2: https://www.ibm.com/support/knowledgecenter/en/SSEPGG_10.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
+    // DB2: https://www.ibm.com/support/knowledgecenter/en/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
     // Derby: https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj271.html
     private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.valueOf("0001-01-01 00:00:00.000000");
+    // 23:59:59.999999 used instead of 24:00:00.000000 to ensure it could be represented in FHIR if needed
     private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 23:59:59.999999");
 
     // We only need the SearchParameter type and code, so just store those directly as members
@@ -452,21 +453,31 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         if (!QUANTITY.equals(searchParamType)) {
             throw invalidComboException(searchParamType, quantity);
         }
-        if (quantity != null && quantity.getValue() != null && quantity.getValue().getValue() != null &&
-                (quantity.getCode() != null || quantity.getUnit() != null)) {
-            Parameter p = new Parameter();
-            p.setName(searchParamCode);
-            p.setValueNumber(quantity.getValue().getValue());
+        if (quantity.getValue() != null && quantity.getValue().hasValue()) {
+            BigDecimal value = quantity.getValue().getValue();
+            
             // see https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
-            if (quantity.getCode() != null) {
+            if (quantity.getCode() != null && quantity.getCode().hasValue()) {
+                Parameter p = new Parameter();
+                p.setName(searchParamCode);
+                p.setValueNumber(value);
                 p.setValueCode(quantity.getCode().getValue());
                 if (quantity.getSystem() != null) {
                     p.setValueSystem(quantity.getSystem().getValue());
                 }
-            } else if (quantity.getUnit() != null) {
-                p.setValueCode(quantity.getUnit().getValue());
+                result.add(p);
             }
-            result.add(p);
+            if (quantity.getUnit() != null && quantity.getUnit().hasValue()) {
+                String displayUnit = quantity.getUnit().getValue();
+                // No need to save a second parameter value if the display unit matches the coded unit
+                if (quantity.getCode() == null || !displayUnit.equals(quantity.getCode().getValue())) {
+                    Parameter p = new Parameter();
+                    p.setName(searchParamCode);
+                    p.setValueNumber(value);
+                    p.setValueCode(displayUnit);
+                    result.add(p);
+                }
+            }
         }
         return false;
     }
