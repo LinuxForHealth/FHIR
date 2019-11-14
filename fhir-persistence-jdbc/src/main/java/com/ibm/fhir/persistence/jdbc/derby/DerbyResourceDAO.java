@@ -74,14 +74,14 @@ public class DerbyResourceDAO {
      *       SELECT FOR UPDATE             -- so we need to try again for a write lock
      *     ...
      *   ...
-     * </pre>  
-     *   
+     * </pre>
+     * 
      * This works because we never delete a logical_resource record, and so don't have to deal
      * with concurrency issues caused when deletes are mingled with inserts/updates
      * 
      * Note the execution flow aligns very closely with the DB2 stored procedure
      * implementation (fhir-persistence-schema/src/main/resources/add_any_resource.sql)
-     *  
+     * 
      * @param tablePrefix
      * @param parameters
      * @param p_logical_id
