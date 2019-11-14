@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -39,7 +43,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
  * A class used to generate FHIRPath expressions from a profile
  */
 public class ConstraintGenerator {
-    public static boolean DEBUG = false;
+    private static final Logger log = Logger.getLogger(ConstraintGenerator.class.getName());
     
     private final StructureDefinition profile;
     private final Tree tree;
@@ -58,21 +62,15 @@ public class ConstraintGenerator {
     
         int index = 1;
     
-        if (DEBUG) {
-            System.out.println("Generated constraint expressions:");
-        }
+        log.fine("Generated constraint expressions:");
         for (Node child : tree.root.children) {
             String expr = generate(child);
-            if (DEBUG) {
-                System.out.println(expr);
-            }
+            log.fine(expr);
             String description = "Constraint violation: " + expr;
             constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
             index++;
         }
-        if (DEBUG) {
-            System.out.println("");
-        }
+        log.fine("");
     
         return constraints;
     }
@@ -111,28 +109,28 @@ public class ConstraintGenerator {
         tree.nodeMap = nodeMap;
         tree.sliceDefinitionMap = sliceDefinitionMap;
         
-        if (DEBUG) {
-            System.out.println("Element definitions BEFORE pruning:");
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Element definitions BEFORE pruning:");
             for (String id : nodeMap.keySet()) {
-                System.out.println(id);
+                log.fine(id);
             }
-            System.out.println("");
+            log.fine("");
         }
 
         prune(tree);
 
-        if (DEBUG) {
-            System.out.println("Element definitions AFTER pruning:");
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Element definitions AFTER pruning:");
             for (String id : nodeMap.keySet()) {
-                System.out.println(id);
+                log.fine(id);
             }
-            System.out.println("");
+            log.fine("");
     
-            System.out.println("Slice definitions:");
+            log.fine("Slice definitions:");
             for (String id : sliceDefinitionMap.keySet()) {
-                System.out.println(id);
+                log.fine(id);
             }
-            System.out.println("");
+            log.fine("");
         }
 
         return tree;
@@ -602,8 +600,23 @@ public class ConstraintGenerator {
     }
 
     public static void main(String[] args) throws Exception {
+        Logger logger = Logger.getLogger("");
+        logger.setLevel(Level.FINE);
+        logger.addHandler(new Handler() {
+            @Override
+            public void publish(LogRecord record) {
+                System.out.println(record.getMessage());
+            }
+
+            @Override
+            public void flush() {                
+            }
+
+            @Override
+            public void close() throws SecurityException {                
+            }
+        });
         StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/bodyweight", StructureDefinition.class);
-        ConstraintGenerator.DEBUG = true;
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         System.out.println("Generated constraints: ");
         generator.generate().stream().map(constraint -> constraint.expression()).forEach(System.out::println);

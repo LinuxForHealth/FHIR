@@ -8,10 +8,20 @@ package com.ibm.fhir.validation.test;
 
 import static com.ibm.fhir.model.type.String.string;
 
+import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Observation.Component;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -24,10 +34,10 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.validation.FHIRValidator;
-import com.ibm.fhir.validation.util.ConstraintGenerator;
 
 public class BloodPressureObservationTest {
-    public static void main(String[] args) throws Exception {
+    @Test
+    public static void testBloodPressureObservation() throws Exception {
         // build a blood pressure observation
         Observation bloodPressureObservation = Observation.builder()
             // resource metadata
@@ -105,8 +115,28 @@ public class BloodPressureObservationTest {
         System.out.println("");
         
         // validate the blood pressure observation in debug mode and print issues to console
-        ConstraintGenerator.DEBUG = true;
-        FHIRValidator.validator().validate(bloodPressureObservation).forEach(System.out::println);
+        Logger logger = Logger.getLogger("");
+        logger.setLevel(Level.FINE);
+        logger.addHandler(new Handler() {
+            @Override
+            public void publish(LogRecord record) {
+                System.out.println(record.getMessage());
+            }
+
+            @Override
+            public void flush() {                
+            }
+
+            @Override
+            public void close() throws SecurityException {                
+            }
+        });
+        List<Issue> issues = FHIRValidator.validator().validate(bloodPressureObservation);
+        issues.forEach(System.out::println);
+        Assert.assertEquals(issues.size(), 2);
+        Assert.assertTrue(issues.get(0).getDetails().getText().getValue().startsWith("dom-6"));
+        Assert.assertTrue(issues.get(1).getDetails().getText().getValue().startsWith("generated-bp-8"));
+
         System.out.println("");
     }
 }
