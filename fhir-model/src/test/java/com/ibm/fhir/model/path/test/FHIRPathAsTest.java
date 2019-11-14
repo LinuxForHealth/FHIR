@@ -15,10 +15,15 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.model.resource.Condition;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Boolean;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Decimal;
+import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.ObservationStatus;
 
 public class FHIRPathAsTest {
     @Test
@@ -56,5 +61,25 @@ public class FHIRPathAsTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.generalPractitioner.resolve() as Basic");
 
         assertEquals(result.size(), 1, "Number of selected nodes");
+    }
+    
+    @Test
+    void testArrayAsOperation() throws Exception {
+        Observation.Component component = Observation.Component.builder()
+                .code(CodeableConcept.builder().text(string("value")).build())
+                .value(Quantity.builder().value(Decimal.of(1)).build())
+                .build();
+        
+        Observation obs = Observation.builder()
+                .status(ObservationStatus.AMENDED)
+                .code(CodeableConcept.builder().text(string("value")).build())
+                .component(component)
+                .component(component)
+                .build();
+
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(obs, "Observation.component.value as Quantity");
+        
+        assertEquals(result.size(), 2, "Number of selected nodes");
     }
 }

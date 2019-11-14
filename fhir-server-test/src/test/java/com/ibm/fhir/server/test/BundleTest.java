@@ -817,8 +817,6 @@ public class BundleTest extends FHIRServerTestBase {
         // input should encode actual values, not encode the separators
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family:exact=Ortiz%26Jeter&_count=1000", null,
-                null); // issue 266
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family:exact=Ortiz&Jeter&_count=1000", null,
                 null);
 
         printBundle(method, "request", bundle);
@@ -829,14 +827,12 @@ public class BundleTest extends FHIRServerTestBase {
         
         Bundle responseBundle = getEntityWithExtraWork(response,method);
         
-        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
 
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
-        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
-        Bundle resultSet;
-        resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
+        Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
         assertNotNull(resultSet);
         assertTrue(resultSet.getEntry().size() >= 1);
 
@@ -847,18 +843,6 @@ public class BundleTest extends FHIRServerTestBase {
         // B1 is Ortiz, B3 is Ortiz&Jeter
         assertTrue(isResourceInResponse(patientB3, lstRes));
         assertTrue(!isResourceInResponse(patientB1, lstRes));
-
-        resultSet = (Bundle) responseBundle.getEntry().get(1).getResource();
-        assertNotNull(resultSet);
-        assertTrue(resultSet.getEntry().size() >= 1);
-
-        lstRes = new ArrayList<Resource>();
-        for (Bundle.Entry entry : resultSet.getEntry()) {
-            lstRes.add(entry.getResource());
-        }
-        assertTrue(isResourceInResponse(patientB1, lstRes));
-        assertTrue(!isResourceInResponse(patientB3, lstRes));
-
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
@@ -2140,7 +2124,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
                 "returned multiple matches");
         assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
-                "An error occurred while parsing search parameter");
+                "Search parameter 'BAD' for resource type 'Patient' was not found.");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
@@ -2211,7 +2195,7 @@ public class BundleTest extends FHIRServerTestBase {
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 1);
         assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
-                "An error occurred while parsing search parameter");
+                "Search parameter 'BAD' for resource type 'Patient' was not found.");
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
@@ -2245,7 +2229,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
                 "returned multiple matches");
         assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
-                "An error occurred while parsing search parameter");
+                "Search parameter 'NOTASEARCH' for resource type 'Patient' was not found.");
 
         // Next, verify that we have two versions of the Patient resource.
         response = client.history("Patient", patientId, null);
@@ -2312,7 +2296,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertBadResponse(responseBundle.getEntry().get(2), Status.PRECONDITION_FAILED.getStatusCode(),
                 "returned multiple matches");
         assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
-                "An error occurred while parsing search parameter");
+                "Search parameter 'NOTASEARCH' for resource type 'Patient' was not found.");
 
         // Next, verify that we can't read the Patient resource.
         response = client.read("Patient", patientId);

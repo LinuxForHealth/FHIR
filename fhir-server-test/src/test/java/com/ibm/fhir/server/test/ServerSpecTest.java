@@ -531,7 +531,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient").queryParam("notasearch:parameter", "foo").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "An error occurred while parsing search parameter");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+                "Search parameter 'notasearch' for resource type 'Patient' was not found.");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient", "testCreateObservation"})
@@ -550,7 +551,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Observation").queryParam("notasearch:parameter", "foo").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "An error occurred while parsing search parameter");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+                "Search parameter 'notasearch' for resource type 'Observation' was not found.");
     }
     
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreateObservation"})
@@ -566,7 +568,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient").queryParam("family:xxx", "foo").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "An error occurred while parsing search parameter");
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Undefined Modifier: xxx");
     }
 
     @Test(groups = { "server-spec" }, dependsOnMethods = { "testCreateObservation" })
@@ -749,11 +751,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
     
     // Test: retrieve Patient with _summary=invalid.
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
-    public void testReadPatientSummary_Invalid() {
+    public void testReadPatientSummary_Invalid_lenient() {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient/" + savedPatient.getId().getValue())
                 .queryParam("_summary", "invalid")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=lenient")
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         Coding subsettedTag =
@@ -774,7 +778,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
 
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
-                "An error occurred while parsing search parameter '_summary'");
+                "An error occurred while parsing parameter '_summary'");
     }
  
 }

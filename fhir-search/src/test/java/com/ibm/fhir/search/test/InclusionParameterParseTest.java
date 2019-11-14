@@ -77,14 +77,14 @@ public class InclusionParameterParseTest extends BaseSearchTest {
     }
 
     @Test
-    public void testIncludeUnknownParameterName() throws Exception {
+    public void testIncludeUnknownParameterName_lenient() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
         String queryString = "&_include=Patient:bogus";
 
         // In lenient mode, the unknown parameter should be ignored
         queryParameters.put("_include", Collections.singletonList("Patient:bogus"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         assertNotNull(searchContext);
         assertFalse(searchContext.hasIncludeParameters());
 
@@ -204,14 +204,14 @@ public class InclusionParameterParseTest extends BaseSearchTest {
     }
 
     @Test
-    public void testRevIncludeUnknownParameterName() throws Exception {
+    public void testRevIncludeUnknownParameterName_lenient() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Organization> resourceType = Organization.class;
         String queryString = "&_revinclude=Patient:bogus";
 
         // In lenient mode, the unknown parameter should be ignored
         queryParameters.put("_revinclude", Collections.singletonList("Patient:bogus"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         assertNotNull(searchContext);
         assertFalse(searchContext.hasIncludeParameters());
 

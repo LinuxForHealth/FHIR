@@ -460,11 +460,11 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             // see https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
             if (quantity.getCode() != null) {
                 p.setValueCode(quantity.getCode().getValue());
+                if (quantity.getSystem() != null) {
+                    p.setValueSystem(quantity.getSystem().getValue());
+                }
             } else if (quantity.getUnit() != null) {
                 p.setValueCode(quantity.getUnit().getValue());
-            }
-            if (quantity.getSystem() != null) {
-                p.setValueSystem(quantity.getSystem().getValue());
             }
             result.add(p);
         }
