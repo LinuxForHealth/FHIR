@@ -228,7 +228,6 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         queryString.append(")");
     }
 
-
     private void processIncludeParameters(StringBuilder queryString, List<Object> bindVariables) throws Exception {
         final String METHODNAME = "processIncludeParameters";
         log.entering(CLASSNAME, METHODNAME);
@@ -239,7 +238,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID 
             queryString.append(QuerySegmentAggregator.SELECT_ROOT);
             // FROM Organization_RESOURCES R JOIN Organization_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
-            queryString.append(MessageFormat.format(QuerySegmentAggregator.FROM_CLAUSE_ROOT, includeParm.getSearchParameterTargetType()));
+            String logicalResourceTable = includeParm.getSearchParameterTargetType() + "_LOGICAL_RESOURCES";
+            String resourceTable =  includeParm.getSearchParameterTargetType() + "_RESOURCES";
+            queryString.append(MessageFormat.format(QuerySegmentAggregator.FROM_CLAUSE_ROOT, resourceTable, logicalResourceTable));
             // WHERE R.IS_DELETED <> 'Y' AND
             queryString.append(QuerySegmentAggregator.WHERE_CLAUSE_ROOT).append(" AND ");
             // R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
@@ -265,7 +266,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID 
             queryString.append(QuerySegmentAggregator.SELECT_ROOT);
             // FROM Observation_RESOURCES R JOIN Observation_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
-            queryString.append(MessageFormat.format(QuerySegmentAggregator.FROM_CLAUSE_ROOT, includeParm.getJoinResourceType()));
+            String logicalResourceTable = includeParm.getJoinResourceType() + "_LOGICAL_RESOURCES";
+            String resourceTable =  includeParm.getJoinResourceType() + "_RESOURCES";
+            queryString.append(MessageFormat.format(QuerySegmentAggregator.FROM_CLAUSE_ROOT, resourceTable, logicalResourceTable));
             // JOIN Observation_STR_VALUES P1 ON P1.RESOURCE_ID = R.RESOURCE_ID
             queryString.append(MessageFormat.format(REVINCLUDE_JOIN, includeParm.getJoinResourceType()));
             // WHERE R.IS_DELETED <> 'Y' AND
