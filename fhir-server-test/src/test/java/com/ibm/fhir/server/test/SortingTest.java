@@ -674,6 +674,7 @@ public class SortingTest extends FHIRServerTestBase {
                 }
 
                 assertTrue(prior.compareTo(current) <= 0);
+                prior = current;
             }
             done = true;
         }

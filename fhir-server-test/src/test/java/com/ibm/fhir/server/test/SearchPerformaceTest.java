@@ -15,6 +15,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ws.rs.client.Entity;
@@ -27,9 +28,14 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Observation.Component;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Decimal;
+import com.ibm.fhir.model.type.Quantity;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.util.FHIRUtil;
 
@@ -44,7 +50,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
     // Controls how many observations and patients to create for the test.
     // Using invocationCount of testng can cause the testng report grows too big, so
     // this config is used to make sure all test users are created in one testng step.
-    private final int numOfPatientObservationsToCreate = 100;
+    private final int numOfPatientObservationsToCreate = 1000;
 
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
@@ -87,6 +93,21 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
             // create observation for the patient
             Observation observation =
                     TestUtil.buildPatientObservation(patientId, "Observation1.json");
+            observation = observation.toBuilder()
+                    .code(CodeableConcept.builder()
+                            .coding(Coding.builder()
+                                    .system(Uri.of("http://loinc.org"))
+                                    .code(Code.of("55284-4"))
+                                    .build())
+                            .build())
+                    .component(Component.builder()
+                            .code(CodeableConcept.builder().text(string("component1")).build())
+                            .value(Quantity.builder()
+                                    .value(Decimal.of(BigDecimal.valueOf(Math.random())))
+                                    .unit(string("mmHg"))
+                                    .build())
+                            .build())
+                    .build();
             Entity<Observation> entity2 =
                     Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
             response =
