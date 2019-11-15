@@ -76,6 +76,8 @@ public final class ProfileSupport {
             }
         }
         Collections.sort(constraints, CONSTRAINT_COMPARATOR);
+        ConstraintGenerator generator = new ConstraintGenerator(profile);
+        constraints.addAll(generator.generate());
         return constraints;
     }
 
@@ -180,7 +182,6 @@ public final class ProfileSupport {
     }
     
     public static List<Constraint> getConstraints(Resource resource) {
-        List<Constraint> constraints = new ArrayList<>();
         Meta meta = resource.getMeta();
         if (meta != null) {
             List<String> urls = new ArrayList<>();
@@ -191,7 +192,7 @@ public final class ProfileSupport {
             }
             return getConstraints(urls, resource.getClass());
         }
-        return constraints;
+        return Collections.emptyList();
     }
 
     public static List<Constraint> getConstraints(String url, Class<?> resourceType) {

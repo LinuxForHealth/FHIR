@@ -17,10 +17,9 @@ import com.ibm.fhir.examples.ExamplesUtil;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.path.FHIRPathElementNode;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathTree;
-import com.ibm.fhir.model.path.visitor.FHIRPathNodeVisitorAdapter;
+import com.ibm.fhir.model.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
@@ -47,19 +46,14 @@ public class NodeVisitorTest {
                         
             List<String> treePaths = new ArrayList<>();
             FHIRPathTree tree = FHIRPathTree.tree(patient);
-            tree.getRoot().accept(new FHIRPathNodeVisitorAdapter<Void>() {
+            tree.getRoot().accept(new FHIRPathDefaultNodeVisitor() {
                 @Override
-                protected void doVisit(Void param, FHIRPathElementNode node) {
+                public void doVisit(FHIRPathElementNode node) {
                     treePaths.add(node.path());
                 }
 
                 @Override
-                protected void doVisit(Void param, FHIRPathQuantityNode node) {
-                    treePaths.add(node.path());
-                }
-
-                @Override
-                protected void doVisit(Void param, FHIRPathResourceNode node) {
+                public void doVisit(FHIRPathResourceNode node) {
                     treePaths.add(node.path());
                 }
             });

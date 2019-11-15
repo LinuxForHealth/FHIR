@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -39,6 +43,8 @@ import com.ibm.fhir.registry.FHIRRegistry;
  * A class used to generate FHIRPath expressions from a profile
  */
 public class ConstraintGenerator {
+    private static final Logger log = Logger.getLogger(ConstraintGenerator.class.getName());
+    
     private final StructureDefinition profile;
     private final Tree tree;
 
@@ -56,12 +62,15 @@ public class ConstraintGenerator {
     
         int index = 1;
     
+        log.fine("Generated constraint expressions:");
         for (Node child : tree.root.children) {
             String expr = generate(child);
+            log.fine(expr);
             String description = "Constraint violation: " + expr;
             constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
             index++;
         }
+        log.fine("");
     
         return constraints;
     }
@@ -100,25 +109,29 @@ public class ConstraintGenerator {
         tree.nodeMap = nodeMap;
         tree.sliceDefinitionMap = sliceDefinitionMap;
         
-        System.out.println("Paths before pruning:");
-        for (String path : nodeMap.keySet()) {
-            System.out.println("path: " + path);
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Element definitions BEFORE pruning:");
+            for (String id : nodeMap.keySet()) {
+                log.fine(id);
+            }
+            log.fine("");
         }
-        System.out.println("");
 
         prune(tree);
 
-        System.out.println("Paths after pruning:");
-        for (String path : nodeMap.keySet()) {
-            System.out.println("path: " + path);
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Element definitions AFTER pruning:");
+            for (String id : nodeMap.keySet()) {
+                log.fine(id);
+            }
+            log.fine("");
+    
+            log.fine("Slice definitions:");
+            for (String id : sliceDefinitionMap.keySet()) {
+                log.fine(id);
+            }
+            log.fine("");
         }
-        System.out.println("");
-
-        System.out.println("Slice definitions:");
-        for (String id : sliceDefinitionMap.keySet()) {
-            System.out.println("id: " + id);
-        }
-        System.out.println("");
 
         return tree;
     }
@@ -190,7 +203,11 @@ public class ConstraintGenerator {
                 if (isExtensionUrl(child.elementDefinition)) {
                     continue;
                 }
-                joiner.add(generate(child));
+                if (isOptional(child.elementDefinition)) {
+                    joiner.add("(" + generate(child) + ")");
+                } else {
+                    joiner.add(generate(child));
+                }
             }
             sb.append(joiner.toString());
             sb.append(")");
@@ -583,8 +600,25 @@ public class ConstraintGenerator {
     }
 
     public static void main(String[] args) throws Exception {
-        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/bp", StructureDefinition.class);
+        Logger logger = Logger.getLogger("");
+        logger.setLevel(Level.FINE);
+        logger.addHandler(new Handler() {
+            @Override
+            public void publish(LogRecord record) {
+                System.out.println(record.getMessage());
+            }
+
+            @Override
+            public void flush() {                
+            }
+
+            @Override
+            public void close() throws SecurityException {                
+            }
+        });
+        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/bodyweight", StructureDefinition.class);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
+        System.out.println("Generated constraints: ");
         generator.generate().stream().map(constraint -> constraint.expression()).forEach(System.out::println);
     }
 }

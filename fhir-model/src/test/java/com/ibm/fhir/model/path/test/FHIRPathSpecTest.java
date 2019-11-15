@@ -30,11 +30,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
-
 import org.testng.internal.BaseTestMethod;
 
 import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.path.exception.FHIRPathException;
@@ -129,7 +128,7 @@ public class FHIRPathSpecTest implements ITest {
                 assertEquals(getNumberValue(singleton(result)).toString(), expectedOutput.text);
                 break;
             case "quantity":
-                assertEquals(result.as(FHIRPathQuantityNode.class).toString(), expectedOutput.text);
+                assertEquals(result.as(FHIRPathQuantityValue.class).toString(), expectedOutput.text);
                 break;
             case "string":
                 assertEquals(getStringValue(singleton(result)).toString(), expectedOutput.text);

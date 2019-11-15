@@ -36,7 +36,7 @@ public class BodyWeightProfileTest {
     public static void testBodyWeightProfile() throws Exception {
         List<Constraint> constraints = getConstraints(BODY_WEIGHT_PROFILE_URL, Observation.class);
 
-        Assert.assertEquals(constraints.size(), 3);
+        Assert.assertEquals(constraints.size(), 10);
         Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-1")).count() == 1);
         Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-2")).count() == 1);
         Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-3")).count() == 1);
@@ -76,10 +76,14 @@ public class BodyWeightProfileTest {
                 .build();
 
         List<Issue> issues = FHIRValidator.validator().validate(bodyWeight);
-        Assert.assertEquals(issues.size(), 2);
+        
+        issues.forEach(System.out::println);
+        
+        Assert.assertEquals(issues.size(), 3);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("vs-1")).count() == 1);
-        
+        Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("generated-bodyweight-3")).count() == 1);
+
         bodyWeight = bodyWeight.toBuilder()
                 .meta(null)
                 .build();
@@ -89,7 +93,7 @@ public class BodyWeightProfileTest {
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
         
         issues = FHIRValidator.validator().validate(bodyWeight, BODY_WEIGHT_PROFILE_URL);
-        Assert.assertEquals(issues.size(), 2);
+        Assert.assertEquals(issues.size(), 3);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("vs-1")).count() == 1);
     }
