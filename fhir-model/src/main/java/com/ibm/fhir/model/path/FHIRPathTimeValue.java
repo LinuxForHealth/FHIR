@@ -10,13 +10,10 @@ import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporal;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporalAmount;
 
 import java.time.LocalTime;
-import java.time.OffsetTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAmount;
 import java.util.Collection;
 import java.util.Objects;
@@ -25,16 +22,22 @@ import com.ibm.fhir.model.path.visitor.FHIRPathNodeVisitor;
 
 public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {
     private static final DateTimeFormatter TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
-            .appendPattern("'T'HH:mm:ss")
+            .appendLiteral("T")
+            .appendPattern("HH")
             .optionalStart()
-                .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                .appendPattern(":mm")
+                .optionalStart()
+                    .appendPattern(":ss")
+                    .optionalStart()
+                        .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                    .optionalEnd()
+                .optionalEnd()
             .optionalEnd()
-            .optionalStart()
-                .appendPattern("XXX")
-            .optionalEnd()
+            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+            .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
             .toFormatter();
     
-    private final TemporalAccessor time;
+    private final LocalTime time;
     private final Temporal temporal;
     
     protected FHIRPathTimeValue(Builder builder) {
@@ -48,18 +51,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         return true;
     }
     
-    public boolean hasTimeZone() {
-        return getTimeZone() != null;
-    }
-    
-    public ZoneOffset getTimeZone() {
-        if (time instanceof OffsetTime) {
-            return ((OffsetTime) time).getOffset();
-        }
-        return null;
-    }
-    
-    public TemporalAccessor time() {
+    public LocalTime time() {
         return time;
     }
     
@@ -69,14 +61,14 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
     }
     
     public static FHIRPathTimeValue timeValue(String time) {
-        return FHIRPathTimeValue.builder(TIME_PARSER_FORMATTER.parseBest(time, OffsetTime::from, LocalTime::from)).build();
+        return FHIRPathTimeValue.builder(LocalTime.parse(time, TIME_PARSER_FORMATTER)).build();
     }
     
-    private static FHIRPathTimeValue timeValue(TemporalAccessor time) {
+    private static FHIRPathTimeValue timeValue(LocalTime time) {
         return FHIRPathTimeValue.builder(time).build();
     }
     
-    public static FHIRPathTimeValue timeValue(String name, TemporalAccessor time) {
+    public static FHIRPathTimeValue timeValue(String name, LocalTime time) {
         return FHIRPathTimeValue.builder(time).name(name).build();
     }
 
@@ -85,14 +77,14 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         return new Builder(type, time);
     }
     
-    public static Builder builder(TemporalAccessor time) {
+    public static Builder builder(LocalTime time) {
         return new Builder(FHIRPathType.SYSTEM_TIME, time);
     }
     
     public static class Builder extends FHIRPathAbstractNode.Builder {
-        private final TemporalAccessor time;
+        private final LocalTime time;
         
-        private Builder(FHIRPathType type, TemporalAccessor time) {
+        private Builder(FHIRPathType type, LocalTime time) {
             super(type);
             this.time = time;
         }
@@ -131,29 +123,19 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
     public FHIRPathTimeValue add(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
-        return timeValue(temporal.plus(temporalAmount));
+        return timeValue(LocalTime.from(temporal.plus(temporalAmount)));
     }
 
     public FHIRPathTimeValue subtract(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
-        return timeValue(temporal.minus(temporalAmount));
+        return timeValue(LocalTime.from(temporal.minus(temporalAmount)));
     }
 
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
-        if (other instanceof FHIRPathTimeValue) {
-            return isComparableTo((FHIRPathTimeValue) other);
-        }
-        if (other.getValue() instanceof FHIRPathTimeValue) {
-            return isComparableTo((FHIRPathTimeValue) other.getValue());
-        }
-        return false;
-    }
-    
-    private boolean isComparableTo(FHIRPathTimeValue timeValue) {
-        return (time instanceof LocalTime && timeValue.time instanceof LocalTime) || 
-                (time instanceof OffsetTime && timeValue.time instanceof OffsetTime);
+        return other instanceof FHIRPathTimeValue ||
+                other.getValue() instanceof FHIRPathTimeValue;
     }
 
     @Override
@@ -162,10 +144,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
             throw new IllegalArgumentException();
         }
         FHIRPathTimeValue timeValue = (FHIRPathTimeValue) ((other instanceof FHIRPathTimeValue) ? other : other.getValue());
-        if (time instanceof LocalTime) {
-            return LocalTime.from(time).compareTo(LocalTime.from(timeValue.time));
-        }
-        return OffsetTime.from(time).compareTo(OffsetTime.from(timeValue.time));
+        return time.compareTo(timeValue.time());
     }
     
     @Override

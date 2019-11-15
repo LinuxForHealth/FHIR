@@ -906,13 +906,11 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitNumberLiteral(FHIRPathParser.NumberLiteralContext ctx) {
             debug(ctx);
-            // TODO: needs alternative to using exception for control flow
-            BigDecimal decimal = new BigDecimal(ctx.getText());
-            try {
-                Integer integer = decimal.intValueExact();
-                return singleton(integerValue(integer));
-            } catch (ArithmeticException e) {
-                return singleton(decimalValue(decimal));
+            String text = ctx.getText();
+            if (text.contains(".")) {
+                return singleton(decimalValue(new BigDecimal(text)));
+            } else {
+                return singleton(integerValue(Integer.parseInt(text)));
             }
         }
         
