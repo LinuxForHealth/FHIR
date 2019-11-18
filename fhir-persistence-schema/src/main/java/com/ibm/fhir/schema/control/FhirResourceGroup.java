@@ -159,6 +159,11 @@ public class FhirResourceGroup {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                // Add indexes to avoid dead lock issue of derby
+                // Derby requires all columns used in where clause to be indexed, otherwise whole table lock will be
+                // used instead of row lock, which can cause dead lock issue frequently during concurrent accesses.
+                .addIndex(IDX + tableName + CURRENT_RESOURCE_ID, CURRENT_RESOURCE_ID)
+                .addIndex(IDX + tableName + LOGICAL_ID, LOGICAL_ID)
                 .build(model);
 
         group.add(tbl);
