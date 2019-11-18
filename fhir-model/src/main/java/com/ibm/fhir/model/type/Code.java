@@ -27,7 +27,8 @@ public class Code extends String {
 
     protected Code(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, PATTERN);
+//        ValidationSupport.checkValue(value, PATTERN);
+        ValidationSupport.checkCode(value);
     }
 
     @Override

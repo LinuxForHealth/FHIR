@@ -29,9 +29,10 @@ public class String extends Element {
     protected String(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.checkMaxLength(value);
-        ValidationSupport.checkMinLength(value);
-        ValidationSupport.checkValue(value, PATTERN);
+//        ValidationSupport.checkMaxLength(value);
+//        ValidationSupport.checkMinLength(value);
+//        ValidationSupport.checkValue(value, PATTERN);
+        ValidationSupport.checkString(value);
         ValidationSupport.requireValueOrChildren(this);
     }
 

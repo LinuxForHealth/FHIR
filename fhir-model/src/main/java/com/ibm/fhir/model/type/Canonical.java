@@ -26,8 +26,8 @@ public class Canonical extends Uri {
 
     private Canonical(Builder builder) {
         super(builder);
-        ValidationSupport.checkMinLength(value);
-        ValidationSupport.checkValue(value, PATTERN);
+//        ValidationSupport.checkMinLength(value);
+//        ValidationSupport.checkValue(value, PATTERN);
     }
 
     @Override

@@ -26,8 +26,8 @@ public class Url extends Uri {
 
     private Url(Builder builder) {
         super(builder);
-        ValidationSupport.checkMinLength(value);
-        ValidationSupport.checkValue(value, PATTERN);
+//        ValidationSupport.checkMinLength(value);
+//        ValidationSupport.checkValue(value, PATTERN);
     }
 
     @Override

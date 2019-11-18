@@ -8,8 +8,10 @@ package com.ibm.fhir.model.util;
 
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -38,6 +40,76 @@ public final class ValidationSupport {
     };
 
     private ValidationSupport() { }
+    
+    private static final Set<Character> WHITESPACE = new HashSet<>(Arrays.asList(' ', '\t', '\r', '\n'));
+    public static void checkString(String s) {
+        if (s == null) {
+            return;
+        }
+        if (s.length() > MAX_STRING_LENGTH) {
+            throw new IllegalStateException(String.format("String value length: %d is greater than maximum allowed length: %d", s.length(), MAX_STRING_LENGTH));
+        }
+        
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (!Character.isWhitespace(ch)) {
+                count++;
+            } else if (!WHITESPACE.contains(ch)) {
+                throw new IllegalStateException(String.format("String value: '%s' is not valid with respect to pattern: [ \\r\\n\\t\\S]+", s));
+            }
+        }
+        if (count < MIN_LENGTH) {
+            throw new IllegalStateException(String.format("String value length: %d is less than minimum required length: %d", count, MIN_LENGTH));
+        }
+    }
+    
+    public static void checkCode(String s) {
+        if (s == null) {
+            return;
+        }
+        if (s.length() > MAX_STRING_LENGTH) {
+            throw new IllegalStateException(String.format("Code value length: %d is greater than maximum allowed length: %d", s.length(), MAX_STRING_LENGTH));
+        }
+        if (Character.isWhitespace(s.charAt(0)) || s.length() == 0) {
+            throw new IllegalStateException(String.format("Code value: '%s' must begin with a non-whitespace character", s));
+        }
+        if (Character.isWhitespace(s.charAt(s.length() - 1))) {
+            throw new IllegalStateException(String.format("Code value: '%s' must end with a non-whitespace character", s));
+        }
+        
+        boolean previousIsSpace = false;
+        for (int i = 0; i < s.length(); i++) {
+            char current = s.charAt(i);
+            if (Character.isWhitespace(current)) {
+                if (current != ' ') {
+                    throw new IllegalStateException(String.format("Code value: '%s' must not contain whitespace other than a single consecutive space", s));
+                } else if (previousIsSpace) {
+                    throw new IllegalStateException(String.format("Code value: '%s' must not contain consecutive spaces", s));
+                }
+                previousIsSpace = true;
+            } else {
+                if (previousIsSpace) {
+                    previousIsSpace = false;
+                }
+            }
+        }
+    }
+    
+    public static void checkUri(String s) {
+        if (s == null) {
+            return;
+        }
+        if (s.length() > MAX_STRING_LENGTH) {
+            throw new IllegalStateException(String.format("Uri value length: %d is greater than maximum allowed length: %d", s.length(), MAX_STRING_LENGTH));
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isWhitespace(s.charAt(i))) {
+                throw new IllegalStateException(String.format("Uri value: '%s' must not contain whitespace", s));
+            }
+        }
+    }
 
     public static void checkMaxLength(String value) {
         if (value != null) {
@@ -54,7 +126,7 @@ public final class ValidationSupport {
             }
         }
     }
-    
+
     public static void checkValue(Integer value, int minValue) {
         if (value != null) {
             if (value < minValue) {
