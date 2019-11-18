@@ -207,7 +207,10 @@ public final class ParametersUtil {
             EvaluationContext evaluationContext = new EvaluationContext(bundle);
             Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, FHIR_PATH_BUNDLE_ENTRY);
 
-            for (SearchParameter parameter : result.stream().map(node -> node.asResourceNode().resource().as(SearchParameter.class)).collect(Collectors.toList())) {
+            List<SearchParameter> paramList = result.stream()
+                    .map(node -> node.asResourceNode().resource().as(SearchParameter.class))
+                    .collect(Collectors.toList());
+            for (SearchParameter parameter : paramList) {
 
                 // Conditional Logging intentionally avoids forming of the String.
                 if (log.isLoggable(Level.FINE)) {

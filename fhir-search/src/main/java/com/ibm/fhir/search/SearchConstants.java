@@ -240,10 +240,7 @@ public class SearchConstants {
     }
 
     /**
-     * Modifiers
-     * 
-     * @author markd
-     *
+     * Search Modifiers
      */
     public enum Modifier {
         MISSING("missing"),
@@ -274,11 +271,6 @@ public class SearchConstants {
                 }
             }
             throw SearchExceptionUtil.buildNewIllegalArumentException(value);
-        }
-
-        public static boolean isSupported(Modifier modifier) {
-            return modifier.equals(Modifier.ABOVE) || modifier.equals(Modifier.BELOW) || modifier.equals(Modifier.CONTAINS) || modifier.equals(EXACT)
-                    || modifier.equals(Modifier.NOT) || modifier.equals(Modifier.MISSING);
         }
     }
 }

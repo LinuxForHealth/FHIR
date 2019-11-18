@@ -14,7 +14,6 @@
 -- p_payload:    the BLOB (of JSON) which is the resource content
 -- p_last_updated the last_updated time given by the FHIR server
 -- p_is_deleted: the soft delete flag
--- p_tx_correlation_id: used to group multiple resources together in one transaction
 -- p_version_id: the version id if this is a replicated message
 -- o_resource_id: output field returning the newly assigned resource_id value
 -- ----------------------------------------------------------------------------
@@ -24,7 +23,6 @@
       IN p_last_updated                TIMESTAMP,
       IN p_is_deleted                       CHAR(  1),
       IN p_source_key                    VARCHAR( 64),
-      IN p_tx_correlation_id             VARCHAR( 36),
       IN p_version                           INT,
       OUT o_logical_resource_id            BIGINT
     )
@@ -172,13 +170,6 @@ BEGIN
     SET v_insert_version = p_version;
   ELSE
     SET v_insert_version = v_version + 1;
-
-    -- Check the version number we're going to use matches the version
-    -- number injected by the FHIR server into the JSON payload
-    IF v_insert_version != p_json_version
-    THEN
-        SIGNAL SQLSTATE '99001' SET MESSAGE_TEXT = 'Concurrent update - mismatch of version in JSON';
-    END IF;
   END IF;
 
   -- Create the new resource version.
@@ -186,9 +177,10 @@ BEGIN
   VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_resource_id;
 
   PREPARE stmt FROM
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, tx_correlation_id) '
-      || ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted, p_tx_correlation_id;
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, TX_CORRELATION_ID, CHANGED_BY, CORRELATION_TOKEN, REASON, SERVICE_ID, TENANT_ID) '
+      || ' VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted, ' ', ' ' , ' ', ' ' , ' ', ' '
+  ;
 
   IF p_version IS NULL OR p_version > v_version
   THEN

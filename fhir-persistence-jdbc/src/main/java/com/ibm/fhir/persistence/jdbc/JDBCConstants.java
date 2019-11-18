@@ -41,6 +41,9 @@ public class JDBCConstants {
     public static final String ESCAPE_UNDERSCORE = ESCAPE_CHAR + "_";
     public static final String ESCAPE_PERCENT = ESCAPE_CHAR + PERCENT_WILDCARD;
     public static final String ESCAPE_EXPR = " ESCAPE '" + ESCAPE_CHAR + "'";
+    public static final String WHEN = " WHEN ";
+    public static final String THEN = " THEN ";
+    public static final String END = " END";
     
     /**
      * Maps Parameter modifiers to SQL operators.

@@ -29,13 +29,13 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     // Different warning messages we track so that we only have to report them once
     private enum MessageKey {
-        MULTITENANCY, CREATE_VAR, CREATE_PERM, ENABLE_ROW_ACCESS, DISABLE_ROW_ACCESS, PARTITIONING, 
+        MULTITENANCY, CREATE_VAR, CREATE_PERM, ENABLE_ROW_ACCESS, DISABLE_ROW_ACCESS, PARTITIONING,
         ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, TABLESPACE
     }
-    
+
     // Just warn once for each unique message key. This cleans up build logs a lot
     private static final Set<MessageKey> warned = ConcurrentHashMap.newKeySet();
-    
+
 
     /**
      * Public constructor
@@ -60,7 +60,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             String tablespaceName) {
-        
+
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
             warnOnce(MessageKey.MULTITENANCY, "Derby does support not multi-tenancy: " + name);
@@ -68,15 +68,15 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
         // We also ignore tablespace for Derby
         String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, null);
-        
-        
+
+
         runStatement(ddl);
     }
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<String> indexColumns,
             List<String> includeColumns) {
-        
+
         // Derby doesn't support include columns, so we just have to create a normal index
         createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
     }
@@ -183,7 +183,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 NO CYCLE";
         runStatement(ddl);
-        
+
     }
 
     @Override
@@ -196,7 +196,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     public String blobClause(long size, int inlineSize) {
         // Derby doesn't support the INLINE feature (which greatly helps with
         // performance on DB2)
-        return "BLOB(" + size + ")";            
+        return "BLOB(" + size + ")";
     }
 
     @Override
@@ -205,10 +205,16 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createForeignKeyConstraint(String constraintName, String schemaName, String name, 
+    public String timestampClause(Integer precision) {
+        // Derby doesn't support the timestamp precision argument
+        return "TIMESTAMP";
+    }
+
+    @Override
+    public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
             String targetSchema, String targetTable, String tenantColumnName,
             List<String> columns) {
-        
+
         // Make the call, but without the tenantColumnName because Derby doesn't support
         // our multi-tenant implementation
         super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns);
@@ -219,5 +225,13 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // No tenant support, so simply return the columns list unchanged, without prefixing
         // the tenanteColumnName
         return columns;
+    }
+
+    @Override
+    public void createFhirSchemas(String schemaName, String adminSchemaName) {
+        String ddl = "CREATE SCHEMA " + schemaName;
+        runStatement(ddl);
+        ddl = "CREATE SCHEMA " + adminSchemaName;
+        runStatement(ddl);
     }
 }

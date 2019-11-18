@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import com.ibm.fhir.model.path.visitor.FHIRPathNodeVisitor;
 
-public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
+public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPathSystemValue {
     public static final FHIRPathStringValue EMPTY_STRING = stringValue("");
     
     private final String string;
@@ -66,7 +66,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
         }
         
         @Override
-        public Builder value(FHIRPathPrimitiveValue value) {
+        public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
@@ -183,7 +183,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     }
 
     @Override
-    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
-        visitor.visit(param, this);
+    public void accept(FHIRPathNodeVisitor visitor) {
+        visitor.visit(this);
     }
 }

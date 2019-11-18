@@ -16,7 +16,7 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     String path();
     FHIRPathType type();
     boolean hasValue();
-    FHIRPathPrimitiveValue getValue();
+    FHIRPathSystemValue getValue();
     Collection<FHIRPathNode> children();
     Stream<FHIRPathNode> stream();
     Collection<FHIRPathNode> descendants();
@@ -31,7 +31,7 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     default boolean isResourceNode() {
         return false;
     }
-    default boolean isPrimitiveValue() {
+    default boolean isSystemValue() {
         return false;
     }
     default boolean isTypeInfoNode() {
@@ -43,8 +43,8 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     default FHIRPathResourceNode asResourceNode() {
         return as(FHIRPathResourceNode.class);
     }
-    default FHIRPathPrimitiveValue asPrimitiveValue() {
-        return as(FHIRPathPrimitiveValue.class);
+    default FHIRPathSystemValue asSystemValue() {
+        return as(FHIRPathSystemValue.class);
     }
     default FHIRPathTypeInfoNode asTypeInfoNode() {
         return as(FHIRPathTypeInfoNode.class);
@@ -52,13 +52,10 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     interface Builder { 
         Builder name(String name);
         Builder path(String path);
-        Builder value(FHIRPathPrimitiveValue value);
+        Builder value(FHIRPathSystemValue value);
         Builder children(FHIRPathNode... children);
         Builder children(Collection<FHIRPathNode> children);
         FHIRPathNode build();
     }
-    <T> void accept(T param, FHIRPathNodeVisitor<T> visitor);
-    default <T> void accept(FHIRPathNodeVisitor<T> visitor) {
-        accept(null, visitor);
-    }
+    void accept(FHIRPathNodeVisitor visitor);
 }

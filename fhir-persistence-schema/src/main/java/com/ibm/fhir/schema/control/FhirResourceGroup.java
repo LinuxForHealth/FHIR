@@ -6,7 +6,48 @@
 
 package com.ibm.fhir.schema.control;
 
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.*;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_ALLERGIES_LIST;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_DRUG_ALLERGIES_LIST;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_MEDICATIONS_LIST;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_PROBLEMS_LIST;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATA;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.IS_DELETED;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.ITEM_LOGICAL_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LAST_UPDATED;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LATITUDE_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LIST_LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LIST_LOGICAL_RESOURCE_ITEMS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PATIENT_CURRENT_REFS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PATIENT_LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIGH;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,14 +163,14 @@ public class FhirResourceGroup {
 
         group.add(tbl);
         model.addTable(tbl);
-        
-        
+
+
         // Special case for LIST resource...we need a table to store the list items
         if ("LIST".equalsIgnoreCase(prefix)) {
             addListLogicalResourceItems(group, prefix);
         }
-        
-        // Extension table for patient to support references to current lists 
+
+        // Extension table for patient to support references to current lists
         // such as $current-allergies
         // https://www.hl7.org/fhir/lifecycle.html#current
         if ("PATIENT".equalsIgnoreCase(prefix)) {
@@ -139,13 +180,12 @@ public class FhirResourceGroup {
 
     /**
      * Add the resources table definition
-     * resource_id, 
-     * logical_resource_id, 
-     * version_id, 
-     * data, 
-     * last_updated, 
-     * is_deleted, 
-  tenant_id                 INT             NOT NULL,
+     * resource_id,
+     * logical_resource_id,
+     * version_id,
+     * data,
+     * last_updated,
+     * is_deleted,
   resource_id            BIGINT             NOT NULL,
   logical_resource_id    BIGINT             NOT NULL,
   version_id                INT             NOT NULL,
@@ -164,6 +204,16 @@ public class FhirResourceGroup {
         final List<String> prfIncludeCols = Arrays.asList(LOGICAL_RESOURCE_ID, VERSION_ID, IS_DELETED);
         final String tableName = prefix + _RESOURCES;
 
+        // Issue #364: The values identified here are unused, and for backwards compatibility,
+        // These values are maintained so the stored procedure agrees with the table definition.
+        final String TX_CORRELATION_ID = "TX_CORRELATION_ID";
+        final String CHANGED_BY = "CHANGED_BY";
+        final String CORRELATION_TOKEN = "CORRELATION_TOKEN";
+        final String REASON = "REASON";
+        final String SERVICE_ID = "SERVICE_ID";
+        final String TENANT_ID = "TENANT_ID";
+
+
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -173,6 +223,14 @@ public class FhirResourceGroup {
                 .addTimestampColumn(    LAST_UPDATED,              false)
                 .addCharColumn(           IS_DELETED,           1, false)
                 .addBlobColumn(                 DATA,  2147483647,  10240,   true)
+                // Start Backwards Compatibility
+                .addVarcharColumn(TX_CORRELATION_ID, 36, true)
+                .addVarcharColumn(CHANGED_BY, 64, true)
+                .addVarcharColumn(CORRELATION_TOKEN, 36, true)
+                .addVarcharColumn(REASON, 255, true)
+                .addVarcharColumn(SERVICE_ID, 32, true)
+                .addVarcharColumn(TENANT_ID, 36, true)
+                // End Backwards Compatibility
                 .addUniqueIndex(tableName + "_PRF_IN1", prfIndexCols, prfIncludeCols)
                 .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -186,8 +244,6 @@ public class FhirResourceGroup {
 
     /**
      * Add the STR_VALUES table for the given resource name prefix
-
-  tenant_id                INT             NOT NULL,
   parameter_name_id        INT             NOT NULL,
   str_value            VARCHAR(511 OCTETS),
   str_value_lcase      VARCHAR(511 OCTETS),
@@ -201,7 +257,7 @@ CREATE INDEX idx_device_str_values_rpl ON device_str_values(resource_id, paramet
 ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_pnid FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
 ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN KEY (resource_id) REFERENCES device_resources;
 
-     * 
+     *
      * @param prefix
      */
     public void addStrValues(List<IDatabaseObject> group, String prefix) {
@@ -235,7 +291,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
     }
 
     /**
-     * 
+     *
   parameter_name_id        INT NOT NULL,
   code_system_id           INT NOT NULL,
   token_value          VARCHAR(255 OCTETS),
@@ -299,7 +355,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
     public void addDateValues(List<IDatabaseObject> group, String prefix) {
         final String tableName = prefix + "_DATE_VALUES";
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
-        
+
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
@@ -366,7 +422,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
     }
 
     /**
-     * 
+     *
      * CREATE TABLE device_latlng_values  (
   parameter_name_id   INT NOT NULL,
   latitude_value      DOUBLE,
@@ -411,7 +467,7 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
     }
 
     /**
-     * 
+     *
      * CREATE TABLE device_quantity_values  (
   parameter_name_id        INT NOT NULL,
   code                 VARCHAR(255 OCTETS) NOT NULL,
@@ -506,7 +562,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
      */
     public void addPatientCurrentRefs(List<IDatabaseObject> group, String prefix) {
         final int lib = LOGICAL_ID_BYTES;
-        
+
         // The CURRENT_*_LIST columns are the logical_id values of the
         // LIST resources used to host these special lists. We don't
         // model with a foreign key to avoid order of insertion issues

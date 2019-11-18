@@ -33,9 +33,9 @@ public class AllFalseFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        return context.stream().allMatch(node -> node.isPrimitiveValue() && 
-                    node.asPrimitiveValue().isBooleanValue() && 
-                    node.asPrimitiveValue().asBooleanValue().isFalse()) ? 
+        return context.stream().allMatch(node -> node.isSystemValue() && 
+                    node.asSystemValue().isBooleanValue() && 
+                    node.asSystemValue().asBooleanValue().isFalse()) ? 
                             SINGLETON_TRUE : SINGLETON_FALSE;
     }
 }

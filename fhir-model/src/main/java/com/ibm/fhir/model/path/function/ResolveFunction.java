@@ -40,22 +40,21 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
     public int getMaxArity() {
         return 0;
     }
-    
+
     /**
-     * For each item in the collection, if it is a string that is a uri (or canonical or url), locate the target of the 
-     * reference, and add it to the resulting collection. If the item does not resolve to a resource, the item is ignored 
-     * and nothing is added to the output collection. The items in the collection may also represent a Reference, in which 
+     * For each item in the collection, if it is a string that is a uri (or canonical or url), locate the target of the
+     * reference, and add it to the resulting collection. If the item does not resolve to a resource, the item is ignored
+     * and nothing is added to the output collection. The items in the collection may also represent a Reference, in which
      * case the Reference.reference is resolved.
-     * 
-     * <p>This method creates a resource node that is a placeholder for the actual resource, thus allowing for the FHIRPath 
+     *
+     * <p>This method creates a resource node that is a placeholder for the actual resource, thus allowing for the FHIRPath
      * evaluator to perform type checking on the result of the resolve function. For example:
-     * 
+     *
      * <pre>Observation.subject.where(resolve() is Patient)</pre>
-     * 
-     * <p>If the resource type cannot be inferred from the reference URL or type, then {@code FHIR_ANY} is used.
-     * 
-     * <p>Type checking on {@code FHIR_ANY} will always return 'true'.
-     * 
+     *
+     * <p>If the resource type cannot be inferred from the reference URL or type, then {@code FHIR_UNKNOWN_RESOURCE_TYPE} is used
+     * so that we index these references by default.
+     *
      * @param evaluationContext
      *     the evaluation environment
      * @param context
@@ -70,16 +69,16 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         for (FHIRPathNode node : context) {
             if (node.isElementNode() && node.asElementNode().element().is(Reference.class)) {
                 Reference reference = node.asElementNode().element().as(Reference.class);
-                
+
                 String referenceReference = getReferenceReference(reference);
                 String referenceType = getReferenceType(reference);
-                
+
                 if (referenceReference == null && referenceType == null) {
                     continue;
                 }
-                
+
                 String resourceType = null;
-                
+
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
@@ -87,26 +86,26 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                     } else {
                         Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
                         if (matcher.matches()) {
-                            resourceType = matcher.group(RESOURCE_TYPE);                        
+                            resourceType = matcher.group(RESOURCE_TYPE);
                             if (referenceType != null && !resourceType.equals(referenceType)) {
                                 throw new IllegalArgumentException("resource type found in reference URL does not match reference type");
                             }
                         }
                     }
                 }
-                
+
                 if (resourceType == null) {
                     resourceType = referenceType;
                 }
-                
-                FHIRPathType type = isResourceType(resourceType) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_ANY;
-                                
+
+                FHIRPathType type = isResourceType(resourceType) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE;
+
                 result.add(FHIRPathResourceNode.resourceNode(type));
             }
         }
         return result;
     }
-    
+
     private String resolveInternalFragmentReference(FHIRPathTree tree, String referenceReference) {
         if (tree != null) {
             FHIRPathNode root = tree.getRoot();
@@ -119,8 +118,8 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 if (resource instanceof DomainResource) {
                     DomainResource domainResource = (DomainResource) resource;
                     for (Resource contained : domainResource.getContained()) {
-                        if (contained.getId() != null && 
-                                contained.getId().getValue() != null && 
+                        if (contained.getId() != null &&
+                                contained.getId().getValue() != null &&
                                 id.equals(contained.getId().getValue())) {
                             return contained.getClass().getSimpleName();
                         }
@@ -137,7 +136,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         }
         return null;
     }
-    
+
     private String getReferenceType(Reference reference) {
         if (reference.getType() != null && reference.getType().getValue() != null) {
             return reference.getType().getValue();

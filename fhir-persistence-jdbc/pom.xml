@@ -131,6 +131,14 @@
                     </filesets>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType>${fhir-persistence-jdbc.testType}</com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

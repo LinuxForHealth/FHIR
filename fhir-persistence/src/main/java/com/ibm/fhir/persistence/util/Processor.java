@@ -18,7 +18,7 @@ import com.ibm.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.fhir.model.path.FHIRPathDecimalValue;
 import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathIntegerValue;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
@@ -193,7 +193,7 @@ public interface Processor<T> {
 
     T process(SearchParameter parameter, FHIRPathBooleanValue value) throws FHIRPersistenceProcessorException;
 
-    T process(SearchParameter parameter, FHIRPathQuantityNode value) throws FHIRPersistenceProcessorException;
+    T process(SearchParameter parameter, FHIRPathQuantityValue value) throws FHIRPersistenceProcessorException;
 
     T process(SearchParameter parameter, ZonedDateTime value) throws FHIRPersistenceProcessorException;
 

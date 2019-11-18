@@ -1,0 +1,35 @@
+# Jekyll Configuration for Static Pages
+
+title: IBM FHIR Server
+description: >- 
+  The IBM FHIR Server is a modular Java implementation of version 4 
+  of the <a href="https://www.hl7.org/fhir/r4/http.html">HL7 FHIR specification</a> with 
+  a focus on performance and configurability.
+baseurl: ""
+url: "https://ibm.github.io/fhir" 
+
+# Build settings
+plugins:
+  - jekyll-github-metadata
+  - jekyll-sitemap
+
+source: ./_site/ 
+destination: ./_site/
+show_drafts: false
+future: false
+
+markdown: kramdown
+
+# Remote Theme - https://github.blog/2017-11-29-use-any-theme-with-github-pages/
+theme: jekyll-theme-slate
+
+relative_links:
+  enabled:     true
+  collections: false
+
+include:
+  - public/
+  - _site/
+  - index.html
+
+repository: IBM/FHIR

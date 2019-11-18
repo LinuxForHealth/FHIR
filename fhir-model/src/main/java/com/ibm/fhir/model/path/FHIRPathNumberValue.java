@@ -8,7 +8,7 @@ package com.ibm.fhir.model.path;
 
 import java.math.BigDecimal;
 
-public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue {
+public interface FHIRPathNumberValue extends FHIRPathSystemValue {
     @Override
     default boolean isNumberValue() {
         return true;
@@ -52,10 +52,10 @@ public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue {
 
     @Override
     default boolean isComparableTo(FHIRPathNode other) {
-        if (other instanceof FHIRPathQuantityNode) {
-            return ((FHIRPathQuantityNode) other).isComparableTo(this);
-        }
-        return other instanceof FHIRPathNumberValue || 
+        return (other instanceof FHIRPathQuantityNode && ((FHIRPathQuantityNode) other).getQuantityValue() != null) || 
+                other instanceof FHIRPathQuantityValue || 
+                other.getValue() instanceof FHIRPathQuantityValue || 
+                other instanceof FHIRPathNumberValue || 
                 other.getValue() instanceof FHIRPathNumberValue;
     }
     
@@ -66,6 +66,12 @@ public interface FHIRPathNumberValue extends FHIRPathPrimitiveValue {
         }
         if (other instanceof FHIRPathQuantityNode) {
             return decimal().compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+        }
+        if (other instanceof FHIRPathQuantityValue) {
+            return decimal().compareTo(((FHIRPathQuantityValue) other).value());
+        }
+        if (other.getValue() instanceof FHIRPathQuantityValue) {
+            return decimal().compareTo(((FHIRPathQuantityValue) other.getValue()).value());
         }
         FHIRPathNumberValue value = (FHIRPathNumberValue) ((other instanceof FHIRPathNumberValue) ? other : other.getValue());
         return decimal().compareTo(value.decimal());

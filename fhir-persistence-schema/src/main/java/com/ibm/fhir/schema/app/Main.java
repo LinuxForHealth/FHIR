@@ -69,7 +69,7 @@ import com.ibm.fhir.task.core.service.TaskService;
  * code.
  */
 public class Main {
-    
+
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int EXIT_OK = 0; // validation was successful
     private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
@@ -93,6 +93,7 @@ public class Main {
     private boolean updateSchema = false;
     private boolean updateProc = false;
     private boolean checkCompatibility = false;
+    private boolean createFhirSchemas = false;
 
     // The database user we will grant tenant data access privileges to
     private String grantTo;
@@ -103,7 +104,7 @@ public class Main {
     private String tenantName;
     private boolean testTenant;
     private String tenantKey;
-    
+
     // The tenant name for when we want to add a new tenant key
     private String addKeyForTenant;
 
@@ -199,11 +200,14 @@ public class Main {
                 }
                 else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }                
+                }
                 break;
             case "--update-schema":
                 this.updateSchema = true;
                 this.dropSchema = false;
+                break;
+            case "--create-schemas":
+                this.createFhirSchemas = true;
                 break;
             case "--drop-schema":
                 this.updateSchema = false;
@@ -361,12 +365,12 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     Db2Adapter adapter = new Db2Adapter(target);
-                    
+
                     if (this.dropSchema) {
                         // Just drop the objects associated with the FHIRDATA schema group
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
                     }
-                    
+
                     if (dropAdmin) {
                         // Just drop the objects associated with the ADMIN schema group
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
@@ -407,7 +411,30 @@ public class Main {
     }
 
     /**
-     * Update the stored procedures used by FHIR to insert records 
+     * Create fhir data and admin schema
+     */
+    protected void createFhirSchemas() {
+        try {
+            try (Connection c = createConnection()) {
+                try {
+                    JdbcTarget target = new JdbcTarget(c);
+                    Db2Adapter adapter = new Db2Adapter(target);
+                    adapter.createFhirSchemas(schemaName, adminSchemaName);
+                }
+                catch (Exception x) {
+                    c.rollback();
+                    throw x;
+                }
+                c.commit();
+            }
+        }
+        catch (SQLException x) {
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Update the stored procedures used by FHIR to insert records
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
@@ -529,13 +556,13 @@ public class Main {
         String url = translator.getUrl(properties);
         logger.info("Opening connection to DB2: " + url);
         Connection connection;
-        try {   
+        try {
             connection = DriverManager.getConnection(url, connectionProperties);
             connection.setAutoCommit(false);
         }
         catch (SQLException x) {
             throw translator.translate(x);
-        } 
+        }
 
         return connection;
 
@@ -559,7 +586,7 @@ public class Main {
     protected void process() {
         long start = System.nanoTime();
         configureConnectionPool();
-        
+
         if (this.checkCompatibility) {
             checkCompatibility();
         }
@@ -588,6 +615,9 @@ public class Main {
         else if (updateSchema) {
             updateSchema();
         }
+        else if (createFhirSchemas) {
+            createFhirSchemas();
+        }
         else if (updateProc) {
             updateProcedures();
         }
@@ -610,10 +640,10 @@ public class Main {
     }
 
     /**
-     * Grant the minimum required set of privileges on the FHIR schema objects 
+     * Grant the minimum required set of privileges on the FHIR schema objects
      * to the grantTo user. All tenant data access is via this user, and is the
      * only user the FHIR server itself is configured with.
-     * 
+     *
      * @param groupName
      */
     protected void grantPrivileges(String groupName) {
@@ -635,14 +665,14 @@ public class Main {
         }
 
     }
-    
+
     /**
      * Add a new tenant key so that we can rotate the values (add a
      * new key, update config files, then remove the old key). This
      * avoids any service interruption.
      */
     protected void addTenantKey() {
-        
+
         final String tenantKey = getRandomKey();
 
         // The salt is used when we hash the tenantKey. We're just using SHA-256 for
@@ -650,13 +680,13 @@ public class Main {
         // sufficient in our case because we are using a 32-byte random value as the
         // key, giving 256 bits of entropy.
         final String tenantSalt = getRandomKey();
-        
+
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 GetTenantDAO tid = new GetTenantDAO(adminSchemaName, addKeyForTenant);
                 Tenant tenant = adapter.runStatement(tid);
-                
+
                 if (tenant != null) {
                     // Attach the new tenant key to the tenant:
                     AddTenantKeyDAO adder = new AddTenantKeyDAO(adminSchemaName, tenant.getTenantId(), tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
@@ -672,7 +702,7 @@ public class Main {
                 throw x;
             }
         }
-        
+
         logger.info("New tenant key: " + addKeyForTenant + " [key=" + tenantKey + "]");
 
     }
@@ -748,7 +778,7 @@ public class Main {
     protected void populateStaticTables(FhirSchemaGenerator gen, String tenantKey) {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {               
+            try {
                 // Very important. Establish the value of the session variable so that we
                 // pass the row permission predicate
                 Db2SetTenantVariable cmd = new Db2SetTenantVariable(adminSchemaName, tenantName, tenantKey);
@@ -882,7 +912,7 @@ public class Main {
         }
 
     }
-    
+
     protected boolean checkCompatibility() {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -913,7 +943,7 @@ public class Main {
             URL[] classpath = ((URLClassLoader)cl).getURLs();
             for (URL u: classpath) {
                 logger.fine("  " + u.getFile());
-            }   
+            }
         }
     }
 

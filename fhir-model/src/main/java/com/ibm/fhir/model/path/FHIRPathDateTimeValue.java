@@ -11,6 +11,7 @@ import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporalAccessor;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporalAmount;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
@@ -25,29 +26,42 @@ import java.util.Objects;
 
 import com.ibm.fhir.model.path.visitor.FHIRPathNodeVisitor;
 
-public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRPathPrimitiveValue {
+public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {
     private static final DateTimeFormatter DATE_TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("yyyy")
             .optionalStart()
                 .appendPattern("-MM")
                 .optionalStart()
                     .appendPattern("-dd")
+                    .appendLiteral("T")
                     .optionalStart()
-                        .appendPattern("'T'HH:mm:ss")
+                        .appendPattern("HH")
                         .optionalStart()
-                            .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                            .appendPattern(":mm")
+                            .optionalStart()
+                                .appendPattern(":ss")
+                                .optionalStart()
+                                    .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                                .optionalEnd()
+                            .optionalEnd()
                         .optionalEnd()
-                        .appendPattern("XXX")
+                        .optionalStart()
+                            .appendPattern("XXX")
+                        .optionalEnd()
                     .optionalEnd()
                 .optionalEnd()
             .optionalEnd()
+            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+            .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
             .toFormatter();
 
     private final TemporalAccessor dateTime;
+    private final Temporal temporal;
     
     protected FHIRPathDateTimeValue(Builder builder) {
         super(builder);
         dateTime = builder.dateTime;
+        temporal = getTemporal(dateTime);
     }
     
     @Override
@@ -63,8 +77,13 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         return dateTime;
     }
     
+    @Override
+    public Temporal temporal() {
+        return temporal;
+    }
+    
     public static FHIRPathDateTimeValue dateTimeValue(String dateTime) {
-        return FHIRPathDateTimeValue.builder(DATE_TIME_PARSER_FORMATTER.parseBest(dateTime, ZonedDateTime::from, LocalDate::from, YearMonth::from, Year::from)).build();
+        return FHIRPathDateTimeValue.builder(DATE_TIME_PARSER_FORMATTER.parseBest(dateTime, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from)).build();
     }
     
     public static FHIRPathDateTimeValue dateTimeValue(TemporalAccessor dateTime) {
@@ -103,7 +122,7 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         }
         
         @Override
-        public Builder value(FHIRPathPrimitiveValue value) {
+        public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
@@ -123,15 +142,17 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         }
     }
     
-    public FHIRPathDateTimeValue add(FHIRPathQuantityNode quantityNode) {
+    @Override
+    public FHIRPathDateTimeValue add(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(dateTime);
-        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return dateTimeValue(getTemporalAccessor(temporal.plus(temporalAmount), dateTime.getClass()));
     }
     
-    public FHIRPathDateTimeValue subtract(FHIRPathQuantityNode quantityNode) {
+    @Override
+    public FHIRPathDateTimeValue subtract(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(dateTime);
-        TemporalAmount temporalAmount = getTemporalAmount(quantityNode);
+        TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return dateTimeValue(getTemporalAccessor(temporal.minus(temporalAmount), dateTime.getClass()));
     }
     
@@ -161,6 +182,9 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         }
         if (dateTime instanceof LocalDate || value.dateTime instanceof LocalDate) {
             return LocalDate.from(dateTime).compareTo(LocalDate.from(value.dateTime));
+        }
+        if (dateTime instanceof LocalDateTime || value.dateTime instanceof LocalDateTime) {
+            return LocalDateTime.from(dateTime).compareTo(LocalDateTime.from(value.dateTime));
         }
         return ZonedDateTime.from(dateTime).compareTo(ZonedDateTime.from(value.dateTime));
     }
@@ -201,7 +225,7 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     }
 
     @Override
-    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
-        visitor.visit(param, this);
+    public void accept(FHIRPathNodeVisitor visitor) {
+        visitor.visit(this);
     }
 }

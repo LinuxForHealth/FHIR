@@ -14,6 +14,13 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -89,7 +96,7 @@ public final class ModelSupport {
     
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
-    private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
+    private static final Map<String, Class<? extends Resource>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
         Base64Binary.class, 
@@ -299,11 +306,12 @@ public final class ModelSupport {
         }
     }
 
-    private static Map<String, Class<?>> buildResourceTypeMap() {
-        Map<String, Class<?>> resourceTypeMap = new LinkedHashMap<>(256);
+    @SuppressWarnings("unchecked")
+    private static Map<String, Class<? extends Resource>> buildResourceTypeMap() {
+        Map<String, Class<? extends Resource>> resourceTypeMap = new LinkedHashMap<>(256);
         for (Class<?> modelClass : getModelClasses()) {
             if (isResourceType(modelClass)) {
-                resourceTypeMap.put(modelClass.getSimpleName(), modelClass);
+                resourceTypeMap.put(modelClass.getSimpleName(), (Class<? extends Resource>) modelClass);
             }
         }
         return Collections.unmodifiableMap(resourceTypeMap);
@@ -440,11 +448,11 @@ public final class ModelSupport {
         return MODEL_CLASS_ELEMENT_INFO_MAP.keySet();
     }
     
-    public static Class<?> getResourceType(String name) {
+    public static Class<? extends Resource> getResourceType(String name) {
         return RESOURCE_TYPE_MAP.get(name);
     }
     
-    public static Collection<Class<?>> getResourceTypes() {
+    public static Collection<Class<? extends Resource>> getResourceTypes() {
         return RESOURCE_TYPE_MAP.values();
     }
     
@@ -567,5 +575,27 @@ public final class ModelSupport {
             return elementInfo.isSummary();
         }
         return false;
+    }
+    
+    public static ZonedDateTime truncateTime(ZonedDateTime dateTime, ChronoUnit unit) {
+        return dateTime == null ? null : dateTime.truncatedTo(unit);
+    }
+    
+    public static TemporalAccessor truncateTime(TemporalAccessor ta, ChronoUnit unit) {
+        if (ta instanceof java.time.Instant) {
+            ta = ((java.time.Instant) ta).truncatedTo(unit);
+        } else if (ta instanceof ZonedDateTime) {
+            ta = ((ZonedDateTime) ta).truncatedTo(unit);
+        } else if (ta instanceof LocalDateTime) {
+            ta = ((LocalDateTime) ta).truncatedTo(unit);
+        } else if (ta instanceof LocalTime) {
+            ta = ((LocalTime) ta).truncatedTo(unit);
+        } else if (ta instanceof OffsetTime) {
+            ta = ((OffsetTime) ta).truncatedTo(unit);
+        } else if (ta instanceof OffsetDateTime) {
+            ta = ((OffsetDateTime) ta).truncatedTo(unit);
+        }
+        
+        return ta;
     }
 }

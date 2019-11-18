@@ -6,9 +6,6 @@
 
 package com.ibm.fhir.model.path;
 
-import java.math.BigDecimal;
-import java.time.LocalTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -299,32 +296,41 @@ public enum FHIRPathType {
     FHIR_VERIFICATION_RESULT("FHIR", "VerificationResult", FHIR_DOMAIN_RESOURCE, VerificationResult.class),
     FHIR_VISION_PRESCRIPTION("FHIR", "VisionPrescription", FHIR_DOMAIN_RESOURCE, VisionPrescription.class),
     
+    /**
+     * "Special" FHIR type returned by the resolve() function when the resource type cannot be determined from a reference.
+     */
+    FHIR_UNKNOWN_RESOURCE_TYPE("FHIR", "UnknownResourceType"),
+    
     // FHIRPath system types
     SYSTEM_ANY("System", "Any"),
-    SYSTEM_BOOLEAN("System", "Boolean", SYSTEM_ANY, java.lang.Boolean.class),
-    SYSTEM_STRING("System", "String", SYSTEM_ANY, java.lang.String.class),
-    SYSTEM_INTEGER("System", "Integer", SYSTEM_ANY, java.lang.Integer.class),
-    SYSTEM_DECIMAL("System", "Decimal", SYSTEM_ANY, BigDecimal.class),
-    SYSTEM_DATE_TIME("System", "DateTime", SYSTEM_ANY, TemporalAccessor.class),
-    SYSTEM_TIME("System", "Time", SYSTEM_ANY, LocalTime.class),
+    SYSTEM_BOOLEAN("System", "Boolean", SYSTEM_ANY),
+    SYSTEM_STRING("System", "String", SYSTEM_ANY),
+    SYSTEM_INTEGER("System", "Integer", SYSTEM_ANY),
+    SYSTEM_DECIMAL("System", "Decimal", SYSTEM_ANY),
+    SYSTEM_DATE("System", "Date", SYSTEM_ANY),
+    SYSTEM_DATE_TIME("System", "DateTime", SYSTEM_ANY),
+    SYSTEM_QUANTITY("System", "Quantity", SYSTEM_ANY),
+    SYSTEM_TIME("System", "Time", SYSTEM_ANY),
     
     // FHIRPath metamodel types
-    SYSTEM_TYPE_INFO("System", "TypeInfo", SYSTEM_ANY, TypeInfo.class),
-    SYSTEM_CLASS_INFO("System", "ClassInfo", SYSTEM_TYPE_INFO, ClassInfo.class),
-    SYSTEM_TUPLE_TYPE_INFO("System", "TupleTypeInfo", SYSTEM_TYPE_INFO, TupleTypeInfo.class),
-    SYSTEM_LIST_TYPE_INFO("System", "ListTypeInfo", SYSTEM_TYPE_INFO, ListTypeInfo.class),
-    SYSTEM_SIMPLE_TYPE_INFO("System", "SystemTypeInfo", SYSTEM_TYPE_INFO, SimpleTypeInfo.class);
+    SYSTEM_TYPE_INFO("System", "TypeInfo", SYSTEM_ANY),
+    SYSTEM_CLASS_INFO("System", "ClassInfo", SYSTEM_TYPE_INFO),
+    SYSTEM_TUPLE_TYPE_INFO("System", "TupleTypeInfo", SYSTEM_TYPE_INFO),
+    SYSTEM_LIST_TYPE_INFO("System", "ListTypeInfo", SYSTEM_TYPE_INFO),
+    SYSTEM_SIMPLE_TYPE_INFO("System", "SystemTypeInfo", SYSTEM_TYPE_INFO);
     
     private final java.lang.String namespace;
     private final java.lang.String name;
     private final FHIRPathType baseType;
     private final Class<?> modelClass;
     
-    private static final Map<java.lang.String, FHIRPathType> TYPE_NAME_MAP = createTypeNameMap();
-    private static final Map<Class<?>, FHIRPathType> TYPE_MAP = createTypeMap();
-    private static final Set<FHIRPathType> SYSTEM_TYPES = new HashSet<>(Arrays.asList(SYSTEM_BOOLEAN, SYSTEM_STRING, SYSTEM_INTEGER, SYSTEM_DECIMAL, SYSTEM_DATE_TIME, SYSTEM_TIME));
+    private static final Map<java.lang.String, FHIRPathType> TYPE_NAME_MAP = buildTypeNameMap();
+    private static final Map<Class<?>, FHIRPathType> TYPE_MAP = buildTypeMap();
+    private static final Set<FHIRPathType> SYSTEM_TYPES = new HashSet<>(Arrays.asList(SYSTEM_BOOLEAN, SYSTEM_STRING, SYSTEM_INTEGER, SYSTEM_DECIMAL, SYSTEM_DATE, SYSTEM_DATE_TIME, SYSTEM_QUANTITY, SYSTEM_TIME));
+    private static final Set<FHIRPathType> METAMODEL_TYPES = new HashSet<>(Arrays.asList(SYSTEM_TYPE_INFO, SYSTEM_CLASS_INFO, SYSTEM_TUPLE_TYPE_INFO, SYSTEM_LIST_TYPE_INFO, SYSTEM_SIMPLE_TYPE_INFO));
+    private static final Map<Class<?>, FHIRPathType> METAMODEL_TYPE_MAP = buildMetamodelTypeMap();
     
-    private static Map<java.lang.String, FHIRPathType> createTypeNameMap() {
+    private static Map<java.lang.String, FHIRPathType> buildTypeNameMap() {
         Map<java.lang.String, FHIRPathType> typeNameMap = new HashMap<>();
         for (FHIRPathType type : FHIRPathType.values()) {
             typeNameMap.put(type.namespace + "." + type.name, type);
@@ -332,11 +338,21 @@ public enum FHIRPathType {
         return typeNameMap;
     }
 
-    private static Map<Class<?>, FHIRPathType> createTypeMap() {
+    private static Map<Class<?>, FHIRPathType> buildMetamodelTypeMap() {
+        Map<Class<?>, FHIRPathType> metamodelTypeMap = new HashMap<>();
+        metamodelTypeMap.put(TypeInfo.class, SYSTEM_TYPE_INFO);
+        metamodelTypeMap.put(ClassInfo.class, SYSTEM_CLASS_INFO);
+        metamodelTypeMap.put(TupleTypeInfo.class, SYSTEM_TUPLE_TYPE_INFO);
+        metamodelTypeMap.put(ListTypeInfo.class, SYSTEM_LIST_TYPE_INFO);
+        metamodelTypeMap.put(SimpleTypeInfo.class, SYSTEM_SIMPLE_TYPE_INFO);
+        return metamodelTypeMap;
+    }
+
+    private static Map<Class<?>, FHIRPathType> buildTypeMap() {
         Map<Class<?>, FHIRPathType> typeMap = new HashMap<>();
         for (FHIRPathType type : FHIRPathType.values()) {
             if (type.modelClass != null) {
-              typeMap.put(type.modelClass, type);
+                typeMap.put(type.modelClass, type);
             }
         }
         return typeMap;
@@ -344,6 +360,10 @@ public enum FHIRPathType {
 
     FHIRPathType(java.lang.String namespace, java.lang.String name) {
         this(namespace, name, null, null);
+    }
+    
+    FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType baseType) {
+        this(namespace, name, baseType, null);
     }
   
     FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType baseType, Class<?> modelClass) {
@@ -369,7 +389,19 @@ public enum FHIRPathType {
         return modelClass;
     }
     
+    /**
+     * Determines if this type is the same as or a supertype of the one specified by the method parameter.
+     * 
+     * @param type
+     *     the type to check against
+     * @return
+     *     true if this type is assignable from the one in the method parameter, false otherwise
+     */
     public boolean isAssignableFrom(FHIRPathType type) {
+        if (type == FHIR_UNKNOWN_RESOURCE_TYPE && FHIR_RESOURCE.isAssignableFrom(this)) {
+            // every resource type is assignable from FHIR.UnknownResourceType
+            return true;
+        }
         if (type == null) {
             // every type is assignable from null
             return true;
@@ -386,7 +418,7 @@ public enum FHIRPathType {
             // FHIR.Any is assignable from any FHIR type
             return true;
         }
-        return isAssignableFrom(type.baseType);
+        return (type.baseType != null && isAssignableFrom(type.baseType));
     }
     
     public static FHIRPathType from(java.lang.String name) {
@@ -404,16 +436,22 @@ public enum FHIRPathType {
         return TYPE_NAME_MAP.get(namespace + "." + name);
     }
     
-    public static FHIRPathType from(Class<?> modelClass) {
-        FHIRPathType type = TYPE_MAP.get(ModelSupport.getConcreteType(modelClass));
-        if (type == null) {
-            if (BackboneElement.class.isAssignableFrom(modelClass)) {
-                type = FHIR_BACKBONE_ELEMENT;
-            } else if (Code.class.isAssignableFrom(modelClass)) {
-                type = FHIR_CODE;
-            }
+    public static FHIRPathType from(Class<?> clazz) {
+        if (TypeInfo.class.isAssignableFrom(clazz)) {
+            return METAMODEL_TYPE_MAP.get(clazz);
         }
-        return type;
+        if (ModelSupport.isModelClass(clazz)) {
+            FHIRPathType type = TYPE_MAP.get(ModelSupport.getConcreteType(clazz));
+            if (type == null) {
+                if (BackboneElement.class.isAssignableFrom(clazz)) {
+                    type = FHIR_BACKBONE_ELEMENT;
+                } else if (Code.class.isAssignableFrom(clazz)) {
+                    type = FHIR_CODE;
+                }
+            }
+            return type;
+        }
+        return null;
     }
     
     public static Set<FHIRPathType> getSystemTypes() {
@@ -422,5 +460,13 @@ public enum FHIRPathType {
     
     public static boolean isSystemType(FHIRPathType type) {
         return SYSTEM_TYPES.contains(type);
+    }
+    
+    public static Set<FHIRPathType> getMetamodelTypes() {
+        return METAMODEL_TYPES;
+    }
+    
+    public static boolean isMetamodelType(FHIRPathType type) {
+        return METAMODEL_TYPES.contains(type);
     }
 }

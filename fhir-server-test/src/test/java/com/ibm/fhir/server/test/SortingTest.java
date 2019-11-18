@@ -41,6 +41,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.Observation.Component;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
@@ -584,7 +585,7 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingReverse(list);
     }
 
-    // Observation?status=final&code=http://loinc.org|55284-4&_sort:asc=value-quantity
+    // Observation?status=final&code=http://loinc.org|55284-4&_sort:asc=component-value-quantity
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation1",
             "testCreateObservation2", "testCreateObservation3",
             "testCreateObservation5" })
@@ -603,11 +604,15 @@ public class SortingTest extends FHIRServerTestBase {
 
         for (Bundle.Entry entry : bundle.getEntry()) {
             Observation observation = (Observation) entry.getResource();
-            if (observation.getComponent().size() > 0) {
-                Observation.Component observationComponent =
-                        observation.getComponent().get(0);
-
-                list.add(((Quantity) observationComponent.getValue()).getValue().getValue());
+            BigDecimal minValue = null;
+            for (Component component : observation.getComponent()) {
+                BigDecimal componentValue = component.getValue().as(Quantity.class).getValue().getValue();
+                if (minValue == null || minValue.compareTo(componentValue) > 0) {
+                    minValue = componentValue;
+                }
+            }
+            if (minValue != null) {
+                list.add(minValue);
             }
         }
         if (DEBUG_SEARCH) {
@@ -669,6 +674,7 @@ public class SortingTest extends FHIRServerTestBase {
                 }
 
                 assertTrue(prior.compareTo(current) <= 0);
+                prior = current;
             }
             done = true;
         }

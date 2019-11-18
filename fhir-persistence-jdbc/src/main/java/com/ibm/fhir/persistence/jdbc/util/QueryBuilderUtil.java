@@ -13,7 +13,6 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.chrono.ChronoZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
@@ -21,11 +20,11 @@ import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 
 /**
- * These utilities support the building of a FHIR 
- * Query with complicates timezones and partial times. 
+ * These utilities support the building of a FHIR
+ * Query with complicates timezones and partial times.
  */
 public class QueryBuilderUtil {
-    
+
     // used for adjustInto calls to obtain usable Zulu instants from Year, YearMonth, LocalDate
     private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00.000000";
     private static final LocalDateTime REFERENCE_DATE = LocalDateTime.parse(REFERENCE_DATE_STRING);
@@ -45,7 +44,7 @@ public class QueryBuilderUtil {
             return Instant.from(dateTime.getValue());
         }
     }
-    
+
     /**
      * Compute the end time to use as a range filter based on the "partialness"
      * of the given dateTime field.
@@ -63,19 +62,21 @@ public class QueryBuilderUtil {
     public static java.time.Instant getStart(Date date) {
         return getInstantFromPartial(date.getValue());
     }
-    
+
     public static java.time.Instant getEnd(Date date) {
         return getEnd(date.getValue());
     }
 
     public static java.time.Instant getInstantFromPartial(TemporalAccessor ta) {
         java.time.LocalDateTime result;
-        
+        if (ta == null) {
+            return null;
+        }
         if (ta instanceof ZonedDateTime) {
             // early exit
             return ((ZonedDateTime) ta).toInstant();
         }
-        
+
         if (ta instanceof Year) {
             result = REFERENCE_DATE.with(ChronoField.YEAR, ((Year)ta).getValue());
         }
@@ -92,13 +93,15 @@ public class QueryBuilderUtil {
         else {
             throw new IllegalArgumentException("Invalid partial TemporalAccessor: " + ta.getClass().getName());
         }
-        
+
         return ZonedDateTime.of(result, ZoneOffset.UTC).toInstant();
     }
-        
+
     public static java.time.Instant getEnd(TemporalAccessor ta) {
         java.time.Instant result;
-        
+        if (ta == null) {
+            return null;
+        }
         if (ta instanceof ZonedDateTime) {
             if (!hasSubSeconds(ta)) {
                 ta = addOneMinuteOrSecond((ZonedDateTime) ta);
@@ -111,7 +114,7 @@ public class QueryBuilderUtil {
             result = ((ZonedDateTime) ta).toInstant();
         } else {
             java.time.LocalDateTime local;
-            
+
             if (ta instanceof Year) {
                 Year year = ((Year)ta).plusYears(1);
                 local = REFERENCE_DATE.with(ChronoField.YEAR, year.getValue());
@@ -131,10 +134,10 @@ public class QueryBuilderUtil {
             else {
                 throw new IllegalArgumentException("Invalid partial TemporalAccessor: " + ta.getClass().getName());
             }
-            
+
             result = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
         }
-        
+
         return result;
     }
 
@@ -146,7 +149,7 @@ public class QueryBuilderUtil {
         }
         return dateTime;
     }
-    
+
     /**
      * Whether the temporal accessor has fractional seconds
      */

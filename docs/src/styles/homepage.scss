@@ -1,0 +1,74 @@
+.container--homepage {
+  background: $carbon--gray-100;
+  color: $carbon--white-0;
+}
+
+.container--homepage a {
+  color: $carbon--blue-40;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Homepage image header area
+
+.homepage--header {
+  height: 0;
+  overflow: hidden;
+  padding-top: 50%;
+  position: relative;
+
+  // Match max height at lg breakpoint
+  @include carbon--breakpoint('lg') {
+    padding: 0;
+    height: 560px;
+  }
+}
+
+.homepage--header .#{$prefix}--grid,
+.homepage--header .#{$prefix}--row {
+  height: 100%;
+}
+
+.container--homepage h3.homepage--header__title {
+  @include carbon--type-style('expressive-heading-03', true);
+  display: none;
+  font-weight: 600;
+  position: absolute;
+  bottom: 3.5rem;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  z-index: 3;
+
+  @include carbon--breakpoint('md') {
+    display: block;
+  }
+}
+
+.homepage--header img {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -25%;
+}
+
+.container--homepage .#{$prefix}--grid {
+  margin: 0;
+
+  @include carbon--breakpoint('lg') {
+    padding-left: calc(
+      25% + 2rem
+    ); //2rem to account for 2rem left padding default on grid
+  }
+
+  @include carbon--breakpoint('max') {
+    padding-left: 400px;
+  }
+}
+
+.container--homepage .#{$prefix}--col-no-gutter {
+  padding: 0;
+}

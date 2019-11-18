@@ -474,12 +474,18 @@ public class SearchUtil {
         List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
 
         for (SearchParameter parameter : parameters) {
+            
             com.ibm.fhir.model.type.String expression = parameter.getExpression();
 
             // Outputs the Expression and the Name of the SearchParameter
             if (log.isLoggable(Level.FINEST)) {
                 // This used to "name" but now correctly uses "code"
-                log.finest(String.format(EXTRACT_PARAMETERS_LOGGING, parameter.getCode().getValue(), expression.getValue()));
+                String loggedValue = "EMPTY";
+                if(expression != null) {
+                    loggedValue = expression.getValue();
+                }
+                
+                log.finest(String.format(EXTRACT_PARAMETERS_LOGGING, parameter.getCode().getValue(), loggedValue));
             }
 
             // Process the Expression
@@ -491,7 +497,6 @@ public class SearchUtil {
             if (expression != null && !SearchParamType.COMPOSITE.equals(type) && !SearchParamType.SPECIAL.equals(type)) {
 
                 try {
-                   
                     Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
                     
                     if (log.isLoggable(Level.FINEST)) {
@@ -512,15 +517,14 @@ public class SearchUtil {
                     log.fine(String.format(UNSUPPOTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
                 }
             }
-
         }
-
+        
         return result;
     }
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters)
         throws Exception {
-        return parseQueryParameters(resourceType, queryParameters, true);
+        return parseQueryParameters(resourceType, queryParameters, false);
     }
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient)
@@ -540,15 +544,9 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewInvalidSearchException("_sort search result parameter not supported with _include or _revinclude.");
         }
         
-        /*
-         * keySet is used here as the parameter name is the only part that is used to process iteratively in the inner
-         * loops.
-         */
         for (Entry<String, List<String>> entry : queryParameters.entrySet()) {
-
             String name = entry.getKey();
             try {
-
                 List<String> params = entry.getValue();
                 if (SearchConstants.FORMAT.equals(name)) {
                     continue;
@@ -570,28 +568,11 @@ public class SearchUtil {
                         parameters.add(chainedParameter);
                     }
                 } else {
-                    // Parse name into parameter name.
-
+                    // Parse name into parameter name and modifier (if present).
                     String parameterName = name;
-                    SearchConstants.Modifier modifier = null;
-                    String modifierResourceTypeName = null;
+                    String mod = null;
                     if (parameterName.contains(":")) {
-                        String mod = parameterName.substring(parameterName.indexOf(":") + 1);
-                        if (ModelSupport.isResourceType(mod)) {
-                            modifier = SearchConstants.Modifier.TYPE;
-                            modifierResourceTypeName = mod;
-                        } else {
-                            try {
-                                modifier = SearchConstants.Modifier.fromValue(mod);
-                                if (!SearchConstants.Modifier.isSupported(modifier)) {
-                                    String msg = "Modifier not allowed: " + mod;
-                                    throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                                }
-                            } catch (IllegalArgumentException e) {
-                                String msg = "Undefined Modifier: " + mod;
-                                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                            }
-                        }
+                        mod = parameterName.substring(parameterName.indexOf(":") + 1);
                         parameterName = parameterName.substring(0, parameterName.indexOf(":"));
                     }
 
@@ -599,20 +580,32 @@ public class SearchUtil {
                     SearchParameter searchParameter = applicableSPs.get(parameterName);
                     if (searchParameter == null) {
                         String msg = "Search parameter '" + parameterName + "' for resource type '" + resourceType.getSimpleName() + "' was not found.";
-                        if (lenient) {
-                            log.fine(msg);
-                            continue;
-                        } else {
-                            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                        }
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     }
 
                     // Get the type of parameter so that we can use it to parse the value.
                     SearchConstants.Type type = SearchConstants.Type.fromValue(searchParameter.getType().getValue());
-
-                    if (modifier != null && !isAllowed(type, modifier)) {
-                        String msg = "Unsupported type/modifier combination: " + type.value() + "/" + modifier.value();
-                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    
+                    // Process the modifier
+                    SearchConstants.Modifier modifier = null;
+                    String modifierResourceTypeName = null;
+                    if (mod != null) {
+                        if (ModelSupport.isResourceType(mod)) {
+                            modifier = SearchConstants.Modifier.TYPE;
+                            modifierResourceTypeName = mod;
+                        } else {
+                            try {
+                                modifier = SearchConstants.Modifier.fromValue(mod);
+                            } catch (IllegalArgumentException e) {
+                                String msg = "Undefined Modifier: " + mod;
+                                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                            }
+                        }
+    
+                        if (modifier != null && !isAllowed(type, modifier)) {
+                            String msg = "Unsupported type/modifier combination: " + type.value() + "/" + modifier.value();
+                            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                        }
                     }
 
                     for (String queryParameterValueString : queryParameters.get(name)) {
@@ -627,13 +620,21 @@ public class SearchUtil {
                         parameter.getValues().addAll(queryParameterValues);
                         parameters.add(parameter);
                     }
+                } // end else
+            }  catch (FHIRSearchException se) {
+                // There's a number of places that throw within this try block. In all cases we want the same behavior:
+                // If we're in lenient mode and there was an issue parsing the query parameter then log and move on to the next one.
+                String msg = "Error while parsing search parameter '" + name + "' for resource type " + resourceType.getSimpleName();
+                if (lenient) {
+                    log.log(Level.FINE, msg, se);
+                    continue;
+                } else {
+                    throw se;
                 }
-
             } catch (Exception e) {
                 throw SearchExceptionUtil.buildNewParseParameterException(name, e);
             }
-
-        }
+        } // end for
 
         context.setSearchParameters(parameters);
         return context;
@@ -878,22 +879,17 @@ public class SearchUtil {
                 parseInclusionParameter(resourceType, context, name, values, lenient);
             } else if (SearchConstants.ELEMENTS.equals(name)) {
                 parseElementsParameter(resourceType, context, values, lenient);
-            } else if (SearchConstants.SUMMARY.equals(name) 
-                    && first != null) { 
-                try {
-                    context.setSummaryParameter(SummaryValueSet.from(first));
-                } catch (Exception ex) {
-                    if (!lenient) {
-                        throw ex;
-                    }
-                }
+            } else if (SearchConstants.SUMMARY.equals(name) && first != null) { 
+                context.setSummaryParameter(SummaryValueSet.from(first));
             }
+        } catch (FHIRSearchException se) {
+            throw se;
         } catch (Exception e) {
-            throw SearchExceptionUtil.buildNewParseException(name, e);
+            throw SearchExceptionUtil.buildNewParseParameterException(name, e);
         }
     }
 
-    private static void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortKeyword, List<String> sortParmNames,
+    private static void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortKeyword, List<String> sortQueryParmValues,
         boolean lenient) throws Exception {
 
         SearchConstants.SortDirection sortDirection;
@@ -912,25 +908,27 @@ public class SearchUtil {
             sortDirection = SearchConstants.SortDirection.ASCENDING;
         }
 
-        for (String sortParmName : sortParmNames) {
-            // Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
-            // type of search parameter.
-            sortParmProxy = getSearchParameter(resourceType, sortParmName);
-            if (sortParmProxy == null) {
-                String msg = "Undefined sort parameter. resourceType=" + resourceType + " sortParmName=" + sortParmName;
-                if (lenient) {
-                    log.fine(msg);
-                    continue;
-                } else {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+        for (String sortParmNames : sortQueryParmValues) {
+            for (String sortParmName : sortParmNames.split(",")) {
+                // Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
+                // type of search parameter.
+                sortParmProxy = getSearchParameter(resourceType, sortParmName);
+                if (sortParmProxy == null) {
+                    String msg = "Undefined sort parameter. resourceType=" + resourceType + " sortParmName=" + sortParmName;
+                    if (lenient) {
+                        log.fine(msg);
+                        continue;
+                    } else {
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
                 }
+                sortParmType = SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
+                sortParm = new SortParameter(sortParmName, sortParmType, sortDirection);
+                if (resourceType.equals(Resource.class) && !SearchConstants.SYSTEM_LEVEL_SORT_PARAMETER_NAMES.contains(sortParm.getName())) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(UNSUPPORTED_SEARCH_PARAMETERS_EXCEPTION, sortParm.getName()));
+                }
+                context.getSortParameters().add(sortParm);
             }
-            sortParmType = SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
-            sortParm = new SortParameter(sortParmName, sortParmType, sortDirection);
-            if (resourceType.equals(Resource.class) && !SearchConstants.SYSTEM_LEVEL_SORT_PARAMETER_NAMES.contains(sortParm.getName())) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(UNSUPPORTED_SEARCH_PARAMETERS_EXCEPTION, sortParm.getName()));
-            }
-            context.getSortParameters().add(sortParm);
         }
     }
 

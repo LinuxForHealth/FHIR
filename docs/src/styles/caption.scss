@@ -1,0 +1,34 @@
+.#{$prefix}--caption {
+  @include carbon--type-style('body-short-01');
+  padding-top: $spacing-03;
+  margin-bottom: $spacing-06;
+}
+
+// Caption after images
+.gatsby-resp-image-wrapper + .#{$prefix}--caption,
+img + .#{$prefix}--caption {
+  margin-top: -$spacing-06;
+}
+
+// Caption after video
+[class^='Video-module--video'] + .#{$prefix}--caption {
+  margin-top: -$spacing-08;
+}
+
+// Responsive by default
+.#{$prefix}--caption--responsive {
+  // 6/8 columns
+  @include carbon--breakpoint('md') {
+    width: 75%;
+  }
+
+  // 6/12 columns wide
+  @include carbon--breakpoint('lg') {
+    width: 50%;
+  }
+}
+
+// If caption is inside a user specified row then allow the grid code to set the width
+.#{$prefix}--row .#{$prefix}--caption {
+  width: 100%;
+}

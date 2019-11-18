@@ -25,39 +25,31 @@ import com.ibm.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.FHIRPathPrimitiveValue;
+import com.ibm.fhir.model.path.FHIRPathSystemValue;
 import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.resource.SearchParameter;
 
 /**
- * 
- * @author pbastide
- *
+ * Helper class for validating that a given FHIRPath SearchParameter expression extracts nodes as expected.
  */
 public class ExtractorValidator {
 
     private Map<String, List<String>> expected = new HashMap<>();
     boolean strict = false;
 
-    /**
-     * 
-     * @param name
-     * @param values
-     */
     public void addExpected(String name, List<String> values) {
         expected.put(name, values);
     }
 
     /**
-     * validates the FHIR Path expectations for a specific search parameter. 
+     * validates the FHIR Path expectations for a specific search parameter.
      * @param output
      */
     public void validate(Map<SearchParameter, List<FHIRPathNode>> output) {
 
         printOutput(output);
 
-        //
         for (Entry<SearchParameter, List<FHIRPathNode>> entry : output.entrySet()) {
             String code = entry.getKey().getCode().getValue();
 
@@ -85,8 +77,6 @@ public class ExtractorValidator {
                         if (expectedValues == null) {
                             expectedValues = Collections.emptyList();
                         }
-
-                        // expectedValues.remove(tmp);
                     }
                 }
 
@@ -95,7 +85,6 @@ public class ExtractorValidator {
                 }
                 assertEquals(expectedValues.size(), 0);
             }
-
         }
 
         // Dummy Assertion in case of empty expected
@@ -114,25 +103,21 @@ public class ExtractorValidator {
 
                 String outputStr = i++ + "|" + name + "|=[";
                 StringJoiner joiner = new StringJoiner(",");
-                
+
                 for (FHIRPathNode node : entry.getValue()) {
                     joiner.add(processOutput(node));
                 }
                 outputStr += joiner.toString() + "]";
                 System.out.println(outputStr);
-
             }
         }
-
     }
 
     /**
-     * 
-     * @param node
-     * @return
+     * Process the FHIRPathNode into a String value
      */
-    public static String processOutput(FHIRPathNode node) {
-        
+    private static String processOutput(FHIRPathNode node) {
+
         String val = "";
         if (node.getClass().getSimpleName().contains("FHIRPathBooleanValue")) {
             FHIRPathBooleanValue booleanValue = (FHIRPathBooleanValue) node;
@@ -142,10 +127,11 @@ public class ExtractorValidator {
                 val = "false";
             }
 
-        } else if (node.isPrimitiveValue()) {
-            FHIRPathPrimitiveValue nodeConverted = node.asPrimitiveValue();
-            if (nodeConverted.isDateTimeValue()) {
-                // FHIRPathDateTimeValue v = (FHIRPathDateTimeValue) node;
+        } else if (node.isSystemValue()) {
+            FHIRPathSystemValue nodeConverted = node.asSystemValue();
+            if (nodeConverted.isTemporalValue() && nodeConverted.asTemporalValue().isDateTimeValue()) {
+              FHIRPathDateTimeValue v = (FHIRPathDateTimeValue) nodeConverted.asTemporalValue();
+              val = "" + v.toString();
 
             } else if (nodeConverted.isStringValue()) {
                 FHIRPathStringValue v = nodeConverted.asStringValue();
@@ -153,21 +139,18 @@ public class ExtractorValidator {
             }
 
         } else if (node.is(FHIRPathElementNode.class)) {
-            //
             FHIRPathElementNode tNode = node.asElementNode();
 
-            FHIRPathPrimitiveValue v = tNode.getValue();
+            FHIRPathSystemValue v = tNode.getValue();
             if (v != null) {
 
                 if (v.isStringValue()) {
                     FHIRPathStringValue sv = v.asStringValue();
                     val = "" + sv.string();
-                } else if (v.isDateTimeValue()) {
-                    FHIRPathDateTimeValue vv = v.asDateTimeValue();
+                } else if (v.isTemporalValue() && v.asTemporalValue().isDateTimeValue()) {
+                    FHIRPathDateTimeValue vv = v.asTemporalValue().asDateTimeValue();
                     TemporalAccessor acc = vv.dateTime();
-
                     val = "" + acc.toString(); //DATE_TIME_FORMATTER.format(acc);
-                    System.out.println("Value DateTime: [" + val + "]");
                 }
             } else {
                 Collection<FHIRPathNode> children = tNode.children();
@@ -176,16 +159,14 @@ public class ExtractorValidator {
                         FHIRPathElementNode nx = child.asElementNode();
                         val = "" + nx.getValue();
 
-                    } else if (child.isPrimitiveValue()) {
-                        FHIRPathPrimitiveValue v1 = child.asPrimitiveValue();
+                    } else if (child.isSystemValue()) {
+                        FHIRPathSystemValue v1 = child.asSystemValue();
                         if (v1.isStringValue()) {
                             FHIRPathStringValue sv = v1.asStringValue();
                             val = "" + sv.string() + ",";
                         }
                     }
-
                 }
-
             }
 
         } else {
@@ -198,19 +179,20 @@ public class ExtractorValidator {
     public static ExtractorValidator.Builder builder() {
         return new ExtractorValidator.Builder();
     }
-    
+
+    public void setStrict(boolean strict) {
+        this.strict = strict;
+    }
+
     /**
-     * Builder
-     * 
-     * @author pbastide
-     *
+     * For building ExtractorValidators
      */
     public static class Builder {
 
-        private ExtractorValidator validator = new ExtractorValidator();
+        private final ExtractorValidator validator;
 
         public Builder() {
-
+            validator = new ExtractorValidator();
         }
 
         public Builder add(String name, List<String> values) {
@@ -231,11 +213,5 @@ public class ExtractorValidator {
         public ExtractorValidator build() {
             return validator;
         }
-
     }
-
-    public void setStrict(boolean strict) {
-        this.strict = strict;
-    }
-
 }

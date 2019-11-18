@@ -8,9 +8,8 @@ package com.ibm.fhir.model.path.function;
 
 import static com.ibm.fhir.model.path.FHIRPathStringValue.stringValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.empty;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.getPrimitiveValue;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSingleton;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasPrimitiveValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSystemValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasSystemValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
 
@@ -18,8 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.FHIRPathPrimitiveValue;
-import com.ibm.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.fhir.model.path.FHIRPathSystemValue;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class ToStringFunction extends FHIRPathAbstractFunction {
@@ -43,13 +41,9 @@ public class ToStringFunction extends FHIRPathAbstractFunction {
         if (!isSingleton(context)) {
             return empty();
         }
-        if (hasPrimitiveValue(context)) {
-            FHIRPathPrimitiveValue value = getPrimitiveValue(context);
+        if (hasSystemValue(context)) {
+            FHIRPathSystemValue value = getSystemValue(context);
             return singleton(stringValue(value.toString()));
-        }
-        FHIRPathNode node = getSingleton(context);
-        if (node instanceof FHIRPathQuantityNode) {
-            return singleton(stringValue(node.toString()));
         }
         return empty();
     }

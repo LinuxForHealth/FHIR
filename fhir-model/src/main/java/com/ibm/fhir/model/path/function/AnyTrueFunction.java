@@ -33,9 +33,9 @@ public class AnyTrueFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        return context.stream().anyMatch(node -> node.isPrimitiveValue() && 
-                    node.asPrimitiveValue().isBooleanValue() && 
-                    node.asPrimitiveValue().asBooleanValue().isTrue()) ? 
+        return context.stream().anyMatch(node -> node.isSystemValue() && 
+                    node.asSystemValue().isBooleanValue() && 
+                    node.asSystemValue().asBooleanValue().isTrue()) ? 
                             SINGLETON_TRUE : SINGLETON_FALSE;
     }
 }

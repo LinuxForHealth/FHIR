@@ -71,7 +71,7 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
         }
         
         @Override
-        public Builder value(FHIRPathPrimitiveValue value) {
+        public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
@@ -163,7 +163,7 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
     }
 
     @Override
-    public <T> void accept(T param, FHIRPathNodeVisitor<T> visitor) {
-        visitor.visit(param, this);
+    public void accept(FHIRPathNodeVisitor visitor) {
+        visitor.visit(this);
     }
 }

@@ -185,8 +185,6 @@ public class Parameter {
     
     /**
      * We know our type, so we can call the correct method on the visitor
-
-     * @param visitor
      */
     public void visit(IParameterVisitor visitor) throws FHIRPersistenceException {
         
