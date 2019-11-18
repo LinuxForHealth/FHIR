@@ -18,7 +18,10 @@ import com.ibm.fhir.model.visitor.Visitable;
 
 /**
  * Uses {@link java.lang.instrument.Instrumentation} to estimate the size of a fhir-model Object.
- * This only works when you configure the enclosing jar file as a java agent. 
+ * This only works when you configure the enclosing jar file as a java agent. For example:
+ * 
+ * <p>
+ * {@code Java -javaagent:target/fhir-benchmarch-4.0.0-SNAPSHOT.jar ...}
  */
 public class ObjectSizeEstimator {
     private static ObjectSizeVisitor visitor = new ObjectSizeVisitor();

@@ -91,6 +91,6 @@ public class FHIRPathEvaluatorBenchmark {
         new FHIRBenchmarkRunner(FHIRPathEvaluatorBenchmark.class)
                 .property(PROPERTY_EXAMPLE_NAME, EXAMPLE_NAME)
                 .property(PROPERTY_EXPRESSION, EXPRESSION)
-                .run();
+                .run(BenchmarkUtil.getRandomSpecExampleName());
     }
 }

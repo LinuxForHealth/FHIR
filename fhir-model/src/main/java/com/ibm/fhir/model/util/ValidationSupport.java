@@ -60,7 +60,7 @@ public final class ValidationSupport {
             }
         }
         if (count < MIN_LENGTH) {
-            throw new IllegalStateException(String.format("String value length: %d is less than minimum required length: %d", count, MIN_LENGTH));
+            throw new IllegalStateException(String.format("Trimmed String value length: %d is less than minimum required length: %d", count, MIN_LENGTH));
         }
     }
     

@@ -6,13 +6,12 @@
 
 package com.ibm.fhir.benchmark;
 
-import static com.ibm.fhir.benchmark.runner.FHIRBenchmarkRunner.PROPERTY_EXAMPLE_NAME;
-
 import java.io.StringReader;
 import java.io.Writer;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -30,9 +29,6 @@ public class FHIRGeneratorBenchmark {
     @State(Scope.Benchmark)
     public static class FHIRGeneratorState {
         public static final Writer NOP_WRITER = BenchmarkUtil.createNOPWriter();
-        public static final String SPEC_EXAMPLE_NAME = System.getProperty(PROPERTY_EXAMPLE_NAME);
-        public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
-        public static final String XML_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.XML, SPEC_EXAMPLE_NAME);
         
         public FhirContext context;
         public FHIRGenerator jsonGenerator;
@@ -48,6 +44,12 @@ public class FHIRGeneratorBenchmark {
             resource = FHIRParser.parser(Format.JSON).parse(new StringReader(JSON_SPEC_EXAMPLE));
             baseResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
         }
+        
+        @Param({"test"})
+        public String JSON_SPEC_EXAMPLE;
+        
+        @Param({"test"})
+        public String XML_SPEC_EXAMPLE;
     }
     
     @Benchmark
@@ -72,7 +74,6 @@ public class FHIRGeneratorBenchmark {
     
     public static void main(String[] args) throws Exception {
         new FHIRBenchmarkRunner(FHIRGeneratorBenchmark.class)
-                .property(PROPERTY_EXAMPLE_NAME, BenchmarkUtil.getRandomSpecExampleName())
-                .run();
+                .run(BenchmarkUtil.getRandomSpecExampleName());
     }
 }
