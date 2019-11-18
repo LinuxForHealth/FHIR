@@ -56,7 +56,9 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
-                target.path("Patient").request().header("X-FHIR-TENANT-ID", "tenant1").post(entity, Response.class);
+                target.path("Patient").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the patient's logical id value.
@@ -64,7 +66,10 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response =
-                target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient/" + patientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatientWithExtensions = responsePatient;

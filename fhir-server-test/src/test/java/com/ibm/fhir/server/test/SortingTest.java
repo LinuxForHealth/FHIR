@@ -278,8 +278,7 @@ public class SortingTest extends FHIRServerTestBase {
 
     // Patient?gender=male&_sort:asc=family
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortAscending() {
         WebTarget target = getWebTarget();
         Response response =
@@ -313,8 +312,7 @@ public class SortingTest extends FHIRServerTestBase {
     // Patient?gender=male&_sort:asc=family
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortAscending_filter_elements() throws Exception {
         WebTarget target = getWebTarget();
         Response response =
@@ -387,8 +385,7 @@ public class SortingTest extends FHIRServerTestBase {
 
     // Patient?gender=male&_sort:desc=family
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortDescending() {
         WebTarget target = getWebTarget();
         Response response =
@@ -422,8 +419,7 @@ public class SortingTest extends FHIRServerTestBase {
 
     // Patient?gender=male&_sort=telecom
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortTelecom() {
         WebTarget target = getWebTarget();
         Response response =
@@ -457,8 +453,7 @@ public class SortingTest extends FHIRServerTestBase {
 
     // Patient?gender=male&_sort:desc=birthDate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortBirthDate() {
         WebTarget target = getWebTarget();
         Response response =
@@ -480,8 +475,7 @@ public class SortingTest extends FHIRServerTestBase {
 
     // Patient?gender=male&_sort:desc=family&_sort:asc=birthdate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortTwoParameters() {
         WebTarget target = getWebTarget();
         Response response =
@@ -535,8 +529,7 @@ public class SortingTest extends FHIRServerTestBase {
 
     // Patient?gender=male&_sort:desc=family&_sort:desc=birthdate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortTwoParametersDescending() {
         WebTarget target = getWebTarget();
         Response response =
@@ -587,14 +580,13 @@ public class SortingTest extends FHIRServerTestBase {
 
     // Observation?status=final&code=http://loinc.org|55284-4&_sort:asc=component-value-quantity
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation1",
-            "testCreateObservation2", "testCreateObservation3",
-            "testCreateObservation5" })
+            "testCreateObservation2", "testCreateObservation3", "testCreateObservation5" })
     public void testSortValueQuantityAscending() {
         WebTarget target = getWebTarget();
         // we do support coding instead of code for the pipe search.
         Response response =
                 target.path("Observation").queryParam("status", "final").queryParam("code", "55284-4")
-                .queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity")
+                .queryParam("_count", "100").queryParam("_sort:asc", "component-value-quantity")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -784,13 +776,12 @@ public class SortingTest extends FHIRServerTestBase {
 
         return ZonedDateTime.of(result, ZoneOffset.UTC).toInstant();
     }
-    
-    
+
+
     // Patient?gender=male&_sort:asc=family
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortAscending_filter_summary() throws Exception {
         WebTarget target = getWebTarget();
         Response response =
@@ -844,7 +835,7 @@ public class SortingTest extends FHIRServerTestBase {
                             // Only these summary elements should be present.
                             if (!summaryElements.stream().anyMatch(patientMethod.getName().substring(3)::equalsIgnoreCase)) {
                                 if (elementValue instanceof List) {
-                                    assertEquals(0, ((List) elementValue).size()); 
+                                    assertEquals(0, ((List) elementValue).size());
                                 } else if (!patientMethod.getName().equals("getClass")){
                                     assertNull(elementValue);
                                 }
@@ -856,15 +847,14 @@ public class SortingTest extends FHIRServerTestBase {
         }
         assertTrueNaturalOrderingString(list);
     }
-    
-    
-    
-    
+
+
+
+
     // Patient?gender=male&_sort:asc=family
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortAscending_filter_elements_summary() throws Exception {
         WebTarget target = getWebTarget();
         // The _summary=true should be ignored.
@@ -936,12 +926,11 @@ public class SortingTest extends FHIRServerTestBase {
         }
         assertTrueNaturalOrderingString(list);
     }
-    
-    
+
+
     // Patient?gender=male&_sort:asc=family
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
-            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4",
-            "testCreatePatient5" })
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortAscending_filter_summary_count() throws Exception {
         WebTarget target = getWebTarget();
         Response response =
@@ -955,7 +944,7 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() == 0);
         // There should be no previous and next links.
         assertTrue(bundle.getLink().size() == 1);
-        
+
     }
 
 }
