@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.benchmark;
 
 import java.lang.instrument.Instrumentation;
