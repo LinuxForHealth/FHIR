@@ -20,62 +20,62 @@ public class SearchModifierCode extends Code {
     /**
      * Missing
      */
-    public static final SearchModifierCode MISSING = SearchModifierCode.of(ValueSet.MISSING);
+    public static final SearchModifierCode MISSING = SearchModifierCode.builder().value(ValueSet.MISSING).build();
 
     /**
      * Exact
      */
-    public static final SearchModifierCode EXACT = SearchModifierCode.of(ValueSet.EXACT);
+    public static final SearchModifierCode EXACT = SearchModifierCode.builder().value(ValueSet.EXACT).build();
 
     /**
      * Contains
      */
-    public static final SearchModifierCode CONTAINS = SearchModifierCode.of(ValueSet.CONTAINS);
+    public static final SearchModifierCode CONTAINS = SearchModifierCode.builder().value(ValueSet.CONTAINS).build();
 
     /**
      * Not
      */
-    public static final SearchModifierCode NOT = SearchModifierCode.of(ValueSet.NOT);
+    public static final SearchModifierCode NOT = SearchModifierCode.builder().value(ValueSet.NOT).build();
 
     /**
      * Text
      */
-    public static final SearchModifierCode TEXT = SearchModifierCode.of(ValueSet.TEXT);
+    public static final SearchModifierCode TEXT = SearchModifierCode.builder().value(ValueSet.TEXT).build();
 
     /**
      * In
      */
-    public static final SearchModifierCode IN = SearchModifierCode.of(ValueSet.IN);
+    public static final SearchModifierCode IN = SearchModifierCode.builder().value(ValueSet.IN).build();
 
     /**
      * Not In
      */
-    public static final SearchModifierCode NOT_IN = SearchModifierCode.of(ValueSet.NOT_IN);
+    public static final SearchModifierCode NOT_IN = SearchModifierCode.builder().value(ValueSet.NOT_IN).build();
 
     /**
      * Below
      */
-    public static final SearchModifierCode BELOW = SearchModifierCode.of(ValueSet.BELOW);
+    public static final SearchModifierCode BELOW = SearchModifierCode.builder().value(ValueSet.BELOW).build();
 
     /**
      * Above
      */
-    public static final SearchModifierCode ABOVE = SearchModifierCode.of(ValueSet.ABOVE);
+    public static final SearchModifierCode ABOVE = SearchModifierCode.builder().value(ValueSet.ABOVE).build();
 
     /**
      * Type
      */
-    public static final SearchModifierCode TYPE = SearchModifierCode.of(ValueSet.TYPE);
+    public static final SearchModifierCode TYPE = SearchModifierCode.builder().value(ValueSet.TYPE).build();
 
     /**
      * Identifier
      */
-    public static final SearchModifierCode IDENTIFIER = SearchModifierCode.of(ValueSet.IDENTIFIER);
+    public static final SearchModifierCode IDENTIFIER = SearchModifierCode.builder().value(ValueSet.IDENTIFIER).build();
 
     /**
      * Of Type
      */
-    public static final SearchModifierCode OF_TYPE = SearchModifierCode.of(ValueSet.OF_TYPE);
+    public static final SearchModifierCode OF_TYPE = SearchModifierCode.builder().value(ValueSet.OF_TYPE).build();
 
     private volatile int hashCode;
 
@@ -83,20 +83,47 @@ public class SearchModifierCode extends Code {
         super(builder);
     }
 
-    public static SearchModifierCode of(java.lang.String value) {
-        return SearchModifierCode.builder().value(value).build();
+    public static SearchModifierCode of(ValueSet value) {
+        switch (value) {
+        case MISSING:
+            return MISSING;
+        case EXACT:
+            return EXACT;
+        case CONTAINS:
+            return CONTAINS;
+        case NOT:
+            return NOT;
+        case TEXT:
+            return TEXT;
+        case IN:
+            return IN;
+        case NOT_IN:
+            return NOT_IN;
+        case BELOW:
+            return BELOW;
+        case ABOVE:
+            return ABOVE;
+        case TYPE:
+            return TYPE;
+        case IDENTIFIER:
+            return IDENTIFIER;
+        case OF_TYPE:
+            return OF_TYPE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SearchModifierCode of(ValueSet value) {
-        return SearchModifierCode.builder().value(value).build();
+    public static SearchModifierCode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SearchModifierCode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SearchModifierCode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

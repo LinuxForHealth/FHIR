@@ -20,17 +20,17 @@ public class NamingSystemType extends Code {
     /**
      * Code System
      */
-    public static final NamingSystemType CODESYSTEM = NamingSystemType.of(ValueSet.CODESYSTEM);
+    public static final NamingSystemType CODESYSTEM = NamingSystemType.builder().value(ValueSet.CODESYSTEM).build();
 
     /**
      * Identifier
      */
-    public static final NamingSystemType IDENTIFIER = NamingSystemType.of(ValueSet.IDENTIFIER);
+    public static final NamingSystemType IDENTIFIER = NamingSystemType.builder().value(ValueSet.IDENTIFIER).build();
 
     /**
      * Root
      */
-    public static final NamingSystemType ROOT = NamingSystemType.of(ValueSet.ROOT);
+    public static final NamingSystemType ROOT = NamingSystemType.builder().value(ValueSet.ROOT).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class NamingSystemType extends Code {
         super(builder);
     }
 
-    public static NamingSystemType of(java.lang.String value) {
-        return NamingSystemType.builder().value(value).build();
+    public static NamingSystemType of(ValueSet value) {
+        switch (value) {
+        case CODESYSTEM:
+            return CODESYSTEM;
+        case IDENTIFIER:
+            return IDENTIFIER;
+        case ROOT:
+            return ROOT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static NamingSystemType of(ValueSet value) {
-        return NamingSystemType.builder().value(value).build();
+    public static NamingSystemType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return NamingSystemType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return NamingSystemType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,17 +20,17 @@ public class ReferenceVersionRules extends Code {
     /**
      * Either Specific or independent
      */
-    public static final ReferenceVersionRules EITHER = ReferenceVersionRules.of(ValueSet.EITHER);
+    public static final ReferenceVersionRules EITHER = ReferenceVersionRules.builder().value(ValueSet.EITHER).build();
 
     /**
      * Version independent
      */
-    public static final ReferenceVersionRules INDEPENDENT = ReferenceVersionRules.of(ValueSet.INDEPENDENT);
+    public static final ReferenceVersionRules INDEPENDENT = ReferenceVersionRules.builder().value(ValueSet.INDEPENDENT).build();
 
     /**
      * Version Specific
      */
-    public static final ReferenceVersionRules SPECIFIC = ReferenceVersionRules.of(ValueSet.SPECIFIC);
+    public static final ReferenceVersionRules SPECIFIC = ReferenceVersionRules.builder().value(ValueSet.SPECIFIC).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ReferenceVersionRules extends Code {
         super(builder);
     }
 
-    public static ReferenceVersionRules of(java.lang.String value) {
-        return ReferenceVersionRules.builder().value(value).build();
+    public static ReferenceVersionRules of(ValueSet value) {
+        switch (value) {
+        case EITHER:
+            return EITHER;
+        case INDEPENDENT:
+            return INDEPENDENT;
+        case SPECIFIC:
+            return SPECIFIC;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ReferenceVersionRules of(ValueSet value) {
-        return ReferenceVersionRules.builder().value(value).build();
+    public static ReferenceVersionRules of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ReferenceVersionRules.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ReferenceVersionRules.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

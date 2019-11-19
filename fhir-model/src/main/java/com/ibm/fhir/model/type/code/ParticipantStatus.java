@@ -20,22 +20,22 @@ public class ParticipantStatus extends Code {
     /**
      * Accepted
      */
-    public static final ParticipantStatus ACCEPTED = ParticipantStatus.of(ValueSet.ACCEPTED);
+    public static final ParticipantStatus ACCEPTED = ParticipantStatus.builder().value(ValueSet.ACCEPTED).build();
 
     /**
      * Declined
      */
-    public static final ParticipantStatus DECLINED = ParticipantStatus.of(ValueSet.DECLINED);
+    public static final ParticipantStatus DECLINED = ParticipantStatus.builder().value(ValueSet.DECLINED).build();
 
     /**
      * Tentative
      */
-    public static final ParticipantStatus TENTATIVE = ParticipantStatus.of(ValueSet.TENTATIVE);
+    public static final ParticipantStatus TENTATIVE = ParticipantStatus.builder().value(ValueSet.TENTATIVE).build();
 
     /**
      * Needs Action
      */
-    public static final ParticipantStatus NEEDS_ACTION = ParticipantStatus.of(ValueSet.NEEDS_ACTION);
+    public static final ParticipantStatus NEEDS_ACTION = ParticipantStatus.builder().value(ValueSet.NEEDS_ACTION).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ParticipantStatus extends Code {
         super(builder);
     }
 
-    public static ParticipantStatus of(java.lang.String value) {
-        return ParticipantStatus.builder().value(value).build();
+    public static ParticipantStatus of(ValueSet value) {
+        switch (value) {
+        case ACCEPTED:
+            return ACCEPTED;
+        case DECLINED:
+            return DECLINED;
+        case TENTATIVE:
+            return TENTATIVE;
+        case NEEDS_ACTION:
+            return NEEDS_ACTION;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ParticipantStatus of(ValueSet value) {
-        return ParticipantStatus.builder().value(value).build();
+    public static ParticipantStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ParticipantStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ParticipantStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

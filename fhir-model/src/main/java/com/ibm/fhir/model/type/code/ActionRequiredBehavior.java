@@ -20,17 +20,17 @@ public class ActionRequiredBehavior extends Code {
     /**
      * Must
      */
-    public static final ActionRequiredBehavior MUST = ActionRequiredBehavior.of(ValueSet.MUST);
+    public static final ActionRequiredBehavior MUST = ActionRequiredBehavior.builder().value(ValueSet.MUST).build();
 
     /**
      * Could
      */
-    public static final ActionRequiredBehavior COULD = ActionRequiredBehavior.of(ValueSet.COULD);
+    public static final ActionRequiredBehavior COULD = ActionRequiredBehavior.builder().value(ValueSet.COULD).build();
 
     /**
      * Must Unless Documented
      */
-    public static final ActionRequiredBehavior MUST_UNLESS_DOCUMENTED = ActionRequiredBehavior.of(ValueSet.MUST_UNLESS_DOCUMENTED);
+    public static final ActionRequiredBehavior MUST_UNLESS_DOCUMENTED = ActionRequiredBehavior.builder().value(ValueSet.MUST_UNLESS_DOCUMENTED).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ActionRequiredBehavior extends Code {
         super(builder);
     }
 
-    public static ActionRequiredBehavior of(java.lang.String value) {
-        return ActionRequiredBehavior.builder().value(value).build();
+    public static ActionRequiredBehavior of(ValueSet value) {
+        switch (value) {
+        case MUST:
+            return MUST;
+        case COULD:
+            return COULD;
+        case MUST_UNLESS_DOCUMENTED:
+            return MUST_UNLESS_DOCUMENTED;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ActionRequiredBehavior of(ValueSet value) {
-        return ActionRequiredBehavior.builder().value(value).build();
+    public static ActionRequiredBehavior of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActionRequiredBehavior.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActionRequiredBehavior.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

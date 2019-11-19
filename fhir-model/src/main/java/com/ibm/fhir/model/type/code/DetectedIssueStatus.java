@@ -20,42 +20,42 @@ public class DetectedIssueStatus extends Code {
     /**
      * Registered
      */
-    public static final DetectedIssueStatus REGISTERED = DetectedIssueStatus.of(ValueSet.REGISTERED);
+    public static final DetectedIssueStatus REGISTERED = DetectedIssueStatus.builder().value(ValueSet.REGISTERED).build();
 
     /**
      * Preliminary
      */
-    public static final DetectedIssueStatus PRELIMINARY = DetectedIssueStatus.of(ValueSet.PRELIMINARY);
+    public static final DetectedIssueStatus PRELIMINARY = DetectedIssueStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
      */
-    public static final DetectedIssueStatus FINAL = DetectedIssueStatus.of(ValueSet.FINAL);
+    public static final DetectedIssueStatus FINAL = DetectedIssueStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
      */
-    public static final DetectedIssueStatus AMENDED = DetectedIssueStatus.of(ValueSet.AMENDED);
+    public static final DetectedIssueStatus AMENDED = DetectedIssueStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Corrected
      */
-    public static final DetectedIssueStatus CORRECTED = DetectedIssueStatus.of(ValueSet.CORRECTED);
+    public static final DetectedIssueStatus CORRECTED = DetectedIssueStatus.builder().value(ValueSet.CORRECTED).build();
 
     /**
      * Cancelled
      */
-    public static final DetectedIssueStatus CANCELLED = DetectedIssueStatus.of(ValueSet.CANCELLED);
+    public static final DetectedIssueStatus CANCELLED = DetectedIssueStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
      */
-    public static final DetectedIssueStatus ENTERED_IN_ERROR = DetectedIssueStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final DetectedIssueStatus ENTERED_IN_ERROR = DetectedIssueStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final DetectedIssueStatus UNKNOWN = DetectedIssueStatus.of(ValueSet.UNKNOWN);
+    public static final DetectedIssueStatus UNKNOWN = DetectedIssueStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class DetectedIssueStatus extends Code {
         super(builder);
     }
 
-    public static DetectedIssueStatus of(java.lang.String value) {
-        return DetectedIssueStatus.builder().value(value).build();
+    public static DetectedIssueStatus of(ValueSet value) {
+        switch (value) {
+        case REGISTERED:
+            return REGISTERED;
+        case PRELIMINARY:
+            return PRELIMINARY;
+        case FINAL:
+            return FINAL;
+        case AMENDED:
+            return AMENDED;
+        case CORRECTED:
+            return CORRECTED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DetectedIssueStatus of(ValueSet value) {
-        return DetectedIssueStatus.builder().value(value).build();
+    public static DetectedIssueStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DetectedIssueStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DetectedIssueStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

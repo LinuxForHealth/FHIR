@@ -20,42 +20,42 @@ public class CommunicationStatus extends Code {
     /**
      * Preparation
      */
-    public static final CommunicationStatus PREPARATION = CommunicationStatus.of(ValueSet.PREPARATION);
+    public static final CommunicationStatus PREPARATION = CommunicationStatus.builder().value(ValueSet.PREPARATION).build();
 
     /**
      * In Progress
      */
-    public static final CommunicationStatus IN_PROGRESS = CommunicationStatus.of(ValueSet.IN_PROGRESS);
+    public static final CommunicationStatus IN_PROGRESS = CommunicationStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Not Done
      */
-    public static final CommunicationStatus NOT_DONE = CommunicationStatus.of(ValueSet.NOT_DONE);
+    public static final CommunicationStatus NOT_DONE = CommunicationStatus.builder().value(ValueSet.NOT_DONE).build();
 
     /**
      * On Hold
      */
-    public static final CommunicationStatus ON_HOLD = CommunicationStatus.of(ValueSet.ON_HOLD);
+    public static final CommunicationStatus ON_HOLD = CommunicationStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Stopped
      */
-    public static final CommunicationStatus STOPPED = CommunicationStatus.of(ValueSet.STOPPED);
+    public static final CommunicationStatus STOPPED = CommunicationStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Completed
      */
-    public static final CommunicationStatus COMPLETED = CommunicationStatus.of(ValueSet.COMPLETED);
+    public static final CommunicationStatus COMPLETED = CommunicationStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final CommunicationStatus ENTERED_IN_ERROR = CommunicationStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final CommunicationStatus ENTERED_IN_ERROR = CommunicationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final CommunicationStatus UNKNOWN = CommunicationStatus.of(ValueSet.UNKNOWN);
+    public static final CommunicationStatus UNKNOWN = CommunicationStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class CommunicationStatus extends Code {
         super(builder);
     }
 
-    public static CommunicationStatus of(java.lang.String value) {
-        return CommunicationStatus.builder().value(value).build();
+    public static CommunicationStatus of(ValueSet value) {
+        switch (value) {
+        case PREPARATION:
+            return PREPARATION;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case NOT_DONE:
+            return NOT_DONE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case STOPPED:
+            return STOPPED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CommunicationStatus of(ValueSet value) {
-        return CommunicationStatus.builder().value(value).build();
+    public static CommunicationStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CommunicationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CommunicationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,22 +20,22 @@ public class CommunicationPriority extends Code {
     /**
      * Routine
      */
-    public static final CommunicationPriority ROUTINE = CommunicationPriority.of(ValueSet.ROUTINE);
+    public static final CommunicationPriority ROUTINE = CommunicationPriority.builder().value(ValueSet.ROUTINE).build();
 
     /**
      * Urgent
      */
-    public static final CommunicationPriority URGENT = CommunicationPriority.of(ValueSet.URGENT);
+    public static final CommunicationPriority URGENT = CommunicationPriority.builder().value(ValueSet.URGENT).build();
 
     /**
      * ASAP
      */
-    public static final CommunicationPriority ASAP = CommunicationPriority.of(ValueSet.ASAP);
+    public static final CommunicationPriority ASAP = CommunicationPriority.builder().value(ValueSet.ASAP).build();
 
     /**
      * STAT
      */
-    public static final CommunicationPriority STAT = CommunicationPriority.of(ValueSet.STAT);
+    public static final CommunicationPriority STAT = CommunicationPriority.builder().value(ValueSet.STAT).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class CommunicationPriority extends Code {
         super(builder);
     }
 
-    public static CommunicationPriority of(java.lang.String value) {
-        return CommunicationPriority.builder().value(value).build();
+    public static CommunicationPriority of(ValueSet value) {
+        switch (value) {
+        case ROUTINE:
+            return ROUTINE;
+        case URGENT:
+            return URGENT;
+        case ASAP:
+            return ASAP;
+        case STAT:
+            return STAT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CommunicationPriority of(ValueSet value) {
-        return CommunicationPriority.builder().value(value).build();
+    public static CommunicationPriority of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CommunicationPriority.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CommunicationPriority.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

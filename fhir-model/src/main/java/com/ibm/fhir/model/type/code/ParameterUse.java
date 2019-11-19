@@ -20,12 +20,12 @@ public class ParameterUse extends Code {
     /**
      * In
      */
-    public static final ParameterUse IN = ParameterUse.of(ValueSet.IN);
+    public static final ParameterUse IN = ParameterUse.builder().value(ValueSet.IN).build();
 
     /**
      * Out
      */
-    public static final ParameterUse OUT = ParameterUse.of(ValueSet.OUT);
+    public static final ParameterUse OUT = ParameterUse.builder().value(ValueSet.OUT).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class ParameterUse extends Code {
         super(builder);
     }
 
-    public static ParameterUse of(java.lang.String value) {
-        return ParameterUse.builder().value(value).build();
+    public static ParameterUse of(ValueSet value) {
+        switch (value) {
+        case IN:
+            return IN;
+        case OUT:
+            return OUT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ParameterUse of(ValueSet value) {
-        return ParameterUse.builder().value(value).build();
+    public static ParameterUse of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ParameterUse.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ParameterUse.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

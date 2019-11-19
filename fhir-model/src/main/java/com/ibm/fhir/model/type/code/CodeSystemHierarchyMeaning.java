@@ -20,22 +20,22 @@ public class CodeSystemHierarchyMeaning extends Code {
     /**
      * Grouped By
      */
-    public static final CodeSystemHierarchyMeaning GROUPED_BY = CodeSystemHierarchyMeaning.of(ValueSet.GROUPED_BY);
+    public static final CodeSystemHierarchyMeaning GROUPED_BY = CodeSystemHierarchyMeaning.builder().value(ValueSet.GROUPED_BY).build();
 
     /**
      * Is-A
      */
-    public static final CodeSystemHierarchyMeaning IS_A = CodeSystemHierarchyMeaning.of(ValueSet.IS_A);
+    public static final CodeSystemHierarchyMeaning IS_A = CodeSystemHierarchyMeaning.builder().value(ValueSet.IS_A).build();
 
     /**
      * Part Of
      */
-    public static final CodeSystemHierarchyMeaning PART_OF = CodeSystemHierarchyMeaning.of(ValueSet.PART_OF);
+    public static final CodeSystemHierarchyMeaning PART_OF = CodeSystemHierarchyMeaning.builder().value(ValueSet.PART_OF).build();
 
     /**
      * Classified With
      */
-    public static final CodeSystemHierarchyMeaning CLASSIFIED_WITH = CodeSystemHierarchyMeaning.of(ValueSet.CLASSIFIED_WITH);
+    public static final CodeSystemHierarchyMeaning CLASSIFIED_WITH = CodeSystemHierarchyMeaning.builder().value(ValueSet.CLASSIFIED_WITH).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class CodeSystemHierarchyMeaning extends Code {
         super(builder);
     }
 
-    public static CodeSystemHierarchyMeaning of(java.lang.String value) {
-        return CodeSystemHierarchyMeaning.builder().value(value).build();
+    public static CodeSystemHierarchyMeaning of(ValueSet value) {
+        switch (value) {
+        case GROUPED_BY:
+            return GROUPED_BY;
+        case IS_A:
+            return IS_A;
+        case PART_OF:
+            return PART_OF;
+        case CLASSIFIED_WITH:
+            return CLASSIFIED_WITH;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CodeSystemHierarchyMeaning of(ValueSet value) {
-        return CodeSystemHierarchyMeaning.builder().value(value).build();
+    public static CodeSystemHierarchyMeaning of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CodeSystemHierarchyMeaning.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CodeSystemHierarchyMeaning.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

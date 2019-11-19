@@ -20,37 +20,37 @@ public class TestScriptRequestMethodCode extends Code {
     /**
      * DELETE
      */
-    public static final TestScriptRequestMethodCode DELETE = TestScriptRequestMethodCode.of(ValueSet.DELETE);
+    public static final TestScriptRequestMethodCode DELETE = TestScriptRequestMethodCode.builder().value(ValueSet.DELETE).build();
 
     /**
      * GET
      */
-    public static final TestScriptRequestMethodCode GET = TestScriptRequestMethodCode.of(ValueSet.GET);
+    public static final TestScriptRequestMethodCode GET = TestScriptRequestMethodCode.builder().value(ValueSet.GET).build();
 
     /**
      * OPTIONS
      */
-    public static final TestScriptRequestMethodCode OPTIONS = TestScriptRequestMethodCode.of(ValueSet.OPTIONS);
+    public static final TestScriptRequestMethodCode OPTIONS = TestScriptRequestMethodCode.builder().value(ValueSet.OPTIONS).build();
 
     /**
      * PATCH
      */
-    public static final TestScriptRequestMethodCode PATCH = TestScriptRequestMethodCode.of(ValueSet.PATCH);
+    public static final TestScriptRequestMethodCode PATCH = TestScriptRequestMethodCode.builder().value(ValueSet.PATCH).build();
 
     /**
      * POST
      */
-    public static final TestScriptRequestMethodCode POST = TestScriptRequestMethodCode.of(ValueSet.POST);
+    public static final TestScriptRequestMethodCode POST = TestScriptRequestMethodCode.builder().value(ValueSet.POST).build();
 
     /**
      * PUT
      */
-    public static final TestScriptRequestMethodCode PUT = TestScriptRequestMethodCode.of(ValueSet.PUT);
+    public static final TestScriptRequestMethodCode PUT = TestScriptRequestMethodCode.builder().value(ValueSet.PUT).build();
 
     /**
      * HEAD
      */
-    public static final TestScriptRequestMethodCode HEAD = TestScriptRequestMethodCode.of(ValueSet.HEAD);
+    public static final TestScriptRequestMethodCode HEAD = TestScriptRequestMethodCode.builder().value(ValueSet.HEAD).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class TestScriptRequestMethodCode extends Code {
         super(builder);
     }
 
-    public static TestScriptRequestMethodCode of(java.lang.String value) {
-        return TestScriptRequestMethodCode.builder().value(value).build();
+    public static TestScriptRequestMethodCode of(ValueSet value) {
+        switch (value) {
+        case DELETE:
+            return DELETE;
+        case GET:
+            return GET;
+        case OPTIONS:
+            return OPTIONS;
+        case PATCH:
+            return PATCH;
+        case POST:
+            return POST;
+        case PUT:
+            return PUT;
+        case HEAD:
+            return HEAD;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static TestScriptRequestMethodCode of(ValueSet value) {
-        return TestScriptRequestMethodCode.builder().value(value).build();
+    public static TestScriptRequestMethodCode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return TestScriptRequestMethodCode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TestScriptRequestMethodCode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

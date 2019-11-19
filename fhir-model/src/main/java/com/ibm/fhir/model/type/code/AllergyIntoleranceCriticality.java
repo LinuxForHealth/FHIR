@@ -20,17 +20,17 @@ public class AllergyIntoleranceCriticality extends Code {
     /**
      * Low Risk
      */
-    public static final AllergyIntoleranceCriticality LOW = AllergyIntoleranceCriticality.of(ValueSet.LOW);
+    public static final AllergyIntoleranceCriticality LOW = AllergyIntoleranceCriticality.builder().value(ValueSet.LOW).build();
 
     /**
      * High Risk
      */
-    public static final AllergyIntoleranceCriticality HIGH = AllergyIntoleranceCriticality.of(ValueSet.HIGH);
+    public static final AllergyIntoleranceCriticality HIGH = AllergyIntoleranceCriticality.builder().value(ValueSet.HIGH).build();
 
     /**
      * Unable to Assess Risk
      */
-    public static final AllergyIntoleranceCriticality UNABLE_TO_ASSESS = AllergyIntoleranceCriticality.of(ValueSet.UNABLE_TO_ASSESS);
+    public static final AllergyIntoleranceCriticality UNABLE_TO_ASSESS = AllergyIntoleranceCriticality.builder().value(ValueSet.UNABLE_TO_ASSESS).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class AllergyIntoleranceCriticality extends Code {
         super(builder);
     }
 
-    public static AllergyIntoleranceCriticality of(java.lang.String value) {
-        return AllergyIntoleranceCriticality.builder().value(value).build();
+    public static AllergyIntoleranceCriticality of(ValueSet value) {
+        switch (value) {
+        case LOW:
+            return LOW;
+        case HIGH:
+            return HIGH;
+        case UNABLE_TO_ASSESS:
+            return UNABLE_TO_ASSESS;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static AllergyIntoleranceCriticality of(ValueSet value) {
-        return AllergyIntoleranceCriticality.builder().value(value).build();
+    public static AllergyIntoleranceCriticality of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return AllergyIntoleranceCriticality.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AllergyIntoleranceCriticality.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

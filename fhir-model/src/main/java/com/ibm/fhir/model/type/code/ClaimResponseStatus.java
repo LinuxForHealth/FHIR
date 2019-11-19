@@ -20,22 +20,22 @@ public class ClaimResponseStatus extends Code {
     /**
      * Active
      */
-    public static final ClaimResponseStatus ACTIVE = ClaimResponseStatus.of(ValueSet.ACTIVE);
+    public static final ClaimResponseStatus ACTIVE = ClaimResponseStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
      */
-    public static final ClaimResponseStatus CANCELLED = ClaimResponseStatus.of(ValueSet.CANCELLED);
+    public static final ClaimResponseStatus CANCELLED = ClaimResponseStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
      */
-    public static final ClaimResponseStatus DRAFT = ClaimResponseStatus.of(ValueSet.DRAFT);
+    public static final ClaimResponseStatus DRAFT = ClaimResponseStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
      */
-    public static final ClaimResponseStatus ENTERED_IN_ERROR = ClaimResponseStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ClaimResponseStatus ENTERED_IN_ERROR = ClaimResponseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ClaimResponseStatus extends Code {
         super(builder);
     }
 
-    public static ClaimResponseStatus of(java.lang.String value) {
-        return ClaimResponseStatus.builder().value(value).build();
+    public static ClaimResponseStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ClaimResponseStatus of(ValueSet value) {
-        return ClaimResponseStatus.builder().value(value).build();
+    public static ClaimResponseStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ClaimResponseStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ClaimResponseStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

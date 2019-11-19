@@ -20,87 +20,87 @@ public class StructureMapTransform extends Code {
     /**
      * create
      */
-    public static final StructureMapTransform CREATE = StructureMapTransform.of(ValueSet.CREATE);
+    public static final StructureMapTransform CREATE = StructureMapTransform.builder().value(ValueSet.CREATE).build();
 
     /**
      * copy
      */
-    public static final StructureMapTransform COPY = StructureMapTransform.of(ValueSet.COPY);
+    public static final StructureMapTransform COPY = StructureMapTransform.builder().value(ValueSet.COPY).build();
 
     /**
      * truncate
      */
-    public static final StructureMapTransform TRUNCATE = StructureMapTransform.of(ValueSet.TRUNCATE);
+    public static final StructureMapTransform TRUNCATE = StructureMapTransform.builder().value(ValueSet.TRUNCATE).build();
 
     /**
      * escape
      */
-    public static final StructureMapTransform ESCAPE = StructureMapTransform.of(ValueSet.ESCAPE);
+    public static final StructureMapTransform ESCAPE = StructureMapTransform.builder().value(ValueSet.ESCAPE).build();
 
     /**
      * cast
      */
-    public static final StructureMapTransform CAST = StructureMapTransform.of(ValueSet.CAST);
+    public static final StructureMapTransform CAST = StructureMapTransform.builder().value(ValueSet.CAST).build();
 
     /**
      * append
      */
-    public static final StructureMapTransform APPEND = StructureMapTransform.of(ValueSet.APPEND);
+    public static final StructureMapTransform APPEND = StructureMapTransform.builder().value(ValueSet.APPEND).build();
 
     /**
      * translate
      */
-    public static final StructureMapTransform TRANSLATE = StructureMapTransform.of(ValueSet.TRANSLATE);
+    public static final StructureMapTransform TRANSLATE = StructureMapTransform.builder().value(ValueSet.TRANSLATE).build();
 
     /**
      * reference
      */
-    public static final StructureMapTransform REFERENCE = StructureMapTransform.of(ValueSet.REFERENCE);
+    public static final StructureMapTransform REFERENCE = StructureMapTransform.builder().value(ValueSet.REFERENCE).build();
 
     /**
      * dateOp
      */
-    public static final StructureMapTransform DATE_OP = StructureMapTransform.of(ValueSet.DATE_OP);
+    public static final StructureMapTransform DATE_OP = StructureMapTransform.builder().value(ValueSet.DATE_OP).build();
 
     /**
      * uuid
      */
-    public static final StructureMapTransform UUID = StructureMapTransform.of(ValueSet.UUID);
+    public static final StructureMapTransform UUID = StructureMapTransform.builder().value(ValueSet.UUID).build();
 
     /**
      * pointer
      */
-    public static final StructureMapTransform POINTER = StructureMapTransform.of(ValueSet.POINTER);
+    public static final StructureMapTransform POINTER = StructureMapTransform.builder().value(ValueSet.POINTER).build();
 
     /**
      * evaluate
      */
-    public static final StructureMapTransform EVALUATE = StructureMapTransform.of(ValueSet.EVALUATE);
+    public static final StructureMapTransform EVALUATE = StructureMapTransform.builder().value(ValueSet.EVALUATE).build();
 
     /**
      * cc
      */
-    public static final StructureMapTransform CC = StructureMapTransform.of(ValueSet.CC);
+    public static final StructureMapTransform CC = StructureMapTransform.builder().value(ValueSet.CC).build();
 
     /**
      * c
      */
-    public static final StructureMapTransform C = StructureMapTransform.of(ValueSet.C);
+    public static final StructureMapTransform C = StructureMapTransform.builder().value(ValueSet.C).build();
 
     /**
      * qty
      */
-    public static final StructureMapTransform QTY = StructureMapTransform.of(ValueSet.QTY);
+    public static final StructureMapTransform QTY = StructureMapTransform.builder().value(ValueSet.QTY).build();
 
     /**
      * id
      */
-    public static final StructureMapTransform ID = StructureMapTransform.of(ValueSet.ID);
+    public static final StructureMapTransform ID = StructureMapTransform.builder().value(ValueSet.ID).build();
 
     /**
      * cp
      */
-    public static final StructureMapTransform CP = StructureMapTransform.of(ValueSet.CP);
+    public static final StructureMapTransform CP = StructureMapTransform.builder().value(ValueSet.CP).build();
 
     private volatile int hashCode;
 
@@ -108,20 +108,57 @@ public class StructureMapTransform extends Code {
         super(builder);
     }
 
-    public static StructureMapTransform of(java.lang.String value) {
-        return StructureMapTransform.builder().value(value).build();
+    public static StructureMapTransform of(ValueSet value) {
+        switch (value) {
+        case CREATE:
+            return CREATE;
+        case COPY:
+            return COPY;
+        case TRUNCATE:
+            return TRUNCATE;
+        case ESCAPE:
+            return ESCAPE;
+        case CAST:
+            return CAST;
+        case APPEND:
+            return APPEND;
+        case TRANSLATE:
+            return TRANSLATE;
+        case REFERENCE:
+            return REFERENCE;
+        case DATE_OP:
+            return DATE_OP;
+        case UUID:
+            return UUID;
+        case POINTER:
+            return POINTER;
+        case EVALUATE:
+            return EVALUATE;
+        case CC:
+            return CC;
+        case C:
+            return C;
+        case QTY:
+            return QTY;
+        case ID:
+            return ID;
+        case CP:
+            return CP;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static StructureMapTransform of(ValueSet value) {
-        return StructureMapTransform.builder().value(value).build();
+    public static StructureMapTransform of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return StructureMapTransform.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StructureMapTransform.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

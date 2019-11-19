@@ -20,22 +20,22 @@ public class DeviceMetricCalibrationType extends Code {
     /**
      * Unspecified
      */
-    public static final DeviceMetricCalibrationType UNSPECIFIED = DeviceMetricCalibrationType.of(ValueSet.UNSPECIFIED);
+    public static final DeviceMetricCalibrationType UNSPECIFIED = DeviceMetricCalibrationType.builder().value(ValueSet.UNSPECIFIED).build();
 
     /**
      * Offset
      */
-    public static final DeviceMetricCalibrationType OFFSET = DeviceMetricCalibrationType.of(ValueSet.OFFSET);
+    public static final DeviceMetricCalibrationType OFFSET = DeviceMetricCalibrationType.builder().value(ValueSet.OFFSET).build();
 
     /**
      * Gain
      */
-    public static final DeviceMetricCalibrationType GAIN = DeviceMetricCalibrationType.of(ValueSet.GAIN);
+    public static final DeviceMetricCalibrationType GAIN = DeviceMetricCalibrationType.builder().value(ValueSet.GAIN).build();
 
     /**
      * Two Point
      */
-    public static final DeviceMetricCalibrationType TWO_POINT = DeviceMetricCalibrationType.of(ValueSet.TWO_POINT);
+    public static final DeviceMetricCalibrationType TWO_POINT = DeviceMetricCalibrationType.builder().value(ValueSet.TWO_POINT).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class DeviceMetricCalibrationType extends Code {
         super(builder);
     }
 
-    public static DeviceMetricCalibrationType of(java.lang.String value) {
-        return DeviceMetricCalibrationType.builder().value(value).build();
+    public static DeviceMetricCalibrationType of(ValueSet value) {
+        switch (value) {
+        case UNSPECIFIED:
+            return UNSPECIFIED;
+        case OFFSET:
+            return OFFSET;
+        case GAIN:
+            return GAIN;
+        case TWO_POINT:
+            return TWO_POINT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DeviceMetricCalibrationType of(ValueSet value) {
-        return DeviceMetricCalibrationType.builder().value(value).build();
+    public static DeviceMetricCalibrationType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DeviceMetricCalibrationType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DeviceMetricCalibrationType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

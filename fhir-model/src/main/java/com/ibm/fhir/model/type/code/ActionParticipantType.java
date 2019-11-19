@@ -20,22 +20,22 @@ public class ActionParticipantType extends Code {
     /**
      * Patient
      */
-    public static final ActionParticipantType PATIENT = ActionParticipantType.of(ValueSet.PATIENT);
+    public static final ActionParticipantType PATIENT = ActionParticipantType.builder().value(ValueSet.PATIENT).build();
 
     /**
      * Practitioner
      */
-    public static final ActionParticipantType PRACTITIONER = ActionParticipantType.of(ValueSet.PRACTITIONER);
+    public static final ActionParticipantType PRACTITIONER = ActionParticipantType.builder().value(ValueSet.PRACTITIONER).build();
 
     /**
      * Related Person
      */
-    public static final ActionParticipantType RELATED_PERSON = ActionParticipantType.of(ValueSet.RELATED_PERSON);
+    public static final ActionParticipantType RELATED_PERSON = ActionParticipantType.builder().value(ValueSet.RELATED_PERSON).build();
 
     /**
      * Device
      */
-    public static final ActionParticipantType DEVICE = ActionParticipantType.of(ValueSet.DEVICE);
+    public static final ActionParticipantType DEVICE = ActionParticipantType.builder().value(ValueSet.DEVICE).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ActionParticipantType extends Code {
         super(builder);
     }
 
-    public static ActionParticipantType of(java.lang.String value) {
-        return ActionParticipantType.builder().value(value).build();
+    public static ActionParticipantType of(ValueSet value) {
+        switch (value) {
+        case PATIENT:
+            return PATIENT;
+        case PRACTITIONER:
+            return PRACTITIONER;
+        case RELATED_PERSON:
+            return RELATED_PERSON;
+        case DEVICE:
+            return DEVICE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ActionParticipantType of(ValueSet value) {
-        return ActionParticipantType.builder().value(value).build();
+    public static ActionParticipantType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActionParticipantType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActionParticipantType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

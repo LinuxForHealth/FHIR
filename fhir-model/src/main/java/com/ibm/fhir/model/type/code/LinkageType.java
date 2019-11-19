@@ -20,17 +20,17 @@ public class LinkageType extends Code {
     /**
      * Source of Truth
      */
-    public static final LinkageType SOURCE = LinkageType.of(ValueSet.SOURCE);
+    public static final LinkageType SOURCE = LinkageType.builder().value(ValueSet.SOURCE).build();
 
     /**
      * Alternate Record
      */
-    public static final LinkageType ALTERNATE = LinkageType.of(ValueSet.ALTERNATE);
+    public static final LinkageType ALTERNATE = LinkageType.builder().value(ValueSet.ALTERNATE).build();
 
     /**
      * Historical/Obsolete Record
      */
-    public static final LinkageType HISTORICAL = LinkageType.of(ValueSet.HISTORICAL);
+    public static final LinkageType HISTORICAL = LinkageType.builder().value(ValueSet.HISTORICAL).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class LinkageType extends Code {
         super(builder);
     }
 
-    public static LinkageType of(java.lang.String value) {
-        return LinkageType.builder().value(value).build();
+    public static LinkageType of(ValueSet value) {
+        switch (value) {
+        case SOURCE:
+            return SOURCE;
+        case ALTERNATE:
+            return ALTERNATE;
+        case HISTORICAL:
+            return HISTORICAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static LinkageType of(ValueSet value) {
-        return LinkageType.builder().value(value).build();
+    public static LinkageType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return LinkageType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return LinkageType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

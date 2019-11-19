@@ -20,22 +20,22 @@ public class AllergyIntoleranceCategory extends Code {
     /**
      * Food
      */
-    public static final AllergyIntoleranceCategory FOOD = AllergyIntoleranceCategory.of(ValueSet.FOOD);
+    public static final AllergyIntoleranceCategory FOOD = AllergyIntoleranceCategory.builder().value(ValueSet.FOOD).build();
 
     /**
      * Medication
      */
-    public static final AllergyIntoleranceCategory MEDICATION = AllergyIntoleranceCategory.of(ValueSet.MEDICATION);
+    public static final AllergyIntoleranceCategory MEDICATION = AllergyIntoleranceCategory.builder().value(ValueSet.MEDICATION).build();
 
     /**
      * Environment
      */
-    public static final AllergyIntoleranceCategory ENVIRONMENT = AllergyIntoleranceCategory.of(ValueSet.ENVIRONMENT);
+    public static final AllergyIntoleranceCategory ENVIRONMENT = AllergyIntoleranceCategory.builder().value(ValueSet.ENVIRONMENT).build();
 
     /**
      * Biologic
      */
-    public static final AllergyIntoleranceCategory BIOLOGIC = AllergyIntoleranceCategory.of(ValueSet.BIOLOGIC);
+    public static final AllergyIntoleranceCategory BIOLOGIC = AllergyIntoleranceCategory.builder().value(ValueSet.BIOLOGIC).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class AllergyIntoleranceCategory extends Code {
         super(builder);
     }
 
-    public static AllergyIntoleranceCategory of(java.lang.String value) {
-        return AllergyIntoleranceCategory.builder().value(value).build();
+    public static AllergyIntoleranceCategory of(ValueSet value) {
+        switch (value) {
+        case FOOD:
+            return FOOD;
+        case MEDICATION:
+            return MEDICATION;
+        case ENVIRONMENT:
+            return ENVIRONMENT;
+        case BIOLOGIC:
+            return BIOLOGIC;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static AllergyIntoleranceCategory of(ValueSet value) {
-        return AllergyIntoleranceCategory.builder().value(value).build();
+    public static AllergyIntoleranceCategory of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return AllergyIntoleranceCategory.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AllergyIntoleranceCategory.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

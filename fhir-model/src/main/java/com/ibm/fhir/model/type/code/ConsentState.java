@@ -20,32 +20,32 @@ public class ConsentState extends Code {
     /**
      * Pending
      */
-    public static final ConsentState DRAFT = ConsentState.of(ValueSet.DRAFT);
+    public static final ConsentState DRAFT = ConsentState.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Proposed
      */
-    public static final ConsentState PROPOSED = ConsentState.of(ValueSet.PROPOSED);
+    public static final ConsentState PROPOSED = ConsentState.builder().value(ValueSet.PROPOSED).build();
 
     /**
      * Active
      */
-    public static final ConsentState ACTIVE = ConsentState.of(ValueSet.ACTIVE);
+    public static final ConsentState ACTIVE = ConsentState.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Rejected
      */
-    public static final ConsentState REJECTED = ConsentState.of(ValueSet.REJECTED);
+    public static final ConsentState REJECTED = ConsentState.builder().value(ValueSet.REJECTED).build();
 
     /**
      * Inactive
      */
-    public static final ConsentState INACTIVE = ConsentState.of(ValueSet.INACTIVE);
+    public static final ConsentState INACTIVE = ConsentState.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
      */
-    public static final ConsentState ENTERED_IN_ERROR = ConsentState.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ConsentState ENTERED_IN_ERROR = ConsentState.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class ConsentState extends Code {
         super(builder);
     }
 
-    public static ConsentState of(java.lang.String value) {
-        return ConsentState.builder().value(value).build();
+    public static ConsentState of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case PROPOSED:
+            return PROPOSED;
+        case ACTIVE:
+            return ACTIVE;
+        case REJECTED:
+            return REJECTED;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ConsentState of(ValueSet value) {
-        return ConsentState.builder().value(value).build();
+    public static ConsentState of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ConsentState.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ConsentState.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

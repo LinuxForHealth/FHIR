@@ -20,42 +20,42 @@ public class MedicationRequestIntent extends Code {
     /**
      * Proposal
      */
-    public static final MedicationRequestIntent PROPOSAL = MedicationRequestIntent.of(ValueSet.PROPOSAL);
+    public static final MedicationRequestIntent PROPOSAL = MedicationRequestIntent.builder().value(ValueSet.PROPOSAL).build();
 
     /**
      * Plan
      */
-    public static final MedicationRequestIntent PLAN = MedicationRequestIntent.of(ValueSet.PLAN);
+    public static final MedicationRequestIntent PLAN = MedicationRequestIntent.builder().value(ValueSet.PLAN).build();
 
     /**
      * Order
      */
-    public static final MedicationRequestIntent ORDER = MedicationRequestIntent.of(ValueSet.ORDER);
+    public static final MedicationRequestIntent ORDER = MedicationRequestIntent.builder().value(ValueSet.ORDER).build();
 
     /**
      * Original Order
      */
-    public static final MedicationRequestIntent ORIGINAL_ORDER = MedicationRequestIntent.of(ValueSet.ORIGINAL_ORDER);
+    public static final MedicationRequestIntent ORIGINAL_ORDER = MedicationRequestIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
 
     /**
      * Reflex Order
      */
-    public static final MedicationRequestIntent REFLEX_ORDER = MedicationRequestIntent.of(ValueSet.REFLEX_ORDER);
+    public static final MedicationRequestIntent REFLEX_ORDER = MedicationRequestIntent.builder().value(ValueSet.REFLEX_ORDER).build();
 
     /**
      * Filler Order
      */
-    public static final MedicationRequestIntent FILLER_ORDER = MedicationRequestIntent.of(ValueSet.FILLER_ORDER);
+    public static final MedicationRequestIntent FILLER_ORDER = MedicationRequestIntent.builder().value(ValueSet.FILLER_ORDER).build();
 
     /**
      * Instance Order
      */
-    public static final MedicationRequestIntent INSTANCE_ORDER = MedicationRequestIntent.of(ValueSet.INSTANCE_ORDER);
+    public static final MedicationRequestIntent INSTANCE_ORDER = MedicationRequestIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
 
     /**
      * Option
      */
-    public static final MedicationRequestIntent OPTION = MedicationRequestIntent.of(ValueSet.OPTION);
+    public static final MedicationRequestIntent OPTION = MedicationRequestIntent.builder().value(ValueSet.OPTION).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class MedicationRequestIntent extends Code {
         super(builder);
     }
 
-    public static MedicationRequestIntent of(java.lang.String value) {
-        return MedicationRequestIntent.builder().value(value).build();
+    public static MedicationRequestIntent of(ValueSet value) {
+        switch (value) {
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case ORDER:
+            return ORDER;
+        case ORIGINAL_ORDER:
+            return ORIGINAL_ORDER;
+        case REFLEX_ORDER:
+            return REFLEX_ORDER;
+        case FILLER_ORDER:
+            return FILLER_ORDER;
+        case INSTANCE_ORDER:
+            return INSTANCE_ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static MedicationRequestIntent of(ValueSet value) {
-        return MedicationRequestIntent.builder().value(value).build();
+    public static MedicationRequestIntent of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return MedicationRequestIntent.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MedicationRequestIntent.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

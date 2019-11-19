@@ -20,27 +20,27 @@ public class StructureMapSourceListMode extends Code {
     /**
      * First
      */
-    public static final StructureMapSourceListMode FIRST = StructureMapSourceListMode.of(ValueSet.FIRST);
+    public static final StructureMapSourceListMode FIRST = StructureMapSourceListMode.builder().value(ValueSet.FIRST).build();
 
     /**
      * All but the first
      */
-    public static final StructureMapSourceListMode NOT_FIRST = StructureMapSourceListMode.of(ValueSet.NOT_FIRST);
+    public static final StructureMapSourceListMode NOT_FIRST = StructureMapSourceListMode.builder().value(ValueSet.NOT_FIRST).build();
 
     /**
      * Last
      */
-    public static final StructureMapSourceListMode LAST = StructureMapSourceListMode.of(ValueSet.LAST);
+    public static final StructureMapSourceListMode LAST = StructureMapSourceListMode.builder().value(ValueSet.LAST).build();
 
     /**
      * All but the last
      */
-    public static final StructureMapSourceListMode NOT_LAST = StructureMapSourceListMode.of(ValueSet.NOT_LAST);
+    public static final StructureMapSourceListMode NOT_LAST = StructureMapSourceListMode.builder().value(ValueSet.NOT_LAST).build();
 
     /**
      * Enforce only one
      */
-    public static final StructureMapSourceListMode ONLY_ONE = StructureMapSourceListMode.of(ValueSet.ONLY_ONE);
+    public static final StructureMapSourceListMode ONLY_ONE = StructureMapSourceListMode.builder().value(ValueSet.ONLY_ONE).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class StructureMapSourceListMode extends Code {
         super(builder);
     }
 
-    public static StructureMapSourceListMode of(java.lang.String value) {
-        return StructureMapSourceListMode.builder().value(value).build();
+    public static StructureMapSourceListMode of(ValueSet value) {
+        switch (value) {
+        case FIRST:
+            return FIRST;
+        case NOT_FIRST:
+            return NOT_FIRST;
+        case LAST:
+            return LAST;
+        case NOT_LAST:
+            return NOT_LAST;
+        case ONLY_ONE:
+            return ONLY_ONE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static StructureMapSourceListMode of(ValueSet value) {
-        return StructureMapSourceListMode.builder().value(value).build();
+    public static StructureMapSourceListMode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return StructureMapSourceListMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StructureMapSourceListMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

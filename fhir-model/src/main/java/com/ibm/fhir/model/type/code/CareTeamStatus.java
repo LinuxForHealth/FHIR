@@ -20,27 +20,27 @@ public class CareTeamStatus extends Code {
     /**
      * Proposed
      */
-    public static final CareTeamStatus PROPOSED = CareTeamStatus.of(ValueSet.PROPOSED);
+    public static final CareTeamStatus PROPOSED = CareTeamStatus.builder().value(ValueSet.PROPOSED).build();
 
     /**
      * Active
      */
-    public static final CareTeamStatus ACTIVE = CareTeamStatus.of(ValueSet.ACTIVE);
+    public static final CareTeamStatus ACTIVE = CareTeamStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Suspended
      */
-    public static final CareTeamStatus SUSPENDED = CareTeamStatus.of(ValueSet.SUSPENDED);
+    public static final CareTeamStatus SUSPENDED = CareTeamStatus.builder().value(ValueSet.SUSPENDED).build();
 
     /**
      * Inactive
      */
-    public static final CareTeamStatus INACTIVE = CareTeamStatus.of(ValueSet.INACTIVE);
+    public static final CareTeamStatus INACTIVE = CareTeamStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
      */
-    public static final CareTeamStatus ENTERED_IN_ERROR = CareTeamStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final CareTeamStatus ENTERED_IN_ERROR = CareTeamStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class CareTeamStatus extends Code {
         super(builder);
     }
 
-    public static CareTeamStatus of(java.lang.String value) {
-        return CareTeamStatus.builder().value(value).build();
+    public static CareTeamStatus of(ValueSet value) {
+        switch (value) {
+        case PROPOSED:
+            return PROPOSED;
+        case ACTIVE:
+            return ACTIVE;
+        case SUSPENDED:
+            return SUSPENDED;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CareTeamStatus of(ValueSet value) {
-        return CareTeamStatus.builder().value(value).build();
+    public static CareTeamStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CareTeamStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CareTeamStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

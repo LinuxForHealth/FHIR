@@ -20,32 +20,32 @@ public class InvoicePriceComponentType extends Code {
     /**
      * base price
      */
-    public static final InvoicePriceComponentType BASE = InvoicePriceComponentType.of(ValueSet.BASE);
+    public static final InvoicePriceComponentType BASE = InvoicePriceComponentType.builder().value(ValueSet.BASE).build();
 
     /**
      * surcharge
      */
-    public static final InvoicePriceComponentType SURCHARGE = InvoicePriceComponentType.of(ValueSet.SURCHARGE);
+    public static final InvoicePriceComponentType SURCHARGE = InvoicePriceComponentType.builder().value(ValueSet.SURCHARGE).build();
 
     /**
      * deduction
      */
-    public static final InvoicePriceComponentType DEDUCTION = InvoicePriceComponentType.of(ValueSet.DEDUCTION);
+    public static final InvoicePriceComponentType DEDUCTION = InvoicePriceComponentType.builder().value(ValueSet.DEDUCTION).build();
 
     /**
      * discount
      */
-    public static final InvoicePriceComponentType DISCOUNT = InvoicePriceComponentType.of(ValueSet.DISCOUNT);
+    public static final InvoicePriceComponentType DISCOUNT = InvoicePriceComponentType.builder().value(ValueSet.DISCOUNT).build();
 
     /**
      * tax
      */
-    public static final InvoicePriceComponentType TAX = InvoicePriceComponentType.of(ValueSet.TAX);
+    public static final InvoicePriceComponentType TAX = InvoicePriceComponentType.builder().value(ValueSet.TAX).build();
 
     /**
      * informational
      */
-    public static final InvoicePriceComponentType INFORMATIONAL = InvoicePriceComponentType.of(ValueSet.INFORMATIONAL);
+    public static final InvoicePriceComponentType INFORMATIONAL = InvoicePriceComponentType.builder().value(ValueSet.INFORMATIONAL).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class InvoicePriceComponentType extends Code {
         super(builder);
     }
 
-    public static InvoicePriceComponentType of(java.lang.String value) {
-        return InvoicePriceComponentType.builder().value(value).build();
+    public static InvoicePriceComponentType of(ValueSet value) {
+        switch (value) {
+        case BASE:
+            return BASE;
+        case SURCHARGE:
+            return SURCHARGE;
+        case DEDUCTION:
+            return DEDUCTION;
+        case DISCOUNT:
+            return DISCOUNT;
+        case TAX:
+            return TAX;
+        case INFORMATIONAL:
+            return INFORMATIONAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static InvoicePriceComponentType of(ValueSet value) {
-        return InvoicePriceComponentType.builder().value(value).build();
+    public static InvoicePriceComponentType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return InvoicePriceComponentType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return InvoicePriceComponentType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

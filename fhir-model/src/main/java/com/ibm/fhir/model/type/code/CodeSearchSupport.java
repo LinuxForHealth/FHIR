@@ -20,12 +20,12 @@ public class CodeSearchSupport extends Code {
     /**
      * Explicit Codes
      */
-    public static final CodeSearchSupport EXPLICIT = CodeSearchSupport.of(ValueSet.EXPLICIT);
+    public static final CodeSearchSupport EXPLICIT = CodeSearchSupport.builder().value(ValueSet.EXPLICIT).build();
 
     /**
      * Implicit Codes
      */
-    public static final CodeSearchSupport ALL = CodeSearchSupport.of(ValueSet.ALL);
+    public static final CodeSearchSupport ALL = CodeSearchSupport.builder().value(ValueSet.ALL).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class CodeSearchSupport extends Code {
         super(builder);
     }
 
-    public static CodeSearchSupport of(java.lang.String value) {
-        return CodeSearchSupport.builder().value(value).build();
+    public static CodeSearchSupport of(ValueSet value) {
+        switch (value) {
+        case EXPLICIT:
+            return EXPLICIT;
+        case ALL:
+            return ALL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CodeSearchSupport of(ValueSet value) {
-        return CodeSearchSupport.builder().value(value).build();
+    public static CodeSearchSupport of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CodeSearchSupport.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CodeSearchSupport.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

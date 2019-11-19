@@ -20,22 +20,22 @@ public class QuantityComparator extends Code {
     /**
      * Less than
      */
-    public static final QuantityComparator LESS_THAN = QuantityComparator.of(ValueSet.LESS_THAN);
+    public static final QuantityComparator LESS_THAN = QuantityComparator.builder().value(ValueSet.LESS_THAN).build();
 
     /**
      * Less or Equal to
      */
-    public static final QuantityComparator LESS_OR_EQUALS = QuantityComparator.of(ValueSet.LESS_OR_EQUALS);
+    public static final QuantityComparator LESS_OR_EQUALS = QuantityComparator.builder().value(ValueSet.LESS_OR_EQUALS).build();
 
     /**
      * Greater or Equal to
      */
-    public static final QuantityComparator GREATER_OR_EQUALS = QuantityComparator.of(ValueSet.GREATER_OR_EQUALS);
+    public static final QuantityComparator GREATER_OR_EQUALS = QuantityComparator.builder().value(ValueSet.GREATER_OR_EQUALS).build();
 
     /**
      * Greater than
      */
-    public static final QuantityComparator GREATER_THAN = QuantityComparator.of(ValueSet.GREATER_THAN);
+    public static final QuantityComparator GREATER_THAN = QuantityComparator.builder().value(ValueSet.GREATER_THAN).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class QuantityComparator extends Code {
         super(builder);
     }
 
-    public static QuantityComparator of(java.lang.String value) {
-        return QuantityComparator.builder().value(value).build();
+    public static QuantityComparator of(ValueSet value) {
+        switch (value) {
+        case LESS_THAN:
+            return LESS_THAN;
+        case LESS_OR_EQUALS:
+            return LESS_OR_EQUALS;
+        case GREATER_OR_EQUALS:
+            return GREATER_OR_EQUALS;
+        case GREATER_THAN:
+            return GREATER_THAN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static QuantityComparator of(ValueSet value) {
-        return QuantityComparator.builder().value(value).build();
+    public static QuantityComparator of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return QuantityComparator.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return QuantityComparator.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

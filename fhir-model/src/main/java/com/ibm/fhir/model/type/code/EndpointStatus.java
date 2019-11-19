@@ -20,32 +20,32 @@ public class EndpointStatus extends Code {
     /**
      * Active
      */
-    public static final EndpointStatus ACTIVE = EndpointStatus.of(ValueSet.ACTIVE);
+    public static final EndpointStatus ACTIVE = EndpointStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Suspended
      */
-    public static final EndpointStatus SUSPENDED = EndpointStatus.of(ValueSet.SUSPENDED);
+    public static final EndpointStatus SUSPENDED = EndpointStatus.builder().value(ValueSet.SUSPENDED).build();
 
     /**
      * Error
      */
-    public static final EndpointStatus ERROR = EndpointStatus.of(ValueSet.ERROR);
+    public static final EndpointStatus ERROR = EndpointStatus.builder().value(ValueSet.ERROR).build();
 
     /**
      * Off
      */
-    public static final EndpointStatus OFF = EndpointStatus.of(ValueSet.OFF);
+    public static final EndpointStatus OFF = EndpointStatus.builder().value(ValueSet.OFF).build();
 
     /**
      * Entered in error
      */
-    public static final EndpointStatus ENTERED_IN_ERROR = EndpointStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final EndpointStatus ENTERED_IN_ERROR = EndpointStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Test
      */
-    public static final EndpointStatus TEST = EndpointStatus.of(ValueSet.TEST);
+    public static final EndpointStatus TEST = EndpointStatus.builder().value(ValueSet.TEST).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class EndpointStatus extends Code {
         super(builder);
     }
 
-    public static EndpointStatus of(java.lang.String value) {
-        return EndpointStatus.builder().value(value).build();
+    public static EndpointStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case SUSPENDED:
+            return SUSPENDED;
+        case ERROR:
+            return ERROR;
+        case OFF:
+            return OFF;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case TEST:
+            return TEST;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static EndpointStatus of(ValueSet value) {
-        return EndpointStatus.builder().value(value).build();
+    public static EndpointStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return EndpointStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EndpointStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

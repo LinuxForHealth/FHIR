@@ -20,32 +20,32 @@ public class DeviceUseStatementStatus extends Code {
     /**
      * Active
      */
-    public static final DeviceUseStatementStatus ACTIVE = DeviceUseStatementStatus.of(ValueSet.ACTIVE);
+    public static final DeviceUseStatementStatus ACTIVE = DeviceUseStatementStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Completed
      */
-    public static final DeviceUseStatementStatus COMPLETED = DeviceUseStatementStatus.of(ValueSet.COMPLETED);
+    public static final DeviceUseStatementStatus COMPLETED = DeviceUseStatementStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final DeviceUseStatementStatus ENTERED_IN_ERROR = DeviceUseStatementStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final DeviceUseStatementStatus ENTERED_IN_ERROR = DeviceUseStatementStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Intended
      */
-    public static final DeviceUseStatementStatus INTENDED = DeviceUseStatementStatus.of(ValueSet.INTENDED);
+    public static final DeviceUseStatementStatus INTENDED = DeviceUseStatementStatus.builder().value(ValueSet.INTENDED).build();
 
     /**
      * Stopped
      */
-    public static final DeviceUseStatementStatus STOPPED = DeviceUseStatementStatus.of(ValueSet.STOPPED);
+    public static final DeviceUseStatementStatus STOPPED = DeviceUseStatementStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * On Hold
      */
-    public static final DeviceUseStatementStatus ON_HOLD = DeviceUseStatementStatus.of(ValueSet.ON_HOLD);
+    public static final DeviceUseStatementStatus ON_HOLD = DeviceUseStatementStatus.builder().value(ValueSet.ON_HOLD).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class DeviceUseStatementStatus extends Code {
         super(builder);
     }
 
-    public static DeviceUseStatementStatus of(java.lang.String value) {
-        return DeviceUseStatementStatus.builder().value(value).build();
+    public static DeviceUseStatementStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case INTENDED:
+            return INTENDED;
+        case STOPPED:
+            return STOPPED;
+        case ON_HOLD:
+            return ON_HOLD;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DeviceUseStatementStatus of(ValueSet value) {
-        return DeviceUseStatementStatus.builder().value(value).build();
+    public static DeviceUseStatementStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DeviceUseStatementStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DeviceUseStatementStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

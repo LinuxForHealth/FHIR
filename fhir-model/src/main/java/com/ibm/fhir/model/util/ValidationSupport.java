@@ -68,9 +68,6 @@ public final class ValidationSupport {
         if (s == null) {
             return;
         }
-        if (s.length() > MAX_STRING_LENGTH) {
-            throw new IllegalStateException(String.format("Code value length: %d is greater than maximum allowed length: %d", s.length(), MAX_STRING_LENGTH));
-        }
         if (Character.isWhitespace(s.charAt(0)) || s.length() == 0) {
             throw new IllegalStateException(String.format("Code value: '%s' must begin with a non-whitespace character", s));
         }
@@ -83,7 +80,7 @@ public final class ValidationSupport {
             char current = s.charAt(i);
             if (Character.isWhitespace(current)) {
                 if (current != ' ') {
-                    throw new IllegalStateException(String.format("Code value: '%s' must not contain whitespace other than a single consecutive space", s));
+                    throw new IllegalStateException(String.format("Code value: '%s' must not contain whitespace other than a single space", s));
                 } else if (previousIsSpace) {
                     throw new IllegalStateException(String.format("Code value: '%s' must not contain consecutive spaces", s));
                 }

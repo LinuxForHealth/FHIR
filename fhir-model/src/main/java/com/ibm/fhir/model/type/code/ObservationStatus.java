@@ -20,42 +20,42 @@ public class ObservationStatus extends Code {
     /**
      * Registered
      */
-    public static final ObservationStatus REGISTERED = ObservationStatus.of(ValueSet.REGISTERED);
+    public static final ObservationStatus REGISTERED = ObservationStatus.builder().value(ValueSet.REGISTERED).build();
 
     /**
      * Preliminary
      */
-    public static final ObservationStatus PRELIMINARY = ObservationStatus.of(ValueSet.PRELIMINARY);
+    public static final ObservationStatus PRELIMINARY = ObservationStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
      */
-    public static final ObservationStatus FINAL = ObservationStatus.of(ValueSet.FINAL);
+    public static final ObservationStatus FINAL = ObservationStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
      */
-    public static final ObservationStatus AMENDED = ObservationStatus.of(ValueSet.AMENDED);
+    public static final ObservationStatus AMENDED = ObservationStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Corrected
      */
-    public static final ObservationStatus CORRECTED = ObservationStatus.of(ValueSet.CORRECTED);
+    public static final ObservationStatus CORRECTED = ObservationStatus.builder().value(ValueSet.CORRECTED).build();
 
     /**
      * Cancelled
      */
-    public static final ObservationStatus CANCELLED = ObservationStatus.of(ValueSet.CANCELLED);
+    public static final ObservationStatus CANCELLED = ObservationStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
      */
-    public static final ObservationStatus ENTERED_IN_ERROR = ObservationStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ObservationStatus ENTERED_IN_ERROR = ObservationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final ObservationStatus UNKNOWN = ObservationStatus.of(ValueSet.UNKNOWN);
+    public static final ObservationStatus UNKNOWN = ObservationStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class ObservationStatus extends Code {
         super(builder);
     }
 
-    public static ObservationStatus of(java.lang.String value) {
-        return ObservationStatus.builder().value(value).build();
+    public static ObservationStatus of(ValueSet value) {
+        switch (value) {
+        case REGISTERED:
+            return REGISTERED;
+        case PRELIMINARY:
+            return PRELIMINARY;
+        case FINAL:
+            return FINAL;
+        case AMENDED:
+            return AMENDED;
+        case CORRECTED:
+            return CORRECTED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ObservationStatus of(ValueSet value) {
-        return ObservationStatus.builder().value(value).build();
+    public static ObservationStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ObservationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ObservationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,22 +20,22 @@ public class ConditionalReadStatus extends Code {
     /**
      * Not Supported
      */
-    public static final ConditionalReadStatus NOT_SUPPORTED = ConditionalReadStatus.of(ValueSet.NOT_SUPPORTED);
+    public static final ConditionalReadStatus NOT_SUPPORTED = ConditionalReadStatus.builder().value(ValueSet.NOT_SUPPORTED).build();
 
     /**
      * If-Modified-Since
      */
-    public static final ConditionalReadStatus MODIFIED_SINCE = ConditionalReadStatus.of(ValueSet.MODIFIED_SINCE);
+    public static final ConditionalReadStatus MODIFIED_SINCE = ConditionalReadStatus.builder().value(ValueSet.MODIFIED_SINCE).build();
 
     /**
      * If-None-Match
      */
-    public static final ConditionalReadStatus NOT_MATCH = ConditionalReadStatus.of(ValueSet.NOT_MATCH);
+    public static final ConditionalReadStatus NOT_MATCH = ConditionalReadStatus.builder().value(ValueSet.NOT_MATCH).build();
 
     /**
      * Full Support
      */
-    public static final ConditionalReadStatus FULL_SUPPORT = ConditionalReadStatus.of(ValueSet.FULL_SUPPORT);
+    public static final ConditionalReadStatus FULL_SUPPORT = ConditionalReadStatus.builder().value(ValueSet.FULL_SUPPORT).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ConditionalReadStatus extends Code {
         super(builder);
     }
 
-    public static ConditionalReadStatus of(java.lang.String value) {
-        return ConditionalReadStatus.builder().value(value).build();
+    public static ConditionalReadStatus of(ValueSet value) {
+        switch (value) {
+        case NOT_SUPPORTED:
+            return NOT_SUPPORTED;
+        case MODIFIED_SINCE:
+            return MODIFIED_SINCE;
+        case NOT_MATCH:
+            return NOT_MATCH;
+        case FULL_SUPPORT:
+            return FULL_SUPPORT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ConditionalReadStatus of(ValueSet value) {
-        return ConditionalReadStatus.builder().value(value).build();
+    public static ConditionalReadStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ConditionalReadStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ConditionalReadStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

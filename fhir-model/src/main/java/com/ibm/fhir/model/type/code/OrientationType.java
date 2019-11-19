@@ -20,12 +20,12 @@ public class OrientationType extends Code {
     /**
      * Sense orientation of referenceSeq
      */
-    public static final OrientationType SENSE = OrientationType.of(ValueSet.SENSE);
+    public static final OrientationType SENSE = OrientationType.builder().value(ValueSet.SENSE).build();
 
     /**
      * Antisense orientation of referenceSeq
      */
-    public static final OrientationType ANTISENSE = OrientationType.of(ValueSet.ANTISENSE);
+    public static final OrientationType ANTISENSE = OrientationType.builder().value(ValueSet.ANTISENSE).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class OrientationType extends Code {
         super(builder);
     }
 
-    public static OrientationType of(java.lang.String value) {
-        return OrientationType.builder().value(value).build();
+    public static OrientationType of(ValueSet value) {
+        switch (value) {
+        case SENSE:
+            return SENSE;
+        case ANTISENSE:
+            return ANTISENSE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static OrientationType of(ValueSet value) {
-        return OrientationType.builder().value(value).build();
+    public static OrientationType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return OrientationType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return OrientationType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

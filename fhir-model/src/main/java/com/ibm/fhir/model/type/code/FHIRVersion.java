@@ -20,107 +20,107 @@ public class FHIRVersion extends Code {
     /**
      * 0.01
      */
-    public static final FHIRVersion VERSION_0_01 = FHIRVersion.of(ValueSet.VERSION_0_01);
+    public static final FHIRVersion VERSION_0_01 = FHIRVersion.builder().value(ValueSet.VERSION_0_01).build();
 
     /**
      * 0.05
      */
-    public static final FHIRVersion VERSION_0_05 = FHIRVersion.of(ValueSet.VERSION_0_05);
+    public static final FHIRVersion VERSION_0_05 = FHIRVersion.builder().value(ValueSet.VERSION_0_05).build();
 
     /**
      * 0.06
      */
-    public static final FHIRVersion VERSION_0_06 = FHIRVersion.of(ValueSet.VERSION_0_06);
+    public static final FHIRVersion VERSION_0_06 = FHIRVersion.builder().value(ValueSet.VERSION_0_06).build();
 
     /**
      * 0.11
      */
-    public static final FHIRVersion VERSION_0_11 = FHIRVersion.of(ValueSet.VERSION_0_11);
+    public static final FHIRVersion VERSION_0_11 = FHIRVersion.builder().value(ValueSet.VERSION_0_11).build();
 
     /**
      * 0.0.80
      */
-    public static final FHIRVersion VERSION_0_0_80 = FHIRVersion.of(ValueSet.VERSION_0_0_80);
+    public static final FHIRVersion VERSION_0_0_80 = FHIRVersion.builder().value(ValueSet.VERSION_0_0_80).build();
 
     /**
      * 0.0.81
      */
-    public static final FHIRVersion VERSION_0_0_81 = FHIRVersion.of(ValueSet.VERSION_0_0_81);
+    public static final FHIRVersion VERSION_0_0_81 = FHIRVersion.builder().value(ValueSet.VERSION_0_0_81).build();
 
     /**
      * 0.0.82
      */
-    public static final FHIRVersion VERSION_0_0_82 = FHIRVersion.of(ValueSet.VERSION_0_0_82);
+    public static final FHIRVersion VERSION_0_0_82 = FHIRVersion.builder().value(ValueSet.VERSION_0_0_82).build();
 
     /**
      * 0.4.0
      */
-    public static final FHIRVersion VERSION_0_4_0 = FHIRVersion.of(ValueSet.VERSION_0_4_0);
+    public static final FHIRVersion VERSION_0_4_0 = FHIRVersion.builder().value(ValueSet.VERSION_0_4_0).build();
 
     /**
      * 0.5.0
      */
-    public static final FHIRVersion VERSION_0_5_0 = FHIRVersion.of(ValueSet.VERSION_0_5_0);
+    public static final FHIRVersion VERSION_0_5_0 = FHIRVersion.builder().value(ValueSet.VERSION_0_5_0).build();
 
     /**
      * 1.0.0
      */
-    public static final FHIRVersion VERSION_1_0_0 = FHIRVersion.of(ValueSet.VERSION_1_0_0);
+    public static final FHIRVersion VERSION_1_0_0 = FHIRVersion.builder().value(ValueSet.VERSION_1_0_0).build();
 
     /**
      * 1.0.1
      */
-    public static final FHIRVersion VERSION_1_0_1 = FHIRVersion.of(ValueSet.VERSION_1_0_1);
+    public static final FHIRVersion VERSION_1_0_1 = FHIRVersion.builder().value(ValueSet.VERSION_1_0_1).build();
 
     /**
      * 1.0.2
      */
-    public static final FHIRVersion VERSION_1_0_2 = FHIRVersion.of(ValueSet.VERSION_1_0_2);
+    public static final FHIRVersion VERSION_1_0_2 = FHIRVersion.builder().value(ValueSet.VERSION_1_0_2).build();
 
     /**
      * 1.1.0
      */
-    public static final FHIRVersion VERSION_1_1_0 = FHIRVersion.of(ValueSet.VERSION_1_1_0);
+    public static final FHIRVersion VERSION_1_1_0 = FHIRVersion.builder().value(ValueSet.VERSION_1_1_0).build();
 
     /**
      * 1.4.0
      */
-    public static final FHIRVersion VERSION_1_4_0 = FHIRVersion.of(ValueSet.VERSION_1_4_0);
+    public static final FHIRVersion VERSION_1_4_0 = FHIRVersion.builder().value(ValueSet.VERSION_1_4_0).build();
 
     /**
      * 1.6.0
      */
-    public static final FHIRVersion VERSION_1_6_0 = FHIRVersion.of(ValueSet.VERSION_1_6_0);
+    public static final FHIRVersion VERSION_1_6_0 = FHIRVersion.builder().value(ValueSet.VERSION_1_6_0).build();
 
     /**
      * 1.8.0
      */
-    public static final FHIRVersion VERSION_1_8_0 = FHIRVersion.of(ValueSet.VERSION_1_8_0);
+    public static final FHIRVersion VERSION_1_8_0 = FHIRVersion.builder().value(ValueSet.VERSION_1_8_0).build();
 
     /**
      * 3.0.0
      */
-    public static final FHIRVersion VERSION_3_0_0 = FHIRVersion.of(ValueSet.VERSION_3_0_0);
+    public static final FHIRVersion VERSION_3_0_0 = FHIRVersion.builder().value(ValueSet.VERSION_3_0_0).build();
 
     /**
      * 3.0.1
      */
-    public static final FHIRVersion VERSION_3_0_1 = FHIRVersion.of(ValueSet.VERSION_3_0_1);
+    public static final FHIRVersion VERSION_3_0_1 = FHIRVersion.builder().value(ValueSet.VERSION_3_0_1).build();
 
     /**
      * 3.3.0
      */
-    public static final FHIRVersion VERSION_3_3_0 = FHIRVersion.of(ValueSet.VERSION_3_3_0);
+    public static final FHIRVersion VERSION_3_3_0 = FHIRVersion.builder().value(ValueSet.VERSION_3_3_0).build();
 
     /**
      * 3.5.0
      */
-    public static final FHIRVersion VERSION_3_5_0 = FHIRVersion.of(ValueSet.VERSION_3_5_0);
+    public static final FHIRVersion VERSION_3_5_0 = FHIRVersion.builder().value(ValueSet.VERSION_3_5_0).build();
 
     /**
      * 4.0.0
      */
-    public static final FHIRVersion VERSION_4_0_0 = FHIRVersion.of(ValueSet.VERSION_4_0_0);
+    public static final FHIRVersion VERSION_4_0_0 = FHIRVersion.builder().value(ValueSet.VERSION_4_0_0).build();
 
     private volatile int hashCode;
 
@@ -128,20 +128,65 @@ public class FHIRVersion extends Code {
         super(builder);
     }
 
-    public static FHIRVersion of(java.lang.String value) {
-        return FHIRVersion.builder().value(value).build();
+    public static FHIRVersion of(ValueSet value) {
+        switch (value) {
+        case VERSION_0_01:
+            return VERSION_0_01;
+        case VERSION_0_05:
+            return VERSION_0_05;
+        case VERSION_0_06:
+            return VERSION_0_06;
+        case VERSION_0_11:
+            return VERSION_0_11;
+        case VERSION_0_0_80:
+            return VERSION_0_0_80;
+        case VERSION_0_0_81:
+            return VERSION_0_0_81;
+        case VERSION_0_0_82:
+            return VERSION_0_0_82;
+        case VERSION_0_4_0:
+            return VERSION_0_4_0;
+        case VERSION_0_5_0:
+            return VERSION_0_5_0;
+        case VERSION_1_0_0:
+            return VERSION_1_0_0;
+        case VERSION_1_0_1:
+            return VERSION_1_0_1;
+        case VERSION_1_0_2:
+            return VERSION_1_0_2;
+        case VERSION_1_1_0:
+            return VERSION_1_1_0;
+        case VERSION_1_4_0:
+            return VERSION_1_4_0;
+        case VERSION_1_6_0:
+            return VERSION_1_6_0;
+        case VERSION_1_8_0:
+            return VERSION_1_8_0;
+        case VERSION_3_0_0:
+            return VERSION_3_0_0;
+        case VERSION_3_0_1:
+            return VERSION_3_0_1;
+        case VERSION_3_3_0:
+            return VERSION_3_3_0;
+        case VERSION_3_5_0:
+            return VERSION_3_5_0;
+        case VERSION_4_0_0:
+            return VERSION_4_0_0;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static FHIRVersion of(ValueSet value) {
-        return FHIRVersion.builder().value(value).build();
+    public static FHIRVersion of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return FHIRVersion.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return FHIRVersion.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,90 +20,90 @@ public class EventTiming extends Code {
     /**
      * Morning
      */
-    public static final EventTiming MORN = EventTiming.of(ValueSet.MORN);
+    public static final EventTiming MORN = EventTiming.builder().value(ValueSet.MORN).build();
 
     /**
      * Early Morning
      */
-    public static final EventTiming MORN_EARLY = EventTiming.of(ValueSet.MORN_EARLY);
+    public static final EventTiming MORN_EARLY = EventTiming.builder().value(ValueSet.MORN_EARLY).build();
 
     /**
      * Late Morning
      */
-    public static final EventTiming MORN_LATE = EventTiming.of(ValueSet.MORN_LATE);
+    public static final EventTiming MORN_LATE = EventTiming.builder().value(ValueSet.MORN_LATE).build();
 
     /**
      * Noon
      */
-    public static final EventTiming NOON = EventTiming.of(ValueSet.NOON);
+    public static final EventTiming NOON = EventTiming.builder().value(ValueSet.NOON).build();
 
     /**
      * Afternoon
      */
-    public static final EventTiming AFT = EventTiming.of(ValueSet.AFT);
+    public static final EventTiming AFT = EventTiming.builder().value(ValueSet.AFT).build();
 
     /**
      * Early Afternoon
      */
-    public static final EventTiming AFT_EARLY = EventTiming.of(ValueSet.AFT_EARLY);
+    public static final EventTiming AFT_EARLY = EventTiming.builder().value(ValueSet.AFT_EARLY).build();
 
     /**
      * Late Afternoon
      */
-    public static final EventTiming AFT_LATE = EventTiming.of(ValueSet.AFT_LATE);
+    public static final EventTiming AFT_LATE = EventTiming.builder().value(ValueSet.AFT_LATE).build();
 
     /**
      * Evening
      */
-    public static final EventTiming EVE = EventTiming.of(ValueSet.EVE);
+    public static final EventTiming EVE = EventTiming.builder().value(ValueSet.EVE).build();
 
     /**
      * Early Evening
      */
-    public static final EventTiming EVE_EARLY = EventTiming.of(ValueSet.EVE_EARLY);
+    public static final EventTiming EVE_EARLY = EventTiming.builder().value(ValueSet.EVE_EARLY).build();
 
     /**
      * Late Evening
      */
-    public static final EventTiming EVE_LATE = EventTiming.of(ValueSet.EVE_LATE);
+    public static final EventTiming EVE_LATE = EventTiming.builder().value(ValueSet.EVE_LATE).build();
 
     /**
      * Night
      */
-    public static final EventTiming NIGHT = EventTiming.of(ValueSet.NIGHT);
+    public static final EventTiming NIGHT = EventTiming.builder().value(ValueSet.NIGHT).build();
 
     /**
      * After Sleep
      */
-    public static final EventTiming PHS = EventTiming.of(ValueSet.PHS);
+    public static final EventTiming PHS = EventTiming.builder().value(ValueSet.PHS).build();
 
-    public static final EventTiming HS = EventTiming.of(ValueSet.HS);
+    public static final EventTiming HS = EventTiming.builder().value(ValueSet.HS).build();
 
-    public static final EventTiming WAKE = EventTiming.of(ValueSet.WAKE);
+    public static final EventTiming WAKE = EventTiming.builder().value(ValueSet.WAKE).build();
 
-    public static final EventTiming C = EventTiming.of(ValueSet.C);
+    public static final EventTiming C = EventTiming.builder().value(ValueSet.C).build();
 
-    public static final EventTiming CM = EventTiming.of(ValueSet.CM);
+    public static final EventTiming CM = EventTiming.builder().value(ValueSet.CM).build();
 
-    public static final EventTiming CD = EventTiming.of(ValueSet.CD);
+    public static final EventTiming CD = EventTiming.builder().value(ValueSet.CD).build();
 
-    public static final EventTiming CV = EventTiming.of(ValueSet.CV);
+    public static final EventTiming CV = EventTiming.builder().value(ValueSet.CV).build();
 
-    public static final EventTiming AC = EventTiming.of(ValueSet.AC);
+    public static final EventTiming AC = EventTiming.builder().value(ValueSet.AC).build();
 
-    public static final EventTiming ACM = EventTiming.of(ValueSet.ACM);
+    public static final EventTiming ACM = EventTiming.builder().value(ValueSet.ACM).build();
 
-    public static final EventTiming ACD = EventTiming.of(ValueSet.ACD);
+    public static final EventTiming ACD = EventTiming.builder().value(ValueSet.ACD).build();
 
-    public static final EventTiming ACV = EventTiming.of(ValueSet.ACV);
+    public static final EventTiming ACV = EventTiming.builder().value(ValueSet.ACV).build();
 
-    public static final EventTiming PC = EventTiming.of(ValueSet.PC);
+    public static final EventTiming PC = EventTiming.builder().value(ValueSet.PC).build();
 
-    public static final EventTiming PCM = EventTiming.of(ValueSet.PCM);
+    public static final EventTiming PCM = EventTiming.builder().value(ValueSet.PCM).build();
 
-    public static final EventTiming PCD = EventTiming.of(ValueSet.PCD);
+    public static final EventTiming PCD = EventTiming.builder().value(ValueSet.PCD).build();
 
-    public static final EventTiming PCV = EventTiming.of(ValueSet.PCV);
+    public static final EventTiming PCV = EventTiming.builder().value(ValueSet.PCV).build();
 
     private volatile int hashCode;
 
@@ -111,20 +111,75 @@ public class EventTiming extends Code {
         super(builder);
     }
 
-    public static EventTiming of(java.lang.String value) {
-        return EventTiming.builder().value(value).build();
+    public static EventTiming of(ValueSet value) {
+        switch (value) {
+        case MORN:
+            return MORN;
+        case MORN_EARLY:
+            return MORN_EARLY;
+        case MORN_LATE:
+            return MORN_LATE;
+        case NOON:
+            return NOON;
+        case AFT:
+            return AFT;
+        case AFT_EARLY:
+            return AFT_EARLY;
+        case AFT_LATE:
+            return AFT_LATE;
+        case EVE:
+            return EVE;
+        case EVE_EARLY:
+            return EVE_EARLY;
+        case EVE_LATE:
+            return EVE_LATE;
+        case NIGHT:
+            return NIGHT;
+        case PHS:
+            return PHS;
+        case HS:
+            return HS;
+        case WAKE:
+            return WAKE;
+        case C:
+            return C;
+        case CM:
+            return CM;
+        case CD:
+            return CD;
+        case CV:
+            return CV;
+        case AC:
+            return AC;
+        case ACM:
+            return ACM;
+        case ACD:
+            return ACD;
+        case ACV:
+            return ACV;
+        case PC:
+            return PC;
+        case PCM:
+            return PCM;
+        case PCD:
+            return PCD;
+        case PCV:
+            return PCV;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static EventTiming of(ValueSet value) {
-        return EventTiming.builder().value(value).build();
+    public static EventTiming of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return EventTiming.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EventTiming.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

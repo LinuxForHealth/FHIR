@@ -20,12 +20,12 @@ public class OperationKind extends Code {
     /**
      * Operation
      */
-    public static final OperationKind OPERATION = OperationKind.of(ValueSet.OPERATION);
+    public static final OperationKind OPERATION = OperationKind.builder().value(ValueSet.OPERATION).build();
 
     /**
      * Query
      */
-    public static final OperationKind QUERY = OperationKind.of(ValueSet.QUERY);
+    public static final OperationKind QUERY = OperationKind.builder().value(ValueSet.QUERY).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class OperationKind extends Code {
         super(builder);
     }
 
-    public static OperationKind of(java.lang.String value) {
-        return OperationKind.builder().value(value).build();
+    public static OperationKind of(ValueSet value) {
+        switch (value) {
+        case OPERATION:
+            return OPERATION;
+        case QUERY:
+            return QUERY;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static OperationKind of(ValueSet value) {
-        return OperationKind.builder().value(value).build();
+    public static OperationKind of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return OperationKind.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return OperationKind.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

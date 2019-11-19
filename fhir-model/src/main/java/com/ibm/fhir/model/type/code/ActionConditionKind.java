@@ -20,17 +20,17 @@ public class ActionConditionKind extends Code {
     /**
      * Applicability
      */
-    public static final ActionConditionKind APPLICABILITY = ActionConditionKind.of(ValueSet.APPLICABILITY);
+    public static final ActionConditionKind APPLICABILITY = ActionConditionKind.builder().value(ValueSet.APPLICABILITY).build();
 
     /**
      * Start
      */
-    public static final ActionConditionKind START = ActionConditionKind.of(ValueSet.START);
+    public static final ActionConditionKind START = ActionConditionKind.builder().value(ValueSet.START).build();
 
     /**
      * Stop
      */
-    public static final ActionConditionKind STOP = ActionConditionKind.of(ValueSet.STOP);
+    public static final ActionConditionKind STOP = ActionConditionKind.builder().value(ValueSet.STOP).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ActionConditionKind extends Code {
         super(builder);
     }
 
-    public static ActionConditionKind of(java.lang.String value) {
-        return ActionConditionKind.builder().value(value).build();
+    public static ActionConditionKind of(ValueSet value) {
+        switch (value) {
+        case APPLICABILITY:
+            return APPLICABILITY;
+        case START:
+            return START;
+        case STOP:
+            return STOP;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ActionConditionKind of(ValueSet value) {
-        return ActionConditionKind.builder().value(value).build();
+    public static ActionConditionKind of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActionConditionKind.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActionConditionKind.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

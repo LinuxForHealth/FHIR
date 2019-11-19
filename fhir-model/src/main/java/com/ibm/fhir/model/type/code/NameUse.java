@@ -20,37 +20,37 @@ public class NameUse extends Code {
     /**
      * Usual
      */
-    public static final NameUse USUAL = NameUse.of(ValueSet.USUAL);
+    public static final NameUse USUAL = NameUse.builder().value(ValueSet.USUAL).build();
 
     /**
      * Official
      */
-    public static final NameUse OFFICIAL = NameUse.of(ValueSet.OFFICIAL);
+    public static final NameUse OFFICIAL = NameUse.builder().value(ValueSet.OFFICIAL).build();
 
     /**
      * Temp
      */
-    public static final NameUse TEMP = NameUse.of(ValueSet.TEMP);
+    public static final NameUse TEMP = NameUse.builder().value(ValueSet.TEMP).build();
 
     /**
      * Nickname
      */
-    public static final NameUse NICKNAME = NameUse.of(ValueSet.NICKNAME);
+    public static final NameUse NICKNAME = NameUse.builder().value(ValueSet.NICKNAME).build();
 
     /**
      * Anonymous
      */
-    public static final NameUse ANONYMOUS = NameUse.of(ValueSet.ANONYMOUS);
+    public static final NameUse ANONYMOUS = NameUse.builder().value(ValueSet.ANONYMOUS).build();
 
     /**
      * Old
      */
-    public static final NameUse OLD = NameUse.of(ValueSet.OLD);
+    public static final NameUse OLD = NameUse.builder().value(ValueSet.OLD).build();
 
     /**
      * Name changed for Marriage
      */
-    public static final NameUse MAIDEN = NameUse.of(ValueSet.MAIDEN);
+    public static final NameUse MAIDEN = NameUse.builder().value(ValueSet.MAIDEN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class NameUse extends Code {
         super(builder);
     }
 
-    public static NameUse of(java.lang.String value) {
-        return NameUse.builder().value(value).build();
+    public static NameUse of(ValueSet value) {
+        switch (value) {
+        case USUAL:
+            return USUAL;
+        case OFFICIAL:
+            return OFFICIAL;
+        case TEMP:
+            return TEMP;
+        case NICKNAME:
+            return NICKNAME;
+        case ANONYMOUS:
+            return ANONYMOUS;
+        case OLD:
+            return OLD;
+        case MAIDEN:
+            return MAIDEN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static NameUse of(ValueSet value) {
-        return NameUse.builder().value(value).build();
+    public static NameUse of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return NameUse.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return NameUse.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

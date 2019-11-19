@@ -20,22 +20,22 @@ public class ClaimStatus extends Code {
     /**
      * Active
      */
-    public static final ClaimStatus ACTIVE = ClaimStatus.of(ValueSet.ACTIVE);
+    public static final ClaimStatus ACTIVE = ClaimStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
      */
-    public static final ClaimStatus CANCELLED = ClaimStatus.of(ValueSet.CANCELLED);
+    public static final ClaimStatus CANCELLED = ClaimStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
      */
-    public static final ClaimStatus DRAFT = ClaimStatus.of(ValueSet.DRAFT);
+    public static final ClaimStatus DRAFT = ClaimStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
      */
-    public static final ClaimStatus ENTERED_IN_ERROR = ClaimStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ClaimStatus ENTERED_IN_ERROR = ClaimStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ClaimStatus extends Code {
         super(builder);
     }
 
-    public static ClaimStatus of(java.lang.String value) {
-        return ClaimStatus.builder().value(value).build();
+    public static ClaimStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ClaimStatus of(ValueSet value) {
-        return ClaimStatus.builder().value(value).build();
+    public static ClaimStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ClaimStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ClaimStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

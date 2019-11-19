@@ -20,17 +20,17 @@ public class ConditionalDeleteStatus extends Code {
     /**
      * Not Supported
      */
-    public static final ConditionalDeleteStatus NOT_SUPPORTED = ConditionalDeleteStatus.of(ValueSet.NOT_SUPPORTED);
+    public static final ConditionalDeleteStatus NOT_SUPPORTED = ConditionalDeleteStatus.builder().value(ValueSet.NOT_SUPPORTED).build();
 
     /**
      * Single Deletes Supported
      */
-    public static final ConditionalDeleteStatus SINGLE = ConditionalDeleteStatus.of(ValueSet.SINGLE);
+    public static final ConditionalDeleteStatus SINGLE = ConditionalDeleteStatus.builder().value(ValueSet.SINGLE).build();
 
     /**
      * Multiple Deletes Supported
      */
-    public static final ConditionalDeleteStatus MULTIPLE = ConditionalDeleteStatus.of(ValueSet.MULTIPLE);
+    public static final ConditionalDeleteStatus MULTIPLE = ConditionalDeleteStatus.builder().value(ValueSet.MULTIPLE).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ConditionalDeleteStatus extends Code {
         super(builder);
     }
 
-    public static ConditionalDeleteStatus of(java.lang.String value) {
-        return ConditionalDeleteStatus.builder().value(value).build();
+    public static ConditionalDeleteStatus of(ValueSet value) {
+        switch (value) {
+        case NOT_SUPPORTED:
+            return NOT_SUPPORTED;
+        case SINGLE:
+            return SINGLE;
+        case MULTIPLE:
+            return MULTIPLE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ConditionalDeleteStatus of(ValueSet value) {
-        return ConditionalDeleteStatus.builder().value(value).build();
+    public static ConditionalDeleteStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ConditionalDeleteStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ConditionalDeleteStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

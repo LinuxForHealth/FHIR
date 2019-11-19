@@ -20,22 +20,22 @@ public class ConsentDataMeaning extends Code {
     /**
      * Instance
      */
-    public static final ConsentDataMeaning INSTANCE = ConsentDataMeaning.of(ValueSet.INSTANCE);
+    public static final ConsentDataMeaning INSTANCE = ConsentDataMeaning.builder().value(ValueSet.INSTANCE).build();
 
     /**
      * Related
      */
-    public static final ConsentDataMeaning RELATED = ConsentDataMeaning.of(ValueSet.RELATED);
+    public static final ConsentDataMeaning RELATED = ConsentDataMeaning.builder().value(ValueSet.RELATED).build();
 
     /**
      * Dependents
      */
-    public static final ConsentDataMeaning DEPENDENTS = ConsentDataMeaning.of(ValueSet.DEPENDENTS);
+    public static final ConsentDataMeaning DEPENDENTS = ConsentDataMeaning.builder().value(ValueSet.DEPENDENTS).build();
 
     /**
      * AuthoredBy
      */
-    public static final ConsentDataMeaning AUTHOREDBY = ConsentDataMeaning.of(ValueSet.AUTHOREDBY);
+    public static final ConsentDataMeaning AUTHOREDBY = ConsentDataMeaning.builder().value(ValueSet.AUTHOREDBY).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ConsentDataMeaning extends Code {
         super(builder);
     }
 
-    public static ConsentDataMeaning of(java.lang.String value) {
-        return ConsentDataMeaning.builder().value(value).build();
+    public static ConsentDataMeaning of(ValueSet value) {
+        switch (value) {
+        case INSTANCE:
+            return INSTANCE;
+        case RELATED:
+            return RELATED;
+        case DEPENDENTS:
+            return DEPENDENTS;
+        case AUTHOREDBY:
+            return AUTHOREDBY;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ConsentDataMeaning of(ValueSet value) {
-        return ConsentDataMeaning.builder().value(value).build();
+    public static ConsentDataMeaning of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ConsentDataMeaning.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ConsentDataMeaning.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

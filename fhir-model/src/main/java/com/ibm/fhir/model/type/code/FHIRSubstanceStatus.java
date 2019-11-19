@@ -20,17 +20,17 @@ public class FHIRSubstanceStatus extends Code {
     /**
      * Active
      */
-    public static final FHIRSubstanceStatus ACTIVE = FHIRSubstanceStatus.of(ValueSet.ACTIVE);
+    public static final FHIRSubstanceStatus ACTIVE = FHIRSubstanceStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
      */
-    public static final FHIRSubstanceStatus INACTIVE = FHIRSubstanceStatus.of(ValueSet.INACTIVE);
+    public static final FHIRSubstanceStatus INACTIVE = FHIRSubstanceStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
      */
-    public static final FHIRSubstanceStatus ENTERED_IN_ERROR = FHIRSubstanceStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final FHIRSubstanceStatus ENTERED_IN_ERROR = FHIRSubstanceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class FHIRSubstanceStatus extends Code {
         super(builder);
     }
 
-    public static FHIRSubstanceStatus of(java.lang.String value) {
-        return FHIRSubstanceStatus.builder().value(value).build();
+    public static FHIRSubstanceStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static FHIRSubstanceStatus of(ValueSet value) {
-        return FHIRSubstanceStatus.builder().value(value).build();
+    public static FHIRSubstanceStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return FHIRSubstanceStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return FHIRSubstanceStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

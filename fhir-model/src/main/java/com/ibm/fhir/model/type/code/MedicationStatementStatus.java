@@ -20,42 +20,42 @@ public class MedicationStatementStatus extends Code {
     /**
      * Active
      */
-    public static final MedicationStatementStatus ACTIVE = MedicationStatementStatus.of(ValueSet.ACTIVE);
+    public static final MedicationStatementStatus ACTIVE = MedicationStatementStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Completed
      */
-    public static final MedicationStatementStatus COMPLETED = MedicationStatementStatus.of(ValueSet.COMPLETED);
+    public static final MedicationStatementStatus COMPLETED = MedicationStatementStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final MedicationStatementStatus ENTERED_IN_ERROR = MedicationStatementStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final MedicationStatementStatus ENTERED_IN_ERROR = MedicationStatementStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Intended
      */
-    public static final MedicationStatementStatus INTENDED = MedicationStatementStatus.of(ValueSet.INTENDED);
+    public static final MedicationStatementStatus INTENDED = MedicationStatementStatus.builder().value(ValueSet.INTENDED).build();
 
     /**
      * Stopped
      */
-    public static final MedicationStatementStatus STOPPED = MedicationStatementStatus.of(ValueSet.STOPPED);
+    public static final MedicationStatementStatus STOPPED = MedicationStatementStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * On Hold
      */
-    public static final MedicationStatementStatus ON_HOLD = MedicationStatementStatus.of(ValueSet.ON_HOLD);
+    public static final MedicationStatementStatus ON_HOLD = MedicationStatementStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Unknown
      */
-    public static final MedicationStatementStatus UNKNOWN = MedicationStatementStatus.of(ValueSet.UNKNOWN);
+    public static final MedicationStatementStatus UNKNOWN = MedicationStatementStatus.builder().value(ValueSet.UNKNOWN).build();
 
     /**
      * Not Taken
      */
-    public static final MedicationStatementStatus NOT_TAKEN = MedicationStatementStatus.of(ValueSet.NOT_TAKEN);
+    public static final MedicationStatementStatus NOT_TAKEN = MedicationStatementStatus.builder().value(ValueSet.NOT_TAKEN).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class MedicationStatementStatus extends Code {
         super(builder);
     }
 
-    public static MedicationStatementStatus of(java.lang.String value) {
-        return MedicationStatementStatus.builder().value(value).build();
+    public static MedicationStatementStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case INTENDED:
+            return INTENDED;
+        case STOPPED:
+            return STOPPED;
+        case ON_HOLD:
+            return ON_HOLD;
+        case UNKNOWN:
+            return UNKNOWN;
+        case NOT_TAKEN:
+            return NOT_TAKEN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static MedicationStatementStatus of(ValueSet value) {
-        return MedicationStatementStatus.builder().value(value).build();
+    public static MedicationStatementStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return MedicationStatementStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MedicationStatementStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,22 +20,22 @@ public class StructureMapModelMode extends Code {
     /**
      * Source Structure Definition
      */
-    public static final StructureMapModelMode SOURCE = StructureMapModelMode.of(ValueSet.SOURCE);
+    public static final StructureMapModelMode SOURCE = StructureMapModelMode.builder().value(ValueSet.SOURCE).build();
 
     /**
      * Queried Structure Definition
      */
-    public static final StructureMapModelMode QUERIED = StructureMapModelMode.of(ValueSet.QUERIED);
+    public static final StructureMapModelMode QUERIED = StructureMapModelMode.builder().value(ValueSet.QUERIED).build();
 
     /**
      * Target Structure Definition
      */
-    public static final StructureMapModelMode TARGET = StructureMapModelMode.of(ValueSet.TARGET);
+    public static final StructureMapModelMode TARGET = StructureMapModelMode.builder().value(ValueSet.TARGET).build();
 
     /**
      * Produced Structure Definition
      */
-    public static final StructureMapModelMode PRODUCED = StructureMapModelMode.of(ValueSet.PRODUCED);
+    public static final StructureMapModelMode PRODUCED = StructureMapModelMode.builder().value(ValueSet.PRODUCED).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class StructureMapModelMode extends Code {
         super(builder);
     }
 
-    public static StructureMapModelMode of(java.lang.String value) {
-        return StructureMapModelMode.builder().value(value).build();
+    public static StructureMapModelMode of(ValueSet value) {
+        switch (value) {
+        case SOURCE:
+            return SOURCE;
+        case QUERIED:
+            return QUERIED;
+        case TARGET:
+            return TARGET;
+        case PRODUCED:
+            return PRODUCED;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static StructureMapModelMode of(ValueSet value) {
-        return StructureMapModelMode.builder().value(value).build();
+    public static StructureMapModelMode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return StructureMapModelMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StructureMapModelMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,17 +20,17 @@ public class FlagStatus extends Code {
     /**
      * Active
      */
-    public static final FlagStatus ACTIVE = FlagStatus.of(ValueSet.ACTIVE);
+    public static final FlagStatus ACTIVE = FlagStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
      */
-    public static final FlagStatus INACTIVE = FlagStatus.of(ValueSet.INACTIVE);
+    public static final FlagStatus INACTIVE = FlagStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
      */
-    public static final FlagStatus ENTERED_IN_ERROR = FlagStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final FlagStatus ENTERED_IN_ERROR = FlagStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class FlagStatus extends Code {
         super(builder);
     }
 
-    public static FlagStatus of(java.lang.String value) {
-        return FlagStatus.builder().value(value).build();
+    public static FlagStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static FlagStatus of(ValueSet value) {
-        return FlagStatus.builder().value(value).build();
+    public static FlagStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return FlagStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return FlagStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

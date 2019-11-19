@@ -20,27 +20,27 @@ public class RepositoryType extends Code {
     /**
      * Click and see
      */
-    public static final RepositoryType DIRECTLINK = RepositoryType.of(ValueSet.DIRECTLINK);
+    public static final RepositoryType DIRECTLINK = RepositoryType.builder().value(ValueSet.DIRECTLINK).build();
 
     /**
      * The URL is the RESTful or other kind of API that can access to the result.
      */
-    public static final RepositoryType OPENAPI = RepositoryType.of(ValueSet.OPENAPI);
+    public static final RepositoryType OPENAPI = RepositoryType.builder().value(ValueSet.OPENAPI).build();
 
     /**
      * Result cannot be access unless an account is logged in
      */
-    public static final RepositoryType LOGIN = RepositoryType.of(ValueSet.LOGIN);
+    public static final RepositoryType LOGIN = RepositoryType.builder().value(ValueSet.LOGIN).build();
 
     /**
      * Result need to be fetched with API and need LOGIN( or cookies are required when visiting the link of resource)
      */
-    public static final RepositoryType OAUTH = RepositoryType.of(ValueSet.OAUTH);
+    public static final RepositoryType OAUTH = RepositoryType.builder().value(ValueSet.OAUTH).build();
 
     /**
      * Some other complicated or particular way to get resource from URL.
      */
-    public static final RepositoryType OTHER = RepositoryType.of(ValueSet.OTHER);
+    public static final RepositoryType OTHER = RepositoryType.builder().value(ValueSet.OTHER).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class RepositoryType extends Code {
         super(builder);
     }
 
-    public static RepositoryType of(java.lang.String value) {
-        return RepositoryType.builder().value(value).build();
+    public static RepositoryType of(ValueSet value) {
+        switch (value) {
+        case DIRECTLINK:
+            return DIRECTLINK;
+        case OPENAPI:
+            return OPENAPI;
+        case LOGIN:
+            return LOGIN;
+        case OAUTH:
+            return OAUTH;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static RepositoryType of(ValueSet value) {
-        return RepositoryType.builder().value(value).build();
+    public static RepositoryType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return RepositoryType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return RepositoryType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

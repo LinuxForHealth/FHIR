@@ -20,22 +20,22 @@ public class CompositionAttestationMode extends Code {
     /**
      * Personal
      */
-    public static final CompositionAttestationMode PERSONAL = CompositionAttestationMode.of(ValueSet.PERSONAL);
+    public static final CompositionAttestationMode PERSONAL = CompositionAttestationMode.builder().value(ValueSet.PERSONAL).build();
 
     /**
      * Professional
      */
-    public static final CompositionAttestationMode PROFESSIONAL = CompositionAttestationMode.of(ValueSet.PROFESSIONAL);
+    public static final CompositionAttestationMode PROFESSIONAL = CompositionAttestationMode.builder().value(ValueSet.PROFESSIONAL).build();
 
     /**
      * Legal
      */
-    public static final CompositionAttestationMode LEGAL = CompositionAttestationMode.of(ValueSet.LEGAL);
+    public static final CompositionAttestationMode LEGAL = CompositionAttestationMode.builder().value(ValueSet.LEGAL).build();
 
     /**
      * Official
      */
-    public static final CompositionAttestationMode OFFICIAL = CompositionAttestationMode.of(ValueSet.OFFICIAL);
+    public static final CompositionAttestationMode OFFICIAL = CompositionAttestationMode.builder().value(ValueSet.OFFICIAL).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class CompositionAttestationMode extends Code {
         super(builder);
     }
 
-    public static CompositionAttestationMode of(java.lang.String value) {
-        return CompositionAttestationMode.builder().value(value).build();
+    public static CompositionAttestationMode of(ValueSet value) {
+        switch (value) {
+        case PERSONAL:
+            return PERSONAL;
+        case PROFESSIONAL:
+            return PROFESSIONAL;
+        case LEGAL:
+            return LEGAL;
+        case OFFICIAL:
+            return OFFICIAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CompositionAttestationMode of(ValueSet value) {
-        return CompositionAttestationMode.builder().value(value).build();
+    public static CompositionAttestationMode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CompositionAttestationMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CompositionAttestationMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

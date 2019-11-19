@@ -20,22 +20,22 @@ public class EligibilityRequestPurpose extends Code {
     /**
      * Coverage auth-requirements
      */
-    public static final EligibilityRequestPurpose AUTH_REQUIREMENTS = EligibilityRequestPurpose.of(ValueSet.AUTH_REQUIREMENTS);
+    public static final EligibilityRequestPurpose AUTH_REQUIREMENTS = EligibilityRequestPurpose.builder().value(ValueSet.AUTH_REQUIREMENTS).build();
 
     /**
      * Coverage benefits
      */
-    public static final EligibilityRequestPurpose BENEFITS = EligibilityRequestPurpose.of(ValueSet.BENEFITS);
+    public static final EligibilityRequestPurpose BENEFITS = EligibilityRequestPurpose.builder().value(ValueSet.BENEFITS).build();
 
     /**
      * Coverage Discovery
      */
-    public static final EligibilityRequestPurpose DISCOVERY = EligibilityRequestPurpose.of(ValueSet.DISCOVERY);
+    public static final EligibilityRequestPurpose DISCOVERY = EligibilityRequestPurpose.builder().value(ValueSet.DISCOVERY).build();
 
     /**
      * Coverage Validation
      */
-    public static final EligibilityRequestPurpose VALIDATION = EligibilityRequestPurpose.of(ValueSet.VALIDATION);
+    public static final EligibilityRequestPurpose VALIDATION = EligibilityRequestPurpose.builder().value(ValueSet.VALIDATION).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class EligibilityRequestPurpose extends Code {
         super(builder);
     }
 
-    public static EligibilityRequestPurpose of(java.lang.String value) {
-        return EligibilityRequestPurpose.builder().value(value).build();
+    public static EligibilityRequestPurpose of(ValueSet value) {
+        switch (value) {
+        case AUTH_REQUIREMENTS:
+            return AUTH_REQUIREMENTS;
+        case BENEFITS:
+            return BENEFITS;
+        case DISCOVERY:
+            return DISCOVERY;
+        case VALIDATION:
+            return VALIDATION;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static EligibilityRequestPurpose of(ValueSet value) {
-        return EligibilityRequestPurpose.builder().value(value).build();
+    public static EligibilityRequestPurpose of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return EligibilityRequestPurpose.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EligibilityRequestPurpose.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

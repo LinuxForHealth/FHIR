@@ -20,12 +20,12 @@ public class StructureMapContextType extends Code {
     /**
      * Type
      */
-    public static final StructureMapContextType TYPE = StructureMapContextType.of(ValueSet.TYPE);
+    public static final StructureMapContextType TYPE = StructureMapContextType.builder().value(ValueSet.TYPE).build();
 
     /**
      * Variable
      */
-    public static final StructureMapContextType VARIABLE = StructureMapContextType.of(ValueSet.VARIABLE);
+    public static final StructureMapContextType VARIABLE = StructureMapContextType.builder().value(ValueSet.VARIABLE).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class StructureMapContextType extends Code {
         super(builder);
     }
 
-    public static StructureMapContextType of(java.lang.String value) {
-        return StructureMapContextType.builder().value(value).build();
+    public static StructureMapContextType of(ValueSet value) {
+        switch (value) {
+        case TYPE:
+            return TYPE;
+        case VARIABLE:
+            return VARIABLE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static StructureMapContextType of(ValueSet value) {
-        return StructureMapContextType.builder().value(value).build();
+    public static StructureMapContextType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return StructureMapContextType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StructureMapContextType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

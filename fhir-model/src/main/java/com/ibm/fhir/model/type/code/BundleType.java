@@ -20,47 +20,47 @@ public class BundleType extends Code {
     /**
      * Document
      */
-    public static final BundleType DOCUMENT = BundleType.of(ValueSet.DOCUMENT);
+    public static final BundleType DOCUMENT = BundleType.builder().value(ValueSet.DOCUMENT).build();
 
     /**
      * Message
      */
-    public static final BundleType MESSAGE = BundleType.of(ValueSet.MESSAGE);
+    public static final BundleType MESSAGE = BundleType.builder().value(ValueSet.MESSAGE).build();
 
     /**
      * Transaction
      */
-    public static final BundleType TRANSACTION = BundleType.of(ValueSet.TRANSACTION);
+    public static final BundleType TRANSACTION = BundleType.builder().value(ValueSet.TRANSACTION).build();
 
     /**
      * Transaction Response
      */
-    public static final BundleType TRANSACTION_RESPONSE = BundleType.of(ValueSet.TRANSACTION_RESPONSE);
+    public static final BundleType TRANSACTION_RESPONSE = BundleType.builder().value(ValueSet.TRANSACTION_RESPONSE).build();
 
     /**
      * Batch
      */
-    public static final BundleType BATCH = BundleType.of(ValueSet.BATCH);
+    public static final BundleType BATCH = BundleType.builder().value(ValueSet.BATCH).build();
 
     /**
      * Batch Response
      */
-    public static final BundleType BATCH_RESPONSE = BundleType.of(ValueSet.BATCH_RESPONSE);
+    public static final BundleType BATCH_RESPONSE = BundleType.builder().value(ValueSet.BATCH_RESPONSE).build();
 
     /**
      * History List
      */
-    public static final BundleType HISTORY = BundleType.of(ValueSet.HISTORY);
+    public static final BundleType HISTORY = BundleType.builder().value(ValueSet.HISTORY).build();
 
     /**
      * Search Results
      */
-    public static final BundleType SEARCHSET = BundleType.of(ValueSet.SEARCHSET);
+    public static final BundleType SEARCHSET = BundleType.builder().value(ValueSet.SEARCHSET).build();
 
     /**
      * Collection
      */
-    public static final BundleType COLLECTION = BundleType.of(ValueSet.COLLECTION);
+    public static final BundleType COLLECTION = BundleType.builder().value(ValueSet.COLLECTION).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class BundleType extends Code {
         super(builder);
     }
 
-    public static BundleType of(java.lang.String value) {
-        return BundleType.builder().value(value).build();
+    public static BundleType of(ValueSet value) {
+        switch (value) {
+        case DOCUMENT:
+            return DOCUMENT;
+        case MESSAGE:
+            return MESSAGE;
+        case TRANSACTION:
+            return TRANSACTION;
+        case TRANSACTION_RESPONSE:
+            return TRANSACTION_RESPONSE;
+        case BATCH:
+            return BATCH;
+        case BATCH_RESPONSE:
+            return BATCH_RESPONSE;
+        case HISTORY:
+            return HISTORY;
+        case SEARCHSET:
+            return SEARCHSET;
+        case COLLECTION:
+            return COLLECTION;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static BundleType of(ValueSet value) {
-        return BundleType.builder().value(value).build();
+    public static BundleType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return BundleType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return BundleType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

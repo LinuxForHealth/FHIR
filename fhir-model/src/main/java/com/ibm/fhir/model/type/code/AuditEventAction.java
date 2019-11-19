@@ -20,27 +20,27 @@ public class AuditEventAction extends Code {
     /**
      * Create
      */
-    public static final AuditEventAction C = AuditEventAction.of(ValueSet.C);
+    public static final AuditEventAction C = AuditEventAction.builder().value(ValueSet.C).build();
 
     /**
      * Read/View/Print
      */
-    public static final AuditEventAction R = AuditEventAction.of(ValueSet.R);
+    public static final AuditEventAction R = AuditEventAction.builder().value(ValueSet.R).build();
 
     /**
      * Update
      */
-    public static final AuditEventAction U = AuditEventAction.of(ValueSet.U);
+    public static final AuditEventAction U = AuditEventAction.builder().value(ValueSet.U).build();
 
     /**
      * Delete
      */
-    public static final AuditEventAction D = AuditEventAction.of(ValueSet.D);
+    public static final AuditEventAction D = AuditEventAction.builder().value(ValueSet.D).build();
 
     /**
      * Execute
      */
-    public static final AuditEventAction E = AuditEventAction.of(ValueSet.E);
+    public static final AuditEventAction E = AuditEventAction.builder().value(ValueSet.E).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class AuditEventAction extends Code {
         super(builder);
     }
 
-    public static AuditEventAction of(java.lang.String value) {
-        return AuditEventAction.builder().value(value).build();
+    public static AuditEventAction of(ValueSet value) {
+        switch (value) {
+        case C:
+            return C;
+        case R:
+            return R;
+        case U:
+            return U;
+        case D:
+            return D;
+        case E:
+            return E;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static AuditEventAction of(ValueSet value) {
-        return AuditEventAction.builder().value(value).build();
+    public static AuditEventAction of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return AuditEventAction.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AuditEventAction.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

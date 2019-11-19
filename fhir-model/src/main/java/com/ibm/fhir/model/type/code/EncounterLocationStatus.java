@@ -20,22 +20,22 @@ public class EncounterLocationStatus extends Code {
     /**
      * Planned
      */
-    public static final EncounterLocationStatus PLANNED = EncounterLocationStatus.of(ValueSet.PLANNED);
+    public static final EncounterLocationStatus PLANNED = EncounterLocationStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Active
      */
-    public static final EncounterLocationStatus ACTIVE = EncounterLocationStatus.of(ValueSet.ACTIVE);
+    public static final EncounterLocationStatus ACTIVE = EncounterLocationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Reserved
      */
-    public static final EncounterLocationStatus RESERVED = EncounterLocationStatus.of(ValueSet.RESERVED);
+    public static final EncounterLocationStatus RESERVED = EncounterLocationStatus.builder().value(ValueSet.RESERVED).build();
 
     /**
      * Completed
      */
-    public static final EncounterLocationStatus COMPLETED = EncounterLocationStatus.of(ValueSet.COMPLETED);
+    public static final EncounterLocationStatus COMPLETED = EncounterLocationStatus.builder().value(ValueSet.COMPLETED).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class EncounterLocationStatus extends Code {
         super(builder);
     }
 
-    public static EncounterLocationStatus of(java.lang.String value) {
-        return EncounterLocationStatus.builder().value(value).build();
+    public static EncounterLocationStatus of(ValueSet value) {
+        switch (value) {
+        case PLANNED:
+            return PLANNED;
+        case ACTIVE:
+            return ACTIVE;
+        case RESERVED:
+            return RESERVED;
+        case COMPLETED:
+            return COMPLETED;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static EncounterLocationStatus of(ValueSet value) {
-        return EncounterLocationStatus.builder().value(value).build();
+    public static EncounterLocationStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return EncounterLocationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EncounterLocationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

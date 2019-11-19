@@ -20,17 +20,17 @@ public class DocumentReferenceStatus extends Code {
     /**
      * Current
      */
-    public static final DocumentReferenceStatus CURRENT = DocumentReferenceStatus.of(ValueSet.CURRENT);
+    public static final DocumentReferenceStatus CURRENT = DocumentReferenceStatus.builder().value(ValueSet.CURRENT).build();
 
     /**
      * Superseded
      */
-    public static final DocumentReferenceStatus SUPERSEDED = DocumentReferenceStatus.of(ValueSet.SUPERSEDED);
+    public static final DocumentReferenceStatus SUPERSEDED = DocumentReferenceStatus.builder().value(ValueSet.SUPERSEDED).build();
 
     /**
      * Entered in Error
      */
-    public static final DocumentReferenceStatus ENTERED_IN_ERROR = DocumentReferenceStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final DocumentReferenceStatus ENTERED_IN_ERROR = DocumentReferenceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class DocumentReferenceStatus extends Code {
         super(builder);
     }
 
-    public static DocumentReferenceStatus of(java.lang.String value) {
-        return DocumentReferenceStatus.builder().value(value).build();
+    public static DocumentReferenceStatus of(ValueSet value) {
+        switch (value) {
+        case CURRENT:
+            return CURRENT;
+        case SUPERSEDED:
+            return SUPERSEDED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DocumentReferenceStatus of(ValueSet value) {
-        return DocumentReferenceStatus.builder().value(value).build();
+    public static DocumentReferenceStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DocumentReferenceStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DocumentReferenceStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

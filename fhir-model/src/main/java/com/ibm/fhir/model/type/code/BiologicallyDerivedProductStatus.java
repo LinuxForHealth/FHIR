@@ -20,12 +20,12 @@ public class BiologicallyDerivedProductStatus extends Code {
     /**
      * Available
      */
-    public static final BiologicallyDerivedProductStatus AVAILABLE = BiologicallyDerivedProductStatus.of(ValueSet.AVAILABLE);
+    public static final BiologicallyDerivedProductStatus AVAILABLE = BiologicallyDerivedProductStatus.builder().value(ValueSet.AVAILABLE).build();
 
     /**
      * Unavailable
      */
-    public static final BiologicallyDerivedProductStatus UNAVAILABLE = BiologicallyDerivedProductStatus.of(ValueSet.UNAVAILABLE);
+    public static final BiologicallyDerivedProductStatus UNAVAILABLE = BiologicallyDerivedProductStatus.builder().value(ValueSet.UNAVAILABLE).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class BiologicallyDerivedProductStatus extends Code {
         super(builder);
     }
 
-    public static BiologicallyDerivedProductStatus of(java.lang.String value) {
-        return BiologicallyDerivedProductStatus.builder().value(value).build();
+    public static BiologicallyDerivedProductStatus of(ValueSet value) {
+        switch (value) {
+        case AVAILABLE:
+            return AVAILABLE;
+        case UNAVAILABLE:
+            return UNAVAILABLE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static BiologicallyDerivedProductStatus of(ValueSet value) {
-        return BiologicallyDerivedProductStatus.builder().value(value).build();
+    public static BiologicallyDerivedProductStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return BiologicallyDerivedProductStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return BiologicallyDerivedProductStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

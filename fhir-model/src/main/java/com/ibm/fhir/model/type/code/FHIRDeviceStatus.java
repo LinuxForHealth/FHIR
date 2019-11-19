@@ -20,22 +20,22 @@ public class FHIRDeviceStatus extends Code {
     /**
      * Active
      */
-    public static final FHIRDeviceStatus ACTIVE = FHIRDeviceStatus.of(ValueSet.ACTIVE);
+    public static final FHIRDeviceStatus ACTIVE = FHIRDeviceStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
      */
-    public static final FHIRDeviceStatus INACTIVE = FHIRDeviceStatus.of(ValueSet.INACTIVE);
+    public static final FHIRDeviceStatus INACTIVE = FHIRDeviceStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
      */
-    public static final FHIRDeviceStatus ENTERED_IN_ERROR = FHIRDeviceStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final FHIRDeviceStatus ENTERED_IN_ERROR = FHIRDeviceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final FHIRDeviceStatus UNKNOWN = FHIRDeviceStatus.of(ValueSet.UNKNOWN);
+    public static final FHIRDeviceStatus UNKNOWN = FHIRDeviceStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class FHIRDeviceStatus extends Code {
         super(builder);
     }
 
-    public static FHIRDeviceStatus of(java.lang.String value) {
-        return FHIRDeviceStatus.builder().value(value).build();
+    public static FHIRDeviceStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static FHIRDeviceStatus of(ValueSet value) {
-        return FHIRDeviceStatus.builder().value(value).build();
+    public static FHIRDeviceStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return FHIRDeviceStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return FHIRDeviceStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

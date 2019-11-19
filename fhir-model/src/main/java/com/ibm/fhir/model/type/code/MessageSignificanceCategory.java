@@ -20,17 +20,17 @@ public class MessageSignificanceCategory extends Code {
     /**
      * Consequence
      */
-    public static final MessageSignificanceCategory CONSEQUENCE = MessageSignificanceCategory.of(ValueSet.CONSEQUENCE);
+    public static final MessageSignificanceCategory CONSEQUENCE = MessageSignificanceCategory.builder().value(ValueSet.CONSEQUENCE).build();
 
     /**
      * Currency
      */
-    public static final MessageSignificanceCategory CURRENCY = MessageSignificanceCategory.of(ValueSet.CURRENCY);
+    public static final MessageSignificanceCategory CURRENCY = MessageSignificanceCategory.builder().value(ValueSet.CURRENCY).build();
 
     /**
      * Notification
      */
-    public static final MessageSignificanceCategory NOTIFICATION = MessageSignificanceCategory.of(ValueSet.NOTIFICATION);
+    public static final MessageSignificanceCategory NOTIFICATION = MessageSignificanceCategory.builder().value(ValueSet.NOTIFICATION).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class MessageSignificanceCategory extends Code {
         super(builder);
     }
 
-    public static MessageSignificanceCategory of(java.lang.String value) {
-        return MessageSignificanceCategory.builder().value(value).build();
+    public static MessageSignificanceCategory of(ValueSet value) {
+        switch (value) {
+        case CONSEQUENCE:
+            return CONSEQUENCE;
+        case CURRENCY:
+            return CURRENCY;
+        case NOTIFICATION:
+            return NOTIFICATION;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static MessageSignificanceCategory of(ValueSet value) {
-        return MessageSignificanceCategory.builder().value(value).build();
+    public static MessageSignificanceCategory of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return MessageSignificanceCategory.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MessageSignificanceCategory.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

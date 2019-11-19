@@ -20,17 +20,17 @@ public class SlicingRules extends Code {
     /**
      * Closed
      */
-    public static final SlicingRules CLOSED = SlicingRules.of(ValueSet.CLOSED);
+    public static final SlicingRules CLOSED = SlicingRules.builder().value(ValueSet.CLOSED).build();
 
     /**
      * Open
      */
-    public static final SlicingRules OPEN = SlicingRules.of(ValueSet.OPEN);
+    public static final SlicingRules OPEN = SlicingRules.builder().value(ValueSet.OPEN).build();
 
     /**
      * Open at End
      */
-    public static final SlicingRules OPEN_AT_END = SlicingRules.of(ValueSet.OPEN_AT_END);
+    public static final SlicingRules OPEN_AT_END = SlicingRules.builder().value(ValueSet.OPEN_AT_END).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class SlicingRules extends Code {
         super(builder);
     }
 
-    public static SlicingRules of(java.lang.String value) {
-        return SlicingRules.builder().value(value).build();
+    public static SlicingRules of(ValueSet value) {
+        switch (value) {
+        case CLOSED:
+            return CLOSED;
+        case OPEN:
+            return OPEN;
+        case OPEN_AT_END:
+            return OPEN_AT_END;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SlicingRules of(ValueSet value) {
-        return SlicingRules.builder().value(value).build();
+    public static SlicingRules of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SlicingRules.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SlicingRules.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

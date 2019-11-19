@@ -20,22 +20,22 @@ public class SupplyDeliveryStatus extends Code {
     /**
      * In Progress
      */
-    public static final SupplyDeliveryStatus IN_PROGRESS = SupplyDeliveryStatus.of(ValueSet.IN_PROGRESS);
+    public static final SupplyDeliveryStatus IN_PROGRESS = SupplyDeliveryStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Delivered
      */
-    public static final SupplyDeliveryStatus COMPLETED = SupplyDeliveryStatus.of(ValueSet.COMPLETED);
+    public static final SupplyDeliveryStatus COMPLETED = SupplyDeliveryStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Abandoned
      */
-    public static final SupplyDeliveryStatus ABANDONED = SupplyDeliveryStatus.of(ValueSet.ABANDONED);
+    public static final SupplyDeliveryStatus ABANDONED = SupplyDeliveryStatus.builder().value(ValueSet.ABANDONED).build();
 
     /**
      * Entered In Error
      */
-    public static final SupplyDeliveryStatus ENTERED_IN_ERROR = SupplyDeliveryStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final SupplyDeliveryStatus ENTERED_IN_ERROR = SupplyDeliveryStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class SupplyDeliveryStatus extends Code {
         super(builder);
     }
 
-    public static SupplyDeliveryStatus of(java.lang.String value) {
-        return SupplyDeliveryStatus.builder().value(value).build();
+    public static SupplyDeliveryStatus of(ValueSet value) {
+        switch (value) {
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case COMPLETED:
+            return COMPLETED;
+        case ABANDONED:
+            return ABANDONED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SupplyDeliveryStatus of(ValueSet value) {
-        return SupplyDeliveryStatus.builder().value(value).build();
+    public static SupplyDeliveryStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SupplyDeliveryStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SupplyDeliveryStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

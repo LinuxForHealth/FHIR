@@ -20,22 +20,22 @@ public class StructureMapTargetListMode extends Code {
     /**
      * First
      */
-    public static final StructureMapTargetListMode FIRST = StructureMapTargetListMode.of(ValueSet.FIRST);
+    public static final StructureMapTargetListMode FIRST = StructureMapTargetListMode.builder().value(ValueSet.FIRST).build();
 
     /**
      * Share
      */
-    public static final StructureMapTargetListMode SHARE = StructureMapTargetListMode.of(ValueSet.SHARE);
+    public static final StructureMapTargetListMode SHARE = StructureMapTargetListMode.builder().value(ValueSet.SHARE).build();
 
     /**
      * Last
      */
-    public static final StructureMapTargetListMode LAST = StructureMapTargetListMode.of(ValueSet.LAST);
+    public static final StructureMapTargetListMode LAST = StructureMapTargetListMode.builder().value(ValueSet.LAST).build();
 
     /**
      * Collate
      */
-    public static final StructureMapTargetListMode COLLATE = StructureMapTargetListMode.of(ValueSet.COLLATE);
+    public static final StructureMapTargetListMode COLLATE = StructureMapTargetListMode.builder().value(ValueSet.COLLATE).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class StructureMapTargetListMode extends Code {
         super(builder);
     }
 
-    public static StructureMapTargetListMode of(java.lang.String value) {
-        return StructureMapTargetListMode.builder().value(value).build();
+    public static StructureMapTargetListMode of(ValueSet value) {
+        switch (value) {
+        case FIRST:
+            return FIRST;
+        case SHARE:
+            return SHARE;
+        case LAST:
+            return LAST;
+        case COLLATE:
+            return COLLATE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static StructureMapTargetListMode of(ValueSet value) {
-        return StructureMapTargetListMode.builder().value(value).build();
+    public static StructureMapTargetListMode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return StructureMapTargetListMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StructureMapTargetListMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

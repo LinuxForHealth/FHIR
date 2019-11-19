@@ -20,47 +20,47 @@ public class ActionRelationshipType extends Code {
     /**
      * Before Start
      */
-    public static final ActionRelationshipType BEFORE_START = ActionRelationshipType.of(ValueSet.BEFORE_START);
+    public static final ActionRelationshipType BEFORE_START = ActionRelationshipType.builder().value(ValueSet.BEFORE_START).build();
 
     /**
      * Before
      */
-    public static final ActionRelationshipType BEFORE = ActionRelationshipType.of(ValueSet.BEFORE);
+    public static final ActionRelationshipType BEFORE = ActionRelationshipType.builder().value(ValueSet.BEFORE).build();
 
     /**
      * Before End
      */
-    public static final ActionRelationshipType BEFORE_END = ActionRelationshipType.of(ValueSet.BEFORE_END);
+    public static final ActionRelationshipType BEFORE_END = ActionRelationshipType.builder().value(ValueSet.BEFORE_END).build();
 
     /**
      * Concurrent With Start
      */
-    public static final ActionRelationshipType CONCURRENT_WITH_START = ActionRelationshipType.of(ValueSet.CONCURRENT_WITH_START);
+    public static final ActionRelationshipType CONCURRENT_WITH_START = ActionRelationshipType.builder().value(ValueSet.CONCURRENT_WITH_START).build();
 
     /**
      * Concurrent
      */
-    public static final ActionRelationshipType CONCURRENT = ActionRelationshipType.of(ValueSet.CONCURRENT);
+    public static final ActionRelationshipType CONCURRENT = ActionRelationshipType.builder().value(ValueSet.CONCURRENT).build();
 
     /**
      * Concurrent With End
      */
-    public static final ActionRelationshipType CONCURRENT_WITH_END = ActionRelationshipType.of(ValueSet.CONCURRENT_WITH_END);
+    public static final ActionRelationshipType CONCURRENT_WITH_END = ActionRelationshipType.builder().value(ValueSet.CONCURRENT_WITH_END).build();
 
     /**
      * After Start
      */
-    public static final ActionRelationshipType AFTER_START = ActionRelationshipType.of(ValueSet.AFTER_START);
+    public static final ActionRelationshipType AFTER_START = ActionRelationshipType.builder().value(ValueSet.AFTER_START).build();
 
     /**
      * After
      */
-    public static final ActionRelationshipType AFTER = ActionRelationshipType.of(ValueSet.AFTER);
+    public static final ActionRelationshipType AFTER = ActionRelationshipType.builder().value(ValueSet.AFTER).build();
 
     /**
      * After End
      */
-    public static final ActionRelationshipType AFTER_END = ActionRelationshipType.of(ValueSet.AFTER_END);
+    public static final ActionRelationshipType AFTER_END = ActionRelationshipType.builder().value(ValueSet.AFTER_END).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class ActionRelationshipType extends Code {
         super(builder);
     }
 
-    public static ActionRelationshipType of(java.lang.String value) {
-        return ActionRelationshipType.builder().value(value).build();
+    public static ActionRelationshipType of(ValueSet value) {
+        switch (value) {
+        case BEFORE_START:
+            return BEFORE_START;
+        case BEFORE:
+            return BEFORE;
+        case BEFORE_END:
+            return BEFORE_END;
+        case CONCURRENT_WITH_START:
+            return CONCURRENT_WITH_START;
+        case CONCURRENT:
+            return CONCURRENT;
+        case CONCURRENT_WITH_END:
+            return CONCURRENT_WITH_END;
+        case AFTER_START:
+            return AFTER_START;
+        case AFTER:
+            return AFTER;
+        case AFTER_END:
+            return AFTER_END;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ActionRelationshipType of(ValueSet value) {
-        return ActionRelationshipType.builder().value(value).build();
+    public static ActionRelationshipType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActionRelationshipType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActionRelationshipType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

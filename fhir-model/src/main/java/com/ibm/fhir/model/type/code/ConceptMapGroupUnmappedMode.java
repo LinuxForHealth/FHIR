@@ -20,17 +20,17 @@ public class ConceptMapGroupUnmappedMode extends Code {
     /**
      * Provided Code
      */
-    public static final ConceptMapGroupUnmappedMode PROVIDED = ConceptMapGroupUnmappedMode.of(ValueSet.PROVIDED);
+    public static final ConceptMapGroupUnmappedMode PROVIDED = ConceptMapGroupUnmappedMode.builder().value(ValueSet.PROVIDED).build();
 
     /**
      * Fixed Code
      */
-    public static final ConceptMapGroupUnmappedMode FIXED = ConceptMapGroupUnmappedMode.of(ValueSet.FIXED);
+    public static final ConceptMapGroupUnmappedMode FIXED = ConceptMapGroupUnmappedMode.builder().value(ValueSet.FIXED).build();
 
     /**
      * Other Map
      */
-    public static final ConceptMapGroupUnmappedMode OTHER_MAP = ConceptMapGroupUnmappedMode.of(ValueSet.OTHER_MAP);
+    public static final ConceptMapGroupUnmappedMode OTHER_MAP = ConceptMapGroupUnmappedMode.builder().value(ValueSet.OTHER_MAP).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ConceptMapGroupUnmappedMode extends Code {
         super(builder);
     }
 
-    public static ConceptMapGroupUnmappedMode of(java.lang.String value) {
-        return ConceptMapGroupUnmappedMode.builder().value(value).build();
+    public static ConceptMapGroupUnmappedMode of(ValueSet value) {
+        switch (value) {
+        case PROVIDED:
+            return PROVIDED;
+        case FIXED:
+            return FIXED;
+        case OTHER_MAP:
+            return OTHER_MAP;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ConceptMapGroupUnmappedMode of(ValueSet value) {
-        return ConceptMapGroupUnmappedMode.builder().value(value).build();
+    public static ConceptMapGroupUnmappedMode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ConceptMapGroupUnmappedMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ConceptMapGroupUnmappedMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

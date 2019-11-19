@@ -20,52 +20,52 @@ public class AppointmentStatus extends Code {
     /**
      * Proposed
      */
-    public static final AppointmentStatus PROPOSED = AppointmentStatus.of(ValueSet.PROPOSED);
+    public static final AppointmentStatus PROPOSED = AppointmentStatus.builder().value(ValueSet.PROPOSED).build();
 
     /**
      * Pending
      */
-    public static final AppointmentStatus PENDING = AppointmentStatus.of(ValueSet.PENDING);
+    public static final AppointmentStatus PENDING = AppointmentStatus.builder().value(ValueSet.PENDING).build();
 
     /**
      * Booked
      */
-    public static final AppointmentStatus BOOKED = AppointmentStatus.of(ValueSet.BOOKED);
+    public static final AppointmentStatus BOOKED = AppointmentStatus.builder().value(ValueSet.BOOKED).build();
 
     /**
      * Arrived
      */
-    public static final AppointmentStatus ARRIVED = AppointmentStatus.of(ValueSet.ARRIVED);
+    public static final AppointmentStatus ARRIVED = AppointmentStatus.builder().value(ValueSet.ARRIVED).build();
 
     /**
      * Fulfilled
      */
-    public static final AppointmentStatus FULFILLED = AppointmentStatus.of(ValueSet.FULFILLED);
+    public static final AppointmentStatus FULFILLED = AppointmentStatus.builder().value(ValueSet.FULFILLED).build();
 
     /**
      * Cancelled
      */
-    public static final AppointmentStatus CANCELLED = AppointmentStatus.of(ValueSet.CANCELLED);
+    public static final AppointmentStatus CANCELLED = AppointmentStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * No Show
      */
-    public static final AppointmentStatus NOSHOW = AppointmentStatus.of(ValueSet.NOSHOW);
+    public static final AppointmentStatus NOSHOW = AppointmentStatus.builder().value(ValueSet.NOSHOW).build();
 
     /**
      * Entered in error
      */
-    public static final AppointmentStatus ENTERED_IN_ERROR = AppointmentStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final AppointmentStatus ENTERED_IN_ERROR = AppointmentStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Checked In
      */
-    public static final AppointmentStatus CHECKED_IN = AppointmentStatus.of(ValueSet.CHECKED_IN);
+    public static final AppointmentStatus CHECKED_IN = AppointmentStatus.builder().value(ValueSet.CHECKED_IN).build();
 
     /**
      * Waitlisted
      */
-    public static final AppointmentStatus WAITLIST = AppointmentStatus.of(ValueSet.WAITLIST);
+    public static final AppointmentStatus WAITLIST = AppointmentStatus.builder().value(ValueSet.WAITLIST).build();
 
     private volatile int hashCode;
 
@@ -73,20 +73,43 @@ public class AppointmentStatus extends Code {
         super(builder);
     }
 
-    public static AppointmentStatus of(java.lang.String value) {
-        return AppointmentStatus.builder().value(value).build();
+    public static AppointmentStatus of(ValueSet value) {
+        switch (value) {
+        case PROPOSED:
+            return PROPOSED;
+        case PENDING:
+            return PENDING;
+        case BOOKED:
+            return BOOKED;
+        case ARRIVED:
+            return ARRIVED;
+        case FULFILLED:
+            return FULFILLED;
+        case CANCELLED:
+            return CANCELLED;
+        case NOSHOW:
+            return NOSHOW;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case CHECKED_IN:
+            return CHECKED_IN;
+        case WAITLIST:
+            return WAITLIST;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static AppointmentStatus of(ValueSet value) {
-        return AppointmentStatus.builder().value(value).build();
+    public static AppointmentStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return AppointmentStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AppointmentStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

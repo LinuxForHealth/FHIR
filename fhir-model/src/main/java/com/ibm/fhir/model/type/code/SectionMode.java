@@ -20,17 +20,17 @@ public class SectionMode extends Code {
     /**
      * Working List
      */
-    public static final SectionMode WORKING = SectionMode.of(ValueSet.WORKING);
+    public static final SectionMode WORKING = SectionMode.builder().value(ValueSet.WORKING).build();
 
     /**
      * Snapshot List
      */
-    public static final SectionMode SNAPSHOT = SectionMode.of(ValueSet.SNAPSHOT);
+    public static final SectionMode SNAPSHOT = SectionMode.builder().value(ValueSet.SNAPSHOT).build();
 
     /**
      * Change List
      */
-    public static final SectionMode CHANGES = SectionMode.of(ValueSet.CHANGES);
+    public static final SectionMode CHANGES = SectionMode.builder().value(ValueSet.CHANGES).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class SectionMode extends Code {
         super(builder);
     }
 
-    public static SectionMode of(java.lang.String value) {
-        return SectionMode.builder().value(value).build();
+    public static SectionMode of(ValueSet value) {
+        switch (value) {
+        case WORKING:
+            return WORKING;
+        case SNAPSHOT:
+            return SNAPSHOT;
+        case CHANGES:
+            return CHANGES;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SectionMode of(ValueSet value) {
-        return SectionMode.builder().value(value).build();
+    public static SectionMode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SectionMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SectionMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

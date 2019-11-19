@@ -20,157 +20,157 @@ public class IssueType extends Code {
     /**
      * Invalid Content
      */
-    public static final IssueType INVALID = IssueType.of(ValueSet.INVALID);
+    public static final IssueType INVALID = IssueType.builder().value(ValueSet.INVALID).build();
 
     /**
      * Structural Issue
      */
-    public static final IssueType STRUCTURE = IssueType.of(ValueSet.STRUCTURE);
+    public static final IssueType STRUCTURE = IssueType.builder().value(ValueSet.STRUCTURE).build();
 
     /**
      * Required element missing
      */
-    public static final IssueType REQUIRED = IssueType.of(ValueSet.REQUIRED);
+    public static final IssueType REQUIRED = IssueType.builder().value(ValueSet.REQUIRED).build();
 
     /**
      * Element value invalid
      */
-    public static final IssueType VALUE = IssueType.of(ValueSet.VALUE);
+    public static final IssueType VALUE = IssueType.builder().value(ValueSet.VALUE).build();
 
     /**
      * Validation rule failed
      */
-    public static final IssueType INVARIANT = IssueType.of(ValueSet.INVARIANT);
+    public static final IssueType INVARIANT = IssueType.builder().value(ValueSet.INVARIANT).build();
 
     /**
      * Security Problem
      */
-    public static final IssueType SECURITY = IssueType.of(ValueSet.SECURITY);
+    public static final IssueType SECURITY = IssueType.builder().value(ValueSet.SECURITY).build();
 
     /**
      * Login Required
      */
-    public static final IssueType LOGIN = IssueType.of(ValueSet.LOGIN);
+    public static final IssueType LOGIN = IssueType.builder().value(ValueSet.LOGIN).build();
 
     /**
      * Unknown User
      */
-    public static final IssueType UNKNOWN = IssueType.of(ValueSet.UNKNOWN);
+    public static final IssueType UNKNOWN = IssueType.builder().value(ValueSet.UNKNOWN).build();
 
     /**
      * Session Expired
      */
-    public static final IssueType EXPIRED = IssueType.of(ValueSet.EXPIRED);
+    public static final IssueType EXPIRED = IssueType.builder().value(ValueSet.EXPIRED).build();
 
     /**
      * Forbidden
      */
-    public static final IssueType FORBIDDEN = IssueType.of(ValueSet.FORBIDDEN);
+    public static final IssueType FORBIDDEN = IssueType.builder().value(ValueSet.FORBIDDEN).build();
 
     /**
      * Information  Suppressed
      */
-    public static final IssueType SUPPRESSED = IssueType.of(ValueSet.SUPPRESSED);
+    public static final IssueType SUPPRESSED = IssueType.builder().value(ValueSet.SUPPRESSED).build();
 
     /**
      * Processing Failure
      */
-    public static final IssueType PROCESSING = IssueType.of(ValueSet.PROCESSING);
+    public static final IssueType PROCESSING = IssueType.builder().value(ValueSet.PROCESSING).build();
 
     /**
      * Content not supported
      */
-    public static final IssueType NOT_SUPPORTED = IssueType.of(ValueSet.NOT_SUPPORTED);
+    public static final IssueType NOT_SUPPORTED = IssueType.builder().value(ValueSet.NOT_SUPPORTED).build();
 
     /**
      * Duplicate
      */
-    public static final IssueType DUPLICATE = IssueType.of(ValueSet.DUPLICATE);
+    public static final IssueType DUPLICATE = IssueType.builder().value(ValueSet.DUPLICATE).build();
 
     /**
      * Multiple Matches
      */
-    public static final IssueType MULTIPLE_MATCHES = IssueType.of(ValueSet.MULTIPLE_MATCHES);
+    public static final IssueType MULTIPLE_MATCHES = IssueType.builder().value(ValueSet.MULTIPLE_MATCHES).build();
 
     /**
      * Not Found
      */
-    public static final IssueType NOT_FOUND = IssueType.of(ValueSet.NOT_FOUND);
+    public static final IssueType NOT_FOUND = IssueType.builder().value(ValueSet.NOT_FOUND).build();
 
     /**
      * Deleted
      */
-    public static final IssueType DELETED = IssueType.of(ValueSet.DELETED);
+    public static final IssueType DELETED = IssueType.builder().value(ValueSet.DELETED).build();
 
     /**
      * Content Too Long
      */
-    public static final IssueType TOO_LONG = IssueType.of(ValueSet.TOO_LONG);
+    public static final IssueType TOO_LONG = IssueType.builder().value(ValueSet.TOO_LONG).build();
 
     /**
      * Invalid Code
      */
-    public static final IssueType CODE_INVALID = IssueType.of(ValueSet.CODE_INVALID);
+    public static final IssueType CODE_INVALID = IssueType.builder().value(ValueSet.CODE_INVALID).build();
 
     /**
      * Unacceptable Extension
      */
-    public static final IssueType EXTENSION = IssueType.of(ValueSet.EXTENSION);
+    public static final IssueType EXTENSION = IssueType.builder().value(ValueSet.EXTENSION).build();
 
     /**
      * Operation Too Costly
      */
-    public static final IssueType TOO_COSTLY = IssueType.of(ValueSet.TOO_COSTLY);
+    public static final IssueType TOO_COSTLY = IssueType.builder().value(ValueSet.TOO_COSTLY).build();
 
     /**
      * Business Rule Violation
      */
-    public static final IssueType BUSINESS_RULE = IssueType.of(ValueSet.BUSINESS_RULE);
+    public static final IssueType BUSINESS_RULE = IssueType.builder().value(ValueSet.BUSINESS_RULE).build();
 
     /**
      * Edit Version Conflict
      */
-    public static final IssueType CONFLICT = IssueType.of(ValueSet.CONFLICT);
+    public static final IssueType CONFLICT = IssueType.builder().value(ValueSet.CONFLICT).build();
 
     /**
      * Transient Issue
      */
-    public static final IssueType TRANSIENT = IssueType.of(ValueSet.TRANSIENT);
+    public static final IssueType TRANSIENT = IssueType.builder().value(ValueSet.TRANSIENT).build();
 
     /**
      * Lock Error
      */
-    public static final IssueType LOCK_ERROR = IssueType.of(ValueSet.LOCK_ERROR);
+    public static final IssueType LOCK_ERROR = IssueType.builder().value(ValueSet.LOCK_ERROR).build();
 
     /**
      * No Store Available
      */
-    public static final IssueType NO_STORE = IssueType.of(ValueSet.NO_STORE);
+    public static final IssueType NO_STORE = IssueType.builder().value(ValueSet.NO_STORE).build();
 
     /**
      * Exception
      */
-    public static final IssueType EXCEPTION = IssueType.of(ValueSet.EXCEPTION);
+    public static final IssueType EXCEPTION = IssueType.builder().value(ValueSet.EXCEPTION).build();
 
     /**
      * Timeout
      */
-    public static final IssueType TIMEOUT = IssueType.of(ValueSet.TIMEOUT);
+    public static final IssueType TIMEOUT = IssueType.builder().value(ValueSet.TIMEOUT).build();
 
     /**
      * Incomplete Results
      */
-    public static final IssueType INCOMPLETE = IssueType.of(ValueSet.INCOMPLETE);
+    public static final IssueType INCOMPLETE = IssueType.builder().value(ValueSet.INCOMPLETE).build();
 
     /**
      * Throttled
      */
-    public static final IssueType THROTTLED = IssueType.of(ValueSet.THROTTLED);
+    public static final IssueType THROTTLED = IssueType.builder().value(ValueSet.THROTTLED).build();
 
     /**
      * Informational Note
      */
-    public static final IssueType INFORMATIONAL = IssueType.of(ValueSet.INFORMATIONAL);
+    public static final IssueType INFORMATIONAL = IssueType.builder().value(ValueSet.INFORMATIONAL).build();
 
     private volatile int hashCode;
 
@@ -178,20 +178,85 @@ public class IssueType extends Code {
         super(builder);
     }
 
-    public static IssueType of(java.lang.String value) {
-        return IssueType.builder().value(value).build();
+    public static IssueType of(ValueSet value) {
+        switch (value) {
+        case INVALID:
+            return INVALID;
+        case STRUCTURE:
+            return STRUCTURE;
+        case REQUIRED:
+            return REQUIRED;
+        case VALUE:
+            return VALUE;
+        case INVARIANT:
+            return INVARIANT;
+        case SECURITY:
+            return SECURITY;
+        case LOGIN:
+            return LOGIN;
+        case UNKNOWN:
+            return UNKNOWN;
+        case EXPIRED:
+            return EXPIRED;
+        case FORBIDDEN:
+            return FORBIDDEN;
+        case SUPPRESSED:
+            return SUPPRESSED;
+        case PROCESSING:
+            return PROCESSING;
+        case NOT_SUPPORTED:
+            return NOT_SUPPORTED;
+        case DUPLICATE:
+            return DUPLICATE;
+        case MULTIPLE_MATCHES:
+            return MULTIPLE_MATCHES;
+        case NOT_FOUND:
+            return NOT_FOUND;
+        case DELETED:
+            return DELETED;
+        case TOO_LONG:
+            return TOO_LONG;
+        case CODE_INVALID:
+            return CODE_INVALID;
+        case EXTENSION:
+            return EXTENSION;
+        case TOO_COSTLY:
+            return TOO_COSTLY;
+        case BUSINESS_RULE:
+            return BUSINESS_RULE;
+        case CONFLICT:
+            return CONFLICT;
+        case TRANSIENT:
+            return TRANSIENT;
+        case LOCK_ERROR:
+            return LOCK_ERROR;
+        case NO_STORE:
+            return NO_STORE;
+        case EXCEPTION:
+            return EXCEPTION;
+        case TIMEOUT:
+            return TIMEOUT;
+        case INCOMPLETE:
+            return INCOMPLETE;
+        case THROTTLED:
+            return THROTTLED;
+        case INFORMATIONAL:
+            return INFORMATIONAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static IssueType of(ValueSet value) {
-        return IssueType.builder().value(value).build();
+    public static IssueType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return IssueType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return IssueType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

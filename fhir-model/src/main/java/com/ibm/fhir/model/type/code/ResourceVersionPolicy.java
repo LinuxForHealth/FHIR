@@ -20,17 +20,17 @@ public class ResourceVersionPolicy extends Code {
     /**
      * No VersionId Support
      */
-    public static final ResourceVersionPolicy NO_VERSION = ResourceVersionPolicy.of(ValueSet.NO_VERSION);
+    public static final ResourceVersionPolicy NO_VERSION = ResourceVersionPolicy.builder().value(ValueSet.NO_VERSION).build();
 
     /**
      * Versioned
      */
-    public static final ResourceVersionPolicy VERSIONED = ResourceVersionPolicy.of(ValueSet.VERSIONED);
+    public static final ResourceVersionPolicy VERSIONED = ResourceVersionPolicy.builder().value(ValueSet.VERSIONED).build();
 
     /**
      * VersionId tracked fully
      */
-    public static final ResourceVersionPolicy VERSIONED_UPDATE = ResourceVersionPolicy.of(ValueSet.VERSIONED_UPDATE);
+    public static final ResourceVersionPolicy VERSIONED_UPDATE = ResourceVersionPolicy.builder().value(ValueSet.VERSIONED_UPDATE).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ResourceVersionPolicy extends Code {
         super(builder);
     }
 
-    public static ResourceVersionPolicy of(java.lang.String value) {
-        return ResourceVersionPolicy.builder().value(value).build();
+    public static ResourceVersionPolicy of(ValueSet value) {
+        switch (value) {
+        case NO_VERSION:
+            return NO_VERSION;
+        case VERSIONED:
+            return VERSIONED;
+        case VERSIONED_UPDATE:
+            return VERSIONED_UPDATE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ResourceVersionPolicy of(ValueSet value) {
-        return ResourceVersionPolicy.builder().value(value).build();
+    public static ResourceVersionPolicy of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ResourceVersionPolicy.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ResourceVersionPolicy.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

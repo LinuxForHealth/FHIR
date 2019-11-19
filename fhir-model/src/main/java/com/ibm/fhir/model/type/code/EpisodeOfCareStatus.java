@@ -20,37 +20,37 @@ public class EpisodeOfCareStatus extends Code {
     /**
      * Planned
      */
-    public static final EpisodeOfCareStatus PLANNED = EpisodeOfCareStatus.of(ValueSet.PLANNED);
+    public static final EpisodeOfCareStatus PLANNED = EpisodeOfCareStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Waitlist
      */
-    public static final EpisodeOfCareStatus WAITLIST = EpisodeOfCareStatus.of(ValueSet.WAITLIST);
+    public static final EpisodeOfCareStatus WAITLIST = EpisodeOfCareStatus.builder().value(ValueSet.WAITLIST).build();
 
     /**
      * Active
      */
-    public static final EpisodeOfCareStatus ACTIVE = EpisodeOfCareStatus.of(ValueSet.ACTIVE);
+    public static final EpisodeOfCareStatus ACTIVE = EpisodeOfCareStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
      */
-    public static final EpisodeOfCareStatus ONHOLD = EpisodeOfCareStatus.of(ValueSet.ONHOLD);
+    public static final EpisodeOfCareStatus ONHOLD = EpisodeOfCareStatus.builder().value(ValueSet.ONHOLD).build();
 
     /**
      * Finished
      */
-    public static final EpisodeOfCareStatus FINISHED = EpisodeOfCareStatus.of(ValueSet.FINISHED);
+    public static final EpisodeOfCareStatus FINISHED = EpisodeOfCareStatus.builder().value(ValueSet.FINISHED).build();
 
     /**
      * Cancelled
      */
-    public static final EpisodeOfCareStatus CANCELLED = EpisodeOfCareStatus.of(ValueSet.CANCELLED);
+    public static final EpisodeOfCareStatus CANCELLED = EpisodeOfCareStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
      */
-    public static final EpisodeOfCareStatus ENTERED_IN_ERROR = EpisodeOfCareStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final EpisodeOfCareStatus ENTERED_IN_ERROR = EpisodeOfCareStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class EpisodeOfCareStatus extends Code {
         super(builder);
     }
 
-    public static EpisodeOfCareStatus of(java.lang.String value) {
-        return EpisodeOfCareStatus.builder().value(value).build();
+    public static EpisodeOfCareStatus of(ValueSet value) {
+        switch (value) {
+        case PLANNED:
+            return PLANNED;
+        case WAITLIST:
+            return WAITLIST;
+        case ACTIVE:
+            return ACTIVE;
+        case ONHOLD:
+            return ONHOLD;
+        case FINISHED:
+            return FINISHED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static EpisodeOfCareStatus of(ValueSet value) {
-        return EpisodeOfCareStatus.builder().value(value).build();
+    public static EpisodeOfCareStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return EpisodeOfCareStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EpisodeOfCareStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

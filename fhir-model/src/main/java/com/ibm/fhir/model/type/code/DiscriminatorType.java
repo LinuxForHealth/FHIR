@@ -20,27 +20,27 @@ public class DiscriminatorType extends Code {
     /**
      * Value
      */
-    public static final DiscriminatorType VALUE = DiscriminatorType.of(ValueSet.VALUE);
+    public static final DiscriminatorType VALUE = DiscriminatorType.builder().value(ValueSet.VALUE).build();
 
     /**
      * Exists
      */
-    public static final DiscriminatorType EXISTS = DiscriminatorType.of(ValueSet.EXISTS);
+    public static final DiscriminatorType EXISTS = DiscriminatorType.builder().value(ValueSet.EXISTS).build();
 
     /**
      * Pattern
      */
-    public static final DiscriminatorType PATTERN = DiscriminatorType.of(ValueSet.PATTERN);
+    public static final DiscriminatorType PATTERN = DiscriminatorType.builder().value(ValueSet.PATTERN).build();
 
     /**
      * Type
      */
-    public static final DiscriminatorType TYPE = DiscriminatorType.of(ValueSet.TYPE);
+    public static final DiscriminatorType TYPE = DiscriminatorType.builder().value(ValueSet.TYPE).build();
 
     /**
      * Profile
      */
-    public static final DiscriminatorType PROFILE = DiscriminatorType.of(ValueSet.PROFILE);
+    public static final DiscriminatorType PROFILE = DiscriminatorType.builder().value(ValueSet.PROFILE).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class DiscriminatorType extends Code {
         super(builder);
     }
 
-    public static DiscriminatorType of(java.lang.String value) {
-        return DiscriminatorType.builder().value(value).build();
+    public static DiscriminatorType of(ValueSet value) {
+        switch (value) {
+        case VALUE:
+            return VALUE;
+        case EXISTS:
+            return EXISTS;
+        case PATTERN:
+            return PATTERN;
+        case TYPE:
+            return TYPE;
+        case PROFILE:
+            return PROFILE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DiscriminatorType of(ValueSet value) {
-        return DiscriminatorType.builder().value(value).build();
+    public static DiscriminatorType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DiscriminatorType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DiscriminatorType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

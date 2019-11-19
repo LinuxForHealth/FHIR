@@ -20,27 +20,27 @@ public class CodeSystemContentMode extends Code {
     /**
      * Not Present
      */
-    public static final CodeSystemContentMode NOT_PRESENT = CodeSystemContentMode.of(ValueSet.NOT_PRESENT);
+    public static final CodeSystemContentMode NOT_PRESENT = CodeSystemContentMode.builder().value(ValueSet.NOT_PRESENT).build();
 
     /**
      * Example
      */
-    public static final CodeSystemContentMode EXAMPLE = CodeSystemContentMode.of(ValueSet.EXAMPLE);
+    public static final CodeSystemContentMode EXAMPLE = CodeSystemContentMode.builder().value(ValueSet.EXAMPLE).build();
 
     /**
      * Fragment
      */
-    public static final CodeSystemContentMode FRAGMENT = CodeSystemContentMode.of(ValueSet.FRAGMENT);
+    public static final CodeSystemContentMode FRAGMENT = CodeSystemContentMode.builder().value(ValueSet.FRAGMENT).build();
 
     /**
      * Complete
      */
-    public static final CodeSystemContentMode COMPLETE = CodeSystemContentMode.of(ValueSet.COMPLETE);
+    public static final CodeSystemContentMode COMPLETE = CodeSystemContentMode.builder().value(ValueSet.COMPLETE).build();
 
     /**
      * Supplement
      */
-    public static final CodeSystemContentMode SUPPLEMENT = CodeSystemContentMode.of(ValueSet.SUPPLEMENT);
+    public static final CodeSystemContentMode SUPPLEMENT = CodeSystemContentMode.builder().value(ValueSet.SUPPLEMENT).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class CodeSystemContentMode extends Code {
         super(builder);
     }
 
-    public static CodeSystemContentMode of(java.lang.String value) {
-        return CodeSystemContentMode.builder().value(value).build();
+    public static CodeSystemContentMode of(ValueSet value) {
+        switch (value) {
+        case NOT_PRESENT:
+            return NOT_PRESENT;
+        case EXAMPLE:
+            return EXAMPLE;
+        case FRAGMENT:
+            return FRAGMENT;
+        case COMPLETE:
+            return COMPLETE;
+        case SUPPLEMENT:
+            return SUPPLEMENT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CodeSystemContentMode of(ValueSet value) {
-        return CodeSystemContentMode.builder().value(value).build();
+    public static CodeSystemContentMode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CodeSystemContentMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CodeSystemContentMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

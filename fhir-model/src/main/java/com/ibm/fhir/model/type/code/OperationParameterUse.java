@@ -20,12 +20,12 @@ public class OperationParameterUse extends Code {
     /**
      * In
      */
-    public static final OperationParameterUse IN = OperationParameterUse.of(ValueSet.IN);
+    public static final OperationParameterUse IN = OperationParameterUse.builder().value(ValueSet.IN).build();
 
     /**
      * Out
      */
-    public static final OperationParameterUse OUT = OperationParameterUse.of(ValueSet.OUT);
+    public static final OperationParameterUse OUT = OperationParameterUse.builder().value(ValueSet.OUT).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class OperationParameterUse extends Code {
         super(builder);
     }
 
-    public static OperationParameterUse of(java.lang.String value) {
-        return OperationParameterUse.builder().value(value).build();
+    public static OperationParameterUse of(ValueSet value) {
+        switch (value) {
+        case IN:
+            return IN;
+        case OUT:
+            return OUT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static OperationParameterUse of(ValueSet value) {
-        return OperationParameterUse.builder().value(value).build();
+    public static OperationParameterUse of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return OperationParameterUse.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return OperationParameterUse.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

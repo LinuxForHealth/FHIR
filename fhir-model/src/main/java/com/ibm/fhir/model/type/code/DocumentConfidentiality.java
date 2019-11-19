@@ -17,17 +17,17 @@ import javax.annotation.Generated;
 
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentConfidentiality extends Code {
-    public static final DocumentConfidentiality U = DocumentConfidentiality.of(ValueSet.U);
+    public static final DocumentConfidentiality U = DocumentConfidentiality.builder().value(ValueSet.U).build();
 
-    public static final DocumentConfidentiality L = DocumentConfidentiality.of(ValueSet.L);
+    public static final DocumentConfidentiality L = DocumentConfidentiality.builder().value(ValueSet.L).build();
 
-    public static final DocumentConfidentiality M = DocumentConfidentiality.of(ValueSet.M);
+    public static final DocumentConfidentiality M = DocumentConfidentiality.builder().value(ValueSet.M).build();
 
-    public static final DocumentConfidentiality N = DocumentConfidentiality.of(ValueSet.N);
+    public static final DocumentConfidentiality N = DocumentConfidentiality.builder().value(ValueSet.N).build();
 
-    public static final DocumentConfidentiality R = DocumentConfidentiality.of(ValueSet.R);
+    public static final DocumentConfidentiality R = DocumentConfidentiality.builder().value(ValueSet.R).build();
 
-    public static final DocumentConfidentiality V = DocumentConfidentiality.of(ValueSet.V);
+    public static final DocumentConfidentiality V = DocumentConfidentiality.builder().value(ValueSet.V).build();
 
     private volatile int hashCode;
 
@@ -35,20 +35,35 @@ public class DocumentConfidentiality extends Code {
         super(builder);
     }
 
-    public static DocumentConfidentiality of(java.lang.String value) {
-        return DocumentConfidentiality.builder().value(value).build();
+    public static DocumentConfidentiality of(ValueSet value) {
+        switch (value) {
+        case U:
+            return U;
+        case L:
+            return L;
+        case M:
+            return M;
+        case N:
+            return N;
+        case R:
+            return R;
+        case V:
+            return V;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DocumentConfidentiality of(ValueSet value) {
-        return DocumentConfidentiality.builder().value(value).build();
+    public static DocumentConfidentiality of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DocumentConfidentiality.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DocumentConfidentiality.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

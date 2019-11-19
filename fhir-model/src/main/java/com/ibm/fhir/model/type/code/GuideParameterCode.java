@@ -20,52 +20,52 @@ public class GuideParameterCode extends Code {
     /**
      * Apply Metadata Value
      */
-    public static final GuideParameterCode APPLY = GuideParameterCode.of(ValueSet.APPLY);
+    public static final GuideParameterCode APPLY = GuideParameterCode.builder().value(ValueSet.APPLY).build();
 
     /**
      * Resource Path
      */
-    public static final GuideParameterCode PATH_RESOURCE = GuideParameterCode.of(ValueSet.PATH_RESOURCE);
+    public static final GuideParameterCode PATH_RESOURCE = GuideParameterCode.builder().value(ValueSet.PATH_RESOURCE).build();
 
     /**
      * Pages Path
      */
-    public static final GuideParameterCode PATH_PAGES = GuideParameterCode.of(ValueSet.PATH_PAGES);
+    public static final GuideParameterCode PATH_PAGES = GuideParameterCode.builder().value(ValueSet.PATH_PAGES).build();
 
     /**
      * Terminology Cache Path
      */
-    public static final GuideParameterCode PATH_TX_CACHE = GuideParameterCode.of(ValueSet.PATH_TX_CACHE);
+    public static final GuideParameterCode PATH_TX_CACHE = GuideParameterCode.builder().value(ValueSet.PATH_TX_CACHE).build();
 
     /**
      * Expansion Profile
      */
-    public static final GuideParameterCode EXPANSION_PARAMETER = GuideParameterCode.of(ValueSet.EXPANSION_PARAMETER);
+    public static final GuideParameterCode EXPANSION_PARAMETER = GuideParameterCode.builder().value(ValueSet.EXPANSION_PARAMETER).build();
 
     /**
      * Broken Links Rule
      */
-    public static final GuideParameterCode RULE_BROKEN_LINKS = GuideParameterCode.of(ValueSet.RULE_BROKEN_LINKS);
+    public static final GuideParameterCode RULE_BROKEN_LINKS = GuideParameterCode.builder().value(ValueSet.RULE_BROKEN_LINKS).build();
 
     /**
      * Generate XML
      */
-    public static final GuideParameterCode GENERATE_XML = GuideParameterCode.of(ValueSet.GENERATE_XML);
+    public static final GuideParameterCode GENERATE_XML = GuideParameterCode.builder().value(ValueSet.GENERATE_XML).build();
 
     /**
      * Generate JSON
      */
-    public static final GuideParameterCode GENERATE_JSON = GuideParameterCode.of(ValueSet.GENERATE_JSON);
+    public static final GuideParameterCode GENERATE_JSON = GuideParameterCode.builder().value(ValueSet.GENERATE_JSON).build();
 
     /**
      * Generate Turtle
      */
-    public static final GuideParameterCode GENERATE_TURTLE = GuideParameterCode.of(ValueSet.GENERATE_TURTLE);
+    public static final GuideParameterCode GENERATE_TURTLE = GuideParameterCode.builder().value(ValueSet.GENERATE_TURTLE).build();
 
     /**
      * HTML Template
      */
-    public static final GuideParameterCode HTML_TEMPLATE = GuideParameterCode.of(ValueSet.HTML_TEMPLATE);
+    public static final GuideParameterCode HTML_TEMPLATE = GuideParameterCode.builder().value(ValueSet.HTML_TEMPLATE).build();
 
     private volatile int hashCode;
 
@@ -73,20 +73,43 @@ public class GuideParameterCode extends Code {
         super(builder);
     }
 
-    public static GuideParameterCode of(java.lang.String value) {
-        return GuideParameterCode.builder().value(value).build();
+    public static GuideParameterCode of(ValueSet value) {
+        switch (value) {
+        case APPLY:
+            return APPLY;
+        case PATH_RESOURCE:
+            return PATH_RESOURCE;
+        case PATH_PAGES:
+            return PATH_PAGES;
+        case PATH_TX_CACHE:
+            return PATH_TX_CACHE;
+        case EXPANSION_PARAMETER:
+            return EXPANSION_PARAMETER;
+        case RULE_BROKEN_LINKS:
+            return RULE_BROKEN_LINKS;
+        case GENERATE_XML:
+            return GENERATE_XML;
+        case GENERATE_JSON:
+            return GENERATE_JSON;
+        case GENERATE_TURTLE:
+            return GENERATE_TURTLE;
+        case HTML_TEMPLATE:
+            return HTML_TEMPLATE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static GuideParameterCode of(ValueSet value) {
-        return GuideParameterCode.builder().value(value).build();
+    public static GuideParameterCode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return GuideParameterCode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return GuideParameterCode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

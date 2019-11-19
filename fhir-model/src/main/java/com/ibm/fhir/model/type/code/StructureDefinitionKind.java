@@ -20,22 +20,22 @@ public class StructureDefinitionKind extends Code {
     /**
      * Primitive Data Type
      */
-    public static final StructureDefinitionKind PRIMITIVE_TYPE = StructureDefinitionKind.of(ValueSet.PRIMITIVE_TYPE);
+    public static final StructureDefinitionKind PRIMITIVE_TYPE = StructureDefinitionKind.builder().value(ValueSet.PRIMITIVE_TYPE).build();
 
     /**
      * Complex Data Type
      */
-    public static final StructureDefinitionKind COMPLEX_TYPE = StructureDefinitionKind.of(ValueSet.COMPLEX_TYPE);
+    public static final StructureDefinitionKind COMPLEX_TYPE = StructureDefinitionKind.builder().value(ValueSet.COMPLEX_TYPE).build();
 
     /**
      * Resource
      */
-    public static final StructureDefinitionKind RESOURCE = StructureDefinitionKind.of(ValueSet.RESOURCE);
+    public static final StructureDefinitionKind RESOURCE = StructureDefinitionKind.builder().value(ValueSet.RESOURCE).build();
 
     /**
      * Logical
      */
-    public static final StructureDefinitionKind LOGICAL = StructureDefinitionKind.of(ValueSet.LOGICAL);
+    public static final StructureDefinitionKind LOGICAL = StructureDefinitionKind.builder().value(ValueSet.LOGICAL).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class StructureDefinitionKind extends Code {
         super(builder);
     }
 
-    public static StructureDefinitionKind of(java.lang.String value) {
-        return StructureDefinitionKind.builder().value(value).build();
+    public static StructureDefinitionKind of(ValueSet value) {
+        switch (value) {
+        case PRIMITIVE_TYPE:
+            return PRIMITIVE_TYPE;
+        case COMPLEX_TYPE:
+            return COMPLEX_TYPE;
+        case RESOURCE:
+            return RESOURCE;
+        case LOGICAL:
+            return LOGICAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static StructureDefinitionKind of(ValueSet value) {
-        return StructureDefinitionKind.builder().value(value).build();
+    public static StructureDefinitionKind of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return StructureDefinitionKind.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StructureDefinitionKind.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

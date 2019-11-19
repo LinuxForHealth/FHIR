@@ -20,27 +20,27 @@ public class ProvenanceEntityRole extends Code {
     /**
      * Derivation
      */
-    public static final ProvenanceEntityRole DERIVATION = ProvenanceEntityRole.of(ValueSet.DERIVATION);
+    public static final ProvenanceEntityRole DERIVATION = ProvenanceEntityRole.builder().value(ValueSet.DERIVATION).build();
 
     /**
      * Revision
      */
-    public static final ProvenanceEntityRole REVISION = ProvenanceEntityRole.of(ValueSet.REVISION);
+    public static final ProvenanceEntityRole REVISION = ProvenanceEntityRole.builder().value(ValueSet.REVISION).build();
 
     /**
      * Quotation
      */
-    public static final ProvenanceEntityRole QUOTATION = ProvenanceEntityRole.of(ValueSet.QUOTATION);
+    public static final ProvenanceEntityRole QUOTATION = ProvenanceEntityRole.builder().value(ValueSet.QUOTATION).build();
 
     /**
      * Source
      */
-    public static final ProvenanceEntityRole SOURCE = ProvenanceEntityRole.of(ValueSet.SOURCE);
+    public static final ProvenanceEntityRole SOURCE = ProvenanceEntityRole.builder().value(ValueSet.SOURCE).build();
 
     /**
      * Removal
      */
-    public static final ProvenanceEntityRole REMOVAL = ProvenanceEntityRole.of(ValueSet.REMOVAL);
+    public static final ProvenanceEntityRole REMOVAL = ProvenanceEntityRole.builder().value(ValueSet.REMOVAL).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class ProvenanceEntityRole extends Code {
         super(builder);
     }
 
-    public static ProvenanceEntityRole of(java.lang.String value) {
-        return ProvenanceEntityRole.builder().value(value).build();
+    public static ProvenanceEntityRole of(ValueSet value) {
+        switch (value) {
+        case DERIVATION:
+            return DERIVATION;
+        case REVISION:
+            return REVISION;
+        case QUOTATION:
+            return QUOTATION;
+        case SOURCE:
+            return SOURCE;
+        case REMOVAL:
+            return REMOVAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ProvenanceEntityRole of(ValueSet value) {
-        return ProvenanceEntityRole.builder().value(value).build();
+    public static ProvenanceEntityRole of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ProvenanceEntityRole.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ProvenanceEntityRole.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

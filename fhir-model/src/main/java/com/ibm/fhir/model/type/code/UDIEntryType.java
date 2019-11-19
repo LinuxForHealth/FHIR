@@ -20,32 +20,32 @@ public class UDIEntryType extends Code {
     /**
      * Barcode
      */
-    public static final UDIEntryType BARCODE = UDIEntryType.of(ValueSet.BARCODE);
+    public static final UDIEntryType BARCODE = UDIEntryType.builder().value(ValueSet.BARCODE).build();
 
     /**
      * RFID
      */
-    public static final UDIEntryType RFID = UDIEntryType.of(ValueSet.RFID);
+    public static final UDIEntryType RFID = UDIEntryType.builder().value(ValueSet.RFID).build();
 
     /**
      * Manual
      */
-    public static final UDIEntryType MANUAL = UDIEntryType.of(ValueSet.MANUAL);
+    public static final UDIEntryType MANUAL = UDIEntryType.builder().value(ValueSet.MANUAL).build();
 
     /**
      * Card
      */
-    public static final UDIEntryType CARD = UDIEntryType.of(ValueSet.CARD);
+    public static final UDIEntryType CARD = UDIEntryType.builder().value(ValueSet.CARD).build();
 
     /**
      * Self Reported
      */
-    public static final UDIEntryType SELF_REPORTED = UDIEntryType.of(ValueSet.SELF_REPORTED);
+    public static final UDIEntryType SELF_REPORTED = UDIEntryType.builder().value(ValueSet.SELF_REPORTED).build();
 
     /**
      * Unknown
      */
-    public static final UDIEntryType UNKNOWN = UDIEntryType.of(ValueSet.UNKNOWN);
+    public static final UDIEntryType UNKNOWN = UDIEntryType.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class UDIEntryType extends Code {
         super(builder);
     }
 
-    public static UDIEntryType of(java.lang.String value) {
-        return UDIEntryType.builder().value(value).build();
+    public static UDIEntryType of(ValueSet value) {
+        switch (value) {
+        case BARCODE:
+            return BARCODE;
+        case RFID:
+            return RFID;
+        case MANUAL:
+            return MANUAL;
+        case CARD:
+            return CARD;
+        case SELF_REPORTED:
+            return SELF_REPORTED;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static UDIEntryType of(ValueSet value) {
-        return UDIEntryType.builder().value(value).build();
+    public static UDIEntryType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return UDIEntryType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return UDIEntryType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

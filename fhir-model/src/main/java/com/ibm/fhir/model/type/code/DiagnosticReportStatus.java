@@ -20,52 +20,52 @@ public class DiagnosticReportStatus extends Code {
     /**
      * Registered
      */
-    public static final DiagnosticReportStatus REGISTERED = DiagnosticReportStatus.of(ValueSet.REGISTERED);
+    public static final DiagnosticReportStatus REGISTERED = DiagnosticReportStatus.builder().value(ValueSet.REGISTERED).build();
 
     /**
      * Partial
      */
-    public static final DiagnosticReportStatus PARTIAL = DiagnosticReportStatus.of(ValueSet.PARTIAL);
+    public static final DiagnosticReportStatus PARTIAL = DiagnosticReportStatus.builder().value(ValueSet.PARTIAL).build();
 
     /**
      * Preliminary
      */
-    public static final DiagnosticReportStatus PRELIMINARY = DiagnosticReportStatus.of(ValueSet.PRELIMINARY);
+    public static final DiagnosticReportStatus PRELIMINARY = DiagnosticReportStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
      */
-    public static final DiagnosticReportStatus FINAL = DiagnosticReportStatus.of(ValueSet.FINAL);
+    public static final DiagnosticReportStatus FINAL = DiagnosticReportStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
      */
-    public static final DiagnosticReportStatus AMENDED = DiagnosticReportStatus.of(ValueSet.AMENDED);
+    public static final DiagnosticReportStatus AMENDED = DiagnosticReportStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Corrected
      */
-    public static final DiagnosticReportStatus CORRECTED = DiagnosticReportStatus.of(ValueSet.CORRECTED);
+    public static final DiagnosticReportStatus CORRECTED = DiagnosticReportStatus.builder().value(ValueSet.CORRECTED).build();
 
     /**
      * Appended
      */
-    public static final DiagnosticReportStatus APPENDED = DiagnosticReportStatus.of(ValueSet.APPENDED);
+    public static final DiagnosticReportStatus APPENDED = DiagnosticReportStatus.builder().value(ValueSet.APPENDED).build();
 
     /**
      * Cancelled
      */
-    public static final DiagnosticReportStatus CANCELLED = DiagnosticReportStatus.of(ValueSet.CANCELLED);
+    public static final DiagnosticReportStatus CANCELLED = DiagnosticReportStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
      */
-    public static final DiagnosticReportStatus ENTERED_IN_ERROR = DiagnosticReportStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final DiagnosticReportStatus ENTERED_IN_ERROR = DiagnosticReportStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final DiagnosticReportStatus UNKNOWN = DiagnosticReportStatus.of(ValueSet.UNKNOWN);
+    public static final DiagnosticReportStatus UNKNOWN = DiagnosticReportStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -73,20 +73,43 @@ public class DiagnosticReportStatus extends Code {
         super(builder);
     }
 
-    public static DiagnosticReportStatus of(java.lang.String value) {
-        return DiagnosticReportStatus.builder().value(value).build();
+    public static DiagnosticReportStatus of(ValueSet value) {
+        switch (value) {
+        case REGISTERED:
+            return REGISTERED;
+        case PARTIAL:
+            return PARTIAL;
+        case PRELIMINARY:
+            return PRELIMINARY;
+        case FINAL:
+            return FINAL;
+        case AMENDED:
+            return AMENDED;
+        case CORRECTED:
+            return CORRECTED;
+        case APPENDED:
+            return APPENDED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DiagnosticReportStatus of(ValueSet value) {
-        return DiagnosticReportStatus.builder().value(value).build();
+    public static DiagnosticReportStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DiagnosticReportStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DiagnosticReportStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

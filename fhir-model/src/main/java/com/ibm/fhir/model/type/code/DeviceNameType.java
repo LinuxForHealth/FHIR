@@ -20,32 +20,32 @@ public class DeviceNameType extends Code {
     /**
      * UDI Label name
      */
-    public static final DeviceNameType UDI_LABEL_NAME = DeviceNameType.of(ValueSet.UDI_LABEL_NAME);
+    public static final DeviceNameType UDI_LABEL_NAME = DeviceNameType.builder().value(ValueSet.UDI_LABEL_NAME).build();
 
     /**
      * User Friendly name
      */
-    public static final DeviceNameType USER_FRIENDLY_NAME = DeviceNameType.of(ValueSet.USER_FRIENDLY_NAME);
+    public static final DeviceNameType USER_FRIENDLY_NAME = DeviceNameType.builder().value(ValueSet.USER_FRIENDLY_NAME).build();
 
     /**
      * Patient Reported name
      */
-    public static final DeviceNameType PATIENT_REPORTED_NAME = DeviceNameType.of(ValueSet.PATIENT_REPORTED_NAME);
+    public static final DeviceNameType PATIENT_REPORTED_NAME = DeviceNameType.builder().value(ValueSet.PATIENT_REPORTED_NAME).build();
 
     /**
      * Manufacturer name
      */
-    public static final DeviceNameType MANUFACTURER_NAME = DeviceNameType.of(ValueSet.MANUFACTURER_NAME);
+    public static final DeviceNameType MANUFACTURER_NAME = DeviceNameType.builder().value(ValueSet.MANUFACTURER_NAME).build();
 
     /**
      * Model name
      */
-    public static final DeviceNameType MODEL_NAME = DeviceNameType.of(ValueSet.MODEL_NAME);
+    public static final DeviceNameType MODEL_NAME = DeviceNameType.builder().value(ValueSet.MODEL_NAME).build();
 
     /**
      * other
      */
-    public static final DeviceNameType OTHER = DeviceNameType.of(ValueSet.OTHER);
+    public static final DeviceNameType OTHER = DeviceNameType.builder().value(ValueSet.OTHER).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class DeviceNameType extends Code {
         super(builder);
     }
 
-    public static DeviceNameType of(java.lang.String value) {
-        return DeviceNameType.builder().value(value).build();
+    public static DeviceNameType of(ValueSet value) {
+        switch (value) {
+        case UDI_LABEL_NAME:
+            return UDI_LABEL_NAME;
+        case USER_FRIENDLY_NAME:
+            return USER_FRIENDLY_NAME;
+        case PATIENT_REPORTED_NAME:
+            return PATIENT_REPORTED_NAME;
+        case MANUFACTURER_NAME:
+            return MANUFACTURER_NAME;
+        case MODEL_NAME:
+            return MODEL_NAME;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DeviceNameType of(ValueSet value) {
-        return DeviceNameType.builder().value(value).build();
+    public static DeviceNameType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DeviceNameType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DeviceNameType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

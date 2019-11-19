@@ -20,47 +20,47 @@ public class GoalLifecycleStatus extends Code {
     /**
      * Proposed
      */
-    public static final GoalLifecycleStatus PROPOSED = GoalLifecycleStatus.of(ValueSet.PROPOSED);
+    public static final GoalLifecycleStatus PROPOSED = GoalLifecycleStatus.builder().value(ValueSet.PROPOSED).build();
 
     /**
      * Planned
      */
-    public static final GoalLifecycleStatus PLANNED = GoalLifecycleStatus.of(ValueSet.PLANNED);
+    public static final GoalLifecycleStatus PLANNED = GoalLifecycleStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Accepted
      */
-    public static final GoalLifecycleStatus ACCEPTED = GoalLifecycleStatus.of(ValueSet.ACCEPTED);
+    public static final GoalLifecycleStatus ACCEPTED = GoalLifecycleStatus.builder().value(ValueSet.ACCEPTED).build();
 
     /**
      * Active
      */
-    public static final GoalLifecycleStatus ACTIVE = GoalLifecycleStatus.of(ValueSet.ACTIVE);
+    public static final GoalLifecycleStatus ACTIVE = GoalLifecycleStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
      */
-    public static final GoalLifecycleStatus ON_HOLD = GoalLifecycleStatus.of(ValueSet.ON_HOLD);
+    public static final GoalLifecycleStatus ON_HOLD = GoalLifecycleStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Completed
      */
-    public static final GoalLifecycleStatus COMPLETED = GoalLifecycleStatus.of(ValueSet.COMPLETED);
+    public static final GoalLifecycleStatus COMPLETED = GoalLifecycleStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Cancelled
      */
-    public static final GoalLifecycleStatus CANCELLED = GoalLifecycleStatus.of(ValueSet.CANCELLED);
+    public static final GoalLifecycleStatus CANCELLED = GoalLifecycleStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
      */
-    public static final GoalLifecycleStatus ENTERED_IN_ERROR = GoalLifecycleStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final GoalLifecycleStatus ENTERED_IN_ERROR = GoalLifecycleStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Rejected
      */
-    public static final GoalLifecycleStatus REJECTED = GoalLifecycleStatus.of(ValueSet.REJECTED);
+    public static final GoalLifecycleStatus REJECTED = GoalLifecycleStatus.builder().value(ValueSet.REJECTED).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class GoalLifecycleStatus extends Code {
         super(builder);
     }
 
-    public static GoalLifecycleStatus of(java.lang.String value) {
-        return GoalLifecycleStatus.builder().value(value).build();
+    public static GoalLifecycleStatus of(ValueSet value) {
+        switch (value) {
+        case PROPOSED:
+            return PROPOSED;
+        case PLANNED:
+            return PLANNED;
+        case ACCEPTED:
+            return ACCEPTED;
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case COMPLETED:
+            return COMPLETED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case REJECTED:
+            return REJECTED;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static GoalLifecycleStatus of(ValueSet value) {
-        return GoalLifecycleStatus.builder().value(value).build();
+    public static GoalLifecycleStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return GoalLifecycleStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return GoalLifecycleStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,12 +20,12 @@ public class SortDirection extends Code {
     /**
      * Ascending
      */
-    public static final SortDirection ASCENDING = SortDirection.of(ValueSet.ASCENDING);
+    public static final SortDirection ASCENDING = SortDirection.builder().value(ValueSet.ASCENDING).build();
 
     /**
      * Descending
      */
-    public static final SortDirection DESCENDING = SortDirection.of(ValueSet.DESCENDING);
+    public static final SortDirection DESCENDING = SortDirection.builder().value(ValueSet.DESCENDING).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class SortDirection extends Code {
         super(builder);
     }
 
-    public static SortDirection of(java.lang.String value) {
-        return SortDirection.builder().value(value).build();
+    public static SortDirection of(ValueSet value) {
+        switch (value) {
+        case ASCENDING:
+            return ASCENDING;
+        case DESCENDING:
+            return DESCENDING;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SortDirection of(ValueSet value) {
-        return SortDirection.builder().value(value).build();
+    public static SortDirection of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SortDirection.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SortDirection.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

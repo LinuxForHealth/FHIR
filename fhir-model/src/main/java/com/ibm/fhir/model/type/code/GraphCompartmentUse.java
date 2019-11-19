@@ -20,12 +20,12 @@ public class GraphCompartmentUse extends Code {
     /**
      * Condition
      */
-    public static final GraphCompartmentUse CONDITION = GraphCompartmentUse.of(ValueSet.CONDITION);
+    public static final GraphCompartmentUse CONDITION = GraphCompartmentUse.builder().value(ValueSet.CONDITION).build();
 
     /**
      * Requirement
      */
-    public static final GraphCompartmentUse REQUIREMENT = GraphCompartmentUse.of(ValueSet.REQUIREMENT);
+    public static final GraphCompartmentUse REQUIREMENT = GraphCompartmentUse.builder().value(ValueSet.REQUIREMENT).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class GraphCompartmentUse extends Code {
         super(builder);
     }
 
-    public static GraphCompartmentUse of(java.lang.String value) {
-        return GraphCompartmentUse.builder().value(value).build();
+    public static GraphCompartmentUse of(ValueSet value) {
+        switch (value) {
+        case CONDITION:
+            return CONDITION;
+        case REQUIREMENT:
+            return REQUIREMENT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static GraphCompartmentUse of(ValueSet value) {
-        return GraphCompartmentUse.builder().value(value).build();
+    public static GraphCompartmentUse of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return GraphCompartmentUse.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return GraphCompartmentUse.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

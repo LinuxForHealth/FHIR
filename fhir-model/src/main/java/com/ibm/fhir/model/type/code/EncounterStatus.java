@@ -20,47 +20,47 @@ public class EncounterStatus extends Code {
     /**
      * Planned
      */
-    public static final EncounterStatus PLANNED = EncounterStatus.of(ValueSet.PLANNED);
+    public static final EncounterStatus PLANNED = EncounterStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Arrived
      */
-    public static final EncounterStatus ARRIVED = EncounterStatus.of(ValueSet.ARRIVED);
+    public static final EncounterStatus ARRIVED = EncounterStatus.builder().value(ValueSet.ARRIVED).build();
 
     /**
      * Triaged
      */
-    public static final EncounterStatus TRIAGED = EncounterStatus.of(ValueSet.TRIAGED);
+    public static final EncounterStatus TRIAGED = EncounterStatus.builder().value(ValueSet.TRIAGED).build();
 
     /**
      * In Progress
      */
-    public static final EncounterStatus IN_PROGRESS = EncounterStatus.of(ValueSet.IN_PROGRESS);
+    public static final EncounterStatus IN_PROGRESS = EncounterStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * On Leave
      */
-    public static final EncounterStatus ONLEAVE = EncounterStatus.of(ValueSet.ONLEAVE);
+    public static final EncounterStatus ONLEAVE = EncounterStatus.builder().value(ValueSet.ONLEAVE).build();
 
     /**
      * Finished
      */
-    public static final EncounterStatus FINISHED = EncounterStatus.of(ValueSet.FINISHED);
+    public static final EncounterStatus FINISHED = EncounterStatus.builder().value(ValueSet.FINISHED).build();
 
     /**
      * Cancelled
      */
-    public static final EncounterStatus CANCELLED = EncounterStatus.of(ValueSet.CANCELLED);
+    public static final EncounterStatus CANCELLED = EncounterStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
      */
-    public static final EncounterStatus ENTERED_IN_ERROR = EncounterStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final EncounterStatus ENTERED_IN_ERROR = EncounterStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final EncounterStatus UNKNOWN = EncounterStatus.of(ValueSet.UNKNOWN);
+    public static final EncounterStatus UNKNOWN = EncounterStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class EncounterStatus extends Code {
         super(builder);
     }
 
-    public static EncounterStatus of(java.lang.String value) {
-        return EncounterStatus.builder().value(value).build();
+    public static EncounterStatus of(ValueSet value) {
+        switch (value) {
+        case PLANNED:
+            return PLANNED;
+        case ARRIVED:
+            return ARRIVED;
+        case TRIAGED:
+            return TRIAGED;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case ONLEAVE:
+            return ONLEAVE;
+        case FINISHED:
+            return FINISHED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static EncounterStatus of(ValueSet value) {
-        return EncounterStatus.builder().value(value).build();
+    public static EncounterStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return EncounterStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EncounterStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

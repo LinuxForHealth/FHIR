@@ -20,47 +20,47 @@ public class MedicationDispenseStatus extends Code {
     /**
      * Preparation
      */
-    public static final MedicationDispenseStatus PREPARATION = MedicationDispenseStatus.of(ValueSet.PREPARATION);
+    public static final MedicationDispenseStatus PREPARATION = MedicationDispenseStatus.builder().value(ValueSet.PREPARATION).build();
 
     /**
      * In Progress
      */
-    public static final MedicationDispenseStatus IN_PROGRESS = MedicationDispenseStatus.of(ValueSet.IN_PROGRESS);
+    public static final MedicationDispenseStatus IN_PROGRESS = MedicationDispenseStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Cancelled
      */
-    public static final MedicationDispenseStatus CANCELLED = MedicationDispenseStatus.of(ValueSet.CANCELLED);
+    public static final MedicationDispenseStatus CANCELLED = MedicationDispenseStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * On Hold
      */
-    public static final MedicationDispenseStatus ON_HOLD = MedicationDispenseStatus.of(ValueSet.ON_HOLD);
+    public static final MedicationDispenseStatus ON_HOLD = MedicationDispenseStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Completed
      */
-    public static final MedicationDispenseStatus COMPLETED = MedicationDispenseStatus.of(ValueSet.COMPLETED);
+    public static final MedicationDispenseStatus COMPLETED = MedicationDispenseStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final MedicationDispenseStatus ENTERED_IN_ERROR = MedicationDispenseStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final MedicationDispenseStatus ENTERED_IN_ERROR = MedicationDispenseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
      */
-    public static final MedicationDispenseStatus STOPPED = MedicationDispenseStatus.of(ValueSet.STOPPED);
+    public static final MedicationDispenseStatus STOPPED = MedicationDispenseStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Declined
      */
-    public static final MedicationDispenseStatus DECLINED = MedicationDispenseStatus.of(ValueSet.DECLINED);
+    public static final MedicationDispenseStatus DECLINED = MedicationDispenseStatus.builder().value(ValueSet.DECLINED).build();
 
     /**
      * Unknown
      */
-    public static final MedicationDispenseStatus UNKNOWN = MedicationDispenseStatus.of(ValueSet.UNKNOWN);
+    public static final MedicationDispenseStatus UNKNOWN = MedicationDispenseStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class MedicationDispenseStatus extends Code {
         super(builder);
     }
 
-    public static MedicationDispenseStatus of(java.lang.String value) {
-        return MedicationDispenseStatus.builder().value(value).build();
+    public static MedicationDispenseStatus of(ValueSet value) {
+        switch (value) {
+        case PREPARATION:
+            return PREPARATION;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case CANCELLED:
+            return CANCELLED;
+        case ON_HOLD:
+            return ON_HOLD;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case STOPPED:
+            return STOPPED;
+        case DECLINED:
+            return DECLINED;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static MedicationDispenseStatus of(ValueSet value) {
-        return MedicationDispenseStatus.builder().value(value).build();
+    public static MedicationDispenseStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return MedicationDispenseStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MedicationDispenseStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

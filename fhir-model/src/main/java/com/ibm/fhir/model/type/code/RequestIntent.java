@@ -20,47 +20,47 @@ public class RequestIntent extends Code {
     /**
      * Proposal
      */
-    public static final RequestIntent PROPOSAL = RequestIntent.of(ValueSet.PROPOSAL);
+    public static final RequestIntent PROPOSAL = RequestIntent.builder().value(ValueSet.PROPOSAL).build();
 
     /**
      * Plan
      */
-    public static final RequestIntent PLAN = RequestIntent.of(ValueSet.PLAN);
+    public static final RequestIntent PLAN = RequestIntent.builder().value(ValueSet.PLAN).build();
 
     /**
      * Directive
      */
-    public static final RequestIntent DIRECTIVE = RequestIntent.of(ValueSet.DIRECTIVE);
+    public static final RequestIntent DIRECTIVE = RequestIntent.builder().value(ValueSet.DIRECTIVE).build();
 
     /**
      * Order
      */
-    public static final RequestIntent ORDER = RequestIntent.of(ValueSet.ORDER);
+    public static final RequestIntent ORDER = RequestIntent.builder().value(ValueSet.ORDER).build();
 
     /**
      * Original Order
      */
-    public static final RequestIntent ORIGINAL_ORDER = RequestIntent.of(ValueSet.ORIGINAL_ORDER);
+    public static final RequestIntent ORIGINAL_ORDER = RequestIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
 
     /**
      * Reflex Order
      */
-    public static final RequestIntent REFLEX_ORDER = RequestIntent.of(ValueSet.REFLEX_ORDER);
+    public static final RequestIntent REFLEX_ORDER = RequestIntent.builder().value(ValueSet.REFLEX_ORDER).build();
 
     /**
      * Filler Order
      */
-    public static final RequestIntent FILLER_ORDER = RequestIntent.of(ValueSet.FILLER_ORDER);
+    public static final RequestIntent FILLER_ORDER = RequestIntent.builder().value(ValueSet.FILLER_ORDER).build();
 
     /**
      * Instance Order
      */
-    public static final RequestIntent INSTANCE_ORDER = RequestIntent.of(ValueSet.INSTANCE_ORDER);
+    public static final RequestIntent INSTANCE_ORDER = RequestIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
 
     /**
      * Option
      */
-    public static final RequestIntent OPTION = RequestIntent.of(ValueSet.OPTION);
+    public static final RequestIntent OPTION = RequestIntent.builder().value(ValueSet.OPTION).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class RequestIntent extends Code {
         super(builder);
     }
 
-    public static RequestIntent of(java.lang.String value) {
-        return RequestIntent.builder().value(value).build();
+    public static RequestIntent of(ValueSet value) {
+        switch (value) {
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case DIRECTIVE:
+            return DIRECTIVE;
+        case ORDER:
+            return ORDER;
+        case ORIGINAL_ORDER:
+            return ORIGINAL_ORDER;
+        case REFLEX_ORDER:
+            return REFLEX_ORDER;
+        case FILLER_ORDER:
+            return FILLER_ORDER;
+        case INSTANCE_ORDER:
+            return INSTANCE_ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static RequestIntent of(ValueSet value) {
-        return RequestIntent.builder().value(value).build();
+    public static RequestIntent of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return RequestIntent.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return RequestIntent.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

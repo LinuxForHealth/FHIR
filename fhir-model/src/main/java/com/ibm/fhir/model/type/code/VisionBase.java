@@ -20,22 +20,22 @@ public class VisionBase extends Code {
     /**
      * Up
      */
-    public static final VisionBase UP = VisionBase.of(ValueSet.UP);
+    public static final VisionBase UP = VisionBase.builder().value(ValueSet.UP).build();
 
     /**
      * Down
      */
-    public static final VisionBase DOWN = VisionBase.of(ValueSet.DOWN);
+    public static final VisionBase DOWN = VisionBase.builder().value(ValueSet.DOWN).build();
 
     /**
      * In
      */
-    public static final VisionBase IN = VisionBase.of(ValueSet.IN);
+    public static final VisionBase IN = VisionBase.builder().value(ValueSet.IN).build();
 
     /**
      * Out
      */
-    public static final VisionBase OUT = VisionBase.of(ValueSet.OUT);
+    public static final VisionBase OUT = VisionBase.builder().value(ValueSet.OUT).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class VisionBase extends Code {
         super(builder);
     }
 
-    public static VisionBase of(java.lang.String value) {
-        return VisionBase.builder().value(value).build();
+    public static VisionBase of(ValueSet value) {
+        switch (value) {
+        case UP:
+            return UP;
+        case DOWN:
+            return DOWN;
+        case IN:
+            return IN;
+        case OUT:
+            return OUT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static VisionBase of(ValueSet value) {
-        return VisionBase.builder().value(value).build();
+    public static VisionBase of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return VisionBase.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return VisionBase.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

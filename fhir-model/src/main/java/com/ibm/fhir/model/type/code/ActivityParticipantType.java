@@ -20,22 +20,22 @@ public class ActivityParticipantType extends Code {
     /**
      * Patient
      */
-    public static final ActivityParticipantType PATIENT = ActivityParticipantType.of(ValueSet.PATIENT);
+    public static final ActivityParticipantType PATIENT = ActivityParticipantType.builder().value(ValueSet.PATIENT).build();
 
     /**
      * Practitioner
      */
-    public static final ActivityParticipantType PRACTITIONER = ActivityParticipantType.of(ValueSet.PRACTITIONER);
+    public static final ActivityParticipantType PRACTITIONER = ActivityParticipantType.builder().value(ValueSet.PRACTITIONER).build();
 
     /**
      * Related Person
      */
-    public static final ActivityParticipantType RELATED_PERSON = ActivityParticipantType.of(ValueSet.RELATED_PERSON);
+    public static final ActivityParticipantType RELATED_PERSON = ActivityParticipantType.builder().value(ValueSet.RELATED_PERSON).build();
 
     /**
      * Device
      */
-    public static final ActivityParticipantType DEVICE = ActivityParticipantType.of(ValueSet.DEVICE);
+    public static final ActivityParticipantType DEVICE = ActivityParticipantType.builder().value(ValueSet.DEVICE).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ActivityParticipantType extends Code {
         super(builder);
     }
 
-    public static ActivityParticipantType of(java.lang.String value) {
-        return ActivityParticipantType.builder().value(value).build();
+    public static ActivityParticipantType of(ValueSet value) {
+        switch (value) {
+        case PATIENT:
+            return PATIENT;
+        case PRACTITIONER:
+            return PRACTITIONER;
+        case RELATED_PERSON:
+            return RELATED_PERSON;
+        case DEVICE:
+            return DEVICE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ActivityParticipantType of(ValueSet value) {
-        return ActivityParticipantType.builder().value(value).build();
+    public static ActivityParticipantType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActivityParticipantType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActivityParticipantType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
 
@@ -21,13 +20,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Code extends String {
-    private static final Pattern PATTERN = Pattern.compile("[^\\s]+(\\s[^\\s]+)*");
-
     private volatile int hashCode;
 
     protected Code(Builder builder) {
         super(builder);
-//        ValidationSupport.checkValue(value, PATTERN);
         ValidationSupport.checkCode(value);
     }
 

@@ -20,27 +20,27 @@ public class SubscriptionChannelType extends Code {
     /**
      * Rest Hook
      */
-    public static final SubscriptionChannelType REST_HOOK = SubscriptionChannelType.of(ValueSet.REST_HOOK);
+    public static final SubscriptionChannelType REST_HOOK = SubscriptionChannelType.builder().value(ValueSet.REST_HOOK).build();
 
     /**
      * Websocket
      */
-    public static final SubscriptionChannelType WEBSOCKET = SubscriptionChannelType.of(ValueSet.WEBSOCKET);
+    public static final SubscriptionChannelType WEBSOCKET = SubscriptionChannelType.builder().value(ValueSet.WEBSOCKET).build();
 
     /**
      * Email
      */
-    public static final SubscriptionChannelType EMAIL = SubscriptionChannelType.of(ValueSet.EMAIL);
+    public static final SubscriptionChannelType EMAIL = SubscriptionChannelType.builder().value(ValueSet.EMAIL).build();
 
     /**
      * SMS
      */
-    public static final SubscriptionChannelType SMS = SubscriptionChannelType.of(ValueSet.SMS);
+    public static final SubscriptionChannelType SMS = SubscriptionChannelType.builder().value(ValueSet.SMS).build();
 
     /**
      * Message
      */
-    public static final SubscriptionChannelType MESSAGE = SubscriptionChannelType.of(ValueSet.MESSAGE);
+    public static final SubscriptionChannelType MESSAGE = SubscriptionChannelType.builder().value(ValueSet.MESSAGE).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class SubscriptionChannelType extends Code {
         super(builder);
     }
 
-    public static SubscriptionChannelType of(java.lang.String value) {
-        return SubscriptionChannelType.builder().value(value).build();
+    public static SubscriptionChannelType of(ValueSet value) {
+        switch (value) {
+        case REST_HOOK:
+            return REST_HOOK;
+        case WEBSOCKET:
+            return WEBSOCKET;
+        case EMAIL:
+            return EMAIL;
+        case SMS:
+            return SMS;
+        case MESSAGE:
+            return MESSAGE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SubscriptionChannelType of(ValueSet value) {
-        return SubscriptionChannelType.builder().value(value).build();
+    public static SubscriptionChannelType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SubscriptionChannelType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SubscriptionChannelType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

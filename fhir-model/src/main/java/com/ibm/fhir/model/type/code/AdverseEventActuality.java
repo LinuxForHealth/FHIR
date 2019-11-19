@@ -20,12 +20,12 @@ public class AdverseEventActuality extends Code {
     /**
      * Adverse Event
      */
-    public static final AdverseEventActuality ACTUAL = AdverseEventActuality.of(ValueSet.ACTUAL);
+    public static final AdverseEventActuality ACTUAL = AdverseEventActuality.builder().value(ValueSet.ACTUAL).build();
 
     /**
      * Potential Adverse Event
      */
-    public static final AdverseEventActuality POTENTIAL = AdverseEventActuality.of(ValueSet.POTENTIAL);
+    public static final AdverseEventActuality POTENTIAL = AdverseEventActuality.builder().value(ValueSet.POTENTIAL).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class AdverseEventActuality extends Code {
         super(builder);
     }
 
-    public static AdverseEventActuality of(java.lang.String value) {
-        return AdverseEventActuality.builder().value(value).build();
+    public static AdverseEventActuality of(ValueSet value) {
+        switch (value) {
+        case ACTUAL:
+            return ACTUAL;
+        case POTENTIAL:
+            return POTENTIAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static AdverseEventActuality of(ValueSet value) {
-        return AdverseEventActuality.builder().value(value).build();
+    public static AdverseEventActuality of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return AdverseEventActuality.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AdverseEventActuality.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,22 +20,22 @@ public class MeasureReportType extends Code {
     /**
      * Individual
      */
-    public static final MeasureReportType INDIVIDUAL = MeasureReportType.of(ValueSet.INDIVIDUAL);
+    public static final MeasureReportType INDIVIDUAL = MeasureReportType.builder().value(ValueSet.INDIVIDUAL).build();
 
     /**
      * Subject List
      */
-    public static final MeasureReportType SUBJECT_LIST = MeasureReportType.of(ValueSet.SUBJECT_LIST);
+    public static final MeasureReportType SUBJECT_LIST = MeasureReportType.builder().value(ValueSet.SUBJECT_LIST).build();
 
     /**
      * Summary
      */
-    public static final MeasureReportType SUMMARY = MeasureReportType.of(ValueSet.SUMMARY);
+    public static final MeasureReportType SUMMARY = MeasureReportType.builder().value(ValueSet.SUMMARY).build();
 
     /**
      * Data Collection
      */
-    public static final MeasureReportType DATA_COLLECTION = MeasureReportType.of(ValueSet.DATA_COLLECTION);
+    public static final MeasureReportType DATA_COLLECTION = MeasureReportType.builder().value(ValueSet.DATA_COLLECTION).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class MeasureReportType extends Code {
         super(builder);
     }
 
-    public static MeasureReportType of(java.lang.String value) {
-        return MeasureReportType.builder().value(value).build();
+    public static MeasureReportType of(ValueSet value) {
+        switch (value) {
+        case INDIVIDUAL:
+            return INDIVIDUAL;
+        case SUBJECT_LIST:
+            return SUBJECT_LIST;
+        case SUMMARY:
+            return SUMMARY;
+        case DATA_COLLECTION:
+            return DATA_COLLECTION;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static MeasureReportType of(ValueSet value) {
-        return MeasureReportType.builder().value(value).build();
+    public static MeasureReportType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return MeasureReportType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MeasureReportType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

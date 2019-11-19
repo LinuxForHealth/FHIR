@@ -20,27 +20,27 @@ public class TestReportStatus extends Code {
     /**
      * Completed
      */
-    public static final TestReportStatus COMPLETED = TestReportStatus.of(ValueSet.COMPLETED);
+    public static final TestReportStatus COMPLETED = TestReportStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * In Progress
      */
-    public static final TestReportStatus IN_PROGRESS = TestReportStatus.of(ValueSet.IN_PROGRESS);
+    public static final TestReportStatus IN_PROGRESS = TestReportStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Waiting
      */
-    public static final TestReportStatus WAITING = TestReportStatus.of(ValueSet.WAITING);
+    public static final TestReportStatus WAITING = TestReportStatus.builder().value(ValueSet.WAITING).build();
 
     /**
      * Stopped
      */
-    public static final TestReportStatus STOPPED = TestReportStatus.of(ValueSet.STOPPED);
+    public static final TestReportStatus STOPPED = TestReportStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Entered In Error
      */
-    public static final TestReportStatus ENTERED_IN_ERROR = TestReportStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final TestReportStatus ENTERED_IN_ERROR = TestReportStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class TestReportStatus extends Code {
         super(builder);
     }
 
-    public static TestReportStatus of(java.lang.String value) {
-        return TestReportStatus.builder().value(value).build();
+    public static TestReportStatus of(ValueSet value) {
+        switch (value) {
+        case COMPLETED:
+            return COMPLETED;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case WAITING:
+            return WAITING;
+        case STOPPED:
+            return STOPPED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static TestReportStatus of(ValueSet value) {
-        return TestReportStatus.builder().value(value).build();
+    public static TestReportStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return TestReportStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TestReportStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

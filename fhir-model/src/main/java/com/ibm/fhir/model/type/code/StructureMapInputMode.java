@@ -20,12 +20,12 @@ public class StructureMapInputMode extends Code {
     /**
      * Source Instance
      */
-    public static final StructureMapInputMode SOURCE = StructureMapInputMode.of(ValueSet.SOURCE);
+    public static final StructureMapInputMode SOURCE = StructureMapInputMode.builder().value(ValueSet.SOURCE).build();
 
     /**
      * Target Instance
      */
-    public static final StructureMapInputMode TARGET = StructureMapInputMode.of(ValueSet.TARGET);
+    public static final StructureMapInputMode TARGET = StructureMapInputMode.builder().value(ValueSet.TARGET).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class StructureMapInputMode extends Code {
         super(builder);
     }
 
-    public static StructureMapInputMode of(java.lang.String value) {
-        return StructureMapInputMode.builder().value(value).build();
+    public static StructureMapInputMode of(ValueSet value) {
+        switch (value) {
+        case SOURCE:
+            return SOURCE;
+        case TARGET:
+            return TARGET;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static StructureMapInputMode of(ValueSet value) {
-        return StructureMapInputMode.builder().value(value).build();
+    public static StructureMapInputMode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return StructureMapInputMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StructureMapInputMode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

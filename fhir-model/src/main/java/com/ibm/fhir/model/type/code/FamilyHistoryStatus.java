@@ -20,22 +20,22 @@ public class FamilyHistoryStatus extends Code {
     /**
      * Partial
      */
-    public static final FamilyHistoryStatus PARTIAL = FamilyHistoryStatus.of(ValueSet.PARTIAL);
+    public static final FamilyHistoryStatus PARTIAL = FamilyHistoryStatus.builder().value(ValueSet.PARTIAL).build();
 
     /**
      * Completed
      */
-    public static final FamilyHistoryStatus COMPLETED = FamilyHistoryStatus.of(ValueSet.COMPLETED);
+    public static final FamilyHistoryStatus COMPLETED = FamilyHistoryStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final FamilyHistoryStatus ENTERED_IN_ERROR = FamilyHistoryStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final FamilyHistoryStatus ENTERED_IN_ERROR = FamilyHistoryStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Health Unknown
      */
-    public static final FamilyHistoryStatus HEALTH_UNKNOWN = FamilyHistoryStatus.of(ValueSet.HEALTH_UNKNOWN);
+    public static final FamilyHistoryStatus HEALTH_UNKNOWN = FamilyHistoryStatus.builder().value(ValueSet.HEALTH_UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class FamilyHistoryStatus extends Code {
         super(builder);
     }
 
-    public static FamilyHistoryStatus of(java.lang.String value) {
-        return FamilyHistoryStatus.builder().value(value).build();
+    public static FamilyHistoryStatus of(ValueSet value) {
+        switch (value) {
+        case PARTIAL:
+            return PARTIAL;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case HEALTH_UNKNOWN:
+            return HEALTH_UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static FamilyHistoryStatus of(ValueSet value) {
-        return FamilyHistoryStatus.builder().value(value).build();
+    public static FamilyHistoryStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return FamilyHistoryStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return FamilyHistoryStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

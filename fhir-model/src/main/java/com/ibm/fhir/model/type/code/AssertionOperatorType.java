@@ -20,57 +20,57 @@ public class AssertionOperatorType extends Code {
     /**
      * equals
      */
-    public static final AssertionOperatorType EQUALS = AssertionOperatorType.of(ValueSet.EQUALS);
+    public static final AssertionOperatorType EQUALS = AssertionOperatorType.builder().value(ValueSet.EQUALS).build();
 
     /**
      * notEquals
      */
-    public static final AssertionOperatorType NOT_EQUALS = AssertionOperatorType.of(ValueSet.NOT_EQUALS);
+    public static final AssertionOperatorType NOT_EQUALS = AssertionOperatorType.builder().value(ValueSet.NOT_EQUALS).build();
 
     /**
      * in
      */
-    public static final AssertionOperatorType IN = AssertionOperatorType.of(ValueSet.IN);
+    public static final AssertionOperatorType IN = AssertionOperatorType.builder().value(ValueSet.IN).build();
 
     /**
      * notIn
      */
-    public static final AssertionOperatorType NOT_IN = AssertionOperatorType.of(ValueSet.NOT_IN);
+    public static final AssertionOperatorType NOT_IN = AssertionOperatorType.builder().value(ValueSet.NOT_IN).build();
 
     /**
      * greaterThan
      */
-    public static final AssertionOperatorType GREATER_THAN = AssertionOperatorType.of(ValueSet.GREATER_THAN);
+    public static final AssertionOperatorType GREATER_THAN = AssertionOperatorType.builder().value(ValueSet.GREATER_THAN).build();
 
     /**
      * lessThan
      */
-    public static final AssertionOperatorType LESS_THAN = AssertionOperatorType.of(ValueSet.LESS_THAN);
+    public static final AssertionOperatorType LESS_THAN = AssertionOperatorType.builder().value(ValueSet.LESS_THAN).build();
 
     /**
      * empty
      */
-    public static final AssertionOperatorType EMPTY = AssertionOperatorType.of(ValueSet.EMPTY);
+    public static final AssertionOperatorType EMPTY = AssertionOperatorType.builder().value(ValueSet.EMPTY).build();
 
     /**
      * notEmpty
      */
-    public static final AssertionOperatorType NOT_EMPTY = AssertionOperatorType.of(ValueSet.NOT_EMPTY);
+    public static final AssertionOperatorType NOT_EMPTY = AssertionOperatorType.builder().value(ValueSet.NOT_EMPTY).build();
 
     /**
      * contains
      */
-    public static final AssertionOperatorType CONTAINS = AssertionOperatorType.of(ValueSet.CONTAINS);
+    public static final AssertionOperatorType CONTAINS = AssertionOperatorType.builder().value(ValueSet.CONTAINS).build();
 
     /**
      * notContains
      */
-    public static final AssertionOperatorType NOT_CONTAINS = AssertionOperatorType.of(ValueSet.NOT_CONTAINS);
+    public static final AssertionOperatorType NOT_CONTAINS = AssertionOperatorType.builder().value(ValueSet.NOT_CONTAINS).build();
 
     /**
      * evaluate
      */
-    public static final AssertionOperatorType EVAL = AssertionOperatorType.of(ValueSet.EVAL);
+    public static final AssertionOperatorType EVAL = AssertionOperatorType.builder().value(ValueSet.EVAL).build();
 
     private volatile int hashCode;
 
@@ -78,20 +78,45 @@ public class AssertionOperatorType extends Code {
         super(builder);
     }
 
-    public static AssertionOperatorType of(java.lang.String value) {
-        return AssertionOperatorType.builder().value(value).build();
+    public static AssertionOperatorType of(ValueSet value) {
+        switch (value) {
+        case EQUALS:
+            return EQUALS;
+        case NOT_EQUALS:
+            return NOT_EQUALS;
+        case IN:
+            return IN;
+        case NOT_IN:
+            return NOT_IN;
+        case GREATER_THAN:
+            return GREATER_THAN;
+        case LESS_THAN:
+            return LESS_THAN;
+        case EMPTY:
+            return EMPTY;
+        case NOT_EMPTY:
+            return NOT_EMPTY;
+        case CONTAINS:
+            return CONTAINS;
+        case NOT_CONTAINS:
+            return NOT_CONTAINS;
+        case EVAL:
+            return EVAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static AssertionOperatorType of(ValueSet value) {
-        return AssertionOperatorType.builder().value(value).build();
+    public static AssertionOperatorType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return AssertionOperatorType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AssertionOperatorType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

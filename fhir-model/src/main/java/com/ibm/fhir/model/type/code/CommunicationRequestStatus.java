@@ -20,37 +20,37 @@ public class CommunicationRequestStatus extends Code {
     /**
      * Draft
      */
-    public static final CommunicationRequestStatus DRAFT = CommunicationRequestStatus.of(ValueSet.DRAFT);
+    public static final CommunicationRequestStatus DRAFT = CommunicationRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
      */
-    public static final CommunicationRequestStatus ACTIVE = CommunicationRequestStatus.of(ValueSet.ACTIVE);
+    public static final CommunicationRequestStatus ACTIVE = CommunicationRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
      */
-    public static final CommunicationRequestStatus ON_HOLD = CommunicationRequestStatus.of(ValueSet.ON_HOLD);
+    public static final CommunicationRequestStatus ON_HOLD = CommunicationRequestStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Revoked
      */
-    public static final CommunicationRequestStatus REVOKED = CommunicationRequestStatus.of(ValueSet.REVOKED);
+    public static final CommunicationRequestStatus REVOKED = CommunicationRequestStatus.builder().value(ValueSet.REVOKED).build();
 
     /**
      * Completed
      */
-    public static final CommunicationRequestStatus COMPLETED = CommunicationRequestStatus.of(ValueSet.COMPLETED);
+    public static final CommunicationRequestStatus COMPLETED = CommunicationRequestStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final CommunicationRequestStatus ENTERED_IN_ERROR = CommunicationRequestStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final CommunicationRequestStatus ENTERED_IN_ERROR = CommunicationRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final CommunicationRequestStatus UNKNOWN = CommunicationRequestStatus.of(ValueSet.UNKNOWN);
+    public static final CommunicationRequestStatus UNKNOWN = CommunicationRequestStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class CommunicationRequestStatus extends Code {
         super(builder);
     }
 
-    public static CommunicationRequestStatus of(java.lang.String value) {
-        return CommunicationRequestStatus.builder().value(value).build();
+    public static CommunicationRequestStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case REVOKED:
+            return REVOKED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CommunicationRequestStatus of(ValueSet value) {
-        return CommunicationRequestStatus.builder().value(value).build();
+    public static CommunicationRequestStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CommunicationRequestStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CommunicationRequestStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

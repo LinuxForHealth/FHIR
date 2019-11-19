@@ -20,12 +20,12 @@ public class EnableWhenBehavior extends Code {
     /**
      * All
      */
-    public static final EnableWhenBehavior ALL = EnableWhenBehavior.of(ValueSet.ALL);
+    public static final EnableWhenBehavior ALL = EnableWhenBehavior.builder().value(ValueSet.ALL).build();
 
     /**
      * Any
      */
-    public static final EnableWhenBehavior ANY = EnableWhenBehavior.of(ValueSet.ANY);
+    public static final EnableWhenBehavior ANY = EnableWhenBehavior.builder().value(ValueSet.ANY).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class EnableWhenBehavior extends Code {
         super(builder);
     }
 
-    public static EnableWhenBehavior of(java.lang.String value) {
-        return EnableWhenBehavior.builder().value(value).build();
+    public static EnableWhenBehavior of(ValueSet value) {
+        switch (value) {
+        case ALL:
+            return ALL;
+        case ANY:
+            return ANY;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static EnableWhenBehavior of(ValueSet value) {
-        return EnableWhenBehavior.builder().value(value).build();
+    public static EnableWhenBehavior of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return EnableWhenBehavior.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EnableWhenBehavior.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

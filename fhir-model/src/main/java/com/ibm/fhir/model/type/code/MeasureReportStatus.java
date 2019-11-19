@@ -20,17 +20,17 @@ public class MeasureReportStatus extends Code {
     /**
      * Complete
      */
-    public static final MeasureReportStatus COMPLETE = MeasureReportStatus.of(ValueSet.COMPLETE);
+    public static final MeasureReportStatus COMPLETE = MeasureReportStatus.builder().value(ValueSet.COMPLETE).build();
 
     /**
      * Pending
      */
-    public static final MeasureReportStatus PENDING = MeasureReportStatus.of(ValueSet.PENDING);
+    public static final MeasureReportStatus PENDING = MeasureReportStatus.builder().value(ValueSet.PENDING).build();
 
     /**
      * Error
      */
-    public static final MeasureReportStatus ERROR = MeasureReportStatus.of(ValueSet.ERROR);
+    public static final MeasureReportStatus ERROR = MeasureReportStatus.builder().value(ValueSet.ERROR).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class MeasureReportStatus extends Code {
         super(builder);
     }
 
-    public static MeasureReportStatus of(java.lang.String value) {
-        return MeasureReportStatus.builder().value(value).build();
+    public static MeasureReportStatus of(ValueSet value) {
+        switch (value) {
+        case COMPLETE:
+            return COMPLETE;
+        case PENDING:
+            return PENDING;
+        case ERROR:
+            return ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static MeasureReportStatus of(ValueSet value) {
-        return MeasureReportStatus.builder().value(value).build();
+    public static MeasureReportStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return MeasureReportStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MeasureReportStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

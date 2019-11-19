@@ -20,22 +20,22 @@ public class LinkType extends Code {
     /**
      * Replaced-by
      */
-    public static final LinkType REPLACED_BY = LinkType.of(ValueSet.REPLACED_BY);
+    public static final LinkType REPLACED_BY = LinkType.builder().value(ValueSet.REPLACED_BY).build();
 
     /**
      * Replaces
      */
-    public static final LinkType REPLACES = LinkType.of(ValueSet.REPLACES);
+    public static final LinkType REPLACES = LinkType.builder().value(ValueSet.REPLACES).build();
 
     /**
      * Refer
      */
-    public static final LinkType REFER = LinkType.of(ValueSet.REFER);
+    public static final LinkType REFER = LinkType.builder().value(ValueSet.REFER).build();
 
     /**
      * See also
      */
-    public static final LinkType SEEALSO = LinkType.of(ValueSet.SEEALSO);
+    public static final LinkType SEEALSO = LinkType.builder().value(ValueSet.SEEALSO).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class LinkType extends Code {
         super(builder);
     }
 
-    public static LinkType of(java.lang.String value) {
-        return LinkType.builder().value(value).build();
+    public static LinkType of(ValueSet value) {
+        switch (value) {
+        case REPLACED_BY:
+            return REPLACED_BY;
+        case REPLACES:
+            return REPLACES;
+        case REFER:
+            return REFER;
+        case SEEALSO:
+            return SEEALSO;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static LinkType of(ValueSet value) {
-        return LinkType.builder().value(value).build();
+    public static LinkType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return LinkType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return LinkType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,42 +20,42 @@ public class RelatedArtifactType extends Code {
     /**
      * Documentation
      */
-    public static final RelatedArtifactType DOCUMENTATION = RelatedArtifactType.of(ValueSet.DOCUMENTATION);
+    public static final RelatedArtifactType DOCUMENTATION = RelatedArtifactType.builder().value(ValueSet.DOCUMENTATION).build();
 
     /**
      * Justification
      */
-    public static final RelatedArtifactType JUSTIFICATION = RelatedArtifactType.of(ValueSet.JUSTIFICATION);
+    public static final RelatedArtifactType JUSTIFICATION = RelatedArtifactType.builder().value(ValueSet.JUSTIFICATION).build();
 
     /**
      * Citation
      */
-    public static final RelatedArtifactType CITATION = RelatedArtifactType.of(ValueSet.CITATION);
+    public static final RelatedArtifactType CITATION = RelatedArtifactType.builder().value(ValueSet.CITATION).build();
 
     /**
      * Predecessor
      */
-    public static final RelatedArtifactType PREDECESSOR = RelatedArtifactType.of(ValueSet.PREDECESSOR);
+    public static final RelatedArtifactType PREDECESSOR = RelatedArtifactType.builder().value(ValueSet.PREDECESSOR).build();
 
     /**
      * Successor
      */
-    public static final RelatedArtifactType SUCCESSOR = RelatedArtifactType.of(ValueSet.SUCCESSOR);
+    public static final RelatedArtifactType SUCCESSOR = RelatedArtifactType.builder().value(ValueSet.SUCCESSOR).build();
 
     /**
      * Derived From
      */
-    public static final RelatedArtifactType DERIVED_FROM = RelatedArtifactType.of(ValueSet.DERIVED_FROM);
+    public static final RelatedArtifactType DERIVED_FROM = RelatedArtifactType.builder().value(ValueSet.DERIVED_FROM).build();
 
     /**
      * Depends On
      */
-    public static final RelatedArtifactType DEPENDS_ON = RelatedArtifactType.of(ValueSet.DEPENDS_ON);
+    public static final RelatedArtifactType DEPENDS_ON = RelatedArtifactType.builder().value(ValueSet.DEPENDS_ON).build();
 
     /**
      * Composed Of
      */
-    public static final RelatedArtifactType COMPOSED_OF = RelatedArtifactType.of(ValueSet.COMPOSED_OF);
+    public static final RelatedArtifactType COMPOSED_OF = RelatedArtifactType.builder().value(ValueSet.COMPOSED_OF).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class RelatedArtifactType extends Code {
         super(builder);
     }
 
-    public static RelatedArtifactType of(java.lang.String value) {
-        return RelatedArtifactType.builder().value(value).build();
+    public static RelatedArtifactType of(ValueSet value) {
+        switch (value) {
+        case DOCUMENTATION:
+            return DOCUMENTATION;
+        case JUSTIFICATION:
+            return JUSTIFICATION;
+        case CITATION:
+            return CITATION;
+        case PREDECESSOR:
+            return PREDECESSOR;
+        case SUCCESSOR:
+            return SUCCESSOR;
+        case DERIVED_FROM:
+            return DERIVED_FROM;
+        case DEPENDS_ON:
+            return DEPENDS_ON;
+        case COMPOSED_OF:
+            return COMPOSED_OF;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static RelatedArtifactType of(ValueSet value) {
-        return RelatedArtifactType.builder().value(value).build();
+    public static RelatedArtifactType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return RelatedArtifactType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return RelatedArtifactType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

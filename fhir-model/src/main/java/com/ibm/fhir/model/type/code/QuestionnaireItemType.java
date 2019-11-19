@@ -20,87 +20,87 @@ public class QuestionnaireItemType extends Code {
     /**
      * Group
      */
-    public static final QuestionnaireItemType GROUP = QuestionnaireItemType.of(ValueSet.GROUP);
+    public static final QuestionnaireItemType GROUP = QuestionnaireItemType.builder().value(ValueSet.GROUP).build();
 
     /**
      * Display
      */
-    public static final QuestionnaireItemType DISPLAY = QuestionnaireItemType.of(ValueSet.DISPLAY);
+    public static final QuestionnaireItemType DISPLAY = QuestionnaireItemType.builder().value(ValueSet.DISPLAY).build();
 
     /**
      * Question
      */
-    public static final QuestionnaireItemType QUESTION = QuestionnaireItemType.of(ValueSet.QUESTION);
+    public static final QuestionnaireItemType QUESTION = QuestionnaireItemType.builder().value(ValueSet.QUESTION).build();
 
     /**
      * Boolean
      */
-    public static final QuestionnaireItemType BOOLEAN = QuestionnaireItemType.of(ValueSet.BOOLEAN);
+    public static final QuestionnaireItemType BOOLEAN = QuestionnaireItemType.builder().value(ValueSet.BOOLEAN).build();
 
     /**
      * Decimal
      */
-    public static final QuestionnaireItemType DECIMAL = QuestionnaireItemType.of(ValueSet.DECIMAL);
+    public static final QuestionnaireItemType DECIMAL = QuestionnaireItemType.builder().value(ValueSet.DECIMAL).build();
 
     /**
      * Integer
      */
-    public static final QuestionnaireItemType INTEGER = QuestionnaireItemType.of(ValueSet.INTEGER);
+    public static final QuestionnaireItemType INTEGER = QuestionnaireItemType.builder().value(ValueSet.INTEGER).build();
 
     /**
      * Date
      */
-    public static final QuestionnaireItemType DATE = QuestionnaireItemType.of(ValueSet.DATE);
+    public static final QuestionnaireItemType DATE = QuestionnaireItemType.builder().value(ValueSet.DATE).build();
 
     /**
      * Date Time
      */
-    public static final QuestionnaireItemType DATE_TIME = QuestionnaireItemType.of(ValueSet.DATE_TIME);
+    public static final QuestionnaireItemType DATE_TIME = QuestionnaireItemType.builder().value(ValueSet.DATE_TIME).build();
 
     /**
      * Time
      */
-    public static final QuestionnaireItemType TIME = QuestionnaireItemType.of(ValueSet.TIME);
+    public static final QuestionnaireItemType TIME = QuestionnaireItemType.builder().value(ValueSet.TIME).build();
 
     /**
      * String
      */
-    public static final QuestionnaireItemType STRING = QuestionnaireItemType.of(ValueSet.STRING);
+    public static final QuestionnaireItemType STRING = QuestionnaireItemType.builder().value(ValueSet.STRING).build();
 
     /**
      * Text
      */
-    public static final QuestionnaireItemType TEXT = QuestionnaireItemType.of(ValueSet.TEXT);
+    public static final QuestionnaireItemType TEXT = QuestionnaireItemType.builder().value(ValueSet.TEXT).build();
 
     /**
      * Url
      */
-    public static final QuestionnaireItemType URL = QuestionnaireItemType.of(ValueSet.URL);
+    public static final QuestionnaireItemType URL = QuestionnaireItemType.builder().value(ValueSet.URL).build();
 
     /**
      * Choice
      */
-    public static final QuestionnaireItemType CHOICE = QuestionnaireItemType.of(ValueSet.CHOICE);
+    public static final QuestionnaireItemType CHOICE = QuestionnaireItemType.builder().value(ValueSet.CHOICE).build();
 
     /**
      * Open Choice
      */
-    public static final QuestionnaireItemType OPEN_CHOICE = QuestionnaireItemType.of(ValueSet.OPEN_CHOICE);
+    public static final QuestionnaireItemType OPEN_CHOICE = QuestionnaireItemType.builder().value(ValueSet.OPEN_CHOICE).build();
 
     /**
      * Attachment
      */
-    public static final QuestionnaireItemType ATTACHMENT = QuestionnaireItemType.of(ValueSet.ATTACHMENT);
+    public static final QuestionnaireItemType ATTACHMENT = QuestionnaireItemType.builder().value(ValueSet.ATTACHMENT).build();
 
     /**
      * Reference
      */
-    public static final QuestionnaireItemType REFERENCE = QuestionnaireItemType.of(ValueSet.REFERENCE);
+    public static final QuestionnaireItemType REFERENCE = QuestionnaireItemType.builder().value(ValueSet.REFERENCE).build();
 
     /**
      * Quantity
      */
-    public static final QuestionnaireItemType QUANTITY = QuestionnaireItemType.of(ValueSet.QUANTITY);
+    public static final QuestionnaireItemType QUANTITY = QuestionnaireItemType.builder().value(ValueSet.QUANTITY).build();
 
     private volatile int hashCode;
 
@@ -108,20 +108,57 @@ public class QuestionnaireItemType extends Code {
         super(builder);
     }
 
-    public static QuestionnaireItemType of(java.lang.String value) {
-        return QuestionnaireItemType.builder().value(value).build();
+    public static QuestionnaireItemType of(ValueSet value) {
+        switch (value) {
+        case GROUP:
+            return GROUP;
+        case DISPLAY:
+            return DISPLAY;
+        case QUESTION:
+            return QUESTION;
+        case BOOLEAN:
+            return BOOLEAN;
+        case DECIMAL:
+            return DECIMAL;
+        case INTEGER:
+            return INTEGER;
+        case DATE:
+            return DATE;
+        case DATE_TIME:
+            return DATE_TIME;
+        case TIME:
+            return TIME;
+        case STRING:
+            return STRING;
+        case TEXT:
+            return TEXT;
+        case URL:
+            return URL;
+        case CHOICE:
+            return CHOICE;
+        case OPEN_CHOICE:
+            return OPEN_CHOICE;
+        case ATTACHMENT:
+            return ATTACHMENT;
+        case REFERENCE:
+            return REFERENCE;
+        case QUANTITY:
+            return QUANTITY;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static QuestionnaireItemType of(ValueSet value) {
-        return QuestionnaireItemType.builder().value(value).build();
+    public static QuestionnaireItemType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return QuestionnaireItemType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return QuestionnaireItemType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

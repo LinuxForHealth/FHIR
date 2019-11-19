@@ -20,27 +20,27 @@ public class CompartmentCode extends Code {
     /**
      * Patient
      */
-    public static final CompartmentCode PATIENT = CompartmentCode.of(ValueSet.PATIENT);
+    public static final CompartmentCode PATIENT = CompartmentCode.builder().value(ValueSet.PATIENT).build();
 
     /**
      * Encounter
      */
-    public static final CompartmentCode ENCOUNTER = CompartmentCode.of(ValueSet.ENCOUNTER);
+    public static final CompartmentCode ENCOUNTER = CompartmentCode.builder().value(ValueSet.ENCOUNTER).build();
 
     /**
      * RelatedPerson
      */
-    public static final CompartmentCode RELATED_PERSON = CompartmentCode.of(ValueSet.RELATED_PERSON);
+    public static final CompartmentCode RELATED_PERSON = CompartmentCode.builder().value(ValueSet.RELATED_PERSON).build();
 
     /**
      * Practitioner
      */
-    public static final CompartmentCode PRACTITIONER = CompartmentCode.of(ValueSet.PRACTITIONER);
+    public static final CompartmentCode PRACTITIONER = CompartmentCode.builder().value(ValueSet.PRACTITIONER).build();
 
     /**
      * Device
      */
-    public static final CompartmentCode DEVICE = CompartmentCode.of(ValueSet.DEVICE);
+    public static final CompartmentCode DEVICE = CompartmentCode.builder().value(ValueSet.DEVICE).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class CompartmentCode extends Code {
         super(builder);
     }
 
-    public static CompartmentCode of(java.lang.String value) {
-        return CompartmentCode.builder().value(value).build();
+    public static CompartmentCode of(ValueSet value) {
+        switch (value) {
+        case PATIENT:
+            return PATIENT;
+        case ENCOUNTER:
+            return ENCOUNTER;
+        case RELATED_PERSON:
+            return RELATED_PERSON;
+        case PRACTITIONER:
+            return PRACTITIONER;
+        case DEVICE:
+            return DEVICE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CompartmentCode of(ValueSet value) {
-        return CompartmentCode.builder().value(value).build();
+    public static CompartmentCode of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CompartmentCode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CompartmentCode.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

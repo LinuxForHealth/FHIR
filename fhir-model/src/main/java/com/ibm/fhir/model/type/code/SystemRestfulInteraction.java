@@ -17,13 +17,13 @@ import javax.annotation.Generated;
 
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SystemRestfulInteraction extends Code {
-    public static final SystemRestfulInteraction TRANSACTION = SystemRestfulInteraction.of(ValueSet.TRANSACTION);
+    public static final SystemRestfulInteraction TRANSACTION = SystemRestfulInteraction.builder().value(ValueSet.TRANSACTION).build();
 
-    public static final SystemRestfulInteraction BATCH = SystemRestfulInteraction.of(ValueSet.BATCH);
+    public static final SystemRestfulInteraction BATCH = SystemRestfulInteraction.builder().value(ValueSet.BATCH).build();
 
-    public static final SystemRestfulInteraction SEARCH_SYSTEM = SystemRestfulInteraction.of(ValueSet.SEARCH_SYSTEM);
+    public static final SystemRestfulInteraction SEARCH_SYSTEM = SystemRestfulInteraction.builder().value(ValueSet.SEARCH_SYSTEM).build();
 
-    public static final SystemRestfulInteraction HISTORY_SYSTEM = SystemRestfulInteraction.of(ValueSet.HISTORY_SYSTEM);
+    public static final SystemRestfulInteraction HISTORY_SYSTEM = SystemRestfulInteraction.builder().value(ValueSet.HISTORY_SYSTEM).build();
 
     private volatile int hashCode;
 
@@ -31,20 +31,31 @@ public class SystemRestfulInteraction extends Code {
         super(builder);
     }
 
-    public static SystemRestfulInteraction of(java.lang.String value) {
-        return SystemRestfulInteraction.builder().value(value).build();
+    public static SystemRestfulInteraction of(ValueSet value) {
+        switch (value) {
+        case TRANSACTION:
+            return TRANSACTION;
+        case BATCH:
+            return BATCH;
+        case SEARCH_SYSTEM:
+            return SEARCH_SYSTEM;
+        case HISTORY_SYSTEM:
+            return HISTORY_SYSTEM;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SystemRestfulInteraction of(ValueSet value) {
-        return SystemRestfulInteraction.builder().value(value).build();
+    public static SystemRestfulInteraction of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SystemRestfulInteraction.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SystemRestfulInteraction.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

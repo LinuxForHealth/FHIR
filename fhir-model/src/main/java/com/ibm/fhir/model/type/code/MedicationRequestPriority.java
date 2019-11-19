@@ -20,22 +20,22 @@ public class MedicationRequestPriority extends Code {
     /**
      * Routine
      */
-    public static final MedicationRequestPriority ROUTINE = MedicationRequestPriority.of(ValueSet.ROUTINE);
+    public static final MedicationRequestPriority ROUTINE = MedicationRequestPriority.builder().value(ValueSet.ROUTINE).build();
 
     /**
      * Urgent
      */
-    public static final MedicationRequestPriority URGENT = MedicationRequestPriority.of(ValueSet.URGENT);
+    public static final MedicationRequestPriority URGENT = MedicationRequestPriority.builder().value(ValueSet.URGENT).build();
 
     /**
      * ASAP
      */
-    public static final MedicationRequestPriority ASAP = MedicationRequestPriority.of(ValueSet.ASAP);
+    public static final MedicationRequestPriority ASAP = MedicationRequestPriority.builder().value(ValueSet.ASAP).build();
 
     /**
      * STAT
      */
-    public static final MedicationRequestPriority STAT = MedicationRequestPriority.of(ValueSet.STAT);
+    public static final MedicationRequestPriority STAT = MedicationRequestPriority.builder().value(ValueSet.STAT).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class MedicationRequestPriority extends Code {
         super(builder);
     }
 
-    public static MedicationRequestPriority of(java.lang.String value) {
-        return MedicationRequestPriority.builder().value(value).build();
+    public static MedicationRequestPriority of(ValueSet value) {
+        switch (value) {
+        case ROUTINE:
+            return ROUTINE;
+        case URGENT:
+            return URGENT;
+        case ASAP:
+            return ASAP;
+        case STAT:
+            return STAT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static MedicationRequestPriority of(ValueSet value) {
-        return MedicationRequestPriority.builder().value(value).build();
+    public static MedicationRequestPriority of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return MedicationRequestPriority.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MedicationRequestPriority.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

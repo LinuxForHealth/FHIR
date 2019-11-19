@@ -20,47 +20,47 @@ public class SearchParamType extends Code {
     /**
      * Number
      */
-    public static final SearchParamType NUMBER = SearchParamType.of(ValueSet.NUMBER);
+    public static final SearchParamType NUMBER = SearchParamType.builder().value(ValueSet.NUMBER).build();
 
     /**
      * Date/DateTime
      */
-    public static final SearchParamType DATE = SearchParamType.of(ValueSet.DATE);
+    public static final SearchParamType DATE = SearchParamType.builder().value(ValueSet.DATE).build();
 
     /**
      * String
      */
-    public static final SearchParamType STRING = SearchParamType.of(ValueSet.STRING);
+    public static final SearchParamType STRING = SearchParamType.builder().value(ValueSet.STRING).build();
 
     /**
      * Token
      */
-    public static final SearchParamType TOKEN = SearchParamType.of(ValueSet.TOKEN);
+    public static final SearchParamType TOKEN = SearchParamType.builder().value(ValueSet.TOKEN).build();
 
     /**
      * Reference
      */
-    public static final SearchParamType REFERENCE = SearchParamType.of(ValueSet.REFERENCE);
+    public static final SearchParamType REFERENCE = SearchParamType.builder().value(ValueSet.REFERENCE).build();
 
     /**
      * Composite
      */
-    public static final SearchParamType COMPOSITE = SearchParamType.of(ValueSet.COMPOSITE);
+    public static final SearchParamType COMPOSITE = SearchParamType.builder().value(ValueSet.COMPOSITE).build();
 
     /**
      * Quantity
      */
-    public static final SearchParamType QUANTITY = SearchParamType.of(ValueSet.QUANTITY);
+    public static final SearchParamType QUANTITY = SearchParamType.builder().value(ValueSet.QUANTITY).build();
 
     /**
      * URI
      */
-    public static final SearchParamType URI = SearchParamType.of(ValueSet.URI);
+    public static final SearchParamType URI = SearchParamType.builder().value(ValueSet.URI).build();
 
     /**
      * Special
      */
-    public static final SearchParamType SPECIAL = SearchParamType.of(ValueSet.SPECIAL);
+    public static final SearchParamType SPECIAL = SearchParamType.builder().value(ValueSet.SPECIAL).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class SearchParamType extends Code {
         super(builder);
     }
 
-    public static SearchParamType of(java.lang.String value) {
-        return SearchParamType.builder().value(value).build();
+    public static SearchParamType of(ValueSet value) {
+        switch (value) {
+        case NUMBER:
+            return NUMBER;
+        case DATE:
+            return DATE;
+        case STRING:
+            return STRING;
+        case TOKEN:
+            return TOKEN;
+        case REFERENCE:
+            return REFERENCE;
+        case COMPOSITE:
+            return COMPOSITE;
+        case QUANTITY:
+            return QUANTITY;
+        case URI:
+            return URI;
+        case SPECIAL:
+            return SPECIAL;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SearchParamType of(ValueSet value) {
-        return SearchParamType.builder().value(value).build();
+    public static SearchParamType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SearchParamType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SearchParamType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

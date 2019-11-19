@@ -20,17 +20,17 @@ public class SequenceType extends Code {
     /**
      * AA Sequence
      */
-    public static final SequenceType AA = SequenceType.of(ValueSet.AA);
+    public static final SequenceType AA = SequenceType.builder().value(ValueSet.AA).build();
 
     /**
      * DNA Sequence
      */
-    public static final SequenceType DNA = SequenceType.of(ValueSet.DNA);
+    public static final SequenceType DNA = SequenceType.builder().value(ValueSet.DNA).build();
 
     /**
      * RNA Sequence
      */
-    public static final SequenceType RNA = SequenceType.of(ValueSet.RNA);
+    public static final SequenceType RNA = SequenceType.builder().value(ValueSet.RNA).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class SequenceType extends Code {
         super(builder);
     }
 
-    public static SequenceType of(java.lang.String value) {
-        return SequenceType.builder().value(value).build();
+    public static SequenceType of(ValueSet value) {
+        switch (value) {
+        case AA:
+            return AA;
+        case DNA:
+            return DNA;
+        case RNA:
+            return RNA;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SequenceType of(ValueSet value) {
-        return SequenceType.builder().value(value).build();
+    public static SequenceType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SequenceType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SequenceType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

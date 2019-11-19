@@ -20,17 +20,17 @@ public class VariableType extends Code {
     /**
      * Dichotomous
      */
-    public static final VariableType DICHOTOMOUS = VariableType.of(ValueSet.DICHOTOMOUS);
+    public static final VariableType DICHOTOMOUS = VariableType.builder().value(ValueSet.DICHOTOMOUS).build();
 
     /**
      * Continuous
      */
-    public static final VariableType CONTINUOUS = VariableType.of(ValueSet.CONTINUOUS);
+    public static final VariableType CONTINUOUS = VariableType.builder().value(ValueSet.CONTINUOUS).build();
 
     /**
      * Descriptive
      */
-    public static final VariableType DESCRIPTIVE = VariableType.of(ValueSet.DESCRIPTIVE);
+    public static final VariableType DESCRIPTIVE = VariableType.builder().value(ValueSet.DESCRIPTIVE).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class VariableType extends Code {
         super(builder);
     }
 
-    public static VariableType of(java.lang.String value) {
-        return VariableType.builder().value(value).build();
+    public static VariableType of(ValueSet value) {
+        switch (value) {
+        case DICHOTOMOUS:
+            return DICHOTOMOUS;
+        case CONTINUOUS:
+            return CONTINUOUS;
+        case DESCRIPTIVE:
+            return DESCRIPTIVE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static VariableType of(ValueSet value) {
-        return VariableType.builder().value(value).build();
+    public static VariableType of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return VariableType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return VariableType.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,22 +20,22 @@ public class VisionStatus extends Code {
     /**
      * Active
      */
-    public static final VisionStatus ACTIVE = VisionStatus.of(ValueSet.ACTIVE);
+    public static final VisionStatus ACTIVE = VisionStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
      */
-    public static final VisionStatus CANCELLED = VisionStatus.of(ValueSet.CANCELLED);
+    public static final VisionStatus CANCELLED = VisionStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
      */
-    public static final VisionStatus DRAFT = VisionStatus.of(ValueSet.DRAFT);
+    public static final VisionStatus DRAFT = VisionStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
      */
-    public static final VisionStatus ENTERED_IN_ERROR = VisionStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final VisionStatus ENTERED_IN_ERROR = VisionStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class VisionStatus extends Code {
         super(builder);
     }
 
-    public static VisionStatus of(java.lang.String value) {
-        return VisionStatus.builder().value(value).build();
+    public static VisionStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static VisionStatus of(ValueSet value) {
-        return VisionStatus.builder().value(value).build();
+    public static VisionStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return VisionStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return VisionStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

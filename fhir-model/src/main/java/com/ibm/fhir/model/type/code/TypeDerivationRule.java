@@ -20,12 +20,12 @@ public class TypeDerivationRule extends Code {
     /**
      * Specialization
      */
-    public static final TypeDerivationRule SPECIALIZATION = TypeDerivationRule.of(ValueSet.SPECIALIZATION);
+    public static final TypeDerivationRule SPECIALIZATION = TypeDerivationRule.builder().value(ValueSet.SPECIALIZATION).build();
 
     /**
      * Constraint
      */
-    public static final TypeDerivationRule CONSTRAINT = TypeDerivationRule.of(ValueSet.CONSTRAINT);
+    public static final TypeDerivationRule CONSTRAINT = TypeDerivationRule.builder().value(ValueSet.CONSTRAINT).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class TypeDerivationRule extends Code {
         super(builder);
     }
 
-    public static TypeDerivationRule of(java.lang.String value) {
-        return TypeDerivationRule.builder().value(value).build();
+    public static TypeDerivationRule of(ValueSet value) {
+        switch (value) {
+        case SPECIALIZATION:
+            return SPECIALIZATION;
+        case CONSTRAINT:
+            return CONSTRAINT;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static TypeDerivationRule of(ValueSet value) {
-        return TypeDerivationRule.builder().value(value).build();
+    public static TypeDerivationRule of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return TypeDerivationRule.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TypeDerivationRule.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

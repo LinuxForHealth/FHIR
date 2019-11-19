@@ -20,12 +20,12 @@ public class SpecimenContainedPreference extends Code {
     /**
      * Preferred
      */
-    public static final SpecimenContainedPreference PREFERRED = SpecimenContainedPreference.of(ValueSet.PREFERRED);
+    public static final SpecimenContainedPreference PREFERRED = SpecimenContainedPreference.builder().value(ValueSet.PREFERRED).build();
 
     /**
      * Alternate
      */
-    public static final SpecimenContainedPreference ALTERNATE = SpecimenContainedPreference.of(ValueSet.ALTERNATE);
+    public static final SpecimenContainedPreference ALTERNATE = SpecimenContainedPreference.builder().value(ValueSet.ALTERNATE).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class SpecimenContainedPreference extends Code {
         super(builder);
     }
 
-    public static SpecimenContainedPreference of(java.lang.String value) {
-        return SpecimenContainedPreference.builder().value(value).build();
+    public static SpecimenContainedPreference of(ValueSet value) {
+        switch (value) {
+        case PREFERRED:
+            return PREFERRED;
+        case ALTERNATE:
+            return ALTERNATE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static SpecimenContainedPreference of(ValueSet value) {
-        return SpecimenContainedPreference.builder().value(value).build();
+    public static SpecimenContainedPreference of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return SpecimenContainedPreference.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SpecimenContainedPreference.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

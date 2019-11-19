@@ -20,22 +20,22 @@ public class DeviceMetricCategory extends Code {
     /**
      * Measurement
      */
-    public static final DeviceMetricCategory MEASUREMENT = DeviceMetricCategory.of(ValueSet.MEASUREMENT);
+    public static final DeviceMetricCategory MEASUREMENT = DeviceMetricCategory.builder().value(ValueSet.MEASUREMENT).build();
 
     /**
      * Setting
      */
-    public static final DeviceMetricCategory SETTING = DeviceMetricCategory.of(ValueSet.SETTING);
+    public static final DeviceMetricCategory SETTING = DeviceMetricCategory.builder().value(ValueSet.SETTING).build();
 
     /**
      * Calculation
      */
-    public static final DeviceMetricCategory CALCULATION = DeviceMetricCategory.of(ValueSet.CALCULATION);
+    public static final DeviceMetricCategory CALCULATION = DeviceMetricCategory.builder().value(ValueSet.CALCULATION).build();
 
     /**
      * Unspecified
      */
-    public static final DeviceMetricCategory UNSPECIFIED = DeviceMetricCategory.of(ValueSet.UNSPECIFIED);
+    public static final DeviceMetricCategory UNSPECIFIED = DeviceMetricCategory.builder().value(ValueSet.UNSPECIFIED).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class DeviceMetricCategory extends Code {
         super(builder);
     }
 
-    public static DeviceMetricCategory of(java.lang.String value) {
-        return DeviceMetricCategory.builder().value(value).build();
+    public static DeviceMetricCategory of(ValueSet value) {
+        switch (value) {
+        case MEASUREMENT:
+            return MEASUREMENT;
+        case SETTING:
+            return SETTING;
+        case CALCULATION:
+            return CALCULATION;
+        case UNSPECIFIED:
+            return UNSPECIFIED;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DeviceMetricCategory of(ValueSet value) {
-        return DeviceMetricCategory.builder().value(value).build();
+    public static DeviceMetricCategory of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DeviceMetricCategory.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DeviceMetricCategory.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

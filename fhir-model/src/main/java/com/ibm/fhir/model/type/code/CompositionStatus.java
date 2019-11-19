@@ -20,22 +20,22 @@ public class CompositionStatus extends Code {
     /**
      * Preliminary
      */
-    public static final CompositionStatus PRELIMINARY = CompositionStatus.of(ValueSet.PRELIMINARY);
+    public static final CompositionStatus PRELIMINARY = CompositionStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
      */
-    public static final CompositionStatus FINAL = CompositionStatus.of(ValueSet.FINAL);
+    public static final CompositionStatus FINAL = CompositionStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
      */
-    public static final CompositionStatus AMENDED = CompositionStatus.of(ValueSet.AMENDED);
+    public static final CompositionStatus AMENDED = CompositionStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Entered in Error
      */
-    public static final CompositionStatus ENTERED_IN_ERROR = CompositionStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final CompositionStatus ENTERED_IN_ERROR = CompositionStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class CompositionStatus extends Code {
         super(builder);
     }
 
-    public static CompositionStatus of(java.lang.String value) {
-        return CompositionStatus.builder().value(value).build();
+    public static CompositionStatus of(ValueSet value) {
+        switch (value) {
+        case PRELIMINARY:
+            return PRELIMINARY;
+        case FINAL:
+            return FINAL;
+        case AMENDED:
+            return AMENDED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static CompositionStatus of(ValueSet value) {
-        return CompositionStatus.builder().value(value).build();
+    public static CompositionStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return CompositionStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CompositionStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

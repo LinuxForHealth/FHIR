@@ -20,22 +20,22 @@ public class EnrollmentRequestStatus extends Code {
     /**
      * Active
      */
-    public static final EnrollmentRequestStatus ACTIVE = EnrollmentRequestStatus.of(ValueSet.ACTIVE);
+    public static final EnrollmentRequestStatus ACTIVE = EnrollmentRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
      */
-    public static final EnrollmentRequestStatus CANCELLED = EnrollmentRequestStatus.of(ValueSet.CANCELLED);
+    public static final EnrollmentRequestStatus CANCELLED = EnrollmentRequestStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
      */
-    public static final EnrollmentRequestStatus DRAFT = EnrollmentRequestStatus.of(ValueSet.DRAFT);
+    public static final EnrollmentRequestStatus DRAFT = EnrollmentRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
      */
-    public static final EnrollmentRequestStatus ENTERED_IN_ERROR = EnrollmentRequestStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final EnrollmentRequestStatus ENTERED_IN_ERROR = EnrollmentRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class EnrollmentRequestStatus extends Code {
         super(builder);
     }
 
-    public static EnrollmentRequestStatus of(java.lang.String value) {
-        return EnrollmentRequestStatus.builder().value(value).build();
+    public static EnrollmentRequestStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static EnrollmentRequestStatus of(ValueSet value) {
-        return EnrollmentRequestStatus.builder().value(value).build();
+    public static EnrollmentRequestStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return EnrollmentRequestStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EnrollmentRequestStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

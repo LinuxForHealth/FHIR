@@ -17,23 +17,23 @@ import javax.annotation.Generated;
 
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TypeRestfulInteraction extends Code {
-    public static final TypeRestfulInteraction READ = TypeRestfulInteraction.of(ValueSet.READ);
+    public static final TypeRestfulInteraction READ = TypeRestfulInteraction.builder().value(ValueSet.READ).build();
 
-    public static final TypeRestfulInteraction VREAD = TypeRestfulInteraction.of(ValueSet.VREAD);
+    public static final TypeRestfulInteraction VREAD = TypeRestfulInteraction.builder().value(ValueSet.VREAD).build();
 
-    public static final TypeRestfulInteraction UPDATE = TypeRestfulInteraction.of(ValueSet.UPDATE);
+    public static final TypeRestfulInteraction UPDATE = TypeRestfulInteraction.builder().value(ValueSet.UPDATE).build();
 
-    public static final TypeRestfulInteraction PATCH = TypeRestfulInteraction.of(ValueSet.PATCH);
+    public static final TypeRestfulInteraction PATCH = TypeRestfulInteraction.builder().value(ValueSet.PATCH).build();
 
-    public static final TypeRestfulInteraction DELETE = TypeRestfulInteraction.of(ValueSet.DELETE);
+    public static final TypeRestfulInteraction DELETE = TypeRestfulInteraction.builder().value(ValueSet.DELETE).build();
 
-    public static final TypeRestfulInteraction HISTORY_INSTANCE = TypeRestfulInteraction.of(ValueSet.HISTORY_INSTANCE);
+    public static final TypeRestfulInteraction HISTORY_INSTANCE = TypeRestfulInteraction.builder().value(ValueSet.HISTORY_INSTANCE).build();
 
-    public static final TypeRestfulInteraction HISTORY_TYPE = TypeRestfulInteraction.of(ValueSet.HISTORY_TYPE);
+    public static final TypeRestfulInteraction HISTORY_TYPE = TypeRestfulInteraction.builder().value(ValueSet.HISTORY_TYPE).build();
 
-    public static final TypeRestfulInteraction CREATE = TypeRestfulInteraction.of(ValueSet.CREATE);
+    public static final TypeRestfulInteraction CREATE = TypeRestfulInteraction.builder().value(ValueSet.CREATE).build();
 
-    public static final TypeRestfulInteraction SEARCH_TYPE = TypeRestfulInteraction.of(ValueSet.SEARCH_TYPE);
+    public static final TypeRestfulInteraction SEARCH_TYPE = TypeRestfulInteraction.builder().value(ValueSet.SEARCH_TYPE).build();
 
     private volatile int hashCode;
 
@@ -41,20 +41,41 @@ public class TypeRestfulInteraction extends Code {
         super(builder);
     }
 
-    public static TypeRestfulInteraction of(java.lang.String value) {
-        return TypeRestfulInteraction.builder().value(value).build();
+    public static TypeRestfulInteraction of(ValueSet value) {
+        switch (value) {
+        case READ:
+            return READ;
+        case VREAD:
+            return VREAD;
+        case UPDATE:
+            return UPDATE;
+        case PATCH:
+            return PATCH;
+        case DELETE:
+            return DELETE;
+        case HISTORY_INSTANCE:
+            return HISTORY_INSTANCE;
+        case HISTORY_TYPE:
+            return HISTORY_TYPE;
+        case CREATE:
+            return CREATE;
+        case SEARCH_TYPE:
+            return SEARCH_TYPE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static TypeRestfulInteraction of(ValueSet value) {
-        return TypeRestfulInteraction.builder().value(value).build();
+    public static TypeRestfulInteraction of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return TypeRestfulInteraction.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TypeRestfulInteraction.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

@@ -20,32 +20,32 @@ public class ActionSelectionBehavior extends Code {
     /**
      * Any
      */
-    public static final ActionSelectionBehavior ANY = ActionSelectionBehavior.of(ValueSet.ANY);
+    public static final ActionSelectionBehavior ANY = ActionSelectionBehavior.builder().value(ValueSet.ANY).build();
 
     /**
      * All
      */
-    public static final ActionSelectionBehavior ALL = ActionSelectionBehavior.of(ValueSet.ALL);
+    public static final ActionSelectionBehavior ALL = ActionSelectionBehavior.builder().value(ValueSet.ALL).build();
 
     /**
      * All Or None
      */
-    public static final ActionSelectionBehavior ALL_OR_NONE = ActionSelectionBehavior.of(ValueSet.ALL_OR_NONE);
+    public static final ActionSelectionBehavior ALL_OR_NONE = ActionSelectionBehavior.builder().value(ValueSet.ALL_OR_NONE).build();
 
     /**
      * Exactly One
      */
-    public static final ActionSelectionBehavior EXACTLY_ONE = ActionSelectionBehavior.of(ValueSet.EXACTLY_ONE);
+    public static final ActionSelectionBehavior EXACTLY_ONE = ActionSelectionBehavior.builder().value(ValueSet.EXACTLY_ONE).build();
 
     /**
      * At Most One
      */
-    public static final ActionSelectionBehavior AT_MOST_ONE = ActionSelectionBehavior.of(ValueSet.AT_MOST_ONE);
+    public static final ActionSelectionBehavior AT_MOST_ONE = ActionSelectionBehavior.builder().value(ValueSet.AT_MOST_ONE).build();
 
     /**
      * One Or More
      */
-    public static final ActionSelectionBehavior ONE_OR_MORE = ActionSelectionBehavior.of(ValueSet.ONE_OR_MORE);
+    public static final ActionSelectionBehavior ONE_OR_MORE = ActionSelectionBehavior.builder().value(ValueSet.ONE_OR_MORE).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class ActionSelectionBehavior extends Code {
         super(builder);
     }
 
-    public static ActionSelectionBehavior of(java.lang.String value) {
-        return ActionSelectionBehavior.builder().value(value).build();
+    public static ActionSelectionBehavior of(ValueSet value) {
+        switch (value) {
+        case ANY:
+            return ANY;
+        case ALL:
+            return ALL;
+        case ALL_OR_NONE:
+            return ALL_OR_NONE;
+        case EXACTLY_ONE:
+            return EXACTLY_ONE;
+        case AT_MOST_ONE:
+            return AT_MOST_ONE;
+        case ONE_OR_MORE:
+            return ONE_OR_MORE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ActionSelectionBehavior of(ValueSet value) {
-        return ActionSelectionBehavior.builder().value(value).build();
+    public static ActionSelectionBehavior of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActionSelectionBehavior.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActionSelectionBehavior.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

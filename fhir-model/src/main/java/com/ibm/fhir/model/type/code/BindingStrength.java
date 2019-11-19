@@ -20,22 +20,22 @@ public class BindingStrength extends Code {
     /**
      * Required
      */
-    public static final BindingStrength REQUIRED = BindingStrength.of(ValueSet.REQUIRED);
+    public static final BindingStrength REQUIRED = BindingStrength.builder().value(ValueSet.REQUIRED).build();
 
     /**
      * Extensible
      */
-    public static final BindingStrength EXTENSIBLE = BindingStrength.of(ValueSet.EXTENSIBLE);
+    public static final BindingStrength EXTENSIBLE = BindingStrength.builder().value(ValueSet.EXTENSIBLE).build();
 
     /**
      * Preferred
      */
-    public static final BindingStrength PREFERRED = BindingStrength.of(ValueSet.PREFERRED);
+    public static final BindingStrength PREFERRED = BindingStrength.builder().value(ValueSet.PREFERRED).build();
 
     /**
      * Example
      */
-    public static final BindingStrength EXAMPLE = BindingStrength.of(ValueSet.EXAMPLE);
+    public static final BindingStrength EXAMPLE = BindingStrength.builder().value(ValueSet.EXAMPLE).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class BindingStrength extends Code {
         super(builder);
     }
 
-    public static BindingStrength of(java.lang.String value) {
-        return BindingStrength.builder().value(value).build();
+    public static BindingStrength of(ValueSet value) {
+        switch (value) {
+        case REQUIRED:
+            return REQUIRED;
+        case EXTENSIBLE:
+            return EXTENSIBLE;
+        case PREFERRED:
+            return PREFERRED;
+        case EXAMPLE:
+            return EXAMPLE;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static BindingStrength of(ValueSet value) {
-        return BindingStrength.builder().value(value).build();
+    public static BindingStrength of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return BindingStrength.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return BindingStrength.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

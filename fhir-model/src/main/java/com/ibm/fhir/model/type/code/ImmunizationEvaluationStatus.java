@@ -17,9 +17,9 @@ import javax.annotation.Generated;
 
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationEvaluationStatus extends Code {
-    public static final ImmunizationEvaluationStatus COMPLETED = ImmunizationEvaluationStatus.of(ValueSet.COMPLETED);
+    public static final ImmunizationEvaluationStatus COMPLETED = ImmunizationEvaluationStatus.builder().value(ValueSet.COMPLETED).build();
 
-    public static final ImmunizationEvaluationStatus ENTERED_IN_ERROR = ImmunizationEvaluationStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ImmunizationEvaluationStatus ENTERED_IN_ERROR = ImmunizationEvaluationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -27,20 +27,27 @@ public class ImmunizationEvaluationStatus extends Code {
         super(builder);
     }
 
-    public static ImmunizationEvaluationStatus of(java.lang.String value) {
-        return ImmunizationEvaluationStatus.builder().value(value).build();
+    public static ImmunizationEvaluationStatus of(ValueSet value) {
+        switch (value) {
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static ImmunizationEvaluationStatus of(ValueSet value) {
-        return ImmunizationEvaluationStatus.builder().value(value).build();
+    public static ImmunizationEvaluationStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return ImmunizationEvaluationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ImmunizationEvaluationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

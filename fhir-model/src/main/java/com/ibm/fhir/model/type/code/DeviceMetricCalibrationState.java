@@ -20,22 +20,22 @@ public class DeviceMetricCalibrationState extends Code {
     /**
      * Not Calibrated
      */
-    public static final DeviceMetricCalibrationState NOT_CALIBRATED = DeviceMetricCalibrationState.of(ValueSet.NOT_CALIBRATED);
+    public static final DeviceMetricCalibrationState NOT_CALIBRATED = DeviceMetricCalibrationState.builder().value(ValueSet.NOT_CALIBRATED).build();
 
     /**
      * Calibration Required
      */
-    public static final DeviceMetricCalibrationState CALIBRATION_REQUIRED = DeviceMetricCalibrationState.of(ValueSet.CALIBRATION_REQUIRED);
+    public static final DeviceMetricCalibrationState CALIBRATION_REQUIRED = DeviceMetricCalibrationState.builder().value(ValueSet.CALIBRATION_REQUIRED).build();
 
     /**
      * Calibrated
      */
-    public static final DeviceMetricCalibrationState CALIBRATED = DeviceMetricCalibrationState.of(ValueSet.CALIBRATED);
+    public static final DeviceMetricCalibrationState CALIBRATED = DeviceMetricCalibrationState.builder().value(ValueSet.CALIBRATED).build();
 
     /**
      * Unspecified
      */
-    public static final DeviceMetricCalibrationState UNSPECIFIED = DeviceMetricCalibrationState.of(ValueSet.UNSPECIFIED);
+    public static final DeviceMetricCalibrationState UNSPECIFIED = DeviceMetricCalibrationState.builder().value(ValueSet.UNSPECIFIED).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class DeviceMetricCalibrationState extends Code {
         super(builder);
     }
 
-    public static DeviceMetricCalibrationState of(java.lang.String value) {
-        return DeviceMetricCalibrationState.builder().value(value).build();
+    public static DeviceMetricCalibrationState of(ValueSet value) {
+        switch (value) {
+        case NOT_CALIBRATED:
+            return NOT_CALIBRATED;
+        case CALIBRATION_REQUIRED:
+            return CALIBRATION_REQUIRED;
+        case CALIBRATED:
+            return CALIBRATED;
+        case UNSPECIFIED:
+            return UNSPECIFIED;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static DeviceMetricCalibrationState of(ValueSet value) {
-        return DeviceMetricCalibrationState.builder().value(value).build();
+    public static DeviceMetricCalibrationState of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return DeviceMetricCalibrationState.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DeviceMetricCalibrationState.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override

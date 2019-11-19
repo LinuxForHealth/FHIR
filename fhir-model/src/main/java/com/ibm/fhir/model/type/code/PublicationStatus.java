@@ -20,22 +20,22 @@ public class PublicationStatus extends Code {
     /**
      * Draft
      */
-    public static final PublicationStatus DRAFT = PublicationStatus.of(ValueSet.DRAFT);
+    public static final PublicationStatus DRAFT = PublicationStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
      */
-    public static final PublicationStatus ACTIVE = PublicationStatus.of(ValueSet.ACTIVE);
+    public static final PublicationStatus ACTIVE = PublicationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Retired
      */
-    public static final PublicationStatus RETIRED = PublicationStatus.of(ValueSet.RETIRED);
+    public static final PublicationStatus RETIRED = PublicationStatus.builder().value(ValueSet.RETIRED).build();
 
     /**
      * Unknown
      */
-    public static final PublicationStatus UNKNOWN = PublicationStatus.of(ValueSet.UNKNOWN);
+    public static final PublicationStatus UNKNOWN = PublicationStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class PublicationStatus extends Code {
         super(builder);
     }
 
-    public static PublicationStatus of(java.lang.String value) {
-        return PublicationStatus.builder().value(value).build();
+    public static PublicationStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ACTIVE:
+            return ACTIVE;
+        case RETIRED:
+            return RETIRED;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalArgumentException(value.name());
+        }
     }
 
-    public static PublicationStatus of(ValueSet value) {
-        return PublicationStatus.builder().value(value).build();
+    public static PublicationStatus of(java.lang.String value) {
+        return of(ValueSet.valueOf(value));
     }
 
     public static String string(java.lang.String value) {
-        return PublicationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     public static Code code(java.lang.String value) {
-        return PublicationStatus.builder().value(value).build();
+        return of(ValueSet.valueOf(value));
     }
 
     @Override
