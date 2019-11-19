@@ -22,24 +22,14 @@ import com.ibm.fhir.search.parameters.Parameter;
 public interface IValueTypes {
 
     /**
-     * checks the resource value types against the indicators of the search type DateRange search.
+     * checks whether the resource value type must be an Instant
      * 
      * @param resourceType
      * @param queryParm
-     * @return
+     * @return false if the resource value type contains any type other than Instant (even if Instant is present as well)
      * @throws FHIRSearchException
      */
-    public boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException;
-
-    /**
-     * checks the resource value types against the indicators of the search type Date search.
-     * 
-     * @param resourceType
-     * @param queryParm
-     * @return
-     * @throws FHIRSearchException
-     */
-    public boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException;
+    public boolean isInstantSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException;
 
     /**
      * checks the resource value types against the indicators of the search type Range search.

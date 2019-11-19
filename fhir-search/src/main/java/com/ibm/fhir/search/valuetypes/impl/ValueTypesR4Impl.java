@@ -29,23 +29,17 @@ import javax.json.JsonValue;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.type.Count;
-import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.UnsignedInt;
-import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.valuetypes.IValueTypes;
 import com.ibm.fhir.search.valuetypes.cache.TenantSpecificValueTypesCache;
 
 /**
- * ValueTypes R4 Impl
- * 
- * @author pbastide
- *
+ * ValueTypes Implementation for FHIR R4
  */
 public class ValueTypesR4Impl implements IValueTypes {
 
@@ -76,17 +70,9 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     @Override
-    public boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
-        return getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
-    }
-
-    @Override
-    public boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
-        // Date Search does not support Date and Partial DateTime in a Range Search.
-
+    public boolean isInstantSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
         Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getName());
-        return Type.TOKEN.compareTo(queryParm.getType()) == 0 || valueTypes.contains(com.ibm.fhir.model.type.Date.class)
-                || valueTypes.contains(DateTime.class) || valueTypes.contains(Instant.class);
+        return valueTypes.size() == 1 && valueTypes.iterator().next().equals(Instant.class);
     }
 
     @Override

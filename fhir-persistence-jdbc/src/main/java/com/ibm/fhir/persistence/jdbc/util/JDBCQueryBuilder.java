@@ -48,11 +48,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Location;
-import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.code.IssueSeverity;
-import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -109,12 +106,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         return ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm);
     }
 
-    public static final boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
-        return ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm);
-    }
-
-    public static final boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
-        return ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm);
+    public static final boolean isInstantSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
+        return ValueTypesFactory.getValueTypesProcessor().isInstantSearch(resourceType, queryParm);
     }
 
     public JDBCQueryBuilder(ParameterDAO parameterDao, ResourceDAO resourceDao) {
@@ -766,20 +759,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         Instant datetime, start = null, end = null;
         SqlQueryData queryData;
         List<Timestamp> bindVariables = new ArrayList<>();
-        boolean isDateSearch = isDateSearch(resourceType, queryParm);
-        boolean isDateRangeSearch = isDateRangeSearch(resourceType, queryParm);
-
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("isDateSearch=" + isDateSearch + "  isDateRangeSearch=" + isDateRangeSearch);
-        }
-        if (!isDateSearch && !isDateRangeSearch) {
-            throw new FHIRPersistenceException("Cannot process query parameter '" + queryParm.getName() + "' as a date.").withIssue(
-                    Issue.builder()
-                         .code(IssueType.INVALID)
-                         .severity(IssueSeverity.WARNING)
-                         .build()
-                    );
-        }
+        boolean isInstantSearch = isInstantSearch(resourceType, queryParm);
 
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
@@ -794,52 +774,26 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             }
 
             datetime = QueryBuilderUtil.getInstant(value.getValueDate());
-            // If the dateTime value is fully specified down to the microsecond, build a where clause segment with strict equals.
-            if (!value.getValueDate().isPartial() && QueryBuilderUtil.hasSubSeconds(value.getValueDate().getValue())) {
-                start = datetime;
-                end = datetime;
-                if (isDateSearch) {
-                    whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
-                                      .append(operator.value())
-                                      .append(BIND_VAR);
-                    bindVariables.add(Timestamp.from(datetime));
-                    whereClauseSegment.append(RIGHT_PAREN);
-                }
+            // If the search parameter value includes fractional seconds and the target value is an instant, then use equals
+            if (!value.getValueDate().isPartial() && QueryBuilderUtil.hasSubSeconds(value.getValueDate().getValue()) && isInstantSearch) {
+                whereClauseSegment.append(LEFT_PAREN);
+                whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
+                                  .append(operator.value())
+                                  .append(BIND_VAR);
+                bindVariables.add(Timestamp.from(datetime));
+                whereClauseSegment.append(RIGHT_PAREN);
+                whereClauseSegment.append(RIGHT_PAREN);
             } else {
                 // For everything else, a duration is calculated and a where segment is generated to cover the implicit range.
                 // For example, if the dateTime is specified down to the day, a range where segment is generated to cover that day.
-
                 start = datetime;
-                end = QueryBuilderUtil.getEnd(value.getValueDate());
+                if (QueryBuilderUtil.hasSubSeconds(value.getValueDate().getValue())) {
+                    end = datetime;
+                } else {
+                    end = QueryBuilderUtil.getEnd(value.getValueDate(), false);
+                }
+                
 
-                if (isDateSearch) {
-                    whereClauseSegment.append(LEFT_PAREN);
-                    if (operator.equals(JDBCOperator.EQ)) {
-                        // TODO: can we combine this with the dateRange logic below?
-                        // The main difference is here we use DATE_VALUE instead of DATE_START/DATE_END
-                        // because the DATE_VALUE is precise and has no implicit range
-                        whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
-                                          .append(JDBCOperator.GTE.value())
-                                          .append(BIND_VAR)
-                                          .append(JDBCOperator.AND.value())
-                                          .append(tableAlias + DOT).append(DATE_VALUE)
-                                          .append(JDBCOperator.LT.value())
-                                          .append(BIND_VAR);
-                        bindVariables.add(Timestamp.from(start));
-                        bindVariables.add(Timestamp.from(end));
-                    } else {
-                        whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value()).append(BIND_VAR);
-                        bindVariables.add(Timestamp.from(start));
-                    }
-                    whereClauseSegment.append(RIGHT_PAREN);
-                }
-            }
-            
-            if (isDateRangeSearch) {
-                if (isDateSearch) {
-                    whereClauseSegment.append(JDBCOperator.OR.value());
-                }
                 whereClauseSegment.append(LEFT_PAREN);
                 if (value.getPrefix() == null) {
                     handleDateRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, Prefix.EQ);
@@ -847,9 +801,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                     handleDateRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, value.getPrefix());
                 }
                 whereClauseSegment.append(RIGHT_PAREN);
+                whereClauseSegment.append(RIGHT_PAREN);
+                parmValueProcessed = true;
             }
-            whereClauseSegment.append(RIGHT_PAREN);
-            parmValueProcessed = true;
         }
         whereClauseSegment.append(RIGHT_PAREN);
 
@@ -874,13 +828,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         case EB:
             // the range of the search value does not overlap with the range of the target value,
             // and the range above the search value contains the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LTE.value()).append(BIND_VAR);
             bindVariables.add(Timestamp.from(start));
             break;
         case SA:
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GT.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             bindVariables.add(Timestamp.from(end));
             break;
         case GE:
@@ -944,7 +898,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             // the range of the search value does not fully contain the range of the target value
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.OR.value());
-            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.GT.value()).append(BIND_VAR);
             bindVariables.add(Timestamp.from(start));
             bindVariables.add(Timestamp.from(end));
             break;
@@ -953,7 +907,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             // the range of the search value fully contains the range of the target value
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
-            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.LTE.value()).append(BIND_VAR);
             bindVariables.add(Timestamp.from(start));
             bindVariables.add(Timestamp.from(end));
             break;

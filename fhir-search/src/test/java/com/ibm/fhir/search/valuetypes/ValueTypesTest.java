@@ -15,7 +15,6 @@ import java.util.Set;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.model.resource.Account;
 import com.ibm.fhir.model.resource.ActivityDefinition;
 import com.ibm.fhir.model.resource.AdverseEvent;
 import com.ibm.fhir.model.resource.Appointment;
@@ -179,50 +178,32 @@ public class ValueTypesTest extends BaseSearchTest {
     }
 
     @Test
-    public void testDateRangeSearch() throws FHIRSearchException {
-        Class<?> resourceType = Account.class;
-
-        String name = "period";
-        Parameter queryParm = new Parameter(Type.DATE, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm));
-
-        name = "subject";
-        queryParm = new Parameter(Type.REFERENCE, name, null, name);
-        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm));
-
-    }
-
-    @Test
     public void testDateSearch() throws FHIRSearchException {
         Class<?> resourceType = ActivityDefinition.class;
 
         String name = "date";
         Parameter queryParm = new Parameter(Type.DATE, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+        assertFalse(ValueTypesFactory.getValueTypesProcessor().isInstantSearch(resourceType, queryParm));
 
         name = "depends-on";
         queryParm = new Parameter(Type.REFERENCE, name, null, name);
-        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+        assertFalse(ValueTypesFactory.getValueTypesProcessor().isInstantSearch(resourceType, queryParm));
 
-        resourceType = Account.class;
-        name = "subject";
-        queryParm = new Parameter(Type.REFERENCE, name, null, name);
-        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
-
+        // Appointment-date selects Appointment.start which is of type Instant
         resourceType = Appointment.class;
         name = "date";
         queryParm = new Parameter(Type.DATE, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+        assertTrue(ValueTypesFactory.getValueTypesProcessor().isInstantSearch(resourceType, queryParm));
 
         resourceType = CapabilityStatement.class;
         name = "date";
         queryParm = new Parameter(Type.DATE, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+        assertFalse(ValueTypesFactory.getValueTypesProcessor().isInstantSearch(resourceType, queryParm));
 
         resourceType = ClaimResponse.class;
         name = "payment-date";
         queryParm = new Parameter(Type.DATE, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+        assertFalse(ValueTypesFactory.getValueTypesProcessor().isInstantSearch(resourceType, queryParm));
 
     }
 

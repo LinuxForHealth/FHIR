@@ -16,6 +16,7 @@ import static com.ibm.fhir.model.type.code.SearchParamType.URI;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.SearchParamType;
@@ -208,7 +210,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, instant);
             }
             p.setName(searchParamCode);
-            p.setValueDate(Timestamp.from(instant.getValue().toInstant()));
+            Instant instantValue = instant.getValue().toInstant();
+            p.setValueDateStart(Timestamp.from(instantValue));
+            p.setValueDate(Timestamp.from(instantValue));
+            p.setValueDateEnd(Timestamp.from(instantValue));
             result.add(p);
         }
         return false;
@@ -435,13 +440,13 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         if (period.getStart() == null || period.getStart().getValue() == null) {
             p.setValueDateStart(SMALLEST_TIMESTAMP);
         } else {
-            java.time.Instant startInst = QueryBuilderUtil.getInstant(period.getStart());
+            java.time.Instant startInst = QueryBuilderUtil.getStart(period.getStart());
             p.setValueDateStart(Timestamp.from(startInst));
         }
         if (period.getEnd() == null || period.getEnd().getValue() == null) {
             p.setValueDateEnd(LARGEST_TIMESTAMP);
         } else {
-            java.time.Instant endInst = QueryBuilderUtil.getInstant(period.getEnd());
+            java.time.Instant endInst = QueryBuilderUtil.getEnd(period.getEnd(), false);
             p.setValueDateEnd(Timestamp.from(endInst));
         }
         result.add(p);
@@ -489,33 +494,37 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         // The parameter isn't added unless either low or high holds a value
         Parameter p = new Parameter();
         p.setName(searchParamCode);
-        if (range.getLow() != null && range.getLow().getValue() != null && range.getLow().getValue().getValue() != null) {
-            if (range.getLow().getSystem() != null) {
-                p.setValueSystem(range.getLow().getSystem().getValue());
+        SimpleQuantity low = range.getLow();
+        SimpleQuantity high = range.getHigh();
+        // TODO: create two different parameters if both coded and display units are present (e.g. see Quantity)
+        if (low != null && low.getValue() != null && low.getValue().getValue() != null) {
+            if (low.getSystem() != null) {
+                p.setValueSystem(low.getSystem().getValue());
             }
-            if (range.getLow().getCode() != null) {
-                p.setValueCode(range.getLow().getCode().getValue());
-            } else if (range.getLow().getUnit() != null) {
-                p.setValueCode(range.getLow().getUnit().getValue());
+            if (low.getCode() != null) {
+                p.setValueCode(low.getCode().getValue());
+            } else if (low.getUnit() != null) {
+                p.setValueCode(low.getUnit().getValue());
             }
-            p.setValueNumberLow(range.getLow().getValue().getValue());
+            p.setValueNumberLow(low.getValue().getValue());
 
             // The unit and code/system elements of the low or high elements SHALL match
-            if (range.getHigh() != null && range.getHigh().getValue() != null && range.getHigh().getValue().getValue() != null) {
-                p.setValueNumberHigh(range.getHigh().getValue().getValue());
+            if (high != null && high.getValue() != null && high.getValue().getValue() != null) {
+                p.setValueNumberHigh(high.getValue().getValue());
             }
 
             result.add(p);
-        } else if (range.getHigh() != null && range.getHigh().getValue() != null && range.getHigh().getValue().getValue() != null) {
-            if (range.getHigh().getSystem() != null) {
-                p.setValueSystem(range.getHigh().getSystem().getValue());
+        } else if (high != null && high.getValue() != null && high.getValue().getValue() != null) {
+            if (high.getSystem() != null) {
+                p.setValueSystem(high.getSystem().getValue());
             }
-            if (range.getHigh().getCode() != null) {
-                p.setValueCode(range.getHigh().getCode().getValue());
-            } else if (range.getHigh().getUnit() != null) {
-                p.setValueCode(range.getHigh().getUnit().getValue());
+            if (high.getCode() != null) {
+                p.setValueCode(high.getCode().getValue());
+            } else if (high.getUnit() != null) {
+                p.setValueCode(high.getUnit().getValue());
             }
-            p.setValueNumberHigh(range.getHigh().getValue().getValue());
+            p.setValueNumberHigh(high.getValue().getValue());
+            
             result.add(p);
         }
         return false;
@@ -568,7 +577,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      */
     private void setDateValues(Parameter p, Date date) {
         java.time.Instant start = QueryBuilderUtil.getStart(date);
-        java.time.Instant end = QueryBuilderUtil.getEnd(date);
+        java.time.Instant end = QueryBuilderUtil.getEnd(date, false);
         setDateValues(p, start, end);
     }
 
@@ -581,18 +590,21 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * @throws NullPointerException if p or dateTime are null
      */
     private void setDateValues(Parameter p, DateTime dateTime) {
-        if (dateTime.isPartial()) {
+        if (!QueryBuilderUtil.hasSubSeconds(dateTime.getValue())) {
             java.time.Instant start = QueryBuilderUtil.getStart(dateTime);
-            java.time.Instant end = QueryBuilderUtil.getEnd(dateTime);
+            java.time.Instant end = QueryBuilderUtil.getEnd(dateTime, false);
             setDateValues(p, start, end);
         } else {
             // fully specified time including zone, so we can interpret as an instant
-            p.setValueDate(java.sql.Timestamp.from(java.time.Instant.from(dateTime.getValue())));
+            Timestamp timestamp = java.sql.Timestamp.from(java.time.Instant.from(dateTime.getValue()));
+            p.setValueDate(timestamp);
+            p.setValueDateStart(timestamp);
+            p.setValueDateEnd(timestamp);
         }
     }
 
     /**
-     * Set the date values on the {@link Parameter}, adjusting the end time slightly to make it inclusive (which is a TODO to fix).
+     * Set the date values on the {@link Parameter}, adjusting the end time slightly to make it inclusive.
      *
      * @param p
      * @param start
@@ -607,22 +619,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
 
         if (end != null) {
-            Timestamp implicitEndExclusive = Timestamp.from(end);
-            // TODO: Is it possible to avoid this by using <= or BETWEEN instead of < when constructing the query?
-            Timestamp implicitEndInclusive = convertToInclusiveEnd(implicitEndExclusive);
-            p.setValueDateEnd(implicitEndInclusive);
+            p.setValueDateEnd(Timestamp.from(end));
         }
-    }
-
-    /**
-     * Convert a period's end timestamp from an exclusive end timestamp to an inclusive one
-     *
-     * @param exlusiveEndTime
-     * @return inclusiveEndTime
-     */
-    private Timestamp convertToInclusiveEnd(Timestamp exlusiveEndTime) {
-        // Our current schema uses the db2/derby default of 6 decimal places (1000 nanoseconds) for fractional seconds.
-        return Timestamp.from(exlusiveEndTime.toInstant().minusNanos(1000));
     }
 
     private IllegalArgumentException invalidComboException(SearchParamType paramType, Element value) {

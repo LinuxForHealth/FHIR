@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,10 +50,12 @@ public class QueryBuilderUtil {
      * Compute the end time to use as a range filter based on the "partialness"
      * of the given dateTime field.
      * @param dateTime
+     * @param inclusive whether to include the last instant of the implied period or not; 
+     *        for example (12:00:00,12:00:01) vs (12:00:00,12:00:00.999999)
      * @return
      */
-    public static java.time.Instant getEnd(DateTime dateTime) {
-        return getEnd(dateTime.getValue());
+    public static java.time.Instant getEnd(DateTime dateTime, boolean inclusive) {
+        return getEnd(dateTime.getValue(), inclusive);
     }
 
     public static java.time.Instant getStart(DateTime dateTime) {
@@ -63,8 +66,8 @@ public class QueryBuilderUtil {
         return getInstantFromPartial(date.getValue());
     }
 
-    public static java.time.Instant getEnd(Date date) {
-        return getEnd(date.getValue());
+    public static java.time.Instant getEnd(Date date, boolean inclusive) {
+        return getEnd(date.getValue(), inclusive);
     }
 
     public static java.time.Instant getInstantFromPartial(TemporalAccessor ta) {
@@ -97,7 +100,7 @@ public class QueryBuilderUtil {
         return ZonedDateTime.of(result, ZoneOffset.UTC).toInstant();
     }
 
-    public static java.time.Instant getEnd(TemporalAccessor ta) {
+    public static java.time.Instant getEnd(TemporalAccessor ta, boolean inclusive) {
         java.time.Instant result;
         if (ta == null) {
             return null;
@@ -105,13 +108,16 @@ public class QueryBuilderUtil {
         if (ta instanceof ZonedDateTime) {
             if (!hasSubSeconds(ta)) {
                 ta = addOneMinuteOrSecond((ZonedDateTime) ta);
+                ta = minusOneMicroSecond((ZonedDateTime) ta);
             }
             result = ((ZonedDateTime) ta).toInstant();
         } else if (ta instanceof java.time.Instant) {
             if (!hasSubSeconds(ta)) {
                 ta = addOneMinuteOrSecond(((java.time.Instant) ta).atZone(ZoneOffset.UTC));
+                ta = minusOneMicroSecond((ZonedDateTime) ta);
+                ta = ((ZonedDateTime) ta).toInstant();
             }
-            result = ((ZonedDateTime) ta).toInstant();
+            result = (java.time.Instant) ta;
         } else {
             java.time.LocalDateTime local;
 
@@ -135,7 +141,7 @@ public class QueryBuilderUtil {
                 throw new IllegalArgumentException("Invalid partial TemporalAccessor: " + ta.getClass().getName());
             }
 
-            result = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            result = minusOneMicroSecond(ZonedDateTime.of(local, ZoneOffset.UTC)).toInstant();
         }
 
         return result;
@@ -148,6 +154,20 @@ public class QueryBuilderUtil {
             dateTime = dateTime.plusSeconds(60);
         }
         return dateTime;
+    }
+    private static ZonedDateTime minusOneMicroSecond(ZonedDateTime dateTime) {
+        return dateTime.minusNanos(1000);
+    }
+
+    /**
+     * Convert a period's end timestamp from an exclusive end timestamp to an inclusive one
+     *
+     * @param exlusiveEndTime
+     * @return inclusiveEndTime
+     */
+    public static Timestamp minusNanoseconds(Timestamp exlusiveEndTime) {
+        // Our current schema uses the db2/derby default of 6 decimal places (1000 nanoseconds) for fractional seconds.
+        return Timestamp.from(exlusiveEndTime.toInstant().minusNanos(1000));
     }
 
     /**
