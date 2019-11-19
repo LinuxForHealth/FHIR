@@ -2715,20 +2715,20 @@ public class CodeGenerator {
                             ._return(enumConstantName);
                     }
                     cb._default()
-                        ._throw(_new("IllegalArgumentException", args("value.name()")));
+                        ._throw(_new("IllegalStateException", args("value.name()")));
                     cb.end();
                 cb.end().newLine();
                 
                 cb.method(mods("public", "static"), bindingName, "of", args("java.lang.String value"))
-                    ._return("of(ValueSet.valueOf(value))")
+                    ._return("of(ValueSet.from(value))")
                 .end().newLine();
                 
                 cb.method(mods("public", "static"), "String", "string", args("java.lang.String value"))
-                    ._return("of(ValueSet.valueOf(value))")
+                    ._return("of(ValueSet.from(value))")
                 .end().newLine();
                 
                 cb.method(mods("public", "static"), "Code", "code", args("java.lang.String value"))
-                    ._return("of(ValueSet.valueOf(value))")
+                    ._return("of(ValueSet.from(value))")
                 .end().newLine();
                 
                 cb.override();

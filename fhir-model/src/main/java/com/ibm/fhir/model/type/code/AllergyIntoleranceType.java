@@ -40,20 +40,20 @@ public class AllergyIntoleranceType extends Code {
         case INTOLERANCE:
             return INTOLERANCE;
         default:
-            throw new IllegalArgumentException(value.name());
+            throw new IllegalStateException(value.name());
         }
     }
 
     public static AllergyIntoleranceType of(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     @Override

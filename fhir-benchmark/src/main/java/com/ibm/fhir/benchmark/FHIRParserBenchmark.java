@@ -28,15 +28,15 @@ import ca.uhn.fhir.parser.StrictErrorHandler;
 public class FHIRParserBenchmark {
     @State(Scope.Thread)
     public static class FHIRParsers {
-        public FHIRParser jsonParser = FHIRParser.parser(Format.JSON);
-        public FHIRParser xmlParser = FHIRParser.parser(Format.XML);
+        FHIRParser jsonParser = FHIRParser.parser(Format.JSON);
+        FHIRParser xmlParser = FHIRParser.parser(Format.XML);
     }
     
     @State(Scope.Benchmark)
     public static class FHIRParserState {
-        public FhirContext context;
-        public String JSON_SPEC_EXAMPLE;
-        public String XML_SPEC_EXAMPLE;
+        FhirContext context;
+        String JSON_SPEC_EXAMPLE;
+        String XML_SPEC_EXAMPLE;
         
         // JMH will inject the value into the annotated field before any Setup method is called.
         @Param({"valuesets"})

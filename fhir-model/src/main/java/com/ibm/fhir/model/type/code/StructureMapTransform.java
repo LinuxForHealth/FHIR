@@ -145,20 +145,20 @@ public class StructureMapTransform extends Code {
         case CP:
             return CP;
         default:
-            throw new IllegalArgumentException(value.name());
+            throw new IllegalStateException(value.name());
         }
     }
 
     public static StructureMapTransform of(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     @Override

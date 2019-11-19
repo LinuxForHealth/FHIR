@@ -75,20 +75,20 @@ public class QuestionnaireItemOperator extends Code {
         case LESS_OR_EQUALS:
             return LESS_OR_EQUALS;
         default:
-            throw new IllegalArgumentException(value.name());
+            throw new IllegalStateException(value.name());
         }
     }
 
     public static QuestionnaireItemOperator of(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     @Override

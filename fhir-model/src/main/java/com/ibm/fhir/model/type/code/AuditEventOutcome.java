@@ -54,20 +54,20 @@ public class AuditEventOutcome extends Code {
         case OUTCOME_12:
             return OUTCOME_12;
         default:
-            throw new IllegalArgumentException(value.name());
+            throw new IllegalStateException(value.name());
         }
     }
 
     public static AuditEventOutcome of(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     @Override

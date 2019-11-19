@@ -38,20 +38,20 @@ public class ClinicalImpressionStatus extends Code {
         case ENTERED_IN_ERROR:
             return ENTERED_IN_ERROR;
         default:
-            throw new IllegalArgumentException(value.name());
+            throw new IllegalStateException(value.name());
         }
     }
 
     public static ClinicalImpressionStatus of(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return of(ValueSet.valueOf(value));
+        return of(ValueSet.from(value));
     }
 
     @Override
