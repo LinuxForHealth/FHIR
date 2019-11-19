@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.swagger.generator;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -40,7 +42,9 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.DomainResource;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -55,6 +59,22 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
 import com.ibm.fhir.openapi.generator.FHIROpenApiGenerator;
 import com.ibm.fhir.search.util.SearchUtil;
 
+/**
+ * Generate Swagger 2.0 from the FHIR R4 artifacts and object model.
+ * 
+ * <p>
+ * By default, this class will create a separate Swagger definition for each and every resource type;
+ * each with all HTTP interactions enabled.
+ * 
+ * <p>
+ * To limit the output to a given set of resources and/or interactions, pass a set of semicolon-delimited
+ * filter strings of the form {@code ResourceType1(interaction1,interaction2)}.
+ *  
+ * For example: 
+ * <pre>
+ * Patient(create,read,vread,history,search);Contract(create,read,vread,history,search);RiskAssessment(read)
+ * </pre>
+ */
 public class FHIRSwaggerGenerator {
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
@@ -63,101 +83,212 @@ public class FHIRSwaggerGenerator {
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
 
     public static void main(String[] args) throws Exception {
-        /*
-         * for (Class<?> key : structureDefinitionMap.keySet()) { StructureDefinition
-         * structureDefinition = structureDefinitionMap.get(key);
-         * System.out.println("key: " + key + ", value: " +
-         * structureDefinition.getUrl().getValue()); }
-         */
-
+        File file = new File("./src/main/resources/swagger");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        
         Filter filter = null;
         if (args.length == 1) {
             filter = createFilter(args[0]);
         } else {
             filter = createAcceptAllFilter();
         }
-//      filter = createFilter("Patient(create,read,vread,history,search);"
-//          + "Contract(create,read,vread,history,search);"
-//          + "Questionnaire(create,read,vread,history,search);"
-//          + "QuestionnaireResponse(create,read,vread,history,search);"
-//          + "Claim(create,read,vread,history,search);"
-//          + "RiskAssessment(read,vread,history,search)");
-        // filter =
-        // createFilter("Patient(create,read,vread,update,delete,search,history)");
 
+        List<String> classNames = getClassNames();
+        for (String resourceClassName : classNames) {
+            Class<?> resourceModelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + resourceClassName);
+            if (DomainResource.class.isAssignableFrom(resourceModelClass) && filter.acceptResourceType(resourceModelClass)) {
+                
+                JsonObjectBuilder swagger = factory.createObjectBuilder();
+                swagger.add("swagger", "2.0");
+
+                JsonObjectBuilder info = factory.createObjectBuilder();
+                info.add("title", resourceClassName + " API");
+                info.add("description", "The IBM FHIR Server API for " + resourceClassName + " resources.");
+                info.add("version", "4.0.0");
+                swagger.add("info", info);
+
+                swagger.add("basePath", "/fhir-server/api/v4");
+
+                APIConnectAdapter.addApiConnectStuff(swagger);
+
+                JsonArrayBuilder tags = factory.createArrayBuilder();
+                JsonObjectBuilder paths = factory.createObjectBuilder();
+                JsonObjectBuilder definitions = factory.createObjectBuilder();
+                
+                // generate Resource and DomainResource definitions
+                generateDefinition(Resource.class, definitions);
+                generateDefinition(DomainResource.class, definitions);
+                
+                generatePaths(resourceModelClass, paths, filter);
+                JsonObjectBuilder tag = factory.createObjectBuilder();
+                tag.add("name", resourceModelClass.getSimpleName());
+                tags.add(tag);
+                generateDefinition(resourceModelClass, definitions);
+                generateDefinition(Bundle.class, definitions);
+                generateDefinition(OperationOutcome.class, definitions);
+                
+                // generate definition for all the defined Types.
+                for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+                    Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+                    // System.out.println("Type:  " + className);
+                    generateDefinition(typeModelClass, definitions);
+                }
+                
+                // generate definition for all inner classes inside the top level resource.
+                for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+                    String parentClassName = innerClassName.split("\\$")[0];
+                    if (resourceClassName.equals(parentClassName) ||
+                            "DomainResource".equals(parentClassName) ||
+                            "Resource".equals(parentClassName) ||
+                            "Bundle".equals(parentClassName) ||
+                            "OperationOutcome".equals(parentClassName)) {
+                        Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                        // System.out.println("Resource:  " + className);
+                        generateDefinition(innerModelClass, definitions);
+                    }
+                }
+
+                swagger.add("tags", tags);
+                swagger.add("paths", paths);
+
+                JsonObjectBuilder parameters = factory.createObjectBuilder();
+                generateParameters(parameters, filter);
+                JsonObject parametersObject = parameters.build();
+                if (!parametersObject.isEmpty()) {
+                    swagger.add("parameters", parametersObject);
+                }
+                swagger.add("definitions", definitions);
+
+                Map<String, Object> config = new HashMap<String, Object>();
+                config.put(JsonGenerator.PRETTY_PRINTING, true);
+                JsonWriterFactory factory = Json.createWriterFactory(config);
+                
+                File outFile = new File("./src/main/resources/swagger/" + resourceClassName + "-swagger.json");
+                try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+                    writer.writeObject(swagger.build());
+                } catch (Exception e) {
+                    throw new Error(e);
+                }
+                
+            }
+        }
+        
+        generateMetadataSwagger();
+        generateBatchTransactionSwagger();
+    }
+
+    private static void generateMetadataSwagger() throws Exception, ClassNotFoundException, Error {
         JsonObjectBuilder swagger = factory.createObjectBuilder();
         swagger.add("swagger", "2.0");
-
+        
         JsonObjectBuilder info = factory.createObjectBuilder();
-        info.add("title", "FHIR REST API");
-        info.add("description", "IBM FHIR Server");
+        info.add("title", "Capabilities");
+        info.add("description", "The capabilities interaction retrieves the information about a server's capabilities - which portions of the HL7 FHIR specification it supports.");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
         swagger.add("basePath", "/fhir-server/api/v4");
 
-        JsonArrayBuilder tags = factory.createArrayBuilder();
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
-
-        List<String> classNames = getClassNames();
-        for (String className : classNames) {
-            Class<?> modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
-            if (DomainResource.class.isAssignableFrom(modelClass) && filter.acceptResourceType(modelClass)) {
-                generatePaths(modelClass, paths, filter);
-                JsonObjectBuilder tag = factory.createObjectBuilder();
-                tag.add("name", modelClass.getSimpleName());
-                tags.add(tag);
-            }
-            generateDefinition(modelClass, definitions);
-        }
         
-        // generate definition for all the defined Types.
-        for (String className : FHIROpenApiGenerator.getAllTypesList()) {
-            Class<?> modelClass = Class.forName(TYPEPACKAGENAME + "." + className);
-            // System.out.println("Type:  " + className);
-            generateDefinition(modelClass, definitions);
-        }
-        
-        // generate definition for all inner classes inside the top level resources.
-        for (String className : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
-            Class<?> modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
-            // System.out.println("Resource:  " + className);
-            generateDefinition(modelClass, definitions);
-        }
-
-        JsonObjectBuilder tag = factory.createObjectBuilder();
-        tag.add("name", "Other");
-        tags.add(tag);
-
-        // FHIR metadata operation
+        // FHIR capabilities interaction
         JsonObjectBuilder path = factory.createObjectBuilder();
         generateMetadataPathItem(path);
         paths.add("/metadata", path);
-
-        // FHIR batch operation
-        path = factory.createObjectBuilder();
-        generateBatchPathItem(path);
-        paths.add("/", path);
-
-        // TODO: FHIR transaction operation
-
-        swagger.add("tags", tags);
         swagger.add("paths", paths);
-
-        JsonObjectBuilder parameters = factory.createObjectBuilder();
-        generateParameters(parameters, filter);
-        JsonObject parametersObject = parameters.build();
-        if (!parametersObject.isEmpty()) {
-            swagger.add("parameters", parametersObject);
+        
+        
+        generateDefinition(CapabilityStatement.class, definitions);
+        
+        // generate definition for all the defined Types.
+        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+            // System.out.println("Type:  " + className);
+            generateDefinition(typeModelClass, definitions);
         }
+        
+        // generate definition for all inner classes inside the top level resources.
+        for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+            if (CapabilityStatement.class.equals(parentClass)) {
+                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                // System.out.println("Resource:  " + className);
+                generateDefinition(innerModelClass, definitions);
+            }
+        }
+        
         swagger.add("definitions", definitions);
-
+        
+        
         Map<String, Object> config = new HashMap<String, Object>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
-        JsonWriter writer = factory.createWriter(System.out);
-        writer.writeObject(swagger.build());
+        
+        File outFile = new File("./src/main/resources/swagger/metadata-swagger.json");
+        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+            writer.writeObject(swagger.build());
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+    
+    private static void generateBatchTransactionSwagger() throws Exception, ClassNotFoundException, Error {
+        JsonObjectBuilder swagger = factory.createObjectBuilder();
+        swagger.add("swagger", "2.0");
+        
+        JsonObjectBuilder info = factory.createObjectBuilder();
+        info.add("title", "Batch/Transaction");
+        info.add("description", "The batch and transaction interactions submit a set of actions to perform on a server in a single HTTP request/response.");
+        info.add("version", "4.0.0");
+        swagger.add("info", info);
+
+        swagger.add("basePath", "/fhir-server/api/v4");
+
+        JsonObjectBuilder paths = factory.createObjectBuilder();
+        JsonObjectBuilder definitions = factory.createObjectBuilder();
+        
+        // FHIR batch/transaction interaction
+        JsonObjectBuilder path = factory.createObjectBuilder();
+        generateBatchPathItem(path);
+        paths.add("/", path);
+        swagger.add("paths", paths);
+        
+        
+        generateDefinition(CapabilityStatement.class, definitions);
+        
+        // generate definition for all the defined Types.
+        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+            // System.out.println("Type:  " + className);
+            generateDefinition(typeModelClass, definitions);
+        }
+        
+        // generate definition for all inner classes inside the top level resources.
+        for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+            if (CapabilityStatement.class.equals(parentClass)) {
+                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                // System.out.println("Resource:  " + className);
+                generateDefinition(innerModelClass, definitions);
+            }
+        }
+        
+        swagger.add("definitions", definitions);
+        
+        
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonWriterFactory factory = Json.createWriterFactory(config);
+        
+        File outFile = new File("./src/main/resources/swagger/batch-swagger.json");
+        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+            writer.writeObject(swagger.build());
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
 
     private static Map<Class<?>, StructureDefinition> buildStructureDefinitionMap() {
@@ -174,6 +305,7 @@ public class FHIRSwaggerGenerator {
     private static void populateStructureDefinitionMap(Map<Class<?>, StructureDefinition> structureDefinitionMap,
             String structureDefinitionFile) throws Exception {
         InputStream stream = FHIRSwaggerGenerator.class.getClassLoader().getResourceAsStream(structureDefinitionFile);
+        
         Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);
         for (Entry entry : bundle.getEntry()) {
             if (entry.getResource() instanceof StructureDefinition) {
@@ -577,10 +709,6 @@ public class FHIRSwaggerGenerator {
     private static void generateMetadataPathItem(JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
 
-        JsonArrayBuilder tags = factory.createArrayBuilder();
-        tags.add("Other");
-
-        get.add("tags", tags);
         get.add("summary", "Get the FHIR Capability statement for this endpoint");
         get.add("operationId", "metadata");
 
@@ -606,10 +734,6 @@ public class FHIRSwaggerGenerator {
     private static void generateBatchPathItem(JsonObjectBuilder path) {
         JsonObjectBuilder post = factory.createObjectBuilder();
 
-        JsonArrayBuilder tags = factory.createArrayBuilder();
-        tags.add("Other");
-
-        post.add("tags", tags);
         post.add("summary", "Perform a batch operation");
         post.add("operationId", "batch");
 
