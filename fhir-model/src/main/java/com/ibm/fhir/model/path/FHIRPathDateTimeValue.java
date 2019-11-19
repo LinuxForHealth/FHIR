@@ -11,6 +11,7 @@ import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporalAccessor;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporalAmount;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
@@ -32,15 +33,26 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
                 .appendPattern("-MM")
                 .optionalStart()
                     .appendPattern("-dd")
+                    .appendLiteral("T")
                     .optionalStart()
-                        .appendPattern("'T'HH:mm:ss")
+                        .appendPattern("HH")
                         .optionalStart()
-                            .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                            .appendPattern(":mm")
+                            .optionalStart()
+                                .appendPattern(":ss")
+                                .optionalStart()
+                                    .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                                .optionalEnd()
+                            .optionalEnd()
                         .optionalEnd()
-                        .appendPattern("XXX")
+                        .optionalStart()
+                            .appendPattern("XXX")
+                        .optionalEnd()
                     .optionalEnd()
                 .optionalEnd()
             .optionalEnd()
+            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+            .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
             .toFormatter();
 
     private final TemporalAccessor dateTime;
@@ -71,7 +83,7 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     }
     
     public static FHIRPathDateTimeValue dateTimeValue(String dateTime) {
-        return FHIRPathDateTimeValue.builder(DATE_TIME_PARSER_FORMATTER.parseBest(dateTime, ZonedDateTime::from, LocalDate::from, YearMonth::from, Year::from)).build();
+        return FHIRPathDateTimeValue.builder(DATE_TIME_PARSER_FORMATTER.parseBest(dateTime, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from)).build();
     }
     
     public static FHIRPathDateTimeValue dateTimeValue(TemporalAccessor dateTime) {
@@ -170,6 +182,9 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         }
         if (dateTime instanceof LocalDate || value.dateTime instanceof LocalDate) {
             return LocalDate.from(dateTime).compareTo(LocalDate.from(value.dateTime));
+        }
+        if (dateTime instanceof LocalDateTime || value.dateTime instanceof LocalDateTime) {
+            return LocalDateTime.from(dateTime).compareTo(LocalDateTime.from(value.dateTime));
         }
         return ZonedDateTime.from(dateTime).compareTo(ZonedDateTime.from(value.dateTime));
     }

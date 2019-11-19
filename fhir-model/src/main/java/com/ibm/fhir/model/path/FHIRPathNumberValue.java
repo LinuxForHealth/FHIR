@@ -52,7 +52,8 @@ public interface FHIRPathNumberValue extends FHIRPathSystemValue {
 
     @Override
     default boolean isComparableTo(FHIRPathNode other) {
-        return other instanceof FHIRPathQuantityValue || 
+        return (other instanceof FHIRPathQuantityNode && ((FHIRPathQuantityNode) other).getQuantityValue() != null) || 
+                other instanceof FHIRPathQuantityValue || 
                 other.getValue() instanceof FHIRPathQuantityValue || 
                 other instanceof FHIRPathNumberValue || 
                 other.getValue() instanceof FHIRPathNumberValue;
@@ -62,6 +63,9 @@ public interface FHIRPathNumberValue extends FHIRPathSystemValue {
     default int compareTo(FHIRPathNode other) {
         if (!isComparableTo(other)) {
             throw new IllegalArgumentException();
+        }
+        if (other instanceof FHIRPathQuantityNode) {
+            return decimal().compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
         }
         if (other instanceof FHIRPathQuantityValue) {
             return decimal().compareTo(((FHIRPathQuantityValue) other).value());
