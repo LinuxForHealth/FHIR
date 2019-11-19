@@ -158,6 +158,7 @@ class QuerySegmentAggregator {
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
+            
             // Add default ordering
             queryString.append(DEFAULT_ORDERING);
             this.addPaginationClauses(queryString);
@@ -365,7 +366,6 @@ class QuerySegmentAggregator {
                 } 
                 
                 handleComparisionOperators(queryParamLastUpdated, operand, resourceTableBuilder);
-                
             }
             
             resourceTableBuilder.append(") ");
@@ -379,9 +379,9 @@ class QuerySegmentAggregator {
     }
     
     public void handleComparisionOperators(Parameter queryParamLastUpdated, Prefix operand, StringBuilder whereClauseSegment) {
-        whereClauseSegment.append("(  IR.LAST_UPDATED ");
-        
         searchQueryParameters.add(0, queryParamLastUpdated);
+        System.out.println("QUERY PARAM " + queryParamLastUpdated.getClass().getCanonicalName());
+        whereClauseSegment.append("(  IR.LAST_UPDATED ");
         
         switch (operand) {
         case EB:
@@ -451,7 +451,6 @@ class QuerySegmentAggregator {
         case EQ:
         default:
             // the value for the parameter in the resource is equal to the provided value
-            // GTE
             whereClauseSegment.append(JDBCOperator.EQ.value()).append(BIND_VAR);
             break;
         }
@@ -469,7 +468,12 @@ class QuerySegmentAggregator {
             time = java.time.Instant.from(dateTime.getValue());
         }
         
-        return Timestamp.from(time).toString();
+        
+        
+        Timestamp tstmp = Timestamp.from(time);
+        tstmp.setNanos(6);
+        System.out.println("HERE");
+        return tstmp.toString();
     }
 
     /**

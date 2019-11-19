@@ -39,6 +39,7 @@ import static com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator.PARAMETE
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -793,7 +794,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 whereClauseSegment.append(JDBCOperator.OR.value()).append(LEFT_PAREN);
             }
 
-            datetime = QueryBuilderUtil.getInstant(value.getValueDate());
+            datetime = QueryBuilderUtil.getInstant(value.getValueDate()).truncatedTo(ChronoUnit.MILLIS);
+            System.out.println("HERE " + datetime + " HERE");
             // If the dateTime value is fully specified down to the microsecond, build a where clause segment with strict equals.
             if (!value.getValueDate().isPartial() && QueryBuilderUtil.hasSubSeconds(value.getValueDate().getValue())) {
                 start = datetime;
@@ -803,7 +805,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                     whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
                                       .append(operator.value())
                                       .append(BIND_VAR);
-                    bindVariables.add(Timestamp.from(datetime));
+                    
+                    // Truncating the Units in the case where the sprecision is overspecified.
+                    bindVariables.add(Timestamp.from(datetime.truncatedTo(ChronoUnit.MILLIS)));
                     whereClauseSegment.append(RIGHT_PAREN);
                 }
             } else {
@@ -826,11 +830,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                                           .append(tableAlias + DOT).append(DATE_VALUE)
                                           .append(JDBCOperator.LT.value())
                                           .append(BIND_VAR);
-                        bindVariables.add(Timestamp.from(start));
-                        bindVariables.add(Timestamp.from(end));
+                        bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
+                        bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
                     } else {
                         whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value()).append(BIND_VAR);
-                        bindVariables.add(Timestamp.from(start));
+                        bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
                     }
                     whereClauseSegment.append(RIGHT_PAREN);
                 }
@@ -875,35 +879,35 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             // the range of the search value does not overlap with the range of the target value,
             // and the range above the search value contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
+            bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
             break;
         case SA:
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(end));
+            bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
             break;
         case GE:
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
+            bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
             break;
         case GT:
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
+            bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
             break;
         case LE:
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(end));
+            bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
             break;
         case LT:
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(end));
+            bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
             break;
         case AP:
             // the range of the search value overlaps with the range of the target value
@@ -913,8 +917,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            bindVariables.add(Timestamp.from(end));
+            bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
+            bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
             whereClauseSegment.append(RIGHT_PAREN);
 
             whereClauseSegment.append(JDBCOperator.OR.value());
@@ -923,8 +927,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            bindVariables.add(Timestamp.from(start));
+            bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
+            bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
             whereClauseSegment.append(RIGHT_PAREN);
 
             whereClauseSegment.append(JDBCOperator.OR.value());
@@ -935,8 +939,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 .append(JDBCOperator.LT.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(end));
-            bindVariables.add(Timestamp.from(end));
+            bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
+            bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
             whereClauseSegment.append(RIGHT_PAREN);
 
             break;
@@ -945,8 +949,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.OR.value());
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            bindVariables.add(Timestamp.from(end));
+            bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
+            bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
             break;
         case EQ:
         default:
@@ -954,8 +958,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            bindVariables.add(Timestamp.from(end));
+            bindVariables.add(Timestamp.from(start.truncatedTo(ChronoUnit.MILLIS)));
+            bindVariables.add(Timestamp.from(end.truncatedTo(ChronoUnit.MILLIS)));
             break;
         }
     }

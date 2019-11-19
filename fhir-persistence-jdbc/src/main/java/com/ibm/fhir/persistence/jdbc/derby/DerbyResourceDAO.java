@@ -304,6 +304,7 @@ public class DerbyResourceDAO {
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, v_insert_version);
             stmt.setBytes(4, p_payload);
+            System.out.println("Last Updated -> " + p_last_updated);
             stmt.setTimestamp(5, p_last_updated);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
             stmt.executeUpdate();

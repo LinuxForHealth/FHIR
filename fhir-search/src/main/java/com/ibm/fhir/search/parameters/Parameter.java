@@ -19,10 +19,6 @@ import com.ibm.fhir.search.SearchConstants.Type;
 
 /**
  * general type of parameter. 
- *  
- * @author markd
- * @author pbastide
- *
  */
 public class Parameter {
 
@@ -194,4 +190,5 @@ public class Parameter {
     public boolean isInclusionCriteria() {
         return isInclusionCriteria;
     }
+
 }

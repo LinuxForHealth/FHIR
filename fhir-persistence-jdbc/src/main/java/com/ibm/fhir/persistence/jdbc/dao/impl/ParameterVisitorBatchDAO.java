@@ -274,6 +274,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
                 dates.setTimestamp(2, date);
                 dates.setTimestamp(3, dateStart);
                 dates.setTimestamp(4, dateEnd);
+                System.out.println(date + " " + dateStart + " " + dateEnd);
                 dates.setLong(5, logicalResourceId);
                 dates.addBatch();
                 

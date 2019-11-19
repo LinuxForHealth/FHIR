@@ -671,6 +671,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             }
 
             lastUpdated = resource.getLastUpdated();
+            System.out.println("LAST_UPDATED -> "+ lastUpdated);
             dbCallStartTime = System.nanoTime();
 
             final String sourceKey = UUID.randomUUID().toString();

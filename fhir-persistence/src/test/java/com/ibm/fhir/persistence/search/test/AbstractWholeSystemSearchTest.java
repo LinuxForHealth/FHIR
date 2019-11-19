@@ -86,9 +86,12 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         List<String> savedId = Collections.singletonList(savedResource.getId().getValue());
         List<String> savedLastUpdated = Collections.singletonList(savedResource.getMeta().getLastUpdated().getValue().toString());
+        System.out.println(savedResource.getMeta().getLastUpdated().getValue().toString());
         queryParms.put("_id", savedId);
         queryParms.put("_lastUpdated", savedLastUpdated);
 
+        System.out.println(savedResource);
+        
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");

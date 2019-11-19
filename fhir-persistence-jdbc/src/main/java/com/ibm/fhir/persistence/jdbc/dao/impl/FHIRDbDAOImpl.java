@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -178,6 +179,9 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
                 dbUrl = this.getDbProps().getProperty(PROPERTY_DB_URL);
                 try {
+                    this.getDbProps().put("traceLevel", "-1");
+                    //this.getDbProps().put("traceFile", "trace.log");
+                    
                     connection = DriverManager.getConnection(dbUrl, this.getDbProps());
 
                     // Most queries assume the current schema is set up properly
@@ -418,7 +422,15 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
             for (int i = 0; i <searchArgs.length;  i++) {
-                stmt.setObject(i+1, searchArgs[i]);
+                Object o = searchArgs[i];
+                if(o instanceof Timestamp) {
+                    Timestamp timestamp = (Timestamp) o;
+                    stmt.setTimestamp(i+1, timestamp);
+                    System.out.println(timestamp);
+                } else {
+                    stmt.setObject(i+1, o);
+                }
+                
             }
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();

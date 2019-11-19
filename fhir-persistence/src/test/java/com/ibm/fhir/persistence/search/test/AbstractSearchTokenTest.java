@@ -75,6 +75,9 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
         queryParms.put("boolean", Collections.singletonList("true"));
+        System.out.println("Basic --> "+savedResource);
+        System.out.println("Composition --> " + composition);
+        
         assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
         assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
