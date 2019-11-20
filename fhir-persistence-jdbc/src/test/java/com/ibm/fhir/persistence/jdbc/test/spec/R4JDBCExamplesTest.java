@@ -115,7 +115,6 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        //return new FHIRPersistenceJDBCImpl(this.properties, database);
         return null;
     }
 
