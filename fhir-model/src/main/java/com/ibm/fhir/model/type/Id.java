@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
 
@@ -21,13 +20,11 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Id extends String {
-    private static final Pattern PATTERN = Pattern.compile("[A-Za-z0-9\\-\\.]{1,64}");
-
     private volatile int hashCode;
 
     private Id(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, PATTERN);
+        ValidationSupport.checkId(value);
     }
 
     @Override
