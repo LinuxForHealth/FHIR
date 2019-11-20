@@ -917,8 +917,8 @@ public class CodeGenerator {
             if (isString(structureDefinition) || isUri(structureDefinition) || isStringSubtype(structureDefinition) || isUriSubtype(structureDefinition)) {
                 String pattern = getPattern(structureDefinition);
                 if (pattern != null) {
-                    if (URI_PATTERN.equals(pattern) || STRING_PATTERN.equals(pattern) || isCode(structureDefinition)) {
-                        // String, Uri, and Code validation is now handled directly in ValidationSupport
+                    if (URI_PATTERN.equals(pattern) || STRING_PATTERN.equals(pattern) || isCode(structureDefinition) || isId(structureDefinition)) {
+                        // String, Uri, Code, and Id validation is now handled directly in ValidationSupport
                         // and subtypes inheret these checks as well
                     } else {
                         cb.field(mods("private", "static", "final"), "Pattern", "PATTERN", "Pattern.compile(" + quote(pattern.replace("\\", "\\\\")) + ")").newLine();
@@ -1019,10 +1019,7 @@ public class CodeGenerator {
                 }
             }
 
-            if (isUnsignedInt(structureDefinition)) {
-                cb.invoke("ValidationSupport", "checkValue", args("value", "MIN_VALUE"));
-            }
-            if (isPositiveInt(structureDefinition)) {
+            if (isUnsignedInt(structureDefinition) || isPositiveInt(structureDefinition)) {
                 cb.invoke("ValidationSupport", "checkValue", args("value", "MIN_VALUE"));
             }
             
@@ -1035,6 +1032,8 @@ public class CodeGenerator {
             
             if (isCode(structureDefinition)) {
                 cb.invoke("ValidationSupport", "checkCode", args("value"));
+            } else if (isId(structureDefinition)){
+                cb.invoke("ValidationSupport", "checkId", args("value"));
             } else if (isStringSubtype(structureDefinition)) {
                 if (!STRING_PATTERN.equals(getPattern(structureDefinition))) {
                     cb.invoke("ValidationSupport", "checkValue", args("value", "PATTERN"));
@@ -1061,6 +1060,14 @@ public class CodeGenerator {
                     String fieldName = getFieldName(elementName);
                     cb.invoke("ValidationSupport", "prohibited", args(fieldName, quote(elementName)));
                 }
+            }
+            
+            if ("Element".equals(className) && !nested) {
+                cb.invoke("ValidationSupport", "checkString", args("id"));
+            }
+            
+            if ("Extension".equals(className) && !nested) {
+                cb.invoke("ValidationSupport", "checkUri", args("url"));
             }
             
             if ((!isResource(structureDefinition) && 
@@ -1101,9 +1108,7 @@ public class CodeGenerator {
             generateFactoryMethods(structureDefinition, cb);
             generateAcceptMethod(structureDefinition, className, path, cb);
             generateEqualsHashCodeMethods(structureDefinition, className, path, cb);
-            // TODO: toString method design needs more attention
-//          generateToStringMethod(structureDefinition, cb);
-                        
+
             List<String> params = new ArrayList<>();
             List<String> args = new ArrayList<>();
 
@@ -1636,7 +1641,8 @@ public class CodeGenerator {
             imports.add("java.time.ZoneOffset");
         }
         
-        if (isString(structureDefinition) || 
+        if (isString(structureDefinition) ||
+                isId(structureDefinition) || 
                 isCode(structureDefinition) || 
                 isUri(structureDefinition) || 
                 isIntegerSubtype(structureDefinition) || 
@@ -3511,6 +3517,10 @@ public class CodeGenerator {
         return "decimal".equals(structureDefinition.getString("name"));
     }
     
+    private boolean isId(JsonObject structureDefinition) {
+        return "id".equals(structureDefinition.getString("name"));
+    }
+    
     private boolean isInstant(JsonObject structureDefinition) {
         return "instant".equals(structureDefinition.getString("name"));
     }
@@ -3601,7 +3611,7 @@ public class CodeGenerator {
             return "Resource".equals(baseDefinition.getString("name")) || 
                     "DomainResource".equals(baseDefinition.getString("name"));
         }
-        return "Resource".equals(structureDefinition.getString("name"));        
+        return "Resource".equals(structureDefinition.getString("name"));
     }
     
     private boolean isString(JsonObject structureDefinition) {
