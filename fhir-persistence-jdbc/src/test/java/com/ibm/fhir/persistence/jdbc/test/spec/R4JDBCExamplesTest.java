@@ -115,6 +115,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
+        // Return null to make sure the transaction operations in @BeforeMethod will be skipped
         return null;
     }
 
