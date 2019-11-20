@@ -17,21 +17,21 @@ import javax.annotation.Generated;
 
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CarePlanActivityKind extends Code {
-    public static final CarePlanActivityKind APPOINTMENT = CarePlanActivityKind.of(ValueSet.APPOINTMENT);
+    public static final CarePlanActivityKind APPOINTMENT = CarePlanActivityKind.builder().value(ValueSet.APPOINTMENT).build();
 
-    public static final CarePlanActivityKind COMMUNICATION_REQUEST = CarePlanActivityKind.of(ValueSet.COMMUNICATION_REQUEST);
+    public static final CarePlanActivityKind COMMUNICATION_REQUEST = CarePlanActivityKind.builder().value(ValueSet.COMMUNICATION_REQUEST).build();
 
-    public static final CarePlanActivityKind DEVICE_REQUEST = CarePlanActivityKind.of(ValueSet.DEVICE_REQUEST);
+    public static final CarePlanActivityKind DEVICE_REQUEST = CarePlanActivityKind.builder().value(ValueSet.DEVICE_REQUEST).build();
 
-    public static final CarePlanActivityKind MEDICATION_REQUEST = CarePlanActivityKind.of(ValueSet.MEDICATION_REQUEST);
+    public static final CarePlanActivityKind MEDICATION_REQUEST = CarePlanActivityKind.builder().value(ValueSet.MEDICATION_REQUEST).build();
 
-    public static final CarePlanActivityKind NUTRITION_ORDER = CarePlanActivityKind.of(ValueSet.NUTRITION_ORDER);
+    public static final CarePlanActivityKind NUTRITION_ORDER = CarePlanActivityKind.builder().value(ValueSet.NUTRITION_ORDER).build();
 
-    public static final CarePlanActivityKind TASK = CarePlanActivityKind.of(ValueSet.TASK);
+    public static final CarePlanActivityKind TASK = CarePlanActivityKind.builder().value(ValueSet.TASK).build();
 
-    public static final CarePlanActivityKind SERVICE_REQUEST = CarePlanActivityKind.of(ValueSet.SERVICE_REQUEST);
+    public static final CarePlanActivityKind SERVICE_REQUEST = CarePlanActivityKind.builder().value(ValueSet.SERVICE_REQUEST).build();
 
-    public static final CarePlanActivityKind VISION_PRESCRIPTION = CarePlanActivityKind.of(ValueSet.VISION_PRESCRIPTION);
+    public static final CarePlanActivityKind VISION_PRESCRIPTION = CarePlanActivityKind.builder().value(ValueSet.VISION_PRESCRIPTION).build();
 
     private volatile int hashCode;
 
@@ -39,20 +39,39 @@ public class CarePlanActivityKind extends Code {
         super(builder);
     }
 
-    public static CarePlanActivityKind of(java.lang.String value) {
-        return CarePlanActivityKind.builder().value(value).build();
+    public static CarePlanActivityKind of(ValueSet value) {
+        switch (value) {
+        case APPOINTMENT:
+            return APPOINTMENT;
+        case COMMUNICATION_REQUEST:
+            return COMMUNICATION_REQUEST;
+        case DEVICE_REQUEST:
+            return DEVICE_REQUEST;
+        case MEDICATION_REQUEST:
+            return MEDICATION_REQUEST;
+        case NUTRITION_ORDER:
+            return NUTRITION_ORDER;
+        case TASK:
+            return TASK;
+        case SERVICE_REQUEST:
+            return SERVICE_REQUEST;
+        case VISION_PRESCRIPTION:
+            return VISION_PRESCRIPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static CarePlanActivityKind of(ValueSet value) {
-        return CarePlanActivityKind.builder().value(value).build();
+    public static CarePlanActivityKind of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return CarePlanActivityKind.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CarePlanActivityKind.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

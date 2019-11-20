@@ -20,47 +20,47 @@ public class CarePlanActivityStatus extends Code {
     /**
      * Not Started
      */
-    public static final CarePlanActivityStatus NOT_STARTED = CarePlanActivityStatus.of(ValueSet.NOT_STARTED);
+    public static final CarePlanActivityStatus NOT_STARTED = CarePlanActivityStatus.builder().value(ValueSet.NOT_STARTED).build();
 
     /**
      * Scheduled
      */
-    public static final CarePlanActivityStatus SCHEDULED = CarePlanActivityStatus.of(ValueSet.SCHEDULED);
+    public static final CarePlanActivityStatus SCHEDULED = CarePlanActivityStatus.builder().value(ValueSet.SCHEDULED).build();
 
     /**
      * In Progress
      */
-    public static final CarePlanActivityStatus IN_PROGRESS = CarePlanActivityStatus.of(ValueSet.IN_PROGRESS);
+    public static final CarePlanActivityStatus IN_PROGRESS = CarePlanActivityStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * On Hold
      */
-    public static final CarePlanActivityStatus ON_HOLD = CarePlanActivityStatus.of(ValueSet.ON_HOLD);
+    public static final CarePlanActivityStatus ON_HOLD = CarePlanActivityStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Completed
      */
-    public static final CarePlanActivityStatus COMPLETED = CarePlanActivityStatus.of(ValueSet.COMPLETED);
+    public static final CarePlanActivityStatus COMPLETED = CarePlanActivityStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Cancelled
      */
-    public static final CarePlanActivityStatus CANCELLED = CarePlanActivityStatus.of(ValueSet.CANCELLED);
+    public static final CarePlanActivityStatus CANCELLED = CarePlanActivityStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Stopped
      */
-    public static final CarePlanActivityStatus STOPPED = CarePlanActivityStatus.of(ValueSet.STOPPED);
+    public static final CarePlanActivityStatus STOPPED = CarePlanActivityStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Unknown
      */
-    public static final CarePlanActivityStatus UNKNOWN = CarePlanActivityStatus.of(ValueSet.UNKNOWN);
+    public static final CarePlanActivityStatus UNKNOWN = CarePlanActivityStatus.builder().value(ValueSet.UNKNOWN).build();
 
     /**
      * Entered in Error
      */
-    public static final CarePlanActivityStatus ENTERED_IN_ERROR = CarePlanActivityStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final CarePlanActivityStatus ENTERED_IN_ERROR = CarePlanActivityStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class CarePlanActivityStatus extends Code {
         super(builder);
     }
 
-    public static CarePlanActivityStatus of(java.lang.String value) {
-        return CarePlanActivityStatus.builder().value(value).build();
+    public static CarePlanActivityStatus of(ValueSet value) {
+        switch (value) {
+        case NOT_STARTED:
+            return NOT_STARTED;
+        case SCHEDULED:
+            return SCHEDULED;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case ON_HOLD:
+            return ON_HOLD;
+        case COMPLETED:
+            return COMPLETED;
+        case CANCELLED:
+            return CANCELLED;
+        case STOPPED:
+            return STOPPED;
+        case UNKNOWN:
+            return UNKNOWN;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static CarePlanActivityStatus of(ValueSet value) {
-        return CarePlanActivityStatus.builder().value(value).build();
+    public static CarePlanActivityStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return CarePlanActivityStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CarePlanActivityStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

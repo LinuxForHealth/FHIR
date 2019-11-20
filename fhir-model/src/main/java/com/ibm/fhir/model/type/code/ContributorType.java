@@ -20,22 +20,22 @@ public class ContributorType extends Code {
     /**
      * Author
      */
-    public static final ContributorType AUTHOR = ContributorType.of(ValueSet.AUTHOR);
+    public static final ContributorType AUTHOR = ContributorType.builder().value(ValueSet.AUTHOR).build();
 
     /**
      * Editor
      */
-    public static final ContributorType EDITOR = ContributorType.of(ValueSet.EDITOR);
+    public static final ContributorType EDITOR = ContributorType.builder().value(ValueSet.EDITOR).build();
 
     /**
      * Reviewer
      */
-    public static final ContributorType REVIEWER = ContributorType.of(ValueSet.REVIEWER);
+    public static final ContributorType REVIEWER = ContributorType.builder().value(ValueSet.REVIEWER).build();
 
     /**
      * Endorser
      */
-    public static final ContributorType ENDORSER = ContributorType.of(ValueSet.ENDORSER);
+    public static final ContributorType ENDORSER = ContributorType.builder().value(ValueSet.ENDORSER).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ContributorType extends Code {
         super(builder);
     }
 
-    public static ContributorType of(java.lang.String value) {
-        return ContributorType.builder().value(value).build();
+    public static ContributorType of(ValueSet value) {
+        switch (value) {
+        case AUTHOR:
+            return AUTHOR;
+        case EDITOR:
+            return EDITOR;
+        case REVIEWER:
+            return REVIEWER;
+        case ENDORSER:
+            return ENDORSER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ContributorType of(ValueSet value) {
-        return ContributorType.builder().value(value).build();
+    public static ContributorType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ContributorType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ContributorType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

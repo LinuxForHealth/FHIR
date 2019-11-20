@@ -20,12 +20,12 @@ public class ActionPrecheckBehavior extends Code {
     /**
      * Yes
      */
-    public static final ActionPrecheckBehavior YES = ActionPrecheckBehavior.of(ValueSet.YES);
+    public static final ActionPrecheckBehavior YES = ActionPrecheckBehavior.builder().value(ValueSet.YES).build();
 
     /**
      * No
      */
-    public static final ActionPrecheckBehavior NO = ActionPrecheckBehavior.of(ValueSet.NO);
+    public static final ActionPrecheckBehavior NO = ActionPrecheckBehavior.builder().value(ValueSet.NO).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class ActionPrecheckBehavior extends Code {
         super(builder);
     }
 
-    public static ActionPrecheckBehavior of(java.lang.String value) {
-        return ActionPrecheckBehavior.builder().value(value).build();
+    public static ActionPrecheckBehavior of(ValueSet value) {
+        switch (value) {
+        case YES:
+            return YES;
+        case NO:
+            return NO;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ActionPrecheckBehavior of(ValueSet value) {
-        return ActionPrecheckBehavior.builder().value(value).build();
+    public static ActionPrecheckBehavior of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActionPrecheckBehavior.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActionPrecheckBehavior.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

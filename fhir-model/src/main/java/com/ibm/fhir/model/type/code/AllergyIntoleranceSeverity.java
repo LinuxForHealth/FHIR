@@ -20,17 +20,17 @@ public class AllergyIntoleranceSeverity extends Code {
     /**
      * Mild
      */
-    public static final AllergyIntoleranceSeverity MILD = AllergyIntoleranceSeverity.of(ValueSet.MILD);
+    public static final AllergyIntoleranceSeverity MILD = AllergyIntoleranceSeverity.builder().value(ValueSet.MILD).build();
 
     /**
      * Moderate
      */
-    public static final AllergyIntoleranceSeverity MODERATE = AllergyIntoleranceSeverity.of(ValueSet.MODERATE);
+    public static final AllergyIntoleranceSeverity MODERATE = AllergyIntoleranceSeverity.builder().value(ValueSet.MODERATE).build();
 
     /**
      * Severe
      */
-    public static final AllergyIntoleranceSeverity SEVERE = AllergyIntoleranceSeverity.of(ValueSet.SEVERE);
+    public static final AllergyIntoleranceSeverity SEVERE = AllergyIntoleranceSeverity.builder().value(ValueSet.SEVERE).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class AllergyIntoleranceSeverity extends Code {
         super(builder);
     }
 
-    public static AllergyIntoleranceSeverity of(java.lang.String value) {
-        return AllergyIntoleranceSeverity.builder().value(value).build();
+    public static AllergyIntoleranceSeverity of(ValueSet value) {
+        switch (value) {
+        case MILD:
+            return MILD;
+        case MODERATE:
+            return MODERATE;
+        case SEVERE:
+            return SEVERE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AllergyIntoleranceSeverity of(ValueSet value) {
-        return AllergyIntoleranceSeverity.builder().value(value).build();
+    public static AllergyIntoleranceSeverity of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AllergyIntoleranceSeverity.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AllergyIntoleranceSeverity.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

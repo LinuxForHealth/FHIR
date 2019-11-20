@@ -20,27 +20,27 @@ public class QuestionnaireResponseStatus extends Code {
     /**
      * In Progress
      */
-    public static final QuestionnaireResponseStatus IN_PROGRESS = QuestionnaireResponseStatus.of(ValueSet.IN_PROGRESS);
+    public static final QuestionnaireResponseStatus IN_PROGRESS = QuestionnaireResponseStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Completed
      */
-    public static final QuestionnaireResponseStatus COMPLETED = QuestionnaireResponseStatus.of(ValueSet.COMPLETED);
+    public static final QuestionnaireResponseStatus COMPLETED = QuestionnaireResponseStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Amended
      */
-    public static final QuestionnaireResponseStatus AMENDED = QuestionnaireResponseStatus.of(ValueSet.AMENDED);
+    public static final QuestionnaireResponseStatus AMENDED = QuestionnaireResponseStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Entered in Error
      */
-    public static final QuestionnaireResponseStatus ENTERED_IN_ERROR = QuestionnaireResponseStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final QuestionnaireResponseStatus ENTERED_IN_ERROR = QuestionnaireResponseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
      */
-    public static final QuestionnaireResponseStatus STOPPED = QuestionnaireResponseStatus.of(ValueSet.STOPPED);
+    public static final QuestionnaireResponseStatus STOPPED = QuestionnaireResponseStatus.builder().value(ValueSet.STOPPED).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class QuestionnaireResponseStatus extends Code {
         super(builder);
     }
 
-    public static QuestionnaireResponseStatus of(java.lang.String value) {
-        return QuestionnaireResponseStatus.builder().value(value).build();
+    public static QuestionnaireResponseStatus of(ValueSet value) {
+        switch (value) {
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case COMPLETED:
+            return COMPLETED;
+        case AMENDED:
+            return AMENDED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case STOPPED:
+            return STOPPED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static QuestionnaireResponseStatus of(ValueSet value) {
-        return QuestionnaireResponseStatus.builder().value(value).build();
+    public static QuestionnaireResponseStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return QuestionnaireResponseStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return QuestionnaireResponseStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

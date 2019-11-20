@@ -20,27 +20,27 @@ public class ImagingStudyStatus extends Code {
     /**
      * Registered
      */
-    public static final ImagingStudyStatus REGISTERED = ImagingStudyStatus.of(ValueSet.REGISTERED);
+    public static final ImagingStudyStatus REGISTERED = ImagingStudyStatus.builder().value(ValueSet.REGISTERED).build();
 
     /**
      * Available
      */
-    public static final ImagingStudyStatus AVAILABLE = ImagingStudyStatus.of(ValueSet.AVAILABLE);
+    public static final ImagingStudyStatus AVAILABLE = ImagingStudyStatus.builder().value(ValueSet.AVAILABLE).build();
 
     /**
      * Cancelled
      */
-    public static final ImagingStudyStatus CANCELLED = ImagingStudyStatus.of(ValueSet.CANCELLED);
+    public static final ImagingStudyStatus CANCELLED = ImagingStudyStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
      */
-    public static final ImagingStudyStatus ENTERED_IN_ERROR = ImagingStudyStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ImagingStudyStatus ENTERED_IN_ERROR = ImagingStudyStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final ImagingStudyStatus UNKNOWN = ImagingStudyStatus.of(ValueSet.UNKNOWN);
+    public static final ImagingStudyStatus UNKNOWN = ImagingStudyStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class ImagingStudyStatus extends Code {
         super(builder);
     }
 
-    public static ImagingStudyStatus of(java.lang.String value) {
-        return ImagingStudyStatus.builder().value(value).build();
+    public static ImagingStudyStatus of(ValueSet value) {
+        switch (value) {
+        case REGISTERED:
+            return REGISTERED;
+        case AVAILABLE:
+            return AVAILABLE;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ImagingStudyStatus of(ValueSet value) {
-        return ImagingStudyStatus.builder().value(value).build();
+    public static ImagingStudyStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ImagingStudyStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ImagingStudyStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

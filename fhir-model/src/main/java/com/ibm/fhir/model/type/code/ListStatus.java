@@ -20,17 +20,17 @@ public class ListStatus extends Code {
     /**
      * Current
      */
-    public static final ListStatus CURRENT = ListStatus.of(ValueSet.CURRENT);
+    public static final ListStatus CURRENT = ListStatus.builder().value(ValueSet.CURRENT).build();
 
     /**
      * Retired
      */
-    public static final ListStatus RETIRED = ListStatus.of(ValueSet.RETIRED);
+    public static final ListStatus RETIRED = ListStatus.builder().value(ValueSet.RETIRED).build();
 
     /**
      * Entered In Error
      */
-    public static final ListStatus ENTERED_IN_ERROR = ListStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ListStatus ENTERED_IN_ERROR = ListStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ListStatus extends Code {
         super(builder);
     }
 
-    public static ListStatus of(java.lang.String value) {
-        return ListStatus.builder().value(value).build();
+    public static ListStatus of(ValueSet value) {
+        switch (value) {
+        case CURRENT:
+            return CURRENT;
+        case RETIRED:
+            return RETIRED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ListStatus of(ValueSet value) {
-        return ListStatus.builder().value(value).build();
+    public static ListStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ListStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ListStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

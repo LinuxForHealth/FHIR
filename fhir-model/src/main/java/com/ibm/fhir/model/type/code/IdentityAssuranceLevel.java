@@ -20,22 +20,22 @@ public class IdentityAssuranceLevel extends Code {
     /**
      * Level 1
      */
-    public static final IdentityAssuranceLevel LEVEL1 = IdentityAssuranceLevel.of(ValueSet.LEVEL1);
+    public static final IdentityAssuranceLevel LEVEL1 = IdentityAssuranceLevel.builder().value(ValueSet.LEVEL1).build();
 
     /**
      * Level 2
      */
-    public static final IdentityAssuranceLevel LEVEL2 = IdentityAssuranceLevel.of(ValueSet.LEVEL2);
+    public static final IdentityAssuranceLevel LEVEL2 = IdentityAssuranceLevel.builder().value(ValueSet.LEVEL2).build();
 
     /**
      * Level 3
      */
-    public static final IdentityAssuranceLevel LEVEL3 = IdentityAssuranceLevel.of(ValueSet.LEVEL3);
+    public static final IdentityAssuranceLevel LEVEL3 = IdentityAssuranceLevel.builder().value(ValueSet.LEVEL3).build();
 
     /**
      * Level 4
      */
-    public static final IdentityAssuranceLevel LEVEL4 = IdentityAssuranceLevel.of(ValueSet.LEVEL4);
+    public static final IdentityAssuranceLevel LEVEL4 = IdentityAssuranceLevel.builder().value(ValueSet.LEVEL4).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class IdentityAssuranceLevel extends Code {
         super(builder);
     }
 
-    public static IdentityAssuranceLevel of(java.lang.String value) {
-        return IdentityAssuranceLevel.builder().value(value).build();
+    public static IdentityAssuranceLevel of(ValueSet value) {
+        switch (value) {
+        case LEVEL1:
+            return LEVEL1;
+        case LEVEL2:
+            return LEVEL2;
+        case LEVEL3:
+            return LEVEL3;
+        case LEVEL4:
+            return LEVEL4;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static IdentityAssuranceLevel of(ValueSet value) {
-        return IdentityAssuranceLevel.builder().value(value).build();
+    public static IdentityAssuranceLevel of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return IdentityAssuranceLevel.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return IdentityAssuranceLevel.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

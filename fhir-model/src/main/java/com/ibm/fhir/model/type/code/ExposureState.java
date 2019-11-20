@@ -20,12 +20,12 @@ public class ExposureState extends Code {
     /**
      * Exposure
      */
-    public static final ExposureState EXPOSURE = ExposureState.of(ValueSet.EXPOSURE);
+    public static final ExposureState EXPOSURE = ExposureState.builder().value(ValueSet.EXPOSURE).build();
 
     /**
      * Exposure Alternative
      */
-    public static final ExposureState EXPOSURE_ALTERNATIVE = ExposureState.of(ValueSet.EXPOSURE_ALTERNATIVE);
+    public static final ExposureState EXPOSURE_ALTERNATIVE = ExposureState.builder().value(ValueSet.EXPOSURE_ALTERNATIVE).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class ExposureState extends Code {
         super(builder);
     }
 
-    public static ExposureState of(java.lang.String value) {
-        return ExposureState.builder().value(value).build();
+    public static ExposureState of(ValueSet value) {
+        switch (value) {
+        case EXPOSURE:
+            return EXPOSURE;
+        case EXPOSURE_ALTERNATIVE:
+            return EXPOSURE_ALTERNATIVE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ExposureState of(ValueSet value) {
-        return ExposureState.builder().value(value).build();
+    public static ExposureState of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ExposureState.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ExposureState.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

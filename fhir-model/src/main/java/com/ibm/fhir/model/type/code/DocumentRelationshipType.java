@@ -20,22 +20,22 @@ public class DocumentRelationshipType extends Code {
     /**
      * Replaces
      */
-    public static final DocumentRelationshipType REPLACES = DocumentRelationshipType.of(ValueSet.REPLACES);
+    public static final DocumentRelationshipType REPLACES = DocumentRelationshipType.builder().value(ValueSet.REPLACES).build();
 
     /**
      * Transforms
      */
-    public static final DocumentRelationshipType TRANSFORMS = DocumentRelationshipType.of(ValueSet.TRANSFORMS);
+    public static final DocumentRelationshipType TRANSFORMS = DocumentRelationshipType.builder().value(ValueSet.TRANSFORMS).build();
 
     /**
      * Signs
      */
-    public static final DocumentRelationshipType SIGNS = DocumentRelationshipType.of(ValueSet.SIGNS);
+    public static final DocumentRelationshipType SIGNS = DocumentRelationshipType.builder().value(ValueSet.SIGNS).build();
 
     /**
      * Appends
      */
-    public static final DocumentRelationshipType APPENDS = DocumentRelationshipType.of(ValueSet.APPENDS);
+    public static final DocumentRelationshipType APPENDS = DocumentRelationshipType.builder().value(ValueSet.APPENDS).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class DocumentRelationshipType extends Code {
         super(builder);
     }
 
-    public static DocumentRelationshipType of(java.lang.String value) {
-        return DocumentRelationshipType.builder().value(value).build();
+    public static DocumentRelationshipType of(ValueSet value) {
+        switch (value) {
+        case REPLACES:
+            return REPLACES;
+        case TRANSFORMS:
+            return TRANSFORMS;
+        case SIGNS:
+            return SIGNS;
+        case APPENDS:
+            return APPENDS;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static DocumentRelationshipType of(ValueSet value) {
-        return DocumentRelationshipType.builder().value(value).build();
+    public static DocumentRelationshipType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return DocumentRelationshipType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DocumentRelationshipType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

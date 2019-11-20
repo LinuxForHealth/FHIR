@@ -20,27 +20,27 @@ public class CompartmentType extends Code {
     /**
      * Patient
      */
-    public static final CompartmentType PATIENT = CompartmentType.of(ValueSet.PATIENT);
+    public static final CompartmentType PATIENT = CompartmentType.builder().value(ValueSet.PATIENT).build();
 
     /**
      * Encounter
      */
-    public static final CompartmentType ENCOUNTER = CompartmentType.of(ValueSet.ENCOUNTER);
+    public static final CompartmentType ENCOUNTER = CompartmentType.builder().value(ValueSet.ENCOUNTER).build();
 
     /**
      * RelatedPerson
      */
-    public static final CompartmentType RELATED_PERSON = CompartmentType.of(ValueSet.RELATED_PERSON);
+    public static final CompartmentType RELATED_PERSON = CompartmentType.builder().value(ValueSet.RELATED_PERSON).build();
 
     /**
      * Practitioner
      */
-    public static final CompartmentType PRACTITIONER = CompartmentType.of(ValueSet.PRACTITIONER);
+    public static final CompartmentType PRACTITIONER = CompartmentType.builder().value(ValueSet.PRACTITIONER).build();
 
     /**
      * Device
      */
-    public static final CompartmentType DEVICE = CompartmentType.of(ValueSet.DEVICE);
+    public static final CompartmentType DEVICE = CompartmentType.builder().value(ValueSet.DEVICE).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class CompartmentType extends Code {
         super(builder);
     }
 
-    public static CompartmentType of(java.lang.String value) {
-        return CompartmentType.builder().value(value).build();
+    public static CompartmentType of(ValueSet value) {
+        switch (value) {
+        case PATIENT:
+            return PATIENT;
+        case ENCOUNTER:
+            return ENCOUNTER;
+        case RELATED_PERSON:
+            return RELATED_PERSON;
+        case PRACTITIONER:
+            return PRACTITIONER;
+        case DEVICE:
+            return DEVICE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static CompartmentType of(ValueSet value) {
-        return CompartmentType.builder().value(value).build();
+    public static CompartmentType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return CompartmentType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CompartmentType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

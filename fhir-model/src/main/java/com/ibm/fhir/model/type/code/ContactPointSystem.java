@@ -20,37 +20,37 @@ public class ContactPointSystem extends Code {
     /**
      * Phone
      */
-    public static final ContactPointSystem PHONE = ContactPointSystem.of(ValueSet.PHONE);
+    public static final ContactPointSystem PHONE = ContactPointSystem.builder().value(ValueSet.PHONE).build();
 
     /**
      * Fax
      */
-    public static final ContactPointSystem FAX = ContactPointSystem.of(ValueSet.FAX);
+    public static final ContactPointSystem FAX = ContactPointSystem.builder().value(ValueSet.FAX).build();
 
     /**
      * Email
      */
-    public static final ContactPointSystem EMAIL = ContactPointSystem.of(ValueSet.EMAIL);
+    public static final ContactPointSystem EMAIL = ContactPointSystem.builder().value(ValueSet.EMAIL).build();
 
     /**
      * Pager
      */
-    public static final ContactPointSystem PAGER = ContactPointSystem.of(ValueSet.PAGER);
+    public static final ContactPointSystem PAGER = ContactPointSystem.builder().value(ValueSet.PAGER).build();
 
     /**
      * URL
      */
-    public static final ContactPointSystem URL = ContactPointSystem.of(ValueSet.URL);
+    public static final ContactPointSystem URL = ContactPointSystem.builder().value(ValueSet.URL).build();
 
     /**
      * SMS
      */
-    public static final ContactPointSystem SMS = ContactPointSystem.of(ValueSet.SMS);
+    public static final ContactPointSystem SMS = ContactPointSystem.builder().value(ValueSet.SMS).build();
 
     /**
      * Other
      */
-    public static final ContactPointSystem OTHER = ContactPointSystem.of(ValueSet.OTHER);
+    public static final ContactPointSystem OTHER = ContactPointSystem.builder().value(ValueSet.OTHER).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class ContactPointSystem extends Code {
         super(builder);
     }
 
-    public static ContactPointSystem of(java.lang.String value) {
-        return ContactPointSystem.builder().value(value).build();
+    public static ContactPointSystem of(ValueSet value) {
+        switch (value) {
+        case PHONE:
+            return PHONE;
+        case FAX:
+            return FAX;
+        case EMAIL:
+            return EMAIL;
+        case PAGER:
+            return PAGER;
+        case URL:
+            return URL;
+        case SMS:
+            return SMS;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ContactPointSystem of(ValueSet value) {
-        return ContactPointSystem.builder().value(value).build();
+    public static ContactPointSystem of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ContactPointSystem.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ContactPointSystem.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

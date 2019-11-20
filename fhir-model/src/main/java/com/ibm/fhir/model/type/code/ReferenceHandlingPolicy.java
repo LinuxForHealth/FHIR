@@ -20,27 +20,27 @@ public class ReferenceHandlingPolicy extends Code {
     /**
      * Literal References
      */
-    public static final ReferenceHandlingPolicy LITERAL = ReferenceHandlingPolicy.of(ValueSet.LITERAL);
+    public static final ReferenceHandlingPolicy LITERAL = ReferenceHandlingPolicy.builder().value(ValueSet.LITERAL).build();
 
     /**
      * Logical References
      */
-    public static final ReferenceHandlingPolicy LOGICAL = ReferenceHandlingPolicy.of(ValueSet.LOGICAL);
+    public static final ReferenceHandlingPolicy LOGICAL = ReferenceHandlingPolicy.builder().value(ValueSet.LOGICAL).build();
 
     /**
      * Resolves References
      */
-    public static final ReferenceHandlingPolicy RESOLVES = ReferenceHandlingPolicy.of(ValueSet.RESOLVES);
+    public static final ReferenceHandlingPolicy RESOLVES = ReferenceHandlingPolicy.builder().value(ValueSet.RESOLVES).build();
 
     /**
      * Reference Integrity Enforced
      */
-    public static final ReferenceHandlingPolicy ENFORCED = ReferenceHandlingPolicy.of(ValueSet.ENFORCED);
+    public static final ReferenceHandlingPolicy ENFORCED = ReferenceHandlingPolicy.builder().value(ValueSet.ENFORCED).build();
 
     /**
      * Local References Only
      */
-    public static final ReferenceHandlingPolicy LOCAL = ReferenceHandlingPolicy.of(ValueSet.LOCAL);
+    public static final ReferenceHandlingPolicy LOCAL = ReferenceHandlingPolicy.builder().value(ValueSet.LOCAL).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class ReferenceHandlingPolicy extends Code {
         super(builder);
     }
 
-    public static ReferenceHandlingPolicy of(java.lang.String value) {
-        return ReferenceHandlingPolicy.builder().value(value).build();
+    public static ReferenceHandlingPolicy of(ValueSet value) {
+        switch (value) {
+        case LITERAL:
+            return LITERAL;
+        case LOGICAL:
+            return LOGICAL;
+        case RESOLVES:
+            return RESOLVES;
+        case ENFORCED:
+            return ENFORCED;
+        case LOCAL:
+            return LOCAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ReferenceHandlingPolicy of(ValueSet value) {
-        return ReferenceHandlingPolicy.builder().value(value).build();
+    public static ReferenceHandlingPolicy of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ReferenceHandlingPolicy.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ReferenceHandlingPolicy.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

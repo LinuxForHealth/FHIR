@@ -20,17 +20,17 @@ public class QualityType extends Code {
     /**
      * INDEL Comparison
      */
-    public static final QualityType INDEL = QualityType.of(ValueSet.INDEL);
+    public static final QualityType INDEL = QualityType.builder().value(ValueSet.INDEL).build();
 
     /**
      * SNP Comparison
      */
-    public static final QualityType SNP = QualityType.of(ValueSet.SNP);
+    public static final QualityType SNP = QualityType.builder().value(ValueSet.SNP).build();
 
     /**
      * UNKNOWN Comparison
      */
-    public static final QualityType UNKNOWN = QualityType.of(ValueSet.UNKNOWN);
+    public static final QualityType UNKNOWN = QualityType.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class QualityType extends Code {
         super(builder);
     }
 
-    public static QualityType of(java.lang.String value) {
-        return QualityType.builder().value(value).build();
+    public static QualityType of(ValueSet value) {
+        switch (value) {
+        case INDEL:
+            return INDEL;
+        case SNP:
+            return SNP;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static QualityType of(ValueSet value) {
-        return QualityType.builder().value(value).build();
+    public static QualityType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return QualityType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return QualityType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

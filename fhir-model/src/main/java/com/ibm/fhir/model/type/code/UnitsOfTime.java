@@ -20,37 +20,37 @@ public class UnitsOfTime extends Code {
     /**
      * second
      */
-    public static final UnitsOfTime S = UnitsOfTime.of(ValueSet.S);
+    public static final UnitsOfTime S = UnitsOfTime.builder().value(ValueSet.S).build();
 
     /**
      * minute
      */
-    public static final UnitsOfTime MIN = UnitsOfTime.of(ValueSet.MIN);
+    public static final UnitsOfTime MIN = UnitsOfTime.builder().value(ValueSet.MIN).build();
 
     /**
      * hour
      */
-    public static final UnitsOfTime H = UnitsOfTime.of(ValueSet.H);
+    public static final UnitsOfTime H = UnitsOfTime.builder().value(ValueSet.H).build();
 
     /**
      * day
      */
-    public static final UnitsOfTime D = UnitsOfTime.of(ValueSet.D);
+    public static final UnitsOfTime D = UnitsOfTime.builder().value(ValueSet.D).build();
 
     /**
      * week
      */
-    public static final UnitsOfTime WK = UnitsOfTime.of(ValueSet.WK);
+    public static final UnitsOfTime WK = UnitsOfTime.builder().value(ValueSet.WK).build();
 
     /**
      * month
      */
-    public static final UnitsOfTime MO = UnitsOfTime.of(ValueSet.MO);
+    public static final UnitsOfTime MO = UnitsOfTime.builder().value(ValueSet.MO).build();
 
     /**
      * year
      */
-    public static final UnitsOfTime A = UnitsOfTime.of(ValueSet.A);
+    public static final UnitsOfTime A = UnitsOfTime.builder().value(ValueSet.A).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class UnitsOfTime extends Code {
         super(builder);
     }
 
-    public static UnitsOfTime of(java.lang.String value) {
-        return UnitsOfTime.builder().value(value).build();
+    public static UnitsOfTime of(ValueSet value) {
+        switch (value) {
+        case S:
+            return S;
+        case MIN:
+            return MIN;
+        case H:
+            return H;
+        case D:
+            return D;
+        case WK:
+            return WK;
+        case MO:
+            return MO;
+        case A:
+            return A;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static UnitsOfTime of(ValueSet value) {
-        return UnitsOfTime.builder().value(value).build();
+    public static UnitsOfTime of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return UnitsOfTime.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return UnitsOfTime.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

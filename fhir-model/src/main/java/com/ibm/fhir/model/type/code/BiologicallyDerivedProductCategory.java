@@ -20,27 +20,27 @@ public class BiologicallyDerivedProductCategory extends Code {
     /**
      * Organ
      */
-    public static final BiologicallyDerivedProductCategory ORGAN = BiologicallyDerivedProductCategory.of(ValueSet.ORGAN);
+    public static final BiologicallyDerivedProductCategory ORGAN = BiologicallyDerivedProductCategory.builder().value(ValueSet.ORGAN).build();
 
     /**
      * Tissue
      */
-    public static final BiologicallyDerivedProductCategory TISSUE = BiologicallyDerivedProductCategory.of(ValueSet.TISSUE);
+    public static final BiologicallyDerivedProductCategory TISSUE = BiologicallyDerivedProductCategory.builder().value(ValueSet.TISSUE).build();
 
     /**
      * Fluid
      */
-    public static final BiologicallyDerivedProductCategory FLUID = BiologicallyDerivedProductCategory.of(ValueSet.FLUID);
+    public static final BiologicallyDerivedProductCategory FLUID = BiologicallyDerivedProductCategory.builder().value(ValueSet.FLUID).build();
 
     /**
      * Cells
      */
-    public static final BiologicallyDerivedProductCategory CELLS = BiologicallyDerivedProductCategory.of(ValueSet.CELLS);
+    public static final BiologicallyDerivedProductCategory CELLS = BiologicallyDerivedProductCategory.builder().value(ValueSet.CELLS).build();
 
     /**
      * BiologicalAgent
      */
-    public static final BiologicallyDerivedProductCategory BIOLOGICAL_AGENT = BiologicallyDerivedProductCategory.of(ValueSet.BIOLOGICAL_AGENT);
+    public static final BiologicallyDerivedProductCategory BIOLOGICAL_AGENT = BiologicallyDerivedProductCategory.builder().value(ValueSet.BIOLOGICAL_AGENT).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class BiologicallyDerivedProductCategory extends Code {
         super(builder);
     }
 
-    public static BiologicallyDerivedProductCategory of(java.lang.String value) {
-        return BiologicallyDerivedProductCategory.builder().value(value).build();
+    public static BiologicallyDerivedProductCategory of(ValueSet value) {
+        switch (value) {
+        case ORGAN:
+            return ORGAN;
+        case TISSUE:
+            return TISSUE;
+        case FLUID:
+            return FLUID;
+        case CELLS:
+            return CELLS;
+        case BIOLOGICAL_AGENT:
+            return BIOLOGICAL_AGENT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static BiologicallyDerivedProductCategory of(ValueSet value) {
-        return BiologicallyDerivedProductCategory.builder().value(value).build();
+    public static BiologicallyDerivedProductCategory of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return BiologicallyDerivedProductCategory.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return BiologicallyDerivedProductCategory.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

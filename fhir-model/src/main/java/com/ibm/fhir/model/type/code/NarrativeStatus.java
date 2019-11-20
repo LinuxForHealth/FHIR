@@ -20,22 +20,22 @@ public class NarrativeStatus extends Code {
     /**
      * Generated
      */
-    public static final NarrativeStatus GENERATED = NarrativeStatus.of(ValueSet.GENERATED);
+    public static final NarrativeStatus GENERATED = NarrativeStatus.builder().value(ValueSet.GENERATED).build();
 
     /**
      * Extensions
      */
-    public static final NarrativeStatus EXTENSIONS = NarrativeStatus.of(ValueSet.EXTENSIONS);
+    public static final NarrativeStatus EXTENSIONS = NarrativeStatus.builder().value(ValueSet.EXTENSIONS).build();
 
     /**
      * Additional
      */
-    public static final NarrativeStatus ADDITIONAL = NarrativeStatus.of(ValueSet.ADDITIONAL);
+    public static final NarrativeStatus ADDITIONAL = NarrativeStatus.builder().value(ValueSet.ADDITIONAL).build();
 
     /**
      * Empty
      */
-    public static final NarrativeStatus EMPTY = NarrativeStatus.of(ValueSet.EMPTY);
+    public static final NarrativeStatus EMPTY = NarrativeStatus.builder().value(ValueSet.EMPTY).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class NarrativeStatus extends Code {
         super(builder);
     }
 
-    public static NarrativeStatus of(java.lang.String value) {
-        return NarrativeStatus.builder().value(value).build();
+    public static NarrativeStatus of(ValueSet value) {
+        switch (value) {
+        case GENERATED:
+            return GENERATED;
+        case EXTENSIONS:
+            return EXTENSIONS;
+        case ADDITIONAL:
+            return ADDITIONAL;
+        case EMPTY:
+            return EMPTY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static NarrativeStatus of(ValueSet value) {
-        return NarrativeStatus.builder().value(value).build();
+    public static NarrativeStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return NarrativeStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return NarrativeStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

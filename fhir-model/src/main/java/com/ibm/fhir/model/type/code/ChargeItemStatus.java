@@ -20,37 +20,37 @@ public class ChargeItemStatus extends Code {
     /**
      * Planned
      */
-    public static final ChargeItemStatus PLANNED = ChargeItemStatus.of(ValueSet.PLANNED);
+    public static final ChargeItemStatus PLANNED = ChargeItemStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Billable
      */
-    public static final ChargeItemStatus BILLABLE = ChargeItemStatus.of(ValueSet.BILLABLE);
+    public static final ChargeItemStatus BILLABLE = ChargeItemStatus.builder().value(ValueSet.BILLABLE).build();
 
     /**
      * Not billable
      */
-    public static final ChargeItemStatus NOT_BILLABLE = ChargeItemStatus.of(ValueSet.NOT_BILLABLE);
+    public static final ChargeItemStatus NOT_BILLABLE = ChargeItemStatus.builder().value(ValueSet.NOT_BILLABLE).build();
 
     /**
      * Aborted
      */
-    public static final ChargeItemStatus ABORTED = ChargeItemStatus.of(ValueSet.ABORTED);
+    public static final ChargeItemStatus ABORTED = ChargeItemStatus.builder().value(ValueSet.ABORTED).build();
 
     /**
      * Billed
      */
-    public static final ChargeItemStatus BILLED = ChargeItemStatus.of(ValueSet.BILLED);
+    public static final ChargeItemStatus BILLED = ChargeItemStatus.builder().value(ValueSet.BILLED).build();
 
     /**
      * Entered in Error
      */
-    public static final ChargeItemStatus ENTERED_IN_ERROR = ChargeItemStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ChargeItemStatus ENTERED_IN_ERROR = ChargeItemStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final ChargeItemStatus UNKNOWN = ChargeItemStatus.of(ValueSet.UNKNOWN);
+    public static final ChargeItemStatus UNKNOWN = ChargeItemStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class ChargeItemStatus extends Code {
         super(builder);
     }
 
-    public static ChargeItemStatus of(java.lang.String value) {
-        return ChargeItemStatus.builder().value(value).build();
+    public static ChargeItemStatus of(ValueSet value) {
+        switch (value) {
+        case PLANNED:
+            return PLANNED;
+        case BILLABLE:
+            return BILLABLE;
+        case NOT_BILLABLE:
+            return NOT_BILLABLE;
+        case ABORTED:
+            return ABORTED;
+        case BILLED:
+            return BILLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ChargeItemStatus of(ValueSet value) {
-        return ChargeItemStatus.builder().value(value).build();
+    public static ChargeItemStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ChargeItemStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ChargeItemStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,12 +20,12 @@ public class ConsentProvisionType extends Code {
     /**
      * Opt Out
      */
-    public static final ConsentProvisionType DENY = ConsentProvisionType.of(ValueSet.DENY);
+    public static final ConsentProvisionType DENY = ConsentProvisionType.builder().value(ValueSet.DENY).build();
 
     /**
      * Opt In
      */
-    public static final ConsentProvisionType PERMIT = ConsentProvisionType.of(ValueSet.PERMIT);
+    public static final ConsentProvisionType PERMIT = ConsentProvisionType.builder().value(ValueSet.PERMIT).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class ConsentProvisionType extends Code {
         super(builder);
     }
 
-    public static ConsentProvisionType of(java.lang.String value) {
-        return ConsentProvisionType.builder().value(value).build();
+    public static ConsentProvisionType of(ValueSet value) {
+        switch (value) {
+        case DENY:
+            return DENY;
+        case PERMIT:
+            return PERMIT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ConsentProvisionType of(ValueSet value) {
-        return ConsentProvisionType.builder().value(value).build();
+    public static ConsentProvisionType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ConsentProvisionType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ConsentProvisionType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

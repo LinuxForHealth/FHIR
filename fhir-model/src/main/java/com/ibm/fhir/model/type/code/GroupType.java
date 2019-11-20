@@ -20,32 +20,32 @@ public class GroupType extends Code {
     /**
      * Person
      */
-    public static final GroupType PERSON = GroupType.of(ValueSet.PERSON);
+    public static final GroupType PERSON = GroupType.builder().value(ValueSet.PERSON).build();
 
     /**
      * Animal
      */
-    public static final GroupType ANIMAL = GroupType.of(ValueSet.ANIMAL);
+    public static final GroupType ANIMAL = GroupType.builder().value(ValueSet.ANIMAL).build();
 
     /**
      * Practitioner
      */
-    public static final GroupType PRACTITIONER = GroupType.of(ValueSet.PRACTITIONER);
+    public static final GroupType PRACTITIONER = GroupType.builder().value(ValueSet.PRACTITIONER).build();
 
     /**
      * Device
      */
-    public static final GroupType DEVICE = GroupType.of(ValueSet.DEVICE);
+    public static final GroupType DEVICE = GroupType.builder().value(ValueSet.DEVICE).build();
 
     /**
      * Medication
      */
-    public static final GroupType MEDICATION = GroupType.of(ValueSet.MEDICATION);
+    public static final GroupType MEDICATION = GroupType.builder().value(ValueSet.MEDICATION).build();
 
     /**
      * Substance
      */
-    public static final GroupType SUBSTANCE = GroupType.of(ValueSet.SUBSTANCE);
+    public static final GroupType SUBSTANCE = GroupType.builder().value(ValueSet.SUBSTANCE).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class GroupType extends Code {
         super(builder);
     }
 
-    public static GroupType of(java.lang.String value) {
-        return GroupType.builder().value(value).build();
+    public static GroupType of(ValueSet value) {
+        switch (value) {
+        case PERSON:
+            return PERSON;
+        case ANIMAL:
+            return ANIMAL;
+        case PRACTITIONER:
+            return PRACTITIONER;
+        case DEVICE:
+            return DEVICE;
+        case MEDICATION:
+            return MEDICATION;
+        case SUBSTANCE:
+            return SUBSTANCE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static GroupType of(ValueSet value) {
-        return GroupType.builder().value(value).build();
+    public static GroupType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return GroupType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return GroupType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

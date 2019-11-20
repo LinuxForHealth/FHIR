@@ -20,17 +20,17 @@ public class AddressType extends Code {
     /**
      * Postal
      */
-    public static final AddressType POSTAL = AddressType.of(ValueSet.POSTAL);
+    public static final AddressType POSTAL = AddressType.builder().value(ValueSet.POSTAL).build();
 
     /**
      * Physical
      */
-    public static final AddressType PHYSICAL = AddressType.of(ValueSet.PHYSICAL);
+    public static final AddressType PHYSICAL = AddressType.builder().value(ValueSet.PHYSICAL).build();
 
     /**
      * Postal &amp; Physical
      */
-    public static final AddressType BOTH = AddressType.of(ValueSet.BOTH);
+    public static final AddressType BOTH = AddressType.builder().value(ValueSet.BOTH).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class AddressType extends Code {
         super(builder);
     }
 
-    public static AddressType of(java.lang.String value) {
-        return AddressType.builder().value(value).build();
+    public static AddressType of(ValueSet value) {
+        switch (value) {
+        case POSTAL:
+            return POSTAL;
+        case PHYSICAL:
+            return PHYSICAL;
+        case BOTH:
+            return BOTH;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AddressType of(ValueSet value) {
-        return AddressType.builder().value(value).build();
+    public static AddressType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AddressType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AddressType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

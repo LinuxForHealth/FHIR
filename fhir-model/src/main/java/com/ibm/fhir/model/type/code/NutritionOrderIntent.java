@@ -20,47 +20,47 @@ public class NutritionOrderIntent extends Code {
     /**
      * Proposal
      */
-    public static final NutritionOrderIntent PROPOSAL = NutritionOrderIntent.of(ValueSet.PROPOSAL);
+    public static final NutritionOrderIntent PROPOSAL = NutritionOrderIntent.builder().value(ValueSet.PROPOSAL).build();
 
     /**
      * Plan
      */
-    public static final NutritionOrderIntent PLAN = NutritionOrderIntent.of(ValueSet.PLAN);
+    public static final NutritionOrderIntent PLAN = NutritionOrderIntent.builder().value(ValueSet.PLAN).build();
 
     /**
      * Directive
      */
-    public static final NutritionOrderIntent DIRECTIVE = NutritionOrderIntent.of(ValueSet.DIRECTIVE);
+    public static final NutritionOrderIntent DIRECTIVE = NutritionOrderIntent.builder().value(ValueSet.DIRECTIVE).build();
 
     /**
      * Order
      */
-    public static final NutritionOrderIntent ORDER = NutritionOrderIntent.of(ValueSet.ORDER);
+    public static final NutritionOrderIntent ORDER = NutritionOrderIntent.builder().value(ValueSet.ORDER).build();
 
     /**
      * Original Order
      */
-    public static final NutritionOrderIntent ORIGINAL_ORDER = NutritionOrderIntent.of(ValueSet.ORIGINAL_ORDER);
+    public static final NutritionOrderIntent ORIGINAL_ORDER = NutritionOrderIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
 
     /**
      * Reflex Order
      */
-    public static final NutritionOrderIntent REFLEX_ORDER = NutritionOrderIntent.of(ValueSet.REFLEX_ORDER);
+    public static final NutritionOrderIntent REFLEX_ORDER = NutritionOrderIntent.builder().value(ValueSet.REFLEX_ORDER).build();
 
     /**
      * Filler Order
      */
-    public static final NutritionOrderIntent FILLER_ORDER = NutritionOrderIntent.of(ValueSet.FILLER_ORDER);
+    public static final NutritionOrderIntent FILLER_ORDER = NutritionOrderIntent.builder().value(ValueSet.FILLER_ORDER).build();
 
     /**
      * Instance Order
      */
-    public static final NutritionOrderIntent INSTANCE_ORDER = NutritionOrderIntent.of(ValueSet.INSTANCE_ORDER);
+    public static final NutritionOrderIntent INSTANCE_ORDER = NutritionOrderIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
 
     /**
      * Option
      */
-    public static final NutritionOrderIntent OPTION = NutritionOrderIntent.of(ValueSet.OPTION);
+    public static final NutritionOrderIntent OPTION = NutritionOrderIntent.builder().value(ValueSet.OPTION).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class NutritionOrderIntent extends Code {
         super(builder);
     }
 
-    public static NutritionOrderIntent of(java.lang.String value) {
-        return NutritionOrderIntent.builder().value(value).build();
+    public static NutritionOrderIntent of(ValueSet value) {
+        switch (value) {
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case DIRECTIVE:
+            return DIRECTIVE;
+        case ORDER:
+            return ORDER;
+        case ORIGINAL_ORDER:
+            return ORIGINAL_ORDER;
+        case REFLEX_ORDER:
+            return REFLEX_ORDER;
+        case FILLER_ORDER:
+            return FILLER_ORDER;
+        case INSTANCE_ORDER:
+            return INSTANCE_ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static NutritionOrderIntent of(ValueSet value) {
-        return NutritionOrderIntent.builder().value(value).build();
+    public static NutritionOrderIntent of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return NutritionOrderIntent.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return NutritionOrderIntent.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

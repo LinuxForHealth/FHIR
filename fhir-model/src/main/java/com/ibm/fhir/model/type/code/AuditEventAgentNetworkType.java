@@ -20,27 +20,27 @@ public class AuditEventAgentNetworkType extends Code {
     /**
      * Machine Name
      */
-    public static final AuditEventAgentNetworkType TYPE_1 = AuditEventAgentNetworkType.of(ValueSet.TYPE_1);
+    public static final AuditEventAgentNetworkType TYPE_1 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_1).build();
 
     /**
      * IP Address
      */
-    public static final AuditEventAgentNetworkType TYPE_2 = AuditEventAgentNetworkType.of(ValueSet.TYPE_2);
+    public static final AuditEventAgentNetworkType TYPE_2 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_2).build();
 
     /**
      * Telephone Number
      */
-    public static final AuditEventAgentNetworkType TYPE_3 = AuditEventAgentNetworkType.of(ValueSet.TYPE_3);
+    public static final AuditEventAgentNetworkType TYPE_3 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_3).build();
 
     /**
      * Email address
      */
-    public static final AuditEventAgentNetworkType TYPE_4 = AuditEventAgentNetworkType.of(ValueSet.TYPE_4);
+    public static final AuditEventAgentNetworkType TYPE_4 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_4).build();
 
     /**
      * URI
      */
-    public static final AuditEventAgentNetworkType TYPE_5 = AuditEventAgentNetworkType.of(ValueSet.TYPE_5);
+    public static final AuditEventAgentNetworkType TYPE_5 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_5).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class AuditEventAgentNetworkType extends Code {
         super(builder);
     }
 
-    public static AuditEventAgentNetworkType of(java.lang.String value) {
-        return AuditEventAgentNetworkType.builder().value(value).build();
+    public static AuditEventAgentNetworkType of(ValueSet value) {
+        switch (value) {
+        case TYPE_1:
+            return TYPE_1;
+        case TYPE_2:
+            return TYPE_2;
+        case TYPE_3:
+            return TYPE_3;
+        case TYPE_4:
+            return TYPE_4;
+        case TYPE_5:
+            return TYPE_5;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AuditEventAgentNetworkType of(ValueSet value) {
-        return AuditEventAgentNetworkType.builder().value(value).build();
+    public static AuditEventAgentNetworkType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AuditEventAgentNetworkType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AuditEventAgentNetworkType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

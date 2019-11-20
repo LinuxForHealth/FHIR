@@ -20,12 +20,12 @@ public class AllergyIntoleranceType extends Code {
     /**
      * Allergy
      */
-    public static final AllergyIntoleranceType ALLERGY = AllergyIntoleranceType.of(ValueSet.ALLERGY);
+    public static final AllergyIntoleranceType ALLERGY = AllergyIntoleranceType.builder().value(ValueSet.ALLERGY).build();
 
     /**
      * Intolerance
      */
-    public static final AllergyIntoleranceType INTOLERANCE = AllergyIntoleranceType.of(ValueSet.INTOLERANCE);
+    public static final AllergyIntoleranceType INTOLERANCE = AllergyIntoleranceType.builder().value(ValueSet.INTOLERANCE).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class AllergyIntoleranceType extends Code {
         super(builder);
     }
 
-    public static AllergyIntoleranceType of(java.lang.String value) {
-        return AllergyIntoleranceType.builder().value(value).build();
+    public static AllergyIntoleranceType of(ValueSet value) {
+        switch (value) {
+        case ALLERGY:
+            return ALLERGY;
+        case INTOLERANCE:
+            return INTOLERANCE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AllergyIntoleranceType of(ValueSet value) {
-        return AllergyIntoleranceType.builder().value(value).build();
+    public static AllergyIntoleranceType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AllergyIntoleranceType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AllergyIntoleranceType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

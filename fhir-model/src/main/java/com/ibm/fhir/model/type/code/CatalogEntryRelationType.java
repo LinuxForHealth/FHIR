@@ -20,12 +20,12 @@ public class CatalogEntryRelationType extends Code {
     /**
      * Triggers
      */
-    public static final CatalogEntryRelationType TRIGGERS = CatalogEntryRelationType.of(ValueSet.TRIGGERS);
+    public static final CatalogEntryRelationType TRIGGERS = CatalogEntryRelationType.builder().value(ValueSet.TRIGGERS).build();
 
     /**
      * Replaced By
      */
-    public static final CatalogEntryRelationType IS_REPLACED_BY = CatalogEntryRelationType.of(ValueSet.IS_REPLACED_BY);
+    public static final CatalogEntryRelationType IS_REPLACED_BY = CatalogEntryRelationType.builder().value(ValueSet.IS_REPLACED_BY).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class CatalogEntryRelationType extends Code {
         super(builder);
     }
 
-    public static CatalogEntryRelationType of(java.lang.String value) {
-        return CatalogEntryRelationType.builder().value(value).build();
+    public static CatalogEntryRelationType of(ValueSet value) {
+        switch (value) {
+        case TRIGGERS:
+            return TRIGGERS;
+        case IS_REPLACED_BY:
+            return IS_REPLACED_BY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static CatalogEntryRelationType of(ValueSet value) {
-        return CatalogEntryRelationType.builder().value(value).build();
+    public static CatalogEntryRelationType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return CatalogEntryRelationType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CatalogEntryRelationType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

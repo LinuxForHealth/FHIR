@@ -20,12 +20,12 @@ public class StrandType extends Code {
     /**
      * Watson strand of referenceSeq
      */
-    public static final StrandType WATSON = StrandType.of(ValueSet.WATSON);
+    public static final StrandType WATSON = StrandType.builder().value(ValueSet.WATSON).build();
 
     /**
      * Crick strand of referenceSeq
      */
-    public static final StrandType CRICK = StrandType.of(ValueSet.CRICK);
+    public static final StrandType CRICK = StrandType.builder().value(ValueSet.CRICK).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class StrandType extends Code {
         super(builder);
     }
 
-    public static StrandType of(java.lang.String value) {
-        return StrandType.builder().value(value).build();
+    public static StrandType of(ValueSet value) {
+        switch (value) {
+        case WATSON:
+            return WATSON;
+        case CRICK:
+            return CRICK;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static StrandType of(ValueSet value) {
-        return StrandType.builder().value(value).build();
+    public static StrandType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return StrandType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StrandType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

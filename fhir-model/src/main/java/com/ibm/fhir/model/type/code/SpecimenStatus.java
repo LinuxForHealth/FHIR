@@ -20,22 +20,22 @@ public class SpecimenStatus extends Code {
     /**
      * Available
      */
-    public static final SpecimenStatus AVAILABLE = SpecimenStatus.of(ValueSet.AVAILABLE);
+    public static final SpecimenStatus AVAILABLE = SpecimenStatus.builder().value(ValueSet.AVAILABLE).build();
 
     /**
      * Unavailable
      */
-    public static final SpecimenStatus UNAVAILABLE = SpecimenStatus.of(ValueSet.UNAVAILABLE);
+    public static final SpecimenStatus UNAVAILABLE = SpecimenStatus.builder().value(ValueSet.UNAVAILABLE).build();
 
     /**
      * Unsatisfactory
      */
-    public static final SpecimenStatus UNSATISFACTORY = SpecimenStatus.of(ValueSet.UNSATISFACTORY);
+    public static final SpecimenStatus UNSATISFACTORY = SpecimenStatus.builder().value(ValueSet.UNSATISFACTORY).build();
 
     /**
      * Entered in Error
      */
-    public static final SpecimenStatus ENTERED_IN_ERROR = SpecimenStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final SpecimenStatus ENTERED_IN_ERROR = SpecimenStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class SpecimenStatus extends Code {
         super(builder);
     }
 
-    public static SpecimenStatus of(java.lang.String value) {
-        return SpecimenStatus.builder().value(value).build();
+    public static SpecimenStatus of(ValueSet value) {
+        switch (value) {
+        case AVAILABLE:
+            return AVAILABLE;
+        case UNAVAILABLE:
+            return UNAVAILABLE;
+        case UNSATISFACTORY:
+            return UNSATISFACTORY;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static SpecimenStatus of(ValueSet value) {
-        return SpecimenStatus.builder().value(value).build();
+    public static SpecimenStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return SpecimenStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SpecimenStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

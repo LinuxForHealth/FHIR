@@ -20,37 +20,37 @@ public class CarePlanStatus extends Code {
     /**
      * Draft
      */
-    public static final CarePlanStatus DRAFT = CarePlanStatus.of(ValueSet.DRAFT);
+    public static final CarePlanStatus DRAFT = CarePlanStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
      */
-    public static final CarePlanStatus ACTIVE = CarePlanStatus.of(ValueSet.ACTIVE);
+    public static final CarePlanStatus ACTIVE = CarePlanStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
      */
-    public static final CarePlanStatus ON_HOLD = CarePlanStatus.of(ValueSet.ON_HOLD);
+    public static final CarePlanStatus ON_HOLD = CarePlanStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Revoked
      */
-    public static final CarePlanStatus REVOKED = CarePlanStatus.of(ValueSet.REVOKED);
+    public static final CarePlanStatus REVOKED = CarePlanStatus.builder().value(ValueSet.REVOKED).build();
 
     /**
      * Completed
      */
-    public static final CarePlanStatus COMPLETED = CarePlanStatus.of(ValueSet.COMPLETED);
+    public static final CarePlanStatus COMPLETED = CarePlanStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final CarePlanStatus ENTERED_IN_ERROR = CarePlanStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final CarePlanStatus ENTERED_IN_ERROR = CarePlanStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final CarePlanStatus UNKNOWN = CarePlanStatus.of(ValueSet.UNKNOWN);
+    public static final CarePlanStatus UNKNOWN = CarePlanStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class CarePlanStatus extends Code {
         super(builder);
     }
 
-    public static CarePlanStatus of(java.lang.String value) {
-        return CarePlanStatus.builder().value(value).build();
+    public static CarePlanStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case REVOKED:
+            return REVOKED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static CarePlanStatus of(ValueSet value) {
-        return CarePlanStatus.builder().value(value).build();
+    public static CarePlanStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return CarePlanStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CarePlanStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

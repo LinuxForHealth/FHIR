@@ -20,22 +20,22 @@ public class ReferredDocumentStatus extends Code {
     /**
      * Preliminary
      */
-    public static final ReferredDocumentStatus PRELIMINARY = ReferredDocumentStatus.of(ValueSet.PRELIMINARY);
+    public static final ReferredDocumentStatus PRELIMINARY = ReferredDocumentStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
      */
-    public static final ReferredDocumentStatus FINAL = ReferredDocumentStatus.of(ValueSet.FINAL);
+    public static final ReferredDocumentStatus FINAL = ReferredDocumentStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
      */
-    public static final ReferredDocumentStatus AMENDED = ReferredDocumentStatus.of(ValueSet.AMENDED);
+    public static final ReferredDocumentStatus AMENDED = ReferredDocumentStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Entered in Error
      */
-    public static final ReferredDocumentStatus ENTERED_IN_ERROR = ReferredDocumentStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ReferredDocumentStatus ENTERED_IN_ERROR = ReferredDocumentStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class ReferredDocumentStatus extends Code {
         super(builder);
     }
 
-    public static ReferredDocumentStatus of(java.lang.String value) {
-        return ReferredDocumentStatus.builder().value(value).build();
+    public static ReferredDocumentStatus of(ValueSet value) {
+        switch (value) {
+        case PRELIMINARY:
+            return PRELIMINARY;
+        case FINAL:
+            return FINAL;
+        case AMENDED:
+            return AMENDED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ReferredDocumentStatus of(ValueSet value) {
-        return ReferredDocumentStatus.builder().value(value).build();
+    public static ReferredDocumentStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ReferredDocumentStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ReferredDocumentStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

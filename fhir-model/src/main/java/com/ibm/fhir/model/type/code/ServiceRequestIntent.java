@@ -20,47 +20,47 @@ public class ServiceRequestIntent extends Code {
     /**
      * Proposal
      */
-    public static final ServiceRequestIntent PROPOSAL = ServiceRequestIntent.of(ValueSet.PROPOSAL);
+    public static final ServiceRequestIntent PROPOSAL = ServiceRequestIntent.builder().value(ValueSet.PROPOSAL).build();
 
     /**
      * Plan
      */
-    public static final ServiceRequestIntent PLAN = ServiceRequestIntent.of(ValueSet.PLAN);
+    public static final ServiceRequestIntent PLAN = ServiceRequestIntent.builder().value(ValueSet.PLAN).build();
 
     /**
      * Directive
      */
-    public static final ServiceRequestIntent DIRECTIVE = ServiceRequestIntent.of(ValueSet.DIRECTIVE);
+    public static final ServiceRequestIntent DIRECTIVE = ServiceRequestIntent.builder().value(ValueSet.DIRECTIVE).build();
 
     /**
      * Order
      */
-    public static final ServiceRequestIntent ORDER = ServiceRequestIntent.of(ValueSet.ORDER);
+    public static final ServiceRequestIntent ORDER = ServiceRequestIntent.builder().value(ValueSet.ORDER).build();
 
     /**
      * Original Order
      */
-    public static final ServiceRequestIntent ORIGINAL_ORDER = ServiceRequestIntent.of(ValueSet.ORIGINAL_ORDER);
+    public static final ServiceRequestIntent ORIGINAL_ORDER = ServiceRequestIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
 
     /**
      * Reflex Order
      */
-    public static final ServiceRequestIntent REFLEX_ORDER = ServiceRequestIntent.of(ValueSet.REFLEX_ORDER);
+    public static final ServiceRequestIntent REFLEX_ORDER = ServiceRequestIntent.builder().value(ValueSet.REFLEX_ORDER).build();
 
     /**
      * Filler Order
      */
-    public static final ServiceRequestIntent FILLER_ORDER = ServiceRequestIntent.of(ValueSet.FILLER_ORDER);
+    public static final ServiceRequestIntent FILLER_ORDER = ServiceRequestIntent.builder().value(ValueSet.FILLER_ORDER).build();
 
     /**
      * Instance Order
      */
-    public static final ServiceRequestIntent INSTANCE_ORDER = ServiceRequestIntent.of(ValueSet.INSTANCE_ORDER);
+    public static final ServiceRequestIntent INSTANCE_ORDER = ServiceRequestIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
 
     /**
      * Option
      */
-    public static final ServiceRequestIntent OPTION = ServiceRequestIntent.of(ValueSet.OPTION);
+    public static final ServiceRequestIntent OPTION = ServiceRequestIntent.builder().value(ValueSet.OPTION).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class ServiceRequestIntent extends Code {
         super(builder);
     }
 
-    public static ServiceRequestIntent of(java.lang.String value) {
-        return ServiceRequestIntent.builder().value(value).build();
+    public static ServiceRequestIntent of(ValueSet value) {
+        switch (value) {
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case DIRECTIVE:
+            return DIRECTIVE;
+        case ORDER:
+            return ORDER;
+        case ORIGINAL_ORDER:
+            return ORIGINAL_ORDER;
+        case REFLEX_ORDER:
+            return REFLEX_ORDER;
+        case FILLER_ORDER:
+            return FILLER_ORDER;
+        case INSTANCE_ORDER:
+            return INSTANCE_ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ServiceRequestIntent of(ValueSet value) {
-        return ServiceRequestIntent.builder().value(value).build();
+    public static ServiceRequestIntent of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ServiceRequestIntent.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ServiceRequestIntent.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

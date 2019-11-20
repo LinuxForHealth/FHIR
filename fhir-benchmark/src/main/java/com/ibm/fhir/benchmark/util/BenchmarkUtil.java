@@ -23,10 +23,13 @@ import com.ibm.fhir.model.format.Format;
 
 public final class BenchmarkUtil {
     private static final Random RANDOM = new Random();
-    private static final List<String> SPEC_EXAMPLE_NAMES = buildSpecExampleNames();
+    public static final List<String> SPEC_EXAMPLE_NAMES = buildSpecExampleNames();
     
     private BenchmarkUtil() { }
     
+    /**
+     * @return the list of spec examples for which we have both an XML and JSON variant 
+     */
     private static List<String> buildSpecExampleNames() {
         try (Reader jsonReader = ExamplesUtil.reader("json/spec.txt"); Reader xmlReader = ExamplesUtil.reader("xml/spec.txt")) {
             Set<String> jsonExampleNames = new BufferedReader(jsonReader)

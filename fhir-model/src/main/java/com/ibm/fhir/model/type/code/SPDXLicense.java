@@ -20,1732 +20,1732 @@ public class SPDXLicense extends Code {
     /**
      * Not open source
      */
-    public static final SPDXLicense LICENSE_NOT_OPEN_SOURCE = SPDXLicense.of(ValueSet.LICENSE_NOT_OPEN_SOURCE);
+    public static final SPDXLicense LICENSE_NOT_OPEN_SOURCE = SPDXLicense.builder().value(ValueSet.LICENSE_NOT_OPEN_SOURCE).build();
 
     /**
      * BSD Zero Clause License
      */
-    public static final SPDXLicense LICENSE_0BSD = SPDXLicense.of(ValueSet.LICENSE_0BSD);
+    public static final SPDXLicense LICENSE_0BSD = SPDXLicense.builder().value(ValueSet.LICENSE_0BSD).build();
 
     /**
      * Attribution Assurance License
      */
-    public static final SPDXLicense LICENSE_AAL = SPDXLicense.of(ValueSet.LICENSE_AAL);
+    public static final SPDXLicense LICENSE_AAL = SPDXLicense.builder().value(ValueSet.LICENSE_AAL).build();
 
     /**
      * Abstyles License
      */
-    public static final SPDXLicense LICENSE_ABSTYLES = SPDXLicense.of(ValueSet.LICENSE_ABSTYLES);
+    public static final SPDXLicense LICENSE_ABSTYLES = SPDXLicense.builder().value(ValueSet.LICENSE_ABSTYLES).build();
 
     /**
      * Adobe Systems Incorporated Source Code License Agreement
      */
-    public static final SPDXLicense LICENSE_ADOBE_2006 = SPDXLicense.of(ValueSet.LICENSE_ADOBE_2006);
+    public static final SPDXLicense LICENSE_ADOBE_2006 = SPDXLicense.builder().value(ValueSet.LICENSE_ADOBE_2006).build();
 
     /**
      * Adobe Glyph List License
      */
-    public static final SPDXLicense LICENSE_ADOBE_GLYPH = SPDXLicense.of(ValueSet.LICENSE_ADOBE_GLYPH);
+    public static final SPDXLicense LICENSE_ADOBE_GLYPH = SPDXLicense.builder().value(ValueSet.LICENSE_ADOBE_GLYPH).build();
 
     /**
      * Amazon Digital Services License
      */
-    public static final SPDXLicense LICENSE_ADSL = SPDXLicense.of(ValueSet.LICENSE_ADSL);
+    public static final SPDXLicense LICENSE_ADSL = SPDXLicense.builder().value(ValueSet.LICENSE_ADSL).build();
 
     /**
      * Academic Free License v1.1
      */
-    public static final SPDXLicense LICENSE_AFL_1_1 = SPDXLicense.of(ValueSet.LICENSE_AFL_1_1);
+    public static final SPDXLicense LICENSE_AFL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_AFL_1_1).build();
 
     /**
      * Academic Free License v1.2
      */
-    public static final SPDXLicense LICENSE_AFL_1_2 = SPDXLicense.of(ValueSet.LICENSE_AFL_1_2);
+    public static final SPDXLicense LICENSE_AFL_1_2 = SPDXLicense.builder().value(ValueSet.LICENSE_AFL_1_2).build();
 
     /**
      * Academic Free License v2.0
      */
-    public static final SPDXLicense LICENSE_AFL_2_0 = SPDXLicense.of(ValueSet.LICENSE_AFL_2_0);
+    public static final SPDXLicense LICENSE_AFL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_AFL_2_0).build();
 
     /**
      * Academic Free License v2.1
      */
-    public static final SPDXLicense LICENSE_AFL_2_1 = SPDXLicense.of(ValueSet.LICENSE_AFL_2_1);
+    public static final SPDXLicense LICENSE_AFL_2_1 = SPDXLicense.builder().value(ValueSet.LICENSE_AFL_2_1).build();
 
     /**
      * Academic Free License v3.0
      */
-    public static final SPDXLicense LICENSE_AFL_3_0 = SPDXLicense.of(ValueSet.LICENSE_AFL_3_0);
+    public static final SPDXLicense LICENSE_AFL_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_AFL_3_0).build();
 
     /**
      * Afmparse License
      */
-    public static final SPDXLicense LICENSE_AFMPARSE = SPDXLicense.of(ValueSet.LICENSE_AFMPARSE);
+    public static final SPDXLicense LICENSE_AFMPARSE = SPDXLicense.builder().value(ValueSet.LICENSE_AFMPARSE).build();
 
     /**
      * Affero General Public License v1.0 only
      */
-    public static final SPDXLicense LICENSE_AGPL_1_0_ONLY = SPDXLicense.of(ValueSet.LICENSE_AGPL_1_0_ONLY);
+    public static final SPDXLicense LICENSE_AGPL_1_0_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_AGPL_1_0_ONLY).build();
 
     /**
      * Affero General Public License v1.0 or later
      */
-    public static final SPDXLicense LICENSE_AGPL_1_0_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_AGPL_1_0_OR_LATER);
+    public static final SPDXLicense LICENSE_AGPL_1_0_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_AGPL_1_0_OR_LATER).build();
 
     /**
      * GNU Affero General Public License v3.0 only
      */
-    public static final SPDXLicense LICENSE_AGPL_3_0_ONLY = SPDXLicense.of(ValueSet.LICENSE_AGPL_3_0_ONLY);
+    public static final SPDXLicense LICENSE_AGPL_3_0_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_AGPL_3_0_ONLY).build();
 
     /**
      * GNU Affero General Public License v3.0 or later
      */
-    public static final SPDXLicense LICENSE_AGPL_3_0_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_AGPL_3_0_OR_LATER);
+    public static final SPDXLicense LICENSE_AGPL_3_0_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_AGPL_3_0_OR_LATER).build();
 
     /**
      * Aladdin Free Public License
      */
-    public static final SPDXLicense LICENSE_ALADDIN = SPDXLicense.of(ValueSet.LICENSE_ALADDIN);
+    public static final SPDXLicense LICENSE_ALADDIN = SPDXLicense.builder().value(ValueSet.LICENSE_ALADDIN).build();
 
     /**
      * AMD's plpa_map.c License
      */
-    public static final SPDXLicense LICENSE_AMDPLPA = SPDXLicense.of(ValueSet.LICENSE_AMDPLPA);
+    public static final SPDXLicense LICENSE_AMDPLPA = SPDXLicense.builder().value(ValueSet.LICENSE_AMDPLPA).build();
 
     /**
      * Apple MIT License
      */
-    public static final SPDXLicense LICENSE_AML = SPDXLicense.of(ValueSet.LICENSE_AML);
+    public static final SPDXLicense LICENSE_AML = SPDXLicense.builder().value(ValueSet.LICENSE_AML).build();
 
     /**
      * Academy of Motion Picture Arts and Sciences BSD
      */
-    public static final SPDXLicense LICENSE_AMPAS = SPDXLicense.of(ValueSet.LICENSE_AMPAS);
+    public static final SPDXLicense LICENSE_AMPAS = SPDXLicense.builder().value(ValueSet.LICENSE_AMPAS).build();
 
     /**
      * ANTLR Software Rights Notice
      */
-    public static final SPDXLicense LICENSE_ANTLR_PD = SPDXLicense.of(ValueSet.LICENSE_ANTLR_PD);
+    public static final SPDXLicense LICENSE_ANTLR_PD = SPDXLicense.builder().value(ValueSet.LICENSE_ANTLR_PD).build();
 
     /**
      * Apache License 1.0
      */
-    public static final SPDXLicense LICENSE_APACHE_1_0 = SPDXLicense.of(ValueSet.LICENSE_APACHE_1_0);
+    public static final SPDXLicense LICENSE_APACHE_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_APACHE_1_0).build();
 
     /**
      * Apache License 1.1
      */
-    public static final SPDXLicense LICENSE_APACHE_1_1 = SPDXLicense.of(ValueSet.LICENSE_APACHE_1_1);
+    public static final SPDXLicense LICENSE_APACHE_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_APACHE_1_1).build();
 
     /**
      * Apache License 2.0
      */
-    public static final SPDXLicense LICENSE_APACHE_2_0 = SPDXLicense.of(ValueSet.LICENSE_APACHE_2_0);
+    public static final SPDXLicense LICENSE_APACHE_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_APACHE_2_0).build();
 
     /**
      * Adobe Postscript AFM License
      */
-    public static final SPDXLicense LICENSE_APAFML = SPDXLicense.of(ValueSet.LICENSE_APAFML);
+    public static final SPDXLicense LICENSE_APAFML = SPDXLicense.builder().value(ValueSet.LICENSE_APAFML).build();
 
     /**
      * Adaptive Public License 1.0
      */
-    public static final SPDXLicense LICENSE_APL_1_0 = SPDXLicense.of(ValueSet.LICENSE_APL_1_0);
+    public static final SPDXLicense LICENSE_APL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_APL_1_0).build();
 
     /**
      * Apple Public Source License 1.0
      */
-    public static final SPDXLicense LICENSE_APSL_1_0 = SPDXLicense.of(ValueSet.LICENSE_APSL_1_0);
+    public static final SPDXLicense LICENSE_APSL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_APSL_1_0).build();
 
     /**
      * Apple Public Source License 1.1
      */
-    public static final SPDXLicense LICENSE_APSL_1_1 = SPDXLicense.of(ValueSet.LICENSE_APSL_1_1);
+    public static final SPDXLicense LICENSE_APSL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_APSL_1_1).build();
 
     /**
      * Apple Public Source License 1.2
      */
-    public static final SPDXLicense LICENSE_APSL_1_2 = SPDXLicense.of(ValueSet.LICENSE_APSL_1_2);
+    public static final SPDXLicense LICENSE_APSL_1_2 = SPDXLicense.builder().value(ValueSet.LICENSE_APSL_1_2).build();
 
     /**
      * Apple Public Source License 2.0
      */
-    public static final SPDXLicense LICENSE_APSL_2_0 = SPDXLicense.of(ValueSet.LICENSE_APSL_2_0);
+    public static final SPDXLicense LICENSE_APSL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_APSL_2_0).build();
 
     /**
      * Artistic License 1.0 w/clause 8
      */
-    public static final SPDXLicense LICENSE_ARTISTIC_1_0_CL8 = SPDXLicense.of(ValueSet.LICENSE_ARTISTIC_1_0_CL8);
+    public static final SPDXLicense LICENSE_ARTISTIC_1_0_CL8 = SPDXLicense.builder().value(ValueSet.LICENSE_ARTISTIC_1_0_CL8).build();
 
     /**
      * Artistic License 1.0 (Perl)
      */
-    public static final SPDXLicense LICENSE_ARTISTIC_1_0_PERL = SPDXLicense.of(ValueSet.LICENSE_ARTISTIC_1_0_PERL);
+    public static final SPDXLicense LICENSE_ARTISTIC_1_0_PERL = SPDXLicense.builder().value(ValueSet.LICENSE_ARTISTIC_1_0_PERL).build();
 
     /**
      * Artistic License 1.0
      */
-    public static final SPDXLicense LICENSE_ARTISTIC_1_0 = SPDXLicense.of(ValueSet.LICENSE_ARTISTIC_1_0);
+    public static final SPDXLicense LICENSE_ARTISTIC_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_ARTISTIC_1_0).build();
 
     /**
      * Artistic License 2.0
      */
-    public static final SPDXLicense LICENSE_ARTISTIC_2_0 = SPDXLicense.of(ValueSet.LICENSE_ARTISTIC_2_0);
+    public static final SPDXLicense LICENSE_ARTISTIC_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_ARTISTIC_2_0).build();
 
     /**
      * Bahyph License
      */
-    public static final SPDXLicense LICENSE_BAHYPH = SPDXLicense.of(ValueSet.LICENSE_BAHYPH);
+    public static final SPDXLicense LICENSE_BAHYPH = SPDXLicense.builder().value(ValueSet.LICENSE_BAHYPH).build();
 
     /**
      * Barr License
      */
-    public static final SPDXLicense LICENSE_BARR = SPDXLicense.of(ValueSet.LICENSE_BARR);
+    public static final SPDXLicense LICENSE_BARR = SPDXLicense.builder().value(ValueSet.LICENSE_BARR).build();
 
     /**
      * Beerware License
      */
-    public static final SPDXLicense LICENSE_BEERWARE = SPDXLicense.of(ValueSet.LICENSE_BEERWARE);
+    public static final SPDXLicense LICENSE_BEERWARE = SPDXLicense.builder().value(ValueSet.LICENSE_BEERWARE).build();
 
     /**
      * BitTorrent Open Source License v1.0
      */
-    public static final SPDXLicense LICENSE_BIT_TORRENT_1_0 = SPDXLicense.of(ValueSet.LICENSE_BIT_TORRENT_1_0);
+    public static final SPDXLicense LICENSE_BIT_TORRENT_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_BIT_TORRENT_1_0).build();
 
     /**
      * BitTorrent Open Source License v1.1
      */
-    public static final SPDXLicense LICENSE_BIT_TORRENT_1_1 = SPDXLicense.of(ValueSet.LICENSE_BIT_TORRENT_1_1);
+    public static final SPDXLicense LICENSE_BIT_TORRENT_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_BIT_TORRENT_1_1).build();
 
     /**
      * Borceux license
      */
-    public static final SPDXLicense LICENSE_BORCEUX = SPDXLicense.of(ValueSet.LICENSE_BORCEUX);
+    public static final SPDXLicense LICENSE_BORCEUX = SPDXLicense.builder().value(ValueSet.LICENSE_BORCEUX).build();
 
     /**
      * BSD 1-Clause License
      */
-    public static final SPDXLicense LICENSE_BSD_1_CLAUSE = SPDXLicense.of(ValueSet.LICENSE_BSD_1_CLAUSE);
+    public static final SPDXLicense LICENSE_BSD_1_CLAUSE = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_1_CLAUSE).build();
 
     /**
      * BSD 2-Clause FreeBSD License
      */
-    public static final SPDXLicense LICENSE_BSD_2_CLAUSE_FREE_BSD = SPDXLicense.of(ValueSet.LICENSE_BSD_2_CLAUSE_FREE_BSD);
+    public static final SPDXLicense LICENSE_BSD_2_CLAUSE_FREE_BSD = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_2_CLAUSE_FREE_BSD).build();
 
     /**
      * BSD 2-Clause NetBSD License
      */
-    public static final SPDXLicense LICENSE_BSD_2_CLAUSE_NET_BSD = SPDXLicense.of(ValueSet.LICENSE_BSD_2_CLAUSE_NET_BSD);
+    public static final SPDXLicense LICENSE_BSD_2_CLAUSE_NET_BSD = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_2_CLAUSE_NET_BSD).build();
 
     /**
      * BSD-2-Clause Plus Patent License
      */
-    public static final SPDXLicense LICENSE_BSD_2_CLAUSE_PATENT = SPDXLicense.of(ValueSet.LICENSE_BSD_2_CLAUSE_PATENT);
+    public static final SPDXLicense LICENSE_BSD_2_CLAUSE_PATENT = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_2_CLAUSE_PATENT).build();
 
     /**
      * BSD 2-Clause "Simplified" License
      */
-    public static final SPDXLicense LICENSE_BSD_2_CLAUSE = SPDXLicense.of(ValueSet.LICENSE_BSD_2_CLAUSE);
+    public static final SPDXLicense LICENSE_BSD_2_CLAUSE = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_2_CLAUSE).build();
 
     /**
      * BSD with attribution
      */
-    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_ATTRIBUTION = SPDXLicense.of(ValueSet.LICENSE_BSD_3_CLAUSE_ATTRIBUTION);
+    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_ATTRIBUTION = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_3_CLAUSE_ATTRIBUTION).build();
 
     /**
      * BSD 3-Clause Clear License
      */
-    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_CLEAR = SPDXLicense.of(ValueSet.LICENSE_BSD_3_CLAUSE_CLEAR);
+    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_CLEAR = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_3_CLAUSE_CLEAR).build();
 
     /**
      * Lawrence Berkeley National Labs BSD variant license
      */
-    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_LBNL = SPDXLicense.of(ValueSet.LICENSE_BSD_3_CLAUSE_LBNL);
+    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_LBNL = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_3_CLAUSE_LBNL).build();
 
     /**
      * BSD 3-Clause No Nuclear License 2014
      */
-    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE_2014 = SPDXLicense.of(ValueSet.LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE_2014);
+    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE_2014 = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE_2014).build();
 
     /**
      * BSD 3-Clause No Nuclear License
      */
-    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE = SPDXLicense.of(ValueSet.LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE);
+    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE).build();
 
     /**
      * BSD 3-Clause No Nuclear Warranty
      */
-    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_WARRANTY = SPDXLicense.of(ValueSet.LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_WARRANTY);
+    public static final SPDXLicense LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_WARRANTY = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_WARRANTY).build();
 
     /**
      * BSD 3-Clause "New" or "Revised" License
      */
-    public static final SPDXLicense LICENSE_BSD_3_CLAUSE = SPDXLicense.of(ValueSet.LICENSE_BSD_3_CLAUSE);
+    public static final SPDXLicense LICENSE_BSD_3_CLAUSE = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_3_CLAUSE).build();
 
     /**
      * BSD-4-Clause (University of California-Specific)
      */
-    public static final SPDXLicense LICENSE_BSD_4_CLAUSE_UC = SPDXLicense.of(ValueSet.LICENSE_BSD_4_CLAUSE_UC);
+    public static final SPDXLicense LICENSE_BSD_4_CLAUSE_UC = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_4_CLAUSE_UC).build();
 
     /**
      * BSD 4-Clause "Original" or "Old" License
      */
-    public static final SPDXLicense LICENSE_BSD_4_CLAUSE = SPDXLicense.of(ValueSet.LICENSE_BSD_4_CLAUSE);
+    public static final SPDXLicense LICENSE_BSD_4_CLAUSE = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_4_CLAUSE).build();
 
     /**
      * BSD Protection License
      */
-    public static final SPDXLicense LICENSE_BSD_PROTECTION = SPDXLicense.of(ValueSet.LICENSE_BSD_PROTECTION);
+    public static final SPDXLicense LICENSE_BSD_PROTECTION = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_PROTECTION).build();
 
     /**
      * BSD Source Code Attribution
      */
-    public static final SPDXLicense LICENSE_BSD_SOURCE_CODE = SPDXLicense.of(ValueSet.LICENSE_BSD_SOURCE_CODE);
+    public static final SPDXLicense LICENSE_BSD_SOURCE_CODE = SPDXLicense.builder().value(ValueSet.LICENSE_BSD_SOURCE_CODE).build();
 
     /**
      * Boost Software License 1.0
      */
-    public static final SPDXLicense LICENSE_BSL_1_0 = SPDXLicense.of(ValueSet.LICENSE_BSL_1_0);
+    public static final SPDXLicense LICENSE_BSL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_BSL_1_0).build();
 
     /**
      * bzip2 and libbzip2 License v1.0.5
      */
-    public static final SPDXLicense LICENSE_BZIP2_1_0_5 = SPDXLicense.of(ValueSet.LICENSE_BZIP2_1_0_5);
+    public static final SPDXLicense LICENSE_BZIP2_1_0_5 = SPDXLicense.builder().value(ValueSet.LICENSE_BZIP2_1_0_5).build();
 
     /**
      * bzip2 and libbzip2 License v1.0.6
      */
-    public static final SPDXLicense LICENSE_BZIP2_1_0_6 = SPDXLicense.of(ValueSet.LICENSE_BZIP2_1_0_6);
+    public static final SPDXLicense LICENSE_BZIP2_1_0_6 = SPDXLicense.builder().value(ValueSet.LICENSE_BZIP2_1_0_6).build();
 
     /**
      * Caldera License
      */
-    public static final SPDXLicense LICENSE_CALDERA = SPDXLicense.of(ValueSet.LICENSE_CALDERA);
+    public static final SPDXLicense LICENSE_CALDERA = SPDXLicense.builder().value(ValueSet.LICENSE_CALDERA).build();
 
     /**
      * Computer Associates Trusted Open Source License 1.1
      */
-    public static final SPDXLicense LICENSE_CATOSL_1_1 = SPDXLicense.of(ValueSet.LICENSE_CATOSL_1_1);
+    public static final SPDXLicense LICENSE_CATOSL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_CATOSL_1_1).build();
 
     /**
      * Creative Commons Attribution 1.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_1_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_1_0);
+    public static final SPDXLicense LICENSE_CC_BY_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_1_0).build();
 
     /**
      * Creative Commons Attribution 2.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_2_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_2_0);
+    public static final SPDXLicense LICENSE_CC_BY_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_2_0).build();
 
     /**
      * Creative Commons Attribution 2.5 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_2_5 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_2_5);
+    public static final SPDXLicense LICENSE_CC_BY_2_5 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_2_5).build();
 
     /**
      * Creative Commons Attribution 3.0 Unported
      */
-    public static final SPDXLicense LICENSE_CC_BY_3_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_3_0);
+    public static final SPDXLicense LICENSE_CC_BY_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_3_0).build();
 
     /**
      * Creative Commons Attribution 4.0 International
      */
-    public static final SPDXLicense LICENSE_CC_BY_4_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_4_0);
+    public static final SPDXLicense LICENSE_CC_BY_4_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_4_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial 1.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_1_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_1_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_1_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial 2.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_2_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_2_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_2_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial 2.5 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_2_5 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_2_5);
+    public static final SPDXLicense LICENSE_CC_BY_NC_2_5 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_2_5).build();
 
     /**
      * Creative Commons Attribution Non Commercial 3.0 Unported
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_3_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_3_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_3_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial 4.0 International
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_4_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_4_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_4_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_4_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial No Derivatives 1.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_ND_1_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_ND_1_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_ND_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_ND_1_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial No Derivatives 2.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_ND_2_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_ND_2_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_ND_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_ND_2_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial No Derivatives 2.5 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_ND_2_5 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_ND_2_5);
+    public static final SPDXLicense LICENSE_CC_BY_NC_ND_2_5 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_ND_2_5).build();
 
     /**
      * Creative Commons Attribution Non Commercial No Derivatives 3.0 Unported
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_ND_3_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_ND_3_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_ND_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_ND_3_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial No Derivatives 4.0 International
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_ND_4_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_ND_4_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_ND_4_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_ND_4_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial Share Alike 1.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_SA_1_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_SA_1_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_SA_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_SA_1_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial Share Alike 2.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_SA_2_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_SA_2_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_SA_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_SA_2_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial Share Alike 2.5 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_SA_2_5 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_SA_2_5);
+    public static final SPDXLicense LICENSE_CC_BY_NC_SA_2_5 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_SA_2_5).build();
 
     /**
      * Creative Commons Attribution Non Commercial Share Alike 3.0 Unported
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_SA_3_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_SA_3_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_SA_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_SA_3_0).build();
 
     /**
      * Creative Commons Attribution Non Commercial Share Alike 4.0 International
      */
-    public static final SPDXLicense LICENSE_CC_BY_NC_SA_4_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_NC_SA_4_0);
+    public static final SPDXLicense LICENSE_CC_BY_NC_SA_4_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_NC_SA_4_0).build();
 
     /**
      * Creative Commons Attribution No Derivatives 1.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_ND_1_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_ND_1_0);
+    public static final SPDXLicense LICENSE_CC_BY_ND_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_ND_1_0).build();
 
     /**
      * Creative Commons Attribution No Derivatives 2.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_ND_2_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_ND_2_0);
+    public static final SPDXLicense LICENSE_CC_BY_ND_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_ND_2_0).build();
 
     /**
      * Creative Commons Attribution No Derivatives 2.5 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_ND_2_5 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_ND_2_5);
+    public static final SPDXLicense LICENSE_CC_BY_ND_2_5 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_ND_2_5).build();
 
     /**
      * Creative Commons Attribution No Derivatives 3.0 Unported
      */
-    public static final SPDXLicense LICENSE_CC_BY_ND_3_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_ND_3_0);
+    public static final SPDXLicense LICENSE_CC_BY_ND_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_ND_3_0).build();
 
     /**
      * Creative Commons Attribution No Derivatives 4.0 International
      */
-    public static final SPDXLicense LICENSE_CC_BY_ND_4_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_ND_4_0);
+    public static final SPDXLicense LICENSE_CC_BY_ND_4_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_ND_4_0).build();
 
     /**
      * Creative Commons Attribution Share Alike 1.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_SA_1_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_SA_1_0);
+    public static final SPDXLicense LICENSE_CC_BY_SA_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_SA_1_0).build();
 
     /**
      * Creative Commons Attribution Share Alike 2.0 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_SA_2_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_SA_2_0);
+    public static final SPDXLicense LICENSE_CC_BY_SA_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_SA_2_0).build();
 
     /**
      * Creative Commons Attribution Share Alike 2.5 Generic
      */
-    public static final SPDXLicense LICENSE_CC_BY_SA_2_5 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_SA_2_5);
+    public static final SPDXLicense LICENSE_CC_BY_SA_2_5 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_SA_2_5).build();
 
     /**
      * Creative Commons Attribution Share Alike 3.0 Unported
      */
-    public static final SPDXLicense LICENSE_CC_BY_SA_3_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_SA_3_0);
+    public static final SPDXLicense LICENSE_CC_BY_SA_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_SA_3_0).build();
 
     /**
      * Creative Commons Attribution Share Alike 4.0 International
      */
-    public static final SPDXLicense LICENSE_CC_BY_SA_4_0 = SPDXLicense.of(ValueSet.LICENSE_CC_BY_SA_4_0);
+    public static final SPDXLicense LICENSE_CC_BY_SA_4_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC_BY_SA_4_0).build();
 
     /**
      * Creative Commons Zero v1.0 Universal
      */
-    public static final SPDXLicense LICENSE_CC0_1_0 = SPDXLicense.of(ValueSet.LICENSE_CC0_1_0);
+    public static final SPDXLicense LICENSE_CC0_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CC0_1_0).build();
 
     /**
      * Common Development and Distribution License 1.0
      */
-    public static final SPDXLicense LICENSE_CDDL_1_0 = SPDXLicense.of(ValueSet.LICENSE_CDDL_1_0);
+    public static final SPDXLicense LICENSE_CDDL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CDDL_1_0).build();
 
     /**
      * Common Development and Distribution License 1.1
      */
-    public static final SPDXLicense LICENSE_CDDL_1_1 = SPDXLicense.of(ValueSet.LICENSE_CDDL_1_1);
+    public static final SPDXLicense LICENSE_CDDL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_CDDL_1_1).build();
 
     /**
      * Community Data License Agreement Permissive 1.0
      */
-    public static final SPDXLicense LICENSE_CDLA_PERMISSIVE_1_0 = SPDXLicense.of(ValueSet.LICENSE_CDLA_PERMISSIVE_1_0);
+    public static final SPDXLicense LICENSE_CDLA_PERMISSIVE_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CDLA_PERMISSIVE_1_0).build();
 
     /**
      * Community Data License Agreement Sharing 1.0
      */
-    public static final SPDXLicense LICENSE_CDLA_SHARING_1_0 = SPDXLicense.of(ValueSet.LICENSE_CDLA_SHARING_1_0);
+    public static final SPDXLicense LICENSE_CDLA_SHARING_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CDLA_SHARING_1_0).build();
 
     /**
      * CeCILL Free Software License Agreement v1.0
      */
-    public static final SPDXLicense LICENSE_CECILL_1_0 = SPDXLicense.of(ValueSet.LICENSE_CECILL_1_0);
+    public static final SPDXLicense LICENSE_CECILL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CECILL_1_0).build();
 
     /**
      * CeCILL Free Software License Agreement v1.1
      */
-    public static final SPDXLicense LICENSE_CECILL_1_1 = SPDXLicense.of(ValueSet.LICENSE_CECILL_1_1);
+    public static final SPDXLicense LICENSE_CECILL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_CECILL_1_1).build();
 
     /**
      * CeCILL Free Software License Agreement v2.0
      */
-    public static final SPDXLicense LICENSE_CECILL_2_0 = SPDXLicense.of(ValueSet.LICENSE_CECILL_2_0);
+    public static final SPDXLicense LICENSE_CECILL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CECILL_2_0).build();
 
     /**
      * CeCILL Free Software License Agreement v2.1
      */
-    public static final SPDXLicense LICENSE_CECILL_2_1 = SPDXLicense.of(ValueSet.LICENSE_CECILL_2_1);
+    public static final SPDXLicense LICENSE_CECILL_2_1 = SPDXLicense.builder().value(ValueSet.LICENSE_CECILL_2_1).build();
 
     /**
      * CeCILL-B Free Software License Agreement
      */
-    public static final SPDXLicense LICENSE_CECILL_B = SPDXLicense.of(ValueSet.LICENSE_CECILL_B);
+    public static final SPDXLicense LICENSE_CECILL_B = SPDXLicense.builder().value(ValueSet.LICENSE_CECILL_B).build();
 
     /**
      * CeCILL-C Free Software License Agreement
      */
-    public static final SPDXLicense LICENSE_CECILL_C = SPDXLicense.of(ValueSet.LICENSE_CECILL_C);
+    public static final SPDXLicense LICENSE_CECILL_C = SPDXLicense.builder().value(ValueSet.LICENSE_CECILL_C).build();
 
     /**
      * Clarified Artistic License
      */
-    public static final SPDXLicense LICENSE_CL_ARTISTIC = SPDXLicense.of(ValueSet.LICENSE_CL_ARTISTIC);
+    public static final SPDXLicense LICENSE_CL_ARTISTIC = SPDXLicense.builder().value(ValueSet.LICENSE_CL_ARTISTIC).build();
 
     /**
      * CNRI Jython License
      */
-    public static final SPDXLicense LICENSE_CNRI_JYTHON = SPDXLicense.of(ValueSet.LICENSE_CNRI_JYTHON);
+    public static final SPDXLicense LICENSE_CNRI_JYTHON = SPDXLicense.builder().value(ValueSet.LICENSE_CNRI_JYTHON).build();
 
     /**
      * CNRI Python Open Source GPL Compatible License Agreement
      */
-    public static final SPDXLicense LICENSE_CNRI_PYTHON_GPL_COMPATIBLE = SPDXLicense.of(ValueSet.LICENSE_CNRI_PYTHON_GPL_COMPATIBLE);
+    public static final SPDXLicense LICENSE_CNRI_PYTHON_GPL_COMPATIBLE = SPDXLicense.builder().value(ValueSet.LICENSE_CNRI_PYTHON_GPL_COMPATIBLE).build();
 
     /**
      * CNRI Python License
      */
-    public static final SPDXLicense LICENSE_CNRI_PYTHON = SPDXLicense.of(ValueSet.LICENSE_CNRI_PYTHON);
+    public static final SPDXLicense LICENSE_CNRI_PYTHON = SPDXLicense.builder().value(ValueSet.LICENSE_CNRI_PYTHON).build();
 
     /**
      * Condor Public License v1.1
      */
-    public static final SPDXLicense LICENSE_CONDOR_1_1 = SPDXLicense.of(ValueSet.LICENSE_CONDOR_1_1);
+    public static final SPDXLicense LICENSE_CONDOR_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_CONDOR_1_1).build();
 
     /**
      * Common Public Attribution License 1.0
      */
-    public static final SPDXLicense LICENSE_CPAL_1_0 = SPDXLicense.of(ValueSet.LICENSE_CPAL_1_0);
+    public static final SPDXLicense LICENSE_CPAL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CPAL_1_0).build();
 
     /**
      * Common Public License 1.0
      */
-    public static final SPDXLicense LICENSE_CPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_CPL_1_0);
+    public static final SPDXLicense LICENSE_CPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CPL_1_0).build();
 
     /**
      * Code Project Open License 1.02
      */
-    public static final SPDXLicense LICENSE_CPOL_1_02 = SPDXLicense.of(ValueSet.LICENSE_CPOL_1_02);
+    public static final SPDXLicense LICENSE_CPOL_1_02 = SPDXLicense.builder().value(ValueSet.LICENSE_CPOL_1_02).build();
 
     /**
      * Crossword License
      */
-    public static final SPDXLicense LICENSE_CROSSWORD = SPDXLicense.of(ValueSet.LICENSE_CROSSWORD);
+    public static final SPDXLicense LICENSE_CROSSWORD = SPDXLicense.builder().value(ValueSet.LICENSE_CROSSWORD).build();
 
     /**
      * CrystalStacker License
      */
-    public static final SPDXLicense LICENSE_CRYSTAL_STACKER = SPDXLicense.of(ValueSet.LICENSE_CRYSTAL_STACKER);
+    public static final SPDXLicense LICENSE_CRYSTAL_STACKER = SPDXLicense.builder().value(ValueSet.LICENSE_CRYSTAL_STACKER).build();
 
     /**
      * CUA Office Public License v1.0
      */
-    public static final SPDXLicense LICENSE_CUA_OPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_CUA_OPL_1_0);
+    public static final SPDXLicense LICENSE_CUA_OPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_CUA_OPL_1_0).build();
 
     /**
      * Cube License
      */
-    public static final SPDXLicense LICENSE_CUBE = SPDXLicense.of(ValueSet.LICENSE_CUBE);
+    public static final SPDXLicense LICENSE_CUBE = SPDXLicense.builder().value(ValueSet.LICENSE_CUBE).build();
 
     /**
      * curl License
      */
-    public static final SPDXLicense LICENSE_CURL = SPDXLicense.of(ValueSet.LICENSE_CURL);
+    public static final SPDXLicense LICENSE_CURL = SPDXLicense.builder().value(ValueSet.LICENSE_CURL).build();
 
     /**
      * Deutsche Freie Software Lizenz
      */
-    public static final SPDXLicense LICENSE_D_FSL_1_0 = SPDXLicense.of(ValueSet.LICENSE_D_FSL_1_0);
+    public static final SPDXLicense LICENSE_D_FSL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_D_FSL_1_0).build();
 
     /**
      * diffmark license
      */
-    public static final SPDXLicense LICENSE_DIFFMARK = SPDXLicense.of(ValueSet.LICENSE_DIFFMARK);
+    public static final SPDXLicense LICENSE_DIFFMARK = SPDXLicense.builder().value(ValueSet.LICENSE_DIFFMARK).build();
 
     /**
      * DOC License
      */
-    public static final SPDXLicense LICENSE_DOC = SPDXLicense.of(ValueSet.LICENSE_DOC);
+    public static final SPDXLicense LICENSE_DOC = SPDXLicense.builder().value(ValueSet.LICENSE_DOC).build();
 
     /**
      * Dotseqn License
      */
-    public static final SPDXLicense LICENSE_DOTSEQN = SPDXLicense.of(ValueSet.LICENSE_DOTSEQN);
+    public static final SPDXLicense LICENSE_DOTSEQN = SPDXLicense.builder().value(ValueSet.LICENSE_DOTSEQN).build();
 
     /**
      * DSDP License
      */
-    public static final SPDXLicense LICENSE_DSDP = SPDXLicense.of(ValueSet.LICENSE_DSDP);
+    public static final SPDXLicense LICENSE_DSDP = SPDXLicense.builder().value(ValueSet.LICENSE_DSDP).build();
 
     /**
      * dvipdfm License
      */
-    public static final SPDXLicense LICENSE_DVIPDFM = SPDXLicense.of(ValueSet.LICENSE_DVIPDFM);
+    public static final SPDXLicense LICENSE_DVIPDFM = SPDXLicense.builder().value(ValueSet.LICENSE_DVIPDFM).build();
 
     /**
      * Educational Community License v1.0
      */
-    public static final SPDXLicense LICENSE_ECL_1_0 = SPDXLicense.of(ValueSet.LICENSE_ECL_1_0);
+    public static final SPDXLicense LICENSE_ECL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_ECL_1_0).build();
 
     /**
      * Educational Community License v2.0
      */
-    public static final SPDXLicense LICENSE_ECL_2_0 = SPDXLicense.of(ValueSet.LICENSE_ECL_2_0);
+    public static final SPDXLicense LICENSE_ECL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_ECL_2_0).build();
 
     /**
      * Eiffel Forum License v1.0
      */
-    public static final SPDXLicense LICENSE_EFL_1_0 = SPDXLicense.of(ValueSet.LICENSE_EFL_1_0);
+    public static final SPDXLicense LICENSE_EFL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_EFL_1_0).build();
 
     /**
      * Eiffel Forum License v2.0
      */
-    public static final SPDXLicense LICENSE_EFL_2_0 = SPDXLicense.of(ValueSet.LICENSE_EFL_2_0);
+    public static final SPDXLicense LICENSE_EFL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_EFL_2_0).build();
 
     /**
      * eGenix.com Public License 1.1.0
      */
-    public static final SPDXLicense LICENSE_E_GENIX = SPDXLicense.of(ValueSet.LICENSE_E_GENIX);
+    public static final SPDXLicense LICENSE_E_GENIX = SPDXLicense.builder().value(ValueSet.LICENSE_E_GENIX).build();
 
     /**
      * Entessa Public License v1.0
      */
-    public static final SPDXLicense LICENSE_ENTESSA = SPDXLicense.of(ValueSet.LICENSE_ENTESSA);
+    public static final SPDXLicense LICENSE_ENTESSA = SPDXLicense.builder().value(ValueSet.LICENSE_ENTESSA).build();
 
     /**
      * Eclipse Public License 1.0
      */
-    public static final SPDXLicense LICENSE_EPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_EPL_1_0);
+    public static final SPDXLicense LICENSE_EPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_EPL_1_0).build();
 
     /**
      * Eclipse Public License 2.0
      */
-    public static final SPDXLicense LICENSE_EPL_2_0 = SPDXLicense.of(ValueSet.LICENSE_EPL_2_0);
+    public static final SPDXLicense LICENSE_EPL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_EPL_2_0).build();
 
     /**
      * Erlang Public License v1.1
      */
-    public static final SPDXLicense LICENSE_ERL_PL_1_1 = SPDXLicense.of(ValueSet.LICENSE_ERL_PL_1_1);
+    public static final SPDXLicense LICENSE_ERL_PL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_ERL_PL_1_1).build();
 
     /**
      * EU DataGrid Software License
      */
-    public static final SPDXLicense LICENSE_EUDATAGRID = SPDXLicense.of(ValueSet.LICENSE_EUDATAGRID);
+    public static final SPDXLicense LICENSE_EUDATAGRID = SPDXLicense.builder().value(ValueSet.LICENSE_EUDATAGRID).build();
 
     /**
      * European Union Public License 1.0
      */
-    public static final SPDXLicense LICENSE_EUPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_EUPL_1_0);
+    public static final SPDXLicense LICENSE_EUPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_EUPL_1_0).build();
 
     /**
      * European Union Public License 1.1
      */
-    public static final SPDXLicense LICENSE_EUPL_1_1 = SPDXLicense.of(ValueSet.LICENSE_EUPL_1_1);
+    public static final SPDXLicense LICENSE_EUPL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_EUPL_1_1).build();
 
     /**
      * European Union Public License 1.2
      */
-    public static final SPDXLicense LICENSE_EUPL_1_2 = SPDXLicense.of(ValueSet.LICENSE_EUPL_1_2);
+    public static final SPDXLicense LICENSE_EUPL_1_2 = SPDXLicense.builder().value(ValueSet.LICENSE_EUPL_1_2).build();
 
     /**
      * Eurosym License
      */
-    public static final SPDXLicense LICENSE_EUROSYM = SPDXLicense.of(ValueSet.LICENSE_EUROSYM);
+    public static final SPDXLicense LICENSE_EUROSYM = SPDXLicense.builder().value(ValueSet.LICENSE_EUROSYM).build();
 
     /**
      * Fair License
      */
-    public static final SPDXLicense LICENSE_FAIR = SPDXLicense.of(ValueSet.LICENSE_FAIR);
+    public static final SPDXLicense LICENSE_FAIR = SPDXLicense.builder().value(ValueSet.LICENSE_FAIR).build();
 
     /**
      * Frameworx Open License 1.0
      */
-    public static final SPDXLicense LICENSE_FRAMEWORX_1_0 = SPDXLicense.of(ValueSet.LICENSE_FRAMEWORX_1_0);
+    public static final SPDXLicense LICENSE_FRAMEWORX_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_FRAMEWORX_1_0).build();
 
     /**
      * FreeImage Public License v1.0
      */
-    public static final SPDXLicense LICENSE_FREE_IMAGE = SPDXLicense.of(ValueSet.LICENSE_FREE_IMAGE);
+    public static final SPDXLicense LICENSE_FREE_IMAGE = SPDXLicense.builder().value(ValueSet.LICENSE_FREE_IMAGE).build();
 
     /**
      * FSF All Permissive License
      */
-    public static final SPDXLicense LICENSE_FSFAP = SPDXLicense.of(ValueSet.LICENSE_FSFAP);
+    public static final SPDXLicense LICENSE_FSFAP = SPDXLicense.builder().value(ValueSet.LICENSE_FSFAP).build();
 
     /**
      * FSF Unlimited License
      */
-    public static final SPDXLicense LICENSE_FSFUL = SPDXLicense.of(ValueSet.LICENSE_FSFUL);
+    public static final SPDXLicense LICENSE_FSFUL = SPDXLicense.builder().value(ValueSet.LICENSE_FSFUL).build();
 
     /**
      * FSF Unlimited License (with License Retention)
      */
-    public static final SPDXLicense LICENSE_FSFULLR = SPDXLicense.of(ValueSet.LICENSE_FSFULLR);
+    public static final SPDXLicense LICENSE_FSFULLR = SPDXLicense.builder().value(ValueSet.LICENSE_FSFULLR).build();
 
     /**
      * Freetype Project License
      */
-    public static final SPDXLicense LICENSE_FTL = SPDXLicense.of(ValueSet.LICENSE_FTL);
+    public static final SPDXLicense LICENSE_FTL = SPDXLicense.builder().value(ValueSet.LICENSE_FTL).build();
 
     /**
      * GNU Free Documentation License v1.1 only
      */
-    public static final SPDXLicense LICENSE_GFDL_1_1_ONLY = SPDXLicense.of(ValueSet.LICENSE_GFDL_1_1_ONLY);
+    public static final SPDXLicense LICENSE_GFDL_1_1_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_GFDL_1_1_ONLY).build();
 
     /**
      * GNU Free Documentation License v1.1 or later
      */
-    public static final SPDXLicense LICENSE_GFDL_1_1_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_GFDL_1_1_OR_LATER);
+    public static final SPDXLicense LICENSE_GFDL_1_1_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_GFDL_1_1_OR_LATER).build();
 
     /**
      * GNU Free Documentation License v1.2 only
      */
-    public static final SPDXLicense LICENSE_GFDL_1_2_ONLY = SPDXLicense.of(ValueSet.LICENSE_GFDL_1_2_ONLY);
+    public static final SPDXLicense LICENSE_GFDL_1_2_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_GFDL_1_2_ONLY).build();
 
     /**
      * GNU Free Documentation License v1.2 or later
      */
-    public static final SPDXLicense LICENSE_GFDL_1_2_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_GFDL_1_2_OR_LATER);
+    public static final SPDXLicense LICENSE_GFDL_1_2_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_GFDL_1_2_OR_LATER).build();
 
     /**
      * GNU Free Documentation License v1.3 only
      */
-    public static final SPDXLicense LICENSE_GFDL_1_3_ONLY = SPDXLicense.of(ValueSet.LICENSE_GFDL_1_3_ONLY);
+    public static final SPDXLicense LICENSE_GFDL_1_3_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_GFDL_1_3_ONLY).build();
 
     /**
      * GNU Free Documentation License v1.3 or later
      */
-    public static final SPDXLicense LICENSE_GFDL_1_3_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_GFDL_1_3_OR_LATER);
+    public static final SPDXLicense LICENSE_GFDL_1_3_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_GFDL_1_3_OR_LATER).build();
 
     /**
      * Giftware License
      */
-    public static final SPDXLicense LICENSE_GIFTWARE = SPDXLicense.of(ValueSet.LICENSE_GIFTWARE);
+    public static final SPDXLicense LICENSE_GIFTWARE = SPDXLicense.builder().value(ValueSet.LICENSE_GIFTWARE).build();
 
     /**
      * GL2PS License
      */
-    public static final SPDXLicense LICENSE_GL2PS = SPDXLicense.of(ValueSet.LICENSE_GL2PS);
+    public static final SPDXLicense LICENSE_GL2PS = SPDXLicense.builder().value(ValueSet.LICENSE_GL2PS).build();
 
     /**
      * 3dfx Glide License
      */
-    public static final SPDXLicense LICENSE_GLIDE = SPDXLicense.of(ValueSet.LICENSE_GLIDE);
+    public static final SPDXLicense LICENSE_GLIDE = SPDXLicense.builder().value(ValueSet.LICENSE_GLIDE).build();
 
     /**
      * Glulxe License
      */
-    public static final SPDXLicense LICENSE_GLULXE = SPDXLicense.of(ValueSet.LICENSE_GLULXE);
+    public static final SPDXLicense LICENSE_GLULXE = SPDXLicense.builder().value(ValueSet.LICENSE_GLULXE).build();
 
     /**
      * gnuplot License
      */
-    public static final SPDXLicense LICENSE_GNUPLOT = SPDXLicense.of(ValueSet.LICENSE_GNUPLOT);
+    public static final SPDXLicense LICENSE_GNUPLOT = SPDXLicense.builder().value(ValueSet.LICENSE_GNUPLOT).build();
 
     /**
      * GNU General Public License v1.0 only
      */
-    public static final SPDXLicense LICENSE_GPL_1_0_ONLY = SPDXLicense.of(ValueSet.LICENSE_GPL_1_0_ONLY);
+    public static final SPDXLicense LICENSE_GPL_1_0_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_GPL_1_0_ONLY).build();
 
     /**
      * GNU General Public License v1.0 or later
      */
-    public static final SPDXLicense LICENSE_GPL_1_0_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_GPL_1_0_OR_LATER);
+    public static final SPDXLicense LICENSE_GPL_1_0_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_GPL_1_0_OR_LATER).build();
 
     /**
      * GNU General Public License v2.0 only
      */
-    public static final SPDXLicense LICENSE_GPL_2_0_ONLY = SPDXLicense.of(ValueSet.LICENSE_GPL_2_0_ONLY);
+    public static final SPDXLicense LICENSE_GPL_2_0_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_GPL_2_0_ONLY).build();
 
     /**
      * GNU General Public License v2.0 or later
      */
-    public static final SPDXLicense LICENSE_GPL_2_0_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_GPL_2_0_OR_LATER);
+    public static final SPDXLicense LICENSE_GPL_2_0_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_GPL_2_0_OR_LATER).build();
 
     /**
      * GNU General Public License v3.0 only
      */
-    public static final SPDXLicense LICENSE_GPL_3_0_ONLY = SPDXLicense.of(ValueSet.LICENSE_GPL_3_0_ONLY);
+    public static final SPDXLicense LICENSE_GPL_3_0_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_GPL_3_0_ONLY).build();
 
     /**
      * GNU General Public License v3.0 or later
      */
-    public static final SPDXLicense LICENSE_GPL_3_0_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_GPL_3_0_OR_LATER);
+    public static final SPDXLicense LICENSE_GPL_3_0_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_GPL_3_0_OR_LATER).build();
 
     /**
      * gSOAP Public License v1.3b
      */
-    public static final SPDXLicense LICENSE_G_SOAP_1_3B = SPDXLicense.of(ValueSet.LICENSE_G_SOAP_1_3B);
+    public static final SPDXLicense LICENSE_G_SOAP_1_3B = SPDXLicense.builder().value(ValueSet.LICENSE_G_SOAP_1_3B).build();
 
     /**
      * Haskell Language Report License
      */
-    public static final SPDXLicense LICENSE_HASKELL_REPORT = SPDXLicense.of(ValueSet.LICENSE_HASKELL_REPORT);
+    public static final SPDXLicense LICENSE_HASKELL_REPORT = SPDXLicense.builder().value(ValueSet.LICENSE_HASKELL_REPORT).build();
 
     /**
      * Historical Permission Notice and Disclaimer
      */
-    public static final SPDXLicense LICENSE_HPND = SPDXLicense.of(ValueSet.LICENSE_HPND);
+    public static final SPDXLicense LICENSE_HPND = SPDXLicense.builder().value(ValueSet.LICENSE_HPND).build();
 
     /**
      * IBM PowerPC Initialization and Boot Software
      */
-    public static final SPDXLicense LICENSE_IBM_PIBS = SPDXLicense.of(ValueSet.LICENSE_IBM_PIBS);
+    public static final SPDXLicense LICENSE_IBM_PIBS = SPDXLicense.builder().value(ValueSet.LICENSE_IBM_PIBS).build();
 
     /**
      * ICU License
      */
-    public static final SPDXLicense LICENSE_ICU = SPDXLicense.of(ValueSet.LICENSE_ICU);
+    public static final SPDXLicense LICENSE_ICU = SPDXLicense.builder().value(ValueSet.LICENSE_ICU).build();
 
     /**
      * Independent JPEG Group License
      */
-    public static final SPDXLicense LICENSE_IJG = SPDXLicense.of(ValueSet.LICENSE_IJG);
+    public static final SPDXLicense LICENSE_IJG = SPDXLicense.builder().value(ValueSet.LICENSE_IJG).build();
 
     /**
      * ImageMagick License
      */
-    public static final SPDXLicense LICENSE_IMAGE_MAGICK = SPDXLicense.of(ValueSet.LICENSE_IMAGE_MAGICK);
+    public static final SPDXLicense LICENSE_IMAGE_MAGICK = SPDXLicense.builder().value(ValueSet.LICENSE_IMAGE_MAGICK).build();
 
     /**
      * iMatix Standard Function Library Agreement
      */
-    public static final SPDXLicense LICENSE_I_MATIX = SPDXLicense.of(ValueSet.LICENSE_I_MATIX);
+    public static final SPDXLicense LICENSE_I_MATIX = SPDXLicense.builder().value(ValueSet.LICENSE_I_MATIX).build();
 
     /**
      * Imlib2 License
      */
-    public static final SPDXLicense LICENSE_IMLIB2 = SPDXLicense.of(ValueSet.LICENSE_IMLIB2);
+    public static final SPDXLicense LICENSE_IMLIB2 = SPDXLicense.builder().value(ValueSet.LICENSE_IMLIB2).build();
 
     /**
      * Info-ZIP License
      */
-    public static final SPDXLicense LICENSE_INFO_ZIP = SPDXLicense.of(ValueSet.LICENSE_INFO_ZIP);
+    public static final SPDXLicense LICENSE_INFO_ZIP = SPDXLicense.builder().value(ValueSet.LICENSE_INFO_ZIP).build();
 
     /**
      * Intel ACPI Software License Agreement
      */
-    public static final SPDXLicense LICENSE_INTEL_ACPI = SPDXLicense.of(ValueSet.LICENSE_INTEL_ACPI);
+    public static final SPDXLicense LICENSE_INTEL_ACPI = SPDXLicense.builder().value(ValueSet.LICENSE_INTEL_ACPI).build();
 
     /**
      * Intel Open Source License
      */
-    public static final SPDXLicense LICENSE_INTEL = SPDXLicense.of(ValueSet.LICENSE_INTEL);
+    public static final SPDXLicense LICENSE_INTEL = SPDXLicense.builder().value(ValueSet.LICENSE_INTEL).build();
 
     /**
      * Interbase Public License v1.0
      */
-    public static final SPDXLicense LICENSE_INTERBASE_1_0 = SPDXLicense.of(ValueSet.LICENSE_INTERBASE_1_0);
+    public static final SPDXLicense LICENSE_INTERBASE_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_INTERBASE_1_0).build();
 
     /**
      * IPA Font License
      */
-    public static final SPDXLicense LICENSE_IPA = SPDXLicense.of(ValueSet.LICENSE_IPA);
+    public static final SPDXLicense LICENSE_IPA = SPDXLicense.builder().value(ValueSet.LICENSE_IPA).build();
 
     /**
      * IBM Public License v1.0
      */
-    public static final SPDXLicense LICENSE_IPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_IPL_1_0);
+    public static final SPDXLicense LICENSE_IPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_IPL_1_0).build();
 
     /**
      * ISC License
      */
-    public static final SPDXLicense LICENSE_ISC = SPDXLicense.of(ValueSet.LICENSE_ISC);
+    public static final SPDXLicense LICENSE_ISC = SPDXLicense.builder().value(ValueSet.LICENSE_ISC).build();
 
     /**
      * JasPer License
      */
-    public static final SPDXLicense LICENSE_JAS_PER_2_0 = SPDXLicense.of(ValueSet.LICENSE_JAS_PER_2_0);
+    public static final SPDXLicense LICENSE_JAS_PER_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_JAS_PER_2_0).build();
 
     /**
      * JSON License
      */
-    public static final SPDXLicense LICENSE_JSON = SPDXLicense.of(ValueSet.LICENSE_JSON);
+    public static final SPDXLicense LICENSE_JSON = SPDXLicense.builder().value(ValueSet.LICENSE_JSON).build();
 
     /**
      * Licence Art Libre 1.2
      */
-    public static final SPDXLicense LICENSE_LAL_1_2 = SPDXLicense.of(ValueSet.LICENSE_LAL_1_2);
+    public static final SPDXLicense LICENSE_LAL_1_2 = SPDXLicense.builder().value(ValueSet.LICENSE_LAL_1_2).build();
 
     /**
      * Licence Art Libre 1.3
      */
-    public static final SPDXLicense LICENSE_LAL_1_3 = SPDXLicense.of(ValueSet.LICENSE_LAL_1_3);
+    public static final SPDXLicense LICENSE_LAL_1_3 = SPDXLicense.builder().value(ValueSet.LICENSE_LAL_1_3).build();
 
     /**
      * Latex2e License
      */
-    public static final SPDXLicense LICENSE_LATEX2E = SPDXLicense.of(ValueSet.LICENSE_LATEX2E);
+    public static final SPDXLicense LICENSE_LATEX2E = SPDXLicense.builder().value(ValueSet.LICENSE_LATEX2E).build();
 
     /**
      * Leptonica License
      */
-    public static final SPDXLicense LICENSE_LEPTONICA = SPDXLicense.of(ValueSet.LICENSE_LEPTONICA);
+    public static final SPDXLicense LICENSE_LEPTONICA = SPDXLicense.builder().value(ValueSet.LICENSE_LEPTONICA).build();
 
     /**
      * GNU Library General Public License v2 only
      */
-    public static final SPDXLicense LICENSE_LGPL_2_0_ONLY = SPDXLicense.of(ValueSet.LICENSE_LGPL_2_0_ONLY);
+    public static final SPDXLicense LICENSE_LGPL_2_0_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_LGPL_2_0_ONLY).build();
 
     /**
      * GNU Library General Public License v2 or later
      */
-    public static final SPDXLicense LICENSE_LGPL_2_0_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_LGPL_2_0_OR_LATER);
+    public static final SPDXLicense LICENSE_LGPL_2_0_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_LGPL_2_0_OR_LATER).build();
 
     /**
      * GNU Lesser General Public License v2.1 only
      */
-    public static final SPDXLicense LICENSE_LGPL_2_1_ONLY = SPDXLicense.of(ValueSet.LICENSE_LGPL_2_1_ONLY);
+    public static final SPDXLicense LICENSE_LGPL_2_1_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_LGPL_2_1_ONLY).build();
 
     /**
      * GNU Lesser General Public License v2.1 or later
      */
-    public static final SPDXLicense LICENSE_LGPL_2_1_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_LGPL_2_1_OR_LATER);
+    public static final SPDXLicense LICENSE_LGPL_2_1_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_LGPL_2_1_OR_LATER).build();
 
     /**
      * GNU Lesser General Public License v3.0 only
      */
-    public static final SPDXLicense LICENSE_LGPL_3_0_ONLY = SPDXLicense.of(ValueSet.LICENSE_LGPL_3_0_ONLY);
+    public static final SPDXLicense LICENSE_LGPL_3_0_ONLY = SPDXLicense.builder().value(ValueSet.LICENSE_LGPL_3_0_ONLY).build();
 
     /**
      * GNU Lesser General Public License v3.0 or later
      */
-    public static final SPDXLicense LICENSE_LGPL_3_0_OR_LATER = SPDXLicense.of(ValueSet.LICENSE_LGPL_3_0_OR_LATER);
+    public static final SPDXLicense LICENSE_LGPL_3_0_OR_LATER = SPDXLicense.builder().value(ValueSet.LICENSE_LGPL_3_0_OR_LATER).build();
 
     /**
      * Lesser General Public License For Linguistic Resources
      */
-    public static final SPDXLicense LICENSE_LGPLLR = SPDXLicense.of(ValueSet.LICENSE_LGPLLR);
+    public static final SPDXLicense LICENSE_LGPLLR = SPDXLicense.builder().value(ValueSet.LICENSE_LGPLLR).build();
 
     /**
      * libpng License
      */
-    public static final SPDXLicense LICENSE_LIBPNG = SPDXLicense.of(ValueSet.LICENSE_LIBPNG);
+    public static final SPDXLicense LICENSE_LIBPNG = SPDXLicense.builder().value(ValueSet.LICENSE_LIBPNG).build();
 
     /**
      * libtiff License
      */
-    public static final SPDXLicense LICENSE_LIBTIFF = SPDXLicense.of(ValueSet.LICENSE_LIBTIFF);
+    public static final SPDXLicense LICENSE_LIBTIFF = SPDXLicense.builder().value(ValueSet.LICENSE_LIBTIFF).build();
 
     /**
      * Licence Libre du Québec – Permissive version 1.1
      */
-    public static final SPDXLicense LICENSE_LI_LI_Q_P_1_1 = SPDXLicense.of(ValueSet.LICENSE_LI_LI_Q_P_1_1);
+    public static final SPDXLicense LICENSE_LI_LI_Q_P_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_LI_LI_Q_P_1_1).build();
 
     /**
      * Licence Libre du Québec – Réciprocité version 1.1
      */
-    public static final SPDXLicense LICENSE_LI_LI_Q_R_1_1 = SPDXLicense.of(ValueSet.LICENSE_LI_LI_Q_R_1_1);
+    public static final SPDXLicense LICENSE_LI_LI_Q_R_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_LI_LI_Q_R_1_1).build();
 
     /**
      * Licence Libre du Québec – Réciprocité forte version 1.1
      */
-    public static final SPDXLicense LICENSE_LI_LI_Q_RPLUS_1_1 = SPDXLicense.of(ValueSet.LICENSE_LI_LI_Q_RPLUS_1_1);
+    public static final SPDXLicense LICENSE_LI_LI_Q_RPLUS_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_LI_LI_Q_RPLUS_1_1).build();
 
     /**
      * Linux Kernel Variant of OpenIB.org license
      */
-    public static final SPDXLicense LICENSE_LINUX_OPEN_IB = SPDXLicense.of(ValueSet.LICENSE_LINUX_OPEN_IB);
+    public static final SPDXLicense LICENSE_LINUX_OPEN_IB = SPDXLicense.builder().value(ValueSet.LICENSE_LINUX_OPEN_IB).build();
 
     /**
      * Lucent Public License Version 1.0
      */
-    public static final SPDXLicense LICENSE_LPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_LPL_1_0);
+    public static final SPDXLicense LICENSE_LPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_LPL_1_0).build();
 
     /**
      * Lucent Public License v1.02
      */
-    public static final SPDXLicense LICENSE_LPL_1_02 = SPDXLicense.of(ValueSet.LICENSE_LPL_1_02);
+    public static final SPDXLicense LICENSE_LPL_1_02 = SPDXLicense.builder().value(ValueSet.LICENSE_LPL_1_02).build();
 
     /**
      * LaTeX Project Public License v1.0
      */
-    public static final SPDXLicense LICENSE_LPPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_LPPL_1_0);
+    public static final SPDXLicense LICENSE_LPPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_LPPL_1_0).build();
 
     /**
      * LaTeX Project Public License v1.1
      */
-    public static final SPDXLicense LICENSE_LPPL_1_1 = SPDXLicense.of(ValueSet.LICENSE_LPPL_1_1);
+    public static final SPDXLicense LICENSE_LPPL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_LPPL_1_1).build();
 
     /**
      * LaTeX Project Public License v1.2
      */
-    public static final SPDXLicense LICENSE_LPPL_1_2 = SPDXLicense.of(ValueSet.LICENSE_LPPL_1_2);
+    public static final SPDXLicense LICENSE_LPPL_1_2 = SPDXLicense.builder().value(ValueSet.LICENSE_LPPL_1_2).build();
 
     /**
      * LaTeX Project Public License v1.3a
      */
-    public static final SPDXLicense LICENSE_LPPL_1_3A = SPDXLicense.of(ValueSet.LICENSE_LPPL_1_3A);
+    public static final SPDXLicense LICENSE_LPPL_1_3A = SPDXLicense.builder().value(ValueSet.LICENSE_LPPL_1_3A).build();
 
     /**
      * LaTeX Project Public License v1.3c
      */
-    public static final SPDXLicense LICENSE_LPPL_1_3C = SPDXLicense.of(ValueSet.LICENSE_LPPL_1_3C);
+    public static final SPDXLicense LICENSE_LPPL_1_3C = SPDXLicense.builder().value(ValueSet.LICENSE_LPPL_1_3C).build();
 
     /**
      * MakeIndex License
      */
-    public static final SPDXLicense LICENSE_MAKE_INDEX = SPDXLicense.of(ValueSet.LICENSE_MAKE_INDEX);
+    public static final SPDXLicense LICENSE_MAKE_INDEX = SPDXLicense.builder().value(ValueSet.LICENSE_MAKE_INDEX).build();
 
     /**
      * MirOS License
      */
-    public static final SPDXLicense LICENSE_MIR_OS = SPDXLicense.of(ValueSet.LICENSE_MIR_OS);
+    public static final SPDXLicense LICENSE_MIR_OS = SPDXLicense.builder().value(ValueSet.LICENSE_MIR_OS).build();
 
     /**
      * MIT No Attribution
      */
-    public static final SPDXLicense LICENSE_MIT_0 = SPDXLicense.of(ValueSet.LICENSE_MIT_0);
+    public static final SPDXLicense LICENSE_MIT_0 = SPDXLicense.builder().value(ValueSet.LICENSE_MIT_0).build();
 
     /**
      * Enlightenment License (e16)
      */
-    public static final SPDXLicense LICENSE_MIT_ADVERTISING = SPDXLicense.of(ValueSet.LICENSE_MIT_ADVERTISING);
+    public static final SPDXLicense LICENSE_MIT_ADVERTISING = SPDXLicense.builder().value(ValueSet.LICENSE_MIT_ADVERTISING).build();
 
     /**
      * CMU License
      */
-    public static final SPDXLicense LICENSE_MIT_CMU = SPDXLicense.of(ValueSet.LICENSE_MIT_CMU);
+    public static final SPDXLicense LICENSE_MIT_CMU = SPDXLicense.builder().value(ValueSet.LICENSE_MIT_CMU).build();
 
     /**
      * enna License
      */
-    public static final SPDXLicense LICENSE_MIT_ENNA = SPDXLicense.of(ValueSet.LICENSE_MIT_ENNA);
+    public static final SPDXLicense LICENSE_MIT_ENNA = SPDXLicense.builder().value(ValueSet.LICENSE_MIT_ENNA).build();
 
     /**
      * feh License
      */
-    public static final SPDXLicense LICENSE_MIT_FEH = SPDXLicense.of(ValueSet.LICENSE_MIT_FEH);
+    public static final SPDXLicense LICENSE_MIT_FEH = SPDXLicense.builder().value(ValueSet.LICENSE_MIT_FEH).build();
 
     /**
      * MIT License
      */
-    public static final SPDXLicense LICENSE_MIT = SPDXLicense.of(ValueSet.LICENSE_MIT);
+    public static final SPDXLicense LICENSE_MIT = SPDXLicense.builder().value(ValueSet.LICENSE_MIT).build();
 
     /**
      * MIT +no-false-attribs license
      */
-    public static final SPDXLicense LICENSE_MITNFA = SPDXLicense.of(ValueSet.LICENSE_MITNFA);
+    public static final SPDXLicense LICENSE_MITNFA = SPDXLicense.builder().value(ValueSet.LICENSE_MITNFA).build();
 
     /**
      * Motosoto License
      */
-    public static final SPDXLicense LICENSE_MOTOSOTO = SPDXLicense.of(ValueSet.LICENSE_MOTOSOTO);
+    public static final SPDXLicense LICENSE_MOTOSOTO = SPDXLicense.builder().value(ValueSet.LICENSE_MOTOSOTO).build();
 
     /**
      * mpich2 License
      */
-    public static final SPDXLicense LICENSE_MPICH2 = SPDXLicense.of(ValueSet.LICENSE_MPICH2);
+    public static final SPDXLicense LICENSE_MPICH2 = SPDXLicense.builder().value(ValueSet.LICENSE_MPICH2).build();
 
     /**
      * Mozilla Public License 1.0
      */
-    public static final SPDXLicense LICENSE_MPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_MPL_1_0);
+    public static final SPDXLicense LICENSE_MPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_MPL_1_0).build();
 
     /**
      * Mozilla Public License 1.1
      */
-    public static final SPDXLicense LICENSE_MPL_1_1 = SPDXLicense.of(ValueSet.LICENSE_MPL_1_1);
+    public static final SPDXLicense LICENSE_MPL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_MPL_1_1).build();
 
     /**
      * Mozilla Public License 2.0 (no copyleft exception)
      */
-    public static final SPDXLicense LICENSE_MPL_2_0_NO_COPYLEFT_EXCEPTION = SPDXLicense.of(ValueSet.LICENSE_MPL_2_0_NO_COPYLEFT_EXCEPTION);
+    public static final SPDXLicense LICENSE_MPL_2_0_NO_COPYLEFT_EXCEPTION = SPDXLicense.builder().value(ValueSet.LICENSE_MPL_2_0_NO_COPYLEFT_EXCEPTION).build();
 
     /**
      * Mozilla Public License 2.0
      */
-    public static final SPDXLicense LICENSE_MPL_2_0 = SPDXLicense.of(ValueSet.LICENSE_MPL_2_0);
+    public static final SPDXLicense LICENSE_MPL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_MPL_2_0).build();
 
     /**
      * Microsoft Public License
      */
-    public static final SPDXLicense LICENSE_MS_PL = SPDXLicense.of(ValueSet.LICENSE_MS_PL);
+    public static final SPDXLicense LICENSE_MS_PL = SPDXLicense.builder().value(ValueSet.LICENSE_MS_PL).build();
 
     /**
      * Microsoft Reciprocal License
      */
-    public static final SPDXLicense LICENSE_MS_RL = SPDXLicense.of(ValueSet.LICENSE_MS_RL);
+    public static final SPDXLicense LICENSE_MS_RL = SPDXLicense.builder().value(ValueSet.LICENSE_MS_RL).build();
 
     /**
      * Matrix Template Library License
      */
-    public static final SPDXLicense LICENSE_MTLL = SPDXLicense.of(ValueSet.LICENSE_MTLL);
+    public static final SPDXLicense LICENSE_MTLL = SPDXLicense.builder().value(ValueSet.LICENSE_MTLL).build();
 
     /**
      * Multics License
      */
-    public static final SPDXLicense LICENSE_MULTICS = SPDXLicense.of(ValueSet.LICENSE_MULTICS);
+    public static final SPDXLicense LICENSE_MULTICS = SPDXLicense.builder().value(ValueSet.LICENSE_MULTICS).build();
 
     /**
      * Mup License
      */
-    public static final SPDXLicense LICENSE_MUP = SPDXLicense.of(ValueSet.LICENSE_MUP);
+    public static final SPDXLicense LICENSE_MUP = SPDXLicense.builder().value(ValueSet.LICENSE_MUP).build();
 
     /**
      * NASA Open Source Agreement 1.3
      */
-    public static final SPDXLicense LICENSE_NASA_1_3 = SPDXLicense.of(ValueSet.LICENSE_NASA_1_3);
+    public static final SPDXLicense LICENSE_NASA_1_3 = SPDXLicense.builder().value(ValueSet.LICENSE_NASA_1_3).build();
 
     /**
      * Naumen Public License
      */
-    public static final SPDXLicense LICENSE_NAUMEN = SPDXLicense.of(ValueSet.LICENSE_NAUMEN);
+    public static final SPDXLicense LICENSE_NAUMEN = SPDXLicense.builder().value(ValueSet.LICENSE_NAUMEN).build();
 
     /**
      * Net Boolean Public License v1
      */
-    public static final SPDXLicense LICENSE_NBPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_NBPL_1_0);
+    public static final SPDXLicense LICENSE_NBPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_NBPL_1_0).build();
 
     /**
      * University of Illinois/NCSA Open Source License
      */
-    public static final SPDXLicense LICENSE_NCSA = SPDXLicense.of(ValueSet.LICENSE_NCSA);
+    public static final SPDXLicense LICENSE_NCSA = SPDXLicense.builder().value(ValueSet.LICENSE_NCSA).build();
 
     /**
      * Net-SNMP License
      */
-    public static final SPDXLicense LICENSE_NET_SNMP = SPDXLicense.of(ValueSet.LICENSE_NET_SNMP);
+    public static final SPDXLicense LICENSE_NET_SNMP = SPDXLicense.builder().value(ValueSet.LICENSE_NET_SNMP).build();
 
     /**
      * NetCDF license
      */
-    public static final SPDXLicense LICENSE_NET_CDF = SPDXLicense.of(ValueSet.LICENSE_NET_CDF);
+    public static final SPDXLicense LICENSE_NET_CDF = SPDXLicense.builder().value(ValueSet.LICENSE_NET_CDF).build();
 
     /**
      * Newsletr License
      */
-    public static final SPDXLicense LICENSE_NEWSLETR = SPDXLicense.of(ValueSet.LICENSE_NEWSLETR);
+    public static final SPDXLicense LICENSE_NEWSLETR = SPDXLicense.builder().value(ValueSet.LICENSE_NEWSLETR).build();
 
     /**
      * Nethack General Public License
      */
-    public static final SPDXLicense LICENSE_NGPL = SPDXLicense.of(ValueSet.LICENSE_NGPL);
+    public static final SPDXLicense LICENSE_NGPL = SPDXLicense.builder().value(ValueSet.LICENSE_NGPL).build();
 
     /**
      * Norwegian Licence for Open Government Data
      */
-    public static final SPDXLicense LICENSE_NLOD_1_0 = SPDXLicense.of(ValueSet.LICENSE_NLOD_1_0);
+    public static final SPDXLicense LICENSE_NLOD_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_NLOD_1_0).build();
 
     /**
      * No Limit Public License
      */
-    public static final SPDXLicense LICENSE_NLPL = SPDXLicense.of(ValueSet.LICENSE_NLPL);
+    public static final SPDXLicense LICENSE_NLPL = SPDXLicense.builder().value(ValueSet.LICENSE_NLPL).build();
 
     /**
      * Nokia Open Source License
      */
-    public static final SPDXLicense LICENSE_NOKIA = SPDXLicense.of(ValueSet.LICENSE_NOKIA);
+    public static final SPDXLicense LICENSE_NOKIA = SPDXLicense.builder().value(ValueSet.LICENSE_NOKIA).build();
 
     /**
      * Netizen Open Source License
      */
-    public static final SPDXLicense LICENSE_NOSL = SPDXLicense.of(ValueSet.LICENSE_NOSL);
+    public static final SPDXLicense LICENSE_NOSL = SPDXLicense.builder().value(ValueSet.LICENSE_NOSL).build();
 
     /**
      * Noweb License
      */
-    public static final SPDXLicense LICENSE_NOWEB = SPDXLicense.of(ValueSet.LICENSE_NOWEB);
+    public static final SPDXLicense LICENSE_NOWEB = SPDXLicense.builder().value(ValueSet.LICENSE_NOWEB).build();
 
     /**
      * Netscape Public License v1.0
      */
-    public static final SPDXLicense LICENSE_NPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_NPL_1_0);
+    public static final SPDXLicense LICENSE_NPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_NPL_1_0).build();
 
     /**
      * Netscape Public License v1.1
      */
-    public static final SPDXLicense LICENSE_NPL_1_1 = SPDXLicense.of(ValueSet.LICENSE_NPL_1_1);
+    public static final SPDXLicense LICENSE_NPL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_NPL_1_1).build();
 
     /**
      * Non-Profit Open Software License 3.0
      */
-    public static final SPDXLicense LICENSE_NPOSL_3_0 = SPDXLicense.of(ValueSet.LICENSE_NPOSL_3_0);
+    public static final SPDXLicense LICENSE_NPOSL_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_NPOSL_3_0).build();
 
     /**
      * NRL License
      */
-    public static final SPDXLicense LICENSE_NRL = SPDXLicense.of(ValueSet.LICENSE_NRL);
+    public static final SPDXLicense LICENSE_NRL = SPDXLicense.builder().value(ValueSet.LICENSE_NRL).build();
 
     /**
      * NTP License
      */
-    public static final SPDXLicense LICENSE_NTP = SPDXLicense.of(ValueSet.LICENSE_NTP);
+    public static final SPDXLicense LICENSE_NTP = SPDXLicense.builder().value(ValueSet.LICENSE_NTP).build();
 
     /**
      * Open CASCADE Technology Public License
      */
-    public static final SPDXLicense LICENSE_OCCT_PL = SPDXLicense.of(ValueSet.LICENSE_OCCT_PL);
+    public static final SPDXLicense LICENSE_OCCT_PL = SPDXLicense.builder().value(ValueSet.LICENSE_OCCT_PL).build();
 
     /**
      * OCLC Research Public License 2.0
      */
-    public static final SPDXLicense LICENSE_OCLC_2_0 = SPDXLicense.of(ValueSet.LICENSE_OCLC_2_0);
+    public static final SPDXLicense LICENSE_OCLC_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_OCLC_2_0).build();
 
     /**
      * ODC Open Database License v1.0
      */
-    public static final SPDXLicense LICENSE_ODB_L_1_0 = SPDXLicense.of(ValueSet.LICENSE_ODB_L_1_0);
+    public static final SPDXLicense LICENSE_ODB_L_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_ODB_L_1_0).build();
 
     /**
      * SIL Open Font License 1.0
      */
-    public static final SPDXLicense LICENSE_OFL_1_0 = SPDXLicense.of(ValueSet.LICENSE_OFL_1_0);
+    public static final SPDXLicense LICENSE_OFL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_OFL_1_0).build();
 
     /**
      * SIL Open Font License 1.1
      */
-    public static final SPDXLicense LICENSE_OFL_1_1 = SPDXLicense.of(ValueSet.LICENSE_OFL_1_1);
+    public static final SPDXLicense LICENSE_OFL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_OFL_1_1).build();
 
     /**
      * Open Group Test Suite License
      */
-    public static final SPDXLicense LICENSE_OGTSL = SPDXLicense.of(ValueSet.LICENSE_OGTSL);
+    public static final SPDXLicense LICENSE_OGTSL = SPDXLicense.builder().value(ValueSet.LICENSE_OGTSL).build();
 
     /**
      * Open LDAP Public License v1.1
      */
-    public static final SPDXLicense LICENSE_OLDAP_1_1 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_1_1);
+    public static final SPDXLicense LICENSE_OLDAP_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_1_1).build();
 
     /**
      * Open LDAP Public License v1.2
      */
-    public static final SPDXLicense LICENSE_OLDAP_1_2 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_1_2);
+    public static final SPDXLicense LICENSE_OLDAP_1_2 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_1_2).build();
 
     /**
      * Open LDAP Public License v1.3
      */
-    public static final SPDXLicense LICENSE_OLDAP_1_3 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_1_3);
+    public static final SPDXLicense LICENSE_OLDAP_1_3 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_1_3).build();
 
     /**
      * Open LDAP Public License v1.4
      */
-    public static final SPDXLicense LICENSE_OLDAP_1_4 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_1_4);
+    public static final SPDXLicense LICENSE_OLDAP_1_4 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_1_4).build();
 
     /**
      * Open LDAP Public License v2.0.1
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_0_1 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_0_1);
+    public static final SPDXLicense LICENSE_OLDAP_2_0_1 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_0_1).build();
 
     /**
      * Open LDAP Public License v2.0 (or possibly 2.0A and 2.0B)
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_0 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_0);
+    public static final SPDXLicense LICENSE_OLDAP_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_0).build();
 
     /**
      * Open LDAP Public License v2.1
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_1 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_1);
+    public static final SPDXLicense LICENSE_OLDAP_2_1 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_1).build();
 
     /**
      * Open LDAP Public License v2.2.1
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_2_1 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_2_1);
+    public static final SPDXLicense LICENSE_OLDAP_2_2_1 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_2_1).build();
 
     /**
      * Open LDAP Public License 2.2.2
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_2_2 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_2_2);
+    public static final SPDXLicense LICENSE_OLDAP_2_2_2 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_2_2).build();
 
     /**
      * Open LDAP Public License v2.2
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_2 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_2);
+    public static final SPDXLicense LICENSE_OLDAP_2_2 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_2).build();
 
     /**
      * Open LDAP Public License v2.3
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_3 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_3);
+    public static final SPDXLicense LICENSE_OLDAP_2_3 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_3).build();
 
     /**
      * Open LDAP Public License v2.4
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_4 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_4);
+    public static final SPDXLicense LICENSE_OLDAP_2_4 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_4).build();
 
     /**
      * Open LDAP Public License v2.5
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_5 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_5);
+    public static final SPDXLicense LICENSE_OLDAP_2_5 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_5).build();
 
     /**
      * Open LDAP Public License v2.6
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_6 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_6);
+    public static final SPDXLicense LICENSE_OLDAP_2_6 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_6).build();
 
     /**
      * Open LDAP Public License v2.7
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_7 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_7);
+    public static final SPDXLicense LICENSE_OLDAP_2_7 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_7).build();
 
     /**
      * Open LDAP Public License v2.8
      */
-    public static final SPDXLicense LICENSE_OLDAP_2_8 = SPDXLicense.of(ValueSet.LICENSE_OLDAP_2_8);
+    public static final SPDXLicense LICENSE_OLDAP_2_8 = SPDXLicense.builder().value(ValueSet.LICENSE_OLDAP_2_8).build();
 
     /**
      * Open Market License
      */
-    public static final SPDXLicense LICENSE_OML = SPDXLicense.of(ValueSet.LICENSE_OML);
+    public static final SPDXLicense LICENSE_OML = SPDXLicense.builder().value(ValueSet.LICENSE_OML).build();
 
     /**
      * OpenSSL License
      */
-    public static final SPDXLicense LICENSE_OPEN_SSL = SPDXLicense.of(ValueSet.LICENSE_OPEN_SSL);
+    public static final SPDXLicense LICENSE_OPEN_SSL = SPDXLicense.builder().value(ValueSet.LICENSE_OPEN_SSL).build();
 
     /**
      * Open Public License v1.0
      */
-    public static final SPDXLicense LICENSE_OPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_OPL_1_0);
+    public static final SPDXLicense LICENSE_OPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_OPL_1_0).build();
 
     /**
      * OSET Public License version 2.1
      */
-    public static final SPDXLicense LICENSE_OSET_PL_2_1 = SPDXLicense.of(ValueSet.LICENSE_OSET_PL_2_1);
+    public static final SPDXLicense LICENSE_OSET_PL_2_1 = SPDXLicense.builder().value(ValueSet.LICENSE_OSET_PL_2_1).build();
 
     /**
      * Open Software License 1.0
      */
-    public static final SPDXLicense LICENSE_OSL_1_0 = SPDXLicense.of(ValueSet.LICENSE_OSL_1_0);
+    public static final SPDXLicense LICENSE_OSL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_OSL_1_0).build();
 
     /**
      * Open Software License 1.1
      */
-    public static final SPDXLicense LICENSE_OSL_1_1 = SPDXLicense.of(ValueSet.LICENSE_OSL_1_1);
+    public static final SPDXLicense LICENSE_OSL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_OSL_1_1).build();
 
     /**
      * Open Software License 2.0
      */
-    public static final SPDXLicense LICENSE_OSL_2_0 = SPDXLicense.of(ValueSet.LICENSE_OSL_2_0);
+    public static final SPDXLicense LICENSE_OSL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_OSL_2_0).build();
 
     /**
      * Open Software License 2.1
      */
-    public static final SPDXLicense LICENSE_OSL_2_1 = SPDXLicense.of(ValueSet.LICENSE_OSL_2_1);
+    public static final SPDXLicense LICENSE_OSL_2_1 = SPDXLicense.builder().value(ValueSet.LICENSE_OSL_2_1).build();
 
     /**
      * Open Software License 3.0
      */
-    public static final SPDXLicense LICENSE_OSL_3_0 = SPDXLicense.of(ValueSet.LICENSE_OSL_3_0);
+    public static final SPDXLicense LICENSE_OSL_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_OSL_3_0).build();
 
     /**
      * ODC Public Domain Dedication &amp; License 1.0
      */
-    public static final SPDXLicense LICENSE_PDDL_1_0 = SPDXLicense.of(ValueSet.LICENSE_PDDL_1_0);
+    public static final SPDXLicense LICENSE_PDDL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_PDDL_1_0).build();
 
     /**
      * PHP License v3.0
      */
-    public static final SPDXLicense LICENSE_PHP_3_0 = SPDXLicense.of(ValueSet.LICENSE_PHP_3_0);
+    public static final SPDXLicense LICENSE_PHP_3_0 = SPDXLicense.builder().value(ValueSet.LICENSE_PHP_3_0).build();
 
     /**
      * PHP License v3.01
      */
-    public static final SPDXLicense LICENSE_PHP_3_01 = SPDXLicense.of(ValueSet.LICENSE_PHP_3_01);
+    public static final SPDXLicense LICENSE_PHP_3_01 = SPDXLicense.builder().value(ValueSet.LICENSE_PHP_3_01).build();
 
     /**
      * Plexus Classworlds License
      */
-    public static final SPDXLicense LICENSE_PLEXUS = SPDXLicense.of(ValueSet.LICENSE_PLEXUS);
+    public static final SPDXLicense LICENSE_PLEXUS = SPDXLicense.builder().value(ValueSet.LICENSE_PLEXUS).build();
 
     /**
      * PostgreSQL License
      */
-    public static final SPDXLicense LICENSE_POSTGRE_SQL = SPDXLicense.of(ValueSet.LICENSE_POSTGRE_SQL);
+    public static final SPDXLicense LICENSE_POSTGRE_SQL = SPDXLicense.builder().value(ValueSet.LICENSE_POSTGRE_SQL).build();
 
     /**
      * psfrag License
      */
-    public static final SPDXLicense LICENSE_PSFRAG = SPDXLicense.of(ValueSet.LICENSE_PSFRAG);
+    public static final SPDXLicense LICENSE_PSFRAG = SPDXLicense.builder().value(ValueSet.LICENSE_PSFRAG).build();
 
     /**
      * psutils License
      */
-    public static final SPDXLicense LICENSE_PSUTILS = SPDXLicense.of(ValueSet.LICENSE_PSUTILS);
+    public static final SPDXLicense LICENSE_PSUTILS = SPDXLicense.builder().value(ValueSet.LICENSE_PSUTILS).build();
 
     /**
      * Python License 2.0
      */
-    public static final SPDXLicense LICENSE_PYTHON_2_0 = SPDXLicense.of(ValueSet.LICENSE_PYTHON_2_0);
+    public static final SPDXLicense LICENSE_PYTHON_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_PYTHON_2_0).build();
 
     /**
      * Qhull License
      */
-    public static final SPDXLicense LICENSE_QHULL = SPDXLicense.of(ValueSet.LICENSE_QHULL);
+    public static final SPDXLicense LICENSE_QHULL = SPDXLicense.builder().value(ValueSet.LICENSE_QHULL).build();
 
     /**
      * Q Public License 1.0
      */
-    public static final SPDXLicense LICENSE_QPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_QPL_1_0);
+    public static final SPDXLicense LICENSE_QPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_QPL_1_0).build();
 
     /**
      * Rdisc License
      */
-    public static final SPDXLicense LICENSE_RDISC = SPDXLicense.of(ValueSet.LICENSE_RDISC);
+    public static final SPDXLicense LICENSE_RDISC = SPDXLicense.builder().value(ValueSet.LICENSE_RDISC).build();
 
     /**
      * Red Hat eCos Public License v1.1
      */
-    public static final SPDXLicense LICENSE_RHE_COS_1_1 = SPDXLicense.of(ValueSet.LICENSE_RHE_COS_1_1);
+    public static final SPDXLicense LICENSE_RHE_COS_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_RHE_COS_1_1).build();
 
     /**
      * Reciprocal Public License 1.1
      */
-    public static final SPDXLicense LICENSE_RPL_1_1 = SPDXLicense.of(ValueSet.LICENSE_RPL_1_1);
+    public static final SPDXLicense LICENSE_RPL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_RPL_1_1).build();
 
     /**
      * Reciprocal Public License 1.5
      */
-    public static final SPDXLicense LICENSE_RPL_1_5 = SPDXLicense.of(ValueSet.LICENSE_RPL_1_5);
+    public static final SPDXLicense LICENSE_RPL_1_5 = SPDXLicense.builder().value(ValueSet.LICENSE_RPL_1_5).build();
 
     /**
      * RealNetworks Public Source License v1.0
      */
-    public static final SPDXLicense LICENSE_RPSL_1_0 = SPDXLicense.of(ValueSet.LICENSE_RPSL_1_0);
+    public static final SPDXLicense LICENSE_RPSL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_RPSL_1_0).build();
 
     /**
      * RSA Message-Digest License
      */
-    public static final SPDXLicense LICENSE_RSA_MD = SPDXLicense.of(ValueSet.LICENSE_RSA_MD);
+    public static final SPDXLicense LICENSE_RSA_MD = SPDXLicense.builder().value(ValueSet.LICENSE_RSA_MD).build();
 
     /**
      * Ricoh Source Code Public License
      */
-    public static final SPDXLicense LICENSE_RSCPL = SPDXLicense.of(ValueSet.LICENSE_RSCPL);
+    public static final SPDXLicense LICENSE_RSCPL = SPDXLicense.builder().value(ValueSet.LICENSE_RSCPL).build();
 
     /**
      * Ruby License
      */
-    public static final SPDXLicense LICENSE_RUBY = SPDXLicense.of(ValueSet.LICENSE_RUBY);
+    public static final SPDXLicense LICENSE_RUBY = SPDXLicense.builder().value(ValueSet.LICENSE_RUBY).build();
 
     /**
      * Sax Public Domain Notice
      */
-    public static final SPDXLicense LICENSE_SAX_PD = SPDXLicense.of(ValueSet.LICENSE_SAX_PD);
+    public static final SPDXLicense LICENSE_SAX_PD = SPDXLicense.builder().value(ValueSet.LICENSE_SAX_PD).build();
 
     /**
      * Saxpath License
      */
-    public static final SPDXLicense LICENSE_SAXPATH = SPDXLicense.of(ValueSet.LICENSE_SAXPATH);
+    public static final SPDXLicense LICENSE_SAXPATH = SPDXLicense.builder().value(ValueSet.LICENSE_SAXPATH).build();
 
     /**
      * SCEA Shared Source License
      */
-    public static final SPDXLicense LICENSE_SCEA = SPDXLicense.of(ValueSet.LICENSE_SCEA);
+    public static final SPDXLicense LICENSE_SCEA = SPDXLicense.builder().value(ValueSet.LICENSE_SCEA).build();
 
     /**
      * Sendmail License
      */
-    public static final SPDXLicense LICENSE_SENDMAIL = SPDXLicense.of(ValueSet.LICENSE_SENDMAIL);
+    public static final SPDXLicense LICENSE_SENDMAIL = SPDXLicense.builder().value(ValueSet.LICENSE_SENDMAIL).build();
 
     /**
      * SGI Free Software License B v1.0
      */
-    public static final SPDXLicense LICENSE_SGI_B_1_0 = SPDXLicense.of(ValueSet.LICENSE_SGI_B_1_0);
+    public static final SPDXLicense LICENSE_SGI_B_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_SGI_B_1_0).build();
 
     /**
      * SGI Free Software License B v1.1
      */
-    public static final SPDXLicense LICENSE_SGI_B_1_1 = SPDXLicense.of(ValueSet.LICENSE_SGI_B_1_1);
+    public static final SPDXLicense LICENSE_SGI_B_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_SGI_B_1_1).build();
 
     /**
      * SGI Free Software License B v2.0
      */
-    public static final SPDXLicense LICENSE_SGI_B_2_0 = SPDXLicense.of(ValueSet.LICENSE_SGI_B_2_0);
+    public static final SPDXLicense LICENSE_SGI_B_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_SGI_B_2_0).build();
 
     /**
      * Simple Public License 2.0
      */
-    public static final SPDXLicense LICENSE_SIM_PL_2_0 = SPDXLicense.of(ValueSet.LICENSE_SIM_PL_2_0);
+    public static final SPDXLicense LICENSE_SIM_PL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_SIM_PL_2_0).build();
 
     /**
      * Sun Industry Standards Source License v1.2
      */
-    public static final SPDXLicense LICENSE_SISSL_1_2 = SPDXLicense.of(ValueSet.LICENSE_SISSL_1_2);
+    public static final SPDXLicense LICENSE_SISSL_1_2 = SPDXLicense.builder().value(ValueSet.LICENSE_SISSL_1_2).build();
 
     /**
      * Sun Industry Standards Source License v1.1
      */
-    public static final SPDXLicense LICENSE_SISSL = SPDXLicense.of(ValueSet.LICENSE_SISSL);
+    public static final SPDXLicense LICENSE_SISSL = SPDXLicense.builder().value(ValueSet.LICENSE_SISSL).build();
 
     /**
      * Sleepycat License
      */
-    public static final SPDXLicense LICENSE_SLEEPYCAT = SPDXLicense.of(ValueSet.LICENSE_SLEEPYCAT);
+    public static final SPDXLicense LICENSE_SLEEPYCAT = SPDXLicense.builder().value(ValueSet.LICENSE_SLEEPYCAT).build();
 
     /**
      * Standard ML of New Jersey License
      */
-    public static final SPDXLicense LICENSE_SMLNJ = SPDXLicense.of(ValueSet.LICENSE_SMLNJ);
+    public static final SPDXLicense LICENSE_SMLNJ = SPDXLicense.builder().value(ValueSet.LICENSE_SMLNJ).build();
 
     /**
      * Secure Messaging Protocol Public License
      */
-    public static final SPDXLicense LICENSE_SMPPL = SPDXLicense.of(ValueSet.LICENSE_SMPPL);
+    public static final SPDXLicense LICENSE_SMPPL = SPDXLicense.builder().value(ValueSet.LICENSE_SMPPL).build();
 
     /**
      * SNIA Public License 1.1
      */
-    public static final SPDXLicense LICENSE_SNIA = SPDXLicense.of(ValueSet.LICENSE_SNIA);
+    public static final SPDXLicense LICENSE_SNIA = SPDXLicense.builder().value(ValueSet.LICENSE_SNIA).build();
 
     /**
      * Spencer License 86
      */
-    public static final SPDXLicense LICENSE_SPENCER_86 = SPDXLicense.of(ValueSet.LICENSE_SPENCER_86);
+    public static final SPDXLicense LICENSE_SPENCER_86 = SPDXLicense.builder().value(ValueSet.LICENSE_SPENCER_86).build();
 
     /**
      * Spencer License 94
      */
-    public static final SPDXLicense LICENSE_SPENCER_94 = SPDXLicense.of(ValueSet.LICENSE_SPENCER_94);
+    public static final SPDXLicense LICENSE_SPENCER_94 = SPDXLicense.builder().value(ValueSet.LICENSE_SPENCER_94).build();
 
     /**
      * Spencer License 99
      */
-    public static final SPDXLicense LICENSE_SPENCER_99 = SPDXLicense.of(ValueSet.LICENSE_SPENCER_99);
+    public static final SPDXLicense LICENSE_SPENCER_99 = SPDXLicense.builder().value(ValueSet.LICENSE_SPENCER_99).build();
 
     /**
      * Sun Public License v1.0
      */
-    public static final SPDXLicense LICENSE_SPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_SPL_1_0);
+    public static final SPDXLicense LICENSE_SPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_SPL_1_0).build();
 
     /**
      * SugarCRM Public License v1.1.3
      */
-    public static final SPDXLicense LICENSE_SUGAR_CRM_1_1_3 = SPDXLicense.of(ValueSet.LICENSE_SUGAR_CRM_1_1_3);
+    public static final SPDXLicense LICENSE_SUGAR_CRM_1_1_3 = SPDXLicense.builder().value(ValueSet.LICENSE_SUGAR_CRM_1_1_3).build();
 
     /**
      * Scheme Widget Library (SWL) Software License Agreement
      */
-    public static final SPDXLicense LICENSE_SWL = SPDXLicense.of(ValueSet.LICENSE_SWL);
+    public static final SPDXLicense LICENSE_SWL = SPDXLicense.builder().value(ValueSet.LICENSE_SWL).build();
 
     /**
      * TCL/TK License
      */
-    public static final SPDXLicense LICENSE_TCL = SPDXLicense.of(ValueSet.LICENSE_TCL);
+    public static final SPDXLicense LICENSE_TCL = SPDXLicense.builder().value(ValueSet.LICENSE_TCL).build();
 
     /**
      * TCP Wrappers License
      */
-    public static final SPDXLicense LICENSE_TCP_WRAPPERS = SPDXLicense.of(ValueSet.LICENSE_TCP_WRAPPERS);
+    public static final SPDXLicense LICENSE_TCP_WRAPPERS = SPDXLicense.builder().value(ValueSet.LICENSE_TCP_WRAPPERS).build();
 
     /**
      * TMate Open Source License
      */
-    public static final SPDXLicense LICENSE_TMATE = SPDXLicense.of(ValueSet.LICENSE_TMATE);
+    public static final SPDXLicense LICENSE_TMATE = SPDXLicense.builder().value(ValueSet.LICENSE_TMATE).build();
 
     /**
      * TORQUE v2.5+ Software License v1.1
      */
-    public static final SPDXLicense LICENSE_TORQUE_1_1 = SPDXLicense.of(ValueSet.LICENSE_TORQUE_1_1);
+    public static final SPDXLicense LICENSE_TORQUE_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_TORQUE_1_1).build();
 
     /**
      * Trusster Open Source License
      */
-    public static final SPDXLicense LICENSE_TOSL = SPDXLicense.of(ValueSet.LICENSE_TOSL);
+    public static final SPDXLicense LICENSE_TOSL = SPDXLicense.builder().value(ValueSet.LICENSE_TOSL).build();
 
     /**
      * Unicode License Agreement - Data Files and Software (2015)
      */
-    public static final SPDXLicense LICENSE_UNICODE_DFS_2015 = SPDXLicense.of(ValueSet.LICENSE_UNICODE_DFS_2015);
+    public static final SPDXLicense LICENSE_UNICODE_DFS_2015 = SPDXLicense.builder().value(ValueSet.LICENSE_UNICODE_DFS_2015).build();
 
     /**
      * Unicode License Agreement - Data Files and Software (2016)
      */
-    public static final SPDXLicense LICENSE_UNICODE_DFS_2016 = SPDXLicense.of(ValueSet.LICENSE_UNICODE_DFS_2016);
+    public static final SPDXLicense LICENSE_UNICODE_DFS_2016 = SPDXLicense.builder().value(ValueSet.LICENSE_UNICODE_DFS_2016).build();
 
     /**
      * Unicode Terms of Use
      */
-    public static final SPDXLicense LICENSE_UNICODE_TOU = SPDXLicense.of(ValueSet.LICENSE_UNICODE_TOU);
+    public static final SPDXLicense LICENSE_UNICODE_TOU = SPDXLicense.builder().value(ValueSet.LICENSE_UNICODE_TOU).build();
 
     /**
      * The Unlicense
      */
-    public static final SPDXLicense LICENSE_UNLICENSE = SPDXLicense.of(ValueSet.LICENSE_UNLICENSE);
+    public static final SPDXLicense LICENSE_UNLICENSE = SPDXLicense.builder().value(ValueSet.LICENSE_UNLICENSE).build();
 
     /**
      * Universal Permissive License v1.0
      */
-    public static final SPDXLicense LICENSE_UPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_UPL_1_0);
+    public static final SPDXLicense LICENSE_UPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_UPL_1_0).build();
 
     /**
      * Vim License
      */
-    public static final SPDXLicense LICENSE_VIM = SPDXLicense.of(ValueSet.LICENSE_VIM);
+    public static final SPDXLicense LICENSE_VIM = SPDXLicense.builder().value(ValueSet.LICENSE_VIM).build();
 
     /**
      * VOSTROM Public License for Open Source
      */
-    public static final SPDXLicense LICENSE_VOSTROM = SPDXLicense.of(ValueSet.LICENSE_VOSTROM);
+    public static final SPDXLicense LICENSE_VOSTROM = SPDXLicense.builder().value(ValueSet.LICENSE_VOSTROM).build();
 
     /**
      * Vovida Software License v1.0
      */
-    public static final SPDXLicense LICENSE_VSL_1_0 = SPDXLicense.of(ValueSet.LICENSE_VSL_1_0);
+    public static final SPDXLicense LICENSE_VSL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_VSL_1_0).build();
 
     /**
      * W3C Software Notice and License (1998-07-20)
      */
-    public static final SPDXLicense LICENSE_W3C_19980720 = SPDXLicense.of(ValueSet.LICENSE_W3C_19980720);
+    public static final SPDXLicense LICENSE_W3C_19980720 = SPDXLicense.builder().value(ValueSet.LICENSE_W3C_19980720).build();
 
     /**
      * W3C Software Notice and Document License (2015-05-13)
      */
-    public static final SPDXLicense LICENSE_W3C_20150513 = SPDXLicense.of(ValueSet.LICENSE_W3C_20150513);
+    public static final SPDXLicense LICENSE_W3C_20150513 = SPDXLicense.builder().value(ValueSet.LICENSE_W3C_20150513).build();
 
     /**
      * W3C Software Notice and License (2002-12-31)
      */
-    public static final SPDXLicense LICENSE_W3C = SPDXLicense.of(ValueSet.LICENSE_W3C);
+    public static final SPDXLicense LICENSE_W3C = SPDXLicense.builder().value(ValueSet.LICENSE_W3C).build();
 
     /**
      * Sybase Open Watcom Public License 1.0
      */
-    public static final SPDXLicense LICENSE_WATCOM_1_0 = SPDXLicense.of(ValueSet.LICENSE_WATCOM_1_0);
+    public static final SPDXLicense LICENSE_WATCOM_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_WATCOM_1_0).build();
 
     /**
      * Wsuipa License
      */
-    public static final SPDXLicense LICENSE_WSUIPA = SPDXLicense.of(ValueSet.LICENSE_WSUIPA);
+    public static final SPDXLicense LICENSE_WSUIPA = SPDXLicense.builder().value(ValueSet.LICENSE_WSUIPA).build();
 
     /**
      * Do What The F*ck You Want To Public License
      */
-    public static final SPDXLicense LICENSE_WTFPL = SPDXLicense.of(ValueSet.LICENSE_WTFPL);
+    public static final SPDXLicense LICENSE_WTFPL = SPDXLicense.builder().value(ValueSet.LICENSE_WTFPL).build();
 
     /**
      * X11 License
      */
-    public static final SPDXLicense LICENSE_X11 = SPDXLicense.of(ValueSet.LICENSE_X11);
+    public static final SPDXLicense LICENSE_X11 = SPDXLicense.builder().value(ValueSet.LICENSE_X11).build();
 
     /**
      * Xerox License
      */
-    public static final SPDXLicense LICENSE_XEROX = SPDXLicense.of(ValueSet.LICENSE_XEROX);
+    public static final SPDXLicense LICENSE_XEROX = SPDXLicense.builder().value(ValueSet.LICENSE_XEROX).build();
 
     /**
      * XFree86 License 1.1
      */
-    public static final SPDXLicense LICENSE_XFREE86_1_1 = SPDXLicense.of(ValueSet.LICENSE_XFREE86_1_1);
+    public static final SPDXLicense LICENSE_XFREE86_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_XFREE86_1_1).build();
 
     /**
      * xinetd License
      */
-    public static final SPDXLicense LICENSE_XINETD = SPDXLicense.of(ValueSet.LICENSE_XINETD);
+    public static final SPDXLicense LICENSE_XINETD = SPDXLicense.builder().value(ValueSet.LICENSE_XINETD).build();
 
     /**
      * X.Net License
      */
-    public static final SPDXLicense LICENSE_XNET = SPDXLicense.of(ValueSet.LICENSE_XNET);
+    public static final SPDXLicense LICENSE_XNET = SPDXLicense.builder().value(ValueSet.LICENSE_XNET).build();
 
     /**
      * XPP License
      */
-    public static final SPDXLicense LICENSE_XPP = SPDXLicense.of(ValueSet.LICENSE_XPP);
+    public static final SPDXLicense LICENSE_XPP = SPDXLicense.builder().value(ValueSet.LICENSE_XPP).build();
 
     /**
      * XSkat License
      */
-    public static final SPDXLicense LICENSE_XSKAT = SPDXLicense.of(ValueSet.LICENSE_XSKAT);
+    public static final SPDXLicense LICENSE_XSKAT = SPDXLicense.builder().value(ValueSet.LICENSE_XSKAT).build();
 
     /**
      * Yahoo! Public License v1.0
      */
-    public static final SPDXLicense LICENSE_YPL_1_0 = SPDXLicense.of(ValueSet.LICENSE_YPL_1_0);
+    public static final SPDXLicense LICENSE_YPL_1_0 = SPDXLicense.builder().value(ValueSet.LICENSE_YPL_1_0).build();
 
     /**
      * Yahoo! Public License v1.1
      */
-    public static final SPDXLicense LICENSE_YPL_1_1 = SPDXLicense.of(ValueSet.LICENSE_YPL_1_1);
+    public static final SPDXLicense LICENSE_YPL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_YPL_1_1).build();
 
     /**
      * Zed License
      */
-    public static final SPDXLicense LICENSE_ZED = SPDXLicense.of(ValueSet.LICENSE_ZED);
+    public static final SPDXLicense LICENSE_ZED = SPDXLicense.builder().value(ValueSet.LICENSE_ZED).build();
 
     /**
      * Zend License v2.0
      */
-    public static final SPDXLicense LICENSE_ZEND_2_0 = SPDXLicense.of(ValueSet.LICENSE_ZEND_2_0);
+    public static final SPDXLicense LICENSE_ZEND_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_ZEND_2_0).build();
 
     /**
      * Zimbra Public License v1.3
      */
-    public static final SPDXLicense LICENSE_ZIMBRA_1_3 = SPDXLicense.of(ValueSet.LICENSE_ZIMBRA_1_3);
+    public static final SPDXLicense LICENSE_ZIMBRA_1_3 = SPDXLicense.builder().value(ValueSet.LICENSE_ZIMBRA_1_3).build();
 
     /**
      * Zimbra Public License v1.4
      */
-    public static final SPDXLicense LICENSE_ZIMBRA_1_4 = SPDXLicense.of(ValueSet.LICENSE_ZIMBRA_1_4);
+    public static final SPDXLicense LICENSE_ZIMBRA_1_4 = SPDXLicense.builder().value(ValueSet.LICENSE_ZIMBRA_1_4).build();
 
     /**
      * zlib/libpng License with Acknowledgement
      */
-    public static final SPDXLicense LICENSE_ZLIB_ACKNOWLEDGEMENT = SPDXLicense.of(ValueSet.LICENSE_ZLIB_ACKNOWLEDGEMENT);
+    public static final SPDXLicense LICENSE_ZLIB_ACKNOWLEDGEMENT = SPDXLicense.builder().value(ValueSet.LICENSE_ZLIB_ACKNOWLEDGEMENT).build();
 
     /**
      * zlib License
      */
-    public static final SPDXLicense LICENSE_ZLIB = SPDXLicense.of(ValueSet.LICENSE_ZLIB);
+    public static final SPDXLicense LICENSE_ZLIB = SPDXLicense.builder().value(ValueSet.LICENSE_ZLIB).build();
 
     /**
      * Zope Public License 1.1
      */
-    public static final SPDXLicense LICENSE_ZPL_1_1 = SPDXLicense.of(ValueSet.LICENSE_ZPL_1_1);
+    public static final SPDXLicense LICENSE_ZPL_1_1 = SPDXLicense.builder().value(ValueSet.LICENSE_ZPL_1_1).build();
 
     /**
      * Zope Public License 2.0
      */
-    public static final SPDXLicense LICENSE_ZPL_2_0 = SPDXLicense.of(ValueSet.LICENSE_ZPL_2_0);
+    public static final SPDXLicense LICENSE_ZPL_2_0 = SPDXLicense.builder().value(ValueSet.LICENSE_ZPL_2_0).build();
 
     /**
      * Zope Public License 2.1
      */
-    public static final SPDXLicense LICENSE_ZPL_2_1 = SPDXLicense.of(ValueSet.LICENSE_ZPL_2_1);
+    public static final SPDXLicense LICENSE_ZPL_2_1 = SPDXLicense.builder().value(ValueSet.LICENSE_ZPL_2_1).build();
 
     private volatile int hashCode;
 
@@ -1753,20 +1753,715 @@ public class SPDXLicense extends Code {
         super(builder);
     }
 
-    public static SPDXLicense of(java.lang.String value) {
-        return SPDXLicense.builder().value(value).build();
+    public static SPDXLicense of(ValueSet value) {
+        switch (value) {
+        case LICENSE_NOT_OPEN_SOURCE:
+            return LICENSE_NOT_OPEN_SOURCE;
+        case LICENSE_0BSD:
+            return LICENSE_0BSD;
+        case LICENSE_AAL:
+            return LICENSE_AAL;
+        case LICENSE_ABSTYLES:
+            return LICENSE_ABSTYLES;
+        case LICENSE_ADOBE_2006:
+            return LICENSE_ADOBE_2006;
+        case LICENSE_ADOBE_GLYPH:
+            return LICENSE_ADOBE_GLYPH;
+        case LICENSE_ADSL:
+            return LICENSE_ADSL;
+        case LICENSE_AFL_1_1:
+            return LICENSE_AFL_1_1;
+        case LICENSE_AFL_1_2:
+            return LICENSE_AFL_1_2;
+        case LICENSE_AFL_2_0:
+            return LICENSE_AFL_2_0;
+        case LICENSE_AFL_2_1:
+            return LICENSE_AFL_2_1;
+        case LICENSE_AFL_3_0:
+            return LICENSE_AFL_3_0;
+        case LICENSE_AFMPARSE:
+            return LICENSE_AFMPARSE;
+        case LICENSE_AGPL_1_0_ONLY:
+            return LICENSE_AGPL_1_0_ONLY;
+        case LICENSE_AGPL_1_0_OR_LATER:
+            return LICENSE_AGPL_1_0_OR_LATER;
+        case LICENSE_AGPL_3_0_ONLY:
+            return LICENSE_AGPL_3_0_ONLY;
+        case LICENSE_AGPL_3_0_OR_LATER:
+            return LICENSE_AGPL_3_0_OR_LATER;
+        case LICENSE_ALADDIN:
+            return LICENSE_ALADDIN;
+        case LICENSE_AMDPLPA:
+            return LICENSE_AMDPLPA;
+        case LICENSE_AML:
+            return LICENSE_AML;
+        case LICENSE_AMPAS:
+            return LICENSE_AMPAS;
+        case LICENSE_ANTLR_PD:
+            return LICENSE_ANTLR_PD;
+        case LICENSE_APACHE_1_0:
+            return LICENSE_APACHE_1_0;
+        case LICENSE_APACHE_1_1:
+            return LICENSE_APACHE_1_1;
+        case LICENSE_APACHE_2_0:
+            return LICENSE_APACHE_2_0;
+        case LICENSE_APAFML:
+            return LICENSE_APAFML;
+        case LICENSE_APL_1_0:
+            return LICENSE_APL_1_0;
+        case LICENSE_APSL_1_0:
+            return LICENSE_APSL_1_0;
+        case LICENSE_APSL_1_1:
+            return LICENSE_APSL_1_1;
+        case LICENSE_APSL_1_2:
+            return LICENSE_APSL_1_2;
+        case LICENSE_APSL_2_0:
+            return LICENSE_APSL_2_0;
+        case LICENSE_ARTISTIC_1_0_CL8:
+            return LICENSE_ARTISTIC_1_0_CL8;
+        case LICENSE_ARTISTIC_1_0_PERL:
+            return LICENSE_ARTISTIC_1_0_PERL;
+        case LICENSE_ARTISTIC_1_0:
+            return LICENSE_ARTISTIC_1_0;
+        case LICENSE_ARTISTIC_2_0:
+            return LICENSE_ARTISTIC_2_0;
+        case LICENSE_BAHYPH:
+            return LICENSE_BAHYPH;
+        case LICENSE_BARR:
+            return LICENSE_BARR;
+        case LICENSE_BEERWARE:
+            return LICENSE_BEERWARE;
+        case LICENSE_BIT_TORRENT_1_0:
+            return LICENSE_BIT_TORRENT_1_0;
+        case LICENSE_BIT_TORRENT_1_1:
+            return LICENSE_BIT_TORRENT_1_1;
+        case LICENSE_BORCEUX:
+            return LICENSE_BORCEUX;
+        case LICENSE_BSD_1_CLAUSE:
+            return LICENSE_BSD_1_CLAUSE;
+        case LICENSE_BSD_2_CLAUSE_FREE_BSD:
+            return LICENSE_BSD_2_CLAUSE_FREE_BSD;
+        case LICENSE_BSD_2_CLAUSE_NET_BSD:
+            return LICENSE_BSD_2_CLAUSE_NET_BSD;
+        case LICENSE_BSD_2_CLAUSE_PATENT:
+            return LICENSE_BSD_2_CLAUSE_PATENT;
+        case LICENSE_BSD_2_CLAUSE:
+            return LICENSE_BSD_2_CLAUSE;
+        case LICENSE_BSD_3_CLAUSE_ATTRIBUTION:
+            return LICENSE_BSD_3_CLAUSE_ATTRIBUTION;
+        case LICENSE_BSD_3_CLAUSE_CLEAR:
+            return LICENSE_BSD_3_CLAUSE_CLEAR;
+        case LICENSE_BSD_3_CLAUSE_LBNL:
+            return LICENSE_BSD_3_CLAUSE_LBNL;
+        case LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE_2014:
+            return LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE_2014;
+        case LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE:
+            return LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_LICENSE;
+        case LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_WARRANTY:
+            return LICENSE_BSD_3_CLAUSE_NO_NUCLEAR_WARRANTY;
+        case LICENSE_BSD_3_CLAUSE:
+            return LICENSE_BSD_3_CLAUSE;
+        case LICENSE_BSD_4_CLAUSE_UC:
+            return LICENSE_BSD_4_CLAUSE_UC;
+        case LICENSE_BSD_4_CLAUSE:
+            return LICENSE_BSD_4_CLAUSE;
+        case LICENSE_BSD_PROTECTION:
+            return LICENSE_BSD_PROTECTION;
+        case LICENSE_BSD_SOURCE_CODE:
+            return LICENSE_BSD_SOURCE_CODE;
+        case LICENSE_BSL_1_0:
+            return LICENSE_BSL_1_0;
+        case LICENSE_BZIP2_1_0_5:
+            return LICENSE_BZIP2_1_0_5;
+        case LICENSE_BZIP2_1_0_6:
+            return LICENSE_BZIP2_1_0_6;
+        case LICENSE_CALDERA:
+            return LICENSE_CALDERA;
+        case LICENSE_CATOSL_1_1:
+            return LICENSE_CATOSL_1_1;
+        case LICENSE_CC_BY_1_0:
+            return LICENSE_CC_BY_1_0;
+        case LICENSE_CC_BY_2_0:
+            return LICENSE_CC_BY_2_0;
+        case LICENSE_CC_BY_2_5:
+            return LICENSE_CC_BY_2_5;
+        case LICENSE_CC_BY_3_0:
+            return LICENSE_CC_BY_3_0;
+        case LICENSE_CC_BY_4_0:
+            return LICENSE_CC_BY_4_0;
+        case LICENSE_CC_BY_NC_1_0:
+            return LICENSE_CC_BY_NC_1_0;
+        case LICENSE_CC_BY_NC_2_0:
+            return LICENSE_CC_BY_NC_2_0;
+        case LICENSE_CC_BY_NC_2_5:
+            return LICENSE_CC_BY_NC_2_5;
+        case LICENSE_CC_BY_NC_3_0:
+            return LICENSE_CC_BY_NC_3_0;
+        case LICENSE_CC_BY_NC_4_0:
+            return LICENSE_CC_BY_NC_4_0;
+        case LICENSE_CC_BY_NC_ND_1_0:
+            return LICENSE_CC_BY_NC_ND_1_0;
+        case LICENSE_CC_BY_NC_ND_2_0:
+            return LICENSE_CC_BY_NC_ND_2_0;
+        case LICENSE_CC_BY_NC_ND_2_5:
+            return LICENSE_CC_BY_NC_ND_2_5;
+        case LICENSE_CC_BY_NC_ND_3_0:
+            return LICENSE_CC_BY_NC_ND_3_0;
+        case LICENSE_CC_BY_NC_ND_4_0:
+            return LICENSE_CC_BY_NC_ND_4_0;
+        case LICENSE_CC_BY_NC_SA_1_0:
+            return LICENSE_CC_BY_NC_SA_1_0;
+        case LICENSE_CC_BY_NC_SA_2_0:
+            return LICENSE_CC_BY_NC_SA_2_0;
+        case LICENSE_CC_BY_NC_SA_2_5:
+            return LICENSE_CC_BY_NC_SA_2_5;
+        case LICENSE_CC_BY_NC_SA_3_0:
+            return LICENSE_CC_BY_NC_SA_3_0;
+        case LICENSE_CC_BY_NC_SA_4_0:
+            return LICENSE_CC_BY_NC_SA_4_0;
+        case LICENSE_CC_BY_ND_1_0:
+            return LICENSE_CC_BY_ND_1_0;
+        case LICENSE_CC_BY_ND_2_0:
+            return LICENSE_CC_BY_ND_2_0;
+        case LICENSE_CC_BY_ND_2_5:
+            return LICENSE_CC_BY_ND_2_5;
+        case LICENSE_CC_BY_ND_3_0:
+            return LICENSE_CC_BY_ND_3_0;
+        case LICENSE_CC_BY_ND_4_0:
+            return LICENSE_CC_BY_ND_4_0;
+        case LICENSE_CC_BY_SA_1_0:
+            return LICENSE_CC_BY_SA_1_0;
+        case LICENSE_CC_BY_SA_2_0:
+            return LICENSE_CC_BY_SA_2_0;
+        case LICENSE_CC_BY_SA_2_5:
+            return LICENSE_CC_BY_SA_2_5;
+        case LICENSE_CC_BY_SA_3_0:
+            return LICENSE_CC_BY_SA_3_0;
+        case LICENSE_CC_BY_SA_4_0:
+            return LICENSE_CC_BY_SA_4_0;
+        case LICENSE_CC0_1_0:
+            return LICENSE_CC0_1_0;
+        case LICENSE_CDDL_1_0:
+            return LICENSE_CDDL_1_0;
+        case LICENSE_CDDL_1_1:
+            return LICENSE_CDDL_1_1;
+        case LICENSE_CDLA_PERMISSIVE_1_0:
+            return LICENSE_CDLA_PERMISSIVE_1_0;
+        case LICENSE_CDLA_SHARING_1_0:
+            return LICENSE_CDLA_SHARING_1_0;
+        case LICENSE_CECILL_1_0:
+            return LICENSE_CECILL_1_0;
+        case LICENSE_CECILL_1_1:
+            return LICENSE_CECILL_1_1;
+        case LICENSE_CECILL_2_0:
+            return LICENSE_CECILL_2_0;
+        case LICENSE_CECILL_2_1:
+            return LICENSE_CECILL_2_1;
+        case LICENSE_CECILL_B:
+            return LICENSE_CECILL_B;
+        case LICENSE_CECILL_C:
+            return LICENSE_CECILL_C;
+        case LICENSE_CL_ARTISTIC:
+            return LICENSE_CL_ARTISTIC;
+        case LICENSE_CNRI_JYTHON:
+            return LICENSE_CNRI_JYTHON;
+        case LICENSE_CNRI_PYTHON_GPL_COMPATIBLE:
+            return LICENSE_CNRI_PYTHON_GPL_COMPATIBLE;
+        case LICENSE_CNRI_PYTHON:
+            return LICENSE_CNRI_PYTHON;
+        case LICENSE_CONDOR_1_1:
+            return LICENSE_CONDOR_1_1;
+        case LICENSE_CPAL_1_0:
+            return LICENSE_CPAL_1_0;
+        case LICENSE_CPL_1_0:
+            return LICENSE_CPL_1_0;
+        case LICENSE_CPOL_1_02:
+            return LICENSE_CPOL_1_02;
+        case LICENSE_CROSSWORD:
+            return LICENSE_CROSSWORD;
+        case LICENSE_CRYSTAL_STACKER:
+            return LICENSE_CRYSTAL_STACKER;
+        case LICENSE_CUA_OPL_1_0:
+            return LICENSE_CUA_OPL_1_0;
+        case LICENSE_CUBE:
+            return LICENSE_CUBE;
+        case LICENSE_CURL:
+            return LICENSE_CURL;
+        case LICENSE_D_FSL_1_0:
+            return LICENSE_D_FSL_1_0;
+        case LICENSE_DIFFMARK:
+            return LICENSE_DIFFMARK;
+        case LICENSE_DOC:
+            return LICENSE_DOC;
+        case LICENSE_DOTSEQN:
+            return LICENSE_DOTSEQN;
+        case LICENSE_DSDP:
+            return LICENSE_DSDP;
+        case LICENSE_DVIPDFM:
+            return LICENSE_DVIPDFM;
+        case LICENSE_ECL_1_0:
+            return LICENSE_ECL_1_0;
+        case LICENSE_ECL_2_0:
+            return LICENSE_ECL_2_0;
+        case LICENSE_EFL_1_0:
+            return LICENSE_EFL_1_0;
+        case LICENSE_EFL_2_0:
+            return LICENSE_EFL_2_0;
+        case LICENSE_E_GENIX:
+            return LICENSE_E_GENIX;
+        case LICENSE_ENTESSA:
+            return LICENSE_ENTESSA;
+        case LICENSE_EPL_1_0:
+            return LICENSE_EPL_1_0;
+        case LICENSE_EPL_2_0:
+            return LICENSE_EPL_2_0;
+        case LICENSE_ERL_PL_1_1:
+            return LICENSE_ERL_PL_1_1;
+        case LICENSE_EUDATAGRID:
+            return LICENSE_EUDATAGRID;
+        case LICENSE_EUPL_1_0:
+            return LICENSE_EUPL_1_0;
+        case LICENSE_EUPL_1_1:
+            return LICENSE_EUPL_1_1;
+        case LICENSE_EUPL_1_2:
+            return LICENSE_EUPL_1_2;
+        case LICENSE_EUROSYM:
+            return LICENSE_EUROSYM;
+        case LICENSE_FAIR:
+            return LICENSE_FAIR;
+        case LICENSE_FRAMEWORX_1_0:
+            return LICENSE_FRAMEWORX_1_0;
+        case LICENSE_FREE_IMAGE:
+            return LICENSE_FREE_IMAGE;
+        case LICENSE_FSFAP:
+            return LICENSE_FSFAP;
+        case LICENSE_FSFUL:
+            return LICENSE_FSFUL;
+        case LICENSE_FSFULLR:
+            return LICENSE_FSFULLR;
+        case LICENSE_FTL:
+            return LICENSE_FTL;
+        case LICENSE_GFDL_1_1_ONLY:
+            return LICENSE_GFDL_1_1_ONLY;
+        case LICENSE_GFDL_1_1_OR_LATER:
+            return LICENSE_GFDL_1_1_OR_LATER;
+        case LICENSE_GFDL_1_2_ONLY:
+            return LICENSE_GFDL_1_2_ONLY;
+        case LICENSE_GFDL_1_2_OR_LATER:
+            return LICENSE_GFDL_1_2_OR_LATER;
+        case LICENSE_GFDL_1_3_ONLY:
+            return LICENSE_GFDL_1_3_ONLY;
+        case LICENSE_GFDL_1_3_OR_LATER:
+            return LICENSE_GFDL_1_3_OR_LATER;
+        case LICENSE_GIFTWARE:
+            return LICENSE_GIFTWARE;
+        case LICENSE_GL2PS:
+            return LICENSE_GL2PS;
+        case LICENSE_GLIDE:
+            return LICENSE_GLIDE;
+        case LICENSE_GLULXE:
+            return LICENSE_GLULXE;
+        case LICENSE_GNUPLOT:
+            return LICENSE_GNUPLOT;
+        case LICENSE_GPL_1_0_ONLY:
+            return LICENSE_GPL_1_0_ONLY;
+        case LICENSE_GPL_1_0_OR_LATER:
+            return LICENSE_GPL_1_0_OR_LATER;
+        case LICENSE_GPL_2_0_ONLY:
+            return LICENSE_GPL_2_0_ONLY;
+        case LICENSE_GPL_2_0_OR_LATER:
+            return LICENSE_GPL_2_0_OR_LATER;
+        case LICENSE_GPL_3_0_ONLY:
+            return LICENSE_GPL_3_0_ONLY;
+        case LICENSE_GPL_3_0_OR_LATER:
+            return LICENSE_GPL_3_0_OR_LATER;
+        case LICENSE_G_SOAP_1_3B:
+            return LICENSE_G_SOAP_1_3B;
+        case LICENSE_HASKELL_REPORT:
+            return LICENSE_HASKELL_REPORT;
+        case LICENSE_HPND:
+            return LICENSE_HPND;
+        case LICENSE_IBM_PIBS:
+            return LICENSE_IBM_PIBS;
+        case LICENSE_ICU:
+            return LICENSE_ICU;
+        case LICENSE_IJG:
+            return LICENSE_IJG;
+        case LICENSE_IMAGE_MAGICK:
+            return LICENSE_IMAGE_MAGICK;
+        case LICENSE_I_MATIX:
+            return LICENSE_I_MATIX;
+        case LICENSE_IMLIB2:
+            return LICENSE_IMLIB2;
+        case LICENSE_INFO_ZIP:
+            return LICENSE_INFO_ZIP;
+        case LICENSE_INTEL_ACPI:
+            return LICENSE_INTEL_ACPI;
+        case LICENSE_INTEL:
+            return LICENSE_INTEL;
+        case LICENSE_INTERBASE_1_0:
+            return LICENSE_INTERBASE_1_0;
+        case LICENSE_IPA:
+            return LICENSE_IPA;
+        case LICENSE_IPL_1_0:
+            return LICENSE_IPL_1_0;
+        case LICENSE_ISC:
+            return LICENSE_ISC;
+        case LICENSE_JAS_PER_2_0:
+            return LICENSE_JAS_PER_2_0;
+        case LICENSE_JSON:
+            return LICENSE_JSON;
+        case LICENSE_LAL_1_2:
+            return LICENSE_LAL_1_2;
+        case LICENSE_LAL_1_3:
+            return LICENSE_LAL_1_3;
+        case LICENSE_LATEX2E:
+            return LICENSE_LATEX2E;
+        case LICENSE_LEPTONICA:
+            return LICENSE_LEPTONICA;
+        case LICENSE_LGPL_2_0_ONLY:
+            return LICENSE_LGPL_2_0_ONLY;
+        case LICENSE_LGPL_2_0_OR_LATER:
+            return LICENSE_LGPL_2_0_OR_LATER;
+        case LICENSE_LGPL_2_1_ONLY:
+            return LICENSE_LGPL_2_1_ONLY;
+        case LICENSE_LGPL_2_1_OR_LATER:
+            return LICENSE_LGPL_2_1_OR_LATER;
+        case LICENSE_LGPL_3_0_ONLY:
+            return LICENSE_LGPL_3_0_ONLY;
+        case LICENSE_LGPL_3_0_OR_LATER:
+            return LICENSE_LGPL_3_0_OR_LATER;
+        case LICENSE_LGPLLR:
+            return LICENSE_LGPLLR;
+        case LICENSE_LIBPNG:
+            return LICENSE_LIBPNG;
+        case LICENSE_LIBTIFF:
+            return LICENSE_LIBTIFF;
+        case LICENSE_LI_LI_Q_P_1_1:
+            return LICENSE_LI_LI_Q_P_1_1;
+        case LICENSE_LI_LI_Q_R_1_1:
+            return LICENSE_LI_LI_Q_R_1_1;
+        case LICENSE_LI_LI_Q_RPLUS_1_1:
+            return LICENSE_LI_LI_Q_RPLUS_1_1;
+        case LICENSE_LINUX_OPEN_IB:
+            return LICENSE_LINUX_OPEN_IB;
+        case LICENSE_LPL_1_0:
+            return LICENSE_LPL_1_0;
+        case LICENSE_LPL_1_02:
+            return LICENSE_LPL_1_02;
+        case LICENSE_LPPL_1_0:
+            return LICENSE_LPPL_1_0;
+        case LICENSE_LPPL_1_1:
+            return LICENSE_LPPL_1_1;
+        case LICENSE_LPPL_1_2:
+            return LICENSE_LPPL_1_2;
+        case LICENSE_LPPL_1_3A:
+            return LICENSE_LPPL_1_3A;
+        case LICENSE_LPPL_1_3C:
+            return LICENSE_LPPL_1_3C;
+        case LICENSE_MAKE_INDEX:
+            return LICENSE_MAKE_INDEX;
+        case LICENSE_MIR_OS:
+            return LICENSE_MIR_OS;
+        case LICENSE_MIT_0:
+            return LICENSE_MIT_0;
+        case LICENSE_MIT_ADVERTISING:
+            return LICENSE_MIT_ADVERTISING;
+        case LICENSE_MIT_CMU:
+            return LICENSE_MIT_CMU;
+        case LICENSE_MIT_ENNA:
+            return LICENSE_MIT_ENNA;
+        case LICENSE_MIT_FEH:
+            return LICENSE_MIT_FEH;
+        case LICENSE_MIT:
+            return LICENSE_MIT;
+        case LICENSE_MITNFA:
+            return LICENSE_MITNFA;
+        case LICENSE_MOTOSOTO:
+            return LICENSE_MOTOSOTO;
+        case LICENSE_MPICH2:
+            return LICENSE_MPICH2;
+        case LICENSE_MPL_1_0:
+            return LICENSE_MPL_1_0;
+        case LICENSE_MPL_1_1:
+            return LICENSE_MPL_1_1;
+        case LICENSE_MPL_2_0_NO_COPYLEFT_EXCEPTION:
+            return LICENSE_MPL_2_0_NO_COPYLEFT_EXCEPTION;
+        case LICENSE_MPL_2_0:
+            return LICENSE_MPL_2_0;
+        case LICENSE_MS_PL:
+            return LICENSE_MS_PL;
+        case LICENSE_MS_RL:
+            return LICENSE_MS_RL;
+        case LICENSE_MTLL:
+            return LICENSE_MTLL;
+        case LICENSE_MULTICS:
+            return LICENSE_MULTICS;
+        case LICENSE_MUP:
+            return LICENSE_MUP;
+        case LICENSE_NASA_1_3:
+            return LICENSE_NASA_1_3;
+        case LICENSE_NAUMEN:
+            return LICENSE_NAUMEN;
+        case LICENSE_NBPL_1_0:
+            return LICENSE_NBPL_1_0;
+        case LICENSE_NCSA:
+            return LICENSE_NCSA;
+        case LICENSE_NET_SNMP:
+            return LICENSE_NET_SNMP;
+        case LICENSE_NET_CDF:
+            return LICENSE_NET_CDF;
+        case LICENSE_NEWSLETR:
+            return LICENSE_NEWSLETR;
+        case LICENSE_NGPL:
+            return LICENSE_NGPL;
+        case LICENSE_NLOD_1_0:
+            return LICENSE_NLOD_1_0;
+        case LICENSE_NLPL:
+            return LICENSE_NLPL;
+        case LICENSE_NOKIA:
+            return LICENSE_NOKIA;
+        case LICENSE_NOSL:
+            return LICENSE_NOSL;
+        case LICENSE_NOWEB:
+            return LICENSE_NOWEB;
+        case LICENSE_NPL_1_0:
+            return LICENSE_NPL_1_0;
+        case LICENSE_NPL_1_1:
+            return LICENSE_NPL_1_1;
+        case LICENSE_NPOSL_3_0:
+            return LICENSE_NPOSL_3_0;
+        case LICENSE_NRL:
+            return LICENSE_NRL;
+        case LICENSE_NTP:
+            return LICENSE_NTP;
+        case LICENSE_OCCT_PL:
+            return LICENSE_OCCT_PL;
+        case LICENSE_OCLC_2_0:
+            return LICENSE_OCLC_2_0;
+        case LICENSE_ODB_L_1_0:
+            return LICENSE_ODB_L_1_0;
+        case LICENSE_OFL_1_0:
+            return LICENSE_OFL_1_0;
+        case LICENSE_OFL_1_1:
+            return LICENSE_OFL_1_1;
+        case LICENSE_OGTSL:
+            return LICENSE_OGTSL;
+        case LICENSE_OLDAP_1_1:
+            return LICENSE_OLDAP_1_1;
+        case LICENSE_OLDAP_1_2:
+            return LICENSE_OLDAP_1_2;
+        case LICENSE_OLDAP_1_3:
+            return LICENSE_OLDAP_1_3;
+        case LICENSE_OLDAP_1_4:
+            return LICENSE_OLDAP_1_4;
+        case LICENSE_OLDAP_2_0_1:
+            return LICENSE_OLDAP_2_0_1;
+        case LICENSE_OLDAP_2_0:
+            return LICENSE_OLDAP_2_0;
+        case LICENSE_OLDAP_2_1:
+            return LICENSE_OLDAP_2_1;
+        case LICENSE_OLDAP_2_2_1:
+            return LICENSE_OLDAP_2_2_1;
+        case LICENSE_OLDAP_2_2_2:
+            return LICENSE_OLDAP_2_2_2;
+        case LICENSE_OLDAP_2_2:
+            return LICENSE_OLDAP_2_2;
+        case LICENSE_OLDAP_2_3:
+            return LICENSE_OLDAP_2_3;
+        case LICENSE_OLDAP_2_4:
+            return LICENSE_OLDAP_2_4;
+        case LICENSE_OLDAP_2_5:
+            return LICENSE_OLDAP_2_5;
+        case LICENSE_OLDAP_2_6:
+            return LICENSE_OLDAP_2_6;
+        case LICENSE_OLDAP_2_7:
+            return LICENSE_OLDAP_2_7;
+        case LICENSE_OLDAP_2_8:
+            return LICENSE_OLDAP_2_8;
+        case LICENSE_OML:
+            return LICENSE_OML;
+        case LICENSE_OPEN_SSL:
+            return LICENSE_OPEN_SSL;
+        case LICENSE_OPL_1_0:
+            return LICENSE_OPL_1_0;
+        case LICENSE_OSET_PL_2_1:
+            return LICENSE_OSET_PL_2_1;
+        case LICENSE_OSL_1_0:
+            return LICENSE_OSL_1_0;
+        case LICENSE_OSL_1_1:
+            return LICENSE_OSL_1_1;
+        case LICENSE_OSL_2_0:
+            return LICENSE_OSL_2_0;
+        case LICENSE_OSL_2_1:
+            return LICENSE_OSL_2_1;
+        case LICENSE_OSL_3_0:
+            return LICENSE_OSL_3_0;
+        case LICENSE_PDDL_1_0:
+            return LICENSE_PDDL_1_0;
+        case LICENSE_PHP_3_0:
+            return LICENSE_PHP_3_0;
+        case LICENSE_PHP_3_01:
+            return LICENSE_PHP_3_01;
+        case LICENSE_PLEXUS:
+            return LICENSE_PLEXUS;
+        case LICENSE_POSTGRE_SQL:
+            return LICENSE_POSTGRE_SQL;
+        case LICENSE_PSFRAG:
+            return LICENSE_PSFRAG;
+        case LICENSE_PSUTILS:
+            return LICENSE_PSUTILS;
+        case LICENSE_PYTHON_2_0:
+            return LICENSE_PYTHON_2_0;
+        case LICENSE_QHULL:
+            return LICENSE_QHULL;
+        case LICENSE_QPL_1_0:
+            return LICENSE_QPL_1_0;
+        case LICENSE_RDISC:
+            return LICENSE_RDISC;
+        case LICENSE_RHE_COS_1_1:
+            return LICENSE_RHE_COS_1_1;
+        case LICENSE_RPL_1_1:
+            return LICENSE_RPL_1_1;
+        case LICENSE_RPL_1_5:
+            return LICENSE_RPL_1_5;
+        case LICENSE_RPSL_1_0:
+            return LICENSE_RPSL_1_0;
+        case LICENSE_RSA_MD:
+            return LICENSE_RSA_MD;
+        case LICENSE_RSCPL:
+            return LICENSE_RSCPL;
+        case LICENSE_RUBY:
+            return LICENSE_RUBY;
+        case LICENSE_SAX_PD:
+            return LICENSE_SAX_PD;
+        case LICENSE_SAXPATH:
+            return LICENSE_SAXPATH;
+        case LICENSE_SCEA:
+            return LICENSE_SCEA;
+        case LICENSE_SENDMAIL:
+            return LICENSE_SENDMAIL;
+        case LICENSE_SGI_B_1_0:
+            return LICENSE_SGI_B_1_0;
+        case LICENSE_SGI_B_1_1:
+            return LICENSE_SGI_B_1_1;
+        case LICENSE_SGI_B_2_0:
+            return LICENSE_SGI_B_2_0;
+        case LICENSE_SIM_PL_2_0:
+            return LICENSE_SIM_PL_2_0;
+        case LICENSE_SISSL_1_2:
+            return LICENSE_SISSL_1_2;
+        case LICENSE_SISSL:
+            return LICENSE_SISSL;
+        case LICENSE_SLEEPYCAT:
+            return LICENSE_SLEEPYCAT;
+        case LICENSE_SMLNJ:
+            return LICENSE_SMLNJ;
+        case LICENSE_SMPPL:
+            return LICENSE_SMPPL;
+        case LICENSE_SNIA:
+            return LICENSE_SNIA;
+        case LICENSE_SPENCER_86:
+            return LICENSE_SPENCER_86;
+        case LICENSE_SPENCER_94:
+            return LICENSE_SPENCER_94;
+        case LICENSE_SPENCER_99:
+            return LICENSE_SPENCER_99;
+        case LICENSE_SPL_1_0:
+            return LICENSE_SPL_1_0;
+        case LICENSE_SUGAR_CRM_1_1_3:
+            return LICENSE_SUGAR_CRM_1_1_3;
+        case LICENSE_SWL:
+            return LICENSE_SWL;
+        case LICENSE_TCL:
+            return LICENSE_TCL;
+        case LICENSE_TCP_WRAPPERS:
+            return LICENSE_TCP_WRAPPERS;
+        case LICENSE_TMATE:
+            return LICENSE_TMATE;
+        case LICENSE_TORQUE_1_1:
+            return LICENSE_TORQUE_1_1;
+        case LICENSE_TOSL:
+            return LICENSE_TOSL;
+        case LICENSE_UNICODE_DFS_2015:
+            return LICENSE_UNICODE_DFS_2015;
+        case LICENSE_UNICODE_DFS_2016:
+            return LICENSE_UNICODE_DFS_2016;
+        case LICENSE_UNICODE_TOU:
+            return LICENSE_UNICODE_TOU;
+        case LICENSE_UNLICENSE:
+            return LICENSE_UNLICENSE;
+        case LICENSE_UPL_1_0:
+            return LICENSE_UPL_1_0;
+        case LICENSE_VIM:
+            return LICENSE_VIM;
+        case LICENSE_VOSTROM:
+            return LICENSE_VOSTROM;
+        case LICENSE_VSL_1_0:
+            return LICENSE_VSL_1_0;
+        case LICENSE_W3C_19980720:
+            return LICENSE_W3C_19980720;
+        case LICENSE_W3C_20150513:
+            return LICENSE_W3C_20150513;
+        case LICENSE_W3C:
+            return LICENSE_W3C;
+        case LICENSE_WATCOM_1_0:
+            return LICENSE_WATCOM_1_0;
+        case LICENSE_WSUIPA:
+            return LICENSE_WSUIPA;
+        case LICENSE_WTFPL:
+            return LICENSE_WTFPL;
+        case LICENSE_X11:
+            return LICENSE_X11;
+        case LICENSE_XEROX:
+            return LICENSE_XEROX;
+        case LICENSE_XFREE86_1_1:
+            return LICENSE_XFREE86_1_1;
+        case LICENSE_XINETD:
+            return LICENSE_XINETD;
+        case LICENSE_XNET:
+            return LICENSE_XNET;
+        case LICENSE_XPP:
+            return LICENSE_XPP;
+        case LICENSE_XSKAT:
+            return LICENSE_XSKAT;
+        case LICENSE_YPL_1_0:
+            return LICENSE_YPL_1_0;
+        case LICENSE_YPL_1_1:
+            return LICENSE_YPL_1_1;
+        case LICENSE_ZED:
+            return LICENSE_ZED;
+        case LICENSE_ZEND_2_0:
+            return LICENSE_ZEND_2_0;
+        case LICENSE_ZIMBRA_1_3:
+            return LICENSE_ZIMBRA_1_3;
+        case LICENSE_ZIMBRA_1_4:
+            return LICENSE_ZIMBRA_1_4;
+        case LICENSE_ZLIB_ACKNOWLEDGEMENT:
+            return LICENSE_ZLIB_ACKNOWLEDGEMENT;
+        case LICENSE_ZLIB:
+            return LICENSE_ZLIB;
+        case LICENSE_ZPL_1_1:
+            return LICENSE_ZPL_1_1;
+        case LICENSE_ZPL_2_0:
+            return LICENSE_ZPL_2_0;
+        case LICENSE_ZPL_2_1:
+            return LICENSE_ZPL_2_1;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static SPDXLicense of(ValueSet value) {
-        return SPDXLicense.builder().value(value).build();
+    public static SPDXLicense of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return SPDXLicense.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SPDXLicense.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

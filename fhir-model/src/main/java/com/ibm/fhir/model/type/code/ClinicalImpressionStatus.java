@@ -17,11 +17,11 @@ import javax.annotation.Generated;
 
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpressionStatus extends Code {
-    public static final ClinicalImpressionStatus IN_PROGRESS = ClinicalImpressionStatus.of(ValueSet.IN_PROGRESS);
+    public static final ClinicalImpressionStatus IN_PROGRESS = ClinicalImpressionStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
-    public static final ClinicalImpressionStatus COMPLETED = ClinicalImpressionStatus.of(ValueSet.COMPLETED);
+    public static final ClinicalImpressionStatus COMPLETED = ClinicalImpressionStatus.builder().value(ValueSet.COMPLETED).build();
 
-    public static final ClinicalImpressionStatus ENTERED_IN_ERROR = ClinicalImpressionStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ClinicalImpressionStatus ENTERED_IN_ERROR = ClinicalImpressionStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -29,20 +29,29 @@ public class ClinicalImpressionStatus extends Code {
         super(builder);
     }
 
-    public static ClinicalImpressionStatus of(java.lang.String value) {
-        return ClinicalImpressionStatus.builder().value(value).build();
+    public static ClinicalImpressionStatus of(ValueSet value) {
+        switch (value) {
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ClinicalImpressionStatus of(ValueSet value) {
-        return ClinicalImpressionStatus.builder().value(value).build();
+    public static ClinicalImpressionStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ClinicalImpressionStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ClinicalImpressionStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

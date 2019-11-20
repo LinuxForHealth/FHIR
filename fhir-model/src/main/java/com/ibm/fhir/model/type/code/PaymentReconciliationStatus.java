@@ -20,22 +20,22 @@ public class PaymentReconciliationStatus extends Code {
     /**
      * Active
      */
-    public static final PaymentReconciliationStatus ACTIVE = PaymentReconciliationStatus.of(ValueSet.ACTIVE);
+    public static final PaymentReconciliationStatus ACTIVE = PaymentReconciliationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
      */
-    public static final PaymentReconciliationStatus CANCELLED = PaymentReconciliationStatus.of(ValueSet.CANCELLED);
+    public static final PaymentReconciliationStatus CANCELLED = PaymentReconciliationStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
      */
-    public static final PaymentReconciliationStatus DRAFT = PaymentReconciliationStatus.of(ValueSet.DRAFT);
+    public static final PaymentReconciliationStatus DRAFT = PaymentReconciliationStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
      */
-    public static final PaymentReconciliationStatus ENTERED_IN_ERROR = PaymentReconciliationStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final PaymentReconciliationStatus ENTERED_IN_ERROR = PaymentReconciliationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class PaymentReconciliationStatus extends Code {
         super(builder);
     }
 
-    public static PaymentReconciliationStatus of(java.lang.String value) {
-        return PaymentReconciliationStatus.builder().value(value).build();
+    public static PaymentReconciliationStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static PaymentReconciliationStatus of(ValueSet value) {
-        return PaymentReconciliationStatus.builder().value(value).build();
+    public static PaymentReconciliationStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return PaymentReconciliationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return PaymentReconciliationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

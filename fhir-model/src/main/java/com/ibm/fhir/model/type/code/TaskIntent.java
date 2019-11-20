@@ -20,23 +20,23 @@ public class TaskIntent extends Code {
     /**
      * Unknown
      */
-    public static final TaskIntent UNKNOWN = TaskIntent.of(ValueSet.UNKNOWN);
+    public static final TaskIntent UNKNOWN = TaskIntent.builder().value(ValueSet.UNKNOWN).build();
 
-    public static final TaskIntent PROPOSAL = TaskIntent.of(ValueSet.PROPOSAL);
+    public static final TaskIntent PROPOSAL = TaskIntent.builder().value(ValueSet.PROPOSAL).build();
 
-    public static final TaskIntent PLAN = TaskIntent.of(ValueSet.PLAN);
+    public static final TaskIntent PLAN = TaskIntent.builder().value(ValueSet.PLAN).build();
 
-    public static final TaskIntent ORDER = TaskIntent.of(ValueSet.ORDER);
+    public static final TaskIntent ORDER = TaskIntent.builder().value(ValueSet.ORDER).build();
 
-    public static final TaskIntent ORIGINAL_ORDER = TaskIntent.of(ValueSet.ORIGINAL_ORDER);
+    public static final TaskIntent ORIGINAL_ORDER = TaskIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
 
-    public static final TaskIntent REFLEX_ORDER = TaskIntent.of(ValueSet.REFLEX_ORDER);
+    public static final TaskIntent REFLEX_ORDER = TaskIntent.builder().value(ValueSet.REFLEX_ORDER).build();
 
-    public static final TaskIntent FILLER_ORDER = TaskIntent.of(ValueSet.FILLER_ORDER);
+    public static final TaskIntent FILLER_ORDER = TaskIntent.builder().value(ValueSet.FILLER_ORDER).build();
 
-    public static final TaskIntent INSTANCE_ORDER = TaskIntent.of(ValueSet.INSTANCE_ORDER);
+    public static final TaskIntent INSTANCE_ORDER = TaskIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
 
-    public static final TaskIntent OPTION = TaskIntent.of(ValueSet.OPTION);
+    public static final TaskIntent OPTION = TaskIntent.builder().value(ValueSet.OPTION).build();
 
     private volatile int hashCode;
 
@@ -44,20 +44,41 @@ public class TaskIntent extends Code {
         super(builder);
     }
 
-    public static TaskIntent of(java.lang.String value) {
-        return TaskIntent.builder().value(value).build();
+    public static TaskIntent of(ValueSet value) {
+        switch (value) {
+        case UNKNOWN:
+            return UNKNOWN;
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case ORDER:
+            return ORDER;
+        case ORIGINAL_ORDER:
+            return ORIGINAL_ORDER;
+        case REFLEX_ORDER:
+            return REFLEX_ORDER;
+        case FILLER_ORDER:
+            return FILLER_ORDER;
+        case INSTANCE_ORDER:
+            return INSTANCE_ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static TaskIntent of(ValueSet value) {
-        return TaskIntent.builder().value(value).build();
+    public static TaskIntent of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return TaskIntent.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TaskIntent.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

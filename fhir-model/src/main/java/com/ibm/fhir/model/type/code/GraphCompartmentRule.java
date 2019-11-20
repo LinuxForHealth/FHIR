@@ -20,22 +20,22 @@ public class GraphCompartmentRule extends Code {
     /**
      * Identical
      */
-    public static final GraphCompartmentRule IDENTICAL = GraphCompartmentRule.of(ValueSet.IDENTICAL);
+    public static final GraphCompartmentRule IDENTICAL = GraphCompartmentRule.builder().value(ValueSet.IDENTICAL).build();
 
     /**
      * Matching
      */
-    public static final GraphCompartmentRule MATCHING = GraphCompartmentRule.of(ValueSet.MATCHING);
+    public static final GraphCompartmentRule MATCHING = GraphCompartmentRule.builder().value(ValueSet.MATCHING).build();
 
     /**
      * Different
      */
-    public static final GraphCompartmentRule DIFFERENT = GraphCompartmentRule.of(ValueSet.DIFFERENT);
+    public static final GraphCompartmentRule DIFFERENT = GraphCompartmentRule.builder().value(ValueSet.DIFFERENT).build();
 
     /**
      * Custom
      */
-    public static final GraphCompartmentRule CUSTOM = GraphCompartmentRule.of(ValueSet.CUSTOM);
+    public static final GraphCompartmentRule CUSTOM = GraphCompartmentRule.builder().value(ValueSet.CUSTOM).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class GraphCompartmentRule extends Code {
         super(builder);
     }
 
-    public static GraphCompartmentRule of(java.lang.String value) {
-        return GraphCompartmentRule.builder().value(value).build();
+    public static GraphCompartmentRule of(ValueSet value) {
+        switch (value) {
+        case IDENTICAL:
+            return IDENTICAL;
+        case MATCHING:
+            return MATCHING;
+        case DIFFERENT:
+            return DIFFERENT;
+        case CUSTOM:
+            return CUSTOM;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static GraphCompartmentRule of(ValueSet value) {
-        return GraphCompartmentRule.builder().value(value).build();
+    public static GraphCompartmentRule of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return GraphCompartmentRule.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return GraphCompartmentRule.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,17 +20,17 @@ public class ListMode extends Code {
     /**
      * Working List
      */
-    public static final ListMode WORKING = ListMode.of(ValueSet.WORKING);
+    public static final ListMode WORKING = ListMode.builder().value(ValueSet.WORKING).build();
 
     /**
      * Snapshot List
      */
-    public static final ListMode SNAPSHOT = ListMode.of(ValueSet.SNAPSHOT);
+    public static final ListMode SNAPSHOT = ListMode.builder().value(ValueSet.SNAPSHOT).build();
 
     /**
      * Change List
      */
-    public static final ListMode CHANGES = ListMode.of(ValueSet.CHANGES);
+    public static final ListMode CHANGES = ListMode.builder().value(ValueSet.CHANGES).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ListMode extends Code {
         super(builder);
     }
 
-    public static ListMode of(java.lang.String value) {
-        return ListMode.builder().value(value).build();
+    public static ListMode of(ValueSet value) {
+        switch (value) {
+        case WORKING:
+            return WORKING;
+        case SNAPSHOT:
+            return SNAPSHOT;
+        case CHANGES:
+            return CHANGES;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ListMode of(ValueSet value) {
-        return ListMode.builder().value(value).build();
+    public static ListMode of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ListMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ListMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,22 +20,22 @@ public class EligibilityRequestStatus extends Code {
     /**
      * Active
      */
-    public static final EligibilityRequestStatus ACTIVE = EligibilityRequestStatus.of(ValueSet.ACTIVE);
+    public static final EligibilityRequestStatus ACTIVE = EligibilityRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
      */
-    public static final EligibilityRequestStatus CANCELLED = EligibilityRequestStatus.of(ValueSet.CANCELLED);
+    public static final EligibilityRequestStatus CANCELLED = EligibilityRequestStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
      */
-    public static final EligibilityRequestStatus DRAFT = EligibilityRequestStatus.of(ValueSet.DRAFT);
+    public static final EligibilityRequestStatus DRAFT = EligibilityRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
      */
-    public static final EligibilityRequestStatus ENTERED_IN_ERROR = EligibilityRequestStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final EligibilityRequestStatus ENTERED_IN_ERROR = EligibilityRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class EligibilityRequestStatus extends Code {
         super(builder);
     }
 
-    public static EligibilityRequestStatus of(java.lang.String value) {
-        return EligibilityRequestStatus.builder().value(value).build();
+    public static EligibilityRequestStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static EligibilityRequestStatus of(ValueSet value) {
-        return EligibilityRequestStatus.builder().value(value).build();
+    public static EligibilityRequestStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return EligibilityRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EligibilityRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

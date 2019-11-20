@@ -20,22 +20,22 @@ public class SubscriptionStatus extends Code {
     /**
      * Requested
      */
-    public static final SubscriptionStatus REQUESTED = SubscriptionStatus.of(ValueSet.REQUESTED);
+    public static final SubscriptionStatus REQUESTED = SubscriptionStatus.builder().value(ValueSet.REQUESTED).build();
 
     /**
      * Active
      */
-    public static final SubscriptionStatus ACTIVE = SubscriptionStatus.of(ValueSet.ACTIVE);
+    public static final SubscriptionStatus ACTIVE = SubscriptionStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Error
      */
-    public static final SubscriptionStatus ERROR = SubscriptionStatus.of(ValueSet.ERROR);
+    public static final SubscriptionStatus ERROR = SubscriptionStatus.builder().value(ValueSet.ERROR).build();
 
     /**
      * Off
      */
-    public static final SubscriptionStatus OFF = SubscriptionStatus.of(ValueSet.OFF);
+    public static final SubscriptionStatus OFF = SubscriptionStatus.builder().value(ValueSet.OFF).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class SubscriptionStatus extends Code {
         super(builder);
     }
 
-    public static SubscriptionStatus of(java.lang.String value) {
-        return SubscriptionStatus.builder().value(value).build();
+    public static SubscriptionStatus of(ValueSet value) {
+        switch (value) {
+        case REQUESTED:
+            return REQUESTED;
+        case ACTIVE:
+            return ACTIVE;
+        case ERROR:
+            return ERROR;
+        case OFF:
+            return OFF;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static SubscriptionStatus of(ValueSet value) {
-        return SubscriptionStatus.builder().value(value).build();
+    public static SubscriptionStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return SubscriptionStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SubscriptionStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

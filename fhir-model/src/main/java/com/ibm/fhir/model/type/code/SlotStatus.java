@@ -20,27 +20,27 @@ public class SlotStatus extends Code {
     /**
      * Busy
      */
-    public static final SlotStatus BUSY = SlotStatus.of(ValueSet.BUSY);
+    public static final SlotStatus BUSY = SlotStatus.builder().value(ValueSet.BUSY).build();
 
     /**
      * Free
      */
-    public static final SlotStatus FREE = SlotStatus.of(ValueSet.FREE);
+    public static final SlotStatus FREE = SlotStatus.builder().value(ValueSet.FREE).build();
 
     /**
      * Busy (Unavailable)
      */
-    public static final SlotStatus BUSY_UNAVAILABLE = SlotStatus.of(ValueSet.BUSY_UNAVAILABLE);
+    public static final SlotStatus BUSY_UNAVAILABLE = SlotStatus.builder().value(ValueSet.BUSY_UNAVAILABLE).build();
 
     /**
      * Busy (Tentative)
      */
-    public static final SlotStatus BUSY_TENTATIVE = SlotStatus.of(ValueSet.BUSY_TENTATIVE);
+    public static final SlotStatus BUSY_TENTATIVE = SlotStatus.builder().value(ValueSet.BUSY_TENTATIVE).build();
 
     /**
      * Entered in error
      */
-    public static final SlotStatus ENTERED_IN_ERROR = SlotStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final SlotStatus ENTERED_IN_ERROR = SlotStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class SlotStatus extends Code {
         super(builder);
     }
 
-    public static SlotStatus of(java.lang.String value) {
-        return SlotStatus.builder().value(value).build();
+    public static SlotStatus of(ValueSet value) {
+        switch (value) {
+        case BUSY:
+            return BUSY;
+        case FREE:
+            return FREE;
+        case BUSY_UNAVAILABLE:
+            return BUSY_UNAVAILABLE;
+        case BUSY_TENTATIVE:
+            return BUSY_TENTATIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static SlotStatus of(ValueSet value) {
-        return SlotStatus.builder().value(value).build();
+    public static SlotStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return SlotStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SlotStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

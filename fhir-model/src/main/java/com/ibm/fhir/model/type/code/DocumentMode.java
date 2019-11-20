@@ -20,12 +20,12 @@ public class DocumentMode extends Code {
     /**
      * Producer
      */
-    public static final DocumentMode PRODUCER = DocumentMode.of(ValueSet.PRODUCER);
+    public static final DocumentMode PRODUCER = DocumentMode.builder().value(ValueSet.PRODUCER).build();
 
     /**
      * Consumer
      */
-    public static final DocumentMode CONSUMER = DocumentMode.of(ValueSet.CONSUMER);
+    public static final DocumentMode CONSUMER = DocumentMode.builder().value(ValueSet.CONSUMER).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class DocumentMode extends Code {
         super(builder);
     }
 
-    public static DocumentMode of(java.lang.String value) {
-        return DocumentMode.builder().value(value).build();
+    public static DocumentMode of(ValueSet value) {
+        switch (value) {
+        case PRODUCER:
+            return PRODUCER;
+        case CONSUMER:
+            return CONSUMER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static DocumentMode of(ValueSet value) {
-        return DocumentMode.builder().value(value).build();
+    public static DocumentMode of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return DocumentMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DocumentMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

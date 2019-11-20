@@ -20,47 +20,47 @@ public class SearchComparator extends Code {
     /**
      * Equals
      */
-    public static final SearchComparator EQ = SearchComparator.of(ValueSet.EQ);
+    public static final SearchComparator EQ = SearchComparator.builder().value(ValueSet.EQ).build();
 
     /**
      * Not Equals
      */
-    public static final SearchComparator NE = SearchComparator.of(ValueSet.NE);
+    public static final SearchComparator NE = SearchComparator.builder().value(ValueSet.NE).build();
 
     /**
      * Greater Than
      */
-    public static final SearchComparator GT = SearchComparator.of(ValueSet.GT);
+    public static final SearchComparator GT = SearchComparator.builder().value(ValueSet.GT).build();
 
     /**
      * Less Than
      */
-    public static final SearchComparator LT = SearchComparator.of(ValueSet.LT);
+    public static final SearchComparator LT = SearchComparator.builder().value(ValueSet.LT).build();
 
     /**
      * Greater or Equals
      */
-    public static final SearchComparator GE = SearchComparator.of(ValueSet.GE);
+    public static final SearchComparator GE = SearchComparator.builder().value(ValueSet.GE).build();
 
     /**
      * Less of Equal
      */
-    public static final SearchComparator LE = SearchComparator.of(ValueSet.LE);
+    public static final SearchComparator LE = SearchComparator.builder().value(ValueSet.LE).build();
 
     /**
      * Starts After
      */
-    public static final SearchComparator SA = SearchComparator.of(ValueSet.SA);
+    public static final SearchComparator SA = SearchComparator.builder().value(ValueSet.SA).build();
 
     /**
      * Ends Before
      */
-    public static final SearchComparator EB = SearchComparator.of(ValueSet.EB);
+    public static final SearchComparator EB = SearchComparator.builder().value(ValueSet.EB).build();
 
     /**
      * Approximately
      */
-    public static final SearchComparator AP = SearchComparator.of(ValueSet.AP);
+    public static final SearchComparator AP = SearchComparator.builder().value(ValueSet.AP).build();
 
     private volatile int hashCode;
 
@@ -68,20 +68,41 @@ public class SearchComparator extends Code {
         super(builder);
     }
 
-    public static SearchComparator of(java.lang.String value) {
-        return SearchComparator.builder().value(value).build();
+    public static SearchComparator of(ValueSet value) {
+        switch (value) {
+        case EQ:
+            return EQ;
+        case NE:
+            return NE;
+        case GT:
+            return GT;
+        case LT:
+            return LT;
+        case GE:
+            return GE;
+        case LE:
+            return LE;
+        case SA:
+            return SA;
+        case EB:
+            return EB;
+        case AP:
+            return AP;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static SearchComparator of(ValueSet value) {
-        return SearchComparator.builder().value(value).build();
+    public static SearchComparator of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return SearchComparator.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SearchComparator.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

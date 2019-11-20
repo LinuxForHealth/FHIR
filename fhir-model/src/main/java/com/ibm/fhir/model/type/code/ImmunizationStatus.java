@@ -17,11 +17,11 @@ import javax.annotation.Generated;
 
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationStatus extends Code {
-    public static final ImmunizationStatus COMPLETED = ImmunizationStatus.of(ValueSet.COMPLETED);
+    public static final ImmunizationStatus COMPLETED = ImmunizationStatus.builder().value(ValueSet.COMPLETED).build();
 
-    public static final ImmunizationStatus ENTERED_IN_ERROR = ImmunizationStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ImmunizationStatus ENTERED_IN_ERROR = ImmunizationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
-    public static final ImmunizationStatus NOT_DONE = ImmunizationStatus.of(ValueSet.NOT_DONE);
+    public static final ImmunizationStatus NOT_DONE = ImmunizationStatus.builder().value(ValueSet.NOT_DONE).build();
 
     private volatile int hashCode;
 
@@ -29,20 +29,29 @@ public class ImmunizationStatus extends Code {
         super(builder);
     }
 
-    public static ImmunizationStatus of(java.lang.String value) {
-        return ImmunizationStatus.builder().value(value).build();
+    public static ImmunizationStatus of(ValueSet value) {
+        switch (value) {
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case NOT_DONE:
+            return NOT_DONE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ImmunizationStatus of(ValueSet value) {
-        return ImmunizationStatus.builder().value(value).build();
+    public static ImmunizationStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ImmunizationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ImmunizationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override
