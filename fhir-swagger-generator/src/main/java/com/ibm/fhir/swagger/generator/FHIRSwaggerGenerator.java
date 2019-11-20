@@ -111,6 +111,8 @@ public class FHIRSwaggerGenerator {
 
                 swagger.add("basePath", "/fhir-server/api/v4");
 
+                // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
+                // with a default ExecuteInvoke Assembly
                 APIConnectAdapter.addApiConnectStuff(swagger);
 
                 JsonArrayBuilder tags = factory.createArrayBuilder();
@@ -126,7 +128,9 @@ public class FHIRSwaggerGenerator {
                 tag.add("name", resourceModelClass.getSimpleName());
                 tags.add(tag);
                 generateDefinition(resourceModelClass, definitions);
+                // for search response
                 generateDefinition(Bundle.class, definitions);
+                // for error response
                 generateDefinition(OperationOutcome.class, definitions);
                 
                 // generate definition for all the defined Types.
@@ -951,7 +955,7 @@ public class FHIRSwaggerGenerator {
         } else if (fieldClass.getSimpleName().equalsIgnoreCase("byte[]")) {
             property.add("type", "string");
             property.add("pattern","(\\s*([0-9a-zA-Z\\+\\=]){4}\\s*)+");
-        } else if (fieldClass.getSimpleName().equalsIgnoreCase("int")) {
+        } else if (Integer.class.equals(fieldClass) || fieldClass.getSimpleName().equalsIgnoreCase("int")) {
             property.add("type", "integer");
             property.add("pattern","[0]|[-+]?[1-9][0-9]*");
         } else {

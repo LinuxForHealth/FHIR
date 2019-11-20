@@ -14,8 +14,13 @@ import javax.json.JsonObjectBuilder;
  * 
  */
 public class APIConnectAdapter {
-    private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
+    
+    /**
+     * Set this to the hostname of your FHIR Server and the generated assembly will proxy this
+     */
     private static final String HOST = "localhost";
+    
+    private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     
     static void addApiConnectStuff(JsonObjectBuilder swagger) {
         JsonObjectBuilder ibmConfig = factory.createObjectBuilder()
