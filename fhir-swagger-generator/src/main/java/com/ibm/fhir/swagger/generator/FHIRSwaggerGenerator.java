@@ -15,10 +15,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,9 +46,9 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.Date;
-import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.ElementDefinition;
+import com.ibm.fhir.model.type.Oid;
+import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
@@ -779,7 +775,7 @@ public class FHIRSwaggerGenerator {
     }
 
     private static void generateDefinition(Class<?> modelClass, JsonObjectBuilder definitions) throws Exception {
-        if (!isEnumerationWrapperClass(modelClass)) {
+        if (!ModelSupport.isPrimitiveType(modelClass)) {
             JsonObjectBuilder definition = factory.createObjectBuilder();
             JsonObjectBuilder properties = factory.createObjectBuilder();
             JsonArrayBuilder required = factory.createArrayBuilder();
@@ -916,6 +912,7 @@ public class FHIRSwaggerGenerator {
 
         JsonObjectBuilder property = factory.createObjectBuilder();
 
+        // Convert all the primitive types to json types.
         if (isEnumerationWrapperClass(fieldClass)) {
             property.add("type", "string");
             JsonArrayBuilder constants = factory.createArrayBuilder();
@@ -926,38 +923,58 @@ public class FHIRSwaggerGenerator {
                 constants.add(value);
             }
             property.add("enum", constants);          
-        // Convert all the java types to according json types based on FHIR spec.
-        } else if (String.class.equals(fieldClass)) {
+        } else if (com.ibm.fhir.model.type.String.class.isAssignableFrom(fieldClass)) {
             property.add("type", "string");
-        } else if (Boolean.class.equals(fieldClass)) {
+            if (com.ibm.fhir.model.type.Code.class.isAssignableFrom(fieldClass)) {
+                property.add("pattern", "[^\\s]+(\\s[^\\s]+)*");
+            } else if (com.ibm.fhir.model.type.Id.class.equals(fieldClass)) {
+                property.add("pattern", "[A-Za-z0-9\\-\\.]{1,64}");
+            } else {
+                property.add("pattern", "[ \\r\\n\\t\\S]+");
+            }
+        } else if (com.ibm.fhir.model.type.Uri.class.isAssignableFrom(fieldClass)) {
+            property.add("type", "string");
+            if (Oid.class.equals(fieldClass)) {
+                property.add("pattern", "urn:oid:[0-2](\\.(0|[1-9][0-9]*))+");
+            } else if (Uuid.class.equals(fieldClass)) {
+                property.add("pattern", "urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+            } else {
+                property.add("pattern", "\\S*");
+            }
+        } else if (com.ibm.fhir.model.type.Boolean.class.equals(fieldClass)) {
             property.add("type", "boolean");
-        } else if (ZonedDateTime.class.equals(fieldClass)) {
+        } else if (com.ibm.fhir.model.type.Instant.class.equals(fieldClass)) {
             property.add("type", "string");
             property.add("pattern", "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)-(0[1-9]"
                     + "|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]"
                     + "|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))");
-        } else if (BigDecimal.class.equals(fieldClass)) {
-            property.add("type", "number");
-            property.add("pattern","-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?");
-        } else if (LocalTime.class.equals(fieldClass)) {
+        } else if (com.ibm.fhir.model.type.Time.class.equals(fieldClass)) {
             property.add("type", "string");
             property.add("pattern","([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?");
-        } else if (TemporalAccessor.class.equals(fieldClass)) {
+        } else if (com.ibm.fhir.model.type.Date.class.equals(modelClass)) {
             property.add("type", "string");
-            if (Date.class.equals(modelClass)) {
-                property.add("pattern","([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)"
-                        + "|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?");
-            } else if (DateTime.class.equals(modelClass)) {
-                property.add("pattern","([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]"
-                        + "|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]"
-                        + "|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?");
-            }
-        } else if (fieldClass.getSimpleName().equalsIgnoreCase("byte[]")) {
+            property.add("pattern","([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)"
+                    + "|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?");
+        } else if (com.ibm.fhir.model.type.DateTime.class.equals(modelClass)) {
+            property.add("type", "string");
+            property.add("pattern","([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]"
+                    + "|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]"
+                    + "|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?");
+        } else if (com.ibm.fhir.model.type.Decimal.class.equals(fieldClass)) {
+            property.add("type", "number");
+        } else if (com.ibm.fhir.model.type.Integer.class.isAssignableFrom(fieldClass)) {
+            property.add("type", "integer");
+            property.add("format", "int32");
+        } else if (com.ibm.fhir.model.type.Base64Binary.class.equals(fieldClass)) {
             property.add("type", "string");
             property.add("pattern","(\\s*([0-9a-zA-Z\\+\\=]){4}\\s*)+");
-        } else if (Integer.class.equals(fieldClass) || fieldClass.getSimpleName().equalsIgnoreCase("int")) {
-            property.add("type", "integer");
-            property.add("pattern","[0]|[-+]?[1-9][0-9]*");
+        } else if (String.class.equals(fieldClass) && !"id".equals(elementName) && !"url".equals(elementName)) {
+            property.add("type", "string");
+            if ("id".equals(elementName)) {
+                property.add("pattern", "[A-Za-z0-9\\-\\.]{1,64}");
+            } else if ("url".equals(elementName)) {
+                property.add("pattern", "\\S*");
+            }
         } else {
             property.add("$ref", "#/definitions/" + getSimpleNameWithEnclosingNames(fieldClass));
         }
