@@ -6,11 +6,13 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -46,7 +48,9 @@ class QuerySegmentAggregator {
     private static final String AND = " AND ";
     protected static final String COMBINED_RESULTS = " COMBINED_RESULTS";
     private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
-        
+
+    private static final Set<String> SKIP_WHERE = new HashSet<>(Arrays.asList("_id"));
+    
     protected Class<?> resourceType;
 
     /**
@@ -56,11 +60,13 @@ class QuerySegmentAggregator {
     protected List<SqlQueryData> querySegments;
     protected List<Parameter> searchQueryParameters;
     
+    // used for special treatment of _id
+    protected Parameter queryParamId = null;
+    
     private int offset;
     private int pageSize;
     protected ParameterDAO parameterDao;
     protected ResourceDAO resourceDao;
-    
 
     /**
      * Constructs a new QueryBuilderHelper
@@ -92,7 +98,13 @@ class QuerySegmentAggregator {
         
         //parallel arrays
         this.querySegments.add(querySegment);
-        this.searchQueryParameters.add(queryParm);
+        
+        String name = queryParm.getName();
+        if("_id".compareTo(name)==0) {
+            queryParamId = queryParm;
+        } else {
+            this.searchQueryParameters.add(queryParm);
+        }
         
         log.exiting(CLASSNAME, METHODNAME);
          
@@ -241,14 +253,62 @@ class QuerySegmentAggregator {
     protected String buildFromClause() throws Exception {
         final String METHODNAME = "buildFromClause";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         StringBuilder fromClause = new StringBuilder();
-        fromClause.append(MessageFormat.format(FROM_CLAUSE_ROOT, this.resourceType.getSimpleName()));
-        fromClause.append(" ");
-            
+        fromClause.append("FROM ");
+        processFromClauseForId(fromClause, this.resourceType.getSimpleName());
+        fromClause.append(" LR JOIN ");
+        fromClause.append(this.resourceType.getSimpleName());
+        fromClause.append("_RESOURCES");
+        fromClause.append(" R ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
+
         log.exiting(CLASSNAME, METHODNAME);
         return fromClause.toString();
         
+    }
+    
+    /*
+     * Processes the From Clause for _id, as _id is contained in the LOGICAL_RESOURCES 
+     * else, return a default table name
+     * 
+     * @param fromClause the non-null StringBuilder
+     * @param target is the Target Type for the search
+     */
+    private void processFromClauseForId(StringBuilder fromClause, String target) {
+        
+        /*
+         * The not null path uses a DERIVED TABLE. 
+         * ILR refers to the intermediate Logical resource table and is just a convenient name.
+         * 
+         * The IN clause is effective here to drive a smaller table in the subsequent LEFT INNER JOINS
+         * off the derived tables. 
+         * <pre>
+         * ( SELECT * FROM BASIC_LOGICAL_RESOURCES ILR WHERE ILR.LOGICAL_ID IN ( ? ? )) 
+         * </pre>
+         */
+        
+        if(queryParamId != null) {
+            // ID, then special handling. 
+            fromClause.append("( SELECT * FROM ");
+            fromClause.append(target);
+            fromClause.append("_LOGICAL_RESOURCES");
+            fromClause.append(" ILR WHERE ILR.LOGICAL_ID IN ( ");
+            int count = queryParamId.getValues().size();
+            
+            fromClause.append(queryParamId.getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
+            
+            // Since we didn't add the queryParamId at the beginning, 
+            // We add it as the FIRST parameter as it'll logically be the first one. 
+            for(int idx =0; idx < count; idx++) {
+                searchQueryParameters.add(0,queryParamId);
+            }
+            
+            fromClause.append(" )) ");
+        } else {
+            // Not ID, then go to the default. 
+            fromClause.append(target);
+            fromClause.append("_LOGICAL_RESOURCES");
+        }
     }
     
     /**
@@ -260,49 +320,62 @@ class QuerySegmentAggregator {
         final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
         boolean isLocationQuery;
-        
+
         StringBuilder whereClause = new StringBuilder();
         String whereClauseSegment;
-                         
+
         whereClause.append(WHERE_CLAUSE_ROOT);
         if (!this.querySegments.isEmpty()) {
-            for(int i = 0; i < this.querySegments.size(); i++) {
+            for (int i = 0; i < this.querySegments.size(); i++) {
                 SqlQueryData querySegment = this.querySegments.get(i);
                 Parameter param = this.searchQueryParameters.get(i);
 
-                whereClauseSegment = querySegment.getQueryString();
-                if (Modifier.MISSING.equals(param.getModifier())) {
-                    whereClause.append(AND).append(whereClauseSegment);
-                } else {
-                    
-                    whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (SELECT LOGICAL_RESOURCE_ID FROM ");
-                    whereClause.append(this.resourceType.getSimpleName());
-                    isLocationQuery = Location.class.equals(this.resourceType) && param.getName().equals(AbstractQueryBuilder.NEAR);
-                    switch(param.getType()) {
-                        case URI :
-                        case REFERENCE : 
-                        case STRING :   whereClause.append("_STR_VALUES ");
-                             break;
-                        case NUMBER :   whereClause.append("_NUMBER_VALUES "); 
-                             break;
-                        case QUANTITY : whereClause.append("_QUANTITY_VALUES ");
-                             break;
-                        case DATE :     whereClause.append("_DATE_VALUES ");
-                             break;
-                        case TOKEN :    if (isLocationQuery) {
-                                            whereClause.append("_LATLNG_VALUES ");
-                                        }
-                                        else {
-                                            whereClause.append("_TOKEN_VALUES ");
-                                        }
-                             break;
+                // Being bold here... this part should NEVER get a NPE. 
+                // The parameter would not be parsed and passed successfully,
+                // the NPE would have occurred earlier in the stack. 
+                String name = param.getName();
+                if (!SKIP_WHERE.contains(name)) {
+
+                    whereClauseSegment = querySegment.getQueryString();
+                    if (Modifier.MISSING.equals(param.getModifier())) {
+                        whereClause.append(AND).append(whereClauseSegment);
+                    } else {
+
+                        whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (SELECT LOGICAL_RESOURCE_ID FROM ");
+                        whereClause.append(this.resourceType.getSimpleName());
+                        isLocationQuery =
+                                Location.class.equals(this.resourceType)
+                                        && param.getName().equals(AbstractQueryBuilder.NEAR);
+                        switch (param.getType()) {
+                        case URI:
+                        case REFERENCE:
+                        case STRING:
+                            whereClause.append("_STR_VALUES ");
+                            break;
+                        case NUMBER:
+                            whereClause.append("_NUMBER_VALUES ");
+                            break;
+                        case QUANTITY:
+                            whereClause.append("_QUANTITY_VALUES ");
+                            break;
+                        case DATE:
+                            whereClause.append("_DATE_VALUES ");
+                            break;
+                        case TOKEN:
+                            if (isLocationQuery) {
+                                whereClause.append("_LATLNG_VALUES ");
+                            } else {
+                                whereClause.append("_TOKEN_VALUES ");
+                            }
+                            break;
+                        }
+                        whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
+                        whereClause.append(" WHERE ").append(whereClauseSegment).append(")");
                     }
-                    whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
-                    whereClause.append(" WHERE ").append(whereClauseSegment).append(")");
                 }
             }
         }
-        
+
         log.exiting(CLASSNAME, METHODNAME);
         return whereClause.toString();
     }
