@@ -6,8 +6,11 @@
 
 import React from 'react';
 import ResourceLinks from 'gatsby-theme-carbon/src/components/LeftNav/ResourceLinks';
-
 const links = [
+  {
+    title: 'Javadoc',
+    href: "https://ibm.github.io/FHIR/javadocs/latest/"
+  },
   {
     title: 'GitHub: Source',
     href: 'https://github.com/IBM/FHIR/',
