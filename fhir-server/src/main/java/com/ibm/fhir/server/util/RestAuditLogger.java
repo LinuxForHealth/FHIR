@@ -386,7 +386,7 @@ public class RestAuditLogger {
         
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
         AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_CONFIGDATA);
-        entry.setConfigData(new ConfigData().withServerStartupParms(configData));
+        entry.setConfigData(ConfigData.builder().serverStartupParameters(configData).build());
         entry.setDescription("FHIR ConfigData request");
         
         auditLogSvc.logEntry(entry);
@@ -491,13 +491,13 @@ public class RestAuditLogger {
             requestUrl.append(request.getQueryString());
         }
         entry.getContext().setApiParameters(
-                 new ApiParameters()
-                .withRequest(requestUrl.toString())
-                .withStatus(responseStatus.getStatusCode()));
+                 ApiParameters.builder()
+                .request(requestUrl.toString())
+                .status(responseStatus.getStatusCode()).build());
         entry.getContext().setStartTime(FHIRUtilities.formatTimestamp(startTime));
         entry.getContext().setEndTime(FHIRUtilities.formatTimestamp(endTime));
         if (resource!= null) {
-            entry.getContext().setData(new Data().withResourceType(resource.getClass().getSimpleName()));
+            entry.getContext().setData(Data.builder().resourceType(resource.getClass().getSimpleName()).build());
             if (resource.getId() != null) {
                 entry.getContext().getData().setId(resource.getId().getValue());
             }

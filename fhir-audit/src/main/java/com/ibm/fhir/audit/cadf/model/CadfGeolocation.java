@@ -6,8 +6,25 @@
 
 package com.ibm.fhir.audit.cadf.model;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
+
+import com.ibm.fhir.exception.FHIRException;
 
 /**
  * Representation of the CADF Geolocation type. Geolocation information, which
@@ -34,20 +51,19 @@ public final class CadfGeolocation {
     private final ArrayList<CadfMapItem> annotations;
 
     private CadfGeolocation(Builder builder) {
-        this.id = builder.id;
-        this.latitude = builder.latitude;
-        this.longitude = builder.longitude;
-        this.elevation = builder.elevation;
-        this.accuracy = builder.accuracy;
-        this.city = builder.city;
-        this.state = builder.state;
+        this.id          = builder.id;
+        this.latitude    = builder.latitude;
+        this.longitude   = builder.longitude;
+        this.elevation   = builder.elevation;
+        this.accuracy    = builder.accuracy;
+        this.city        = builder.city;
+        this.state       = builder.state;
         this.regionICANN = builder.regionICANN;
         this.annotations = builder.annotations;
     }
 
     /**
      * Validate contents of the geolocation type.
-     * 
      * The logic is determined by the CADF specification. In short, either
      * longitude/latitude or city and region must be present.
      * 
@@ -63,19 +79,11 @@ public final class CadfGeolocation {
     }
 
     private boolean isPresent(String s) {
-        if (s != null && !s.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return s != null && !s.isEmpty();
     }
 
     private boolean arePresent(String s1, String s2) {
-        if (isPresent(s1) && isPresent(s2)) {
-            return true;
-        } else {
-            return false;
-        }
+        return isPresent(s1) && isPresent(s2);
     }
 
     /**
@@ -113,10 +121,185 @@ public final class CadfGeolocation {
         return annotations;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public String getRegionICANN() {
+        return regionICANN;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return latitude;
+    }
+
     /**
-     * Builder for the immutable CADF Geolocation object
+     * Generates JSON from this object.
+     */
+    public static class Writer {
+        private static final Map<java.lang.String, Object> properties =
+                Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
+        private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
+                Json.createGeneratorFactory(properties);
+
+        private Writer() {
+            // No Operation
+        }
+
+        /**
+         * @param obj
+         * @return
+         * @throws IOException
+         */
+        public static String generate(CadfGeolocation obj)
+                throws IOException {
+            String o = "{}";
+            try (StringWriter writer = new StringWriter();) {
+                try (JsonGenerator generator =
+                        PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {
+                    generator.writeStartObject();
+                    generate(obj, generator);
+                    generator.writeEnd();
+                }
+                o = writer.toString();
+            }
+            return o;
+        }
+
+        public static void generate(CadfGeolocation obj, JsonGenerator generator) throws IOException {
+
+            if (obj.getAccuracy() != null) {
+                generator.write("accuracy", obj.getAccuracy());
+            }
+
+            if (obj.getElevation() != null) {
+                generator.write("elevation", obj.getElevation());
+            }
+
+            if (obj.getCity() != null) {
+                generator.write("city", obj.getCity());
+            }
+
+            if (obj.getState() != null) {
+                generator.write("state", obj.getState());
+            }
+
+            if (obj.getId() != null) {
+                generator.write("id", obj.getId());
+            }
+
+            if (obj.getLatitude() != null) {
+                generator.write("latitude", obj.getLatitude());
+            }
+
+            if (obj.getLongitude() != null) {
+                generator.write("longitude", obj.getLongitude());
+            }
+
+            if (obj.getRegionICANN() != null) {
+                generator.write("region", obj.getRegionICANN());
+            }
+
+            //Annotations
+            if (obj.getAnnotations() != null) {
+                generator.writeStartArray("annotations");
+                for (CadfMapItem item : obj.getAnnotations()) {
+                    CadfMapItem.Writer.generate(item, generator);
+                }
+                generator.writeEnd();
+            }
+        }
+
+    }
+
+    /**
+     * Parser
+     */
+    public static class Parser {
+        private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+
+        private Parser() {
+            // No Impl
+        }
+
+        public static CadfGeolocation parse(JsonObject jsonObject)
+                throws FHIRException, IOException {
+            CadfGeolocation.Builder builder =
+                    CadfGeolocation.builder();
+
+            if (jsonObject.get("id") != null) {
+                String id = jsonObject.getString("id");
+                builder.id(id);
+            }
+
+            if (jsonObject.get("latitude") != null) {
+                String latitude = jsonObject.getString("latitude");
+                builder.latitude(latitude);
+            }
+
+            if (jsonObject.get("longitude") != null) {
+                String longitude = jsonObject.getString("longitude");
+                builder.longitude(longitude);
+            }
+
+            if (jsonObject.get("elevation") != null) {
+                BigDecimal elevation = jsonObject.getJsonNumber("elevation").bigDecimalValue();
+                builder.elevation(elevation.doubleValue());
+            }
+
+            if (jsonObject.get("accuracy") != null) {
+                BigDecimal accuracy = jsonObject.getJsonNumber("accuracy").bigDecimalValue();
+                builder.accuracy(accuracy.doubleValue());
+            }
+
+            if (jsonObject.get("city") != null) {
+                String city = jsonObject.getString("city");
+                builder.city(city);
+            }
+
+            if (jsonObject.get("state") != null) {
+                String state = jsonObject.getString("state");
+                builder.state(state);
+            }
+
+            if (jsonObject.get("region") != null) {
+                String region = jsonObject.getString("region");
+                builder.region(region);
+            }
+
+            if (jsonObject.get("annotations") != null) {
+                JsonArray annotations = jsonObject.getJsonArray("annotations");
+                for (int i = 0; i < annotations.size(); i++) {
+                    JsonObject obj = (JsonObject) annotations.get(0);
+                    CadfMapItem mapItem = CadfMapItem.Parser.parse(obj);
+                    builder.addAnnotation(mapItem);
+                }
+            }
+
+            return builder.build();
+        }
+
+        public static CadfGeolocation parse(InputStream in)
+                throws FHIRException {
+            try (JsonReader jsonReader =
+                    JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
+                JsonObject jsonObject = jsonReader.readObject();
+                return parse(jsonObject);
+            } catch (Exception e) {
+                throw new FHIRException("Problem parsing the CadfGeoLocation", e);
+            }
+        }
+    }
+
+    /**
+     * Builder is a convenience pattern to assemble to Java Object
      */
     public static class Builder {
+
         private String id;
         private String latitude;
         private String longitude;
@@ -125,7 +308,7 @@ public final class CadfGeolocation {
         private String city;
         private String state;
         private String regionICANN;
-        private ArrayList<CadfMapItem> annotations;
+        private ArrayList<CadfMapItem> annotations = new ArrayList<>();
 
         /**
          * Geolocation builder using latitude/longitude values.
@@ -138,10 +321,14 @@ public final class CadfGeolocation {
          * @param accuracy  -- Double. Accuracy of geolocation, in meters.
          */
         public Builder(String latitude, String longitude, Double elevation, Double accuracy) {
-            this.latitude = latitude;
+            this.latitude  = latitude;
             this.longitude = longitude;
             this.elevation = elevation;
-            this.accuracy = accuracy;
+            this.accuracy  = accuracy;
+        }
+
+        private Builder() {
+            // Intentionally hiding from external callers.
         }
 
         /**
@@ -155,10 +342,10 @@ public final class CadfGeolocation {
          * @param accuracy    -- Double. Accuracy of geolocation, in meters.
          */
         public Builder(String city, String state, String regionICANN, Double accuracy) {
-            this.city = city;
-            this.state = state;
+            this.city        = city;
+            this.state       = state;
             this.regionICANN = regionICANN;
-            this.accuracy = accuracy;
+            this.accuracy    = accuracy;
         }
 
         /**
@@ -170,7 +357,7 @@ public final class CadfGeolocation {
          *                    lowercase.
          * @return Builder
          */
-        public Builder withRegion(String regionICANN) {
+        public Builder region(String regionICANN) {
             this.regionICANN = regionICANN;
             return this;
         }
@@ -181,7 +368,7 @@ public final class CadfGeolocation {
          * @param id - String. URI of the location.
          * @return This builder
          */
-        public Builder withId(String id) {
+        public Builder id(String id) {
             this.id = id;
             return this;
         }
@@ -192,7 +379,7 @@ public final class CadfGeolocation {
          * @param annotations An array of key-value annotations
          * @return This builder
          */
-        public Builder withAnnotations(CadfMapItem[] annotations) {
+        public Builder annotations(CadfMapItem[] annotations) {
             this.annotations = new ArrayList<CadfMapItem>(Arrays.asList(annotations));
             return this;
         }
@@ -203,13 +390,48 @@ public final class CadfGeolocation {
          * @param annotations An array of key-value annotations
          * @return This builder
          */
-        public Builder withAnnotations(ArrayList<CadfMapItem> annotations) {
+        public Builder annotations(ArrayList<CadfMapItem> annotations) {
             this.annotations = annotations;
             return this;
         }
 
+        public Builder addAnnotation(CadfMapItem annotation) {
+            this.annotations.add(annotation);
+            return this;
+        }
+
+        public Builder latitude(String latitude) {
+            this.latitude = latitude;
+            return this;
+        }
+
+        public Builder longitude(String longitude) {
+            this.longitude = longitude;
+            return this;
+        }
+
+        public Builder state(String state) {
+            this.state = state;
+            return this;
+        }
+
+        public Builder city(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public Builder elevation(Double elevation) {
+            this.elevation = elevation;
+            return this;
+        }
+
+        public Builder accuracy(Double accuracy) {
+            this.accuracy = accuracy;
+            return this;
+        }
+
         /**
-         * Build an immutable geolocation object
+         * Build an immutable geo-location object
          * 
          * @return CadfGeolocation
          * @throws IllegalStateException when the properties do not meet the
@@ -222,11 +444,7 @@ public final class CadfGeolocation {
         }
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public String getRegionICANN() {
-        return regionICANN;
+    public static Builder builder() {
+        return new Builder();
     }
 }

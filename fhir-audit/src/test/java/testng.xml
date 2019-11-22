@@ -1,9 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-
 <suite name="FHIRAuditCadfTestSuite">
     <test name="Tests">
         <classes>
+            <class name="com.ibm.fhir.audit.cadf.test.AuditBeansTest" />
             <class name="com.ibm.fhir.audit.cadf.test.AuditCadfTest" />
+            <class name="com.ibm.fhir.audit.cadf.test.AuditEnumTest" />
+            <class name="com.ibm.fhir.audit.cadf.test.AuditLogServiceTest" />
+            <class name="com.ibm.fhir.audit.cadf.test.CadfModelTest" />
+            <class name="com.ibm.fhir.audit.cadf.test.EnvironmentTest" />
         </classes>
     </test>
 </suite>

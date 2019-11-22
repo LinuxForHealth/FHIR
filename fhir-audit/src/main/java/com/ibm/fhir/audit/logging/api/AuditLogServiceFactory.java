@@ -16,8 +16,6 @@ import com.ibm.fhir.config.PropertyGroup;
 
 /**
  * Instantiates and returns an implementation of the FHIR server audit log service.
- * @author markd
- *
  */
 public class AuditLogServiceFactory {
     
@@ -28,7 +26,6 @@ public class AuditLogServiceFactory {
     // for the service instance. or we can use the Eager initialization pattern or 
     // inner static classes pattern for this singleton 
     private static volatile AuditLogService serviceInstance = null;
-
     
     /**
      * Returns the AuditLogService to be used by all FHIR server components.
@@ -94,18 +91,17 @@ public class AuditLogServiceFactory {
                 log.severe(Encode.forHtml(errMsg.toString()));
                 
                 // Have to exit if fails to start audit
-                //serviceInstance = new DisabledAuditLogService();
+                //<pre>serviceInstance = new DisabledAuditLogService();</pre>
                 System.exit(1);
             }
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
-        
-     
-    
+
     /**
-     * Nulls out the singleton instance of the audit logger service object that is cached by this factory class, 
+     * Resets the singleton instance of the audit logger service object that is cached by this factory class, 
      * then creates, caches, and returns a new service object instance.
+     * 
      * @return AuditLogService - The newly cached audit log service object.
      * @throws AuditLoggingException 
      */

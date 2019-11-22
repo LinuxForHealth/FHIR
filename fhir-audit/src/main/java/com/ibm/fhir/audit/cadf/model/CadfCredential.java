@@ -6,8 +6,24 @@
 
 package com.ibm.fhir.audit.cadf.model;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
+
+import com.ibm.fhir.exception.FHIRException;
 
 /**
  * Representation of the CADF Credential object
@@ -19,25 +35,10 @@ public class CadfCredential {
     private final ArrayList<CadfMapItem> assertions;
 
     private CadfCredential(CadfCredential.Builder builder) {
-        type = builder.type;
-        token = builder.token;
-        authority = builder.authority;
+        type       = builder.type;
+        token      = builder.token;
+        authority  = builder.authority;
         assertions = builder.assertions;
-    }
-
-    /**
-     * Validate contents of the CadfCredential object.
-     * 
-     * The logic is determined by the CADF specification.
-     * 
-     * @throws IllegalStateException when the event does not meet the specification.
-     */
-    private void validate() throws IllegalStateException {
-        // The only required property is token
-        if (this.token == null || this.token.length() == 0) {
-            throw new IllegalStateException("token is required");
-        }
-        // if we are here, everything seems to be ok
     }
 
     /**
@@ -61,11 +62,33 @@ public class CadfCredential {
         return assertions;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * Validate contents of the CadfCredential object.
+     * The logic is determined by the CADF specification.
+     * 
+     * @throws IllegalStateException when the event does not meet the specification.
+     */
+    private void validate() throws IllegalStateException {
+        // The only required property is token
+        if (this.token == null || this.token.length() == 0) {
+            throw new IllegalStateException("token is required");
+        }
+        // if we are here, everything seems to be ok
+    }
+
     public static class Builder {
         private String type;
         private String token;
         private String authority;
         private ArrayList<CadfMapItem> assertions;
+
+        private Builder() {
+            // No Operation
+        }
 
         /**
          * Constructs a Builder instance based on the Credential token
@@ -85,7 +108,7 @@ public class CadfCredential {
          *             token, etc.)
          * @return Builder instance
          */
-        public Builder withType(String type) {
+        public Builder type(String type) {
             this.type = type;
             return this;
         }
@@ -97,7 +120,7 @@ public class CadfCredential {
          *                  and can verify the credential.
          * @return Builder instance
          */
-        public Builder withAuthority(String authority) {
+        public Builder authority(String authority) {
             this.authority = authority;
             return this;
         }
@@ -113,8 +136,8 @@ public class CadfCredential {
          *                   credential.
          * @return Builder instance
          */
-        public Builder withAssertions(CadfMapItem[] assertions) {
-            this.assertions = new ArrayList<CadfMapItem>(Arrays.asList(assertions));
+        public Builder assertions(CadfMapItem[] assertions) {
+            this.assertions = new ArrayList<>(Arrays.asList(assertions));
             return this;
         }
 
@@ -129,7 +152,7 @@ public class CadfCredential {
          *                   credential.
          * @return Builder instance
          */
-        public Builder withAssertions(ArrayList<CadfMapItem> assertions) {
+        public Builder assertions(ArrayList<CadfMapItem> assertions) {
             this.assertions = assertions;
             return this;
         }
@@ -137,16 +160,20 @@ public class CadfCredential {
         /**
          * Add an assertion to the assertion list, one at a time.
          * 
-         * @see #withAssertion(CadfMapItem)
-         * 
+         * @see #assertion(CadfMapItem)
          * @param assertion -- A single CadfMapItem.
          * @return Builder instance
          */
-        public Builder withAssertion(CadfMapItem assertion) {
+        public Builder assertion(CadfMapItem assertion) {
             if (this.assertions == null) {
                 this.assertions = new ArrayList<CadfMapItem>();
             }
             this.assertions.add(assertion);
+            return this;
+        }
+
+        public Builder token(String token) {
+            this.token = token;
             return this;
         }
 
@@ -162,16 +189,121 @@ public class CadfCredential {
             return cred;
         }
 
-        public String getToken() {
-            return token;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * Generates JSON from this object.
+     */
+    public static class Writer {
+        private static final Map<java.lang.String, Object> properties =
+                Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
+        private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
+                Json.createGeneratorFactory(properties);
+
+        private Writer() {
+            // No Operation
         }
 
-        public void setToken(String token) {
-            this.token = token;
+        /**
+         * @param obj
+         * @return
+         * @throws IOException
+         */
+        public static String generate(CadfCredential obj)
+                throws IOException {
+            String o = "{}";
+            try (StringWriter writer = new StringWriter();) {
+                try (JsonGenerator generator =
+                        PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {
+                    generator.writeStartObject();
+                    generate(obj, generator);
+                    generator.writeEnd();
+                }
+                o = writer.toString();
+            }
+            return o;
+        }
+
+        public static void generate(CadfCredential obj, JsonGenerator generator)
+                throws IOException {
+            if (obj.getAuthority() != null) {
+                generator.write("authority", obj.getAuthority());
+            }
+
+            if (obj.getToken() != null) {
+                generator.write("token", obj.getToken());
+            }
+
+            if (obj.getType() != null) {
+                generator.write("type", obj.getType());
+            }
+
+            //Annotations
+            if (obj.getAssertions() != null) {
+                generator.writeStartArray("assertions");
+                for (CadfMapItem item : obj.getAssertions()) {
+                    CadfMapItem.Writer.generate(item, generator);
+                }
+                generator.writeEnd();
+            }
         }
     }
 
-    public String getToken() {
-        return token;
+    /**
+     * Parser
+     */
+    public static class Parser {
+        private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+
+        private Parser() {
+            // No Impl
+        }
+
+        public static CadfCredential parse(InputStream in)
+                throws FHIRException {
+            try (JsonReader jsonReader =
+                    JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
+                JsonObject jsonObject = jsonReader.readObject();
+                return parse(jsonObject);
+            } catch (Exception e) {
+                throw new FHIRException("Problem parsing the CadfCredential", e);
+            }
+        }
+
+        public static CadfCredential parse(JsonObject jsonObject)
+                throws FHIRException, IOException {
+
+            CadfCredential.Builder builder =
+                    CadfCredential.builder();
+
+            if (jsonObject.get("type") != null) {
+                String type = jsonObject.getString("type");
+                builder.type(type);
+            }
+
+            if (jsonObject.get("token") != null) {
+                String token = jsonObject.getString("token");
+                builder.token(token);
+            }
+
+            if (jsonObject.get("authority") != null) {
+                String authority = jsonObject.getString("authority");
+                builder.authority(authority);
+            }
+
+            if (jsonObject.get("assertions") != null) {
+                JsonArray annotations = jsonObject.getJsonArray("assertions");
+                for (int i = 0; i < annotations.size(); i++) {
+                    JsonObject obj = (JsonObject) annotations.get(0);
+                    CadfMapItem mapItem = CadfMapItem.Parser.parse(obj);
+                    builder.assertion(mapItem);
+                }
+            }
+            return builder.build();
+        }
     }
 }
