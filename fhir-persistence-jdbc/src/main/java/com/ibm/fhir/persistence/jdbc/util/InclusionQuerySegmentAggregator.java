@@ -129,7 +129,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         queryString.append("(");
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
         queryString.append(super.buildFromClause());
-        queryString.append(super.buildWhereClause());
+        queryString.append(super.buildWhereClause(null));
         
         queryString.append(")");    
         queryString.append(COMBINED_RESULTS);    
@@ -166,7 +166,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         queryString.append("(");
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
         queryString.append(super.buildFromClause());
-        queryString.append(super.buildWhereClause());
+        queryString.append(super.buildWhereClause(null));
         // Add ordering
         queryString.append(ORDERING);
         this.addPaginationClauses(queryString);
@@ -198,7 +198,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         // Add FROM clause for "root" resource type
         subQueryString.append(super.buildFromClause());
         // Add WHERE clause for "root" resource type
-        subQueryString.append(super.buildWhereClause());
+        subQueryString.append(super.buildWhereClause(null));
         // ORDER BY R.LOGICAL_RESOURCE_ID ASC
         subQueryString.append(ORDERING);
         // Only include resources related to the required page of the main resources.
@@ -292,14 +292,14 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // Add FROM clause for "root" resource type
             queryString.append(super.buildFromClause());
             // Add WHERE clause for "root" resource type
-            queryString.append(super.buildWhereClause());
+            queryString.append(super.buildWhereClause(null));
             // ORDER BY R.LOGICAL_RESOURCE_ID ASC
             queryString.append(ORDERING);
             // Only include resources related to the required page of the main resources.
             this.addPaginationClauses(queryString);
-            
+
             queryString.append(")");
-                        
+
             this.addBindVariables(bindVariables);
         }
         log.exiting(CLASSNAME, METHODNAME);

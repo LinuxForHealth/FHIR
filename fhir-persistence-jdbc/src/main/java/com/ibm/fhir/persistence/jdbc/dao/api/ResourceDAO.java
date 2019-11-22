@@ -157,12 +157,12 @@ public interface ResourceDAO extends FHIRDbDAO {
     
     /**
      * Reads all rows in the resource_types table and returns the data as a Map
-     * @return Map<String, Long> - A map containing key=parameter-name, value=parameter-name-id
+     * @return Map<String, Integer> - A map containing key=parameter-name, value=parameter-name-id
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */
     Map<String,Integer> readAllResourceTypeNames() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
-    
+
     /**
      * Reads the id associated with the name of the passed Resource type from the Resource_Types table. If the id for the passed name is not present
      * in the database, an id is generated, persisted, and returned.

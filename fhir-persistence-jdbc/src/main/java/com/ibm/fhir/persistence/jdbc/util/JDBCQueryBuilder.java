@@ -41,6 +41,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -183,6 +184,23 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         SqlQueryData querySegment;
         int nearParameterIndex;
         List<Parameter> searchParameters = searchContext.getSearchParameters();
+        
+        // Forces _id to come before all other parameters, which is good for this bit here
+        // zero is used to for all other cases.
+        searchParameters.sort(new Comparator<Parameter>() {
+            @Override
+            public int compare(Parameter leftParameter, Parameter rightParameter) {
+                
+                int result = 0;
+                if("_id".compareTo(leftParameter.getName())==0) {
+                    result = -100;
+                }
+                
+                return result;
+            }
+            
+        });
+        
         int pageSize = searchContext.getPageSize();
         int offset = (searchContext.getPageNumber() - 1) * pageSize;
         QuerySegmentAggregator helper;

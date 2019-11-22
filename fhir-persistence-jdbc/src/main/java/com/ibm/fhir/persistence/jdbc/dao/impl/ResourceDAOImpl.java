@@ -340,7 +340,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         return result;
     }
 
-
     @Override
     public Integer readResourceTypeId(String resourceType) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
         final String METHODNAME = "readResourceTypeId";
