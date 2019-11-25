@@ -232,7 +232,7 @@ public class RestAuditLogger {
             if (bundle.getTotal() != null) {
                 totalHistory = bundle.getTotal().getValue().longValue();
             }
-            entry.getContext().setBatch(new Batch().withResourcesRead(totalHistory));
+            entry.getContext().setBatch(Batch.builder().resourcesRead(totalHistory).build());
         }
         entry.getContext().setAction("R");
         entry.setDescription("FHIR History request");
@@ -307,10 +307,10 @@ public class RestAuditLogger {
                 }
             }
         }
-        entry.getContext().setBatch(new Batch()
-                .withResourcesCreated(createCount)
-                .withResourcesRead(readCount)
-                .withResourcesUpdated(updateCount));
+        entry.getContext().setBatch(Batch.builder()
+                .resourcesCreated(createCount)
+                .resourcesRead(readCount)
+                .resourcesUpdated(updateCount).build());
         entry.setDescription("FHIR Bundle request");
         
         auditLogSvc.logEntry(entry);
@@ -343,7 +343,7 @@ public class RestAuditLogger {
             if (bundle.getTotal() != null) {
                 totalSearch = bundle.getTotal().getValue().longValue();
             }
-            entry.getContext().setBatch(new Batch().withResourcesRead(totalSearch));
+            entry.getContext().setBatch(Batch.builder().resourcesRead(totalSearch).build());
         }
         entry.getContext().setAction("R");
         entry.setDescription("FHIR Search request");
