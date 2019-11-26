@@ -192,7 +192,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             public int compare(Parameter leftParameter, Parameter rightParameter) {
                 
                 int result = 0;
-                if("_id".compareTo(leftParameter.getName())==0) {
+                if("_id".compareTo(leftParameter.getCode())==0) {
                     result = -100;
                 }
                 
@@ -1413,7 +1413,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // if (missing != null && !missing) {
         // // Build this piece of the segment:
         // // (P1.PARAMETER_NAME_ID = x AND P1.logical_resource_id = LR.logical_resource_id)
-        // this.populateNameIdSubSegment(whereClauseSegment, queryParm.getName(), tableAlias);
+        // this.populateNameIdSubSegment(whereClauseSegment, queryParm.get(), tableAlias);
         // whereClauseSegment.append(AND).append(tableAlias + DOT + "LOGICAL_RESOURCE_ID = LR.LOGICL_RESOURCE_ID");
         // whereClauseSegment.append(RIGHT_PAREN);
         // } else {
