@@ -29,7 +29,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 
 /**
  * BulkImportJob's JSON response
- * 
+ *
  * <pre>
  *  {
    “jobName”: “BulkImportJob”,
@@ -51,9 +51,7 @@ import com.ibm.fhir.exception.FHIROperationException;
        }
    ]
     }
- *  </pre>
- * 
- * @author pbastide
+ *  </pre
  *
  */
 public class BulkExportJobExecutionResponse {
@@ -62,13 +60,14 @@ public class BulkExportJobExecutionResponse {
     private String appName;
     private String submitter;
     private String batchStatus;
+    private String exitStatus;
     private String jobXMLName;
     private String instanceName;
     private String lastUpdatedTime;
     private List<Link> _links = new ArrayList<>();
-    
+
     private JobParameter jobParameters;
-    
+
     public JobParameter getJobParameters() {
         return jobParameters;
     }
@@ -152,7 +151,7 @@ public class BulkExportJobExecutionResponse {
     public void addLink(Link link) {
         this._links.add(link);
     }
-    
+
     public static class JobParameter {
 
         String fhirResourceType;
@@ -233,8 +232,6 @@ public class BulkExportJobExecutionResponse {
 
     /**
      * Link is a sub class reflecting the link to the parts of the Export Job.
-     * 
-     * @author pbastide
      *
      */
     public static class Link {
@@ -261,15 +258,13 @@ public class BulkExportJobExecutionResponse {
 
     /**
      * Builder is a convenience pattern to assemble to Java Object that reflects the BatchManagement pattern.
-     * 
-     * @author pbastide
      *
      */
     public static class Builder {
 
         private BulkExportJobExecutionResponse response = new BulkExportJobExecutionResponse();
         private JobParameter jobParameter = new JobParameter();
-        
+
         private Builder() {
             // Intentionally hiding from external callers.
         }
@@ -299,6 +294,11 @@ public class BulkExportJobExecutionResponse {
             return this;
         }
 
+        public Builder exitStatus(String exitStatus) {
+            response.setExitStatus(exitStatus);
+            return this;
+        }
+
         public Builder jobXMLName(String jobXMLName) {
             response.setJobXMLName(jobXMLName);
             return this;
@@ -313,7 +313,7 @@ public class BulkExportJobExecutionResponse {
             response.setLastUpdatedTime(lastUpdatedTime);
             return this;
         }
-        
+
         public Builder fhirResourceType(String fhirResourceType) {
             jobParameter.setFhirResourceType(fhirResourceType);
             return this;
@@ -373,25 +373,21 @@ public class BulkExportJobExecutionResponse {
         return new Builder();
     }
 
-    /**
-     * 
-     * @author pbastide
-     *
-     */
+
     public static class Parser {
-        
+
         private Parser() {
             // No Op
         }
 
         private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-        
+
         public static BulkExportJobExecutionResponse parse(String jsonString) throws FHIROperationException {
-            
+
             try(InputStream in = new ByteArrayInputStream(jsonString.getBytes())){
-                
+
                 return BulkExportJobExecutionResponse.Parser.parse(in);
-                
+
             } catch(Exception e) {
                 throw new FHIROperationException("Problem parsing the Bulk Export Job's from jsonString response from the server", e);
             }
@@ -403,45 +399,49 @@ public class BulkExportJobExecutionResponse {
                 JsonObject jsonObject = jsonReader.readObject();
                 BulkExportJobExecutionResponse.Builder builder = BulkExportJobExecutionResponse.builder();
 
-                
+
                 if (jsonObject.containsKey("jobName")) {
                     String jobName = jsonObject.getString("jobName");
                     builder.jobName(jobName);
                 }
 
-                
+
                 if (jsonObject.containsKey("instanceId")) {
                     Integer instanceId = jsonObject.getInt("instanceId");
                     builder.instanceId(instanceId);
                 }
-                
+
                 if (jsonObject.containsKey("appName")) {
                     String appName = jsonObject.getString("appName");
                     builder.appName(appName);
                 }
-                
+
                 if (jsonObject.containsKey("batchStatus")) {
                     String batchStatus = jsonObject.getString("batchStatus");
                     builder.batchStatus(batchStatus);
                 }
 
-               
+                if (jsonObject.containsKey("exitStatus")) {
+                    String exitStatus = jsonObject.getString("exitStatus");
+                    builder.exitStatus(exitStatus);
+                }
+
                 if (jsonObject.containsKey("jobXMLName")) {
                     String jobXMLName = jsonObject.getString("jobXMLName");
                     builder.jobXMLName(jobXMLName);
                 }
-                
+
                 if (jsonObject.containsKey("instanceName")) {
                     String instanceName = jsonObject.getString("instanceName");
                     builder.instanceName(instanceName);
                 }
-                
+
                 if (jsonObject.containsKey("lastUpdatedTime")) {
                     String lastUpdatedTime = jsonObject.getString("lastUpdatedTime");
                     builder.lastUpdatedTime(lastUpdatedTime);
                 }
 
-               
+
                 if (jsonObject.containsKey("_links")) {
                     JsonArray arr = jsonObject.getJsonArray("_links");
                     ListIterator<JsonValue> iter = arr.listIterator();
@@ -457,8 +457,8 @@ public class BulkExportJobExecutionResponse {
                         }
                     }
                 }
-                
-                
+
+
                 if (jsonObject.containsKey("jobParameters")) {
                     JsonObject obj = jsonObject.getJsonObject("jobParameters");
                     String fhirResourceType = obj.getString("fhir.resourcetype");
@@ -513,8 +513,6 @@ public class BulkExportJobExecutionResponse {
 
     /**
      * Generates JSON from this object.
-     * 
-     * @author pbastide
      *
      */
     public static class Writer {
@@ -551,6 +549,10 @@ public class BulkExportJobExecutionResponse {
                         generator.write("batchStatus", obj.getBatchStatus());
                     }
 
+                    if (obj.getExitStatus() != null) {
+                        generator.write("exitStatus", obj.getExitStatus());
+                    }
+
                     if (obj.getJobXMLName() != null) {
                         generator.write("jobXMLName", obj.getJobXMLName());
                     }
@@ -577,7 +579,7 @@ public class BulkExportJobExecutionResponse {
                         generator.writeEnd();
                     }
 
-                    
+
                     generator.writeStartObject("jobParameters");
 
                     JobParameter parameter = obj.getJobParameters();
@@ -622,7 +624,7 @@ public class BulkExportJobExecutionResponse {
                     }
 
                     generator.writeEnd();
-                    
+
                     generator.writeEnd();
                 }
                 o = writer.toString();
@@ -630,6 +632,14 @@ public class BulkExportJobExecutionResponse {
             return o;
         }
 
+    }
+
+    public String getExitStatus() {
+        return exitStatus;
+    }
+
+    public void setExitStatus(String exitStatus) {
+        this.exitStatus = exitStatus;
     }
 
 }

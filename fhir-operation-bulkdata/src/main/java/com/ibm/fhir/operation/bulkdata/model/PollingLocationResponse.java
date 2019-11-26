@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * ResponseMetadata to manipulate the response back to the client. 
- * This response object is intent for the polling location. 
- * 
- * @author pbastide
+ * ResponseMetadata to manipulate the response back to the client.
+ * This response object is intent for the polling location.
+ *
  *
  */
 public class PollingLocationResponse {
@@ -56,14 +55,16 @@ public class PollingLocationResponse {
 
     public static class Output {
 
-        public Output(String type, String url) {
+        public Output(String type, String url, String count) {
             super();
             this.type = type;
             this.url = url;
+            this.count = count;
         }
 
         private String type;
         private String url;
+        private String count;
 
         public String getType() {
             return type;
@@ -81,9 +82,17 @@ public class PollingLocationResponse {
             this.url = url;
         }
 
+        public String getCount() {
+            return count;
+        }
+
+        public void setCount(String count) {
+            this.count = count;
+        }
+
         @Override
         public String toString() {
-            return "{ \"type\" : \"" + type + "\", \"url\": \"" + url + "\"}";
+            return "{ \"type\" : \"" + type + "\", \"url\": \"" + url + "\", \"count\": " + count + "}";
         }
 
     }
