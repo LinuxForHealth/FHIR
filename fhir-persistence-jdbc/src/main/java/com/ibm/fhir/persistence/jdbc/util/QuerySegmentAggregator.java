@@ -97,7 +97,7 @@ class QuerySegmentAggregator {
         //parallel arrays
         this.querySegments.add(querySegment);
         
-        String name = queryParm.getName();
+        String name = queryParm.getCode();
         if("_id".compareTo(name)==0) {
             queryParamId = queryParm;
         } 
