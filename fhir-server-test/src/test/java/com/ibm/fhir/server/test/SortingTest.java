@@ -458,7 +458,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                .queryParam("_sort", "-birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
