@@ -277,7 +277,7 @@ class QuerySegmentAggregator {
                     
                     whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (SELECT LOGICAL_RESOURCE_ID FROM ");
                     whereClause.append(this.resourceType.getSimpleName());
-                    isLocationQuery = Location.class.equals(this.resourceType) && param.getName().equals(AbstractQueryBuilder.NEAR);
+                    isLocationQuery = Location.class.equals(this.resourceType) && param.getCode().equals(AbstractQueryBuilder.NEAR);
                     switch(param.getType()) {
                         case URI :
                         case REFERENCE : 

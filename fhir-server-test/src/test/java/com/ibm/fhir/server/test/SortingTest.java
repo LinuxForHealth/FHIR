@@ -276,14 +276,14 @@ public class SortingTest extends FHIRServerTestBase {
         TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
-    // Patient?gender=male&_sort:asc=family
+    // Patient?gender=male&_sort=family
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortAscending() {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort:asc", "family").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                .queryParam("_sort", "family").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -309,7 +309,7 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingString(list);
     }
 
-    // Patient?gender=male&_sort:asc=family
+    // Patient?gender=male&_sort=family
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
@@ -317,7 +317,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort:asc", "family").queryParam("_elements", "gender", "name")
+                .queryParam("_sort", "family").queryParam("_elements", "gender", "name")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -383,14 +383,14 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingString(list);
     }
 
-    // Patient?gender=male&_sort:desc=family
+    // Patient?gender=male&_sort=-family
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortDescending() {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort:desc", "family").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                .queryParam("_sort", "-family").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -451,14 +451,14 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingString(list);
     }
 
-    // Patient?gender=male&_sort:desc=birthDate
+    // Patient?gender=male&_sort=-birthDate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortBirthDate() {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort:desc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                .queryParam("_sort", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -473,14 +473,14 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingReverseInstant(list);
     }
 
-    // Patient?gender=male&_sort:desc=family&_sort:asc=birthdate
+    // Patient?gender=male&_sort=family&_sort=birthdate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortTwoParameters() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("_count", "50").queryParam("_sort:desc", "family")
-                .queryParam("_sort:asc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("_count", "50").queryParam("_sort", "-family")
+                .queryParam("_sort", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -527,14 +527,14 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingReverse(list);
     }
 
-    // Patient?gender=male&_sort:desc=family&_sort:desc=birthdate
+    // Patient?gender=male&_sort=-family&_sort=-birthdate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortTwoParametersDescending() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("_count", "50").queryParam("_sort:desc", "family")
-                .queryParam("_sort:desc", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("_count", "50").queryParam("_sort", "-family")
+                .queryParam("_sort", "-birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -578,7 +578,7 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingReverse(list);
     }
 
-    // Observation?status=final&code=http://loinc.org|55284-4&_sort:asc=component-value-quantity
+    // Observation?status=final&code=http://loinc.org|55284-4&_sort=component-value-quantity
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation1",
             "testCreateObservation2", "testCreateObservation3", "testCreateObservation5" })
     public void testSortValueQuantityAscending() {
@@ -586,7 +586,7 @@ public class SortingTest extends FHIRServerTestBase {
         // we do support coding instead of code for the pipe search.
         Response response =
                 target.path("Observation").queryParam("status", "final").queryParam("code", "55284-4")
-                .queryParam("_count", "100").queryParam("_sort:asc", "component-value-quantity")
+                .queryParam("_count", "100").queryParam("_sort", "component-value-quantity")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -778,7 +778,7 @@ public class SortingTest extends FHIRServerTestBase {
     }
 
 
-    // Patient?gender=male&_sort:asc=family
+    // Patient?gender=male&_sort=family
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
@@ -786,7 +786,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male")
-                .queryParam("_count", "50").queryParam("_sort:asc", "family")
+                .queryParam("_count", "50").queryParam("_sort", "family")
                 .queryParam("_summary", "true").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -851,7 +851,7 @@ public class SortingTest extends FHIRServerTestBase {
 
 
 
-    // Patient?gender=male&_sort:asc=family
+    // Patient?gender=male&_sort=family
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
@@ -860,7 +860,7 @@ public class SortingTest extends FHIRServerTestBase {
         // The _summary=true should be ignored.
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort:asc", "family").queryParam("_elements", "gender", "name")
+                .queryParam("_sort", "family").queryParam("_elements", "gender", "name")
                 .queryParam("_summary", "true")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -928,14 +928,14 @@ public class SortingTest extends FHIRServerTestBase {
     }
 
 
-    // Patient?gender=male&_sort:asc=family
+    // Patient?gender=male&_sort=family
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortAscending_filter_summary_count() throws Exception {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort:asc", "family").queryParam("_summary", "count")
+                .queryParam("_sort", "family").queryParam("_summary", "count")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);

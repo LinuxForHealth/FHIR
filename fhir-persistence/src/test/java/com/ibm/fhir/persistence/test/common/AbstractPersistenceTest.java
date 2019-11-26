@@ -137,7 +137,7 @@ public abstract class AbstractPersistenceTest {
                 // strip any modifiers
                 final String finalParamName = paramName.split(":")[0];
 
-                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getName().equals(finalParamName)),
+                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getCode().equals(finalParamName)),
                     "Search parameter '" + key + "' was not successfully parsed into a search parameter");
             }
         }

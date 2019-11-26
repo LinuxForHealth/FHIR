@@ -95,7 +95,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
             // NOTE: The special logic needed to process NEAR and NEAR_DISTANCE query parms for the Location resource type is
             // found in method processLocationPosition(). This method will not handle those.
             if (! (Location.class.equals(resourceType) && 
-                (queryParm.getName().equals(NEAR) || queryParm.getName().equals(NEAR_DISTANCE)))) {
+                (queryParm.getCode().equals(NEAR) || queryParm.getCode().equals(NEAR_DISTANCE)))) {
                 
                 type = queryParm.getType();
                 switch(type) {
@@ -237,7 +237,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
         Modifier queryParmModifier = queryParm.getModifier();
         // A BELOW modifier has the same behavior as a "starts with" String search parm. 
         if (queryParmModifier != null && queryParmModifier.equals(Modifier.BELOW)) {
-             myQueryParm = new Parameter(queryParm.getType(), queryParm.getName(), null,
+             myQueryParm = new Parameter(queryParm.getType(), queryParm.getCode(), null,
                                  queryParm.getModifierResourceTypeName(), queryParm.getValues());
         }
         parmRoot = this.processStringParm(myQueryParm);
@@ -271,7 +271,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
         while (queryParms.hasNext()) {
                queryParm = queryParms.next();
             for (ParameterValue value : queryParm.getValues()) {
-                if (queryParm.getName().equals(NEAR)) {
+                if (queryParm.getCode().equals(NEAR)) {
                     if (value.getValueSystem() != null) {
                         latitude = Double.parseDouble(value.getValueSystem());
                     }
@@ -280,7 +280,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
                     }
                     nearFound = true;
                 }
-                else if (queryParm.getName().equals(NEAR_DISTANCE)) {
+                else if (queryParm.getCode().equals(NEAR_DISTANCE)) {
                     if (value.getValueSystem() != null) {
                         distance = Double.parseDouble(value.getValueSystem());
                     }

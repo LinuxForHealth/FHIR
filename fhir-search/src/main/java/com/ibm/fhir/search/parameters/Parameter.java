@@ -19,15 +19,11 @@ import com.ibm.fhir.search.SearchConstants.Type;
 
 /**
  * general type of parameter. 
- *  
- * @author markd
- * @author pbastide
- *
  */
 public class Parameter {
 
     private Type type = null;
-    private String name = null;
+    private String code = null;
 
     private Modifier modifier = null;
     private String modifierResourceTypeName = null;
@@ -35,21 +31,21 @@ public class Parameter {
     private Parameter nextParameter = null;
     private boolean isInclusionCriteria = false;
 
-    public Parameter(Type type, String name, Modifier modifier, String modifierResourceTypeName) {
+    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName) {
         this.type = type;
-        this.name = name;
+        this.code = code;
         this.modifier = modifier;
         this.modifierResourceTypeName = modifierResourceTypeName;
         values = new ArrayList<>();
     }
 
-    public Parameter(Type type, String name, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria) {
-        this(type, name, modifier, modifierResourceTypeName);
+    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria) {
+        this(type, code, modifier, modifierResourceTypeName);
         this.isInclusionCriteria = isInclusionCriteria;
     }
 
-    public Parameter(Type type, String name, Modifier modifier, String modifierResourceTypeName, List<ParameterValue> parmValues) {
-        this(type, name, modifier, modifierResourceTypeName);
+    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, List<ParameterValue> parmValues) {
+        this(type, code, modifier, modifierResourceTypeName);
         this.values = parmValues;
     }
 
@@ -57,8 +53,8 @@ public class Parameter {
         return type;
     }
 
-    public String getName() {
-        return name;
+    public String getCode() {
+        return code;
     }
 
     public Modifier getModifier() {
@@ -90,9 +86,9 @@ public class Parameter {
             buffer.append(SearchConstants.NL);
         }
 
-        if (name != null) {
-            buffer.append("name: ");
-            buffer.append(name);
+        if (code != null) {
+            buffer.append("code: ");
+            buffer.append(code);
             buffer.append(SearchConstants.NL);
         }
 

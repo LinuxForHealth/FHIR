@@ -77,14 +77,14 @@ public class ValueTypesR4Impl implements IValueTypes {
 
     @Override
     public boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
-        return getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
+        return getValueTypes(resourceType, queryParm.getCode()).contains(Period.class);
     }
 
     @Override
     public boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
         // Date Search does not support Date and Partial DateTime in a Range Search.
 
-        Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getName());
+        Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getCode());
         return Type.TOKEN.compareTo(queryParm.getType()) == 0 || valueTypes.contains(com.ibm.fhir.model.type.Date.class)
                 || valueTypes.contains(DateTime.class) || valueTypes.contains(Instant.class);
     }
@@ -92,17 +92,17 @@ public class ValueTypesR4Impl implements IValueTypes {
     @Override
     public boolean isRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
         // Range Search does not handle decimal searches like a range search
-        return getValueTypes(resourceType, queryParm.getName()).contains(Range.class);
+        return getValueTypes(resourceType, queryParm.getCode()).contains(Range.class);
     }
 
     @Override
     public boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
         try {
-            Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getName());
+            Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getCode());
             return (valueTypes.contains(com.ibm.fhir.model.type.Integer.class) || valueTypes.contains(UnsignedInt.class)
                     || valueTypes.contains(PositiveInt.class) || valueTypes.contains(Count.class));
         } catch (Exception e) {
-            throw new FHIRSearchException(String.format(EXCEPTION, queryParm.getName(), resourceType.getSimpleName()),
+            throw new FHIRSearchException(String.format(EXCEPTION, queryParm.getCode(), resourceType.getSimpleName()),
                     e);
         }
     }
