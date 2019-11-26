@@ -26,7 +26,6 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = InclusionQuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
     
-    
     private static final String SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) FROM ";
     private static final String SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM ";
     private static final String UNION_ALL = " UNION ALL ";
@@ -36,7 +35,6 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private List<InclusionParameter> includeParameters;
     private List<InclusionParameter> revIncludeParameters;
 
-    
     protected InclusionQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize,
                                               ParameterDAO parameterDao, ResourceDAO resourceDao, 
                                               List<InclusionParameter> includeParameters, List<InclusionParameter> revIncludeParameters) {
@@ -131,7 +129,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         queryString.append("(");
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
         queryString.append(super.buildFromClause());
-        queryString.append(super.buildWhereClause());
+        queryString.append(super.buildWhereClause(null));
         
         queryString.append(")");    
         queryString.append(COMBINED_RESULTS);    
@@ -168,7 +166,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         queryString.append("(");
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
         queryString.append(super.buildFromClause());
-        queryString.append(super.buildWhereClause());
+        queryString.append(super.buildWhereClause(null));
         // Add ordering
         queryString.append(ORDERING);
         this.addPaginationClauses(queryString);
@@ -200,7 +198,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         // Add FROM clause for "root" resource type
         subQueryString.append(super.buildFromClause());
         // Add WHERE clause for "root" resource type
-        subQueryString.append(super.buildWhereClause());
+        subQueryString.append(super.buildWhereClause(null));
         // ORDER BY R.LOGICAL_RESOURCE_ID ASC
         subQueryString.append(ORDERING);
         // Only include resources related to the required page of the main resources.
@@ -227,7 +225,22 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         }
         queryString.append(")");
     }
-
+    
+    /*
+     * Formats the FROM clause instead of assembling a String MessageFormat 
+     * The code here is just building as part of the StringBuilder.  
+     * 
+     * @param queryString the non-null StringBuilder
+     * @param target is the Target Type for the search
+     */
+    private void processFromClause(StringBuilder queryString, String target) {
+        queryString.append("FROM ");
+        queryString.append(target);
+        queryString.append("_RESOURCES R JOIN ");
+        queryString.append(target);
+        queryString.append("_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
+        
+    }
 
     private void processIncludeParameters(StringBuilder queryString, List<Object> bindVariables) throws Exception {
         final String METHODNAME = "processIncludeParameters";
@@ -239,7 +252,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID 
             queryString.append(QuerySegmentAggregator.SELECT_ROOT);
             // FROM Organization_RESOURCES R JOIN Organization_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
-            queryString.append(MessageFormat.format(QuerySegmentAggregator.FROM_CLAUSE_ROOT, includeParm.getSearchParameterTargetType()));
+            processFromClause(queryString, includeParm.getSearchParameterTargetType());
             // WHERE R.IS_DELETED <> 'Y' AND
             queryString.append(QuerySegmentAggregator.WHERE_CLAUSE_ROOT).append(" AND ");
             // R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
@@ -265,7 +278,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID 
             queryString.append(QuerySegmentAggregator.SELECT_ROOT);
             // FROM Observation_RESOURCES R JOIN Observation_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
-            queryString.append(MessageFormat.format(QuerySegmentAggregator.FROM_CLAUSE_ROOT, includeParm.getJoinResourceType()));
+            processFromClause(queryString, includeParm.getJoinResourceType());
             // JOIN Observation_STR_VALUES P1 ON P1.RESOURCE_ID = R.RESOURCE_ID
             queryString.append(MessageFormat.format(REVINCLUDE_JOIN, includeParm.getJoinResourceType()));
             // WHERE R.IS_DELETED <> 'Y' AND
@@ -279,14 +292,14 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // Add FROM clause for "root" resource type
             queryString.append(super.buildFromClause());
             // Add WHERE clause for "root" resource type
-            queryString.append(super.buildWhereClause());
+            queryString.append(super.buildWhereClause(null));
             // ORDER BY R.LOGICAL_RESOURCE_ID ASC
             queryString.append(ORDERING);
             // Only include resources related to the required page of the main resources.
             this.addPaginationClauses(queryString);
-            
+
             queryString.append(")");
-                        
+
             this.addBindVariables(bindVariables);
         }
         log.exiting(CLASSNAME, METHODNAME);
