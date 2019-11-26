@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.audit.logging.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -17,20 +18,22 @@ import java.util.logging.Logger;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ibm.fhir.audit.cadf.model.CadfAttachment;
 import com.ibm.fhir.audit.cadf.model.CadfCredential;
 import com.ibm.fhir.audit.cadf.model.CadfEndpoint;
 import com.ibm.fhir.audit.cadf.model.CadfEvent;
 import com.ibm.fhir.audit.cadf.model.CadfGeolocation;
-import com.ibm.fhir.audit.cadf.model.CadfParser;
 import com.ibm.fhir.audit.cadf.model.CadfResource;
+import com.ibm.fhir.audit.cadf.model.enums.Action;
+import com.ibm.fhir.audit.cadf.model.enums.EventType;
+import com.ibm.fhir.audit.cadf.model.enums.Outcome;
+import com.ibm.fhir.audit.cadf.model.enums.ResourceType;
 import com.ibm.fhir.audit.kafka.Environment;
 import com.ibm.fhir.audit.kafka.EventStreamsCredentials;
 import com.ibm.fhir.audit.logging.api.AuditLogEventType;
 import com.ibm.fhir.audit.logging.api.AuditLogService;
 import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
-import com.ibm.fhir.audit.logging.beans.Context;
+import com.ibm.fhir.audit.logging.beans.impl.context.FHIRContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.exception.FHIRException;
 
@@ -65,32 +68,30 @@ public class WhcAuditCadfLogService implements AuditLogService {
 
     private boolean isEnabled = false;
 
-    private static Map<String, CadfEvent.Action> fhir2CadfMap = new HashMap<String, CadfEvent.Action>() {
-        /**
-        * 
-        */
-        private static final long serialVersionUID = 1L;
+    private static final Map<String, Action> fhir2CadfMap = new HashMap<String, Action>() {
 
+        private static final long serialVersionUID = 1L;
         {
-            put("C", CadfEvent.Action.create);
-            put("D", CadfEvent.Action.delete);
-            put("U", CadfEvent.Action.update);
-            put("R", CadfEvent.Action.read);
+            put("C", Action.create);
+            put("D", Action.delete);
+            put("U", Action.update);
+            put("R", Action.read);
         }
     };
 
     // Initialize CADF OBSERVER resource object once
-    private static CadfResource observerRsrc = new CadfResource.Builder("fhir-server",
-            CadfEvent.ResourceType.compute_node)
-                    .withGeolocation(new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
-                    .withName("Fhir Audit").withHost(System.getenv("HOSTNAME")).build();
+    private static CadfResource observerRsrc =
+            new CadfResource.Builder("fhir-server",
+                    ResourceType.compute_node)
+                            .geolocation(new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
+                            .name("Fhir Audit").host(System.getenv("HOSTNAME")).build();
 
     public WhcAuditCadfLogService() {
         super();
     }
+
     @Override
     public void initialize(PropertyGroup auditLogProperties) throws Exception {
-
         final String METHODNAME = "initialize";
         logger.entering(CLASSNAME, METHODNAME);
 
@@ -101,7 +102,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
             EventStreamsCredentials credentials = Environment.getEventStreamsCredentials();
             if (credentials != null) {
                 bootstrapServers = Environment.stringArrayToCSV(credentials.getKafkaBrokersSasl());
-                apiKey = credentials.getApiKey();
+                apiKey           = credentials.getApiKey();
             }
         }
 
@@ -111,10 +112,10 @@ public class WhcAuditCadfLogService implements AuditLogService {
             Objects.requireNonNull(auditLogProperties, "Audit log properties cannot be null.");
             logger.log(Level.INFO, "Using FHIR config to find credentials.");
             bootstrapServers = auditLogProperties.getStringProperty(PROPERTY_AUDIT_KAFKA_BOOTSTRAPSERVERS);
-            apiKey = auditLogProperties.getStringProperty(PROPERTY_AUDIT_KAFKA_APIKEY);
+            apiKey           = auditLogProperties.getStringProperty(PROPERTY_AUDIT_KAFKA_APIKEY);
         }
 
-        // If still fails to get config for kafka producer, then throw exception;
+        // If still fails to get config for kafka producer, then throw <pre>exception</pre>
         if (bootstrapServers == null || bootstrapServers.length() < 10 || apiKey == null || apiKey.length() < 10) {
             throw new FHIRException("Can not get kafka settings!");
         }
@@ -123,8 +124,8 @@ public class WhcAuditCadfLogService implements AuditLogService {
         // default topic
         if (auditLogProperties != null) {
             auditTopic = auditLogProperties.getStringProperty(PROPERTY_AUDIT_KAFKA_TOPIC, DEFAULT_AUDIT_KAFKA_TOPIC);
-            geoCity = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_CITY, DEFAULT_AUDIT_GEO_CITY);
-            geoState = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_STATE, DEFAULT_AUDIT_GEO_STATE);
+            geoCity    = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_CITY, DEFAULT_AUDIT_GEO_CITY);
+            geoState   = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_STATE, DEFAULT_AUDIT_GEO_STATE);
             geoCountry = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_COUNTRY, DEFAULT_AUDIT_GEO_COUNTRY);
         }
 
@@ -151,35 +152,25 @@ public class WhcAuditCadfLogService implements AuditLogService {
         }
 
         logger.exiting(CLASSNAME, METHODNAME);
-
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.ibm.fhir.audit.logging.api.AuditLogService#logEntry(com.ibm.
-     * fhir.audit.logging.beans.AuditLogEntry)
-     */
     @Override
     public void logEntry(AuditLogEntry logEntry) throws Exception {
         final String METHODNAME = "logEntry";
         logger.entering(CLASSNAME, METHODNAME);
-        
-        
+
         // skip healthcheck and other bad operations
-        if (logEntry == null || logEntry.getContext() == null 
-            || logEntry.getContext().getOperationName() == null 
-            || logEntry.getContext().getOperationName().compareToIgnoreCase(HEALTHCHECKOP) == 0) {
+        if (logEntry == null || logEntry.getContext() == null
+                || logEntry.getContext().getOperationName() == null
+                || logEntry.getContext().getOperationName().compareToIgnoreCase(HEALTHCHECKOP) == 0) {
             return;
         }
 
         CadfEvent eventObject = createCadfEvent(logEntry);
 
         if (eventObject != null) {
-            CadfParser parser = new CadfParser();
-            String eventString = parser.cadf2Json(eventObject);
-            ProducerRecord<String, String> record = new ProducerRecord<String, String>(auditTopic, eventString);
+            String eventString = CadfEvent.Writer.generate(eventObject);
+            ProducerRecord<String, String> record = new ProducerRecord<>(auditTopic, eventString);
             // Block till the message is sent to kafka server.
             this.producer.send(record).get();
         }
@@ -197,58 +188,67 @@ public class WhcAuditCadfLogService implements AuditLogService {
      * @param logEntry
      * @return
      * @throws IllegalStateException
+     * @throws IOException 
      * @throws JsonProcessingException
      */
     public static CadfEvent createCadfEvent(AuditLogEntry logEntry)
-            throws IllegalStateException, JsonProcessingException {
+            throws IllegalStateException, IOException {
         final String METHODNAME = "createCadfEvent";
         logger.entering(CLASSNAME, METHODNAME);
 
         CadfEvent event = null;
-        CadfEvent.Outcome cadfEventOutCome;
+        Outcome cadfEventOutCome;
 
         // Cadf does't log config, so skip
         if ((logEntry.getEventType() != AuditLogEventType.FHIR_CONFIGDATA.value()) && logEntry.getContext() != null
                 && logEntry.getContext().getAction() != null && logEntry.getContext().getApiParameters() != null) {
             // Define resources
-            CadfResource initiator = new CadfResource.Builder(logEntry.getTenantId() + "@" + logEntry.getComponentId(),
-                    CadfEvent.ResourceType.compute_machine)
-                            .withGeolocation(new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
-                            .withCredential(new CadfCredential.Builder("user-" + logEntry.getUserName()).build())
-                            .withHost(logEntry.getComponentIp()).build();
-            CadfResource target = new CadfResource.Builder(
-                    logEntry.getContext().getData() == null || logEntry.getContext().getData().getId() == null ? UUID.randomUUID().toString()
-                            : logEntry.getContext().getData().getId(),
-                    CadfEvent.ResourceType.data_database)
-                            .withGeolocation(new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
-                            .withAddress(
-                                    new CadfEndpoint(logEntry.getContext().getApiParameters().getRequest(), "", ""))
-                            .build();
+            CadfResource initiator =
+                    new CadfResource.Builder(logEntry.getTenantId() + "@" + logEntry.getComponentId(),
+                            ResourceType.compute_machine)
+                                    .geolocation(
+                                            new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
+                                    .credential(
+                                            new CadfCredential.Builder("user-" + logEntry.getUserName()).build())
+                                    .host(logEntry.getComponentIp()).build();
+            CadfResource target =
+                    new CadfResource.Builder(
+                            logEntry.getContext().getData() == null || logEntry.getContext().getData().getId() == null
+                                    ? UUID.randomUUID().toString()
+                                    : logEntry.getContext().getData().getId(),
+                            ResourceType.data_database)
+                                    .geolocation(
+                                            new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
+                                    .address(
+                                            new CadfEndpoint(logEntry.getContext().getApiParameters().getRequest(), "",
+                                                    ""))
+                                    .build();
 
-            CadfFhirContext fhirContext = new CadfFhirContext(logEntry.getContext());
+            FHIRContext fhirContext = new FHIRContext(logEntry.getContext());
             fhirContext.setClient_cert_cn(logEntry.getClientCertCn());
             fhirContext.setClient_cert_issuer_ou(logEntry.getClientCertIssuerOu());
-            fhirContext.setEvent_type(logEntry.getEventType());
+            fhirContext.setEventType(logEntry.getEventType());
             fhirContext.setLocation(logEntry.getLocation());
             fhirContext.setDescription(logEntry.getDescription());
-                        
+
             if (logEntry.getContext().getStartTime().equalsIgnoreCase(logEntry.getContext().getEndTime())) {
-                cadfEventOutCome = CadfEvent.Outcome.pending;
+                cadfEventOutCome = Outcome.pending;
             } else if (logEntry.getContext().getApiParameters().getStatus() < 400) {
-                cadfEventOutCome = CadfEvent.Outcome.success;
+                cadfEventOutCome = Outcome.success;
             } else {
-                cadfEventOutCome = CadfEvent.Outcome.failure;
+                cadfEventOutCome = Outcome.failure;
             }
 
-            event = new CadfEvent.CadfEventBuilder(
-                    logEntry.getContext().getRequestUniqueId() == null ? UUID.randomUUID().toString()
-                            : logEntry.getContext().getRequestUniqueId(),
-                    CadfEvent.EventType.activity, logEntry.getTimestamp(),
-                    fhir2CadfMap.getOrDefault(logEntry.getContext().getAction(), CadfEvent.Action.unknown),
-                    cadfEventOutCome).withObserver(observerRsrc).withInitiator(initiator)
-                                    .withTarget(target).withTag(logEntry.getCorrelationId())
-                                    .withAttachment(new CadfAttachment("application/json",
-                                            new CadfParser().fhirContext2Json(fhirContext)))
+            event =
+                    new CadfEvent.Builder(
+                            logEntry.getContext().getRequestUniqueId() == null ? UUID.randomUUID().toString()
+                                    : logEntry.getContext().getRequestUniqueId(),
+                            EventType.activity, logEntry.getTimestamp(),
+                            fhir2CadfMap.getOrDefault(logEntry.getContext().getAction(), Action.unknown),
+                            cadfEventOutCome).observer(observerRsrc).initiator(initiator)
+                                    .target(target).tag(logEntry.getCorrelationId())
+                                    .attachment(new CadfAttachment("application/json",
+                                            FHIRContext.FHIRWriter.generate(fhirContext)))
                                     .build();
         }
 
@@ -266,58 +266,4 @@ public class WhcAuditCadfLogService implements AuditLogService {
             }
         }
     }
-
-}
-
-class CadfFhirContext extends Context {
-    private String event_type;
-    private String description;
-    private String client_cert_cn;
-    private String client_cert_issuer_ou;
-    private String location;
-
-    public CadfFhirContext(Context fromObj) {
-        super(fromObj);
-    }
-
-    public String getEvent_type() {
-        return event_type;
-    }
-
-    public void setEvent_type(String event_type) {
-        this.event_type = event_type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getClient_cert_cn() {
-        return client_cert_cn;
-    }
-
-    public void setClient_cert_cn(String client_cert_cn) {
-        this.client_cert_cn = client_cert_cn;
-    }
-
-    public String getClient_cert_issuer_ou() {
-        return client_cert_issuer_ou;
-    }
-
-    public void setClient_cert_issuer_ou(String client_cert_issuer_ou) {
-        this.client_cert_issuer_ou = client_cert_issuer_ou;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
 }

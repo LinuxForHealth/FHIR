@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.audit.logging.beans;
+package com.ibm.fhir.audit.logging.beans.impl.context;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,141 +21,77 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 
+import com.ibm.fhir.audit.logging.beans.ApiParameters;
+import com.ibm.fhir.audit.logging.beans.Batch;
+import com.ibm.fhir.audit.logging.beans.Context;
+import com.ibm.fhir.audit.logging.beans.Data;
 import com.ibm.fhir.exception.FHIRException;
 
-/**
- * This class defines the Context section of the FHIR server AuditLogEntry.
- */
-public class Context {
-    private String requestUniqueId;
-    private Data data;
-    private String action;
-    private String operationName;
-    private String queryParameters;
-    private String purpose;
-    private String resourceName;
-    private String startTime;
-    private String endTime;
-    private ApiParameters apiParameters;
-    private Batch batch;
+public class FHIRContext extends Context {
+    private String event_type;
+    private String desc;
+    private String client_cert_cn;
+    private String client_cert_issuer_ou;
+    private String location;
 
-    public Context() {
-        super();
+    public FHIRContext() {
+        // No implementation
     }
 
-    public Context(Context fromObj) {
-        super();
-        this.action          = fromObj.action;
-        this.apiParameters   = fromObj.apiParameters;
-        this.batch           = fromObj.batch;
-        this.data            = fromObj.data;
-        this.endTime         = fromObj.endTime;
-        this.operationName   = fromObj.operationName;
-        this.purpose         = fromObj.purpose;
-        this.queryParameters = fromObj.queryParameters;
-        this.requestUniqueId = fromObj.requestUniqueId;
-        this.resourceName    = fromObj.resourceName;
-        this.startTime       = fromObj.startTime;
+    public FHIRContext(Context fromObj) {
+        super(fromObj);
     }
 
-    public Data getData() {
-        return data;
+    public String getEventType() {
+        return event_type;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public void setEventType(String eventType) {
+        this.event_type = eventType;
     }
 
-    public String getAction() {
-        return action;
+    public String getDescription() {
+        return desc;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setDescription(String desc) {
+        this.desc = desc;
     }
 
-    public String getQueryParameters() {
-        return queryParameters;
+    public String getClient_cert_cn() {
+        return client_cert_cn;
     }
 
-    public void setQueryParameters(String queryParms) {
-        this.queryParameters = queryParms;
+    public void setClient_cert_cn(String client_cert_cn) {
+        this.client_cert_cn = client_cert_cn;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getClient_cert_issuer_ou() {
+        return client_cert_issuer_ou;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setClient_cert_issuer_ou(String clientCertIssuerOu) {
+        this.client_cert_issuer_ou = clientCertIssuerOu;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public String getLocation() {
+        return location;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public ApiParameters getApiParameters() {
-        return apiParameters;
-    }
-
-    public void setApiParameters(ApiParameters apiParameters) {
-        this.apiParameters = apiParameters;
-    }
-
-    public Batch getBatch() {
-        return batch;
-    }
-
-    public void setBatch(Batch batch) {
-        this.batch = batch;
-    }
-
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
-    public String getOperationName() {
-        return operationName;
-    }
-
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
-    }
-
-    public String getRequestUniqueId() {
-        return requestUniqueId;
-    }
-
-    public void setRequestUniqueId(String requestUniqueId) {
-        this.requestUniqueId = requestUniqueId;
-    }
-
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     /**
      * Generates JSON from this object.
      */
-    public static class Writer {
+    public static class FHIRWriter {
         private static final Map<java.lang.String, Object> properties =
                 Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
         private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
                 Json.createGeneratorFactory(properties);
 
-        private Writer() {
+        private FHIRWriter() {
             // No Operation
         }
 
@@ -164,7 +100,7 @@ public class Context {
          * @return
          * @throws IOException
          */
-        public static String generate(Context obj)
+        public static String generate(FHIRContext obj)
                 throws IOException {
             String o = "{}";
             try (StringWriter writer = new StringWriter();) {
@@ -172,9 +108,6 @@ public class Context {
                         PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {
                     generator.writeStartObject();
 
-                    //@JsonPropertyOrder({ "request_unique_id", "action", "operation_name", "purpose", 
-                    // "resource_name", "start_time",
-                    //"end_time", "api_parameters", "query", "data", "batch" })
                     if (obj.getRequestUniqueId() != null) {
                         generator.write("request_unique_id", obj.getRequestUniqueId());
                     }
@@ -225,6 +158,26 @@ public class Context {
                         generator.writeEnd();
                     }
 
+                    if (obj.getEventType() != null) {
+                        generator.write("event_type", obj.getEventType());
+                    }
+
+                    if (obj.getDescription() != null) {
+                        generator.write("description", obj.getDescription());
+                    }
+
+                    if (obj.getClient_cert_cn() != null) {
+                        generator.write("client_cert_cn", obj.getClient_cert_cn());
+                    }
+
+                    if (obj.getClient_cert_issuer_ou() != null) {
+                        generator.write("client_cert_issuer_ou", obj.getClient_cert_issuer_ou());
+                    }
+
+                    if (obj.getLocation() != null) {
+                        generator.write("location", obj.getLocation());
+                    }
+
                     generator.writeEnd();
                 }
                 o = writer.toString();
@@ -236,20 +189,20 @@ public class Context {
     /**
      * Parser
      */
-    public static class Parser {
+    public static class FHIRParser {
         private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
-        private Parser() {
+        private FHIRParser() {
             // No Impl
         }
 
-        public static Context parse(InputStream in)
+        public static FHIRContext parse(InputStream in)
                 throws FHIRException {
             try (JsonReader jsonReader =
                     JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
                 JsonObject jsonObject = jsonReader.readObject();
-                Context.Builder builder =
-                        Context.builder();
+                FHIRContext.FHIRBuilder builder =
+                        FHIRContext.fhirBuilder();
 
                 JsonValue t = jsonObject.get("request_unique_id");
                 if (t != null) {
@@ -320,6 +273,36 @@ public class Context {
                     builder.batch(b);
                 }
 
+                t = jsonObject.get("location");
+                if (t != null) {
+                    String location = jsonObject.getString("location");
+                    builder.location(location);
+                }
+
+                t = jsonObject.get("client_cert_issuer_ou");
+                if (t != null) {
+                    String ou = jsonObject.getString("client_cert_issuer_ou");
+                    builder.clientCertIssuerOu(ou);
+                }
+
+                t = jsonObject.get("client_cert_cn");
+                if (t != null) {
+                    String cn = jsonObject.getString("client_cert_cn");
+                    builder.clientCertCn(cn);
+                }
+
+                t = jsonObject.get("description");
+                if (t != null) {
+                    String description = jsonObject.getString("description");
+                    builder.description(description);
+                }
+
+                t = jsonObject.get("event_type");
+                if (t != null) {
+                    String eventType = jsonObject.getString("event_type");
+                    builder.eventType(eventType);
+                }
+
                 return builder.build();
             } catch (Exception e) {
                 throw new FHIRException("Problem parsing the Context", e);
@@ -330,74 +313,99 @@ public class Context {
     /**
      * Builder is a convenience pattern to assemble to Java Object
      */
-    public static class Builder {
-        private Context context = new Context();
+    public static class FHIRBuilder {
+        private FHIRContext fhirContext = new FHIRContext();
 
-        protected Builder() {
-            // No Operation
+        public FHIRBuilder() {
+            // No Op
         }
 
-        public Builder action(String action) {
-            context.setAction(action);
+        public FHIRBuilder eventType(String eventType) {
+            fhirContext.setEventType(eventType);
             return this;
         }
 
-        public Builder apiParameters(ApiParameters apiParameters) {
-            context.setApiParameters(apiParameters);
+        public FHIRBuilder description(String description) {
+            fhirContext.setDescription(description);
             return this;
         }
 
-        public Builder batch(Batch batch) {
-            context.setBatch(batch);
+        public FHIRBuilder clientCertCn(String clientCertCn) {
+            fhirContext.setClient_cert_cn(clientCertCn);
             return this;
         }
 
-        public Builder data(Data data) {
-            context.setData(data);
+        public FHIRBuilder clientCertIssuerOu(String clientCertIssuerOu) {
+            fhirContext.setClient_cert_issuer_ou(clientCertIssuerOu);
+            return this;
+        }
+        
+        public FHIRBuilder action(String action) {
+            fhirContext.setAction(action);
             return this;
         }
 
-        public Builder endTime(String endTime) {
-            context.setEndTime(endTime);
+        public FHIRBuilder location(String location) {
+            fhirContext.setLocation(location);
             return this;
         }
 
-        public Builder startTime(String startTime) {
-            context.setStartTime(startTime);
+        public FHIRBuilder apiParameters(ApiParameters apiParameters) {
+            fhirContext.setApiParameters(apiParameters);
             return this;
         }
 
-        public Builder operationName(String operationName) {
-            context.setOperationName(operationName);
+        public FHIRBuilder batch(Batch batch) {
+            fhirContext.setBatch(batch);
             return this;
         }
 
-        public Builder purpose(String purpose) {
-            context.setPurpose(purpose);
+        public FHIRBuilder data(Data data) {
+            fhirContext.setData(data);
             return this;
         }
 
-        public Builder queryParameters(String queryParameters) {
-            context.setQueryParameters(queryParameters);
+        public FHIRBuilder endTime(String endTime) {
+            fhirContext.setEndTime(endTime);
             return this;
         }
 
-        public Builder requestUniqueId(String requestUniqueId) {
-            context.setRequestUniqueId(requestUniqueId);
+        public FHIRBuilder startTime(String startTime) {
+            fhirContext.setStartTime(startTime);
             return this;
         }
 
-        public Builder resourceName(String resourceName) {
-            context.setResourceName(resourceName);
+        public FHIRBuilder operationName(String operationName) {
+            fhirContext.setOperationName(operationName);
             return this;
         }
 
-        public Context build() {
-            return context;
+        public FHIRBuilder purpose(String purpose) {
+            fhirContext.setPurpose(purpose);
+            return this;
+        }
+
+        public FHIRBuilder queryParameters(String queryParameters) {
+            fhirContext.setQueryParameters(queryParameters);
+            return this;
+        }
+
+        public FHIRBuilder requestUniqueId(String requestUniqueId) {
+            fhirContext.setRequestUniqueId(requestUniqueId);
+            return this;
+        }
+
+        public FHIRBuilder resourceName(String resourceName) {
+            fhirContext.setResourceName(resourceName);
+            return this;
+        }
+
+        public FHIRContext build() {
+            return fhirContext;
         }
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static FHIRBuilder fhirBuilder() {
+        return new FHIRContext.FHIRBuilder();
     }
 }

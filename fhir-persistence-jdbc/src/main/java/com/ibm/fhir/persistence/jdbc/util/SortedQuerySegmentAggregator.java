@@ -114,7 +114,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             sqlSortQuery.append(this.buildSortJoinClause());
             
             // Build the WHERE clause
-            sqlSortQuery.append(this.buildWhereClause());
+            sqlSortQuery.append(this.buildWhereClause(null));
             
             // Build GROUP BY clause
             sqlSortQuery.append(this.buildGroupByClause());
