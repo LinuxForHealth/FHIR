@@ -6,11 +6,10 @@
 
 package com.ibm.fhir.audit.kafka;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ibm.fhir.exception.FHIRException;
 
 public class Environment {
 
@@ -40,16 +39,22 @@ public class Environment {
 
         String kubEventStreamBinding = System.getenv(KUB_EVENTSTREAMS_BINDING);
         logger.info(KUB_EVENTSTREAMS_BINDING + ": \n" + kubEventStreamBinding);
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            if (kubEventStreamBinding != null) {
-                return mapper.readValue(kubEventStreamBinding, EventStreamsCredentials.class);
+        return parseEventStreamsCredentials(kubEventStreamBinding);
+    }
+
+    /**
+     * parses the envents
+     * @param kubEventStreamBinding
+     * @return
+     */
+    public static EventStreamsCredentials parseEventStreamsCredentials(String kubEventStreamBinding) {
+        if (kubEventStreamBinding != null) {
+            try {
+                return EventStreamsCredentials.Parser.parse(kubEventStreamBinding);
+            } catch (FHIRException e) {
+                logger.log(Level.SEVERE,
+                        "Parsing of environment variable '" + KUB_EVENTSTREAMS_BINDING + "' has failed.");
             }
-        } catch (IOException ioe) {
-            logger.log(Level.SEVERE,
-                    "Parsing of environment variable '" + KUB_EVENTSTREAMS_BINDING + "' has failed.");
-        } finally {
-            logger.exiting(CLASSNAME, METHODNAME);
         }
         return null;
     }

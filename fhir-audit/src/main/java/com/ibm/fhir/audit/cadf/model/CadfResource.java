@@ -6,19 +6,36 @@
 
 package com.ibm.fhir.audit.cadf.model;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
+import javax.json.JsonValue;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
+
+import com.ibm.fhir.audit.cadf.model.enums.ResourceType;
+import com.ibm.fhir.exception.FHIRException;
 
 /**
  * Implementation of the CADF Resource type.
- * 
  * Resource represents an actor in a CADF event: OBSERVER that reports the
  * event, INITIATOR that performs the action that generates the event, or TARGET
  * upon which the action is performed.
  */
 public final class CadfResource {
     private final String id;
-    private final CadfEvent.ResourceType typeURI;
+    private final ResourceType typeURI;
     private final String name;
     private final String domain;
     private final CadfCredential credential;
@@ -29,16 +46,16 @@ public final class CadfResource {
     private final ArrayList<CadfAttachment> attachments;
 
     private CadfResource(Builder builder) {
-        this.id = builder.id;
-        this.typeURI = builder.typeURI;
-        this.name = builder.name;
-        this.domain = builder.domain;
-        this.credential = builder.credential;
-        this.addresses = builder.addresses;
-        this.host = builder.host;
+        this.id            = builder.id;
+        this.typeURI       = builder.typeURI;
+        this.name          = builder.name;
+        this.domain        = builder.domain;
+        this.credential    = builder.credential;
+        this.addresses     = builder.addresses;
+        this.host          = builder.host;
         this.geolocationId = builder.geolocationId;
-        this.geolocation = builder.geolocation;
-        this.attachments = builder.attachments;
+        this.geolocation   = builder.geolocation;
+        this.attachments   = builder.attachments;
     }
 
     /**
@@ -51,22 +68,12 @@ public final class CadfResource {
         return this.id;
     }
 
-    /**
-     * Validate contents of the resource.
-     * 
-     * The logic is determined by the CADF specification. In short, ID, type, and
-     * one of the geolocation properties are required
-     * 
-     * @throws IllegalStateException when the properties do not meet the
-     *                               specification.
-     */
-    private void validate() throws IllegalStateException {
-        if (this.typeURI == null || this.id == null || this.id.isEmpty()) {
-            throw new IllegalStateException("missing required properties");
-        }
-        if (this.geolocation == null && (this.geolocationId == null || this.geolocationId.isEmpty())) {
-            throw new IllegalStateException("missing geolocation data");
-        }
+    public CadfGeolocation getGeolocation() {
+        return geolocation;
+    }
+
+    public ResourceType getTypeURI() {
+        return typeURI;
     }
 
     /**
@@ -111,12 +118,33 @@ public final class CadfResource {
         return attachments;
     }
 
+    public String getGeolocationId() {
+        return geolocationId;
+    }
+
+    /**
+     * Validate contents of the resource.
+     * The logic is determined by the CADF specification. In short, ID, type, and
+     * one of the geolocation properties are required
+     * 
+     * @throws IllegalStateException when the properties do not meet the
+     *                               specification.
+     */
+    private void validate() throws IllegalStateException {
+        if (this.typeURI == null || this.id == null || this.id.isEmpty()) {
+            throw new IllegalStateException("missing required properties");
+        }
+        if (this.geolocation == null && (this.geolocationId == null || this.geolocationId.isEmpty())) {
+            throw new IllegalStateException("missing geolocation data");
+        }
+    }
+
     /**
      * Builder for immutable CadfResource objects
      */
     public static class Builder {
         private String id;
-        private CadfEvent.ResourceType typeURI;
+        private ResourceType typeURI;
         private String name;
         private String domain;
         private CadfCredential credential;
@@ -126,16 +154,20 @@ public final class CadfResource {
         private CadfGeolocation geolocation;
         private ArrayList<CadfAttachment> attachments;
 
+        private Builder() {
+            // No Operation 
+        }
+
         /**
          * Creates an instance of the CadfResource builder.
          * 
          * @param id      - String. Resource identifier.
          * @param typeURI - CadfEvent.ResourceType. Resource classification in the CADF
          *                taxonomy.
-         * @see CadfEvent.ResourceType
+         * @see ResourceType
          */
-        public Builder(String id, CadfEvent.ResourceType typeURI) {
-            this.id = id;
+        public Builder(String id, ResourceType typeURI) {
+            this.id      = id;
             this.typeURI = typeURI;
         }
 
@@ -145,7 +177,18 @@ public final class CadfResource {
          * @param name
          * @return Builder
          */
-        public Builder withName(String name) {
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        /**
+         * Set the optional local name for the resource (not necessarily unique)
+         * 
+         * @param name
+         * @return Builder
+         */
+        public Builder name(String name) {
             this.name = name;
             return this;
         }
@@ -156,8 +199,13 @@ public final class CadfResource {
          * @param host
          * @return Builder
          */
-        public Builder withHost(String host) {
+        public Builder host(String host) {
             this.host = host;
+            return this;
+        }
+
+        public Builder typeURI(ResourceType typeURI) {
+            this.typeURI = typeURI;
             return this;
         }
 
@@ -168,7 +216,7 @@ public final class CadfResource {
          * @param domain
          * @return Builder
          */
-        public Builder withDomain(String domain) {
+        public Builder domain(String domain) {
             this.domain = domain;
             return this;
         }
@@ -181,7 +229,7 @@ public final class CadfResource {
          * @param cred
          * @return Builder
          */
-        public Builder withCredential(CadfCredential cred) {
+        public Builder credential(CadfCredential cred) {
             this.credential = cred;
             return this;
         }
@@ -199,7 +247,7 @@ public final class CadfResource {
          * @param geolocId
          * @return Builder
          */
-        public Builder withGeolocationId(String geolocId) {
+        public Builder geolocationId(String geolocId) {
             this.geolocationId = geolocId;
             return this;
         }
@@ -213,7 +261,7 @@ public final class CadfResource {
          * @param geoloc
          * @return Builder
          */
-        public Builder withGeolocation(CadfGeolocation geoloc) {
+        public Builder geolocation(CadfGeolocation geoloc) {
             this.geolocation = geoloc;
             return this;
         }
@@ -223,7 +271,7 @@ public final class CadfResource {
          * reporter or any action it performed that affected the CADF Event Record
          * contents.
          */
-        public Builder withAttachments(CadfAttachment[] attachments) {
+        public Builder attachments(CadfAttachment[] attachments) {
             this.attachments = new ArrayList<CadfAttachment>(Arrays.asList(attachments));
             return this;
         }
@@ -233,7 +281,7 @@ public final class CadfResource {
          * reporter or any action it performed that affected the CADF Event Record
          * contents.
          */
-        public Builder withAttachments(ArrayList<CadfAttachment> attachments) {
+        public Builder attachments(ArrayList<CadfAttachment> attachments) {
             this.attachments = attachments;
             return this;
         }
@@ -241,9 +289,9 @@ public final class CadfResource {
         /**
          * A convenience method to add one attachment at a time.
          * 
-         * @see #withAttachments(CadfAttachment[])
+         * @see #attachments(CadfAttachment[])
          */
-        public Builder withAttachment(CadfAttachment attachment) {
+        public Builder attachment(CadfAttachment attachment) {
             if (this.attachments == null) {
                 attachments = new ArrayList<CadfAttachment>();
             }
@@ -254,8 +302,8 @@ public final class CadfResource {
         /**
          * An optional array of descriptive addresses (including URLs) of the resource
          */
-        public Builder withAddresses(CadfEndpoint[] addresses) {
-            this.addresses = new ArrayList<CadfEndpoint>(Arrays.asList(addresses));
+        public Builder addresses(CadfEndpoint[] addresses) {
+            this.addresses = new ArrayList<>(Arrays.asList(addresses));
             return this;
         }
 
@@ -263,7 +311,7 @@ public final class CadfResource {
          * An optional ArrayList of descriptive addresses (including URLs) of the
          * resource
          */
-        public Builder withAddresses(ArrayList<CadfEndpoint> addresses) {
+        public Builder addresses(ArrayList<CadfEndpoint> addresses) {
             this.addresses = addresses;
             return this;
         }
@@ -271,11 +319,11 @@ public final class CadfResource {
         /**
          * A convenience method to add one address at a time.
          * 
-         * @see #withAddresses(CadfEndpoint[])
+         * @see #addresses(CadfEndpoint[])
          */
-        public Builder withAddress(CadfEndpoint address) {
+        public Builder address(CadfEndpoint address) {
             if (this.addresses == null) {
-                addresses = new ArrayList<CadfEndpoint>();
+                addresses = new ArrayList<>();
             }
             this.addresses.add(address);
             return this;
@@ -295,11 +343,192 @@ public final class CadfResource {
         }
     }
 
-    public CadfGeolocation getGeolocation() {
-        return geolocation;
+    /**
+     * Generates JSON from this object.
+     */
+    public static class Writer {
+        private static final Map<java.lang.String, Object> properties =
+                Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
+        private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
+                Json.createGeneratorFactory(properties);
+
+        private Writer() {
+            // No Operation
+        }
+
+        /**
+         * @param obj
+         * @return
+         * @throws IOException
+         */
+        public static String generate(CadfResource obj)
+                throws IOException {
+            String o = "{}";
+            try (StringWriter writer = new StringWriter();) {
+                try (JsonGenerator generator =
+                        PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {
+                    generator.writeStartObject();
+                    generate(obj, generator);
+                    generator.writeEnd();
+                }
+                o = writer.toString();
+            }
+            return o;
+        }
+
+        public static void generate(CadfResource obj, JsonGenerator generator) throws IOException {
+            if (obj.getId() != null) {
+                generator.write("id", obj.getId());
+            }
+
+            if (obj.getTypeURI() != null) {
+                generator.write("typeURI", obj.getTypeURI().toString());
+            }
+
+            if (obj.getName() != null) {
+                generator.write("name", obj.getName());
+            }
+
+            if (obj.getDomain() != null) {
+                generator.write("domain", obj.getDomain());
+            }
+
+            if (obj.getHost() != null) {
+                generator.write("host", obj.getHost());
+            }
+
+            if (obj.getGeolocationId() != null) {
+                generator.write("geolocationId", obj.getGeolocationId());
+            }
+
+            if (obj.getCredential() != null) {
+                generator.writeStartObject("credential");
+                CadfCredential.Writer.generate(obj.getCredential(), generator);
+                generator.writeEnd();
+            }
+
+            if (obj.getAddresses() != null) {
+                generator.writeStartArray("addresses");
+                for (CadfEndpoint endpoint : obj.getAddresses()) {
+                    CadfEndpoint.Writer.generate(endpoint, generator);
+                }
+                generator.writeEnd();
+            }
+
+            if (obj.getGeolocation() != null) {
+                generator.writeStartObject("geolocation");
+                CadfGeolocation.Writer.generate(obj.getGeolocation(), generator);
+                generator.writeEnd();
+            }
+
+            if (obj.getAddresses() != null) {
+                generator.writeStartArray("addresses");
+                for (CadfEndpoint endpoint : obj.getAddresses()) {
+                    CadfEndpoint.Writer.generate(endpoint, generator);
+                }
+                generator.writeEnd();
+            }
+
+            if (obj.getAttachments() != null) {
+                generator.writeStartArray("attachments");
+                for (CadfAttachment attachment : obj.getAttachments()) {
+                    CadfAttachment.Writer.generate(attachment, generator);
+                }
+                generator.writeEnd();
+            }
+        }
     }
 
-    public CadfEvent.ResourceType getTypeURI() {
-        return typeURI;
+    /**
+     * Parser
+     */
+    public static class Parser {
+        private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+
+        private Parser() {
+            // No Impl
+        }
+
+        public static CadfResource parse(InputStream in)
+                throws FHIRException {
+            try (JsonReader jsonReader =
+                    JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
+                JsonObject jsonObject = jsonReader.readObject();
+                return parse(jsonObject);
+            } catch (Exception e) {
+                throw new FHIRException("Problem parsing the CadfResource", e);
+            }
+        }
+
+        public static CadfResource parse(JsonObject jsonObject)
+                throws IOException, FHIRException {
+            CadfResource.Builder builder = CadfResource.builder();
+
+            if (jsonObject.get("id") != null) {
+                String id = jsonObject.getString("id");
+                builder.id(id);
+            }
+
+            if (jsonObject.get("name") != null) {
+                String name = jsonObject.getString("name");
+                builder.name(name);
+            }
+
+            if (jsonObject.get("domain") != null) {
+                String domain = jsonObject.getString("domain");
+                builder.domain(domain);
+            }
+
+            if (jsonObject.get("host") != null) {
+                String host = jsonObject.getString("host");
+                builder.host(host);
+            }
+
+            if (jsonObject.get("geolocationId") != null) {
+                String geolocationId = jsonObject.getString("geolocationId");
+                builder.geolocationId(geolocationId);
+            }
+
+            if (jsonObject.get("typeURI") != null) {
+                String typeURI = jsonObject.getString("typeURI");
+                ResourceType t = ResourceType.of(typeURI);
+                builder.typeURI(t);
+            }
+
+            if (jsonObject.get("credential") != null) {
+                JsonObject credential = jsonObject.getJsonObject("credential");
+                CadfCredential c = CadfCredential.Parser.parse(credential);
+                builder.credential(c);
+            }
+
+            if (jsonObject.get("geolocation") != null) {
+                JsonObject geolocation = jsonObject.getJsonObject("geolocation");
+                CadfGeolocation c = CadfGeolocation.Parser.parse(geolocation);
+                builder.geolocation(c);
+            }
+
+            JsonValue t = jsonObject.get("addresses");
+            if (t != null) {
+                JsonArray addresses = jsonObject.getJsonArray("addresses");
+                for (JsonValue v : addresses) {
+                    CadfEndpoint c = CadfEndpoint.Parser.parse(v.asJsonObject());
+                    builder.address(c);
+                }
+            }
+
+            if (jsonObject.get("attachments") != null) {
+                JsonArray attachments = jsonObject.getJsonArray("attachments");
+                for (JsonValue v : attachments) {
+                    CadfAttachment c = CadfAttachment.Parser.parse(v.asJsonObject());
+                    builder.attachment(c);
+                }
+            }
+
+            return builder.build();
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 }
