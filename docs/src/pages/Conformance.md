@@ -75,7 +75,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |--------------------------|-------------------|-----------------------------------------------------|
 |String                 |`:exact`,`:contains`,`:missing` |Performs a "starts with" search that is case-insensitive and accent-insensitive|
 |Reference              |`:[type]`,`:missing`            |Performs an exact match search|
-|URI                    |`:below`,`:missing`             |Performs a "starts with" search (issue #273)|
+|URI                    |`:below`,`:above`,`:missing`    |Performs a "starts with" search (issue #273), component based search for the path in the URL (issue #448)|
 |Token                  |`:below`,`:not`,`:missing`      |Performs an exact match search|
 |Number                 |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|
 |Date                   |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|
