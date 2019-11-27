@@ -40,13 +40,13 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Bulk export Chunk implementation - the Reader.
- * 
- * @author Albert Wang
+ *
  */
 public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
     boolean isSingleCosObject = false;
     int pageNum = 1;
+    int indexOfCurrentResourceType = 0;
     // Control the number of records to read in each "item".
     int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
 
@@ -133,6 +133,7 @@ public class ChunkReader extends AbstractItemReader {
                     throw e;
                 }
             }
+            chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resources.size());
             logger.info("fillChunkDataBuffer: Processed resources - " + resources.size() + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());
         } else {
@@ -145,12 +146,22 @@ public class ChunkReader extends AbstractItemReader {
     /**
      * @see AbstractItemReader#readItem()
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Object readItem() throws Exception {
-        // no more page to read, so return null to end the reading.
+        List<String> ResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
+
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
-            return null;
+            if (ResourceTypes.size() == indexOfCurrentResourceType + 1) {
+                // No more resource type and page to read, so return null to end the reading.
+                return null;
+            } else {
+                // More resource types to read, so reset pageNum, partNum and move resource type index to the next.
+                pageNum = 1;
+                chunkData.setPartNum(1);
+                indexOfCurrentResourceType++;
+            }
         }
         if (fhirTenant == null) {
             fhirTenant = Constants.DEFAULT_FHIR_TENANT;
@@ -168,7 +179,11 @@ public class ChunkReader extends AbstractItemReader {
                 logger.warning("readItem: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
             }
         }
-        if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) {
+
+        if (cosBucketObjectName != null
+                && cosBucketObjectName.trim().length() > 0
+                // Single COS object uploading is for single resource type export only.
+                && ResourceTypes.size() == 1) {
             isSingleCosObject = true;
             logger.info("readItem: Use single COS object for uploading!");
         }
@@ -176,8 +191,8 @@ public class ChunkReader extends AbstractItemReader {
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
-        Class<? extends Resource> resourceType = (Class<? extends Resource>) ModelSupport
-                .getResourceType(fhirResourceType);
+        Class<? extends Resource> resourceType = ModelSupport
+                .getResourceType(ResourceTypes.get(indexOfCurrentResourceType));
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
@@ -204,14 +219,15 @@ public class ChunkReader extends AbstractItemReader {
 
         if (chunkData == null) {
             chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1);
+            chunkData.setIndexOfCurrentResourceType(0);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             if (isSingleCosObject) {
                 chunkData.setSingleCosObject(true);
             }
             jobContext.setTransientUserData(chunkData);
         } else {
-            chunkData = (TransientUserData) jobContext.getTransientUserData();
             chunkData.setPageNum(pageNum);
+            chunkData.setIndexOfCurrentResourceType(indexOfCurrentResourceType);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
         }
 
@@ -230,6 +246,7 @@ public class ChunkReader extends AbstractItemReader {
         if (checkpoint != null) {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
             pageNum = checkPointData.getPageNum();
+            indexOfCurrentResourceType = checkPointData.getIndexOfCurrentResourceType();
             jobContext.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
         }
     }
