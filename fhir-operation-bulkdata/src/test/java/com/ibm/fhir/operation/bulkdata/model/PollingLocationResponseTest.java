@@ -16,9 +16,8 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse.Output;
 
 /**
- * Simple Test for the Rough Response defined in the BulkData Export 
- * 
- * @author pbastide
+ * Simple Test for the Rough Response defined in the BulkData Export
+ *
  *
  */
 public class PollingLocationResponseTest {
@@ -49,7 +48,8 @@ public class PollingLocationResponseTest {
     @Test
     public void testResponseMetadataJsonFullWithOutput() {
         List<Output> outputs = new ArrayList<>();
-        outputs.add(new Output("type", "url"));
+        outputs.add(new Output("type", "url", "1000"));
+        outputs.add(new Output("type2", "url2", "2000"));
 
         PollingLocationResponse metadata = new PollingLocationResponse();
         metadata.setRequest("request");
@@ -61,8 +61,8 @@ public class PollingLocationResponseTest {
                 +
                 "\"transactionTime\": \"{\n" +
                 "    \"instant\": \"\"\n" +
-                "}\",\"request\": \"request\",\"requiresAccessToken\": false,\"output\" : [{ \"type\" : \"type\", \"url\": \"url\"}]\n"
-                +
-                "}");
+                "}\",\"request\": \"request\",\"requiresAccessToken\": false,\"output\" : [{ \"type\" : \"type\", \"url\": \"url\", \"count\": 1000},"
+                + "{ \"type\" : \"type2\", \"url\": \"url2\", \"count\": 2000}]\n"
+                +"}");
     }
 }

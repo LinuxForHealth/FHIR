@@ -7,6 +7,9 @@
 package com.ibm.fhir.model.path;
 
 import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
+
+import com.ibm.fhir.model.path.util.FHIRPathUtil.TimePrecision;
 
 public interface FHIRPathTemporalValue extends FHIRPathSystemValue {
     @Override
@@ -26,7 +29,11 @@ public interface FHIRPathTemporalValue extends FHIRPathSystemValue {
         return false;
     }
     
+    TemporalAccessor temporalAccessor();
     Temporal temporal();
+    default TimePrecision timePrecision() {
+        return TimePrecision.NONE;
+    }
     
     default FHIRPathDateValue asDateValue() {
         return as(FHIRPathDateValue.class);

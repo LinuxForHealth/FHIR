@@ -39,12 +39,14 @@ public class ExtensionFunction extends FHIRPathAbstractFunction {
         if (hasStringValue(arguments.get(0))) {
             String url = getStringValue(arguments.get(0)).string();
             for (FHIRPathNode node : context) {
-                if (node.isElementNode() && node.asElementNode().element().is(Extension.class)) {
-                    Extension extension = node.asElementNode().element().as(Extension.class);
-                    if (extension.getUrl().equals(url)) {
-                        result.add(node);
+                for (FHIRPathNode child : node.children()) {
+                    if (child.isElementNode() && child.asElementNode().element().is(Extension.class)) {
+                        Extension extension = child.asElementNode().element().as(Extension.class);
+                        if (extension.getUrl().equals(url)) {
+                            result.add(node);
+                        }
                     }
-                } 
+                }
             }      
         }
         return result;

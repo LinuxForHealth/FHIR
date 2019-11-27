@@ -17,15 +17,12 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.ParameterValue;
 import com.ibm.fhir.search.parameters.SortParameter;
+import com.ibm.fhir.search.sort.Sort.Direction;
 
 /**
- * 
  * Build the self link from the search parameters actually used by the server
- * 
- * @see https://hl7.org/fhir/r4/search.html#conformance
- * 
- * @author pbastide
- *
+ * <a href="https://hl7.org/fhir/r4/search.html#conformance">FHIR Specification:
+ * URI Pattern</a>
  */
 public class UriBuilder {
 
@@ -75,20 +72,22 @@ public class UriBuilder {
      * @throws URISyntaxException
      */
     public String toSearchSelfUri() throws URISyntaxException {
-
         URI requestUri = new URI(requestUriString);
 
         // Always include page size at the beginning, even if it wasn't in the request
         queryString.append(SearchConstants.COUNT);
         queryString.append(SearchConstants.EQUALS_CHAR);
         queryString.append(context.getPageSize());
-        queryString.append(SearchConstants.AND_CHAR);
 
         // the URLs is converted from a for loop to a functional paradigm. The functional
         // paradigm is consistent with JOINING multiple strings
-        Function<Parameter, String> serializeSearchParmToQueryString = p -> serializeSearchParmToQueryString(p);
-        queryString.append(context.getSearchParameters().stream().map(serializeSearchParmToQueryString).collect(Collectors.joining(SearchConstants.AND_CHAR_STR)));
-
+        if (!context.getSearchParameters().isEmpty()) {
+            queryString.append(SearchConstants.AND_CHAR);
+            Function<Parameter, String> serializeSearchParmToQueryString = p -> serializeSearchParmToQueryString(p);
+            queryString.append(context.getSearchParameters().stream().map(serializeSearchParmToQueryString)
+                    .collect(Collectors.joining(SearchConstants.AND_CHAR_STR)));
+        }
+        
         appendElementsParameter();
         appendInclusionParameters();
         appendRevInclusionParameters();
@@ -101,20 +100,34 @@ public class UriBuilder {
         queryString.append(SearchConstants.EQUALS_CHAR);
         queryString.append(context.getPageNumber());
 
-        URI selfUri = new URI(requestUri.getScheme(), requestUri.getAuthority(), requestUri.getPath(), queryString.toString(), null);
+        URI selfUri =
+                new URI(requestUri.getScheme(), requestUri.getAuthority(), requestUri.getPath(), queryString.toString(),
+                        null);
 
         return selfUri.toString();
 
     }
 
+    /*
+     * In R4, the sort parameters are JOINED together into one key-value
+     * URL Parameter.
+     */
     private void appendSortParameters() {
-        for (SortParameter param : context.getSortParameters()) {
+
+        // 
+        if (!context.getSortParameters().isEmpty()) {
             queryString.append(SearchConstants.AND_CHAR);
             queryString.append(SearchConstants.SORT);
-            queryString.append(SearchConstants.COLON_DELIMITER);
-            queryString.append(param.getDirection().value());
             queryString.append(SearchConstants.EQUALS_CHAR);
-            queryString.append(param.getName());
+
+            for (SortParameter param : context.getSortParameters()) {
+                if (Direction.DECREASING.compareTo(param.getDirection()) == 0) {
+                    queryString.append('-');
+                }
+                queryString.append(param.getCode());
+                queryString.append(',');
+            }
+            queryString.deleteCharAt(queryString.length() - 1);
         }
     }
 
@@ -126,8 +139,7 @@ public class UriBuilder {
             appendInclusionParamValue(param);
         }
     }
-    
-    
+
     private void appendSummaryParameter() {
         if (context.getSummaryParameter() != null) {
             queryString.append(SearchConstants.AND_CHAR);
@@ -172,8 +184,11 @@ public class UriBuilder {
     }
 
     /*
-     * Performs the reverse of parseQueryParameters, serializing a single parameter as a search parameter for a URI
+     * Performs the reverse of parseQueryParameters, serializing a single parameter
+     * as a search parameter for a URI
+     * 
      * @param param
+     * 
      * @return
      */
     private String serializeSearchParmToQueryString(Parameter param) {
@@ -190,11 +205,11 @@ public class UriBuilder {
             // Param is never null at this point, and isChained is known to be true.
             boolean process = true;
             while (process) {
-                param = param.getNextParameter();
+                param   = param.getNextParameter();
                 process = param != null && param.isChained();
                 if (param != null) {
                     // A guard is added as the original code 'could' result in an NPE.
-                    returnString.append(param.getName());
+                    returnString.append(param.getCode());
                 }
 
             }
@@ -207,12 +222,14 @@ public class UriBuilder {
 
     /*
      * creates a normal parameter and string.
+     * 
      * @param param
+     * 
      * @param returnString
      */
     private void appendNormalParameter(Parameter param, StringBuilder returnString) {
         if (param != null) {
-            returnString.append(param.getName());
+            returnString.append(param.getCode());
             SearchConstants.Modifier modifier = param.getModifier();
             if (modifier != null) {
                 if (SearchConstants.Modifier.TYPE == modifier) {
@@ -224,17 +241,20 @@ public class UriBuilder {
                 }
             }
             returnString.append(SearchConstants.EQUALS_CHAR);
-            returnString.append(param.getValues().stream().map(ParameterValue::toString).collect(Collectors.joining(SearchConstants.JOIN_STR)));
+            returnString.append(param.getValues().stream().map(ParameterValue::toString)
+                    .collect(Collectors.joining(SearchConstants.JOIN_STR)));
         }
     }
 
     /*
      * creates a chained parameter
+     * 
      * @param param
+     * 
      * @param returnString
      */
     private void appendChainedParm(Parameter param, StringBuilder returnString) {
-        returnString.append(param.getName());
+        returnString.append(param.getCode());
         if (param.getModifierResourceTypeName() != null && !param.getModifierResourceTypeName().isEmpty()) {
             returnString.append(SearchConstants.COLON_DELIMITER);
             returnString.append(param.getModifierResourceTypeName());

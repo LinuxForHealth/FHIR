@@ -11,5 +11,11 @@ package com.ibm.fhir.model.path;
  * @see <a href="http://hl7.org/fhirpath/2018Sep/index.html#types-and-reflection">FHIRPath Types and Reflection</a>
  */
 public interface TypeInfo {
-    // marker interface
+    default String getNamespace() {
+        return null;
+    }
+    
+    default String getName() {
+        return null;
+    }
 }

@@ -15,6 +15,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -41,10 +42,9 @@ import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
 
 /**
  * BulkData Client to connect to the other server.
- * 
+ *
  * @link https://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_rest_api.html#rwlp_batch_rest_api__http_return_codes
- * 
- * @author pbastide
+ *
  *
  */
 public class BulkDataClient {
@@ -141,8 +141,8 @@ public class BulkDataClient {
 
         // Need to push this into a property.
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
-        
-        System.out.println("-> " + properties.get(BulkDataConfigUtil.BATCH_URL));
+
+        log.info("-> " + properties.get(BulkDataConfigUtil.BATCH_URL));
 
         BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
@@ -155,14 +155,14 @@ public class BulkDataClient {
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
-        
+
         String fhirTenant = FHIRRequestContext.get().getTenantId();
         builder.fhirTenant(fhirTenant);
-        
+
         String fhirDataStoreId = FHIRRequestContext.get().getDataStoreId();
         builder.fhirDataStoreId(fhirDataStoreId);
-        
-        String resourceType = types.get(0);
+
+        String resourceType = String.join(", ", types);
         builder.fhirResourceType(resourceType);
 
         if (since != null) {
@@ -257,24 +257,37 @@ public class BulkDataClient {
 
         // Assemble the URL
         String jobId = Integer.toString(response.getInstanceId());
-        String resourceType = response.getJobParameters().getFhirResourceType();
-        
+        String resourceTypes = response.getJobParameters().getFhirResourceType();
+
         String baseCosUrl = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT);
         String bucket = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET);
-        String downloadUrl =
-                baseCosUrl + "/" + bucket + "/job" + jobId + "/" + resourceType + "_1.ndjson";
 
-        // Request 
-        String request = "/$export?_type=" + resourceType;
+
+        // Request
+        String request = "/$export?_type=" + resourceTypes;
         result.setRequest(request);
         result.setRequiresAccessToken(false);
-        
+
         // TODO: Convert to yyyy-MM-dd'T'HH:mm:ss
         result.setTransactionTime(response.getLastUpdatedTime());
-        
-        PollingLocationResponse.Output output = new PollingLocationResponse.Output(resourceType, downloadUrl);
-        result.setOutput(Arrays.asList(output));
-        
+        // Compose outputs for all exported ndjson files from the batch job exit status,
+        // e.g, Patient[1000,1000,200]:Observation[1000,1000,200]
+        String exitStatus = response.getExitStatus();
+        List<String> ResourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
+
+        List< PollingLocationResponse.Output> outPutList = new ArrayList< PollingLocationResponse.Output>();
+        for (String resourceTypeInf: ResourceTypeInfs) {
+            String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
+            String resourceCounts[] = resourceTypeInf.substring(resourceTypeInf.indexOf("[")+1, resourceTypeInf.indexOf("]"))
+                    .split("\\s*,\\s*");
+            for (int i = 0; i < resourceCounts.length; i++) {
+                String downloadUrl =
+                        baseCosUrl + "/" + bucket + "/job" + jobId + "/" + resourceType + "_" + (i+1) + ".ndjson";
+                outPutList.add(new PollingLocationResponse.Output(resourceType, downloadUrl, resourceCounts[i]));
+            }
+        }
+        result.setOutput(outPutList);
+
         return result;
     }
 }

@@ -7,21 +7,23 @@
 package com.ibm.fhir.bulkexport;
 
 import java.util.List;
+
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 
 /**
  * Bulk export Chunk implementation - job check point data.
- * 
- * @author Albert Wang
+ *
  */
 public class CheckPointUserData implements java.io.Serializable {
     private static final long serialVersionUID = 5722923276076940517L;
-    protected int pageNum;
-    protected int lastPageNum;
-    protected int partNum;
-    protected String uploadId;
-    protected boolean isSingleCosObject = false;
-    protected List<PartETag> cosDataPacks;
+    private int pageNum;
+    private int lastPageNum;
+    private int partNum;
+    private String uploadId;
+    private boolean isSingleCosObject = false;
+    private List<PartETag> cosDataPacks;
+    private int indexOfCurrentResourceType;
+    private int currentPartResourceNum = 0;
 
     public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum) {
         super();
@@ -82,6 +84,22 @@ public class CheckPointUserData implements java.io.Serializable {
 
     public void setLastPageNum(int lastPageNum) {
         this.lastPageNum = lastPageNum;
+    }
+
+    public int getIndexOfCurrentResourceType() {
+        return indexOfCurrentResourceType;
+    }
+
+    public void setIndexOfCurrentResourceType(int indexOfCurrentResourceType) {
+        this.indexOfCurrentResourceType = indexOfCurrentResourceType;
+    }
+
+    public int getCurrentPartResourceNum() {
+        return currentPartResourceNum;
+    }
+
+    public void setCurrentPartResourceNum(int currentPartResourceNum) {
+        this.currentPartResourceNum = currentPartResourceNum;
     }
 
 }

@@ -52,6 +52,11 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         return !(date instanceof LocalDate);
     }
     
+    @Override
+    public TemporalAccessor temporalAccessor() {
+        return date;
+    }
+    
     public TemporalAccessor date() {
         return date;
     }
@@ -78,8 +83,8 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         return new Builder(type, date);
     }
     
-    public static Builder builder(TemporalAccessor dateTime) {
-        return new Builder(FHIRPathType.SYSTEM_DATE_TIME, dateTime);
+    public static Builder builder(TemporalAccessor date) {
+        return new Builder(FHIRPathType.SYSTEM_DATE, date);
     }
     
     public static class Builder extends FHIRPathAbstractNode.Builder {
@@ -137,8 +142,12 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
     
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
-        return other instanceof FHIRPathDateValue || 
-                other.getValue() instanceof FHIRPathDateValue;
+        if (other instanceof FHIRPathTemporalValue || other.getValue() instanceof FHIRPathTemporalValue) {
+            FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ? 
+                    (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
+            return date.getClass().equals(temporalValue.temporalAccessor().getClass());
+        }
+        return false;
     }
 
     @Override
@@ -146,20 +155,19 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         if (!isComparableTo(other)) {
             throw new IllegalArgumentException();
         }
-        if (other instanceof FHIRPathDateValue) {
-            return compareTo((FHIRPathDateValue) other);
-        }
-        return compareTo((FHIRPathDateValue) other.getValue());
+        FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ? 
+                (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
+        return compareTo(temporalValue.temporalAccessor());
     }
 
-    private int compareTo(FHIRPathDateValue value) {
-        if (date instanceof Year || value.date instanceof Year) {
-            return Year.from(date).compareTo(Year.from(value.date));
+    private int compareTo(TemporalAccessor temporalAccessor) {
+        if (date instanceof Year && temporalAccessor instanceof Year) {
+            return ((Year) date).compareTo((Year) temporalAccessor);
         }
-        if (date instanceof YearMonth || value.date instanceof YearMonth) {
-            return YearMonth.from(date).compareTo(YearMonth.from(value.date));
+        if (date instanceof YearMonth && temporalAccessor instanceof YearMonth) {
+            return ((YearMonth) date).compareTo((YearMonth) temporalAccessor);
         }
-        return LocalDate.from(date).compareTo(LocalDate.from(value.date));
+        return ((LocalDate) date).compareTo((LocalDate) temporalAccessor);
     }
 
     @Override
@@ -174,13 +182,12 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
             return false;
         }
         FHIRPathNode other = (FHIRPathNode) obj;
-        if (other instanceof FHIRPathDateValue) {
-            return Objects.equals(date, ((FHIRPathDateValue) other).date());
+        if (!isComparableTo(other)) {
+            return false;
         }
-        if (other.getValue() instanceof FHIRPathElementNode) {
-            return Objects.equals(date, ((FHIRPathDateValue) other.getValue()).date());
-        }
-        return false;
+        FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ? 
+                (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
+        return Objects.equals(date, temporalValue.temporalAccessor());
     }
 
     @Override
@@ -193,10 +200,6 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         return DATE_PARSER_FORMATTER.format(date);
     }
     
-    public static void main(String[] args) {
-        System.out.println(LocalDate.from(Year.now()));
-    }
-
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

@@ -160,7 +160,7 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     
     @Override
     public String toString() {
-        return _boolean ? "'true'" : "'false'";
+        return _boolean ? "true" : "false";
     }
 
     @Override

@@ -141,15 +141,19 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
         if (hasValue()) {
-            if (other instanceof FHIRPathQuantityValue) {
-                return getValue().isComparableTo(other);
+            if (other instanceof FHIRPathQuantityValue || other.getValue() instanceof FHIRPathQuantityValue) {
+                FHIRPathQuantityValue quantityValue = (other instanceof FHIRPathQuantityValue) ? (FHIRPathQuantityValue) other : (FHIRPathQuantityValue) other.getValue();
+                return getValue().isComparableTo(quantityValue);
             }
-            if (other.getValue() instanceof FHIRPathQuantityValue) {
-                return getValue().isComparableTo(other.getValue());
+            if (other instanceof FHIRPathNumberValue || other.getValue() instanceof FHIRPathNumberValue) {
+                FHIRPathNumberValue numberValue = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
+                return getValue().isComparableTo(numberValue);
             }
-        } else if (other instanceof FHIRPathQuantityNode) {
+        }
+        if (other instanceof FHIRPathQuantityNode) {
             return isComparableTo((FHIRPathQuantityNode) other);
-        } else if (other instanceof FHIRPathNumberValue || other.getValue() instanceof FHIRPathNumberValue) {
+        }
+        if (other instanceof FHIRPathNumberValue || other.getValue() instanceof FHIRPathNumberValue) {
             return getQuantityValue() != null;
         }
         return false;
@@ -157,7 +161,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     
     private boolean isComparableTo(FHIRPathQuantityNode other) {
         return getQuantityValue() != null && other.getQuantityValue() != null && 
-                ((getQuantitySystem() !=null && other.getQuantitySystem() != null && getQuantitySystem().equals(other.getQuantitySystem()) && 
+                ((getQuantitySystem() != null && other.getQuantitySystem() != null && getQuantitySystem().equals(other.getQuantitySystem()) && 
                         getQuantityCode() != null && other.getQuantityCode() != null && getQuantityCode().equals(other.getQuantityCode())) || 
                         (getQuantityUnit() != null && other.getQuantityUnit() != null && getQuantityUnit().equals(other.getQuantityUnit())));
     }
@@ -168,24 +172,59 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
             throw new IllegalArgumentException();
         }
         if (hasValue()) {
-            if (other instanceof FHIRPathQuantityValue) {
-                return getValue().compareTo(other);
+            if (other instanceof FHIRPathQuantityValue || other.getValue() instanceof FHIRPathQuantityValue) {
+                FHIRPathQuantityValue quantityValue = (other instanceof FHIRPathQuantityValue) ? (FHIRPathQuantityValue) other : (FHIRPathQuantityValue) other.getValue();
+                return getValue().compareTo(quantityValue);
             }
-            if (other.getValue() instanceof FHIRPathQuantityValue) {
-                return getValue().compareTo(other.getValue());
+            if (other instanceof FHIRPathNumberValue || other.getValue() instanceof FHIRPathNumberValue) {
+                FHIRPathNumberValue numberValue = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
+                return getValue().compareTo(numberValue);
             }
-        } else if (other instanceof FHIRPathQuantityNode) {
-            return getQuantityValue().compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
-        } else if (other instanceof FHIRPathNumberValue) {
-            return getQuantityValue().compareTo(((FHIRPathNumberValue) other).decimal());
-        } else if (other.getValue() instanceof FHIRPathNumberValue) {
-            return getQuantityValue().compareTo(((FHIRPathNumberValue) other.getValue()).decimal());
         }
-        throw new IllegalStateException();
+        if (other instanceof FHIRPathQuantityNode) {
+            return getQuantityValue().compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+        }
+        FHIRPathNumberValue numberValue = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
+        return getQuantityValue().compareTo(numberValue.decimal());
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof FHIRPathNode)) {
+            return false;
+        }
+        FHIRPathNode other = (FHIRPathNode) obj;
+        if (!isComparableTo(other)) {
+            return false;
+        }
+        if (hasValue()) {
+            if (other instanceof FHIRPathQuantityValue || other.getValue() instanceof FHIRPathQuantityValue) {
+                FHIRPathQuantityValue quantityValue = (other instanceof FHIRPathQuantityValue) ? (FHIRPathQuantityValue) other : (FHIRPathQuantityValue) other.getValue();
+                return getValue().compareTo(quantityValue) == 0;
+            }
+            if (other instanceof FHIRPathNumberValue || other.getValue() instanceof FHIRPathNumberValue) {
+                FHIRPathNumberValue numberValue = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
+                return getValue().compareTo(numberValue) == 0;
+            }
+        }
+        if (other instanceof FHIRPathQuantityNode) {
+            return getQuantityValue().compareTo(((FHIRPathQuantityNode) other).getQuantityValue()) == 0;
+        }
+        FHIRPathNumberValue numberValue = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
+        return getQuantityValue().compareTo(numberValue.decimal()) == 0;
     }
 
     @Override
     public String toString() {
+        if (hasValue()) {
+            return getValue().toString();
+        }
         StringBuilder sb = new StringBuilder();
         BigDecimal quantityValue = getQuantityValue();
         String quantityUnit = getQuantityUnit();

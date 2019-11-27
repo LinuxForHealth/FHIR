@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.model.path.function;
 
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isSingleton;
 
 import java.util.Collection;
@@ -36,6 +35,6 @@ public class SingleFunction extends FHIRPathAbstractFunction {
         if (isSingleton(context)) {
             return context;
         }
-        return empty();
+        throw new IllegalArgumentException("The 'single' function requires a singleton context");
     }
 }

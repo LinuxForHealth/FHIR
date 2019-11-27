@@ -36,17 +36,11 @@ import com.ibm.fhir.search.util.SearchUtil;
 /**
  * This TestNG test class contains methods that test the parsing of compartment related search data in the SearchUtil
  * class.
- * 
- * @author markd
- * @author pbastide
- *
  */
 public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
     /**
      * This method tests parsing compartment related query parms, passing an invalid compartment.
-     * 
-     * @throws Exception
      */
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testInvalidComparmentName() throws Exception {
@@ -56,8 +50,6 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
     /**
      * This method tests parsing compartment related query parms, passing an invalid resource type for the compartment.
-     * 
-     * @throws Exception
      */
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testInvalidResource() throws Exception {
@@ -68,8 +60,6 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     /**
      * This method tests parsing compartment related query parms. Based on the compartment and resource type, a single
      * inclusion criterion is expectedExceptions to be returned by SearchUtil.parseQueryParameters().
-     * 
-     * @throws Exception
      */
     @Test
     public void testSingleInclusionCriteria() throws Exception {
@@ -83,7 +73,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertNotNull(context.getSearchParameters());
         assertEquals(1, context.getSearchParameters().size());
         Parameter parm1 = context.getSearchParameters().get(0);
-        assertEquals("patient", parm1.getName());
+        assertEquals("patient", parm1.getCode());
 
         /*
          * The compartment > Resource is { "code" : "Condition", "param" : ["patient", "asserter"] },
@@ -91,7 +81,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         Parameter p = parm1;
         String out = "";
         while (p != null) {
-            out += (" -> " + p.getName());
+            out += (" -> " + p.getCode());
             p = p.getNextParameter();
         }
         if (DEBUG) {
@@ -108,8 +98,6 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     /**
      * This method tests parsing compartment related query parms. Based on the compartment and resource type, multiple
      * inclusion criteria is expectedExceptions to be returned by SearchUtil.parseQueryParameters().
-     * 
-     * @throws Exception
      */
     @Test
     public void testMultiInclusionCriteria() throws Exception {
@@ -127,7 +115,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
-            assertTrue((searchParm.getName().equals("recipient") || searchParm.getName().equals("requester") || searchParm.getName().equals("sender")));
+            assertTrue((searchParm.getCode().equals("recipient") || searchParm.getCode().equals("requester") || searchParm.getCode().equals("sender")));
             assertEquals(Type.REFERENCE, searchParm.getType());
             assertTrue(searchParm.isInclusionCriteria());
             assertFalse(searchParm.isChained());
@@ -142,8 +130,6 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
      * This method tests parsing compartment related query parms together with non-compartment related query parms..
      * Based on the compartment and resource type, multiple inclusion criteria is expectedExceptions to be returned by
      * SearchUtil.parseQueryParameters().
-     * 
-     * @throws Exception
      */
     @Test
     public void testCompartmentWithQueryParms() throws Exception {
@@ -169,7 +155,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
-            assertTrue((searchParm.getName().equals("performer") || searchParm.getName().equals("subject")));
+            assertTrue((searchParm.getCode().equals("performer") || searchParm.getCode().equals("subject")));
             assertEquals(Type.REFERENCE, searchParm.getType());
             assertTrue(searchParm.isInclusionCriteria());
             assertFalse(searchParm.isChained());
@@ -182,7 +168,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         // Validate non-compartment related search parms.
         for (int i = 0; i < 2; i++) {
             searchParm = context.getSearchParameters().get(i);
-            assertTrue((searchParm.getName().equals("category") || searchParm.getName().equals("value-quantity")));
+            assertTrue((searchParm.getCode().equals("category") || searchParm.getCode().equals("value-quantity")));
             assertNotNull(searchParm.getValues());
             assertEquals(1, searchParm.getValues().size());
         }
@@ -196,8 +182,6 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     /**
      * This method tests parsing compartment related query parms which are not valid. In lenient mode, this is
      * expectedExceptions to ignore the query parameter. In strict mode (lenient=false) this should throw an exception.
-     * 
-     * @throws Exception
      */
     @Test
     public void testCompartmentWithFakeQueryParm() throws Exception {
@@ -219,7 +203,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
-            assertTrue((searchParm.getName().equals("performer") || searchParm.getName().equals("subject")));
+            assertTrue((searchParm.getCode().equals("performer") || searchParm.getCode().equals("subject")));
             assertEquals(Type.REFERENCE, searchParm.getType());
             assertTrue(searchParm.isInclusionCriteria());
             assertFalse(searchParm.isChained());
@@ -245,8 +229,6 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
      * This method tests parsing null compartment related query parms together with non-compartment related query parms.
      * SearchUtil.parseQueryParameters() should ignore the null compartment related parms and successfully process the
      * non-compartment parms.
-     * 
-     * @throws Exception
      */
     @Test
     public void testNoComparmentWithQueryParms() throws Exception {
@@ -267,7 +249,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
         // Validate non-compartment related search parms.
         for (Parameter searchParm : context.getSearchParameters()) {
-            assertTrue((searchParm.getName().equals("category") || searchParm.getName().equals("value-quantity")));
+            assertTrue((searchParm.getCode().equals("category") || searchParm.getCode().equals("value-quantity")));
             assertNotNull(searchParm.getValues());
             assertEquals(1, searchParm.getValues().size());
             assertNull(searchParm.getNextParameter());
