@@ -9,6 +9,7 @@ package com.ibm.fhir.model.path.function;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isSingleton;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.unordered;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,9 +37,9 @@ public class ChildrenFunction extends FHIRPathAbstractFunction {
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!context.isEmpty()) {
-            return isSingleton(context) ? getSingleton(context).children() : context.stream()
+            return unordered(isSingleton(context) ? getSingleton(context).children() : context.stream()
                 .flatMap(node -> node.children().stream())
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
         }
         return empty();
     }

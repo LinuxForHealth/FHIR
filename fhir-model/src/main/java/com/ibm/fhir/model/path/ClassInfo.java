@@ -27,10 +27,12 @@ public class ClassInfo implements TypeInfo {
         this.element = Collections.unmodifiableList(Objects.requireNonNull(element));
     }
     
+    @Override
     public String getNamespace() {
         return namespace;
     }
     
+    @Override
     public String getName() {
         return name;
     }

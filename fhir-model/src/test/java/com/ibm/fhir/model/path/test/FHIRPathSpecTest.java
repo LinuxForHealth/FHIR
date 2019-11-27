@@ -32,11 +32,15 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 import org.testng.internal.BaseTestMethod;
 
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.FHIRPathQuantityValue;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.path.exception.FHIRPathException;
+import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.util.XMLSupport;
@@ -75,12 +79,23 @@ public class FHIRPathSpecTest implements ITest {
     private void executeTest() throws Exception {
         System.out.println(testName + ":  " + expression.text);
         
+        if (testName.startsWith("testEquivalent") || testName.startsWith("testNotEquivalent")) {
+            throw new SkipException("'~' (equivalent) and '!~' (not equivalent) operators are not supported");
+        }
+        
+        if (testName.startsWith("testQuantity")) {
+            throw new SkipException("quantity unit conversion is not supported");
+        }
+        
+        if (testName.startsWith("testConformsTo")) {
+            throw new SkipException("'conformsTo' function is not supported");
+        }
+                
         Collection<FHIRPathNode> results = null;
         try {
             results = evaluator.evaluate(context, expression.text);
         } catch (FHIRPathException e) {
             if (!expression.isInvalid()) {
-                
                 Throwable cause = e.getCause();
                 if (cause instanceof UnsupportedOperationException) {
                     throw new SkipException("skipping test of unsupported operation: " + cause.getMessage());
@@ -95,10 +110,16 @@ public class FHIRPathSpecTest implements ITest {
             throw new IllegalStateException(testName + ": unexpected error while executing the expression", t);
         }
         
-        if (expression.isInvalid() && results != null) {
-            fail("Expected an exception for invalid expression[" + expression + "] but instead obtained " + results);
-        } else if (results == null) {
-            fail("Expected a valid result for expression[" + expression + "] but instead obtained null");
+        if (expression.isInvalid()) {
+            if (results != null) {
+                fail("Expected an exception for invalid expression[" + expression + "] but instead obtained " + results);
+            } else {
+                return;
+            }
+        } else {
+            if (results == null) {
+                fail("Expected a valid result for expression[" + expression + "] but instead obtained null");
+            }
         }
         
         assertEquals(results.size(), outputs.size(), testName + ": number of results");
@@ -206,7 +227,6 @@ public class FHIRPathSpecTest implements ITest {
         testFileReader = XMLSupport.createXMLStreamReader(testFile);
         
         while (testFileReader.hasNext()) {
-            
             switch (testFileReader.next()) {
             case XMLStreamReader.START_ELEMENT:
                 String localName = testFileReader.getLocalName();
@@ -260,7 +280,6 @@ public class FHIRPathSpecTest implements ITest {
         
         List<FHIRPathSpecTest.ExpectedOutput> outputs = new ArrayList<>();
         a:while (testFileReader.hasNext()) {
-            
             switch(testFileReader.next()) {
             case XMLStreamReader.START_ELEMENT:
                 String type = testFileReader.getAttributeValue(null, "type");
@@ -275,6 +294,23 @@ public class FHIRPathSpecTest implements ITest {
             }
         }
         
-        return new Object[] {testName, context, testExpression, outputs, "true".equals(isPredicate)};
+        return new Object[] { testName, context, testExpression, outputs, "true".equals(isPredicate) };
+    }
+    
+    public static void main(String[] args) throws Exception {
+        try (InputStream in = FHIRPathSpecTest.class.getClassLoader().getResourceAsStream("FHIRPath/input/patient-example.xml")) {
+            Patient patient = FHIRParser.parser(Format.XML).parse(in);
+            FHIRPathEvaluator.DEBUG = true;
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+            Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.active.type().name = 'boolean'");
+            System.out.println("result: " + result);            
+        }
+        try (InputStream in = FHIRPathSpecTest.class.getClassLoader().getResourceAsStream("FHIRPath/input/observation-example.xml")) {
+            Observation observation = FHIRParser.parser(Format.XML).parse(in);
+            FHIRPathEvaluator.DEBUG = true;
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+            Collection<FHIRPathNode> result = evaluator.evaluate(observation, "(Observation.value as Period).unit");
+            System.out.println("result: " + result);            
+        }
     }
 }

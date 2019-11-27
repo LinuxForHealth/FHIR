@@ -37,6 +37,12 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
         private Builder(FHIRPathType type, TypeInfo typeInfo) {
             super(type);
             this.typeInfo = typeInfo;
+            if (typeInfo.getNamespace() != null) {
+                children.add(FHIRPathStringValue.stringValue("namespace", typeInfo.getNamespace()));
+            }
+            if (typeInfo.getName() != null) {
+                children.add(FHIRPathStringValue.stringValue("name", typeInfo.getName()));
+            }
         }
 
         @Override

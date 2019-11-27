@@ -7,6 +7,7 @@
 package com.ibm.fhir.model.path.function;
 
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.isUnordered;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class FirstFunction extends FHIRPathAbstractFunction {
 
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (isUnordered(context)) {
+            throw new IllegalArgumentException("Context must be an ordered collection for function: 'first'");
+        }
         if (!context.isEmpty()) {
             List<?> list = (context instanceof List) ? (List<?>) context : new ArrayList<>(context);
             return singleton((FHIRPathNode) list.get(0));

@@ -52,9 +52,11 @@ public interface FHIRPathNumberValue extends FHIRPathSystemValue {
 
     @Override
     default boolean isComparableTo(FHIRPathNode other) {
-        return (other instanceof FHIRPathQuantityNode && ((FHIRPathQuantityNode) other).getQuantityValue() != null) || 
-                other instanceof FHIRPathQuantityValue || 
-                other.getValue() instanceof FHIRPathQuantityValue || 
+        if (other instanceof FHIRPathQuantityNode) {
+            FHIRPathQuantityNode quantityNode = (FHIRPathQuantityNode) other;
+            return quantityNode.hasValue() || quantityNode.getQuantityValue() != null;
+        }
+        return other instanceof FHIRPathQuantityValue ||  
                 other instanceof FHIRPathNumberValue || 
                 other.getValue() instanceof FHIRPathNumberValue;
     }
@@ -65,15 +67,17 @@ public interface FHIRPathNumberValue extends FHIRPathSystemValue {
             throw new IllegalArgumentException();
         }
         if (other instanceof FHIRPathQuantityNode) {
-            return decimal().compareTo(((FHIRPathQuantityNode) other).getQuantityValue());
+            FHIRPathQuantityNode quantityNode = (FHIRPathQuantityNode) other;
+            if (quantityNode.hasValue()) {
+                FHIRPathQuantityValue quantityValue = (FHIRPathQuantityValue) quantityNode.getValue();
+                return decimal().compareTo(quantityValue.value());
+            }
+            return decimal().compareTo(quantityNode.getQuantityValue());
         }
         if (other instanceof FHIRPathQuantityValue) {
             return decimal().compareTo(((FHIRPathQuantityValue) other).value());
         }
-        if (other.getValue() instanceof FHIRPathQuantityValue) {
-            return decimal().compareTo(((FHIRPathQuantityValue) other.getValue()).value());
-        }
-        FHIRPathNumberValue value = (FHIRPathNumberValue) ((other instanceof FHIRPathNumberValue) ? other : other.getValue());
+        FHIRPathNumberValue value = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
         return decimal().compareTo(value.decimal());
     }
 }
