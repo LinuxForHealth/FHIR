@@ -941,7 +941,7 @@ public class FHIRPathEvaluator {
             int index = 0;
             while (index < s.length()) {
                 if (s.regionMatches(index, "\\u", 0, 2)) {
-                    int hex = Integer.parseInt(s, index + 2, index + 6, 16);
+                    int hex = Integer.parseInt(s.substring(index + 2, index + 6), 16);
                     sb.append(Character.toChars(hex));
                     index += 6;
                 } else {
