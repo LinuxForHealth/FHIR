@@ -230,4 +230,24 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         
         assertTrue(bundle.getEntry().size() > 0);
     }
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })
+    public void testSearchPatientWithBaseParametersAndExtensionsWithBelow() {
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Patient").queryParam("favorite-uri:below", "http://www.ibm.co")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        
+        assertTrue(bundle.getEntry().size() == 0);
+    }
 }

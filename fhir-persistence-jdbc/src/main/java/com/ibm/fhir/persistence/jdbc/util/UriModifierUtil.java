@@ -19,17 +19,25 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
  * <br>
  * <a href="https://www.hl7.org/fhir/search.html#uri">FHIR Specification: Search uri:above</a>
  */
-public class AboveUtil {
+public class UriModifierUtil {
     public static final char PATH_CHAR = '/';
     public static final char SPACE_CHAR = ' ';
     public static final char COMMA_CHAR = ',';
     
-    private AboveUtil() {
+    private UriModifierUtil() {
         // No Operation
     }
 
-    public static List<String> generateAboveValuesQuery(String searchValue, StringBuilder conditionalBuilder) {
-        List<String> queryArgs = new ArrayList<String>();
+    /**
+     *  generates the uri:above query
+     * @param searchValue
+     * @param conditionalBuilder
+     * @param tableColumnName
+     * @return
+     */
+    public static List<String> generateAboveValuesQuery(String searchValue, StringBuilder conditionalBuilder,
+            String tableColumnName) {
+        List<String> queryArgs = new ArrayList<>();
 
         // If '://' exists, then find the location after the protocol
         // Otherwise pass through, it's going to be treated as-is
@@ -37,7 +45,9 @@ public class AboveUtil {
         if (protocolLoc != -1) {
             // We found the start, but we want the end of the protocol
             protocolLoc += 3;
-
+            
+            int position = conditionalBuilder.length();
+            
             // Start the Conditional Builder
             conditionalBuilder.append(SPACE_CHAR).append(JDBCOperator.IN).append(SPACE_CHAR).append(JDBCConstants.LEFT_PAREN);
 
@@ -60,7 +70,31 @@ public class AboveUtil {
             conditionalBuilder.deleteCharAt(conditionalBuilder.length() - 1)
                     .append(' ')
                     .append(JDBCConstants.RIGHT_PAREN);
+            
+            if(!queryArgs.isEmpty()) {
+                conditionalBuilder.insert(position, tableColumnName);
+            }
         }
         return queryArgs;
+    }
+    
+    /**
+     * generates the uri:below query
+     * @param conditionalBuilder
+     * @param tableColumnName
+     */
+    public static void generateBelowValuesQuery(StringBuilder conditionalBuilder,
+            String tableColumnName) {
+        // uri:below
+        // SQL: 
+        // <pre> 
+        // TABLE.MY_STR_VALUES = ? )  OR  ( TABLE.MY_STR_VALUES LIKE ?
+        // </pre>
+        
+        conditionalBuilder.append(tableColumnName).append(SPACE_CHAR).append('=').append(SPACE_CHAR)
+            .append(BIND_VAR).append(SPACE_CHAR).append(SPACE_CHAR).append(JDBCOperator.OR.value())
+            .append(SPACE_CHAR).append(SPACE_CHAR).append(tableColumnName).append(" LIKE ")
+            .append(BIND_VAR);
+        
     }
 }
