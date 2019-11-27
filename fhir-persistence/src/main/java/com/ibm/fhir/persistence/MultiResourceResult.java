@@ -19,8 +19,6 @@ import com.ibm.fhir.model.util.ValidationSupport;
 /**
  * A Result wrapper for FHIR interactions that can return multiple resources.
  * Instances are immutable and can be constructed via {@code new MultiResourceResult.Builder<T>()}.
- * 
- * @author lmsurpre
  */
 public class MultiResourceResult<T extends Resource> {
     @Required
