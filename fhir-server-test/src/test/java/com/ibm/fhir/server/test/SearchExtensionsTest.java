@@ -179,5 +179,34 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
+        
+        // Testing the behavior specific to the URI patterns
+        // Response should be empty as the URI value is not an exact match
+        response =
+                target.path("Patient").queryParam("favorite-uri", favoriteUri.getValue().substring(0,10)).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() == 0);
+
+        // Response should be empty as the URI value is not an exact match
+        response =
+                target.path("Patient").queryParam("favorite-uri", favoriteUri.getValue()).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() > 0);
     }
 }
