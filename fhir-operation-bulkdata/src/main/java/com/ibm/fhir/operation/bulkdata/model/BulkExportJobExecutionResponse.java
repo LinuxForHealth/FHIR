@@ -152,6 +152,14 @@ public class BulkExportJobExecutionResponse {
         this._links.add(link);
     }
 
+    public String getExitStatus() {
+        return exitStatus;
+    }
+
+    public void setExitStatus(String exitStatus) {
+        this.exitStatus = exitStatus;
+    }
+
     public static class JobParameter {
 
         String fhirResourceType;
@@ -632,14 +640,6 @@ public class BulkExportJobExecutionResponse {
             return o;
         }
 
-    }
-
-    public String getExitStatus() {
-        return exitStatus;
-    }
-
-    public void setExitStatus(String exitStatus) {
-        this.exitStatus = exitStatus;
     }
 
 }

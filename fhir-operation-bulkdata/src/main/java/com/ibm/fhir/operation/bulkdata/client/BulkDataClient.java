@@ -142,7 +142,7 @@ public class BulkDataClient {
         // Need to push this into a property.
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
 
-        System.out.println("-> " + properties.get(BulkDataConfigUtil.BATCH_URL));
+        log.info("-> " + properties.get(BulkDataConfigUtil.BATCH_URL));
 
         BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
