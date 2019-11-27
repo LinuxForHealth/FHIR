@@ -77,7 +77,16 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
     
     @Test
     public void testSearchURI_uri_below() throws Exception {
-        assertSearchReturnsSavedResource("uri:below", "http://hl7.org/fhir/");
+        assertSearchDoesntReturnSavedResource("uri:below", "http://hl7.org/fhir/");
+        assertSearchReturnsSavedResource("uri:below", "http://hl7.org/fhir");
+    }
+    
+    @Test
+    public void testUriAbove() throws Exception {
+        assertSearchDoesntReturnSavedResource("uri:above", "FHIR/dstu2");
+        assertSearchDoesntReturnSavedResource("uri:above", "http://hl7.org/fhir/");
+        assertSearchReturnsSavedResource("uri:above", "http://hl7.org/fhir/DSTU2/Fred");
+        assertSearchReturnsSavedResource("uri:above", "http://hl7.org/fhir/DSTU2/Fred/Wilma");
     }
     
     @Test

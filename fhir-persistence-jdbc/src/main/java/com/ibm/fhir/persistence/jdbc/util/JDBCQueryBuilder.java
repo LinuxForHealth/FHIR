@@ -342,6 +342,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
         for (ParameterValue value : queryParm.getValues()) {
+            List<String> values = new ArrayList<>();
+            
             appendEscape = false;
             if (operator.equals(JDBCOperator.LIKE)) {
                 // Must escape special wildcard characters _ and % in the parameter value string.
@@ -355,6 +357,15 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                     // If there is not a CONTAINS modifier on the query parm, construct
                     // a 'starts with' search value.
                     searchValue = tempSearchValue + PERCENT_WILDCARD;
+                    
+                    // Specific processing for 
+                    if(Type.URI.compareTo(queryParm.getType()) == 0 
+                            && queryParm.getModifier() != null 
+                            && Modifier.BELOW.compareTo(queryParm.getModifier())==0) {
+                        searchValue = tempSearchValue + "/" + PERCENT_WILDCARD;
+                        values.add(tempSearchValue);
+                        values.add(searchValue);
+                    } 
                 }
                 appendEscape = true;
             } else {
@@ -369,7 +380,20 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             if (operator.equals(JDBCOperator.EQ) || Type.URI.equals(queryParm.getType())) {
                 // For an exact match, we search against the STR_VALUE column in the Resource's string values table.
                 // Build this piece: pX.str_value = search-attribute-value
-                whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+                
+                if (queryParm.getModifier() != null && Type.URI.equals(queryParm.getType())) {
+                    if (Modifier.ABOVE.compareTo(queryParm.getModifier()) == 0){
+                        values = UriModifierUtil.generateAboveValuesQuery(searchValue, whereClauseSegment, tableAlias + DOT + STR_VALUE);
+                    } else if(Modifier.BELOW.compareTo(queryParm.getModifier())==0) {
+                        UriModifierUtil.generateBelowValuesQuery(whereClauseSegment, tableAlias + DOT + STR_VALUE);
+                    }
+                } 
+
+                if (values.isEmpty()) {
+                    // In every other case... use whatever operator comes through at this point
+                    whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE)
+                        .append(operator.value()).append(BIND_VAR);
+                }
             } else {
                 // For anything other than an exact match, we search against the STR_VALUE_LCASE column in the
                 // Resource's string values table.
@@ -379,7 +403,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE_LCASE).append(operator.value()).append(BIND_VAR);
                 searchValue = SearchUtil.normalizeForSearch(searchValue);
             }
-            bindVariables.add(searchValue);
+            
+            if (values.isEmpty()) {
+                bindVariables.add(searchValue);
+            } else {
+                bindVariables.addAll(values);
+            }
+            
             // Build this piece: ESCAPE '+'
             if (appendEscape) {
                 whereClauseSegment.append(ESCAPE_EXPR);
