@@ -20,8 +20,8 @@ import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
 
 /**
- * @author lmsurpre
- * @see https://hl7.org/fhir/r4/search.html#uri
+ * <a href="https://hl7.org/fhir/r4/search.html#uri">FHIR Specification: Search - uri</a>
+ * 
  */
 public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
 
@@ -38,8 +38,10 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("uri", "http://hl7.org/fhir/DSTU2");
         assertSearchReturnsSavedResource("uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
         
-        // https://github.com/IBM/FHIR/issues/273
         // Matches are supposed to be precise (e.g. case, accent, and escape sensitive), but aren't
+        assertSearchDoesntReturnSavedResource("uri", "http://hl7.org/fhir/DSTU");
+        assertSearchDoesntReturnSavedResource("uri", "xttp://hl7.org/fhir/DSTU2");
+        assertSearchDoesntReturnSavedResource("uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b");
         
         // case tests
         assertSearchDoesntReturnSavedResource("uri", "http://HL7.org/FHIR/dstu2");
@@ -59,8 +61,8 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         // https://github.com/IBM/FHIR/issues/273
         // Matches are supposed to be precise (e.g. case, accent, and escape sensitive), but aren't
         
-//        assertSearchDoesntReturnComposition("subject:Basic.uri", "http://HL7.org/FHIR/dstu2");
-//        assertSearchDoesntReturnComposition("subject:Basic.uri", "urn:uuid:53FEFA32-1111-2222-3333-55EE120877B7");
+        assertSearchDoesntReturnComposition("subject:Basic.uri", "http://HL7.org/FHIR/dstu2");
+        assertSearchDoesntReturnComposition("subject:Basic.uri", "urn:uuid:53FEFA32-1111-2222-3333-55EE120877B7");
         
         // TODO add test for diacritics and other unusual characters
     }

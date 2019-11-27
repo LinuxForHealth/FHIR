@@ -248,12 +248,22 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         JDBCOperator operator = null;
         Modifier modifier = queryParm.getModifier();
 
-        if (modifier != null) {
+        // In the case where a URI, we need specific behavior/manipulation
+        // so that URI defaults to EQ, unless... BELOW
+        if (Type.URI.compareTo(queryParm.getType()) == 0) {
+            if(modifier != null && Modifier.BELOW.compareTo(modifier) == 0) {
+                operator = JDBCOperator.LIKE;
+            } else {
+                operator = JDBCOperator.EQ;
+            }
+        } else if (modifier != null) {
             operator = modifierMap.get(modifier);
         }
+        
         if (operator == null) {
             operator = JDBCOperator.LIKE;
-        }
+        } 
+        
         log.exiting(CLASSNAME, METHODNAME, operator.value());
         return operator;
     }
@@ -1532,21 +1542,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     protected SqlQueryData processUriParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processUriParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-        
-        SqlQueryData parmRoot;
-        Parameter myQueryParm;
-                
-        myQueryParm = queryParm;
-        Modifier queryParmModifier = queryParm.getModifier();
-        // A BELOW modifier has the same behavior as a "starts with" String search parm. 
-        if (queryParmModifier != null && queryParmModifier.equals(Modifier.BELOW)) {
-             myQueryParm = new Parameter(queryParm.getType(), queryParm.getCode(), null,
-                                queryParm.getModifierResourceTypeName(), queryParm.getValues());
-        }
-        parmRoot = this.processStringParm(myQueryParm, tableAlias);
-                        
+        SqlQueryData parmRoot = this.processStringParm(queryParm, tableAlias);
         log.exiting(CLASSNAME, METHODNAME, parmRoot.toString());
         return parmRoot;
     }
-
 }
