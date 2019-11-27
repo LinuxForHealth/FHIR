@@ -366,10 +366,20 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 whereClauseSegment.append(JDBCOperator.OR.value());
             }
 
+            List<String> values = new ArrayList<>();
             if (operator.equals(JDBCOperator.EQ) || Type.URI.equals(queryParm.getType())) {
                 // For an exact match, we search against the STR_VALUE column in the Resource's string values table.
                 // Build this piece: pX.str_value = search-attribute-value
-                whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+                whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE);
+                
+                if (queryParm.getModifier() != null && Modifier.ABOVE.compareTo(queryParm.getModifier()) == 0){
+                    values = AboveUtil.generateAboveValuesQuery(searchValue, whereClauseSegment);
+                } 
+                
+                if (values.isEmpty()) {
+                    // In every other case... use whatever operator comes through at this point
+                    whereClauseSegment.append(operator.value()).append(BIND_VAR);
+                }
             } else {
                 // For anything other than an exact match, we search against the STR_VALUE_LCASE column in the
                 // Resource's string values table.
@@ -379,7 +389,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE_LCASE).append(operator.value()).append(BIND_VAR);
                 searchValue = SearchUtil.normalizeForSearch(searchValue);
             }
-            bindVariables.add(searchValue);
+            
+            if (values.isEmpty()) {
+                bindVariables.add(searchValue);
+            } else {
+                bindVariables.addAll(values);
+            }
+            
             // Build this piece: ESCAPE '+'
             if (appendEscape) {
                 whereClauseSegment.append(ESCAPE_EXPR);

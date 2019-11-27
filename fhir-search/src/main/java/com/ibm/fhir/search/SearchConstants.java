@@ -134,7 +134,7 @@ public class SearchConstants {
                 {
                     put(SearchConstants.Type.STRING, Arrays.asList(SearchConstants.Modifier.EXACT, SearchConstants.Modifier.CONTAINS, SearchConstants.Modifier.MISSING));
                     put(SearchConstants.Type.REFERENCE, Arrays.asList(SearchConstants.Modifier.TYPE, SearchConstants.Modifier.MISSING));
-                    put(SearchConstants.Type.URI, Arrays.asList(SearchConstants.Modifier.BELOW, SearchConstants.Modifier.MISSING));
+                    put(SearchConstants.Type.URI, Arrays.asList(SearchConstants.Modifier.BELOW, SearchConstants.Modifier.MISSING, SearchConstants.Modifier.ABOVE));
                     put(SearchConstants.Type.TOKEN, Arrays.asList(SearchConstants.Modifier.BELOW, SearchConstants.Modifier.NOT, SearchConstants.Modifier.MISSING));
                     put(SearchConstants.Type.NUMBER, Arrays.asList(SearchConstants.Modifier.MISSING));
                     put(SearchConstants.Type.DATE, Arrays.asList(SearchConstants.Modifier.MISSING));
