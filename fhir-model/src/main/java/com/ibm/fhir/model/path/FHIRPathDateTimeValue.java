@@ -259,12 +259,4 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);
     }
-
-    public static void main(String[] args) {
-        System.out.println(Year.from(ZonedDateTime.now()));
-        // @2012-04-15T15:00:00+02:00 = @2012-04-15T16:00:00+03:00
-        FHIRPathDateTimeValue dtv1 = dateTimeValue("2012-04-15T15:00:00+02:00");
-        FHIRPathDateTimeValue dtv2 = dateTimeValue("2012-04-15T16:00:00+03:00");
-        System.out.println(dtv1.compareTo(dtv2));
-    }
 }

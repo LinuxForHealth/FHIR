@@ -200,10 +200,6 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         return DATE_PARSER_FORMATTER.format(date);
     }
     
-    public static void main(String[] args) {
-        System.out.println(Year.from(LocalDate.now()));
-    }
-
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

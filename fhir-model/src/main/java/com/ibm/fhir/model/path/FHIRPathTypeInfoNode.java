@@ -16,7 +16,6 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
     protected FHIRPathTypeInfoNode(Builder builder) {
         super(builder);
         this.typeInfo = Objects.requireNonNull(builder.typeInfo);
-        System.out.println(children.size());
     }
 
     @Override

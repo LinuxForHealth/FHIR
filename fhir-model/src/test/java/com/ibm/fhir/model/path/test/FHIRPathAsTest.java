@@ -7,7 +7,6 @@ package com.ibm.fhir.model.path.test;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 
 import java.util.Collection;
 
@@ -15,7 +14,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.fhir.model.path.exception.FHIRPathException;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
@@ -35,14 +33,9 @@ public class FHIRPathAsTest {
                                  .build();
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        try {
-//          Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.deceased as dateTime");
-            evaluator.evaluate(patient, "Patient.deceased as dateTime");
-            fail();
-        } catch (FHIRPathException e) {
-            
-        }
-//      assertEquals(result.size(), 0, "Number of selected nodes");
+        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.deceased as dateTime");
+        
+        assertEquals(result.size(), 0, "Number of selected nodes");
     }
     
     @Test

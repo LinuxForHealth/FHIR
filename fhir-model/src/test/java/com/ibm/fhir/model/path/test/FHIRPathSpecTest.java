@@ -86,6 +86,10 @@ public class FHIRPathSpecTest implements ITest {
         if (testName.startsWith("testQuantity")) {
             throw new SkipException("quantity unit conversion is not supported");
         }
+        
+        if (testName.startsWith("testConformsTo")) {
+            throw new SkipException("'conformsTo' function is not supported");
+        }
                 
         Collection<FHIRPathNode> results = null;
         try {

@@ -791,8 +791,19 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> result = empty();
             
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
+            Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
             // If the left operand evaluates to true, this operator returns the boolean evaluation of the right operand. If the left operand evaluates to false, this operator returns true. Otherwise, this operator returns true if the right operand evaluates to true, and the empty collection ({ }) otherwise.
+            if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
+                // !left || right
+                result = (isFalse(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
+            } else if (left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) {
+                result = SINGLETON_TRUE;
+            } else if (evaluatesToBoolean(left) && isFalse(left) && right.isEmpty()) {
+                result = SINGLETON_TRUE;
+            }
+            
+            /*
             if (evaluatesToBoolean(left)) {
                 if (isTrue(left)) {
                     Collection<FHIRPathNode> right = visit(ctx.expression(1));
@@ -807,16 +818,6 @@ public class FHIRPathEvaluator {
                 if (evaluatesToBoolean(right) && isTrue(right)) {
                     result = SINGLETON_TRUE;
                 }
-            }
-            
-            /*
-            if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
-                // !left || right
-                result = (isFalse(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
-            } else if (left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) {
-                result = SINGLETON_TRUE;
-            } else if (evaluatesToBoolean(left) && isFalse(left) && right.isEmpty()) {
-                result = SINGLETON_TRUE;
             }
             */
             
@@ -865,9 +866,12 @@ public class FHIRPathEvaluator {
                 for (FHIRPathNode node : nodes) {
                     if (type.isAssignableFrom(node.type())) {
                         result.add(node);
-                    } else {
+                    }
+                    /*
+                    else {
                         throw new IllegalArgumentException("Type: '" + type.getName() + " is not assignable from type: '" + node.type().getName() + "'");
                     }
+                    */
                 }
                 break;
             }
@@ -1263,11 +1267,5 @@ public class FHIRPathEvaluator {
         public boolean hasExternalConstant(String name) {
             return externalConstantMap.containsKey(name);
         }
-    }
-    
-    public static void main(String[] args) throws Exception {
-        FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate("'a'-'b' = 'ab'");
-        System.out.println(result);
     }
 }

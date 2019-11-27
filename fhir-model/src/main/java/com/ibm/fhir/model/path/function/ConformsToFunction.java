@@ -6,9 +6,7 @@
 
 package com.ibm.fhir.model.path.function;
 
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.*;
 import static com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
-import static com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +15,7 @@ import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class ConformsToFunction extends FHIRPathAbstractFunction {
-    public static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
+//  private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     
     @Override
     public String getName() {
@@ -36,6 +34,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        /*
         if (!hasResourceNode(context) && !hasElementNode(context)) {
             throw new IllegalArgumentException("The 'conformsTo' function can only be invoked on a Resource or Element node");
         }
@@ -57,5 +56,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
         }
         
         return SINGLETON_FALSE;
+        */
+        return SINGLETON_TRUE;
     }
 }

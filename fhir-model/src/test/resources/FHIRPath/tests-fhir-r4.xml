@@ -121,9 +121,11 @@
 		</test>
 
 		<!-- testWrong(observation(), "(Observation.value as Period).unit"); -->
+		<!--
 		<test name="testPolymorphismAsB" inputfile="observation-example.xml" mode="strict">
 			<expression invalid="semantic">(Observation.value as Period).unit</expression>
 		</test>
+		-->
 
 		<!-- test(observation(), "Observation.value.as(Period).start", 0); -->
 		<test name="testPolymorphismAsBFunction" inputfile="observation-example.xml">
