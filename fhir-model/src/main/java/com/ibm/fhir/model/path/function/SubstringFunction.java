@@ -45,7 +45,7 @@ public class SubstringFunction extends FHIRPathAbstractFunction {
         
         int start = getInteger(arguments.get(0));
         
-        if (start > value.length() - 1) {
+        if (start < 0 || start > value.length() - 1) {
             return empty();
         }
         

@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.model.path.function;
 
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.empty;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.isUnordered;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +34,14 @@ public class TailFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        return context.stream()
+        if (isUnordered(context)) {
+            throw new IllegalArgumentException("Context must be an ordered collection for function: 'tail'");
+        }
+        if (!context.isEmpty()) {
+            return context.stream()
                 .skip(1)
                 .collect(Collectors.toList());
+        }
+        return empty();
     }
 }

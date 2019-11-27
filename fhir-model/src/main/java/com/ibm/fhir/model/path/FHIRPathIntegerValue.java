@@ -6,7 +6,10 @@
 
 package com.ibm.fhir.model.path;
 
+import static com.ibm.fhir.model.path.FHIRPathDecimalValue.decimalValue;
+
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -93,51 +96,48 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
     }
 
     @Override
-    public FHIRPathNumberValue add(FHIRPathNumberValue node) {
-        if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(decimal.add(node.asDecimalValue().decimal()));
+    public FHIRPathNumberValue add(FHIRPathNumberValue value) {
+        if (value.isDecimalValue()) {
+            return decimalValue(decimal.add(value.decimal()));
         }
-        return integerValue(integer + node.asIntegerValue().integer());
+        return integerValue(integer + value.integer());
     }
 
     @Override
-    public FHIRPathNumberValue subtract(FHIRPathNumberValue node) {
-        if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(decimal.subtract(node.asDecimalValue().decimal()));
+    public FHIRPathNumberValue subtract(FHIRPathNumberValue value) {
+        if (value.isDecimalValue()) {
+            return decimalValue(decimal.subtract(value.decimal()));
         }
-        return integerValue(integer - node.asIntegerValue().integer());
+        return integerValue(integer - value.integer());
     }
 
     @Override
-    public FHIRPathNumberValue multiply(FHIRPathNumberValue node) {
-        if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(decimal.multiply(node.asDecimalValue().decimal()));
+    public FHIRPathNumberValue multiply(FHIRPathNumberValue value) {
+        if (value.isDecimalValue()) {
+            return decimalValue(decimal.multiply(value.decimal()));
         }
-        return integerValue(integer * node.asIntegerValue().integer());
+        return integerValue(integer * value.integer());
     }
 
     @Override
-    public FHIRPathNumberValue divide(FHIRPathNumberValue node) {
-        if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(decimal.divide(node.asDecimalValue().decimal()));
-        }
-        return integerValue(integer / node.asIntegerValue().integer());
+    public FHIRPathNumberValue divide(FHIRPathNumberValue value) {
+        return decimalValue(decimal.divide(value.decimal(), MathContext.DECIMAL64));
     }
 
     @Override
-    public FHIRPathNumberValue div(FHIRPathNumberValue node) {
-        if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(decimal.divideToIntegralValue(node.asDecimalValue().decimal()));
+    public FHIRPathNumberValue div(FHIRPathNumberValue value) {
+        if (value.isDecimalValue()) {
+            return decimalValue(decimal.divideToIntegralValue(value.decimal()));
         }
-        return integerValue(integer / node.asIntegerValue().integer());
+        return integerValue(integer / value.integer());
     }
 
     @Override
-    public FHIRPathNumberValue mod(FHIRPathNumberValue node) {
-        if (node.isDecimalValue()) {
-            return FHIRPathDecimalValue.decimalValue(decimal.remainder(node.asDecimalValue().decimal()));
+    public FHIRPathNumberValue mod(FHIRPathNumberValue value) {
+        if (value.isDecimalValue()) {
+            return decimalValue(decimal.remainder(value.decimal()));
         }
-        return integerValue(integer % node.asIntegerValue().integer());
+        return integerValue(integer % value.integer());
     }
     
     @Override
@@ -162,13 +162,10 @@ public class FHIRPathIntegerValue extends FHIRPathAbstractNode implements FHIRPa
             return false;
         }
         FHIRPathNode other = (FHIRPathNode) obj;
-        if (other instanceof FHIRPathIntegerValue) {
-            return Objects.equals(integer, ((FHIRPathIntegerValue) other).integer());
+        if (!isComparableTo(other)) {
+            return false;
         }
-        if (other.getValue() instanceof FHIRPathIntegerValue) {
-            return Objects.equals(integer, ((FHIRPathIntegerValue) other.getValue()).integer());
-        }
-        return false;
+        return compareTo(other) == 0;
     }
     
     @Override

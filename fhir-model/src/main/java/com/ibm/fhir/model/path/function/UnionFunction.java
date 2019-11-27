@@ -8,7 +8,7 @@ package com.ibm.fhir.model.path.function;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +31,7 @@ public class UnionFunction extends FHIRPathAbstractFunction {
     }
     
     public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        Set<FHIRPathNode> union = new HashSet<>(context);
+        Set<FHIRPathNode> union = new LinkedHashSet<>(context);
         union.addAll(arguments.get(0));
         return new ArrayList<>(union);
     }

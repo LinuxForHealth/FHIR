@@ -6,7 +6,9 @@
 
 package com.ibm.fhir.model.path.function;
 
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.*;
 import static com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
+import static com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +17,8 @@ import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class ConformsToFunction extends FHIRPathAbstractFunction {
+    public static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
+    
     @Override
     public String getName() {
         return "conformsTo";
@@ -32,6 +36,26 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        return SINGLETON_TRUE;
+        if (!hasResourceNode(context) && !hasElementNode(context)) {
+            throw new IllegalArgumentException("The 'conformsTo' function can only be invoked on a Resource or Element node");
+        }
+        
+        if (!hasStringValue(arguments.get(0))) {
+            throw new IllegalArgumentException("The argument to the 'conformsTo' function must be a string");
+        }
+        
+        Class<?> modelClass = getSingleton(context).type().modelClass();
+        
+        String url = getStringValue(arguments.get(0)).string();
+        if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
+            String s = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
+            if (modelClass != null && s.equals(modelClass.getSimpleName())) {
+                return SINGLETON_TRUE;
+            }
+        } else {
+            throw new IllegalArgumentException("Unrecognized url: " + url);
+        }
+        
+        return SINGLETON_FALSE;
     }
 }

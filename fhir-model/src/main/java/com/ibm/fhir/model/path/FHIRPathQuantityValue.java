@@ -132,13 +132,12 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
 
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
-        if (other instanceof FHIRPathQuantityValue) {
-            return unit.equals(((FHIRPathQuantityValue) other).unit());
+        if (other instanceof FHIRPathQuantityValue || other.getValue() instanceof FHIRPathQuantityValue) {
+            FHIRPathQuantityValue quantityValue = (other instanceof FHIRPathQuantityValue) ? (FHIRPathQuantityValue) other : (FHIRPathQuantityValue) other.getValue();
+            return unit.equals(quantityValue.unit());
         }
-        if (other.getValue() instanceof FHIRPathQuantityValue) {
-            return unit.equals(((FHIRPathQuantityValue) other.getValue()).unit());
-        }
-        return (other instanceof FHIRPathNumberValue) || (other.getValue() instanceof FHIRPathNumberValue);
+        return (other instanceof FHIRPathNumberValue) || 
+                (other.getValue() instanceof FHIRPathNumberValue);
     }
 
     @Override
@@ -146,10 +145,12 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
         if (!isComparableTo(other)) {
             throw new IllegalArgumentException();
         }
-        if (other instanceof FHIRPathQuantityValue) {
-            return value.compareTo(((FHIRPathQuantityValue) other).value());
+        if (other instanceof FHIRPathQuantityValue || other.getValue() instanceof FHIRPathQuantityValue) {
+            FHIRPathQuantityValue quantityValue = (other instanceof FHIRPathQuantityValue) ? (FHIRPathQuantityValue) other : (FHIRPathQuantityValue) other.getValue();
+            return value.compareTo(quantityValue.value());
         }
-        return value.compareTo(((FHIRPathQuantityValue) other.getValue()).value());
+        FHIRPathNumberValue numberValue = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
+        return value.compareTo(numberValue.decimal());
     }
     
     @Override
@@ -164,15 +165,13 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
             return false;
         }
         FHIRPathNode other = (FHIRPathNode) obj;
-        if (other instanceof FHIRPathQuantityValue) {
-            return Objects.equals(value, ((FHIRPathQuantityValue) other).value()) && 
-                    Objects.equals(unit, ((FHIRPathQuantityValue) other).unit());
+        if (!isComparableTo(other)) {
+            return false;
         }
-        if (other.getValue() instanceof FHIRPathQuantityValue) {
-            return Objects.equals(value, ((FHIRPathQuantityValue) other.getValue()).value()) && 
-                    Objects.equals(unit, ((FHIRPathQuantityValue) other.getValue()).unit());
+        if (other instanceof FHIRPathQuantityValue || other instanceof FHIRPathNumberValue) {
+            return compareTo(other) == 0;
         }
-        return false;
+        return compareTo(other.getValue()) == 0;
     }
     
     @Override
@@ -182,7 +181,9 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
     
     @Override
     public String toString() {
-        return String.format("%s '%s'", value.toPlainString(), unit);
+        StringBuilder sb = new StringBuilder();
+        sb.append(value.toPlainString()).append(" '").append(unit).append("'");
+        return sb.toString();
     }
 
     @Override

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.validation;
 
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.model.type.String.string;
@@ -220,7 +221,7 @@ public class FHIRValidator {
                     evaluationContext.setExternalConstant("resource", getResourceNode(type, contextNode));
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
 
-                    if (!result.isEmpty() && isFalse(result)) {
+                    if (evaluatesToBoolean(result) && isFalse(result)) {
                         // constraint validation failed
                         Issue issue = Issue.builder()
                             .severity(severity)

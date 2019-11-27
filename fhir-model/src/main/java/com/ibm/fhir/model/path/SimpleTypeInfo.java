@@ -23,10 +23,12 @@ public class SimpleTypeInfo implements TypeInfo {
         this.baseType = Objects.requireNonNull(baseType);
     }
     
+    @Override
     public String getNamespace() {
         return namespace;
     }
     
+    @Override
     public String getName() {
         return name;
     }

@@ -12,8 +12,8 @@ import static java.util.Collections.singletonList;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.OffsetTime;
 import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
@@ -21,21 +21,29 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAmount;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.ibm.fhir.model.path.ClassInfo;
 import com.ibm.fhir.model.path.ClassInfoElement;
 import com.ibm.fhir.model.path.FHIRPathBooleanValue;
+import com.ibm.fhir.model.path.FHIRPathDecimalValue;
+import com.ibm.fhir.model.path.FHIRPathElementNode;
 import com.ibm.fhir.model.path.FHIRPathIntegerValue;
 import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.path.FHIRPathNumberValue;
 import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.FHIRPathQuantityValue;
+import com.ibm.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathSystemValue;
 import com.ibm.fhir.model.path.FHIRPathTemporalValue;
@@ -80,8 +88,29 @@ public final class FHIRPathUtil {
         "years", 
         "second"
     ));
+    public static final Set<String> STRING_TRUE_VALUES = new HashSet<>(Arrays.asList("true", "t", "yes", "y", "1", "1.0"));
+    public static final Set<String> STRING_FALSE_VALUES = new HashSet<>(Arrays.asList("false", "f", "no", "n", "0", "0.0"));
+    public static final Integer INTEGER_TRUE = 1;
+    public static final Integer INTEGER_FALSE = 0;
+    public static final BigDecimal DECIMAL_TRUE = new BigDecimal("1.0");
+    public static final BigDecimal DECIMAL_FALSE = new BigDecimal("0.0");
+    private static final Map<FHIRPathType, Set<FHIRPathType>> TYPE_COMPATIBILITY_MAP = new HashMap<>();
+    static {
+        TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_BOOLEAN, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_BOOLEAN)));
+        TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_INTEGER, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_INTEGER, FHIRPathType.SYSTEM_DECIMAL)));
+        TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_DECIMAL, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_DECIMAL, FHIRPathType.SYSTEM_INTEGER)));
+        TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_QUANTITY, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_QUANTITY, FHIRPathType.SYSTEM_DECIMAL, FHIRPathType.SYSTEM_INTEGER)));
+        TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_STRING, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_STRING)));
+        TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_DATE, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_DATE, FHIRPathType.SYSTEM_DATE_TIME)));
+        TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_DATE_TIME, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_DATE_TIME, FHIRPathType.SYSTEM_DATE)));
+        TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_TIME, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_TIME)));
+    }
     
     private FHIRPathUtil() { }
+
+    public static boolean isTypeCompatible(FHIRPathSystemValue leftValue, FHIRPathSystemValue rightValue) {
+        return TYPE_COMPATIBILITY_MAP.get(leftValue.type()).contains(rightValue.type());
+    }
     
     public static boolean isKeyword(String identifier) {
         return KEYWORDS.contains(identifier);
@@ -89,6 +118,30 @@ public final class FHIRPathUtil {
     
     public static String delimit(String identifier) {
         return String.format("`%s`", identifier);
+    }
+    
+    public static boolean hasResourceNode(Collection<FHIRPathNode> nodes) {
+        if (isSingleton(nodes)) {
+            FHIRPathNode node = getSingleton(nodes);
+            return (node instanceof FHIRPathResourceNode);
+        }
+        return false;
+    }
+    
+    public static FHIRPathResourceNode getResourceNode(Collection<FHIRPathNode> nodes) {
+        return getSingleton(nodes).asResourceNode();
+    }
+    
+    public static boolean hasElementNode(Collection<FHIRPathNode> nodes) {
+        if (isSingleton(nodes)) {
+            FHIRPathNode node = getSingleton(nodes);
+            return (node instanceof FHIRPathElementNode);
+        }
+        return false;
+    }
+    
+    public static FHIRPathElementNode getElementNode(Collection<FHIRPathNode> nodes) {
+        return getSingleton(nodes).asElementNode();
     }
     
     public static boolean hasQuantityNode(Collection<FHIRPathNode> nodes) {
@@ -150,6 +203,17 @@ public final class FHIRPathUtil {
         return node.getValue();
     }
     
+    public static boolean hasSystemValue(FHIRPathNode node) {
+        return node.isSystemValue() || node.hasValue();
+    }
+    
+    public static FHIRPathSystemValue getSystemValue(FHIRPathNode node) {
+        if (node.isSystemValue()) {
+            return node.asSystemValue();
+        }
+        return node.getValue();
+    }
+    
     public static FHIRPathStringValue getStringValue(Collection<FHIRPathNode> nodes) {
         return getSystemValue(nodes).asStringValue();
     }
@@ -159,7 +223,11 @@ public final class FHIRPathUtil {
     }
     
     public static FHIRPathIntegerValue getIntegerValue(Collection<FHIRPathNode> nodes) {
-        return getSystemValue(nodes).asNumberValue().asIntegerValue();
+        return getNumberValue(nodes).asIntegerValue();
+    }
+    
+    public static FHIRPathDecimalValue getDecimalValue(Collection<FHIRPathNode> nodes) {
+        return getNumberValue(nodes).asDecimalValue();
     }
     
     public static FHIRPathNumberValue getNumberValue(Collection<FHIRPathNode> nodes) {
@@ -182,6 +250,14 @@ public final class FHIRPathUtil {
         return hasSystemValue(nodes) && getSystemValue(nodes).isNumberValue();
     }
     
+    public static boolean hasDecimalValue(Collection<FHIRPathNode> nodes) {
+        return hasNumberValue(nodes) && getNumberValue(nodes).isDecimalValue();
+    }
+    
+    public static boolean hasIntegerValue(Collection<FHIRPathNode> nodes) {
+        return hasNumberValue(nodes) && getNumberValue(nodes).isIntegerValue();
+    }
+    
     public static boolean hasTemporalValue(Collection<FHIRPathNode> nodes) {
         return hasSystemValue(nodes) && getSystemValue(nodes).isTemporalValue();
     }
@@ -195,18 +271,39 @@ public final class FHIRPathUtil {
     }
     
     public static boolean evaluatesToBoolean(Collection<FHIRPathNode> nodes) {
-        return hasBooleanValue(nodes) || isSingleton(nodes);
+        return isTrue(nodes) || isFalse(nodes);
     }
     
     public static boolean isTrue(Collection<FHIRPathNode> nodes) {
         if (hasBooleanValue(nodes)) {
             return getBooleanValue(nodes).isTrue();
         }
+        if (hasStringValue(nodes)) {
+            return STRING_TRUE_VALUES.contains(getStringValue(nodes).string());
+        }
+        if (hasIntegerValue(nodes)) {
+            return getIntegerValue(nodes).integer() == INTEGER_TRUE;
+        }
+        if (hasDecimalValue(nodes)) {
+            return getDecimalValue(nodes).decimal().equals(DECIMAL_TRUE);
+        }
         return isSingleton(nodes);
     }
     
     public static boolean isFalse(Collection<FHIRPathNode> nodes) {
-        return !isTrue(nodes);
+        if (hasBooleanValue(nodes)) {
+            return getBooleanValue(nodes).isFalse();
+        }
+        if (hasStringValue(nodes)) {
+            return STRING_FALSE_VALUES.contains(getStringValue(nodes).string());
+        }
+        if (hasIntegerValue(nodes)) {
+            return getIntegerValue(nodes).integer() == INTEGER_FALSE;
+        }
+        if (hasDecimalValue(nodes)) {
+            return getDecimalValue(nodes).decimal().equals(DECIMAL_FALSE);
+        }
+        return false;
     }
 
     public static boolean isSingleton(Collection<FHIRPathNode> nodes) {
@@ -242,8 +339,12 @@ public final class FHIRPathUtil {
             return YearMonth.from(temporal);
         } else if (LocalDate.class.equals(targetType)) {
             return LocalDate.from(temporal);
+        } else if (LocalDateTime.class.equals(targetType)) {
+            return LocalDateTime.from(temporal);
         } else if (ZonedDateTime.class.equals(targetType)){
             return ZonedDateTime.from(temporal);
+        } else if (LocalTime.class.equals(targetType)) {
+            return LocalTime.from(temporal);
         }
         throw new IllegalArgumentException();
     }
@@ -257,12 +358,12 @@ public final class FHIRPathUtil {
             return yearMonth.atDay(1);
         } else if (temporalAccessor instanceof LocalDate) {
             return (LocalDate) temporalAccessor;
+        } else if (temporalAccessor instanceof LocalDateTime) {
+            return (LocalDateTime) temporalAccessor;
         } else if (temporalAccessor instanceof ZonedDateTime) {
             return (ZonedDateTime) temporalAccessor;
         } else if (temporalAccessor instanceof LocalTime) {
             return (LocalTime) temporalAccessor;
-        } else if (temporalAccessor instanceof OffsetTime) {
-            return (OffsetTime) temporalAccessor;
         }
         throw new IllegalArgumentException();
     }
@@ -348,5 +449,114 @@ public final class FHIRPathUtil {
             return new ClassInfoElement(elementInfo.getName(), "List<" + typeName + ">", false);
         }
         return new ClassInfoElement(elementInfo.getName(), typeName);
+    }
+        
+    public static Collection<FHIRPathNode> unordered(Collection<FHIRPathNode> nodes) {
+        return new UnorderedCollection(nodes);
+    }
+    
+    public static boolean isOrdered(Collection<FHIRPathNode> nodes) {
+        return (nodes instanceof List);
+    }
+    
+    public static boolean isUnordered(Collection<FHIRPathNode> nodes) {
+        return (nodes instanceof UnorderedCollection);
+    }
+    
+    public static class UnorderedCollection extends AbstractCollection<FHIRPathNode> {
+        private final Collection<FHIRPathNode> nodes;
+        
+        public UnorderedCollection(Collection<FHIRPathNode> nodes) {
+            Objects.requireNonNull(nodes);
+            this.nodes = nodes;
+        }
+
+        @Override
+        public Iterator<FHIRPathNode> iterator() {
+            return nodes.iterator();
+        }
+
+        @Override
+        public int size() {
+            return nodes.size();
+        }
+    }
+    
+    public enum TimePrecision { HOURS, MINUTES, SECONDS, NONE };
+    
+    public static TimePrecision getTimePrecision(String text) {
+        if (text == null || text.endsWith("T") || !text.contains("T")) {
+            return TimePrecision.NONE;
+        }
+        String time = text.substring(text.indexOf("T") + 1);
+        if (time.contains("+")) {
+            time = time.substring(0, time.indexOf("+"));
+        } else if (time.contains("-")) {
+            time = time.substring(0, time.indexOf("-"));
+        } else if (time.endsWith("Z")) {
+            time = time.substring(0, time.length() - 1);
+        }
+        int count = count(text, ':');
+        switch (count) {
+        case 0:
+            return TimePrecision.HOURS;
+        case 1:
+            return TimePrecision.MINUTES;
+        case 2:
+            return TimePrecision.SECONDS;
+        default:
+            return TimePrecision.NONE;
+        }
+    }
+    
+    public static TimePrecision getTimePrecision(TemporalAccessor temporalAccessor) {
+        if (temporalAccessor instanceof ZonedDateTime || 
+                temporalAccessor instanceof LocalDateTime || 
+                temporalAccessor instanceof LocalTime) {
+            return TimePrecision.SECONDS;
+        }
+        return TimePrecision.NONE;
+    }
+    
+    private static int count(String text, char ch) {
+        int count = 0;
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == ch) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    public static boolean isComparableTo(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
+        if (left.size() != right.size()) {
+            throw new IllegalArgumentException();
+        }
+        Iterator<FHIRPathNode> leftIterator = left.iterator();
+        Iterator<FHIRPathNode> rightIterator = right.iterator();
+        while (leftIterator.hasNext() && rightIterator.hasNext()) {
+            FHIRPathNode leftNode = leftIterator.next();
+            FHIRPathNode rightNode = rightIterator.next();
+            if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) && 
+                    !getTemporalValue(leftNode).isComparableTo(getTemporalValue(rightNode))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static boolean hasTemporalValue(FHIRPathNode node) {
+        return (node instanceof FHIRPathTemporalValue) || 
+                (node.getValue() instanceof FHIRPathTemporalValue);
+    }
+    
+    public static FHIRPathTemporalValue getTemporalValue(FHIRPathNode node) {
+        if (!hasTemporalValue(node)) {
+            throw new IllegalArgumentException();
+        }
+        if (node instanceof FHIRPathTemporalValue) {
+            return (FHIRPathTemporalValue) node;
+        }
+        return (FHIRPathTemporalValue) node.getValue();
     }
 }

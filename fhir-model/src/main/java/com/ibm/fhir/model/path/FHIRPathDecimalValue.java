@@ -7,6 +7,7 @@
 package com.ibm.fhir.model.path;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -108,7 +109,7 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
 
     @Override
     public FHIRPathNumberValue divide(FHIRPathNumberValue value) {
-        return decimalValue(decimal.divide(value.decimal()));
+        return decimalValue(decimal.divide(value.decimal(), MathContext.DECIMAL64));
     }
 
     @Override
@@ -143,13 +144,10 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
             return false;
         }
         FHIRPathNode other = (FHIRPathNode) obj;
-        if (other instanceof FHIRPathDecimalValue) {
-            return Objects.equals(decimal, ((FHIRPathDecimalValue) other).decimal());
+        if (!isComparableTo(other)) {
+            return false;
         }
-        if (other.getValue() instanceof FHIRPathDecimalValue) {
-            return Objects.equals(decimal, ((FHIRPathDecimalValue) other.getValue()).decimal());
-        }
-        return false;
+        return compareTo(other) == 0;
     }
     
     @Override

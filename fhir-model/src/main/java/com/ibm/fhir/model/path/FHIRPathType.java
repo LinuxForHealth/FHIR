@@ -329,6 +329,7 @@ public enum FHIRPathType {
     private static final Set<FHIRPathType> SYSTEM_TYPES = new HashSet<>(Arrays.asList(SYSTEM_BOOLEAN, SYSTEM_STRING, SYSTEM_INTEGER, SYSTEM_DECIMAL, SYSTEM_DATE, SYSTEM_DATE_TIME, SYSTEM_QUANTITY, SYSTEM_TIME));
     private static final Set<FHIRPathType> METAMODEL_TYPES = new HashSet<>(Arrays.asList(SYSTEM_TYPE_INFO, SYSTEM_CLASS_INFO, SYSTEM_TUPLE_TYPE_INFO, SYSTEM_LIST_TYPE_INFO, SYSTEM_SIMPLE_TYPE_INFO));
     private static final Map<Class<?>, FHIRPathType> METAMODEL_TYPE_MAP = buildMetamodelTypeMap();
+    private static final Map<Class<?>, FHIRPathType> JAVA_TYPE_MAP = buildJavaTypeMap();
     
     private static Map<java.lang.String, FHIRPathType> buildTypeNameMap() {
         Map<java.lang.String, FHIRPathType> typeNameMap = new HashMap<>();
@@ -346,6 +347,20 @@ public enum FHIRPathType {
         metamodelTypeMap.put(ListTypeInfo.class, SYSTEM_LIST_TYPE_INFO);
         metamodelTypeMap.put(SimpleTypeInfo.class, SYSTEM_SIMPLE_TYPE_INFO);
         return metamodelTypeMap;
+    }
+    
+    private static Map<Class<?>, FHIRPathType> buildJavaTypeMap() {
+        Map<Class<?>, FHIRPathType> javaTypeMap = new HashMap<>();
+        javaTypeMap.put(java.lang.Boolean.class, SYSTEM_BOOLEAN);
+        javaTypeMap.put(java.lang.Integer.class, SYSTEM_INTEGER);
+        javaTypeMap.put(java.math.BigDecimal.class, SYSTEM_DECIMAL);
+        javaTypeMap.put(java.lang.String.class, SYSTEM_STRING);
+        javaTypeMap.put(java.time.LocalTime.class, SYSTEM_TIME);
+        javaTypeMap.put(java.time.ZonedDateTime.class, SYSTEM_DATE_TIME);
+        javaTypeMap.put(java.time.LocalDate.class, SYSTEM_DATE_TIME);
+        javaTypeMap.put(java.time.YearMonth.class, SYSTEM_DATE_TIME);
+        javaTypeMap.put(java.time.Year.class, SYSTEM_DATE_TIME);
+        return javaTypeMap;
     }
 
     private static Map<Class<?>, FHIRPathType> buildTypeMap() {
@@ -451,6 +466,9 @@ public enum FHIRPathType {
             }
             return type;
         }
+        if (isJavaType(clazz)) {
+            return JAVA_TYPE_MAP.get(clazz);
+        }
         return null;
     }
     
@@ -468,5 +486,9 @@ public enum FHIRPathType {
     
     public static boolean isMetamodelType(FHIRPathType type) {
         return METAMODEL_TYPES.contains(type);
+    }
+    
+    public static boolean isJavaType(Class<?> clazz) {
+        return clazz.getName().startsWith("java");
     }
 }

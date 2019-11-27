@@ -39,6 +39,6 @@ public class EndsWithFunction extends FHIRPathAbstractFunction {
         if (!hasStringValue(context)) {
             return empty();
         }
-        return getStringValue(context).startsWith(getStringValue(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
+        return getStringValue(context).endsWith(getStringValue(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
     }
 }

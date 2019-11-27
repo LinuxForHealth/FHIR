@@ -19,14 +19,21 @@ import static com.ibm.fhir.model.path.util.FHIRPathUtil.getQuantityValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getString;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getSystemValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.getStringValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getTemporalValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasQuantityNode;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasNumberValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.getNumberValue;
+
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasQuantityValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasSystemValue;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.hasTemporalValue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.isComparableTo;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.isTrue;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.isTypeCompatible;
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
 
 import java.math.BigDecimal;
@@ -35,6 +42,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -57,6 +65,7 @@ import com.ibm.fhir.model.path.FHIRPathParser.ExpressionContext;
 import com.ibm.fhir.model.path.FHIRPathParser.ParamListContext;
 import com.ibm.fhir.model.path.FHIRPathQuantityNode;
 import com.ibm.fhir.model.path.FHIRPathQuantityValue;
+import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.path.FHIRPathSystemValue;
 import com.ibm.fhir.model.path.FHIRPathTemporalValue;
 import com.ibm.fhir.model.path.FHIRPathTimeValue;
@@ -121,7 +130,7 @@ public class FHIRPathEvaluator {
     
     private static ExpressionContext compile(String expr) {
         FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);        
         FHIRPathParser parser = new FHIRPathParser(tokens);
         return parser.expression();
     }
@@ -172,7 +181,7 @@ public class FHIRPathEvaluator {
             for (FHIRPathNode node : getCurrentContext()) {
                 pushContext(singleton(node));
                 Collection<FHIRPathNode> result = visit(criteria);
-                if (!result.isEmpty() && isFalse(result)) {
+                if (evaluatesToBoolean(result) && isFalse(result)) {
                     popContext();
                     return SINGLETON_FALSE;
                 }
@@ -187,7 +196,7 @@ public class FHIRPathEvaluator {
             }
             Collection<FHIRPathNode> result = new ArrayList<>();
             ExpressionContext typeName = arguments.iterator().next();
-            String identifier = typeName.getText();
+            String identifier = typeName.getText().replace("`", "");
             FHIRPathType type = FHIRPathType.from(identifier);
             if (type == null) {
                 throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
@@ -236,8 +245,12 @@ public class FHIRPathEvaluator {
             if (arguments.size() < 2 || arguments.size() > 3) {
                 throw unexpectedNumberOfArguments(arguments.size(), "iif");
             }
+            Collection<FHIRPathNode> criterion = visit(arguments.get(0));
+            if (!evaluatesToBoolean(criterion) && !criterion.isEmpty()) {
+                throw new IllegalArgumentException("'iff' function criterion must evaluate to a boolean or empty");
+            }
             // criterion
-            if (isTrue(visit(arguments.get(0)))) {
+            if (isTrue(criterion)) {
                 // true-result
                 return visit(arguments.get(1));
             } else if (arguments.size() == 3) {
@@ -254,20 +267,18 @@ public class FHIRPathEvaluator {
             
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             if (currentContext.isEmpty()) {
-                // early exit
                 return SINGLETON_FALSE;
             } else if (currentContext.size() > 1) {
                 throw new IllegalArgumentException(String.format("Input collection has %d items, but only 1 is allowed", currentContext.size()));
             }
             
             ExpressionContext typeName = arguments.iterator().next();
-            String identifier = typeName.getText();
+            String identifier = typeName.getText().replace("`", "");
             FHIRPathType type = FHIRPathType.from(identifier);
             if (type == null) {
-                throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
+                return SINGLETON_FALSE;
             }
             FHIRPathNode node = getSingleton(currentContext);
-            
             return type.isAssignableFrom(node.type()) ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
@@ -277,7 +288,7 @@ public class FHIRPathEvaluator {
             }
             Collection<FHIRPathNode> result = new ArrayList<>();
             ExpressionContext typeName = arguments.get(0);
-            String identifier = typeName.getText();
+            String identifier = typeName.getText().replace("`", "");
             FHIRPathType type = FHIRPathType.from(identifier);
             if (type == null) {
                 throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
@@ -421,36 +432,36 @@ public class FHIRPathEvaluator {
             
             String operator = ctx.getChild(1).getText();
             
-            if (hasSystemValue(left) && hasSystemValue(right)) {
-                FHIRPathSystemValue leftValue = getSystemValue(left);
-                FHIRPathSystemValue rightValue = getSystemValue(right);
-                if (leftValue.isNumberValue() && rightValue.isNumberValue()) {            
+            if ((hasNumberValue(left) && hasNumberValue(right)) || (hasStringValue(left) && hasStringValue(right))) {
+                if (hasNumberValue(left) && hasNumberValue(right)) {            
                     switch (operator) {
                     case "+":
-                        result = singleton(leftValue.asNumberValue().add(rightValue.asNumberValue()));
+                        result = singleton(getNumberValue(left).add(getNumberValue(right)));
                         break;
                     case "-":
-                        result = singleton(leftValue.asNumberValue().subtract(rightValue.asNumberValue()));
+                        result = singleton(getNumberValue(left).asNumberValue().subtract(getNumberValue(right)));
                         break;
                     }
-                } else if (leftValue.isStringValue() && rightValue.isStringValue() && ("+".equals(operator) || "&".equals(operator))) {
-                    // concatenation
-                    result = singleton(leftValue.asStringValue().concat(rightValue.asStringValue()));
+                } else if (hasStringValue(left) && hasStringValue(right)) {
+                    if ("+".equals(operator) || "&".equals(operator)) {
+                        // concatenation
+                        result = singleton(getStringValue(left).concat(getStringValue(right)));
+                    } else {
+                        throw new IllegalArgumentException("Invalid argument(s) for '" + operator + "' operator");
+                    }
                 }
-            } else if (((hasSystemValue(left) && right.isEmpty()) || (left.isEmpty() && hasSystemValue(right))) && "&".equals(operator)) {
-                // concatenation where an empty collection is treated as an empty string
-                if (hasSystemValue(left) && right.isEmpty()) {
-                    FHIRPathSystemValue leftValue = getSystemValue(left);
-                    if (leftValue.isStringValue()) {
+            } else if (((hasStringValue(left) && right.isEmpty()) || (left.isEmpty() && hasStringValue(right))) && ("+".equals(operator) || "&".equals(operator))) {
+                if ("&".equals(operator)) {
+                    // concatenation where an empty collection is treated as an empty string                
+                    if (hasStringValue(left) && right.isEmpty()) {
+                        FHIRPathStringValue leftValue = getStringValue(left);
                         result = singleton(leftValue.asStringValue().concat(EMPTY_STRING));
-                    }
-                } else if (left.isEmpty() && hasSystemValue(right)) {
-                    FHIRPathSystemValue rightValue = getSystemValue(right);
-                    if (rightValue.isStringValue()) {
+                    } else if (left.isEmpty() && hasStringValue(right)) {
+                        FHIRPathStringValue rightValue = getStringValue(right);
                         result = singleton(EMPTY_STRING.concat(rightValue.asStringValue()));
+                    } else if (left.isEmpty() && right.isEmpty()) {
+                        result = singleton(EMPTY_STRING);
                     }
-                } else if (left.isEmpty() && right.isEmpty()) {
-                    result = singleton(EMPTY_STRING);
                 }
             } else if (hasQuantityValue(left) && hasQuantityValue(right)) {
                 FHIRPathQuantityValue leftValue = getQuantityValue(left);
@@ -486,6 +497,8 @@ public class FHIRPathEvaluator {
                     result = singleton(leftNode.subtract(rightNode));
                     break;
                 }
+            } else {
+                throw new IllegalArgumentException("Invalid argument(s) for '" + operator + "' operator");
             }
                                     
             indentLevel--;
@@ -530,7 +543,6 @@ public class FHIRPathEvaluator {
                     }
                 } catch (ArithmeticException e) {
                     // TODO: log this
-                    result = empty();
                 }
             }
 
@@ -546,11 +558,10 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
-            Set<FHIRPathNode> union = new HashSet<>(left);
+            Set<FHIRPathNode> union = new LinkedHashSet<>(left);
             union.addAll(right);
             
             indentLevel--;
-//          return union;
             return new ArrayList<>(union);
         }
         
@@ -563,7 +574,6 @@ public class FHIRPathEvaluator {
             
             // evaluate left operand
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
-//          Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
             String operator = ctx.getChild(1).getText();
             
@@ -583,15 +593,6 @@ public class FHIRPathEvaluator {
                         result = SINGLETON_FALSE;
                     }
                 }
-                /*
-                if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
-                    result = (isTrue(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
-                } else if (evaluatesToBoolean(left) && isTrue(left)) {
-                    result = SINGLETON_TRUE;
-                } else if (evaluatesToBoolean(right) && isTrue(right)) {
-                    result = SINGLETON_TRUE;
-                }
-                */
                 break;
             case "xor":
                 // evaluate right operand
@@ -617,7 +618,6 @@ public class FHIRPathEvaluator {
             
             // evaluate left operand
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
-//          Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
             // Returns true if both operands evaluate to true, false if either operand evaluates to false, and the empty collection ({ }) otherwise.
             if (evaluatesToBoolean(left) && isFalse(left)) {
@@ -633,15 +633,6 @@ public class FHIRPathEvaluator {
                     result = SINGLETON_TRUE;
                 }
             }
-            /*
-            if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
-                result = (isTrue(left) && isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
-            } else if (evaluatesToBoolean(left) && isFalse(left)) {
-                result = SINGLETON_FALSE;
-            } else if (evaluatesToBoolean(right) && isFalse(right)) {
-                result = SINGLETON_FALSE;
-            }
-            */
             
             indentLevel--;
             return result;
@@ -694,6 +685,11 @@ public class FHIRPathEvaluator {
             FHIRPathNode leftNode = getSingleton(left);
             FHIRPathNode rightNode = getSingleton(right);
             
+            if (hasSystemValue(leftNode) && hasSystemValue(rightNode) && 
+                    !isTypeCompatible(getSystemValue(leftNode), getSystemValue(rightNode))) {
+                throw new IllegalArgumentException("Type: '" + leftNode.type().getName() + "' is not compatible with type: '" + rightNode.type().getName() + "'");
+            }
+            
             String operator = ctx.getChild(1).getText();
             
             if (leftNode.isComparableTo(rightNode)) {
@@ -719,12 +715,14 @@ public class FHIRPathEvaluator {
                     }
                     break;
                 }
+            } else {
+                result = empty();
             }
 
             indentLevel--;
             return result;
         }
-        
+
         @Override
         public Collection<FHIRPathNode> visitInvocationExpression(FHIRPathParser.InvocationExpressionContext ctx) {
             debug(ctx);
@@ -748,24 +746,34 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
             Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
+            if (left.isEmpty() || right.isEmpty()) {
+                indentLevel--;
+                return empty();
+            }
+            
+            if (left.size() != right.size()) {
+                indentLevel--;
+                return SINGLETON_FALSE;
+            }
+            
+            if (!isComparableTo(left, right)) {
+                indentLevel--;
+                return empty();
+            }
+            
             String operator = ctx.getChild(1).getText();
             
             // TODO: "equals" and "equivalent" have different semantics
-            
             switch (operator) {
             case "=":
             case "~":
-                if (left.isEmpty() || right.isEmpty()) {
-                    result = empty();
-                } else if (left.equals(right)) {
+                if (left.equals(right)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
             case "!=":
             case "!~":
-                if (left.isEmpty() || right.isEmpty()) {
-                    result = empty();
-                } else if (!left.equals(right)) {
+                if (!left.equals(right)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
@@ -783,15 +791,34 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> result = empty();
             
             Collection<FHIRPathNode> left = visit(ctx.expression(0));
-            Collection<FHIRPathNode> right = visit(ctx.expression(1));
             
             // If the left operand evaluates to true, this operator returns the boolean evaluation of the right operand. If the left operand evaluates to false, this operator returns true. Otherwise, this operator returns true if the right operand evaluates to true, and the empty collection ({ }) otherwise.
+            if (evaluatesToBoolean(left)) {
+                if (isTrue(left)) {
+                    Collection<FHIRPathNode> right = visit(ctx.expression(1));
+                    if (evaluatesToBoolean(right)) {
+                        result = isTrue(right) ? SINGLETON_TRUE : SINGLETON_FALSE;
+                    }
+                } else {
+                    result = SINGLETON_TRUE;
+                }
+            } else if (left.isEmpty()) {
+                Collection<FHIRPathNode> right = visit(ctx.expression(1));
+                if (evaluatesToBoolean(right) && isTrue(right)) {
+                    result = SINGLETON_TRUE;
+                }
+            }
+            
+            /*
             if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
                 // !left || right
                 result = (isFalse(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
             } else if (left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) {
                 result = SINGLETON_TRUE;
+            } else if (evaluatesToBoolean(left) && isFalse(left) && right.isEmpty()) {
+                result = SINGLETON_TRUE;
             }
+            */
             
             indentLevel--;
             return result;
@@ -832,12 +859,14 @@ public class FHIRPathEvaluator {
                     if (type.isAssignableFrom(node.type())) {
                         result = SINGLETON_TRUE;
                     }
-                } // else it stays SINGLETON_FALSE
+                }
                 break;
             case "as":
-                for (FHIRPathNode fhirPathNode : nodes) {
-                    if (type.isAssignableFrom(fhirPathNode.type())) {
-                        result.add(fhirPathNode);
+                for (FHIRPathNode node : nodes) {
+                    if (type.isAssignableFrom(node.type())) {
+                        result.add(node);
+                    } else {
+                        throw new IllegalArgumentException("Type: '" + type.getName() + " is not assignable from type: '" + node.type().getName() + "'");
                     }
                 }
                 break;
@@ -899,8 +928,23 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitStringLiteral(FHIRPathParser.StringLiteralContext ctx) {
             debug(ctx);
-            String text = ctx.getText();
+            String text = convert(ctx.getText());
             return singleton(stringValue(text.substring(1, text.length() - 1)));
+        }
+        
+        private String convert(String s) {
+            StringBuilder sb = new StringBuilder();
+            int index = 0;
+            while (index < s.length()) {
+                if (s.regionMatches(index, "\\u", 0, 2)) {
+                    int hex = Integer.parseInt(s, index + 2, index + 6, 16);
+                    sb.append(Character.toChars(hex));
+                    index += 6;
+                } else {
+                    sb.append(s.charAt(index++));
+                }
+            }
+            return sb.toString();
         }
         
         @Override
@@ -1131,7 +1175,8 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitQualifiedIdentifier(FHIRPathParser.QualifiedIdentifierContext ctx) {
             debug(ctx);
-            return singleton(stringValue(ctx.getText()));
+            String text = ctx.getText().replace("`", "");
+            return singleton(stringValue(text));
         }
     
         @Override
@@ -1161,6 +1206,12 @@ public class FHIRPathEvaluator {
         private static final String UCUM_SYSTEM = "http://unitsofmeasure.org";
         private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
         
+        private static final String LOINC_SYSTEM = "http://loinc.org";
+        private static final Collection<FHIRPathNode> LOINC_SYTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
+        
+        private static final String SCT_SYSTEM = "http://snomed.info/sct";
+        private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
+        
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
         
@@ -1180,6 +1231,8 @@ public class FHIRPathEvaluator {
         public EvaluationContext(FHIRPathTree tree) {
             this.tree = tree;
             externalConstantMap.put("ucum", UCUM_SYSTEM_SINGLETON);
+            externalConstantMap.put("loinc", LOINC_SYTEM_SINGLETON);
+            externalConstantMap.put("sct", SCT_SYSTEM_SINGLETON);
         }
         
         public FHIRPathTree getTree() {
@@ -1199,6 +1252,11 @@ public class FHIRPathEvaluator {
         }
         
         public Collection<FHIRPathNode> getExternalConstant(String name) {
+            if (name.startsWith("ext-")) {
+                return singleton(stringValue(name.replace("ext-", "http://hl7.org/fhir/StructureDefinition/")));
+            } else if (name.startsWith("vs-")) {
+                return singleton(stringValue(name.replace("vs-", "http://hl7.org/fhir/ValueSet/")));
+            }
             return externalConstantMap.getOrDefault(name, empty());
         }
         
@@ -1209,7 +1267,7 @@ public class FHIRPathEvaluator {
     
     public static void main(String[] args) throws Exception {
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate("@2016-12-31 < @2017-01-01");
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate("'a'-'b' = 'ab'");
         System.out.println(result);
     }
 }

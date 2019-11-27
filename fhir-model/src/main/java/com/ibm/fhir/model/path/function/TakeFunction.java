@@ -7,6 +7,7 @@
 package com.ibm.fhir.model.path.function;
 
 import static com.ibm.fhir.model.path.util.FHIRPathUtil.getInteger;
+import static com.ibm.fhir.model.path.util.FHIRPathUtil.isUnordered;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +34,9 @@ public class TakeFunction extends FHIRPathAbstractFunction {
 
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (isUnordered(context)) {
+            throw new IllegalArgumentException("Context must be an ordered collection for function: 'take'");
+        }
         Integer num = getInteger(arguments.get(0));
         return context.stream()
                 .limit(num)
