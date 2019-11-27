@@ -97,7 +97,7 @@ class QuerySegmentAggregator {
         //parallel arrays
         this.querySegments.add(querySegment);
         
-        String name = queryParm.getName();
+        String name = queryParm.getCode();
         if("_id".compareTo(name)==0) {
             queryParamId = queryParm;
         } 
@@ -337,8 +337,8 @@ class QuerySegmentAggregator {
                 // Being bold here... this part should NEVER get a NPE. 
                 // The parameter would not be parsed and passed successfully,
                 // the NPE would have occurred earlier in the stack. 
-                String name = param.getName();
-                if (!SKIP_WHERE.contains(name)) {
+                String code = param.getCode();
+                if (!SKIP_WHERE.contains(code)) {
 
                     whereClauseSegment = querySegment.getQueryString();
                     if (Modifier.MISSING.equals(param.getModifier())) {
@@ -349,7 +349,7 @@ class QuerySegmentAggregator {
                         whereClause.append(overrideType);
                         isLocationQuery =
                                 Location.class.equals(this.resourceType)
-                                        && param.getName().equals(AbstractQueryBuilder.NEAR);
+                                        && param.getCode().equals(AbstractQueryBuilder.NEAR);
                         switch (param.getType()) {
                         case URI:
                         case REFERENCE:

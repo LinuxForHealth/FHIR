@@ -21,9 +21,6 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
 /**
  * Search Constants
- * 
- * @author pbastide
- *
  */
 public class SearchConstants {
 
@@ -93,10 +90,7 @@ public class SearchConstants {
 
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
-            Collections.unmodifiableList(Arrays.asList(SORT, "_sort:asc", "_sort:desc", COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
-    
-    // set as unmodifiable
-    public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList("_id", "_lastUpdated"));
+            Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
 
     // Empty Query String
     public static final String EMPTY_QUERY_STRING = "";
@@ -149,43 +143,7 @@ public class SearchConstants {
             });
 
     /**
-     * ascending and descending enumeration
-     * 
-     * @author markd
-     *
-     */
-    public enum SortDirection {
-        
-        // r4 - https://www.hl7.org/fhir/r4/search.html#sort
-        
-        ASCENDING("asc"), 
-        DESCENDING("desc");
-
-        private String value = null;
-
-        SortDirection(String value) {
-            this.value = value;
-        }
-
-        public String value() {
-            return value;
-        }
-
-        public static SortDirection fromValue(String value) {
-            for (SortDirection direction : SortDirection.values()) {
-                if (direction.value.equalsIgnoreCase(value)) {
-                    return direction;
-                }
-            }
-            throw SearchExceptionUtil.buildNewIllegalArumentException(value);
-        }
-    }
-
-    /**
      * Prefixes for Search parameters
-     * 
-     * @author markd
-     *
      */
     public enum Prefix {
         EQ("eq"), NE("ne"), GT("gt"), LT("lt"), GE("ge"), LE("le"), SA("sa"), EB("eb"), AP("ap");
@@ -206,7 +164,7 @@ public class SearchConstants {
                     return prefix;
                 }
             }
-            throw SearchExceptionUtil.buildNewIllegalArumentException(value);
+            throw SearchExceptionUtil.buildNewIllegalArgumentException(value);
         }
     }
 
@@ -235,7 +193,7 @@ public class SearchConstants {
                     return type;
                 }
             }
-            throw SearchExceptionUtil.buildNewIllegalArumentException(value);
+            throw SearchExceptionUtil.buildNewIllegalArgumentException(value);
         }
     }
 
@@ -270,7 +228,7 @@ public class SearchConstants {
                     return modifier;
                 }
             }
-            throw SearchExceptionUtil.buildNewIllegalArumentException(value);
+            throw SearchExceptionUtil.buildNewIllegalArgumentException(value);
         }
     }
 }
