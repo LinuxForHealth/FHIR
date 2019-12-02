@@ -24,14 +24,14 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.FHIRPathResourceNode;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CompartmentDefinition;
 import com.ibm.fhir.model.resource.CompartmentDefinition.Resource;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.FHIRPathResourceNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 

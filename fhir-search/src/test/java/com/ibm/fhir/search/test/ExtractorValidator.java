@@ -21,14 +21,14 @@ import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.model.path.FHIRPathBooleanValue;
-import com.ibm.fhir.model.path.FHIRPathDateTimeValue;
-import com.ibm.fhir.model.path.FHIRPathElementNode;
-import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.FHIRPathSystemValue;
-import com.ibm.fhir.model.path.FHIRPathResourceNode;
-import com.ibm.fhir.model.path.FHIRPathStringValue;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.path.FHIRPathBooleanValue;
+import com.ibm.fhir.path.FHIRPathDateTimeValue;
+import com.ibm.fhir.path.FHIRPathElementNode;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.FHIRPathResourceNode;
+import com.ibm.fhir.path.FHIRPathStringValue;
+import com.ibm.fhir.path.FHIRPathSystemValue;
 
 /**
  * Helper class for validating that a given FHIRPath SearchParameter expression extracts nodes as expected.

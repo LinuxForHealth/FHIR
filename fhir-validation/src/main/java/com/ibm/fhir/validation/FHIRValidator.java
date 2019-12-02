@@ -6,10 +6,10 @@
 
 package com.ibm.fhir.validation;
 
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.evaluatesToBoolean;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.isFalse;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
+import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,13 +18,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.path.FHIRPathElementNode;
-import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.FHIRPathResourceNode;
-import com.ibm.fhir.model.path.FHIRPathTree;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.model.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
@@ -32,8 +25,15 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.path.FHIRPathElementNode;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.FHIRPathResourceNode;
+import com.ibm.fhir.path.FHIRPathTree;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
+import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
-import com.ibm.fhir.validation.util.ProfileSupport;
 
 public class FHIRValidator {
     public static boolean DEBUG = false;
