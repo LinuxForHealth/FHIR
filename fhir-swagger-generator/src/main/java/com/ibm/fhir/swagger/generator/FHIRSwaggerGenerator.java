@@ -979,6 +979,8 @@ public class FHIRSwaggerGenerator {
             } else if ("url".equals(elementName)) {
                 property.add("pattern", "\\S*");
             }
+        } else if (com.ibm.fhir.model.type.Xhtml.class.equals(fieldClass)) {
+            property.add("type", "string");
         } else {
             property.add("$ref", "#/definitions/" + getSimpleNameWithEnclosingNames(fieldClass));
         }
