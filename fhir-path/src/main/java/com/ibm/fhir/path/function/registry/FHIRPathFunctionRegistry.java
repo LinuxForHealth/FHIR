@@ -77,7 +77,7 @@ import com.ibm.fhir.path.function.TypeFunction;
 import com.ibm.fhir.path.function.UnionFunction;
 import com.ibm.fhir.path.function.UpperFunction;
 
-public class FHIRPathFunctionRegistry {
+public final class FHIRPathFunctionRegistry {
     private static final FHIRPathFunctionRegistry INSTANCE = new FHIRPathFunctionRegistry();
     private Map<String, FHIRPathFunction> functionMap = new ConcurrentHashMap<>();
     
