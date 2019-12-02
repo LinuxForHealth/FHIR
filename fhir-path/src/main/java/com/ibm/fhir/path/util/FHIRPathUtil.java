@@ -55,39 +55,6 @@ import com.ibm.fhir.path.TupleTypeInfo;
 import com.ibm.fhir.path.TupleTypeInfoElement;
 
 public final class FHIRPathUtil {
-    private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
-        "$index", 
-        "$this", 
-        "$total", 
-        "and", 
-        "as", 
-        "contains", 
-        "day", 
-        "days", 
-        "div", 
-        "false", 
-        "hour", 
-        "hours", 
-        "implies", 
-        "in", 
-        "is", 
-        "millisecond", 
-        "milliseconds", 
-        "minute", 
-        "minutes", 
-        "mod", 
-        "month", 
-        "months", 
-        "or", 
-        "seconds", 
-        "true", 
-        "week", 
-        "weeks", 
-        "xor", 
-        "year", 
-        "years", 
-        "second"
-    ));
     public static final Set<String> STRING_TRUE_VALUES = new HashSet<>(Arrays.asList("true", "t", "yes", "y", "1", "1.0"));
     public static final Set<String> STRING_FALSE_VALUES = new HashSet<>(Arrays.asList("false", "f", "no", "n", "0", "0.0"));
     public static final Integer INTEGER_TRUE = 1;
@@ -110,14 +77,6 @@ public final class FHIRPathUtil {
 
     public static boolean isTypeCompatible(FHIRPathSystemValue leftValue, FHIRPathSystemValue rightValue) {
         return TYPE_COMPATIBILITY_MAP.get(leftValue.type()).contains(rightValue.type());
-    }
-    
-    public static boolean isKeyword(String identifier) {
-        return KEYWORDS.contains(identifier);
-    }
-    
-    public static String delimit(String identifier) {
-        return String.format("`%s`", identifier);
     }
     
     public static boolean hasResourceNode(Collection<FHIRPathNode> nodes) {

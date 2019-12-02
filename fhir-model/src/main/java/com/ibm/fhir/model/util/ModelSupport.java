@@ -150,6 +150,39 @@ public final class ModelSupport {
         TriggerDefinition.class, 
         UsageContext.class, 
         Dosage.class));
+    private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
+        "$index", 
+        "$this", 
+        "$total", 
+        "and", 
+        "as", 
+        "contains", 
+        "day", 
+        "days", 
+        "div", 
+        "false", 
+        "hour", 
+        "hours", 
+        "implies", 
+        "in", 
+        "is", 
+        "millisecond", 
+        "milliseconds", 
+        "minute", 
+        "minutes", 
+        "mod", 
+        "month", 
+        "months", 
+        "or", 
+        "seconds", 
+        "true", 
+        "week", 
+        "weeks", 
+        "xor", 
+        "year", 
+        "years", 
+        "second"
+    ));
 
     private ModelSupport() { }
 
@@ -611,5 +644,13 @@ public final class ModelSupport {
         }
         
         return ta;
+    }
+    
+    public static boolean isKeyword(String identifier) {
+        return KEYWORDS.contains(identifier);
+    }
+    
+    public static String delimit(String identifier) {
+        return String.format("`%s`", identifier);
     }
 }

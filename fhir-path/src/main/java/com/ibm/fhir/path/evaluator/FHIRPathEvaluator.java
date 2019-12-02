@@ -140,7 +140,18 @@ public class FHIRPathEvaluator {
     
     private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {
         private static final String SYSTEM_NAMESPACE = "System";
- 
+        private static final Map<String, String> UNESCAPED = new HashMap<>();
+        static {
+            UNESCAPED.put("\\`", "`");
+            UNESCAPED.put("\\'", "'");
+            UNESCAPED.put("\\\\", "\\");
+            UNESCAPED.put("\\/", "/");
+            UNESCAPED.put("\\f", "\f");
+            UNESCAPED.put("\\n", "\n");
+            UNESCAPED.put("\\r", "\r");
+            UNESCAPED.put("\\t", "\t");
+        }
+
         private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
         private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createLRUCache(IDENTIFIER_CACHE_MAX_ENTRIES);
         
@@ -795,10 +806,9 @@ public class FHIRPathEvaluator {
             // If the left operand evaluates to true, this operator returns the boolean evaluation of the right operand. If the left operand evaluates to false, this operator returns true. Otherwise, this operator returns true if the right operand evaluates to true, and the empty collection ({ }) otherwise.
             if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
                 // !left || right
-                result = (isFalse(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
-            } else if (left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) {
-                result = SINGLETON_TRUE;
-            } else if (evaluatesToBoolean(left) && isFalse(left) && right.isEmpty()) {
+                result = (!isTrue(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
+            } else if ((left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) || 
+                    (evaluatesToBoolean(left) && isFalse(left) && right.isEmpty())) {
                 result = SINGLETON_TRUE;
             }
             
@@ -931,11 +941,11 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitStringLiteral(FHIRPathParser.StringLiteralContext ctx) {
             debug(ctx);
-            String text = convert(ctx.getText());
+            String text = unescape(ctx.getText());
             return singleton(stringValue(text.substring(1, text.length() - 1)));
         }
         
-        private String convert(String s) {
+        private String unescape(String s) {
             StringBuilder sb = new StringBuilder();
             int index = 0;
             while (index < s.length()) {
@@ -943,6 +953,9 @@ public class FHIRPathEvaluator {
                     int hex = Integer.parseInt(s.substring(index + 2, index + 6), 16);
                     sb.append(Character.toChars(hex));
                     index += 6;
+                } else if (s.regionMatches(index, "\\", 0, 1)) {
+                    sb.append(UNESCAPED.get(s.substring(index, index + 2)));
+                    index += 2;
                 } else {
                     sb.append(s.charAt(index++));
                 }
@@ -1210,7 +1223,7 @@ public class FHIRPathEvaluator {
         private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
         
         private static final String LOINC_SYSTEM = "http://loinc.org";
-        private static final Collection<FHIRPathNode> LOINC_SYTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
+        private static final Collection<FHIRPathNode> LOINC_SYSTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
         
         private static final String SCT_SYSTEM = "http://snomed.info/sct";
         private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
@@ -1233,9 +1246,6 @@ public class FHIRPathEvaluator {
         
         public EvaluationContext(FHIRPathTree tree) {
             this.tree = tree;
-            externalConstantMap.put("ucum", UCUM_SYSTEM_SINGLETON);
-            externalConstantMap.put("loinc", LOINC_SYTEM_SINGLETON);
-            externalConstantMap.put("sct", SCT_SYSTEM_SINGLETON);
         }
         
         public FHIRPathTree getTree() {
@@ -1255,12 +1265,22 @@ public class FHIRPathEvaluator {
         }
         
         public Collection<FHIRPathNode> getExternalConstant(String name) {
-            if (name.startsWith("ext-")) {
-                return singleton(stringValue(name.replace("ext-", "http://hl7.org/fhir/StructureDefinition/")));
-            } else if (name.startsWith("vs-")) {
-                return singleton(stringValue(name.replace("vs-", "http://hl7.org/fhir/ValueSet/")));
+            switch (name) {
+            case "ucum":
+                return UCUM_SYSTEM_SINGLETON;
+            case "loinc":
+                return LOINC_SYSTEM_SINGLETON;
+            case "sct":
+                return SCT_SYSTEM_SINGLETON;
+            default:
+                if (name.startsWith("ext-")) {
+                    return singleton(stringValue(name.replace("ext-", "http://hl7.org/fhir/StructureDefinition/")));
+                }
+                if (name.startsWith("vs-")) {
+                    return singleton(stringValue(name.replace("vs-", "http://hl7.org/fhir/ValueSet/")));
+                }
+                return externalConstantMap.getOrDefault(name, empty());
             }
-            return externalConstantMap.getOrDefault(name, empty());
         }
         
         public boolean hasExternalConstant(String name) {
