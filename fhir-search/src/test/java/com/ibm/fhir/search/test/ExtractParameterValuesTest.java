@@ -18,13 +18,13 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.resource.InsurancePlan;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.visitor.PathAwareVisitor;
+import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.search.test.ExtractorValidator.Builder;
 import com.ibm.fhir.search.util.SearchUtil;
 

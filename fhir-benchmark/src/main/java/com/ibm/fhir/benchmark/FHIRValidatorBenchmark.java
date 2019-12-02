@@ -20,8 +20,8 @@ import com.ibm.fhir.benchmark.runner.FHIRBenchmarkRunner;
 import com.ibm.fhir.benchmark.util.BenchmarkUtil;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.validation.FHIRValidator;
 
 import ca.uhn.fhir.context.FhirContext;

@@ -12,16 +12,6 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 
-import com.ibm.fhir.model.path.FHIRPathAbstractNode;
-import com.ibm.fhir.model.path.FHIRPathBooleanValue;
-import com.ibm.fhir.model.path.FHIRPathDateTimeValue;
-import com.ibm.fhir.model.path.FHIRPathDecimalValue;
-import com.ibm.fhir.model.path.FHIRPathElementNode;
-import com.ibm.fhir.model.path.FHIRPathIntegerValue;
-import com.ibm.fhir.model.path.FHIRPathQuantityValue;
-import com.ibm.fhir.model.path.FHIRPathResourceNode;
-import com.ibm.fhir.model.path.FHIRPathStringValue;
-import com.ibm.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Address;
@@ -68,6 +58,16 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
+import com.ibm.fhir.path.FHIRPathAbstractNode;
+import com.ibm.fhir.path.FHIRPathBooleanValue;
+import com.ibm.fhir.path.FHIRPathDateTimeValue;
+import com.ibm.fhir.path.FHIRPathDecimalValue;
+import com.ibm.fhir.path.FHIRPathElementNode;
+import com.ibm.fhir.path.FHIRPathIntegerValue;
+import com.ibm.fhir.path.FHIRPathQuantityValue;
+import com.ibm.fhir.path.FHIRPathResourceNode;
+import com.ibm.fhir.path.FHIRPathStringValue;
+import com.ibm.fhir.path.FHIRPathTimeValue;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
 
 public interface Processor<T> {
