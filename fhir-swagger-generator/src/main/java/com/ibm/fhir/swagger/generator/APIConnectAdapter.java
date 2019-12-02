@@ -1,9 +1,10 @@
-package com.ibm.fhir.swagger.generator;
 /*
  * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+package com.ibm.fhir.swagger.generator;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -11,18 +12,18 @@ import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
 
 /**
- * 
+ *
  */
 public class APIConnectAdapter {
-    
+
     /**
      * Set this to the hostname of your FHIR Server and the generated assembly will proxy this
      */
     private static final String HOST = "localhost";
-    
+
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
-    
-    static void addApiConnectStuff(JsonObjectBuilder swagger) {
+
+    public static void addApiConnectStuff(JsonObjectBuilder swagger) {
         JsonObjectBuilder ibmConfig = factory.createObjectBuilder()
                                         .add("gateway", "datapower-api-gateway")
                                         .add("type", "rest")
@@ -41,12 +42,12 @@ public class APIConnectAdapter {
                                         .add("catalogs", factory.createObjectBuilder());
         swagger.add("x-ibm-configuration", ibmConfig);
     }
-    
+
     private static JsonObjectBuilder buildAssembly() {
         JsonObjectBuilder executeInvoke = factory.createObjectBuilder().add("invoke", buildExecuteInvoke());
-        
+
         JsonArrayBuilder execute = factory.createArrayBuilder().add(executeInvoke);
-        
+
         return factory.createObjectBuilder()
                 .add("execute", execute)
                 .add("catch", factory.createArrayBuilder());
@@ -71,13 +72,13 @@ public class APIConnectAdapter {
                                     .add("stop-on-error", factory.createArrayBuilder())
                                     .add("target-url", "$(target-url)$(api.operation.path)$(request.search)");
     }
-    
+
     private static JsonObjectBuilder buildProperties() {
         JsonObjectBuilder targetUrl = factory.createObjectBuilder()
                                             .add("value", "https://" + HOST + "/fhir-server/api/v4/")
                                             .add("description", "The URL of the target service")
                                             .add("encoded", false);
-        
+
         return factory.createObjectBuilder().add("target-url", targetUrl);
     }
 }
