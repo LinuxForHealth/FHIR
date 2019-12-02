@@ -105,7 +105,7 @@ public class FHIRSwaggerGenerator {
 
                 JsonObjectBuilder info = factory.createObjectBuilder();
                 info.add("title", resourceClassName + " API");
-                info.add("description", "The IBM FHIR Server API for " + resourceClassName + " resources.");
+                info.add("description", "A simplified version of the HL7 FHIR API for " + resourceClassName + " resources.");
                 info.add("version", "4.0.0");
                 swagger.add("info", info);
 
@@ -1086,15 +1086,16 @@ public class FHIRSwaggerGenerator {
             this.filterMap = filterMap;
         }
 
+        /**
+         * @return true if the operation is enables for the specified resourceType, otherwise false
+         */
         public boolean acceptResourceType(Class<?> resourceType) {
             return filterMap.containsKey(resourceType.getSimpleName());
         }
 
-        /*
-         * public boolean acceptOperation(String resourceType, String operation) {
-         * return filterMap.get(resourceType).contains(operation); }
+        /**
+         * @return true if one or more of the resources in the filterMap includes the passed operation, otherwise false
          */
-
         public boolean acceptOperation(Class<?> resourceType, String operation) {
             return filterMap.get(resourceType.getSimpleName()).contains(operation);
         }

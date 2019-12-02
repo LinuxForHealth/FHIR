@@ -148,7 +148,7 @@ public class FHIROpenApiGenerator {
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "Simplified FHIR API");
-        info.add("description", "A simplified version of the FHIR API");
+        info.add("description", "A simplified version of the HL7 FHIR API");
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
@@ -271,7 +271,7 @@ public class FHIROpenApiGenerator {
 
                 JsonObjectBuilder info = factory.createObjectBuilder();
                 info.add("title", resourceClassName + " API");
-                info.add("description", "The IBM FHIR Server API for " + resourceClassName + " resources.");
+                info.add("description", "A simplified version of the HL7 FHIR API for " + resourceClassName + " resources.");
                 info.add("version", "4.0.0");
                 swagger.add("info", info);
 
