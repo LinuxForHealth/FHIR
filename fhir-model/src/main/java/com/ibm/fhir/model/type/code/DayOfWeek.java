@@ -20,37 +20,37 @@ public class DayOfWeek extends Code {
     /**
      * Monday
      */
-    public static final DayOfWeek MON = DayOfWeek.of(ValueSet.MON);
+    public static final DayOfWeek MON = DayOfWeek.builder().value(ValueSet.MON).build();
 
     /**
      * Tuesday
      */
-    public static final DayOfWeek TUE = DayOfWeek.of(ValueSet.TUE);
+    public static final DayOfWeek TUE = DayOfWeek.builder().value(ValueSet.TUE).build();
 
     /**
      * Wednesday
      */
-    public static final DayOfWeek WED = DayOfWeek.of(ValueSet.WED);
+    public static final DayOfWeek WED = DayOfWeek.builder().value(ValueSet.WED).build();
 
     /**
      * Thursday
      */
-    public static final DayOfWeek THU = DayOfWeek.of(ValueSet.THU);
+    public static final DayOfWeek THU = DayOfWeek.builder().value(ValueSet.THU).build();
 
     /**
      * Friday
      */
-    public static final DayOfWeek FRI = DayOfWeek.of(ValueSet.FRI);
+    public static final DayOfWeek FRI = DayOfWeek.builder().value(ValueSet.FRI).build();
 
     /**
      * Saturday
      */
-    public static final DayOfWeek SAT = DayOfWeek.of(ValueSet.SAT);
+    public static final DayOfWeek SAT = DayOfWeek.builder().value(ValueSet.SAT).build();
 
     /**
      * Sunday
      */
-    public static final DayOfWeek SUN = DayOfWeek.of(ValueSet.SUN);
+    public static final DayOfWeek SUN = DayOfWeek.builder().value(ValueSet.SUN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class DayOfWeek extends Code {
         super(builder);
     }
 
-    public static DayOfWeek of(java.lang.String value) {
-        return DayOfWeek.builder().value(value).build();
+    public static DayOfWeek of(ValueSet value) {
+        switch (value) {
+        case MON:
+            return MON;
+        case TUE:
+            return TUE;
+        case WED:
+            return WED;
+        case THU:
+            return THU;
+        case FRI:
+            return FRI;
+        case SAT:
+            return SAT;
+        case SUN:
+            return SUN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static DayOfWeek of(ValueSet value) {
-        return DayOfWeek.builder().value(value).build();
+    public static DayOfWeek of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return DayOfWeek.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DayOfWeek.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

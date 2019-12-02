@@ -20,22 +20,22 @@ public class DeviceMetricOperationalStatus extends Code {
     /**
      * On
      */
-    public static final DeviceMetricOperationalStatus ON = DeviceMetricOperationalStatus.of(ValueSet.ON);
+    public static final DeviceMetricOperationalStatus ON = DeviceMetricOperationalStatus.builder().value(ValueSet.ON).build();
 
     /**
      * Off
      */
-    public static final DeviceMetricOperationalStatus OFF = DeviceMetricOperationalStatus.of(ValueSet.OFF);
+    public static final DeviceMetricOperationalStatus OFF = DeviceMetricOperationalStatus.builder().value(ValueSet.OFF).build();
 
     /**
      * Standby
      */
-    public static final DeviceMetricOperationalStatus STANDBY = DeviceMetricOperationalStatus.of(ValueSet.STANDBY);
+    public static final DeviceMetricOperationalStatus STANDBY = DeviceMetricOperationalStatus.builder().value(ValueSet.STANDBY).build();
 
     /**
      * Entered In Error
      */
-    public static final DeviceMetricOperationalStatus ENTERED_IN_ERROR = DeviceMetricOperationalStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final DeviceMetricOperationalStatus ENTERED_IN_ERROR = DeviceMetricOperationalStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class DeviceMetricOperationalStatus extends Code {
         super(builder);
     }
 
-    public static DeviceMetricOperationalStatus of(java.lang.String value) {
-        return DeviceMetricOperationalStatus.builder().value(value).build();
+    public static DeviceMetricOperationalStatus of(ValueSet value) {
+        switch (value) {
+        case ON:
+            return ON;
+        case OFF:
+            return OFF;
+        case STANDBY:
+            return STANDBY;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static DeviceMetricOperationalStatus of(ValueSet value) {
-        return DeviceMetricOperationalStatus.builder().value(value).build();
+    public static DeviceMetricOperationalStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return DeviceMetricOperationalStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DeviceMetricOperationalStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

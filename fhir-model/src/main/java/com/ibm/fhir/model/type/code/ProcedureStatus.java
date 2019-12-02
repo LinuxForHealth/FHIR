@@ -20,42 +20,42 @@ public class ProcedureStatus extends Code {
     /**
      * Preparation
      */
-    public static final ProcedureStatus PREPARATION = ProcedureStatus.of(ValueSet.PREPARATION);
+    public static final ProcedureStatus PREPARATION = ProcedureStatus.builder().value(ValueSet.PREPARATION).build();
 
     /**
      * In Progress
      */
-    public static final ProcedureStatus IN_PROGRESS = ProcedureStatus.of(ValueSet.IN_PROGRESS);
+    public static final ProcedureStatus IN_PROGRESS = ProcedureStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Not Done
      */
-    public static final ProcedureStatus NOT_DONE = ProcedureStatus.of(ValueSet.NOT_DONE);
+    public static final ProcedureStatus NOT_DONE = ProcedureStatus.builder().value(ValueSet.NOT_DONE).build();
 
     /**
      * On Hold
      */
-    public static final ProcedureStatus ON_HOLD = ProcedureStatus.of(ValueSet.ON_HOLD);
+    public static final ProcedureStatus ON_HOLD = ProcedureStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Stopped
      */
-    public static final ProcedureStatus STOPPED = ProcedureStatus.of(ValueSet.STOPPED);
+    public static final ProcedureStatus STOPPED = ProcedureStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Completed
      */
-    public static final ProcedureStatus COMPLETED = ProcedureStatus.of(ValueSet.COMPLETED);
+    public static final ProcedureStatus COMPLETED = ProcedureStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final ProcedureStatus ENTERED_IN_ERROR = ProcedureStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ProcedureStatus ENTERED_IN_ERROR = ProcedureStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final ProcedureStatus UNKNOWN = ProcedureStatus.of(ValueSet.UNKNOWN);
+    public static final ProcedureStatus UNKNOWN = ProcedureStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class ProcedureStatus extends Code {
         super(builder);
     }
 
-    public static ProcedureStatus of(java.lang.String value) {
-        return ProcedureStatus.builder().value(value).build();
+    public static ProcedureStatus of(ValueSet value) {
+        switch (value) {
+        case PREPARATION:
+            return PREPARATION;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case NOT_DONE:
+            return NOT_DONE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case STOPPED:
+            return STOPPED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ProcedureStatus of(ValueSet value) {
-        return ProcedureStatus.builder().value(value).build();
+    public static ProcedureStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ProcedureStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ProcedureStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

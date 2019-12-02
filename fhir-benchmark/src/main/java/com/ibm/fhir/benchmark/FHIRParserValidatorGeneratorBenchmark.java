@@ -91,7 +91,6 @@ public class FHIRParserValidatorGeneratorBenchmark {
 
     public static void main(String[] args) throws Exception {
         new FHIRBenchmarkRunner(FHIRParserValidatorGeneratorBenchmark.class)
-                .property(PROPERTY_EXAMPLE_NAME, BenchmarkUtil.getRandomSpecExampleName())
                 .run();
     }
 }

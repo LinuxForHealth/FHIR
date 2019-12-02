@@ -20,32 +20,32 @@ public class HTTPVerb extends Code {
     /**
      * GET
      */
-    public static final HTTPVerb GET = HTTPVerb.of(ValueSet.GET);
+    public static final HTTPVerb GET = HTTPVerb.builder().value(ValueSet.GET).build();
 
     /**
      * HEAD
      */
-    public static final HTTPVerb HEAD = HTTPVerb.of(ValueSet.HEAD);
+    public static final HTTPVerb HEAD = HTTPVerb.builder().value(ValueSet.HEAD).build();
 
     /**
      * POST
      */
-    public static final HTTPVerb POST = HTTPVerb.of(ValueSet.POST);
+    public static final HTTPVerb POST = HTTPVerb.builder().value(ValueSet.POST).build();
 
     /**
      * PUT
      */
-    public static final HTTPVerb PUT = HTTPVerb.of(ValueSet.PUT);
+    public static final HTTPVerb PUT = HTTPVerb.builder().value(ValueSet.PUT).build();
 
     /**
      * DELETE
      */
-    public static final HTTPVerb DELETE = HTTPVerb.of(ValueSet.DELETE);
+    public static final HTTPVerb DELETE = HTTPVerb.builder().value(ValueSet.DELETE).build();
 
     /**
      * PATCH
      */
-    public static final HTTPVerb PATCH = HTTPVerb.of(ValueSet.PATCH);
+    public static final HTTPVerb PATCH = HTTPVerb.builder().value(ValueSet.PATCH).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class HTTPVerb extends Code {
         super(builder);
     }
 
-    public static HTTPVerb of(java.lang.String value) {
-        return HTTPVerb.builder().value(value).build();
+    public static HTTPVerb of(ValueSet value) {
+        switch (value) {
+        case GET:
+            return GET;
+        case HEAD:
+            return HEAD;
+        case POST:
+            return POST;
+        case PUT:
+            return PUT;
+        case DELETE:
+            return DELETE;
+        case PATCH:
+            return PATCH;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static HTTPVerb of(ValueSet value) {
-        return HTTPVerb.builder().value(value).build();
+    public static HTTPVerb of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return HTTPVerb.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return HTTPVerb.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

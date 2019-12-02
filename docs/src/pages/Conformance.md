@@ -24,7 +24,7 @@ The IBM FHIR Server implements a linear versioning scheme for resources and full
 ### General parameters
 The `_format` parameter is supported and provides a useful mechanism for requesting a specific format (`XML` or `JSON`) in requests made from a browser. In the absence of either an `Accept` header or a `_format` query parameter, the server defaults to `application/fhir+json`.
 
-The `_pretty` parameter is not currently supported, but should be added as part of https://github.com/IBM/FHIR/issues/269.
+The `_pretty` parameter is also supported. 
 
 The `_summary` and `_elements` parameters are supported on the search interaction as documented.
 
@@ -75,7 +75,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |--------------------------|-------------------|-----------------------------------------------------|
 |String                 |`:exact`,`:contains`,`:missing` |Performs a "starts with" search that is case-insensitive and accent-insensitive|
 |Reference              |`:[type]`,`:missing`            |Performs an exact match search|
-|URI                    |`:below`,`:missing`             |Performs a "starts with" search (issue #273)|
+|URI                    |`:below`,`:above`,`:missing`    |Performs a "starts with" search (issue #273), component based search for the path in the URL (issue #448)|
 |Token                  |`:below`,`:not`,`:missing`      |Performs an exact match search|
 |Number                 |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|
 |Date                   |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|

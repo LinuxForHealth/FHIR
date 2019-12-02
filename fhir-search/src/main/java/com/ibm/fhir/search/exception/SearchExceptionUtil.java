@@ -76,7 +76,7 @@ public class SearchExceptionUtil {
      * @param val
      * @return
      */
-    public static IllegalArgumentException buildNewIllegalArumentException(final String val) {
+    public static IllegalArgumentException buildNewIllegalArgumentException(final String val) {
         return new IllegalArgumentException(String.format(ILLEGAL_ARGUMENT_EXCEPTION, val));
     }
     

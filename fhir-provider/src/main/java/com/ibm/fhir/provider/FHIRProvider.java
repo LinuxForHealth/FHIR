@@ -46,8 +46,10 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 
-@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
-@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML,
+        MediaType.APPLICATION_XML })
+@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML,
+        MediaType.APPLICATION_XML })
 public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWriter<Resource> {
     private static final Logger log = Logger.getLogger(FHIRProvider.class.getName());
 
@@ -55,30 +57,34 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     private UriInfo uriInfo;
     @Context
     private HttpHeaders requestHeaders;
-    
+
     private final RuntimeType runtimeType;
-    
+
     public FHIRProvider(RuntimeType runtimeType) {
         this.runtimeType = Objects.requireNonNull(runtimeType);
     }
-    
+
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return Resource.class.isAssignableFrom(type);
     }
 
     @Override
-    public Resource readFrom(Class<Resource> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders,
-        InputStream entityStream) throws IOException, WebApplicationException {
+    public Resource readFrom(Class<Resource> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+            MultivaluedMap<String, String> httpHeaders,
+            InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
             return FHIRParser.parser(getFormat(mediaType)).parse(entityStream);
         } catch (FHIRParserException e) {
             if (RuntimeType.SERVER.equals(runtimeType)) {
                 String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
-                Response response = buildResponse(
-                    buildOperationOutcome(Collections.singletonList(
-                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))), getMediaType(acceptHeader));
+                Response response =
+                        buildResponse(
+                                buildOperationOutcome(Collections.singletonList(
+                                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID,
+                                                "FHIRProvider: " + e.getMessage(), e.getPath()))),
+                                getMediaType(acceptHeader));
                 throw new WebApplicationException(response);
             } else {
                 throw new IOException("an error occurred during resource deserialization", e);
@@ -94,18 +100,22 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     }
 
     @Override
-    public void writeTo(Resource t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
-        OutputStream entityStream) throws IOException, WebApplicationException {
+    public void writeTo(Resource t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+            MultivaluedMap<String, Object> httpHeaders,
+            OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try {
-            FHIRGenerator.generator(getFormat(mediaType), isPretty(requestHeaders)).generate(t, entityStream);
+            FHIRGenerator.generator(getFormat(mediaType), isPretty(requestHeaders, uriInfo)).generate(t, entityStream);
         } catch (FHIRGeneratorException e) {
             // log the error but don't throw because that seems to block to original IOException from bubbling for some reason
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             if (RuntimeType.SERVER.equals(runtimeType)) {
-                Response response = buildResponse(
-                    buildOperationOutcome(Collections.singletonList(
-                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION, "FHIRProvider: " + e.getMessage(), e.getPath()))), mediaType);
+                Response response =
+                        buildResponse(
+                                buildOperationOutcome(Collections.singletonList(
+                                        buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION,
+                                                "FHIRProvider: " + e.getMessage(), e.getPath()))),
+                                mediaType);
                 throw new WebApplicationException(response);
             }
         } finally {
@@ -113,14 +123,21 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         }
     }
 
-    protected static boolean isPretty(HttpHeaders httpHeaders) {
+    protected static boolean isPretty(HttpHeaders httpHeaders, UriInfo uriInfo) {
         // Header evaluation
-        String headerValue = httpHeaders.getHeaderString(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME);
-        if (headerValue != null) {
-            if (Boolean.parseBoolean(headerValue)) {
+        String value = httpHeaders.getHeaderString(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME);
+
+        // IFF not Header set, then grab the Query Parameter. 
+        // and use the FIRST value for _pretty.
+        if (value == null) {
+            value = uriInfo.getQueryParameters().getFirst("_pretty");
+        }
+
+        if (value != null) {
+            if (Boolean.parseBoolean(value)) {
                 //explicitly on in the header
                 return true;
-            } else if (headerValue.toLowerCase().equals("false")) {
+            } else if ("false".equalsIgnoreCase(value)) {
                 //explicitly off in the header.  ignore header value if it doesn't specify "true" or false"
                 return false;
             }
@@ -137,10 +154,10 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
 
     private Format getFormat(MediaType mediaType) {
         if (mediaType != null) {
-            if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_JSON_TYPE) || 
+            if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_JSON_TYPE) ||
                     mediaType.isCompatible(FHIRMediaType.APPLICATION_JSON_TYPE)) {
                 return Format.JSON;
-            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_XML_TYPE) || 
+            } else if (mediaType.isCompatible(FHIRMediaType.APPLICATION_FHIR_XML_TYPE) ||
                     mediaType.isCompatible(FHIRMediaType.APPLICATION_XML_TYPE)) {
                 return Format.XML;
             }

@@ -20,22 +20,22 @@ public class RequestPriority extends Code {
     /**
      * Routine
      */
-    public static final RequestPriority ROUTINE = RequestPriority.of(ValueSet.ROUTINE);
+    public static final RequestPriority ROUTINE = RequestPriority.builder().value(ValueSet.ROUTINE).build();
 
     /**
      * Urgent
      */
-    public static final RequestPriority URGENT = RequestPriority.of(ValueSet.URGENT);
+    public static final RequestPriority URGENT = RequestPriority.builder().value(ValueSet.URGENT).build();
 
     /**
      * ASAP
      */
-    public static final RequestPriority ASAP = RequestPriority.of(ValueSet.ASAP);
+    public static final RequestPriority ASAP = RequestPriority.builder().value(ValueSet.ASAP).build();
 
     /**
      * STAT
      */
-    public static final RequestPriority STAT = RequestPriority.of(ValueSet.STAT);
+    public static final RequestPriority STAT = RequestPriority.builder().value(ValueSet.STAT).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class RequestPriority extends Code {
         super(builder);
     }
 
-    public static RequestPriority of(java.lang.String value) {
-        return RequestPriority.builder().value(value).build();
+    public static RequestPriority of(ValueSet value) {
+        switch (value) {
+        case ROUTINE:
+            return ROUTINE;
+        case URGENT:
+            return URGENT;
+        case ASAP:
+            return ASAP;
+        case STAT:
+            return STAT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static RequestPriority of(ValueSet value) {
-        return RequestPriority.builder().value(value).build();
+    public static RequestPriority of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return RequestPriority.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return RequestPriority.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

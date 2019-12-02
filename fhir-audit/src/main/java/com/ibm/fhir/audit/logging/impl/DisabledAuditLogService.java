@@ -11,9 +11,8 @@ import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
 import com.ibm.fhir.config.PropertyGroup;
 
 /**
- * This class serves as a no-op audit service logger. It simply allows FHIR audit logging to be effectively disabled.
- * @author markd
- *
+ * This class serves as a no-op audit service logger. It simply allows audit logging 
+ * to be effectively disabled.
  */
 public class DisabledAuditLogService implements AuditLogService {
 
@@ -23,7 +22,7 @@ public class DisabledAuditLogService implements AuditLogService {
 
     @Override
     public void logEntry(AuditLogEntry logEntry) {
-         
+        // No Operation
     }
 
     @Override
@@ -33,7 +32,7 @@ public class DisabledAuditLogService implements AuditLogService {
 
     @Override
     public void initialize(PropertyGroup auditLogProperties) throws Exception {
-         
+         // No Operation
     }
 
 }

@@ -20,12 +20,12 @@ public class ExampleScenarioActorType extends Code {
     /**
      * Person
      */
-    public static final ExampleScenarioActorType PERSON = ExampleScenarioActorType.of(ValueSet.PERSON);
+    public static final ExampleScenarioActorType PERSON = ExampleScenarioActorType.builder().value(ValueSet.PERSON).build();
 
     /**
      * System
      */
-    public static final ExampleScenarioActorType ENTITY = ExampleScenarioActorType.of(ValueSet.ENTITY);
+    public static final ExampleScenarioActorType ENTITY = ExampleScenarioActorType.builder().value(ValueSet.ENTITY).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class ExampleScenarioActorType extends Code {
         super(builder);
     }
 
-    public static ExampleScenarioActorType of(java.lang.String value) {
-        return ExampleScenarioActorType.builder().value(value).build();
+    public static ExampleScenarioActorType of(ValueSet value) {
+        switch (value) {
+        case PERSON:
+            return PERSON;
+        case ENTITY:
+            return ENTITY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ExampleScenarioActorType of(ValueSet value) {
-        return ExampleScenarioActorType.builder().value(value).build();
+    public static ExampleScenarioActorType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ExampleScenarioActorType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ExampleScenarioActorType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

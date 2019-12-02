@@ -20,27 +20,27 @@ public class AccountStatus extends Code {
     /**
      * Active
      */
-    public static final AccountStatus ACTIVE = AccountStatus.of(ValueSet.ACTIVE);
+    public static final AccountStatus ACTIVE = AccountStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
      */
-    public static final AccountStatus INACTIVE = AccountStatus.of(ValueSet.INACTIVE);
+    public static final AccountStatus INACTIVE = AccountStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in error
      */
-    public static final AccountStatus ENTERED_IN_ERROR = AccountStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final AccountStatus ENTERED_IN_ERROR = AccountStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * On Hold
      */
-    public static final AccountStatus ON_HOLD = AccountStatus.of(ValueSet.ON_HOLD);
+    public static final AccountStatus ON_HOLD = AccountStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Unknown
      */
-    public static final AccountStatus UNKNOWN = AccountStatus.of(ValueSet.UNKNOWN);
+    public static final AccountStatus UNKNOWN = AccountStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class AccountStatus extends Code {
         super(builder);
     }
 
-    public static AccountStatus of(java.lang.String value) {
-        return AccountStatus.builder().value(value).build();
+    public static AccountStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case ON_HOLD:
+            return ON_HOLD;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AccountStatus of(ValueSet value) {
-        return AccountStatus.builder().value(value).build();
+    public static AccountStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AccountStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AccountStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

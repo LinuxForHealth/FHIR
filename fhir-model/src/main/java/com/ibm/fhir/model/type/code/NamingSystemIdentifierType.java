@@ -20,22 +20,22 @@ public class NamingSystemIdentifierType extends Code {
     /**
      * OID
      */
-    public static final NamingSystemIdentifierType OID = NamingSystemIdentifierType.of(ValueSet.OID);
+    public static final NamingSystemIdentifierType OID = NamingSystemIdentifierType.builder().value(ValueSet.OID).build();
 
     /**
      * UUID
      */
-    public static final NamingSystemIdentifierType UUID = NamingSystemIdentifierType.of(ValueSet.UUID);
+    public static final NamingSystemIdentifierType UUID = NamingSystemIdentifierType.builder().value(ValueSet.UUID).build();
 
     /**
      * URI
      */
-    public static final NamingSystemIdentifierType URI = NamingSystemIdentifierType.of(ValueSet.URI);
+    public static final NamingSystemIdentifierType URI = NamingSystemIdentifierType.builder().value(ValueSet.URI).build();
 
     /**
      * Other
      */
-    public static final NamingSystemIdentifierType OTHER = NamingSystemIdentifierType.of(ValueSet.OTHER);
+    public static final NamingSystemIdentifierType OTHER = NamingSystemIdentifierType.builder().value(ValueSet.OTHER).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class NamingSystemIdentifierType extends Code {
         super(builder);
     }
 
-    public static NamingSystemIdentifierType of(java.lang.String value) {
-        return NamingSystemIdentifierType.builder().value(value).build();
+    public static NamingSystemIdentifierType of(ValueSet value) {
+        switch (value) {
+        case OID:
+            return OID;
+        case UUID:
+            return UUID;
+        case URI:
+            return URI;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static NamingSystemIdentifierType of(ValueSet value) {
-        return NamingSystemIdentifierType.builder().value(value).build();
+    public static NamingSystemIdentifierType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return NamingSystemIdentifierType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return NamingSystemIdentifierType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

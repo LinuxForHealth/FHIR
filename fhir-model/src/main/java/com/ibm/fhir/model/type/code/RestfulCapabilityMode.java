@@ -20,12 +20,12 @@ public class RestfulCapabilityMode extends Code {
     /**
      * Client
      */
-    public static final RestfulCapabilityMode CLIENT = RestfulCapabilityMode.of(ValueSet.CLIENT);
+    public static final RestfulCapabilityMode CLIENT = RestfulCapabilityMode.builder().value(ValueSet.CLIENT).build();
 
     /**
      * Server
      */
-    public static final RestfulCapabilityMode SERVER = RestfulCapabilityMode.of(ValueSet.SERVER);
+    public static final RestfulCapabilityMode SERVER = RestfulCapabilityMode.builder().value(ValueSet.SERVER).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class RestfulCapabilityMode extends Code {
         super(builder);
     }
 
-    public static RestfulCapabilityMode of(java.lang.String value) {
-        return RestfulCapabilityMode.builder().value(value).build();
+    public static RestfulCapabilityMode of(ValueSet value) {
+        switch (value) {
+        case CLIENT:
+            return CLIENT;
+        case SERVER:
+            return SERVER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static RestfulCapabilityMode of(ValueSet value) {
-        return RestfulCapabilityMode.builder().value(value).build();
+    public static RestfulCapabilityMode of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return RestfulCapabilityMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return RestfulCapabilityMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

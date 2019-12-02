@@ -20,17 +20,17 @@ public class ResponseType extends Code {
     /**
      * OK
      */
-    public static final ResponseType OK = ResponseType.of(ValueSet.OK);
+    public static final ResponseType OK = ResponseType.builder().value(ValueSet.OK).build();
 
     /**
      * Transient Error
      */
-    public static final ResponseType TRANSIENT_ERROR = ResponseType.of(ValueSet.TRANSIENT_ERROR);
+    public static final ResponseType TRANSIENT_ERROR = ResponseType.builder().value(ValueSet.TRANSIENT_ERROR).build();
 
     /**
      * Fatal Error
      */
-    public static final ResponseType FATAL_ERROR = ResponseType.of(ValueSet.FATAL_ERROR);
+    public static final ResponseType FATAL_ERROR = ResponseType.builder().value(ValueSet.FATAL_ERROR).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ResponseType extends Code {
         super(builder);
     }
 
-    public static ResponseType of(java.lang.String value) {
-        return ResponseType.builder().value(value).build();
+    public static ResponseType of(ValueSet value) {
+        switch (value) {
+        case OK:
+            return OK;
+        case TRANSIENT_ERROR:
+            return TRANSIENT_ERROR;
+        case FATAL_ERROR:
+            return FATAL_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ResponseType of(ValueSet value) {
-        return ResponseType.builder().value(value).build();
+    public static ResponseType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ResponseType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ResponseType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,62 +20,62 @@ public class TaskStatus extends Code {
     /**
      * Draft
      */
-    public static final TaskStatus DRAFT = TaskStatus.of(ValueSet.DRAFT);
+    public static final TaskStatus DRAFT = TaskStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Requested
      */
-    public static final TaskStatus REQUESTED = TaskStatus.of(ValueSet.REQUESTED);
+    public static final TaskStatus REQUESTED = TaskStatus.builder().value(ValueSet.REQUESTED).build();
 
     /**
      * Received
      */
-    public static final TaskStatus RECEIVED = TaskStatus.of(ValueSet.RECEIVED);
+    public static final TaskStatus RECEIVED = TaskStatus.builder().value(ValueSet.RECEIVED).build();
 
     /**
      * Accepted
      */
-    public static final TaskStatus ACCEPTED = TaskStatus.of(ValueSet.ACCEPTED);
+    public static final TaskStatus ACCEPTED = TaskStatus.builder().value(ValueSet.ACCEPTED).build();
 
     /**
      * Rejected
      */
-    public static final TaskStatus REJECTED = TaskStatus.of(ValueSet.REJECTED);
+    public static final TaskStatus REJECTED = TaskStatus.builder().value(ValueSet.REJECTED).build();
 
     /**
      * Ready
      */
-    public static final TaskStatus READY = TaskStatus.of(ValueSet.READY);
+    public static final TaskStatus READY = TaskStatus.builder().value(ValueSet.READY).build();
 
     /**
      * Cancelled
      */
-    public static final TaskStatus CANCELLED = TaskStatus.of(ValueSet.CANCELLED);
+    public static final TaskStatus CANCELLED = TaskStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * In Progress
      */
-    public static final TaskStatus IN_PROGRESS = TaskStatus.of(ValueSet.IN_PROGRESS);
+    public static final TaskStatus IN_PROGRESS = TaskStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * On Hold
      */
-    public static final TaskStatus ON_HOLD = TaskStatus.of(ValueSet.ON_HOLD);
+    public static final TaskStatus ON_HOLD = TaskStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Failed
      */
-    public static final TaskStatus FAILED = TaskStatus.of(ValueSet.FAILED);
+    public static final TaskStatus FAILED = TaskStatus.builder().value(ValueSet.FAILED).build();
 
     /**
      * Completed
      */
-    public static final TaskStatus COMPLETED = TaskStatus.of(ValueSet.COMPLETED);
+    public static final TaskStatus COMPLETED = TaskStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final TaskStatus ENTERED_IN_ERROR = TaskStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final TaskStatus ENTERED_IN_ERROR = TaskStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -83,20 +83,47 @@ public class TaskStatus extends Code {
         super(builder);
     }
 
-    public static TaskStatus of(java.lang.String value) {
-        return TaskStatus.builder().value(value).build();
+    public static TaskStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case REQUESTED:
+            return REQUESTED;
+        case RECEIVED:
+            return RECEIVED;
+        case ACCEPTED:
+            return ACCEPTED;
+        case REJECTED:
+            return REJECTED;
+        case READY:
+            return READY;
+        case CANCELLED:
+            return CANCELLED;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case ON_HOLD:
+            return ON_HOLD;
+        case FAILED:
+            return FAILED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static TaskStatus of(ValueSet value) {
-        return TaskStatus.builder().value(value).build();
+    public static TaskStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return TaskStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TaskStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,22 +20,22 @@ public class AuditEventOutcome extends Code {
     /**
      * Success
      */
-    public static final AuditEventOutcome OUTCOME_0 = AuditEventOutcome.of(ValueSet.OUTCOME_0);
+    public static final AuditEventOutcome OUTCOME_0 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_0).build();
 
     /**
      * Minor failure
      */
-    public static final AuditEventOutcome OUTCOME_4 = AuditEventOutcome.of(ValueSet.OUTCOME_4);
+    public static final AuditEventOutcome OUTCOME_4 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_4).build();
 
     /**
      * Serious failure
      */
-    public static final AuditEventOutcome OUTCOME_8 = AuditEventOutcome.of(ValueSet.OUTCOME_8);
+    public static final AuditEventOutcome OUTCOME_8 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_8).build();
 
     /**
      * Major failure
      */
-    public static final AuditEventOutcome OUTCOME_12 = AuditEventOutcome.of(ValueSet.OUTCOME_12);
+    public static final AuditEventOutcome OUTCOME_12 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_12).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class AuditEventOutcome extends Code {
         super(builder);
     }
 
-    public static AuditEventOutcome of(java.lang.String value) {
-        return AuditEventOutcome.builder().value(value).build();
+    public static AuditEventOutcome of(ValueSet value) {
+        switch (value) {
+        case OUTCOME_0:
+            return OUTCOME_0;
+        case OUTCOME_4:
+            return OUTCOME_4;
+        case OUTCOME_8:
+            return OUTCOME_8;
+        case OUTCOME_12:
+            return OUTCOME_12;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AuditEventOutcome of(ValueSet value) {
-        return AuditEventOutcome.builder().value(value).build();
+    public static AuditEventOutcome of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AuditEventOutcome.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AuditEventOutcome.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

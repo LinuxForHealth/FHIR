@@ -26,7 +26,6 @@ public class Oid extends Uri {
 
     private Oid(Builder builder) {
         super(builder);
-        ValidationSupport.checkMinLength(value);
         ValidationSupport.checkValue(value, PATTERN);
     }
 

@@ -20,57 +20,57 @@ public class ObservationDataType extends Code {
     /**
      * Quantity
      */
-    public static final ObservationDataType QUANTITY = ObservationDataType.of(ValueSet.QUANTITY);
+    public static final ObservationDataType QUANTITY = ObservationDataType.builder().value(ValueSet.QUANTITY).build();
 
     /**
      * CodeableConcept
      */
-    public static final ObservationDataType CODEABLE_CONCEPT = ObservationDataType.of(ValueSet.CODEABLE_CONCEPT);
+    public static final ObservationDataType CODEABLE_CONCEPT = ObservationDataType.builder().value(ValueSet.CODEABLE_CONCEPT).build();
 
     /**
      * string
      */
-    public static final ObservationDataType STRING = ObservationDataType.of(ValueSet.STRING);
+    public static final ObservationDataType STRING = ObservationDataType.builder().value(ValueSet.STRING).build();
 
     /**
      * boolean
      */
-    public static final ObservationDataType BOOLEAN = ObservationDataType.of(ValueSet.BOOLEAN);
+    public static final ObservationDataType BOOLEAN = ObservationDataType.builder().value(ValueSet.BOOLEAN).build();
 
     /**
      * integer
      */
-    public static final ObservationDataType INTEGER = ObservationDataType.of(ValueSet.INTEGER);
+    public static final ObservationDataType INTEGER = ObservationDataType.builder().value(ValueSet.INTEGER).build();
 
     /**
      * Range
      */
-    public static final ObservationDataType RANGE = ObservationDataType.of(ValueSet.RANGE);
+    public static final ObservationDataType RANGE = ObservationDataType.builder().value(ValueSet.RANGE).build();
 
     /**
      * Ratio
      */
-    public static final ObservationDataType RATIO = ObservationDataType.of(ValueSet.RATIO);
+    public static final ObservationDataType RATIO = ObservationDataType.builder().value(ValueSet.RATIO).build();
 
     /**
      * SampledData
      */
-    public static final ObservationDataType SAMPLED_DATA = ObservationDataType.of(ValueSet.SAMPLED_DATA);
+    public static final ObservationDataType SAMPLED_DATA = ObservationDataType.builder().value(ValueSet.SAMPLED_DATA).build();
 
     /**
      * time
      */
-    public static final ObservationDataType TIME = ObservationDataType.of(ValueSet.TIME);
+    public static final ObservationDataType TIME = ObservationDataType.builder().value(ValueSet.TIME).build();
 
     /**
      * dateTime
      */
-    public static final ObservationDataType DATE_TIME = ObservationDataType.of(ValueSet.DATE_TIME);
+    public static final ObservationDataType DATE_TIME = ObservationDataType.builder().value(ValueSet.DATE_TIME).build();
 
     /**
      * Period
      */
-    public static final ObservationDataType PERIOD = ObservationDataType.of(ValueSet.PERIOD);
+    public static final ObservationDataType PERIOD = ObservationDataType.builder().value(ValueSet.PERIOD).build();
 
     private volatile int hashCode;
 
@@ -78,20 +78,45 @@ public class ObservationDataType extends Code {
         super(builder);
     }
 
-    public static ObservationDataType of(java.lang.String value) {
-        return ObservationDataType.builder().value(value).build();
+    public static ObservationDataType of(ValueSet value) {
+        switch (value) {
+        case QUANTITY:
+            return QUANTITY;
+        case CODEABLE_CONCEPT:
+            return CODEABLE_CONCEPT;
+        case STRING:
+            return STRING;
+        case BOOLEAN:
+            return BOOLEAN;
+        case INTEGER:
+            return INTEGER;
+        case RANGE:
+            return RANGE;
+        case RATIO:
+            return RATIO;
+        case SAMPLED_DATA:
+            return SAMPLED_DATA;
+        case TIME:
+            return TIME;
+        case DATE_TIME:
+            return DATE_TIME;
+        case PERIOD:
+            return PERIOD;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ObservationDataType of(ValueSet value) {
-        return ObservationDataType.builder().value(value).build();
+    public static ObservationDataType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ObservationDataType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ObservationDataType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

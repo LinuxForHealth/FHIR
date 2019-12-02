@@ -20,27 +20,27 @@ public class IdentifierUse extends Code {
     /**
      * Usual
      */
-    public static final IdentifierUse USUAL = IdentifierUse.of(ValueSet.USUAL);
+    public static final IdentifierUse USUAL = IdentifierUse.builder().value(ValueSet.USUAL).build();
 
     /**
      * Official
      */
-    public static final IdentifierUse OFFICIAL = IdentifierUse.of(ValueSet.OFFICIAL);
+    public static final IdentifierUse OFFICIAL = IdentifierUse.builder().value(ValueSet.OFFICIAL).build();
 
     /**
      * Temp
      */
-    public static final IdentifierUse TEMP = IdentifierUse.of(ValueSet.TEMP);
+    public static final IdentifierUse TEMP = IdentifierUse.builder().value(ValueSet.TEMP).build();
 
     /**
      * Secondary
      */
-    public static final IdentifierUse SECONDARY = IdentifierUse.of(ValueSet.SECONDARY);
+    public static final IdentifierUse SECONDARY = IdentifierUse.builder().value(ValueSet.SECONDARY).build();
 
     /**
      * Old
      */
-    public static final IdentifierUse OLD = IdentifierUse.of(ValueSet.OLD);
+    public static final IdentifierUse OLD = IdentifierUse.builder().value(ValueSet.OLD).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class IdentifierUse extends Code {
         super(builder);
     }
 
-    public static IdentifierUse of(java.lang.String value) {
-        return IdentifierUse.builder().value(value).build();
+    public static IdentifierUse of(ValueSet value) {
+        switch (value) {
+        case USUAL:
+            return USUAL;
+        case OFFICIAL:
+            return OFFICIAL;
+        case TEMP:
+            return TEMP;
+        case SECONDARY:
+            return SECONDARY;
+        case OLD:
+            return OLD;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static IdentifierUse of(ValueSet value) {
-        return IdentifierUse.builder().value(value).build();
+    public static IdentifierUse of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return IdentifierUse.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return IdentifierUse.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

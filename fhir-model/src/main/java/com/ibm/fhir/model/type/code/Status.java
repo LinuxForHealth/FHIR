@@ -20,32 +20,32 @@ public class Status extends Code {
     /**
      * Attested
      */
-    public static final Status ATTESTED = Status.of(ValueSet.ATTESTED);
+    public static final Status ATTESTED = Status.builder().value(ValueSet.ATTESTED).build();
 
     /**
      * Validated
      */
-    public static final Status VALIDATED = Status.of(ValueSet.VALIDATED);
+    public static final Status VALIDATED = Status.builder().value(ValueSet.VALIDATED).build();
 
     /**
      * In process
      */
-    public static final Status IN_PROCESS = Status.of(ValueSet.IN_PROCESS);
+    public static final Status IN_PROCESS = Status.builder().value(ValueSet.IN_PROCESS).build();
 
     /**
      * Requires revalidation
      */
-    public static final Status REQ_REVALID = Status.of(ValueSet.REQ_REVALID);
+    public static final Status REQ_REVALID = Status.builder().value(ValueSet.REQ_REVALID).build();
 
     /**
      * Validation failed
      */
-    public static final Status VAL_FAIL = Status.of(ValueSet.VAL_FAIL);
+    public static final Status VAL_FAIL = Status.builder().value(ValueSet.VAL_FAIL).build();
 
     /**
      * Re-Validation failed
      */
-    public static final Status REVAL_FAIL = Status.of(ValueSet.REVAL_FAIL);
+    public static final Status REVAL_FAIL = Status.builder().value(ValueSet.REVAL_FAIL).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class Status extends Code {
         super(builder);
     }
 
-    public static Status of(java.lang.String value) {
-        return Status.builder().value(value).build();
+    public static Status of(ValueSet value) {
+        switch (value) {
+        case ATTESTED:
+            return ATTESTED;
+        case VALIDATED:
+            return VALIDATED;
+        case IN_PROCESS:
+            return IN_PROCESS;
+        case REQ_REVALID:
+            return REQ_REVALID;
+        case VAL_FAIL:
+            return VAL_FAIL;
+        case REVAL_FAIL:
+            return REVAL_FAIL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static Status of(ValueSet value) {
-        return Status.builder().value(value).build();
+    public static Status of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return Status.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return Status.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

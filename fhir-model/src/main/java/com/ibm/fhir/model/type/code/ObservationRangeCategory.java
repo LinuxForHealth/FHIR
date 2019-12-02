@@ -20,17 +20,17 @@ public class ObservationRangeCategory extends Code {
     /**
      * reference range
      */
-    public static final ObservationRangeCategory REFERENCE = ObservationRangeCategory.of(ValueSet.REFERENCE);
+    public static final ObservationRangeCategory REFERENCE = ObservationRangeCategory.builder().value(ValueSet.REFERENCE).build();
 
     /**
      * critical range
      */
-    public static final ObservationRangeCategory CRITICAL = ObservationRangeCategory.of(ValueSet.CRITICAL);
+    public static final ObservationRangeCategory CRITICAL = ObservationRangeCategory.builder().value(ValueSet.CRITICAL).build();
 
     /**
      * absolute range
      */
-    public static final ObservationRangeCategory ABSOLUTE = ObservationRangeCategory.of(ValueSet.ABSOLUTE);
+    public static final ObservationRangeCategory ABSOLUTE = ObservationRangeCategory.builder().value(ValueSet.ABSOLUTE).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ObservationRangeCategory extends Code {
         super(builder);
     }
 
-    public static ObservationRangeCategory of(java.lang.String value) {
-        return ObservationRangeCategory.builder().value(value).build();
+    public static ObservationRangeCategory of(ValueSet value) {
+        switch (value) {
+        case REFERENCE:
+            return REFERENCE;
+        case CRITICAL:
+            return CRITICAL;
+        case ABSOLUTE:
+            return ABSOLUTE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ObservationRangeCategory of(ValueSet value) {
-        return ObservationRangeCategory.builder().value(value).build();
+    public static ObservationRangeCategory of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ObservationRangeCategory.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ObservationRangeCategory.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,42 +20,42 @@ public class TriggerType extends Code {
     /**
      * Named Event
      */
-    public static final TriggerType NAMED_EVENT = TriggerType.of(ValueSet.NAMED_EVENT);
+    public static final TriggerType NAMED_EVENT = TriggerType.builder().value(ValueSet.NAMED_EVENT).build();
 
     /**
      * Periodic
      */
-    public static final TriggerType PERIODIC = TriggerType.of(ValueSet.PERIODIC);
+    public static final TriggerType PERIODIC = TriggerType.builder().value(ValueSet.PERIODIC).build();
 
     /**
      * Data Changed
      */
-    public static final TriggerType DATA_CHANGED = TriggerType.of(ValueSet.DATA_CHANGED);
+    public static final TriggerType DATA_CHANGED = TriggerType.builder().value(ValueSet.DATA_CHANGED).build();
 
     /**
      * Data Added
      */
-    public static final TriggerType DATA_ADDED = TriggerType.of(ValueSet.DATA_ADDED);
+    public static final TriggerType DATA_ADDED = TriggerType.builder().value(ValueSet.DATA_ADDED).build();
 
     /**
      * Data Updated
      */
-    public static final TriggerType DATA_MODIFIED = TriggerType.of(ValueSet.DATA_MODIFIED);
+    public static final TriggerType DATA_MODIFIED = TriggerType.builder().value(ValueSet.DATA_MODIFIED).build();
 
     /**
      * Data Removed
      */
-    public static final TriggerType DATA_REMOVED = TriggerType.of(ValueSet.DATA_REMOVED);
+    public static final TriggerType DATA_REMOVED = TriggerType.builder().value(ValueSet.DATA_REMOVED).build();
 
     /**
      * Data Accessed
      */
-    public static final TriggerType DATA_ACCESSED = TriggerType.of(ValueSet.DATA_ACCESSED);
+    public static final TriggerType DATA_ACCESSED = TriggerType.builder().value(ValueSet.DATA_ACCESSED).build();
 
     /**
      * Data Access Ended
      */
-    public static final TriggerType DATA_ACCESS_ENDED = TriggerType.of(ValueSet.DATA_ACCESS_ENDED);
+    public static final TriggerType DATA_ACCESS_ENDED = TriggerType.builder().value(ValueSet.DATA_ACCESS_ENDED).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class TriggerType extends Code {
         super(builder);
     }
 
-    public static TriggerType of(java.lang.String value) {
-        return TriggerType.builder().value(value).build();
+    public static TriggerType of(ValueSet value) {
+        switch (value) {
+        case NAMED_EVENT:
+            return NAMED_EVENT;
+        case PERIODIC:
+            return PERIODIC;
+        case DATA_CHANGED:
+            return DATA_CHANGED;
+        case DATA_ADDED:
+            return DATA_ADDED;
+        case DATA_MODIFIED:
+            return DATA_MODIFIED;
+        case DATA_REMOVED:
+            return DATA_REMOVED;
+        case DATA_ACCESSED:
+            return DATA_ACCESSED;
+        case DATA_ACCESS_ENDED:
+            return DATA_ACCESS_ENDED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static TriggerType of(ValueSet value) {
-        return TriggerType.builder().value(value).build();
+    public static TriggerType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return TriggerType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TriggerType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

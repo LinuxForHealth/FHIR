@@ -20,17 +20,17 @@ public class ResearchElementType extends Code {
     /**
      * Population
      */
-    public static final ResearchElementType POPULATION = ResearchElementType.of(ValueSet.POPULATION);
+    public static final ResearchElementType POPULATION = ResearchElementType.builder().value(ValueSet.POPULATION).build();
 
     /**
      * Exposure
      */
-    public static final ResearchElementType EXPOSURE = ResearchElementType.of(ValueSet.EXPOSURE);
+    public static final ResearchElementType EXPOSURE = ResearchElementType.builder().value(ValueSet.EXPOSURE).build();
 
     /**
      * Outcome
      */
-    public static final ResearchElementType OUTCOME = ResearchElementType.of(ValueSet.OUTCOME);
+    public static final ResearchElementType OUTCOME = ResearchElementType.builder().value(ValueSet.OUTCOME).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ResearchElementType extends Code {
         super(builder);
     }
 
-    public static ResearchElementType of(java.lang.String value) {
-        return ResearchElementType.builder().value(value).build();
+    public static ResearchElementType of(ValueSet value) {
+        switch (value) {
+        case POPULATION:
+            return POPULATION;
+        case EXPOSURE:
+            return EXPOSURE;
+        case OUTCOME:
+            return OUTCOME;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ResearchElementType of(ValueSet value) {
-        return ResearchElementType.builder().value(value).build();
+    public static ResearchElementType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ResearchElementType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ResearchElementType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

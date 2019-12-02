@@ -7,9 +7,8 @@
 package com.ibm.fhir.audit.logging.api;
 
 /**
- * This enum defines allowable types of audit log events that can be logged using the FHIR server Audit Log Service.
- * @author markd
- *
+ * This enum defines allowable types of audit log events that can be logged using
+ * Audit Log Service.
  */
 public enum AuditLogEventType {
     
@@ -38,19 +37,17 @@ public enum AuditLogEventType {
     FHIR_CONFIGDATA("fhir-configdata"), 
     
     FHIR_OPERATION("fhir-operation");
-        
-    
-        
+
     private String value = null;
     
     AuditLogEventType(String value) {
         this.value = value;
     }
-    
+
     public String value() {
         return value;
     }
-    
+
     public static AuditLogEventType fromValue(String value) {
         for (AuditLogEventType entryType : AuditLogEventType.values()) {
             if (entryType.value.equalsIgnoreCase(value)) {

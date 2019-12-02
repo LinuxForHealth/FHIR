@@ -20,57 +20,57 @@ public class ResearchStudyStatus extends Code {
     /**
      * Active
      */
-    public static final ResearchStudyStatus ACTIVE = ResearchStudyStatus.of(ValueSet.ACTIVE);
+    public static final ResearchStudyStatus ACTIVE = ResearchStudyStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Administratively Completed
      */
-    public static final ResearchStudyStatus ADMINISTRATIVELY_COMPLETED = ResearchStudyStatus.of(ValueSet.ADMINISTRATIVELY_COMPLETED);
+    public static final ResearchStudyStatus ADMINISTRATIVELY_COMPLETED = ResearchStudyStatus.builder().value(ValueSet.ADMINISTRATIVELY_COMPLETED).build();
 
     /**
      * Approved
      */
-    public static final ResearchStudyStatus APPROVED = ResearchStudyStatus.of(ValueSet.APPROVED);
+    public static final ResearchStudyStatus APPROVED = ResearchStudyStatus.builder().value(ValueSet.APPROVED).build();
 
     /**
      * Closed to Accrual
      */
-    public static final ResearchStudyStatus CLOSED_TO_ACCRUAL = ResearchStudyStatus.of(ValueSet.CLOSED_TO_ACCRUAL);
+    public static final ResearchStudyStatus CLOSED_TO_ACCRUAL = ResearchStudyStatus.builder().value(ValueSet.CLOSED_TO_ACCRUAL).build();
 
     /**
      * Closed to Accrual and Intervention
      */
-    public static final ResearchStudyStatus CLOSED_TO_ACCRUAL_AND_INTERVENTION = ResearchStudyStatus.of(ValueSet.CLOSED_TO_ACCRUAL_AND_INTERVENTION);
+    public static final ResearchStudyStatus CLOSED_TO_ACCRUAL_AND_INTERVENTION = ResearchStudyStatus.builder().value(ValueSet.CLOSED_TO_ACCRUAL_AND_INTERVENTION).build();
 
     /**
      * Completed
      */
-    public static final ResearchStudyStatus COMPLETED = ResearchStudyStatus.of(ValueSet.COMPLETED);
+    public static final ResearchStudyStatus COMPLETED = ResearchStudyStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Disapproved
      */
-    public static final ResearchStudyStatus DISAPPROVED = ResearchStudyStatus.of(ValueSet.DISAPPROVED);
+    public static final ResearchStudyStatus DISAPPROVED = ResearchStudyStatus.builder().value(ValueSet.DISAPPROVED).build();
 
     /**
      * In Review
      */
-    public static final ResearchStudyStatus IN_REVIEW = ResearchStudyStatus.of(ValueSet.IN_REVIEW);
+    public static final ResearchStudyStatus IN_REVIEW = ResearchStudyStatus.builder().value(ValueSet.IN_REVIEW).build();
 
     /**
      * Temporarily Closed to Accrual
      */
-    public static final ResearchStudyStatus TEMPORARILY_CLOSED_TO_ACCRUAL = ResearchStudyStatus.of(ValueSet.TEMPORARILY_CLOSED_TO_ACCRUAL);
+    public static final ResearchStudyStatus TEMPORARILY_CLOSED_TO_ACCRUAL = ResearchStudyStatus.builder().value(ValueSet.TEMPORARILY_CLOSED_TO_ACCRUAL).build();
 
     /**
      * Temporarily Closed to Accrual and Intervention
      */
-    public static final ResearchStudyStatus TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION = ResearchStudyStatus.of(ValueSet.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION);
+    public static final ResearchStudyStatus TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION = ResearchStudyStatus.builder().value(ValueSet.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION).build();
 
     /**
      * Withdrawn
      */
-    public static final ResearchStudyStatus WITHDRAWN = ResearchStudyStatus.of(ValueSet.WITHDRAWN);
+    public static final ResearchStudyStatus WITHDRAWN = ResearchStudyStatus.builder().value(ValueSet.WITHDRAWN).build();
 
     private volatile int hashCode;
 
@@ -78,20 +78,45 @@ public class ResearchStudyStatus extends Code {
         super(builder);
     }
 
-    public static ResearchStudyStatus of(java.lang.String value) {
-        return ResearchStudyStatus.builder().value(value).build();
+    public static ResearchStudyStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case ADMINISTRATIVELY_COMPLETED:
+            return ADMINISTRATIVELY_COMPLETED;
+        case APPROVED:
+            return APPROVED;
+        case CLOSED_TO_ACCRUAL:
+            return CLOSED_TO_ACCRUAL;
+        case CLOSED_TO_ACCRUAL_AND_INTERVENTION:
+            return CLOSED_TO_ACCRUAL_AND_INTERVENTION;
+        case COMPLETED:
+            return COMPLETED;
+        case DISAPPROVED:
+            return DISAPPROVED;
+        case IN_REVIEW:
+            return IN_REVIEW;
+        case TEMPORARILY_CLOSED_TO_ACCRUAL:
+            return TEMPORARILY_CLOSED_TO_ACCRUAL;
+        case TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION:
+            return TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION;
+        case WITHDRAWN:
+            return WITHDRAWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ResearchStudyStatus of(ValueSet value) {
-        return ResearchStudyStatus.builder().value(value).build();
+    public static ResearchStudyStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ResearchStudyStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ResearchStudyStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

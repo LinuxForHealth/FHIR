@@ -20,17 +20,17 @@ public class ParticipantRequired extends Code {
     /**
      * Required
      */
-    public static final ParticipantRequired REQUIRED = ParticipantRequired.of(ValueSet.REQUIRED);
+    public static final ParticipantRequired REQUIRED = ParticipantRequired.builder().value(ValueSet.REQUIRED).build();
 
     /**
      * Optional
      */
-    public static final ParticipantRequired OPTIONAL = ParticipantRequired.of(ValueSet.OPTIONAL);
+    public static final ParticipantRequired OPTIONAL = ParticipantRequired.builder().value(ValueSet.OPTIONAL).build();
 
     /**
      * Information Only
      */
-    public static final ParticipantRequired INFORMATION_ONLY = ParticipantRequired.of(ValueSet.INFORMATION_ONLY);
+    public static final ParticipantRequired INFORMATION_ONLY = ParticipantRequired.builder().value(ValueSet.INFORMATION_ONLY).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ParticipantRequired extends Code {
         super(builder);
     }
 
-    public static ParticipantRequired of(java.lang.String value) {
-        return ParticipantRequired.builder().value(value).build();
+    public static ParticipantRequired of(ValueSet value) {
+        switch (value) {
+        case REQUIRED:
+            return REQUIRED;
+        case OPTIONAL:
+            return OPTIONAL;
+        case INFORMATION_ONLY:
+            return INFORMATION_ONLY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ParticipantRequired of(ValueSet value) {
-        return ParticipantRequired.builder().value(value).build();
+    public static ParticipantRequired of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ParticipantRequired.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ParticipantRequired.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

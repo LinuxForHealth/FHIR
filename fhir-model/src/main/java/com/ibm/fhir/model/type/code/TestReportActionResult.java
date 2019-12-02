@@ -20,27 +20,27 @@ public class TestReportActionResult extends Code {
     /**
      * Pass
      */
-    public static final TestReportActionResult PASS = TestReportActionResult.of(ValueSet.PASS);
+    public static final TestReportActionResult PASS = TestReportActionResult.builder().value(ValueSet.PASS).build();
 
     /**
      * Skip
      */
-    public static final TestReportActionResult SKIP = TestReportActionResult.of(ValueSet.SKIP);
+    public static final TestReportActionResult SKIP = TestReportActionResult.builder().value(ValueSet.SKIP).build();
 
     /**
      * Fail
      */
-    public static final TestReportActionResult FAIL = TestReportActionResult.of(ValueSet.FAIL);
+    public static final TestReportActionResult FAIL = TestReportActionResult.builder().value(ValueSet.FAIL).build();
 
     /**
      * Warning
      */
-    public static final TestReportActionResult WARNING = TestReportActionResult.of(ValueSet.WARNING);
+    public static final TestReportActionResult WARNING = TestReportActionResult.builder().value(ValueSet.WARNING).build();
 
     /**
      * Error
      */
-    public static final TestReportActionResult ERROR = TestReportActionResult.of(ValueSet.ERROR);
+    public static final TestReportActionResult ERROR = TestReportActionResult.builder().value(ValueSet.ERROR).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class TestReportActionResult extends Code {
         super(builder);
     }
 
-    public static TestReportActionResult of(java.lang.String value) {
-        return TestReportActionResult.builder().value(value).build();
+    public static TestReportActionResult of(ValueSet value) {
+        switch (value) {
+        case PASS:
+            return PASS;
+        case SKIP:
+            return SKIP;
+        case FAIL:
+            return FAIL;
+        case WARNING:
+            return WARNING;
+        case ERROR:
+            return ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static TestReportActionResult of(ValueSet value) {
-        return TestReportActionResult.builder().value(value).build();
+    public static TestReportActionResult of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return TestReportActionResult.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TestReportActionResult.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

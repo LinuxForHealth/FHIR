@@ -20,37 +20,37 @@ public class DeviceRequestStatus extends Code {
     /**
      * Draft
      */
-    public static final DeviceRequestStatus DRAFT = DeviceRequestStatus.of(ValueSet.DRAFT);
+    public static final DeviceRequestStatus DRAFT = DeviceRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
      */
-    public static final DeviceRequestStatus ACTIVE = DeviceRequestStatus.of(ValueSet.ACTIVE);
+    public static final DeviceRequestStatus ACTIVE = DeviceRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
      */
-    public static final DeviceRequestStatus ON_HOLD = DeviceRequestStatus.of(ValueSet.ON_HOLD);
+    public static final DeviceRequestStatus ON_HOLD = DeviceRequestStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Revoked
      */
-    public static final DeviceRequestStatus REVOKED = DeviceRequestStatus.of(ValueSet.REVOKED);
+    public static final DeviceRequestStatus REVOKED = DeviceRequestStatus.builder().value(ValueSet.REVOKED).build();
 
     /**
      * Completed
      */
-    public static final DeviceRequestStatus COMPLETED = DeviceRequestStatus.of(ValueSet.COMPLETED);
+    public static final DeviceRequestStatus COMPLETED = DeviceRequestStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final DeviceRequestStatus ENTERED_IN_ERROR = DeviceRequestStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final DeviceRequestStatus ENTERED_IN_ERROR = DeviceRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final DeviceRequestStatus UNKNOWN = DeviceRequestStatus.of(ValueSet.UNKNOWN);
+    public static final DeviceRequestStatus UNKNOWN = DeviceRequestStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class DeviceRequestStatus extends Code {
         super(builder);
     }
 
-    public static DeviceRequestStatus of(java.lang.String value) {
-        return DeviceRequestStatus.builder().value(value).build();
+    public static DeviceRequestStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case REVOKED:
+            return REVOKED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static DeviceRequestStatus of(ValueSet value) {
-        return DeviceRequestStatus.builder().value(value).build();
+    public static DeviceRequestStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return DeviceRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DeviceRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

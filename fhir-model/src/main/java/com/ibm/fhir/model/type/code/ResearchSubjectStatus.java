@@ -20,67 +20,67 @@ public class ResearchSubjectStatus extends Code {
     /**
      * Candidate
      */
-    public static final ResearchSubjectStatus CANDIDATE = ResearchSubjectStatus.of(ValueSet.CANDIDATE);
+    public static final ResearchSubjectStatus CANDIDATE = ResearchSubjectStatus.builder().value(ValueSet.CANDIDATE).build();
 
     /**
      * Eligible
      */
-    public static final ResearchSubjectStatus ELIGIBLE = ResearchSubjectStatus.of(ValueSet.ELIGIBLE);
+    public static final ResearchSubjectStatus ELIGIBLE = ResearchSubjectStatus.builder().value(ValueSet.ELIGIBLE).build();
 
     /**
      * Follow-up
      */
-    public static final ResearchSubjectStatus FOLLOW_UP = ResearchSubjectStatus.of(ValueSet.FOLLOW_UP);
+    public static final ResearchSubjectStatus FOLLOW_UP = ResearchSubjectStatus.builder().value(ValueSet.FOLLOW_UP).build();
 
     /**
      * Ineligible
      */
-    public static final ResearchSubjectStatus INELIGIBLE = ResearchSubjectStatus.of(ValueSet.INELIGIBLE);
+    public static final ResearchSubjectStatus INELIGIBLE = ResearchSubjectStatus.builder().value(ValueSet.INELIGIBLE).build();
 
     /**
      * Not Registered
      */
-    public static final ResearchSubjectStatus NOT_REGISTERED = ResearchSubjectStatus.of(ValueSet.NOT_REGISTERED);
+    public static final ResearchSubjectStatus NOT_REGISTERED = ResearchSubjectStatus.builder().value(ValueSet.NOT_REGISTERED).build();
 
     /**
      * Off-study
      */
-    public static final ResearchSubjectStatus OFF_STUDY = ResearchSubjectStatus.of(ValueSet.OFF_STUDY);
+    public static final ResearchSubjectStatus OFF_STUDY = ResearchSubjectStatus.builder().value(ValueSet.OFF_STUDY).build();
 
     /**
      * On-study
      */
-    public static final ResearchSubjectStatus ON_STUDY = ResearchSubjectStatus.of(ValueSet.ON_STUDY);
+    public static final ResearchSubjectStatus ON_STUDY = ResearchSubjectStatus.builder().value(ValueSet.ON_STUDY).build();
 
     /**
      * On-study-intervention
      */
-    public static final ResearchSubjectStatus ON_STUDY_INTERVENTION = ResearchSubjectStatus.of(ValueSet.ON_STUDY_INTERVENTION);
+    public static final ResearchSubjectStatus ON_STUDY_INTERVENTION = ResearchSubjectStatus.builder().value(ValueSet.ON_STUDY_INTERVENTION).build();
 
     /**
      * On-study-observation
      */
-    public static final ResearchSubjectStatus ON_STUDY_OBSERVATION = ResearchSubjectStatus.of(ValueSet.ON_STUDY_OBSERVATION);
+    public static final ResearchSubjectStatus ON_STUDY_OBSERVATION = ResearchSubjectStatus.builder().value(ValueSet.ON_STUDY_OBSERVATION).build();
 
     /**
      * Pending on-study
      */
-    public static final ResearchSubjectStatus PENDING_ON_STUDY = ResearchSubjectStatus.of(ValueSet.PENDING_ON_STUDY);
+    public static final ResearchSubjectStatus PENDING_ON_STUDY = ResearchSubjectStatus.builder().value(ValueSet.PENDING_ON_STUDY).build();
 
     /**
      * Potential Candidate
      */
-    public static final ResearchSubjectStatus POTENTIAL_CANDIDATE = ResearchSubjectStatus.of(ValueSet.POTENTIAL_CANDIDATE);
+    public static final ResearchSubjectStatus POTENTIAL_CANDIDATE = ResearchSubjectStatus.builder().value(ValueSet.POTENTIAL_CANDIDATE).build();
 
     /**
      * Screening
      */
-    public static final ResearchSubjectStatus SCREENING = ResearchSubjectStatus.of(ValueSet.SCREENING);
+    public static final ResearchSubjectStatus SCREENING = ResearchSubjectStatus.builder().value(ValueSet.SCREENING).build();
 
     /**
      * Withdrawn
      */
-    public static final ResearchSubjectStatus WITHDRAWN = ResearchSubjectStatus.of(ValueSet.WITHDRAWN);
+    public static final ResearchSubjectStatus WITHDRAWN = ResearchSubjectStatus.builder().value(ValueSet.WITHDRAWN).build();
 
     private volatile int hashCode;
 
@@ -88,20 +88,49 @@ public class ResearchSubjectStatus extends Code {
         super(builder);
     }
 
-    public static ResearchSubjectStatus of(java.lang.String value) {
-        return ResearchSubjectStatus.builder().value(value).build();
+    public static ResearchSubjectStatus of(ValueSet value) {
+        switch (value) {
+        case CANDIDATE:
+            return CANDIDATE;
+        case ELIGIBLE:
+            return ELIGIBLE;
+        case FOLLOW_UP:
+            return FOLLOW_UP;
+        case INELIGIBLE:
+            return INELIGIBLE;
+        case NOT_REGISTERED:
+            return NOT_REGISTERED;
+        case OFF_STUDY:
+            return OFF_STUDY;
+        case ON_STUDY:
+            return ON_STUDY;
+        case ON_STUDY_INTERVENTION:
+            return ON_STUDY_INTERVENTION;
+        case ON_STUDY_OBSERVATION:
+            return ON_STUDY_OBSERVATION;
+        case PENDING_ON_STUDY:
+            return PENDING_ON_STUDY;
+        case POTENTIAL_CANDIDATE:
+            return POTENTIAL_CANDIDATE;
+        case SCREENING:
+            return SCREENING;
+        case WITHDRAWN:
+            return WITHDRAWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ResearchSubjectStatus of(ValueSet value) {
-        return ResearchSubjectStatus.builder().value(value).build();
+    public static ResearchSubjectStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ResearchSubjectStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ResearchSubjectStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

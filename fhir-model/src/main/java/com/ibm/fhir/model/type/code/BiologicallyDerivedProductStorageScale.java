@@ -20,17 +20,17 @@ public class BiologicallyDerivedProductStorageScale extends Code {
     /**
      * Fahrenheit
      */
-    public static final BiologicallyDerivedProductStorageScale FARENHEIT = BiologicallyDerivedProductStorageScale.of(ValueSet.FARENHEIT);
+    public static final BiologicallyDerivedProductStorageScale FARENHEIT = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.FARENHEIT).build();
 
     /**
      * Celsius
      */
-    public static final BiologicallyDerivedProductStorageScale CELSIUS = BiologicallyDerivedProductStorageScale.of(ValueSet.CELSIUS);
+    public static final BiologicallyDerivedProductStorageScale CELSIUS = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.CELSIUS).build();
 
     /**
      * Kelvin
      */
-    public static final BiologicallyDerivedProductStorageScale KELVIN = BiologicallyDerivedProductStorageScale.of(ValueSet.KELVIN);
+    public static final BiologicallyDerivedProductStorageScale KELVIN = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.KELVIN).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class BiologicallyDerivedProductStorageScale extends Code {
         super(builder);
     }
 
-    public static BiologicallyDerivedProductStorageScale of(java.lang.String value) {
-        return BiologicallyDerivedProductStorageScale.builder().value(value).build();
+    public static BiologicallyDerivedProductStorageScale of(ValueSet value) {
+        switch (value) {
+        case FARENHEIT:
+            return FARENHEIT;
+        case CELSIUS:
+            return CELSIUS;
+        case KELVIN:
+            return KELVIN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static BiologicallyDerivedProductStorageScale of(ValueSet value) {
-        return BiologicallyDerivedProductStorageScale.builder().value(value).build();
+    public static BiologicallyDerivedProductStorageScale of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return BiologicallyDerivedProductStorageScale.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return BiologicallyDerivedProductStorageScale.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

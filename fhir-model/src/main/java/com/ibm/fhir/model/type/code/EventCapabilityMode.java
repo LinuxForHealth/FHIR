@@ -20,12 +20,12 @@ public class EventCapabilityMode extends Code {
     /**
      * Sender
      */
-    public static final EventCapabilityMode SENDER = EventCapabilityMode.of(ValueSet.SENDER);
+    public static final EventCapabilityMode SENDER = EventCapabilityMode.builder().value(ValueSet.SENDER).build();
 
     /**
      * Receiver
      */
-    public static final EventCapabilityMode RECEIVER = EventCapabilityMode.of(ValueSet.RECEIVER);
+    public static final EventCapabilityMode RECEIVER = EventCapabilityMode.builder().value(ValueSet.RECEIVER).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class EventCapabilityMode extends Code {
         super(builder);
     }
 
-    public static EventCapabilityMode of(java.lang.String value) {
-        return EventCapabilityMode.builder().value(value).build();
+    public static EventCapabilityMode of(ValueSet value) {
+        switch (value) {
+        case SENDER:
+            return SENDER;
+        case RECEIVER:
+            return RECEIVER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static EventCapabilityMode of(ValueSet value) {
-        return EventCapabilityMode.builder().value(value).build();
+    public static EventCapabilityMode of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return EventCapabilityMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EventCapabilityMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

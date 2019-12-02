@@ -8,7 +8,7 @@ package com.ibm.fhir.benchmark;
 
 import static com.ibm.fhir.benchmark.runner.FHIRBenchmarkRunner.PROPERTY_EXAMPLE_NAME;
 import static com.ibm.fhir.benchmark.runner.FHIRBenchmarkRunner.PROPERTY_EXPRESSION;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.singleton;
+import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 
 import java.io.StringReader;
 import java.util.Collection;
@@ -24,10 +24,10 @@ import com.ibm.fhir.benchmark.runner.FHIRBenchmarkRunner;
 import com.ibm.fhir.benchmark.util.BenchmarkUtil;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.fluentpath.IFluentPath;
@@ -91,6 +91,6 @@ public class FHIRPathEvaluatorBenchmark {
         new FHIRBenchmarkRunner(FHIRPathEvaluatorBenchmark.class)
                 .property(PROPERTY_EXAMPLE_NAME, EXAMPLE_NAME)
                 .property(PROPERTY_EXPRESSION, EXPRESSION)
-                .run();
+                .run(BenchmarkUtil.getRandomSpecExampleName());
     }
 }

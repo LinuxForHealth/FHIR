@@ -20,12 +20,12 @@ public class VisionEyes extends Code {
     /**
      * Right Eye
      */
-    public static final VisionEyes RIGHT = VisionEyes.of(ValueSet.RIGHT);
+    public static final VisionEyes RIGHT = VisionEyes.builder().value(ValueSet.RIGHT).build();
 
     /**
      * Left Eye
      */
-    public static final VisionEyes LEFT = VisionEyes.of(ValueSet.LEFT);
+    public static final VisionEyes LEFT = VisionEyes.builder().value(ValueSet.LEFT).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class VisionEyes extends Code {
         super(builder);
     }
 
-    public static VisionEyes of(java.lang.String value) {
-        return VisionEyes.builder().value(value).build();
+    public static VisionEyes of(ValueSet value) {
+        switch (value) {
+        case RIGHT:
+            return RIGHT;
+        case LEFT:
+            return LEFT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static VisionEyes of(ValueSet value) {
-        return VisionEyes.builder().value(value).build();
+    public static VisionEyes of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return VisionEyes.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return VisionEyes.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

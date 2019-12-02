@@ -20,77 +20,77 @@ public class ContractPublicationStatus extends Code {
     /**
      * Amended
      */
-    public static final ContractPublicationStatus AMENDED = ContractPublicationStatus.of(ValueSet.AMENDED);
+    public static final ContractPublicationStatus AMENDED = ContractPublicationStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Appended
      */
-    public static final ContractPublicationStatus APPENDED = ContractPublicationStatus.of(ValueSet.APPENDED);
+    public static final ContractPublicationStatus APPENDED = ContractPublicationStatus.builder().value(ValueSet.APPENDED).build();
 
     /**
      * Cancelled
      */
-    public static final ContractPublicationStatus CANCELLED = ContractPublicationStatus.of(ValueSet.CANCELLED);
+    public static final ContractPublicationStatus CANCELLED = ContractPublicationStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Disputed
      */
-    public static final ContractPublicationStatus DISPUTED = ContractPublicationStatus.of(ValueSet.DISPUTED);
+    public static final ContractPublicationStatus DISPUTED = ContractPublicationStatus.builder().value(ValueSet.DISPUTED).build();
 
     /**
      * Entered in Error
      */
-    public static final ContractPublicationStatus ENTERED_IN_ERROR = ContractPublicationStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ContractPublicationStatus ENTERED_IN_ERROR = ContractPublicationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Executable
      */
-    public static final ContractPublicationStatus EXECUTABLE = ContractPublicationStatus.of(ValueSet.EXECUTABLE);
+    public static final ContractPublicationStatus EXECUTABLE = ContractPublicationStatus.builder().value(ValueSet.EXECUTABLE).build();
 
     /**
      * Executed
      */
-    public static final ContractPublicationStatus EXECUTED = ContractPublicationStatus.of(ValueSet.EXECUTED);
+    public static final ContractPublicationStatus EXECUTED = ContractPublicationStatus.builder().value(ValueSet.EXECUTED).build();
 
     /**
      * Negotiable
      */
-    public static final ContractPublicationStatus NEGOTIABLE = ContractPublicationStatus.of(ValueSet.NEGOTIABLE);
+    public static final ContractPublicationStatus NEGOTIABLE = ContractPublicationStatus.builder().value(ValueSet.NEGOTIABLE).build();
 
     /**
      * Offered
      */
-    public static final ContractPublicationStatus OFFERED = ContractPublicationStatus.of(ValueSet.OFFERED);
+    public static final ContractPublicationStatus OFFERED = ContractPublicationStatus.builder().value(ValueSet.OFFERED).build();
 
     /**
      * Policy
      */
-    public static final ContractPublicationStatus POLICY = ContractPublicationStatus.of(ValueSet.POLICY);
+    public static final ContractPublicationStatus POLICY = ContractPublicationStatus.builder().value(ValueSet.POLICY).build();
 
     /**
      * Rejected
      */
-    public static final ContractPublicationStatus REJECTED = ContractPublicationStatus.of(ValueSet.REJECTED);
+    public static final ContractPublicationStatus REJECTED = ContractPublicationStatus.builder().value(ValueSet.REJECTED).build();
 
     /**
      * Renewed
      */
-    public static final ContractPublicationStatus RENEWED = ContractPublicationStatus.of(ValueSet.RENEWED);
+    public static final ContractPublicationStatus RENEWED = ContractPublicationStatus.builder().value(ValueSet.RENEWED).build();
 
     /**
      * Revoked
      */
-    public static final ContractPublicationStatus REVOKED = ContractPublicationStatus.of(ValueSet.REVOKED);
+    public static final ContractPublicationStatus REVOKED = ContractPublicationStatus.builder().value(ValueSet.REVOKED).build();
 
     /**
      * Resolved
      */
-    public static final ContractPublicationStatus RESOLVED = ContractPublicationStatus.of(ValueSet.RESOLVED);
+    public static final ContractPublicationStatus RESOLVED = ContractPublicationStatus.builder().value(ValueSet.RESOLVED).build();
 
     /**
      * Terminated
      */
-    public static final ContractPublicationStatus TERMINATED = ContractPublicationStatus.of(ValueSet.TERMINATED);
+    public static final ContractPublicationStatus TERMINATED = ContractPublicationStatus.builder().value(ValueSet.TERMINATED).build();
 
     private volatile int hashCode;
 
@@ -98,20 +98,53 @@ public class ContractPublicationStatus extends Code {
         super(builder);
     }
 
-    public static ContractPublicationStatus of(java.lang.String value) {
-        return ContractPublicationStatus.builder().value(value).build();
+    public static ContractPublicationStatus of(ValueSet value) {
+        switch (value) {
+        case AMENDED:
+            return AMENDED;
+        case APPENDED:
+            return APPENDED;
+        case CANCELLED:
+            return CANCELLED;
+        case DISPUTED:
+            return DISPUTED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case EXECUTABLE:
+            return EXECUTABLE;
+        case EXECUTED:
+            return EXECUTED;
+        case NEGOTIABLE:
+            return NEGOTIABLE;
+        case OFFERED:
+            return OFFERED;
+        case POLICY:
+            return POLICY;
+        case REJECTED:
+            return REJECTED;
+        case RENEWED:
+            return RENEWED;
+        case REVOKED:
+            return REVOKED;
+        case RESOLVED:
+            return RESOLVED;
+        case TERMINATED:
+            return TERMINATED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ContractPublicationStatus of(ValueSet value) {
-        return ContractPublicationStatus.builder().value(value).build();
+    public static ContractPublicationStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ContractPublicationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ContractPublicationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

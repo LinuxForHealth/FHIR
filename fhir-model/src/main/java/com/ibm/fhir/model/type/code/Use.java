@@ -20,17 +20,17 @@ public class Use extends Code {
     /**
      * Claim
      */
-    public static final Use CLAIM = Use.of(ValueSet.CLAIM);
+    public static final Use CLAIM = Use.builder().value(ValueSet.CLAIM).build();
 
     /**
      * Preauthorization
      */
-    public static final Use PREAUTHORIZATION = Use.of(ValueSet.PREAUTHORIZATION);
+    public static final Use PREAUTHORIZATION = Use.builder().value(ValueSet.PREAUTHORIZATION).build();
 
     /**
      * Predetermination
      */
-    public static final Use PREDETERMINATION = Use.of(ValueSet.PREDETERMINATION);
+    public static final Use PREDETERMINATION = Use.builder().value(ValueSet.PREDETERMINATION).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class Use extends Code {
         super(builder);
     }
 
-    public static Use of(java.lang.String value) {
-        return Use.builder().value(value).build();
+    public static Use of(ValueSet value) {
+        switch (value) {
+        case CLAIM:
+            return CLAIM;
+        case PREAUTHORIZATION:
+            return PREAUTHORIZATION;
+        case PREDETERMINATION:
+            return PREDETERMINATION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static Use of(ValueSet value) {
-        return Use.builder().value(value).build();
+    public static Use of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return Use.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return Use.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

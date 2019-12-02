@@ -20,42 +20,42 @@ public class DeviceMetricColor extends Code {
     /**
      * Color Black
      */
-    public static final DeviceMetricColor BLACK = DeviceMetricColor.of(ValueSet.BLACK);
+    public static final DeviceMetricColor BLACK = DeviceMetricColor.builder().value(ValueSet.BLACK).build();
 
     /**
      * Color Red
      */
-    public static final DeviceMetricColor RED = DeviceMetricColor.of(ValueSet.RED);
+    public static final DeviceMetricColor RED = DeviceMetricColor.builder().value(ValueSet.RED).build();
 
     /**
      * Color Green
      */
-    public static final DeviceMetricColor GREEN = DeviceMetricColor.of(ValueSet.GREEN);
+    public static final DeviceMetricColor GREEN = DeviceMetricColor.builder().value(ValueSet.GREEN).build();
 
     /**
      * Color Yellow
      */
-    public static final DeviceMetricColor YELLOW = DeviceMetricColor.of(ValueSet.YELLOW);
+    public static final DeviceMetricColor YELLOW = DeviceMetricColor.builder().value(ValueSet.YELLOW).build();
 
     /**
      * Color Blue
      */
-    public static final DeviceMetricColor BLUE = DeviceMetricColor.of(ValueSet.BLUE);
+    public static final DeviceMetricColor BLUE = DeviceMetricColor.builder().value(ValueSet.BLUE).build();
 
     /**
      * Color Magenta
      */
-    public static final DeviceMetricColor MAGENTA = DeviceMetricColor.of(ValueSet.MAGENTA);
+    public static final DeviceMetricColor MAGENTA = DeviceMetricColor.builder().value(ValueSet.MAGENTA).build();
 
     /**
      * Color Cyan
      */
-    public static final DeviceMetricColor CYAN = DeviceMetricColor.of(ValueSet.CYAN);
+    public static final DeviceMetricColor CYAN = DeviceMetricColor.builder().value(ValueSet.CYAN).build();
 
     /**
      * Color White
      */
-    public static final DeviceMetricColor WHITE = DeviceMetricColor.of(ValueSet.WHITE);
+    public static final DeviceMetricColor WHITE = DeviceMetricColor.builder().value(ValueSet.WHITE).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class DeviceMetricColor extends Code {
         super(builder);
     }
 
-    public static DeviceMetricColor of(java.lang.String value) {
-        return DeviceMetricColor.builder().value(value).build();
+    public static DeviceMetricColor of(ValueSet value) {
+        switch (value) {
+        case BLACK:
+            return BLACK;
+        case RED:
+            return RED;
+        case GREEN:
+            return GREEN;
+        case YELLOW:
+            return YELLOW;
+        case BLUE:
+            return BLUE;
+        case MAGENTA:
+            return MAGENTA;
+        case CYAN:
+            return CYAN;
+        case WHITE:
+            return WHITE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static DeviceMetricColor of(ValueSet value) {
-        return DeviceMetricColor.builder().value(value).build();
+    public static DeviceMetricColor of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return DeviceMetricColor.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DeviceMetricColor.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

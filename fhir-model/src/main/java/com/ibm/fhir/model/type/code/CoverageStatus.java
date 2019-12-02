@@ -20,22 +20,22 @@ public class CoverageStatus extends Code {
     /**
      * Active
      */
-    public static final CoverageStatus ACTIVE = CoverageStatus.of(ValueSet.ACTIVE);
+    public static final CoverageStatus ACTIVE = CoverageStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
      */
-    public static final CoverageStatus CANCELLED = CoverageStatus.of(ValueSet.CANCELLED);
+    public static final CoverageStatus CANCELLED = CoverageStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
      */
-    public static final CoverageStatus DRAFT = CoverageStatus.of(ValueSet.DRAFT);
+    public static final CoverageStatus DRAFT = CoverageStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
      */
-    public static final CoverageStatus ENTERED_IN_ERROR = CoverageStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final CoverageStatus ENTERED_IN_ERROR = CoverageStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class CoverageStatus extends Code {
         super(builder);
     }
 
-    public static CoverageStatus of(java.lang.String value) {
-        return CoverageStatus.builder().value(value).build();
+    public static CoverageStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static CoverageStatus of(ValueSet value) {
-        return CoverageStatus.builder().value(value).build();
+    public static CoverageStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return CoverageStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CoverageStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

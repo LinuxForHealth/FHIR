@@ -20,27 +20,27 @@ public class PropertyRepresentation extends Code {
     /**
      * XML Attribute
      */
-    public static final PropertyRepresentation XML_ATTR = PropertyRepresentation.of(ValueSet.XML_ATTR);
+    public static final PropertyRepresentation XML_ATTR = PropertyRepresentation.builder().value(ValueSet.XML_ATTR).build();
 
     /**
      * XML Text
      */
-    public static final PropertyRepresentation XML_TEXT = PropertyRepresentation.of(ValueSet.XML_TEXT);
+    public static final PropertyRepresentation XML_TEXT = PropertyRepresentation.builder().value(ValueSet.XML_TEXT).build();
 
     /**
      * Type Attribute
      */
-    public static final PropertyRepresentation TYPE_ATTR = PropertyRepresentation.of(ValueSet.TYPE_ATTR);
+    public static final PropertyRepresentation TYPE_ATTR = PropertyRepresentation.builder().value(ValueSet.TYPE_ATTR).build();
 
     /**
      * CDA Text Format
      */
-    public static final PropertyRepresentation CDA_TEXT = PropertyRepresentation.of(ValueSet.CDA_TEXT);
+    public static final PropertyRepresentation CDA_TEXT = PropertyRepresentation.builder().value(ValueSet.CDA_TEXT).build();
 
     /**
      * XHTML
      */
-    public static final PropertyRepresentation XHTML = PropertyRepresentation.of(ValueSet.XHTML);
+    public static final PropertyRepresentation XHTML = PropertyRepresentation.builder().value(ValueSet.XHTML).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class PropertyRepresentation extends Code {
         super(builder);
     }
 
-    public static PropertyRepresentation of(java.lang.String value) {
-        return PropertyRepresentation.builder().value(value).build();
+    public static PropertyRepresentation of(ValueSet value) {
+        switch (value) {
+        case XML_ATTR:
+            return XML_ATTR;
+        case XML_TEXT:
+            return XML_TEXT;
+        case TYPE_ATTR:
+            return TYPE_ATTR;
+        case CDA_TEXT:
+            return CDA_TEXT;
+        case XHTML:
+            return XHTML;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static PropertyRepresentation of(ValueSet value) {
-        return PropertyRepresentation.builder().value(value).build();
+    public static PropertyRepresentation of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return PropertyRepresentation.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return PropertyRepresentation.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

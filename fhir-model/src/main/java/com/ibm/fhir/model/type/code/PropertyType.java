@@ -20,37 +20,37 @@ public class PropertyType extends Code {
     /**
      * code (internal reference)
      */
-    public static final PropertyType CODE = PropertyType.of(ValueSet.CODE);
+    public static final PropertyType CODE = PropertyType.builder().value(ValueSet.CODE).build();
 
     /**
      * Coding (external reference)
      */
-    public static final PropertyType CODING = PropertyType.of(ValueSet.CODING);
+    public static final PropertyType CODING = PropertyType.builder().value(ValueSet.CODING).build();
 
     /**
      * string
      */
-    public static final PropertyType STRING = PropertyType.of(ValueSet.STRING);
+    public static final PropertyType STRING = PropertyType.builder().value(ValueSet.STRING).build();
 
     /**
      * integer
      */
-    public static final PropertyType INTEGER = PropertyType.of(ValueSet.INTEGER);
+    public static final PropertyType INTEGER = PropertyType.builder().value(ValueSet.INTEGER).build();
 
     /**
      * boolean
      */
-    public static final PropertyType BOOLEAN = PropertyType.of(ValueSet.BOOLEAN);
+    public static final PropertyType BOOLEAN = PropertyType.builder().value(ValueSet.BOOLEAN).build();
 
     /**
      * dateTime
      */
-    public static final PropertyType DATE_TIME = PropertyType.of(ValueSet.DATE_TIME);
+    public static final PropertyType DATE_TIME = PropertyType.builder().value(ValueSet.DATE_TIME).build();
 
     /**
      * decimal
      */
-    public static final PropertyType DECIMAL = PropertyType.of(ValueSet.DECIMAL);
+    public static final PropertyType DECIMAL = PropertyType.builder().value(ValueSet.DECIMAL).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class PropertyType extends Code {
         super(builder);
     }
 
-    public static PropertyType of(java.lang.String value) {
-        return PropertyType.builder().value(value).build();
+    public static PropertyType of(ValueSet value) {
+        switch (value) {
+        case CODE:
+            return CODE;
+        case CODING:
+            return CODING;
+        case STRING:
+            return STRING;
+        case INTEGER:
+            return INTEGER;
+        case BOOLEAN:
+            return BOOLEAN;
+        case DATE_TIME:
+            return DATE_TIME;
+        case DECIMAL:
+            return DECIMAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static PropertyType of(ValueSet value) {
-        return PropertyType.builder().value(value).build();
+    public static PropertyType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return PropertyType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return PropertyType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

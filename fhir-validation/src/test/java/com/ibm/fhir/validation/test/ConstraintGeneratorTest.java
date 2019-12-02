@@ -13,13 +13,13 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import com.ibm.fhir.model.path.FHIRPathBaseVisitor;
-import com.ibm.fhir.model.path.FHIRPathLexer;
-import com.ibm.fhir.model.path.FHIRPathParser;
-import com.ibm.fhir.model.path.FHIRPathParser.ExpressionContext;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.path.FHIRPathBaseVisitor;
+import com.ibm.fhir.path.FHIRPathLexer;
+import com.ibm.fhir.path.FHIRPathParser;
+import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
+import com.ibm.fhir.profile.ConstraintGenerator;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.validation.util.ConstraintGenerator;
 
 public class ConstraintGeneratorTest {
     public static void main(String[] args) throws Exception {

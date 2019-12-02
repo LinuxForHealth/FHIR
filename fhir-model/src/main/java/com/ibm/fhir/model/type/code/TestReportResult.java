@@ -20,17 +20,17 @@ public class TestReportResult extends Code {
     /**
      * Pass
      */
-    public static final TestReportResult PASS = TestReportResult.of(ValueSet.PASS);
+    public static final TestReportResult PASS = TestReportResult.builder().value(ValueSet.PASS).build();
 
     /**
      * Fail
      */
-    public static final TestReportResult FAIL = TestReportResult.of(ValueSet.FAIL);
+    public static final TestReportResult FAIL = TestReportResult.builder().value(ValueSet.FAIL).build();
 
     /**
      * Pending
      */
-    public static final TestReportResult PENDING = TestReportResult.of(ValueSet.PENDING);
+    public static final TestReportResult PENDING = TestReportResult.builder().value(ValueSet.PENDING).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class TestReportResult extends Code {
         super(builder);
     }
 
-    public static TestReportResult of(java.lang.String value) {
-        return TestReportResult.builder().value(value).build();
+    public static TestReportResult of(ValueSet value) {
+        switch (value) {
+        case PASS:
+            return PASS;
+        case FAIL:
+            return FAIL;
+        case PENDING:
+            return PENDING;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static TestReportResult of(ValueSet value) {
-        return TestReportResult.builder().value(value).build();
+    public static TestReportResult of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return TestReportResult.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TestReportResult.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

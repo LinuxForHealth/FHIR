@@ -20,37 +20,37 @@ public class MedicationAdministrationStatus extends Code {
     /**
      * In Progress
      */
-    public static final MedicationAdministrationStatus IN_PROGRESS = MedicationAdministrationStatus.of(ValueSet.IN_PROGRESS);
+    public static final MedicationAdministrationStatus IN_PROGRESS = MedicationAdministrationStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Not Done
      */
-    public static final MedicationAdministrationStatus NOT_DONE = MedicationAdministrationStatus.of(ValueSet.NOT_DONE);
+    public static final MedicationAdministrationStatus NOT_DONE = MedicationAdministrationStatus.builder().value(ValueSet.NOT_DONE).build();
 
     /**
      * On Hold
      */
-    public static final MedicationAdministrationStatus ON_HOLD = MedicationAdministrationStatus.of(ValueSet.ON_HOLD);
+    public static final MedicationAdministrationStatus ON_HOLD = MedicationAdministrationStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Completed
      */
-    public static final MedicationAdministrationStatus COMPLETED = MedicationAdministrationStatus.of(ValueSet.COMPLETED);
+    public static final MedicationAdministrationStatus COMPLETED = MedicationAdministrationStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final MedicationAdministrationStatus ENTERED_IN_ERROR = MedicationAdministrationStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final MedicationAdministrationStatus ENTERED_IN_ERROR = MedicationAdministrationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
      */
-    public static final MedicationAdministrationStatus STOPPED = MedicationAdministrationStatus.of(ValueSet.STOPPED);
+    public static final MedicationAdministrationStatus STOPPED = MedicationAdministrationStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Unknown
      */
-    public static final MedicationAdministrationStatus UNKNOWN = MedicationAdministrationStatus.of(ValueSet.UNKNOWN);
+    public static final MedicationAdministrationStatus UNKNOWN = MedicationAdministrationStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class MedicationAdministrationStatus extends Code {
         super(builder);
     }
 
-    public static MedicationAdministrationStatus of(java.lang.String value) {
-        return MedicationAdministrationStatus.builder().value(value).build();
+    public static MedicationAdministrationStatus of(ValueSet value) {
+        switch (value) {
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case NOT_DONE:
+            return NOT_DONE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case STOPPED:
+            return STOPPED;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static MedicationAdministrationStatus of(ValueSet value) {
-        return MedicationAdministrationStatus.builder().value(value).build();
+    public static MedicationAdministrationStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return MedicationAdministrationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MedicationAdministrationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

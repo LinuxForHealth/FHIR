@@ -20,22 +20,22 @@ public class AdministrativeGender extends Code {
     /**
      * Male
      */
-    public static final AdministrativeGender MALE = AdministrativeGender.of(ValueSet.MALE);
+    public static final AdministrativeGender MALE = AdministrativeGender.builder().value(ValueSet.MALE).build();
 
     /**
      * Female
      */
-    public static final AdministrativeGender FEMALE = AdministrativeGender.of(ValueSet.FEMALE);
+    public static final AdministrativeGender FEMALE = AdministrativeGender.builder().value(ValueSet.FEMALE).build();
 
     /**
      * Other
      */
-    public static final AdministrativeGender OTHER = AdministrativeGender.of(ValueSet.OTHER);
+    public static final AdministrativeGender OTHER = AdministrativeGender.builder().value(ValueSet.OTHER).build();
 
     /**
      * Unknown
      */
-    public static final AdministrativeGender UNKNOWN = AdministrativeGender.of(ValueSet.UNKNOWN);
+    public static final AdministrativeGender UNKNOWN = AdministrativeGender.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class AdministrativeGender extends Code {
         super(builder);
     }
 
-    public static AdministrativeGender of(java.lang.String value) {
-        return AdministrativeGender.builder().value(value).build();
+    public static AdministrativeGender of(ValueSet value) {
+        switch (value) {
+        case MALE:
+            return MALE;
+        case FEMALE:
+            return FEMALE;
+        case OTHER:
+            return OTHER;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AdministrativeGender of(ValueSet value) {
-        return AdministrativeGender.builder().value(value).build();
+    public static AdministrativeGender of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AdministrativeGender.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AdministrativeGender.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

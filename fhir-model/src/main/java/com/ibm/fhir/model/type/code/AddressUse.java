@@ -20,27 +20,27 @@ public class AddressUse extends Code {
     /**
      * Home
      */
-    public static final AddressUse HOME = AddressUse.of(ValueSet.HOME);
+    public static final AddressUse HOME = AddressUse.builder().value(ValueSet.HOME).build();
 
     /**
      * Work
      */
-    public static final AddressUse WORK = AddressUse.of(ValueSet.WORK);
+    public static final AddressUse WORK = AddressUse.builder().value(ValueSet.WORK).build();
 
     /**
      * Temporary
      */
-    public static final AddressUse TEMP = AddressUse.of(ValueSet.TEMP);
+    public static final AddressUse TEMP = AddressUse.builder().value(ValueSet.TEMP).build();
 
     /**
      * Old / Incorrect
      */
-    public static final AddressUse OLD = AddressUse.of(ValueSet.OLD);
+    public static final AddressUse OLD = AddressUse.builder().value(ValueSet.OLD).build();
 
     /**
      * Billing
      */
-    public static final AddressUse BILLING = AddressUse.of(ValueSet.BILLING);
+    public static final AddressUse BILLING = AddressUse.builder().value(ValueSet.BILLING).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class AddressUse extends Code {
         super(builder);
     }
 
-    public static AddressUse of(java.lang.String value) {
-        return AddressUse.builder().value(value).build();
+    public static AddressUse of(ValueSet value) {
+        switch (value) {
+        case HOME:
+            return HOME;
+        case WORK:
+            return WORK;
+        case TEMP:
+            return TEMP;
+        case OLD:
+            return OLD;
+        case BILLING:
+            return BILLING;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AddressUse of(ValueSet value) {
-        return AddressUse.builder().value(value).build();
+    public static AddressUse of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AddressUse.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AddressUse.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

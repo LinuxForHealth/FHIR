@@ -20,12 +20,12 @@ public class ConstraintSeverity extends Code {
     /**
      * Error
      */
-    public static final ConstraintSeverity ERROR = ConstraintSeverity.of(ValueSet.ERROR);
+    public static final ConstraintSeverity ERROR = ConstraintSeverity.builder().value(ValueSet.ERROR).build();
 
     /**
      * Warning
      */
-    public static final ConstraintSeverity WARNING = ConstraintSeverity.of(ValueSet.WARNING);
+    public static final ConstraintSeverity WARNING = ConstraintSeverity.builder().value(ValueSet.WARNING).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class ConstraintSeverity extends Code {
         super(builder);
     }
 
-    public static ConstraintSeverity of(java.lang.String value) {
-        return ConstraintSeverity.builder().value(value).build();
+    public static ConstraintSeverity of(ValueSet value) {
+        switch (value) {
+        case ERROR:
+            return ERROR;
+        case WARNING:
+            return WARNING;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ConstraintSeverity of(ValueSet value) {
-        return ConstraintSeverity.builder().value(value).build();
+    public static ConstraintSeverity of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ConstraintSeverity.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ConstraintSeverity.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

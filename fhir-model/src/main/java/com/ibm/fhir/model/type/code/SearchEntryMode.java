@@ -20,17 +20,17 @@ public class SearchEntryMode extends Code {
     /**
      * Match
      */
-    public static final SearchEntryMode MATCH = SearchEntryMode.of(ValueSet.MATCH);
+    public static final SearchEntryMode MATCH = SearchEntryMode.builder().value(ValueSet.MATCH).build();
 
     /**
      * Include
      */
-    public static final SearchEntryMode INCLUDE = SearchEntryMode.of(ValueSet.INCLUDE);
+    public static final SearchEntryMode INCLUDE = SearchEntryMode.builder().value(ValueSet.INCLUDE).build();
 
     /**
      * Outcome
      */
-    public static final SearchEntryMode OUTCOME = SearchEntryMode.of(ValueSet.OUTCOME);
+    public static final SearchEntryMode OUTCOME = SearchEntryMode.builder().value(ValueSet.OUTCOME).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class SearchEntryMode extends Code {
         super(builder);
     }
 
-    public static SearchEntryMode of(java.lang.String value) {
-        return SearchEntryMode.builder().value(value).build();
+    public static SearchEntryMode of(ValueSet value) {
+        switch (value) {
+        case MATCH:
+            return MATCH;
+        case INCLUDE:
+            return INCLUDE;
+        case OUTCOME:
+            return OUTCOME;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static SearchEntryMode of(ValueSet value) {
-        return SearchEntryMode.builder().value(value).build();
+    public static SearchEntryMode of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return SearchEntryMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SearchEntryMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

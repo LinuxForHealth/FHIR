@@ -20,37 +20,37 @@ public class QuestionnaireItemOperator extends Code {
     /**
      * Exists
      */
-    public static final QuestionnaireItemOperator EXISTS = QuestionnaireItemOperator.of(ValueSet.EXISTS);
+    public static final QuestionnaireItemOperator EXISTS = QuestionnaireItemOperator.builder().value(ValueSet.EXISTS).build();
 
     /**
      * Equals
      */
-    public static final QuestionnaireItemOperator EQUALS = QuestionnaireItemOperator.of(ValueSet.EQUALS);
+    public static final QuestionnaireItemOperator EQUALS = QuestionnaireItemOperator.builder().value(ValueSet.EQUALS).build();
 
     /**
      * Not Equals
      */
-    public static final QuestionnaireItemOperator NOT_EQUALS = QuestionnaireItemOperator.of(ValueSet.NOT_EQUALS);
+    public static final QuestionnaireItemOperator NOT_EQUALS = QuestionnaireItemOperator.builder().value(ValueSet.NOT_EQUALS).build();
 
     /**
      * Greater Than
      */
-    public static final QuestionnaireItemOperator GREATER_THAN = QuestionnaireItemOperator.of(ValueSet.GREATER_THAN);
+    public static final QuestionnaireItemOperator GREATER_THAN = QuestionnaireItemOperator.builder().value(ValueSet.GREATER_THAN).build();
 
     /**
      * Less Than
      */
-    public static final QuestionnaireItemOperator LESS_THAN = QuestionnaireItemOperator.of(ValueSet.LESS_THAN);
+    public static final QuestionnaireItemOperator LESS_THAN = QuestionnaireItemOperator.builder().value(ValueSet.LESS_THAN).build();
 
     /**
      * Greater or Equals
      */
-    public static final QuestionnaireItemOperator GREATER_OR_EQUALS = QuestionnaireItemOperator.of(ValueSet.GREATER_OR_EQUALS);
+    public static final QuestionnaireItemOperator GREATER_OR_EQUALS = QuestionnaireItemOperator.builder().value(ValueSet.GREATER_OR_EQUALS).build();
 
     /**
      * Less or Equals
      */
-    public static final QuestionnaireItemOperator LESS_OR_EQUALS = QuestionnaireItemOperator.of(ValueSet.LESS_OR_EQUALS);
+    public static final QuestionnaireItemOperator LESS_OR_EQUALS = QuestionnaireItemOperator.builder().value(ValueSet.LESS_OR_EQUALS).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class QuestionnaireItemOperator extends Code {
         super(builder);
     }
 
-    public static QuestionnaireItemOperator of(java.lang.String value) {
-        return QuestionnaireItemOperator.builder().value(value).build();
+    public static QuestionnaireItemOperator of(ValueSet value) {
+        switch (value) {
+        case EXISTS:
+            return EXISTS;
+        case EQUALS:
+            return EQUALS;
+        case NOT_EQUALS:
+            return NOT_EQUALS;
+        case GREATER_THAN:
+            return GREATER_THAN;
+        case LESS_THAN:
+            return LESS_THAN;
+        case GREATER_OR_EQUALS:
+            return GREATER_OR_EQUALS;
+        case LESS_OR_EQUALS:
+            return LESS_OR_EQUALS;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static QuestionnaireItemOperator of(ValueSet value) {
-        return QuestionnaireItemOperator.builder().value(value).build();
+    public static QuestionnaireItemOperator of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return QuestionnaireItemOperator.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return QuestionnaireItemOperator.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

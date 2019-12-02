@@ -20,17 +20,17 @@ public class LocationStatus extends Code {
     /**
      * Active
      */
-    public static final LocationStatus ACTIVE = LocationStatus.of(ValueSet.ACTIVE);
+    public static final LocationStatus ACTIVE = LocationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Suspended
      */
-    public static final LocationStatus SUSPENDED = LocationStatus.of(ValueSet.SUSPENDED);
+    public static final LocationStatus SUSPENDED = LocationStatus.builder().value(ValueSet.SUSPENDED).build();
 
     /**
      * Inactive
      */
-    public static final LocationStatus INACTIVE = LocationStatus.of(ValueSet.INACTIVE);
+    public static final LocationStatus INACTIVE = LocationStatus.builder().value(ValueSet.INACTIVE).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class LocationStatus extends Code {
         super(builder);
     }
 
-    public static LocationStatus of(java.lang.String value) {
-        return LocationStatus.builder().value(value).build();
+    public static LocationStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case SUSPENDED:
+            return SUSPENDED;
+        case INACTIVE:
+            return INACTIVE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static LocationStatus of(ValueSet value) {
-        return LocationStatus.builder().value(value).build();
+    public static LocationStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return LocationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return LocationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override
