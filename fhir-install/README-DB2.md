@@ -21,9 +21,9 @@ docker build -t fhirserverdb2 . --squash
 Once the image is built, start it with:
 
 ```sh
-docker run -itd --name fhirdb2 --privileged=true -p 50000:50000 -e LICENSE=accept -e DB2INST1_PASSWORD=change-password  -v <db storage dir>:/database -rm fhirserverdb2
+docker run -itd --name fhirdb2 --privileged=true -p 50000:50000 -e LICENSE=accept -e DB2INST1_PASSWORD=change-password  -v <db storage dir>:/database fhirserverdb2
 ```
-* <db storage dir>: Where is the persistent storage filesystem/directory to store your database data/instance configuration/transaction logs.
+* `<db storage dir>`: Where is the persistent storage filesystem/directory to store your database data/instance configuration/transaction logs.
  
 If docker fails to find the image by name, then please use the image id instead of name for this above command.
 
