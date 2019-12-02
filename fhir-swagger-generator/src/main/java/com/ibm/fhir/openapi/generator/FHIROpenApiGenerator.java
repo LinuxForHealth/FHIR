@@ -1007,7 +1007,7 @@ public class FHIROpenApiGenerator {
             StructureDefinition structureDefinition = getStructureDefinition(modelClass);
             
             if (structureDefinition == null) {
-                 System.out.println("Failed generateDefinition for: " + modelClass.getName());
+                System.err.println("Failed generateDefinition for: " + modelClass.getName());
                 return;
             }
             
@@ -1384,7 +1384,6 @@ public class FHIROpenApiGenerator {
                 }
                 
                 resultList.add(InnerClass.getName().substring(classNameOffset));
-                // System.out.println(" -- Added: " + InnerClass.getName().substring(classNameOffset));
 
                 if (InnerClass.getDeclaredClasses() != null) {
                     getAllInnerClassNames(InnerClass, resultList);
@@ -1392,7 +1391,7 @@ public class FHIROpenApiGenerator {
             }
 
         } catch (Exception e) {
-            System.out.println("Failed to Iterate class: " + classToIterat.getSimpleName());
+            System.err.println("Failed to Iterate class: " + classToIterat.getSimpleName());
         }
     }
 
@@ -1413,12 +1412,11 @@ public class FHIROpenApiGenerator {
         List<String> toAddTypesList = new ArrayList<String>();
 
         for (String typeName : allTypesList) {
-            // System.out.println(typeName);
             try {
                 Class<?> resourceTypeClass = Class.forName(TYPEPACKAGENAME + "." + typeName);
                 getAllInnerClassNames(resourceTypeClass, toAddTypesList);
             } catch (Exception e) {
-                System.out.println("Failed to get type: " + typeName);
+                System.err.println("Failed to get type: " + typeName);
             }
         }
         
@@ -1431,12 +1429,11 @@ public class FHIROpenApiGenerator {
         List<String> allResourceInnerClassList = new ArrayList<String>();
 
         for (String ResourceName : FHIRUtil.getResourceTypeNames()) {
-            // System.out.println(ResourceName);
             try {
                 Class<?> resourceTypeClass = Class.forName(RESOURCEPACKAGENAME + "." + ResourceName);
                 getAllInnerClassNames(resourceTypeClass, allResourceInnerClassList);
             } catch (Exception e) {
-                System.out.println("Failed to get resource: " + ResourceName);
+                System.err.println("Failed to get resource: " + ResourceName);
             }
         }
         return allResourceInnerClassList;

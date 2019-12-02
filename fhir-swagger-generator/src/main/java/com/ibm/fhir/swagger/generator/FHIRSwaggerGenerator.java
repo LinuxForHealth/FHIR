@@ -142,7 +142,6 @@ public class FHIRSwaggerGenerator {
                             "Bundle".equals(parentClassName) ||
                             "OperationOutcome".equals(parentClassName)) {
                         Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                        // System.out.println("Resource:  " + className);
                         generateDefinition(innerModelClass, definitions);
                     }
                 }
@@ -150,7 +149,6 @@ public class FHIRSwaggerGenerator {
                 // generate definition for all the applicable defined Types.
                 for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
                     Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
-                    // System.out.println("Type:  " + className);
                     if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, resourceModelClass)) {
                         generateDefinition(typeModelClass, definitions);
                     }
@@ -214,7 +212,6 @@ public class FHIRSwaggerGenerator {
             Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
             if (CapabilityStatement.class.equals(parentClass)) {
                 Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                // System.out.println("Resource:  " + className);
                 generateDefinition(innerModelClass, definitions);
             }
         }
@@ -271,7 +268,6 @@ public class FHIRSwaggerGenerator {
             Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
             if (Bundle.class.equals(parentClass)) {
                 Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                // System.out.println("Resource:  " + className);
                 generateDefinition(innerModelClass, definitions);
             }
         }
@@ -279,7 +275,6 @@ public class FHIRSwaggerGenerator {
         // generate definition for all the defined Types.
         for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
             Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
-            // System.out.println("Type:  " + className);
             generateDefinition(typeModelClass, definitions);
         }
 
@@ -328,7 +323,7 @@ public class FHIRSwaggerGenerator {
                             modelClass = Class.forName(TYPEPACKAGENAME + "." + className);
                         } catch (ClassNotFoundException e2) {
                             modelClass = null;
-                            // System.out.println(" -- PopulateStructureDefinition failed: " + className);
+                            System.err.println(" -- PopulateStructureDefinition failed: " + className);
                         }
                     } finally {
                         if (modelClass != null) {
@@ -798,7 +793,7 @@ public class FHIRSwaggerGenerator {
             StructureDefinition structureDefinition = getStructureDefinition(modelClass);
 
             if (structureDefinition == null) {
-                System.out.println("Failed generateDefinition for: " + modelClass.getName());
+                System.err.println("Failed generateDefinition for: " + modelClass.getName());
                 return;
             }
             
