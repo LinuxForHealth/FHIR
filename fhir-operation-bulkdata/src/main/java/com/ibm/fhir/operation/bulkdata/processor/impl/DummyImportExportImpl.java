@@ -96,7 +96,8 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
     @Override
     public Parameters exportPatient(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+        FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
+        BulkDataTenantSpecificCache cache) throws FHIROperationException {
 
         try {
             return getOutputParametersWithJson(null);
@@ -108,7 +109,8 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
     @Override
     public Parameters exportGroup(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+        FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
+        BulkDataTenantSpecificCache cache) throws FHIROperationException {
         try {
             return FHIROperationUtil.getOutputParameters(null);
         } catch (Exception e) {
