@@ -46,9 +46,9 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         try {
             log.info("Using the COS Implementation");
 
-            // More than one Resource type is being used.
-            if (types == null || types.size() != 1) {
-                throw BulkDataUtil.buildOperationException("We currently only support one type exported at a time");
+            // Resource type(s) is required.
+            if (types == null) {
+                throw BulkDataUtil.buildOperationException("Missing resource type(s)!");
             }
 
             Map<String, String> properties =
@@ -106,8 +106,8 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
                 response =
                         Response.status(Status.OK).entity(pollingResponse.toJsonString()).type(MediaType.APPLICATION_JSON).build();
             } else {
-                // Technically we should also do 429 - Throttled when we get too many repeated requests. 
-                // We don't do that right now. 
+                // Technically we should also do 429 - Throttled when we get too many repeated requests.
+                // We don't do that right now.
                 response = Response.status(Status.ACCEPTED).header("Retry-After", "120").build();
             }
 

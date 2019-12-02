@@ -7,44 +7,38 @@
 package com.ibm.fhir.search.parameters;
 
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.SearchConstants.SortDirection;
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.sort.Sort;
+import com.ibm.fhir.search.sort.Sort.Direction;
 
 /**
  * This class encapsulates data related to a FHIR sort parameter.
- * 
- * Refactored to simplify the code and push common enums into SearchConstants.
- * 
- * @see http://www.hl7.org/fhir/search.html#sort
- * 
- * @author markd
- * @author pbastide
- *
+ * <a href="http://www.hl7.org/fhir/search.html#sort">_sort</a>
  */
 public class SortParameter {
-    
+
     private static final char EQUAL = '=';
 
-    private String name;
+    private String code;
     private Type type;
-    private SortDirection direction;
-    
-    public SortParameter(String parmName, Type parmType, SortDirection sortDirection) {
+    private Sort.Direction direction;
+
+    public SortParameter(String paramCode, Type parmType, Sort.Direction sortDirection) {
         super();
-        this.name = parmName;
-        this.type = parmType;
+        this.code      = paramCode;
+        this.type      = parmType;
         this.direction = sortDirection;
     }
 
-    public String getName() {
-        return name;
+    public String getCode() {
+        return code;
     }
 
     public Type getType() {
         return type;
     }
 
-    public SortDirection getDirection() {
+    public Sort.Direction getDirection() {
         return direction;
     }
 
@@ -52,10 +46,13 @@ public class SortParameter {
     public String toString() {
         StringBuilder buffer = new StringBuilder();
         buffer.append(SearchConstants.SORT);
-        buffer.append(SearchConstants.COLON_DELIMITER);
-        buffer.append(this.getDirection().value());
+
         buffer.append(EQUAL);
-        buffer.append(this.getName());
+        if (Direction.DECREASING.compareTo(direction) == 0) {
+            buffer.append(this.getDirection().value());
+        }
+
+        buffer.append(this.getCode());
         return buffer.toString();
     }
 

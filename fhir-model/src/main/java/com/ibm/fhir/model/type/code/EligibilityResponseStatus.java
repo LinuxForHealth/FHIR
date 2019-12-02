@@ -20,22 +20,22 @@ public class EligibilityResponseStatus extends Code {
     /**
      * Active
      */
-    public static final EligibilityResponseStatus ACTIVE = EligibilityResponseStatus.of(ValueSet.ACTIVE);
+    public static final EligibilityResponseStatus ACTIVE = EligibilityResponseStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
      */
-    public static final EligibilityResponseStatus CANCELLED = EligibilityResponseStatus.of(ValueSet.CANCELLED);
+    public static final EligibilityResponseStatus CANCELLED = EligibilityResponseStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
      */
-    public static final EligibilityResponseStatus DRAFT = EligibilityResponseStatus.of(ValueSet.DRAFT);
+    public static final EligibilityResponseStatus DRAFT = EligibilityResponseStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
      */
-    public static final EligibilityResponseStatus ENTERED_IN_ERROR = EligibilityResponseStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final EligibilityResponseStatus ENTERED_IN_ERROR = EligibilityResponseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class EligibilityResponseStatus extends Code {
         super(builder);
     }
 
-    public static EligibilityResponseStatus of(java.lang.String value) {
-        return EligibilityResponseStatus.builder().value(value).build();
+    public static EligibilityResponseStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static EligibilityResponseStatus of(ValueSet value) {
-        return EligibilityResponseStatus.builder().value(value).build();
+    public static EligibilityResponseStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return EligibilityResponseStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EligibilityResponseStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

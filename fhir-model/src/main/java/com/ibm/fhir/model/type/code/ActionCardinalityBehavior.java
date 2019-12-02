@@ -20,12 +20,12 @@ public class ActionCardinalityBehavior extends Code {
     /**
      * Single
      */
-    public static final ActionCardinalityBehavior SINGLE = ActionCardinalityBehavior.of(ValueSet.SINGLE);
+    public static final ActionCardinalityBehavior SINGLE = ActionCardinalityBehavior.builder().value(ValueSet.SINGLE).build();
 
     /**
      * Multiple
      */
-    public static final ActionCardinalityBehavior MULTIPLE = ActionCardinalityBehavior.of(ValueSet.MULTIPLE);
+    public static final ActionCardinalityBehavior MULTIPLE = ActionCardinalityBehavior.builder().value(ValueSet.MULTIPLE).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class ActionCardinalityBehavior extends Code {
         super(builder);
     }
 
-    public static ActionCardinalityBehavior of(java.lang.String value) {
-        return ActionCardinalityBehavior.builder().value(value).build();
+    public static ActionCardinalityBehavior of(ValueSet value) {
+        switch (value) {
+        case SINGLE:
+            return SINGLE;
+        case MULTIPLE:
+            return MULTIPLE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ActionCardinalityBehavior of(ValueSet value) {
-        return ActionCardinalityBehavior.builder().value(value).build();
+    public static ActionCardinalityBehavior of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActionCardinalityBehavior.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActionCardinalityBehavior.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

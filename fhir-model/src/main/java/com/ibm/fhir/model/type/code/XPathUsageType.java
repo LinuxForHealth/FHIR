@@ -20,27 +20,27 @@ public class XPathUsageType extends Code {
     /**
      * Normal
      */
-    public static final XPathUsageType NORMAL = XPathUsageType.of(ValueSet.NORMAL);
+    public static final XPathUsageType NORMAL = XPathUsageType.builder().value(ValueSet.NORMAL).build();
 
     /**
      * Phonetic
      */
-    public static final XPathUsageType PHONETIC = XPathUsageType.of(ValueSet.PHONETIC);
+    public static final XPathUsageType PHONETIC = XPathUsageType.builder().value(ValueSet.PHONETIC).build();
 
     /**
      * Nearby
      */
-    public static final XPathUsageType NEARBY = XPathUsageType.of(ValueSet.NEARBY);
+    public static final XPathUsageType NEARBY = XPathUsageType.builder().value(ValueSet.NEARBY).build();
 
     /**
      * Distance
      */
-    public static final XPathUsageType DISTANCE = XPathUsageType.of(ValueSet.DISTANCE);
+    public static final XPathUsageType DISTANCE = XPathUsageType.builder().value(ValueSet.DISTANCE).build();
 
     /**
      * Other
      */
-    public static final XPathUsageType OTHER = XPathUsageType.of(ValueSet.OTHER);
+    public static final XPathUsageType OTHER = XPathUsageType.builder().value(ValueSet.OTHER).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class XPathUsageType extends Code {
         super(builder);
     }
 
-    public static XPathUsageType of(java.lang.String value) {
-        return XPathUsageType.builder().value(value).build();
+    public static XPathUsageType of(ValueSet value) {
+        switch (value) {
+        case NORMAL:
+            return NORMAL;
+        case PHONETIC:
+            return PHONETIC;
+        case NEARBY:
+            return NEARBY;
+        case DISTANCE:
+            return DISTANCE;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static XPathUsageType of(ValueSet value) {
-        return XPathUsageType.builder().value(value).build();
+    public static XPathUsageType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return XPathUsageType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return XPathUsageType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

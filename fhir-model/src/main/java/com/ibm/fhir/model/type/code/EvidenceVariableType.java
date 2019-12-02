@@ -20,17 +20,17 @@ public class EvidenceVariableType extends Code {
     /**
      * Dichotomous
      */
-    public static final EvidenceVariableType DICHOTOMOUS = EvidenceVariableType.of(ValueSet.DICHOTOMOUS);
+    public static final EvidenceVariableType DICHOTOMOUS = EvidenceVariableType.builder().value(ValueSet.DICHOTOMOUS).build();
 
     /**
      * Continuous
      */
-    public static final EvidenceVariableType CONTINUOUS = EvidenceVariableType.of(ValueSet.CONTINUOUS);
+    public static final EvidenceVariableType CONTINUOUS = EvidenceVariableType.builder().value(ValueSet.CONTINUOUS).build();
 
     /**
      * Descriptive
      */
-    public static final EvidenceVariableType DESCRIPTIVE = EvidenceVariableType.of(ValueSet.DESCRIPTIVE);
+    public static final EvidenceVariableType DESCRIPTIVE = EvidenceVariableType.builder().value(ValueSet.DESCRIPTIVE).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class EvidenceVariableType extends Code {
         super(builder);
     }
 
-    public static EvidenceVariableType of(java.lang.String value) {
-        return EvidenceVariableType.builder().value(value).build();
+    public static EvidenceVariableType of(ValueSet value) {
+        switch (value) {
+        case DICHOTOMOUS:
+            return DICHOTOMOUS;
+        case CONTINUOUS:
+            return CONTINUOUS;
+        case DESCRIPTIVE:
+            return DESCRIPTIVE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static EvidenceVariableType of(ValueSet value) {
-        return EvidenceVariableType.builder().value(value).build();
+    public static EvidenceVariableType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return EvidenceVariableType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return EvidenceVariableType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

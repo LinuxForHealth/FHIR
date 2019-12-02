@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.path.FHIRPathNode;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.fhir.model.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.valuetypes.impl.ValueTypesR4Impl;
 

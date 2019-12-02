@@ -17,8 +17,7 @@ import com.ibm.fhir.bulkcommon.Constants;
 
 /**
  * Bulk export Chunk implementation - custom checkpoint algorithm.
- * 
- * @author Albert Wang
+ *
  */
 
 public class CheckPointAlgorithm implements CheckpointAlgorithm {
@@ -44,34 +43,37 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
      * Default constructor.
      */
     public CheckPointAlgorithm() {
-        // TODO Auto-generated constructor stub
+     // Nothing to do here at present
     }
 
     /**
      * @see CheckpointAlgorithm#checkpointTimeout()
      */
+    @Override
     public int checkpointTimeout() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     /**
      * @see CheckpointAlgorithm#endCheckpoint()
      */
+    @Override
     public void endCheckpoint() {
-        // TODO Auto-generated method stub
+        // Nothing to do here at present
     }
 
     /**
      * @see CheckpointAlgorithm#beginCheckpoint()
      */
+    @Override
     public void beginCheckpoint() {
-        // TODO Auto-generated method stub
+        // Nothing to do here at present
     }
 
     /**
      * @see CheckpointAlgorithm#isReadyToCheckpoint()
      */
+    @Override
     public boolean isReadyToCheckpoint() {
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
 

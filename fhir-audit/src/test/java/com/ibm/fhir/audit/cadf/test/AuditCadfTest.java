@@ -6,17 +6,16 @@
 
 package com.ibm.fhir.audit.cadf.test;
 
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.fail;
 
 import java.util.Date;
 
-//import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.fasterxml.jackson.databind.*;
 import com.ibm.fhir.audit.cadf.model.CadfEvent;
-import com.ibm.fhir.audit.cadf.model.CadfParser;
 import com.ibm.fhir.audit.kafka.Environment;
 import com.ibm.fhir.audit.kafka.EventStreamsCredentials;
 import com.ibm.fhir.audit.logging.beans.ApiParameters;
@@ -31,6 +30,8 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRUtilities;
 
 public class AuditCadfTest {
+    private static final boolean debug = false;
+
     private static final String COMPONENT_ID = "fhir-server";
     private static final String timestamp = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis()));
     private static final String timestamp2 = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis() + 5000));
@@ -50,20 +51,21 @@ public class AuditCadfTest {
     private static final String reqUniqueId = "417b2105-bc6b-44f7-9f23-4c784a17d24b";
     private static final String description = "FHIR Create request";
     private static final String testAPIKey = "eM1QRXSDl3IsblND_8y1Si_Ll5UW03KvuTPMxYYYYYY";
-    private static final String eventStreamBinding = "{\r\n" + "  \"api_key\": \"" + testAPIKey + "\",\r\n"
-            + "  \"apikey\": \"" + testAPIKey + "\",\r\n"
-            + "  \"iam_apikey_description\": \"Auto-generated for key BLANK\",\r\n"
-            + "  \"iam_apikey_name\": \"Service credentials-1\",\r\n"
-            + "  \"iam_role_crn\": \"crn:v1:bluemix:public:iam::::serviceRole:Writer\",\r\n"
-            + "  \"iam_serviceid_crn\": \"crn:v1:bluemix:public:iam-identity::a/BLANK::serviceid:BLANK\",\r\n"
-            + "  \"instance_id\": \"BLANK\",\r\n"
-            + "  \"kafka_admin_url\": \"https://HOSTNAME\",\r\n"
-            + "  \"kafka_brokers_sasl\": [\r\n"
-            + "    \"broker-1:9093\",\r\n"
-            + "    \"broker-2:9093\"\r\n" + "  ],\r\n"
-            + "  \"kafka_http_url\": \"https://hostname\",\r\n"
-            + "  \"password\": \"invalid\",\r\n" + "  \"user\": \"token\"\r\n"
-            + "}\r\n";
+    private static final String eventStreamBinding =
+            "{\r\n" + "  \"api_key\": \"" + testAPIKey + "\",\r\n"
+                    + "  \"apikey\": \"" + testAPIKey + "\",\r\n"
+                    + "  \"iam_apikey_description\": \"Auto-generated for key BLANK\",\r\n"
+                    + "  \"iam_apikey_name\": \"Service credentials-1\",\r\n"
+                    + "  \"iam_role_crn\": \"crn:v1:bluemix:public:iam::::serviceRole:Writer\",\r\n"
+                    + "  \"iam_serviceid_crn\": \"crn:v1:bluemix:public:iam-identity::a/BLANK::serviceid:BLANK\",\r\n"
+                    + "  \"instance_id\": \"BLANK\",\r\n"
+                    + "  \"kafka_admin_url\": \"https://HOSTNAME\",\r\n"
+                    + "  \"kafka_brokers_sasl\": [\r\n"
+                    + "    \"broker-1:9093\",\r\n"
+                    + "    \"broker-2:9093\"\r\n" + "  ],\r\n"
+                    + "  \"kafka_http_url\": \"https://hostname\",\r\n"
+                    + "  \"password\": \"invalid\",\r\n" + "  \"user\": \"token\"\r\n"
+                    + "}\r\n";
     private static final String operationName = "UnitTest";
 
     private AuditLogEntry TestFhirLog1 = null;
@@ -81,24 +83,25 @@ public class AuditCadfTest {
         TestFhirLog1.setUserName(userName);
 
         TestFhirLog1.setContext(new Context());
-        TestFhirLog1.getContext().setApiParameters(new ApiParameters().withRequest(request).withStatus(status));
+        TestFhirLog1.getContext()
+                .setApiParameters(ApiParameters.builder().request(request).status(status).build());
 
         TestFhirLog1.getContext().setStartTime(timestamp);
         TestFhirLog1.getContext().setEndTime(timestamp2);
         TestFhirLog1.getContext()
-                .setData(new Data().withResourceType(resourceType).withId(resourceId).withVersionId(versionId));
+                .setData(Data.builder().resourceType(resourceType).id(resourceId).versionId(versionId).build());
 
         TestFhirLog1.setPatientId(patientId);
         TestFhirLog1.getContext().setRequestUniqueId(reqUniqueId);
         TestFhirLog1.getContext().setAction("R");
         TestFhirLog1.getContext().setBatch(
-                new Batch().withResourcesCreated((long) 5).withResourcesRead((long) 10).withResourcesUpdated((long) 2));
-        TestFhirLog1.setDescription(description);      
+                Batch.builder().resourcesCreated((long) 5).resourcesRead((long) 10).resourcesUpdated((long) 2).build());
+        TestFhirLog1.setDescription(description);
         TestFhirLog1.getContext().setOperationName(operationName);
     }
 
     // Enable this only if you have kafka properly configured in fhirConfig.json
-    @Test(enabled=false) 
+    @Test(enabled = false)
     public void testEventStream() throws Exception {
 
         PropertyGroup pg;
@@ -109,18 +112,20 @@ public class AuditCadfTest {
             PropertyGroup AuditProps = pg.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
             assertNotNull(AuditProps);
 
-            System.out.println(
-                    AuditProps.getStringProperty(WhcAuditCadfLogService.PROPERTY_AUDIT_KAFKA_BOOTSTRAPSERVERS));
-            System.out.println(AuditProps.getStringProperty(WhcAuditCadfLogService.PROPERTY_AUDIT_KAFKA_APIKEY));
+            if (debug) {
+                System.out.println(
+                        AuditProps.getStringProperty(WhcAuditCadfLogService.PROPERTY_AUDIT_KAFKA_BOOTSTRAPSERVERS));
+                System.out.println(AuditProps.getStringProperty(WhcAuditCadfLogService.PROPERTY_AUDIT_KAFKA_APIKEY));
+            }
 
             WhcAuditCadfLogService logService = new WhcAuditCadfLogService();
             logService.initialize(AuditProps);
-            
+
             logService.logEntry(TestFhirLog1);
 
         } catch (Exception e) {
             e.printStackTrace();
-             fail("failed to send log to enventStream!");
+            fail("failed to send log to eventStream!");
         }
     }
 
@@ -134,55 +139,55 @@ public class AuditCadfTest {
             assertNotNull(eventObject);
 
             if (eventObject != null) {
-                CadfParser parser = new CadfParser();
-                String eventString = parser.cadf2Json(eventObject);
+                String eventString = CadfEvent.Writer.generate(eventObject);
 
                 assertNotNull(eventString);
-                System.out.println(eventString);
+                if (debug) {
+                    System.out.println(eventString);
+                }
             }
-            
+
             TestFhirLog1.getContext().setEndTime(timestamp);
             eventObject = WhcAuditCadfLogService.createCadfEvent(TestFhirLog1);
-            
+
             assertNotNull(eventObject);
 
             if (eventObject != null) {
-                CadfParser parser = new CadfParser();
-                String eventString = parser.cadf2Json(eventObject);
+                String eventString = CadfEvent.Writer.generate(eventObject);
 
                 assertNotNull(eventString);
-                System.out.println(eventString);
+                if (debug) {
+                    System.out.println(eventString);
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("failed to parser event!");
+            fail("failed to parse event!");
         }
     }
 
     @Test(groups = { "parser" })
     public void testConfigParser() throws Exception {
-        EventStreamsCredentials ESbinding = null;
+        EventStreamsCredentials esBinding = null;
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            ESbinding = mapper.readValue(eventStreamBinding, EventStreamsCredentials.class);
-            assertNotNull(ESbinding);
+            esBinding = EventStreamsCredentials.Parser.parse(eventStreamBinding);
+            assertNotNull(esBinding);
 
-            if (ESbinding != null) {
-                String bootstrapServers = Environment.stringArrayToCSV(ESbinding.getKafkaBrokersSasl());
-                String apiKey = ESbinding.getApiKey();
+            String bootstrapServers = Environment.stringArrayToCSV(esBinding.getKafkaBrokersSasl());
+            String apiKey = esBinding.getApiKey();
 
-                assertNotNull(bootstrapServers);
-                assertEquals(apiKey, testAPIKey);
+            assertNotNull(bootstrapServers);
+            assertEquals(apiKey, testAPIKey);
 
+            if (debug) {
                 System.out.println(bootstrapServers);
                 System.out.println(apiKey);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("failed to parser eventStreamBinding!");
+            fail("failed to parse eventStreamBinding!");
         }
     }
-
 }

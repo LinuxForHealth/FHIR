@@ -26,7 +26,6 @@ public class Uuid extends Uri {
 
     private Uuid(Builder builder) {
         super(builder);
-        ValidationSupport.checkMinLength(value);
         ValidationSupport.checkValue(value, PATTERN);
     }
 

@@ -20,37 +20,37 @@ public class SupplyRequestStatus extends Code {
     /**
      * Draft
      */
-    public static final SupplyRequestStatus DRAFT = SupplyRequestStatus.of(ValueSet.DRAFT);
+    public static final SupplyRequestStatus DRAFT = SupplyRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
      */
-    public static final SupplyRequestStatus ACTIVE = SupplyRequestStatus.of(ValueSet.ACTIVE);
+    public static final SupplyRequestStatus ACTIVE = SupplyRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Suspended
      */
-    public static final SupplyRequestStatus SUSPENDED = SupplyRequestStatus.of(ValueSet.SUSPENDED);
+    public static final SupplyRequestStatus SUSPENDED = SupplyRequestStatus.builder().value(ValueSet.SUSPENDED).build();
 
     /**
      * Cancelled
      */
-    public static final SupplyRequestStatus CANCELLED = SupplyRequestStatus.of(ValueSet.CANCELLED);
+    public static final SupplyRequestStatus CANCELLED = SupplyRequestStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Completed
      */
-    public static final SupplyRequestStatus COMPLETED = SupplyRequestStatus.of(ValueSet.COMPLETED);
+    public static final SupplyRequestStatus COMPLETED = SupplyRequestStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final SupplyRequestStatus ENTERED_IN_ERROR = SupplyRequestStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final SupplyRequestStatus ENTERED_IN_ERROR = SupplyRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final SupplyRequestStatus UNKNOWN = SupplyRequestStatus.of(ValueSet.UNKNOWN);
+    public static final SupplyRequestStatus UNKNOWN = SupplyRequestStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class SupplyRequestStatus extends Code {
         super(builder);
     }
 
-    public static SupplyRequestStatus of(java.lang.String value) {
-        return SupplyRequestStatus.builder().value(value).build();
+    public static SupplyRequestStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ACTIVE:
+            return ACTIVE;
+        case SUSPENDED:
+            return SUSPENDED;
+        case CANCELLED:
+            return CANCELLED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static SupplyRequestStatus of(ValueSet value) {
-        return SupplyRequestStatus.builder().value(value).build();
+    public static SupplyRequestStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return SupplyRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return SupplyRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,77 +20,77 @@ public class ContractStatus extends Code {
     /**
      * Amended
      */
-    public static final ContractStatus AMENDED = ContractStatus.of(ValueSet.AMENDED);
+    public static final ContractStatus AMENDED = ContractStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Appended
      */
-    public static final ContractStatus APPENDED = ContractStatus.of(ValueSet.APPENDED);
+    public static final ContractStatus APPENDED = ContractStatus.builder().value(ValueSet.APPENDED).build();
 
     /**
      * Cancelled
      */
-    public static final ContractStatus CANCELLED = ContractStatus.of(ValueSet.CANCELLED);
+    public static final ContractStatus CANCELLED = ContractStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Disputed
      */
-    public static final ContractStatus DISPUTED = ContractStatus.of(ValueSet.DISPUTED);
+    public static final ContractStatus DISPUTED = ContractStatus.builder().value(ValueSet.DISPUTED).build();
 
     /**
      * Entered in Error
      */
-    public static final ContractStatus ENTERED_IN_ERROR = ContractStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ContractStatus ENTERED_IN_ERROR = ContractStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Executable
      */
-    public static final ContractStatus EXECUTABLE = ContractStatus.of(ValueSet.EXECUTABLE);
+    public static final ContractStatus EXECUTABLE = ContractStatus.builder().value(ValueSet.EXECUTABLE).build();
 
     /**
      * Executed
      */
-    public static final ContractStatus EXECUTED = ContractStatus.of(ValueSet.EXECUTED);
+    public static final ContractStatus EXECUTED = ContractStatus.builder().value(ValueSet.EXECUTED).build();
 
     /**
      * Negotiable
      */
-    public static final ContractStatus NEGOTIABLE = ContractStatus.of(ValueSet.NEGOTIABLE);
+    public static final ContractStatus NEGOTIABLE = ContractStatus.builder().value(ValueSet.NEGOTIABLE).build();
 
     /**
      * Offered
      */
-    public static final ContractStatus OFFERED = ContractStatus.of(ValueSet.OFFERED);
+    public static final ContractStatus OFFERED = ContractStatus.builder().value(ValueSet.OFFERED).build();
 
     /**
      * Policy
      */
-    public static final ContractStatus POLICY = ContractStatus.of(ValueSet.POLICY);
+    public static final ContractStatus POLICY = ContractStatus.builder().value(ValueSet.POLICY).build();
 
     /**
      * Rejected
      */
-    public static final ContractStatus REJECTED = ContractStatus.of(ValueSet.REJECTED);
+    public static final ContractStatus REJECTED = ContractStatus.builder().value(ValueSet.REJECTED).build();
 
     /**
      * Renewed
      */
-    public static final ContractStatus RENEWED = ContractStatus.of(ValueSet.RENEWED);
+    public static final ContractStatus RENEWED = ContractStatus.builder().value(ValueSet.RENEWED).build();
 
     /**
      * Revoked
      */
-    public static final ContractStatus REVOKED = ContractStatus.of(ValueSet.REVOKED);
+    public static final ContractStatus REVOKED = ContractStatus.builder().value(ValueSet.REVOKED).build();
 
     /**
      * Resolved
      */
-    public static final ContractStatus RESOLVED = ContractStatus.of(ValueSet.RESOLVED);
+    public static final ContractStatus RESOLVED = ContractStatus.builder().value(ValueSet.RESOLVED).build();
 
     /**
      * Terminated
      */
-    public static final ContractStatus TERMINATED = ContractStatus.of(ValueSet.TERMINATED);
+    public static final ContractStatus TERMINATED = ContractStatus.builder().value(ValueSet.TERMINATED).build();
 
     private volatile int hashCode;
 
@@ -98,20 +98,53 @@ public class ContractStatus extends Code {
         super(builder);
     }
 
-    public static ContractStatus of(java.lang.String value) {
-        return ContractStatus.builder().value(value).build();
+    public static ContractStatus of(ValueSet value) {
+        switch (value) {
+        case AMENDED:
+            return AMENDED;
+        case APPENDED:
+            return APPENDED;
+        case CANCELLED:
+            return CANCELLED;
+        case DISPUTED:
+            return DISPUTED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case EXECUTABLE:
+            return EXECUTABLE;
+        case EXECUTED:
+            return EXECUTED;
+        case NEGOTIABLE:
+            return NEGOTIABLE;
+        case OFFERED:
+            return OFFERED;
+        case POLICY:
+            return POLICY;
+        case REJECTED:
+            return REJECTED;
+        case RENEWED:
+            return RENEWED;
+        case REVOKED:
+            return REVOKED;
+        case RESOLVED:
+            return RESOLVED;
+        case TERMINATED:
+            return TERMINATED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ContractStatus of(ValueSet value) {
-        return ContractStatus.builder().value(value).build();
+    public static ContractStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ContractStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ContractStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,17 +20,17 @@ public class AggregationMode extends Code {
     /**
      * Contained
      */
-    public static final AggregationMode CONTAINED = AggregationMode.of(ValueSet.CONTAINED);
+    public static final AggregationMode CONTAINED = AggregationMode.builder().value(ValueSet.CONTAINED).build();
 
     /**
      * Referenced
      */
-    public static final AggregationMode REFERENCED = AggregationMode.of(ValueSet.REFERENCED);
+    public static final AggregationMode REFERENCED = AggregationMode.builder().value(ValueSet.REFERENCED).build();
 
     /**
      * Bundled
      */
-    public static final AggregationMode BUNDLED = AggregationMode.of(ValueSet.BUNDLED);
+    public static final AggregationMode BUNDLED = AggregationMode.builder().value(ValueSet.BUNDLED).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class AggregationMode extends Code {
         super(builder);
     }
 
-    public static AggregationMode of(java.lang.String value) {
-        return AggregationMode.builder().value(value).build();
+    public static AggregationMode of(ValueSet value) {
+        switch (value) {
+        case CONTAINED:
+            return CONTAINED;
+        case REFERENCED:
+            return REFERENCED;
+        case BUNDLED:
+            return BUNDLED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AggregationMode of(ValueSet value) {
-        return AggregationMode.builder().value(value).build();
+    public static AggregationMode of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AggregationMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AggregationMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

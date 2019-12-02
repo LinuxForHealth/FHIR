@@ -20,22 +20,22 @@ public class RemittanceOutcome extends Code {
     /**
      * Queued
      */
-    public static final RemittanceOutcome QUEUED = RemittanceOutcome.of(ValueSet.QUEUED);
+    public static final RemittanceOutcome QUEUED = RemittanceOutcome.builder().value(ValueSet.QUEUED).build();
 
     /**
      * Processing Complete
      */
-    public static final RemittanceOutcome COMPLETE = RemittanceOutcome.of(ValueSet.COMPLETE);
+    public static final RemittanceOutcome COMPLETE = RemittanceOutcome.builder().value(ValueSet.COMPLETE).build();
 
     /**
      * Error
      */
-    public static final RemittanceOutcome ERROR = RemittanceOutcome.of(ValueSet.ERROR);
+    public static final RemittanceOutcome ERROR = RemittanceOutcome.builder().value(ValueSet.ERROR).build();
 
     /**
      * Partial Processing
      */
-    public static final RemittanceOutcome PARTIAL = RemittanceOutcome.of(ValueSet.PARTIAL);
+    public static final RemittanceOutcome PARTIAL = RemittanceOutcome.builder().value(ValueSet.PARTIAL).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class RemittanceOutcome extends Code {
         super(builder);
     }
 
-    public static RemittanceOutcome of(java.lang.String value) {
-        return RemittanceOutcome.builder().value(value).build();
+    public static RemittanceOutcome of(ValueSet value) {
+        switch (value) {
+        case QUEUED:
+            return QUEUED;
+        case COMPLETE:
+            return COMPLETE;
+        case ERROR:
+            return ERROR;
+        case PARTIAL:
+            return PARTIAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static RemittanceOutcome of(ValueSet value) {
-        return RemittanceOutcome.builder().value(value).build();
+    public static RemittanceOutcome of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return RemittanceOutcome.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return RemittanceOutcome.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

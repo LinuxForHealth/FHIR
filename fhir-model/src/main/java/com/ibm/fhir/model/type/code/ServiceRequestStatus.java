@@ -20,37 +20,37 @@ public class ServiceRequestStatus extends Code {
     /**
      * Draft
      */
-    public static final ServiceRequestStatus DRAFT = ServiceRequestStatus.of(ValueSet.DRAFT);
+    public static final ServiceRequestStatus DRAFT = ServiceRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
      */
-    public static final ServiceRequestStatus ACTIVE = ServiceRequestStatus.of(ValueSet.ACTIVE);
+    public static final ServiceRequestStatus ACTIVE = ServiceRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
      */
-    public static final ServiceRequestStatus ON_HOLD = ServiceRequestStatus.of(ValueSet.ON_HOLD);
+    public static final ServiceRequestStatus ON_HOLD = ServiceRequestStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Revoked
      */
-    public static final ServiceRequestStatus REVOKED = ServiceRequestStatus.of(ValueSet.REVOKED);
+    public static final ServiceRequestStatus REVOKED = ServiceRequestStatus.builder().value(ValueSet.REVOKED).build();
 
     /**
      * Completed
      */
-    public static final ServiceRequestStatus COMPLETED = ServiceRequestStatus.of(ValueSet.COMPLETED);
+    public static final ServiceRequestStatus COMPLETED = ServiceRequestStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final ServiceRequestStatus ENTERED_IN_ERROR = ServiceRequestStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final ServiceRequestStatus ENTERED_IN_ERROR = ServiceRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final ServiceRequestStatus UNKNOWN = ServiceRequestStatus.of(ValueSet.UNKNOWN);
+    public static final ServiceRequestStatus UNKNOWN = ServiceRequestStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -58,20 +58,37 @@ public class ServiceRequestStatus extends Code {
         super(builder);
     }
 
-    public static ServiceRequestStatus of(java.lang.String value) {
-        return ServiceRequestStatus.builder().value(value).build();
+    public static ServiceRequestStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case REVOKED:
+            return REVOKED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ServiceRequestStatus of(ValueSet value) {
-        return ServiceRequestStatus.builder().value(value).build();
+    public static ServiceRequestStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ServiceRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ServiceRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

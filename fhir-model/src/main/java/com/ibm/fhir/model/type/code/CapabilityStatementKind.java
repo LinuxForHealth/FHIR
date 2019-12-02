@@ -20,17 +20,17 @@ public class CapabilityStatementKind extends Code {
     /**
      * Instance
      */
-    public static final CapabilityStatementKind INSTANCE = CapabilityStatementKind.of(ValueSet.INSTANCE);
+    public static final CapabilityStatementKind INSTANCE = CapabilityStatementKind.builder().value(ValueSet.INSTANCE).build();
 
     /**
      * Capability
      */
-    public static final CapabilityStatementKind CAPABILITY = CapabilityStatementKind.of(ValueSet.CAPABILITY);
+    public static final CapabilityStatementKind CAPABILITY = CapabilityStatementKind.builder().value(ValueSet.CAPABILITY).build();
 
     /**
      * Requirements
      */
-    public static final CapabilityStatementKind REQUIREMENTS = CapabilityStatementKind.of(ValueSet.REQUIREMENTS);
+    public static final CapabilityStatementKind REQUIREMENTS = CapabilityStatementKind.builder().value(ValueSet.REQUIREMENTS).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class CapabilityStatementKind extends Code {
         super(builder);
     }
 
-    public static CapabilityStatementKind of(java.lang.String value) {
-        return CapabilityStatementKind.builder().value(value).build();
+    public static CapabilityStatementKind of(ValueSet value) {
+        switch (value) {
+        case INSTANCE:
+            return INSTANCE;
+        case CAPABILITY:
+            return CAPABILITY;
+        case REQUIREMENTS:
+            return REQUIREMENTS;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static CapabilityStatementKind of(ValueSet value) {
-        return CapabilityStatementKind.builder().value(value).build();
+    public static CapabilityStatementKind of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return CapabilityStatementKind.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CapabilityStatementKind.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

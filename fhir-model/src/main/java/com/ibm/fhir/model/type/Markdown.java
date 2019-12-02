@@ -8,11 +8,9 @@ package com.ibm.fhir.model.type;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
 
-import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
@@ -20,13 +18,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Markdown extends String {
-    private static final Pattern PATTERN = Pattern.compile("[ \\r\\n\\t\\S]+");
-
     private volatile int hashCode;
 
     private Markdown(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, PATTERN);
     }
 
     @Override

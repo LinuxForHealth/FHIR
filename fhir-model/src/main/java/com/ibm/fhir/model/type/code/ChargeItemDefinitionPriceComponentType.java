@@ -20,32 +20,32 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
     /**
      * base price
      */
-    public static final ChargeItemDefinitionPriceComponentType BASE = ChargeItemDefinitionPriceComponentType.of(ValueSet.BASE);
+    public static final ChargeItemDefinitionPriceComponentType BASE = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.BASE).build();
 
     /**
      * surcharge
      */
-    public static final ChargeItemDefinitionPriceComponentType SURCHARGE = ChargeItemDefinitionPriceComponentType.of(ValueSet.SURCHARGE);
+    public static final ChargeItemDefinitionPriceComponentType SURCHARGE = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.SURCHARGE).build();
 
     /**
      * deduction
      */
-    public static final ChargeItemDefinitionPriceComponentType DEDUCTION = ChargeItemDefinitionPriceComponentType.of(ValueSet.DEDUCTION);
+    public static final ChargeItemDefinitionPriceComponentType DEDUCTION = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.DEDUCTION).build();
 
     /**
      * discount
      */
-    public static final ChargeItemDefinitionPriceComponentType DISCOUNT = ChargeItemDefinitionPriceComponentType.of(ValueSet.DISCOUNT);
+    public static final ChargeItemDefinitionPriceComponentType DISCOUNT = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.DISCOUNT).build();
 
     /**
      * tax
      */
-    public static final ChargeItemDefinitionPriceComponentType TAX = ChargeItemDefinitionPriceComponentType.of(ValueSet.TAX);
+    public static final ChargeItemDefinitionPriceComponentType TAX = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.TAX).build();
 
     /**
      * informational
      */
-    public static final ChargeItemDefinitionPriceComponentType INFORMATIONAL = ChargeItemDefinitionPriceComponentType.of(ValueSet.INFORMATIONAL);
+    public static final ChargeItemDefinitionPriceComponentType INFORMATIONAL = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.INFORMATIONAL).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
         super(builder);
     }
 
-    public static ChargeItemDefinitionPriceComponentType of(java.lang.String value) {
-        return ChargeItemDefinitionPriceComponentType.builder().value(value).build();
+    public static ChargeItemDefinitionPriceComponentType of(ValueSet value) {
+        switch (value) {
+        case BASE:
+            return BASE;
+        case SURCHARGE:
+            return SURCHARGE;
+        case DEDUCTION:
+            return DEDUCTION;
+        case DISCOUNT:
+            return DISCOUNT;
+        case TAX:
+            return TAX;
+        case INFORMATIONAL:
+            return INFORMATIONAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ChargeItemDefinitionPriceComponentType of(ValueSet value) {
-        return ChargeItemDefinitionPriceComponentType.builder().value(value).build();
+    public static ChargeItemDefinitionPriceComponentType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ChargeItemDefinitionPriceComponentType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ChargeItemDefinitionPriceComponentType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

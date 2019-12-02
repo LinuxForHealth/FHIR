@@ -16,9 +16,6 @@ import com.ibm.fhir.search.parameters.SortParameter;
 
 /**
  * Interface for FHIR Search Context. 
- * 
- * @author pbastide
- *
  */
 public interface FHIRSearchContext extends FHIRPagingContext {
 

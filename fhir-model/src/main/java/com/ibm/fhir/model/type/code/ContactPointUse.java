@@ -20,27 +20,27 @@ public class ContactPointUse extends Code {
     /**
      * Home
      */
-    public static final ContactPointUse HOME = ContactPointUse.of(ValueSet.HOME);
+    public static final ContactPointUse HOME = ContactPointUse.builder().value(ValueSet.HOME).build();
 
     /**
      * Work
      */
-    public static final ContactPointUse WORK = ContactPointUse.of(ValueSet.WORK);
+    public static final ContactPointUse WORK = ContactPointUse.builder().value(ValueSet.WORK).build();
 
     /**
      * Temp
      */
-    public static final ContactPointUse TEMP = ContactPointUse.of(ValueSet.TEMP);
+    public static final ContactPointUse TEMP = ContactPointUse.builder().value(ValueSet.TEMP).build();
 
     /**
      * Old
      */
-    public static final ContactPointUse OLD = ContactPointUse.of(ValueSet.OLD);
+    public static final ContactPointUse OLD = ContactPointUse.builder().value(ValueSet.OLD).build();
 
     /**
      * Mobile
      */
-    public static final ContactPointUse MOBILE = ContactPointUse.of(ValueSet.MOBILE);
+    public static final ContactPointUse MOBILE = ContactPointUse.builder().value(ValueSet.MOBILE).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class ContactPointUse extends Code {
         super(builder);
     }
 
-    public static ContactPointUse of(java.lang.String value) {
-        return ContactPointUse.builder().value(value).build();
+    public static ContactPointUse of(ValueSet value) {
+        switch (value) {
+        case HOME:
+            return HOME;
+        case WORK:
+            return WORK;
+        case TEMP:
+            return TEMP;
+        case OLD:
+            return OLD;
+        case MOBILE:
+            return MOBILE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ContactPointUse of(ValueSet value) {
-        return ContactPointUse.builder().value(value).build();
+    public static ContactPointUse of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ContactPointUse.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ContactPointUse.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

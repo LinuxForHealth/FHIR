@@ -20,62 +20,62 @@ public class AssertionResponseTypes extends Code {
     /**
      * okay
      */
-    public static final AssertionResponseTypes OKAY = AssertionResponseTypes.of(ValueSet.OKAY);
+    public static final AssertionResponseTypes OKAY = AssertionResponseTypes.builder().value(ValueSet.OKAY).build();
 
     /**
      * created
      */
-    public static final AssertionResponseTypes CREATED = AssertionResponseTypes.of(ValueSet.CREATED);
+    public static final AssertionResponseTypes CREATED = AssertionResponseTypes.builder().value(ValueSet.CREATED).build();
 
     /**
      * noContent
      */
-    public static final AssertionResponseTypes NO_CONTENT = AssertionResponseTypes.of(ValueSet.NO_CONTENT);
+    public static final AssertionResponseTypes NO_CONTENT = AssertionResponseTypes.builder().value(ValueSet.NO_CONTENT).build();
 
     /**
      * notModified
      */
-    public static final AssertionResponseTypes NOT_MODIFIED = AssertionResponseTypes.of(ValueSet.NOT_MODIFIED);
+    public static final AssertionResponseTypes NOT_MODIFIED = AssertionResponseTypes.builder().value(ValueSet.NOT_MODIFIED).build();
 
     /**
      * bad
      */
-    public static final AssertionResponseTypes BAD = AssertionResponseTypes.of(ValueSet.BAD);
+    public static final AssertionResponseTypes BAD = AssertionResponseTypes.builder().value(ValueSet.BAD).build();
 
     /**
      * forbidden
      */
-    public static final AssertionResponseTypes FORBIDDEN = AssertionResponseTypes.of(ValueSet.FORBIDDEN);
+    public static final AssertionResponseTypes FORBIDDEN = AssertionResponseTypes.builder().value(ValueSet.FORBIDDEN).build();
 
     /**
      * notFound
      */
-    public static final AssertionResponseTypes NOT_FOUND = AssertionResponseTypes.of(ValueSet.NOT_FOUND);
+    public static final AssertionResponseTypes NOT_FOUND = AssertionResponseTypes.builder().value(ValueSet.NOT_FOUND).build();
 
     /**
      * methodNotAllowed
      */
-    public static final AssertionResponseTypes METHOD_NOT_ALLOWED = AssertionResponseTypes.of(ValueSet.METHOD_NOT_ALLOWED);
+    public static final AssertionResponseTypes METHOD_NOT_ALLOWED = AssertionResponseTypes.builder().value(ValueSet.METHOD_NOT_ALLOWED).build();
 
     /**
      * conflict
      */
-    public static final AssertionResponseTypes CONFLICT = AssertionResponseTypes.of(ValueSet.CONFLICT);
+    public static final AssertionResponseTypes CONFLICT = AssertionResponseTypes.builder().value(ValueSet.CONFLICT).build();
 
     /**
      * gone
      */
-    public static final AssertionResponseTypes GONE = AssertionResponseTypes.of(ValueSet.GONE);
+    public static final AssertionResponseTypes GONE = AssertionResponseTypes.builder().value(ValueSet.GONE).build();
 
     /**
      * preconditionFailed
      */
-    public static final AssertionResponseTypes PRECONDITION_FAILED = AssertionResponseTypes.of(ValueSet.PRECONDITION_FAILED);
+    public static final AssertionResponseTypes PRECONDITION_FAILED = AssertionResponseTypes.builder().value(ValueSet.PRECONDITION_FAILED).build();
 
     /**
      * unprocessable
      */
-    public static final AssertionResponseTypes UNPROCESSABLE = AssertionResponseTypes.of(ValueSet.UNPROCESSABLE);
+    public static final AssertionResponseTypes UNPROCESSABLE = AssertionResponseTypes.builder().value(ValueSet.UNPROCESSABLE).build();
 
     private volatile int hashCode;
 
@@ -83,20 +83,47 @@ public class AssertionResponseTypes extends Code {
         super(builder);
     }
 
-    public static AssertionResponseTypes of(java.lang.String value) {
-        return AssertionResponseTypes.builder().value(value).build();
+    public static AssertionResponseTypes of(ValueSet value) {
+        switch (value) {
+        case OKAY:
+            return OKAY;
+        case CREATED:
+            return CREATED;
+        case NO_CONTENT:
+            return NO_CONTENT;
+        case NOT_MODIFIED:
+            return NOT_MODIFIED;
+        case BAD:
+            return BAD;
+        case FORBIDDEN:
+            return FORBIDDEN;
+        case NOT_FOUND:
+            return NOT_FOUND;
+        case METHOD_NOT_ALLOWED:
+            return METHOD_NOT_ALLOWED;
+        case CONFLICT:
+            return CONFLICT;
+        case GONE:
+            return GONE;
+        case PRECONDITION_FAILED:
+            return PRECONDITION_FAILED;
+        case UNPROCESSABLE:
+            return UNPROCESSABLE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AssertionResponseTypes of(ValueSet value) {
-        return AssertionResponseTypes.builder().value(value).build();
+    public static AssertionResponseTypes of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AssertionResponseTypes.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AssertionResponseTypes.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

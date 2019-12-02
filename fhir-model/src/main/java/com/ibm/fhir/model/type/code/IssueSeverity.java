@@ -20,22 +20,22 @@ public class IssueSeverity extends Code {
     /**
      * Fatal
      */
-    public static final IssueSeverity FATAL = IssueSeverity.of(ValueSet.FATAL);
+    public static final IssueSeverity FATAL = IssueSeverity.builder().value(ValueSet.FATAL).build();
 
     /**
      * Error
      */
-    public static final IssueSeverity ERROR = IssueSeverity.of(ValueSet.ERROR);
+    public static final IssueSeverity ERROR = IssueSeverity.builder().value(ValueSet.ERROR).build();
 
     /**
      * Warning
      */
-    public static final IssueSeverity WARNING = IssueSeverity.of(ValueSet.WARNING);
+    public static final IssueSeverity WARNING = IssueSeverity.builder().value(ValueSet.WARNING).build();
 
     /**
      * Information
      */
-    public static final IssueSeverity INFORMATION = IssueSeverity.of(ValueSet.INFORMATION);
+    public static final IssueSeverity INFORMATION = IssueSeverity.builder().value(ValueSet.INFORMATION).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class IssueSeverity extends Code {
         super(builder);
     }
 
-    public static IssueSeverity of(java.lang.String value) {
-        return IssueSeverity.builder().value(value).build();
+    public static IssueSeverity of(ValueSet value) {
+        switch (value) {
+        case FATAL:
+            return FATAL;
+        case ERROR:
+            return ERROR;
+        case WARNING:
+            return WARNING;
+        case INFORMATION:
+            return INFORMATION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static IssueSeverity of(ValueSet value) {
-        return IssueSeverity.builder().value(value).build();
+    public static IssueSeverity of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return IssueSeverity.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return IssueSeverity.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

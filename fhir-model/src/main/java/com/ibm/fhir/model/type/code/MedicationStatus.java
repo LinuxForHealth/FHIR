@@ -20,17 +20,17 @@ public class MedicationStatus extends Code {
     /**
      * Active
      */
-    public static final MedicationStatus ACTIVE = MedicationStatus.of(ValueSet.ACTIVE);
+    public static final MedicationStatus ACTIVE = MedicationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
      */
-    public static final MedicationStatus INACTIVE = MedicationStatus.of(ValueSet.INACTIVE);
+    public static final MedicationStatus INACTIVE = MedicationStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
      */
-    public static final MedicationStatus ENTERED_IN_ERROR = MedicationStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final MedicationStatus ENTERED_IN_ERROR = MedicationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class MedicationStatus extends Code {
         super(builder);
     }
 
-    public static MedicationStatus of(java.lang.String value) {
-        return MedicationStatus.builder().value(value).build();
+    public static MedicationStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static MedicationStatus of(ValueSet value) {
-        return MedicationStatus.builder().value(value).build();
+    public static MedicationStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return MedicationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MedicationStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

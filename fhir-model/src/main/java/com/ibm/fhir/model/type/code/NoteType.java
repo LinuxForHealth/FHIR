@@ -20,17 +20,17 @@ public class NoteType extends Code {
     /**
      * Display
      */
-    public static final NoteType DISPLAY = NoteType.of(ValueSet.DISPLAY);
+    public static final NoteType DISPLAY = NoteType.builder().value(ValueSet.DISPLAY).build();
 
     /**
      * Print (Form)
      */
-    public static final NoteType PRINT = NoteType.of(ValueSet.PRINT);
+    public static final NoteType PRINT = NoteType.builder().value(ValueSet.PRINT).build();
 
     /**
      * Print (Operator)
      */
-    public static final NoteType PRINTOPER = NoteType.of(ValueSet.PRINTOPER);
+    public static final NoteType PRINTOPER = NoteType.builder().value(ValueSet.PRINTOPER).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class NoteType extends Code {
         super(builder);
     }
 
-    public static NoteType of(java.lang.String value) {
-        return NoteType.builder().value(value).build();
+    public static NoteType of(ValueSet value) {
+        switch (value) {
+        case DISPLAY:
+            return DISPLAY;
+        case PRINT:
+            return PRINT;
+        case PRINTOPER:
+            return PRINTOPER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static NoteType of(ValueSet value) {
-        return NoteType.builder().value(value).build();
+    public static NoteType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return NoteType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return NoteType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

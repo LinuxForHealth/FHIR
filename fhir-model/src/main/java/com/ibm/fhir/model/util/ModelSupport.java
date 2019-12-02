@@ -507,10 +507,24 @@ public final class ModelSupport {
         return Element.class.isAssignableFrom(modelClass);
     }
     
+    public static boolean isMetadataType(Class<?> type) {
+        return ContactDetail.class.equals(type) ||
+                Contributor.class.equals(type) ||
+                DataRequirement.class.isAssignableFrom(type) || 
+                RelatedArtifact.class.isAssignableFrom(type) ||
+                UsageContext.class.equals(type) || 
+                ParameterDefinition.class.equals(type) ||
+                Expression.class.equals(type) || 
+                TriggerDefinition.class.equals(type);
+    }
+    
     public static boolean isModelClass(Class<?> type) {
         return isResourceType(type) || isElementType(type);
     }
 
+    /**
+     * @implNote xhtml is considered a primitive type
+     */
     public static boolean isPrimitiveType(Class<?> type) {
         return Base64Binary.class.equals(type) ||
             com.ibm.fhir.model.type.Boolean.class.equals(type) ||

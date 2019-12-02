@@ -20,42 +20,42 @@ public class MediaStatus extends Code {
     /**
      * Preparation
      */
-    public static final MediaStatus PREPARATION = MediaStatus.of(ValueSet.PREPARATION);
+    public static final MediaStatus PREPARATION = MediaStatus.builder().value(ValueSet.PREPARATION).build();
 
     /**
      * In Progress
      */
-    public static final MediaStatus IN_PROGRESS = MediaStatus.of(ValueSet.IN_PROGRESS);
+    public static final MediaStatus IN_PROGRESS = MediaStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Not Done
      */
-    public static final MediaStatus NOT_DONE = MediaStatus.of(ValueSet.NOT_DONE);
+    public static final MediaStatus NOT_DONE = MediaStatus.builder().value(ValueSet.NOT_DONE).build();
 
     /**
      * On Hold
      */
-    public static final MediaStatus ON_HOLD = MediaStatus.of(ValueSet.ON_HOLD);
+    public static final MediaStatus ON_HOLD = MediaStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Stopped
      */
-    public static final MediaStatus STOPPED = MediaStatus.of(ValueSet.STOPPED);
+    public static final MediaStatus STOPPED = MediaStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Completed
      */
-    public static final MediaStatus COMPLETED = MediaStatus.of(ValueSet.COMPLETED);
+    public static final MediaStatus COMPLETED = MediaStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final MediaStatus ENTERED_IN_ERROR = MediaStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final MediaStatus ENTERED_IN_ERROR = MediaStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final MediaStatus UNKNOWN = MediaStatus.of(ValueSet.UNKNOWN);
+    public static final MediaStatus UNKNOWN = MediaStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class MediaStatus extends Code {
         super(builder);
     }
 
-    public static MediaStatus of(java.lang.String value) {
-        return MediaStatus.builder().value(value).build();
+    public static MediaStatus of(ValueSet value) {
+        switch (value) {
+        case PREPARATION:
+            return PREPARATION;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case NOT_DONE:
+            return NOT_DONE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case STOPPED:
+            return STOPPED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static MediaStatus of(ValueSet value) {
-        return MediaStatus.builder().value(value).build();
+    public static MediaStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return MediaStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MediaStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,42 +20,42 @@ public class MedicationRequestStatus extends Code {
     /**
      * Active
      */
-    public static final MedicationRequestStatus ACTIVE = MedicationRequestStatus.of(ValueSet.ACTIVE);
+    public static final MedicationRequestStatus ACTIVE = MedicationRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
      */
-    public static final MedicationRequestStatus ON_HOLD = MedicationRequestStatus.of(ValueSet.ON_HOLD);
+    public static final MedicationRequestStatus ON_HOLD = MedicationRequestStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Cancelled
      */
-    public static final MedicationRequestStatus CANCELLED = MedicationRequestStatus.of(ValueSet.CANCELLED);
+    public static final MedicationRequestStatus CANCELLED = MedicationRequestStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Completed
      */
-    public static final MedicationRequestStatus COMPLETED = MedicationRequestStatus.of(ValueSet.COMPLETED);
+    public static final MedicationRequestStatus COMPLETED = MedicationRequestStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
      */
-    public static final MedicationRequestStatus ENTERED_IN_ERROR = MedicationRequestStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final MedicationRequestStatus ENTERED_IN_ERROR = MedicationRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
      */
-    public static final MedicationRequestStatus STOPPED = MedicationRequestStatus.of(ValueSet.STOPPED);
+    public static final MedicationRequestStatus STOPPED = MedicationRequestStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Draft
      */
-    public static final MedicationRequestStatus DRAFT = MedicationRequestStatus.of(ValueSet.DRAFT);
+    public static final MedicationRequestStatus DRAFT = MedicationRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Unknown
      */
-    public static final MedicationRequestStatus UNKNOWN = MedicationRequestStatus.of(ValueSet.UNKNOWN);
+    public static final MedicationRequestStatus UNKNOWN = MedicationRequestStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class MedicationRequestStatus extends Code {
         super(builder);
     }
 
-    public static MedicationRequestStatus of(java.lang.String value) {
-        return MedicationRequestStatus.builder().value(value).build();
+    public static MedicationRequestStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case CANCELLED:
+            return CANCELLED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case STOPPED:
+            return STOPPED;
+        case DRAFT:
+            return DRAFT;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static MedicationRequestStatus of(ValueSet value) {
-        return MedicationRequestStatus.builder().value(value).build();
+    public static MedicationRequestStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return MedicationRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MedicationRequestStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

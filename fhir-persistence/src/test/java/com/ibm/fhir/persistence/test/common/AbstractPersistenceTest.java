@@ -86,14 +86,14 @@ public abstract class AbstractPersistenceTest {
 
     @BeforeMethod(alwaysRun = true)
     public void startTrx() throws Exception{
-        if (persistence.isTransactional()) {
+        if (persistence != null && persistence.isTransactional()) {
             persistence.getTransaction().begin();
         }
     }
 
     @AfterMethod(alwaysRun = true)
     public void commitTrx() throws Exception{
-        if (persistence.isTransactional()) {
+        if (persistence != null && persistence.isTransactional()) {
             persistence.getTransaction().commit();
         }
     }
@@ -117,11 +117,11 @@ public abstract class AbstractPersistenceTest {
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms) throws Exception {
         return runQueryTest(resourceType, queryParms, null);
     }
-    
+
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         return runQueryTest(SearchUtil.parseQueryParameters(resourceType, queryParms), resourceType, queryParms, maxPageSize).getResource();
     }
-    
+
     protected MultiResourceResult<Resource> runQueryTest(FHIRSearchContext searchContext, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         // ensure that all the query parameters were processed into search parameters (needed because the server ignores invalid params by default)
         int expectedCount = 0;
@@ -137,7 +137,7 @@ public abstract class AbstractPersistenceTest {
                 // strip any modifiers
                 final String finalParamName = paramName.split(":")[0];
 
-                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getName().equals(finalParamName)),
+                assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getCode().equals(finalParamName)),
                     "Search parameter '" + key + "' was not successfully parsed into a search parameter");
             }
         }

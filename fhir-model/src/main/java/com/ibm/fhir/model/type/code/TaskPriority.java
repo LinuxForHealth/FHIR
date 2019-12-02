@@ -20,22 +20,22 @@ public class TaskPriority extends Code {
     /**
      * Routine
      */
-    public static final TaskPriority ROUTINE = TaskPriority.of(ValueSet.ROUTINE);
+    public static final TaskPriority ROUTINE = TaskPriority.builder().value(ValueSet.ROUTINE).build();
 
     /**
      * Urgent
      */
-    public static final TaskPriority URGENT = TaskPriority.of(ValueSet.URGENT);
+    public static final TaskPriority URGENT = TaskPriority.builder().value(ValueSet.URGENT).build();
 
     /**
      * ASAP
      */
-    public static final TaskPriority ASAP = TaskPriority.of(ValueSet.ASAP);
+    public static final TaskPriority ASAP = TaskPriority.builder().value(ValueSet.ASAP).build();
 
     /**
      * STAT
      */
-    public static final TaskPriority STAT = TaskPriority.of(ValueSet.STAT);
+    public static final TaskPriority STAT = TaskPriority.builder().value(ValueSet.STAT).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class TaskPriority extends Code {
         super(builder);
     }
 
-    public static TaskPriority of(java.lang.String value) {
-        return TaskPriority.builder().value(value).build();
+    public static TaskPriority of(ValueSet value) {
+        switch (value) {
+        case ROUTINE:
+            return ROUTINE;
+        case URGENT:
+            return URGENT;
+        case ASAP:
+            return ASAP;
+        case STAT:
+            return STAT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static TaskPriority of(ValueSet value) {
-        return TaskPriority.builder().value(value).build();
+    public static TaskPriority of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return TaskPriority.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TaskPriority.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

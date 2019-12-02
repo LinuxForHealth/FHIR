@@ -20,22 +20,22 @@ public class GuidePageGeneration extends Code {
     /**
      * HTML
      */
-    public static final GuidePageGeneration HTML = GuidePageGeneration.of(ValueSet.HTML);
+    public static final GuidePageGeneration HTML = GuidePageGeneration.builder().value(ValueSet.HTML).build();
 
     /**
      * Markdown
      */
-    public static final GuidePageGeneration MARKDOWN = GuidePageGeneration.of(ValueSet.MARKDOWN);
+    public static final GuidePageGeneration MARKDOWN = GuidePageGeneration.builder().value(ValueSet.MARKDOWN).build();
 
     /**
      * XML
      */
-    public static final GuidePageGeneration XML = GuidePageGeneration.of(ValueSet.XML);
+    public static final GuidePageGeneration XML = GuidePageGeneration.builder().value(ValueSet.XML).build();
 
     /**
      * Generated
      */
-    public static final GuidePageGeneration GENERATED = GuidePageGeneration.of(ValueSet.GENERATED);
+    public static final GuidePageGeneration GENERATED = GuidePageGeneration.builder().value(ValueSet.GENERATED).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class GuidePageGeneration extends Code {
         super(builder);
     }
 
-    public static GuidePageGeneration of(java.lang.String value) {
-        return GuidePageGeneration.builder().value(value).build();
+    public static GuidePageGeneration of(ValueSet value) {
+        switch (value) {
+        case HTML:
+            return HTML;
+        case MARKDOWN:
+            return MARKDOWN;
+        case XML:
+            return XML;
+        case GENERATED:
+            return GENERATED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static GuidePageGeneration of(ValueSet value) {
-        return GuidePageGeneration.builder().value(value).build();
+    public static GuidePageGeneration of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return GuidePageGeneration.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return GuidePageGeneration.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

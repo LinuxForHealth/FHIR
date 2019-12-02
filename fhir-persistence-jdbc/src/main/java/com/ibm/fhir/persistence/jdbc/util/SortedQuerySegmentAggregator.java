@@ -21,8 +21,8 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.search.SearchConstants.SortDirection;
 import com.ibm.fhir.search.parameters.SortParameter;
+import com.ibm.fhir.search.sort.Sort;
 
 /**
  * This class assists the JDBCQueryBuilder. It extends the QuerySegmentAggregator to build a FHIR Resource query
@@ -114,7 +114,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             sqlSortQuery.append(this.buildSortJoinClause());
             
             // Build the WHERE clause
-            sqlSortQuery.append(this.buildWhereClause());
+            sqlSortQuery.append(this.buildWhereClause(null));
             
             // Build GROUP BY clause
             sqlSortQuery.append(this.buildGroupByClause());
@@ -182,7 +182,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             if (nameProcessed) {
                 expression.append(", ");
             }
-            if (sortParm.getDirection().equals(SortDirection.ASCENDING)) {
+            if (Sort.Direction.INCREASING.compareTo(sortParm.getDirection())==0) {
                 expression.append("MIN");
             }
             else {
@@ -193,7 +193,11 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             expression.append(attributeName);
             expression.append(")");
             if (useInOrderByClause) {
-                expression.append(" ").append(sortParm.getDirection().value()) 
+                String direction = "ASC";
+                if(sortParm.getDirection().value() == '-') {
+                    direction = "DESC";
+                }
+                expression.append(" ").append(direction) 
                     .append(" NULLS LAST");
             }
             nameProcessed = true;
@@ -255,12 +259,12 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         // Build the LEFT OUTER JOINs needed to access the required sort parameters.
         int sortParmIndex = 1;
         for (SortParameter sortParm: this.sortParameters) {
-            sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getName());
+            sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getCode());
             if (sortParameterNameId == null) {
                 // Only read...don't try and create the parameter name if it doesn't exist
-                sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getName());
+                sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getCode());
                 if (sortParameterNameId != null) {
-                    this.parameterDao.addParameterNamesCacheCandidate(sortParm.getName(), sortParameterNameId);
+                    this.parameterDao.addParameterNamesCacheCandidate(sortParm.getCode(), sortParameterNameId);
                 }
                 else {
                     sortParameterNameId = -1; // so we don't break the query syntax
@@ -379,21 +383,25 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
                 orderByBuffer.append(",");
             }
             sortParm = this.sortParameters.get(i);
-            if (sortParm.getName().equals("_id")) {
+            if (sortParm.getCode().equals("_id")) {
                 orderByBuffer.append("LOGICAL_ID ");
             }
-            else if (sortParm.getName().equals("_lastUpdated")) {
+            else if (sortParm.getCode().equals("_lastUpdated")) {
                 orderByBuffer.append("LAST_UPDATED ");
             }
             else {
-                throw new FHIRPersistenceNotSupportedException(sortParm.getName() + " is an unsupported sort parameter for " +
+                throw new FHIRPersistenceNotSupportedException(sortParm.getCode() + " is an unsupported sort parameter for " +
                             "system level search.");
             }
-            orderByBuffer.append(sortParm.getDirection().value());
+            
+            String direction = "ASC";
+            if(sortParm.getDirection().value() == '-') {
+                direction = "DESC";
+            }
+            orderByBuffer.append(direction);
         }
             
         log.exiting(CLASSNAME, METHODNAME);
         return orderByBuffer.toString();
     }
-
 }

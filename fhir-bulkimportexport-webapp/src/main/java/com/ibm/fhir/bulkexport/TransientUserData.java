@@ -13,8 +13,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 
 /**
  * Bulk export Chunk implementation - job cache data.
- * 
- * @author Albert Wang
+ *
  */
 public class TransientUserData extends CheckPointUserData {
     private static final long serialVersionUID = -5892726731783560418L;

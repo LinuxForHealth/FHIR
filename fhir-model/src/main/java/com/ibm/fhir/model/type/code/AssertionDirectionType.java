@@ -20,12 +20,12 @@ public class AssertionDirectionType extends Code {
     /**
      * response
      */
-    public static final AssertionDirectionType RESPONSE = AssertionDirectionType.of(ValueSet.RESPONSE);
+    public static final AssertionDirectionType RESPONSE = AssertionDirectionType.builder().value(ValueSet.RESPONSE).build();
 
     /**
      * request
      */
-    public static final AssertionDirectionType REQUEST = AssertionDirectionType.of(ValueSet.REQUEST);
+    public static final AssertionDirectionType REQUEST = AssertionDirectionType.builder().value(ValueSet.REQUEST).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class AssertionDirectionType extends Code {
         super(builder);
     }
 
-    public static AssertionDirectionType of(java.lang.String value) {
-        return AssertionDirectionType.builder().value(value).build();
+    public static AssertionDirectionType of(ValueSet value) {
+        switch (value) {
+        case RESPONSE:
+            return RESPONSE;
+        case REQUEST:
+            return REQUEST;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static AssertionDirectionType of(ValueSet value) {
-        return AssertionDirectionType.builder().value(value).build();
+    public static AssertionDirectionType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return AssertionDirectionType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return AssertionDirectionType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,77 +20,77 @@ public class ActivityDefinitionKind extends Code {
     /**
      * Appointment
      */
-    public static final ActivityDefinitionKind APPOINTMENT = ActivityDefinitionKind.of(ValueSet.APPOINTMENT);
+    public static final ActivityDefinitionKind APPOINTMENT = ActivityDefinitionKind.builder().value(ValueSet.APPOINTMENT).build();
 
     /**
      * AppointmentResponse
      */
-    public static final ActivityDefinitionKind APPOINTMENT_RESPONSE = ActivityDefinitionKind.of(ValueSet.APPOINTMENT_RESPONSE);
+    public static final ActivityDefinitionKind APPOINTMENT_RESPONSE = ActivityDefinitionKind.builder().value(ValueSet.APPOINTMENT_RESPONSE).build();
 
     /**
      * CarePlan
      */
-    public static final ActivityDefinitionKind CARE_PLAN = ActivityDefinitionKind.of(ValueSet.CARE_PLAN);
+    public static final ActivityDefinitionKind CARE_PLAN = ActivityDefinitionKind.builder().value(ValueSet.CARE_PLAN).build();
 
     /**
      * Claim
      */
-    public static final ActivityDefinitionKind CLAIM = ActivityDefinitionKind.of(ValueSet.CLAIM);
+    public static final ActivityDefinitionKind CLAIM = ActivityDefinitionKind.builder().value(ValueSet.CLAIM).build();
 
     /**
      * CommunicationRequest
      */
-    public static final ActivityDefinitionKind COMMUNICATION_REQUEST = ActivityDefinitionKind.of(ValueSet.COMMUNICATION_REQUEST);
+    public static final ActivityDefinitionKind COMMUNICATION_REQUEST = ActivityDefinitionKind.builder().value(ValueSet.COMMUNICATION_REQUEST).build();
 
     /**
      * Contract
      */
-    public static final ActivityDefinitionKind CONTRACT = ActivityDefinitionKind.of(ValueSet.CONTRACT);
+    public static final ActivityDefinitionKind CONTRACT = ActivityDefinitionKind.builder().value(ValueSet.CONTRACT).build();
 
     /**
      * DeviceRequest
      */
-    public static final ActivityDefinitionKind DEVICE_REQUEST = ActivityDefinitionKind.of(ValueSet.DEVICE_REQUEST);
+    public static final ActivityDefinitionKind DEVICE_REQUEST = ActivityDefinitionKind.builder().value(ValueSet.DEVICE_REQUEST).build();
 
     /**
      * EnrollmentRequest
      */
-    public static final ActivityDefinitionKind ENROLLMENT_REQUEST = ActivityDefinitionKind.of(ValueSet.ENROLLMENT_REQUEST);
+    public static final ActivityDefinitionKind ENROLLMENT_REQUEST = ActivityDefinitionKind.builder().value(ValueSet.ENROLLMENT_REQUEST).build();
 
     /**
      * ImmunizationRecommendation
      */
-    public static final ActivityDefinitionKind IMMUNIZATION_RECOMMENDATION = ActivityDefinitionKind.of(ValueSet.IMMUNIZATION_RECOMMENDATION);
+    public static final ActivityDefinitionKind IMMUNIZATION_RECOMMENDATION = ActivityDefinitionKind.builder().value(ValueSet.IMMUNIZATION_RECOMMENDATION).build();
 
     /**
      * MedicationRequest
      */
-    public static final ActivityDefinitionKind MEDICATION_REQUEST = ActivityDefinitionKind.of(ValueSet.MEDICATION_REQUEST);
+    public static final ActivityDefinitionKind MEDICATION_REQUEST = ActivityDefinitionKind.builder().value(ValueSet.MEDICATION_REQUEST).build();
 
     /**
      * NutritionOrder
      */
-    public static final ActivityDefinitionKind NUTRITION_ORDER = ActivityDefinitionKind.of(ValueSet.NUTRITION_ORDER);
+    public static final ActivityDefinitionKind NUTRITION_ORDER = ActivityDefinitionKind.builder().value(ValueSet.NUTRITION_ORDER).build();
 
     /**
      * ServiceRequest
      */
-    public static final ActivityDefinitionKind SERVICE_REQUEST = ActivityDefinitionKind.of(ValueSet.SERVICE_REQUEST);
+    public static final ActivityDefinitionKind SERVICE_REQUEST = ActivityDefinitionKind.builder().value(ValueSet.SERVICE_REQUEST).build();
 
     /**
      * SupplyRequest
      */
-    public static final ActivityDefinitionKind SUPPLY_REQUEST = ActivityDefinitionKind.of(ValueSet.SUPPLY_REQUEST);
+    public static final ActivityDefinitionKind SUPPLY_REQUEST = ActivityDefinitionKind.builder().value(ValueSet.SUPPLY_REQUEST).build();
 
     /**
      * Task
      */
-    public static final ActivityDefinitionKind TASK = ActivityDefinitionKind.of(ValueSet.TASK);
+    public static final ActivityDefinitionKind TASK = ActivityDefinitionKind.builder().value(ValueSet.TASK).build();
 
     /**
      * VisionPrescription
      */
-    public static final ActivityDefinitionKind VISION_PRESCRIPTION = ActivityDefinitionKind.of(ValueSet.VISION_PRESCRIPTION);
+    public static final ActivityDefinitionKind VISION_PRESCRIPTION = ActivityDefinitionKind.builder().value(ValueSet.VISION_PRESCRIPTION).build();
 
     private volatile int hashCode;
 
@@ -98,20 +98,53 @@ public class ActivityDefinitionKind extends Code {
         super(builder);
     }
 
-    public static ActivityDefinitionKind of(java.lang.String value) {
-        return ActivityDefinitionKind.builder().value(value).build();
+    public static ActivityDefinitionKind of(ValueSet value) {
+        switch (value) {
+        case APPOINTMENT:
+            return APPOINTMENT;
+        case APPOINTMENT_RESPONSE:
+            return APPOINTMENT_RESPONSE;
+        case CARE_PLAN:
+            return CARE_PLAN;
+        case CLAIM:
+            return CLAIM;
+        case COMMUNICATION_REQUEST:
+            return COMMUNICATION_REQUEST;
+        case CONTRACT:
+            return CONTRACT;
+        case DEVICE_REQUEST:
+            return DEVICE_REQUEST;
+        case ENROLLMENT_REQUEST:
+            return ENROLLMENT_REQUEST;
+        case IMMUNIZATION_RECOMMENDATION:
+            return IMMUNIZATION_RECOMMENDATION;
+        case MEDICATION_REQUEST:
+            return MEDICATION_REQUEST;
+        case NUTRITION_ORDER:
+            return NUTRITION_ORDER;
+        case SERVICE_REQUEST:
+            return SERVICE_REQUEST;
+        case SUPPLY_REQUEST:
+            return SUPPLY_REQUEST;
+        case TASK:
+            return TASK;
+        case VISION_PRESCRIPTION:
+            return VISION_PRESCRIPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ActivityDefinitionKind of(ValueSet value) {
-        return ActivityDefinitionKind.builder().value(value).build();
+    public static ActivityDefinitionKind of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActivityDefinitionKind.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActivityDefinitionKind.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

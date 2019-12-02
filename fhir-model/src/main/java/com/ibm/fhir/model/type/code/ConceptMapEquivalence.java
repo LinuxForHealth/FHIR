@@ -20,52 +20,52 @@ public class ConceptMapEquivalence extends Code {
     /**
      * Related To
      */
-    public static final ConceptMapEquivalence RELATEDTO = ConceptMapEquivalence.of(ValueSet.RELATEDTO);
+    public static final ConceptMapEquivalence RELATEDTO = ConceptMapEquivalence.builder().value(ValueSet.RELATEDTO).build();
 
     /**
      * Equivalent
      */
-    public static final ConceptMapEquivalence EQUIVALENT = ConceptMapEquivalence.of(ValueSet.EQUIVALENT);
+    public static final ConceptMapEquivalence EQUIVALENT = ConceptMapEquivalence.builder().value(ValueSet.EQUIVALENT).build();
 
     /**
      * Equal
      */
-    public static final ConceptMapEquivalence EQUAL = ConceptMapEquivalence.of(ValueSet.EQUAL);
+    public static final ConceptMapEquivalence EQUAL = ConceptMapEquivalence.builder().value(ValueSet.EQUAL).build();
 
     /**
      * Wider
      */
-    public static final ConceptMapEquivalence WIDER = ConceptMapEquivalence.of(ValueSet.WIDER);
+    public static final ConceptMapEquivalence WIDER = ConceptMapEquivalence.builder().value(ValueSet.WIDER).build();
 
     /**
      * Subsumes
      */
-    public static final ConceptMapEquivalence SUBSUMES = ConceptMapEquivalence.of(ValueSet.SUBSUMES);
+    public static final ConceptMapEquivalence SUBSUMES = ConceptMapEquivalence.builder().value(ValueSet.SUBSUMES).build();
 
     /**
      * Narrower
      */
-    public static final ConceptMapEquivalence NARROWER = ConceptMapEquivalence.of(ValueSet.NARROWER);
+    public static final ConceptMapEquivalence NARROWER = ConceptMapEquivalence.builder().value(ValueSet.NARROWER).build();
 
     /**
      * Specializes
      */
-    public static final ConceptMapEquivalence SPECIALIZES = ConceptMapEquivalence.of(ValueSet.SPECIALIZES);
+    public static final ConceptMapEquivalence SPECIALIZES = ConceptMapEquivalence.builder().value(ValueSet.SPECIALIZES).build();
 
     /**
      * Inexact
      */
-    public static final ConceptMapEquivalence INEXACT = ConceptMapEquivalence.of(ValueSet.INEXACT);
+    public static final ConceptMapEquivalence INEXACT = ConceptMapEquivalence.builder().value(ValueSet.INEXACT).build();
 
     /**
      * Unmatched
      */
-    public static final ConceptMapEquivalence UNMATCHED = ConceptMapEquivalence.of(ValueSet.UNMATCHED);
+    public static final ConceptMapEquivalence UNMATCHED = ConceptMapEquivalence.builder().value(ValueSet.UNMATCHED).build();
 
     /**
      * Disjoint
      */
-    public static final ConceptMapEquivalence DISJOINT = ConceptMapEquivalence.of(ValueSet.DISJOINT);
+    public static final ConceptMapEquivalence DISJOINT = ConceptMapEquivalence.builder().value(ValueSet.DISJOINT).build();
 
     private volatile int hashCode;
 
@@ -73,20 +73,43 @@ public class ConceptMapEquivalence extends Code {
         super(builder);
     }
 
-    public static ConceptMapEquivalence of(java.lang.String value) {
-        return ConceptMapEquivalence.builder().value(value).build();
+    public static ConceptMapEquivalence of(ValueSet value) {
+        switch (value) {
+        case RELATEDTO:
+            return RELATEDTO;
+        case EQUIVALENT:
+            return EQUIVALENT;
+        case EQUAL:
+            return EQUAL;
+        case WIDER:
+            return WIDER;
+        case SUBSUMES:
+            return SUBSUMES;
+        case NARROWER:
+            return NARROWER;
+        case SPECIALIZES:
+            return SPECIALIZES;
+        case INEXACT:
+            return INEXACT;
+        case UNMATCHED:
+            return UNMATCHED;
+        case DISJOINT:
+            return DISJOINT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ConceptMapEquivalence of(ValueSet value) {
-        return ConceptMapEquivalence.builder().value(value).build();
+    public static ConceptMapEquivalence of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ConceptMapEquivalence.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ConceptMapEquivalence.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,17 +20,17 @@ public class ExtensionContextType extends Code {
     /**
      * FHIRPath
      */
-    public static final ExtensionContextType FHIRPATH = ExtensionContextType.of(ValueSet.FHIRPATH);
+    public static final ExtensionContextType FHIRPATH = ExtensionContextType.builder().value(ValueSet.FHIRPATH).build();
 
     /**
      * Element ID
      */
-    public static final ExtensionContextType ELEMENT = ExtensionContextType.of(ValueSet.ELEMENT);
+    public static final ExtensionContextType ELEMENT = ExtensionContextType.builder().value(ValueSet.ELEMENT).build();
 
     /**
      * Extension URL
      */
-    public static final ExtensionContextType EXTENSION = ExtensionContextType.of(ValueSet.EXTENSION);
+    public static final ExtensionContextType EXTENSION = ExtensionContextType.builder().value(ValueSet.EXTENSION).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ExtensionContextType extends Code {
         super(builder);
     }
 
-    public static ExtensionContextType of(java.lang.String value) {
-        return ExtensionContextType.builder().value(value).build();
+    public static ExtensionContextType of(ValueSet value) {
+        switch (value) {
+        case FHIRPATH:
+            return FHIRPATH;
+        case ELEMENT:
+            return ELEMENT;
+        case EXTENSION:
+            return EXTENSION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ExtensionContextType of(ValueSet value) {
-        return ExtensionContextType.builder().value(value).build();
+    public static ExtensionContextType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ExtensionContextType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ExtensionContextType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

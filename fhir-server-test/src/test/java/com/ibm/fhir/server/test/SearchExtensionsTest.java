@@ -56,7 +56,9 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
-                target.path("Patient").request().header("X-FHIR-TENANT-ID", "tenant1").post(entity, Response.class);
+                target.path("Patient").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the patient's logical id value.
@@ -64,7 +66,10 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response =
-                target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient/" + patientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         savedCreatedPatientWithExtensions = responsePatient;
@@ -174,5 +179,75 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
+        
+        // Testing the behavior specific to the URI patterns
+        // Response should be empty as the URI value is not an exact match
+        response =
+                target.path("Patient").queryParam("favorite-uri", favoriteUri.getValue().substring(0,10)).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() == 0);
+
+        // Response should be empty as the URI value is not an exact match
+        response =
+                target.path("Patient").queryParam("favorite-uri", favoriteUri.getValue()).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() > 0);
+    }
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })
+    public void testSearchPatientWithBaseParametersAndExtensionsWithAbove() {
+        WebTarget target = getWebTarget();
+        Uri favoriteUri = (Uri) savedCreatedPatientWithExtensions.getExtension().get(3).getValue();
+
+        Response response =
+                target.path("Patient").queryParam("favorite-uri:above", favoriteUri.getValue() + "/12345/12345")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        
+        assertTrue(bundle.getEntry().size() > 0);
+    }
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })
+    public void testSearchPatientWithBaseParametersAndExtensionsWithBelow() {
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Patient").queryParam("favorite-uri:below", "http://www.ibm.co")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        
+        assertTrue(bundle.getEntry().size() == 0);
     }
 }

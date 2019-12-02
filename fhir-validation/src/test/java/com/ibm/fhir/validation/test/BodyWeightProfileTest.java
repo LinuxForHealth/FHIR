@@ -7,7 +7,7 @@
 package com.ibm.fhir.validation.test;
 
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.validation.util.ProfileSupport.getConstraints;
+import static com.ibm.fhir.profile.ProfileSupport.getConstraints;
 
 import java.util.List;
 

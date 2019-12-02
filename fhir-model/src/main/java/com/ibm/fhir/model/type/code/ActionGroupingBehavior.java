@@ -20,17 +20,17 @@ public class ActionGroupingBehavior extends Code {
     /**
      * Visual Group
      */
-    public static final ActionGroupingBehavior VISUAL_GROUP = ActionGroupingBehavior.of(ValueSet.VISUAL_GROUP);
+    public static final ActionGroupingBehavior VISUAL_GROUP = ActionGroupingBehavior.builder().value(ValueSet.VISUAL_GROUP).build();
 
     /**
      * Logical Group
      */
-    public static final ActionGroupingBehavior LOGICAL_GROUP = ActionGroupingBehavior.of(ValueSet.LOGICAL_GROUP);
+    public static final ActionGroupingBehavior LOGICAL_GROUP = ActionGroupingBehavior.builder().value(ValueSet.LOGICAL_GROUP).build();
 
     /**
      * Sentence Group
      */
-    public static final ActionGroupingBehavior SENTENCE_GROUP = ActionGroupingBehavior.of(ValueSet.SENTENCE_GROUP);
+    public static final ActionGroupingBehavior SENTENCE_GROUP = ActionGroupingBehavior.builder().value(ValueSet.SENTENCE_GROUP).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class ActionGroupingBehavior extends Code {
         super(builder);
     }
 
-    public static ActionGroupingBehavior of(java.lang.String value) {
-        return ActionGroupingBehavior.builder().value(value).build();
+    public static ActionGroupingBehavior of(ValueSet value) {
+        switch (value) {
+        case VISUAL_GROUP:
+            return VISUAL_GROUP;
+        case LOGICAL_GROUP:
+            return LOGICAL_GROUP;
+        case SENTENCE_GROUP:
+            return SENTENCE_GROUP;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static ActionGroupingBehavior of(ValueSet value) {
-        return ActionGroupingBehavior.builder().value(value).build();
+    public static ActionGroupingBehavior of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return ActionGroupingBehavior.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return ActionGroupingBehavior.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,17 +20,17 @@ public class TestReportParticipantType extends Code {
     /**
      * Test Engine
      */
-    public static final TestReportParticipantType TEST_ENGINE = TestReportParticipantType.of(ValueSet.TEST_ENGINE);
+    public static final TestReportParticipantType TEST_ENGINE = TestReportParticipantType.builder().value(ValueSet.TEST_ENGINE).build();
 
     /**
      * Client
      */
-    public static final TestReportParticipantType CLIENT = TestReportParticipantType.of(ValueSet.CLIENT);
+    public static final TestReportParticipantType CLIENT = TestReportParticipantType.builder().value(ValueSet.CLIENT).build();
 
     /**
      * Server
      */
-    public static final TestReportParticipantType SERVER = TestReportParticipantType.of(ValueSet.SERVER);
+    public static final TestReportParticipantType SERVER = TestReportParticipantType.builder().value(ValueSet.SERVER).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class TestReportParticipantType extends Code {
         super(builder);
     }
 
-    public static TestReportParticipantType of(java.lang.String value) {
-        return TestReportParticipantType.builder().value(value).build();
+    public static TestReportParticipantType of(ValueSet value) {
+        switch (value) {
+        case TEST_ENGINE:
+            return TEST_ENGINE;
+        case CLIENT:
+            return CLIENT;
+        case SERVER:
+            return SERVER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static TestReportParticipantType of(ValueSet value) {
-        return TestReportParticipantType.builder().value(value).build();
+    public static TestReportParticipantType of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return TestReportParticipantType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return TestReportParticipantType.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

@@ -20,32 +20,32 @@ public class GroupMeasure extends Code {
     /**
      * Mean
      */
-    public static final GroupMeasure MEAN = GroupMeasure.of(ValueSet.MEAN);
+    public static final GroupMeasure MEAN = GroupMeasure.builder().value(ValueSet.MEAN).build();
 
     /**
      * Median
      */
-    public static final GroupMeasure MEDIAN = GroupMeasure.of(ValueSet.MEDIAN);
+    public static final GroupMeasure MEDIAN = GroupMeasure.builder().value(ValueSet.MEDIAN).build();
 
     /**
      * Mean of Study Means
      */
-    public static final GroupMeasure MEAN_OF_MEAN = GroupMeasure.of(ValueSet.MEAN_OF_MEAN);
+    public static final GroupMeasure MEAN_OF_MEAN = GroupMeasure.builder().value(ValueSet.MEAN_OF_MEAN).build();
 
     /**
      * Mean of Study Medins
      */
-    public static final GroupMeasure MEAN_OF_MEDIAN = GroupMeasure.of(ValueSet.MEAN_OF_MEDIAN);
+    public static final GroupMeasure MEAN_OF_MEDIAN = GroupMeasure.builder().value(ValueSet.MEAN_OF_MEDIAN).build();
 
     /**
      * Median of Study Means
      */
-    public static final GroupMeasure MEDIAN_OF_MEAN = GroupMeasure.of(ValueSet.MEDIAN_OF_MEAN);
+    public static final GroupMeasure MEDIAN_OF_MEAN = GroupMeasure.builder().value(ValueSet.MEDIAN_OF_MEAN).build();
 
     /**
      * Median of Study Medians
      */
-    public static final GroupMeasure MEDIAN_OF_MEDIAN = GroupMeasure.of(ValueSet.MEDIAN_OF_MEDIAN);
+    public static final GroupMeasure MEDIAN_OF_MEDIAN = GroupMeasure.builder().value(ValueSet.MEDIAN_OF_MEDIAN).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class GroupMeasure extends Code {
         super(builder);
     }
 
-    public static GroupMeasure of(java.lang.String value) {
-        return GroupMeasure.builder().value(value).build();
+    public static GroupMeasure of(ValueSet value) {
+        switch (value) {
+        case MEAN:
+            return MEAN;
+        case MEDIAN:
+            return MEDIAN;
+        case MEAN_OF_MEAN:
+            return MEAN_OF_MEAN;
+        case MEAN_OF_MEDIAN:
+            return MEAN_OF_MEDIAN;
+        case MEDIAN_OF_MEAN:
+            return MEDIAN_OF_MEAN;
+        case MEDIAN_OF_MEDIAN:
+            return MEDIAN_OF_MEDIAN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static GroupMeasure of(ValueSet value) {
-        return GroupMeasure.builder().value(value).build();
+    public static GroupMeasure of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return GroupMeasure.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return GroupMeasure.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

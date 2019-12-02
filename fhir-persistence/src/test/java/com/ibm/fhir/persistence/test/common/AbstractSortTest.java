@@ -125,9 +125,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     }
     @Test
     public void testDateSort() throws Exception {
-        List<Resource> results;
-        
-        results = runQueryTest(Basic.class, "_sort", "date", 100);
+        List<Resource> results = runQueryTest(Basic.class, "_sort", "date", 100);
         assertAscendingOrder(results);
     }
     @Test
@@ -207,6 +205,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         assertTrue(results.indexOf(resource2b) < results.indexOf(resource3b));
     }
     
+    @SuppressWarnings("unused")
     private void assertDescendingOrder(List<Resource> results) {
         assertTrue(results.indexOf(resource3a) < results.indexOf(resource2a));
         assertTrue(results.indexOf(resource2a) < results.indexOf(resource1a));
@@ -290,7 +289,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
                     
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
-        queryParameters.put("_sort:asc", Arrays.asList(new String[] {"_id"}));
+        queryParameters.put("_sort", Arrays.asList(new String[] {"_id"}));
                 
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);

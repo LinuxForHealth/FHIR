@@ -20,27 +20,27 @@ public class InvoiceStatus extends Code {
     /**
      * draft
      */
-    public static final InvoiceStatus DRAFT = InvoiceStatus.of(ValueSet.DRAFT);
+    public static final InvoiceStatus DRAFT = InvoiceStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * issued
      */
-    public static final InvoiceStatus ISSUED = InvoiceStatus.of(ValueSet.ISSUED);
+    public static final InvoiceStatus ISSUED = InvoiceStatus.builder().value(ValueSet.ISSUED).build();
 
     /**
      * balanced
      */
-    public static final InvoiceStatus BALANCED = InvoiceStatus.of(ValueSet.BALANCED);
+    public static final InvoiceStatus BALANCED = InvoiceStatus.builder().value(ValueSet.BALANCED).build();
 
     /**
      * cancelled
      */
-    public static final InvoiceStatus CANCELLED = InvoiceStatus.of(ValueSet.CANCELLED);
+    public static final InvoiceStatus CANCELLED = InvoiceStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * entered in error
      */
-    public static final InvoiceStatus ENTERED_IN_ERROR = InvoiceStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final InvoiceStatus ENTERED_IN_ERROR = InvoiceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -48,20 +48,33 @@ public class InvoiceStatus extends Code {
         super(builder);
     }
 
-    public static InvoiceStatus of(java.lang.String value) {
-        return InvoiceStatus.builder().value(value).build();
+    public static InvoiceStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ISSUED:
+            return ISSUED;
+        case BALANCED:
+            return BALANCED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static InvoiceStatus of(ValueSet value) {
-        return InvoiceStatus.builder().value(value).build();
+    public static InvoiceStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return InvoiceStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return InvoiceStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

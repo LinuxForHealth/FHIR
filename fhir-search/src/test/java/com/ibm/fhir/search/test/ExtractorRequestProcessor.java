@@ -12,10 +12,10 @@ import static org.testng.Assert.fail;
 import java.util.List;
 import java.util.Map;
 
-import com.ibm.fhir.model.path.FHIRPathNode;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.spec.test.IExampleProcessor;
+import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**

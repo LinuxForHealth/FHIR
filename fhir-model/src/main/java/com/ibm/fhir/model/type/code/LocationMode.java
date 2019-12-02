@@ -20,12 +20,12 @@ public class LocationMode extends Code {
     /**
      * Instance
      */
-    public static final LocationMode INSTANCE = LocationMode.of(ValueSet.INSTANCE);
+    public static final LocationMode INSTANCE = LocationMode.builder().value(ValueSet.INSTANCE).build();
 
     /**
      * Kind
      */
-    public static final LocationMode KIND = LocationMode.of(ValueSet.KIND);
+    public static final LocationMode KIND = LocationMode.builder().value(ValueSet.KIND).build();
 
     private volatile int hashCode;
 
@@ -33,20 +33,27 @@ public class LocationMode extends Code {
         super(builder);
     }
 
-    public static LocationMode of(java.lang.String value) {
-        return LocationMode.builder().value(value).build();
+    public static LocationMode of(ValueSet value) {
+        switch (value) {
+        case INSTANCE:
+            return INSTANCE;
+        case KIND:
+            return KIND;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static LocationMode of(ValueSet value) {
-        return LocationMode.builder().value(value).build();
+    public static LocationMode of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return LocationMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return LocationMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

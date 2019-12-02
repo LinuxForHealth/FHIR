@@ -20,17 +20,17 @@ public class DetectedIssueSeverity extends Code {
     /**
      * High
      */
-    public static final DetectedIssueSeverity HIGH = DetectedIssueSeverity.of(ValueSet.HIGH);
+    public static final DetectedIssueSeverity HIGH = DetectedIssueSeverity.builder().value(ValueSet.HIGH).build();
 
     /**
      * Moderate
      */
-    public static final DetectedIssueSeverity MODERATE = DetectedIssueSeverity.of(ValueSet.MODERATE);
+    public static final DetectedIssueSeverity MODERATE = DetectedIssueSeverity.builder().value(ValueSet.MODERATE).build();
 
     /**
      * Low
      */
-    public static final DetectedIssueSeverity LOW = DetectedIssueSeverity.of(ValueSet.LOW);
+    public static final DetectedIssueSeverity LOW = DetectedIssueSeverity.builder().value(ValueSet.LOW).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class DetectedIssueSeverity extends Code {
         super(builder);
     }
 
-    public static DetectedIssueSeverity of(java.lang.String value) {
-        return DetectedIssueSeverity.builder().value(value).build();
+    public static DetectedIssueSeverity of(ValueSet value) {
+        switch (value) {
+        case HIGH:
+            return HIGH;
+        case MODERATE:
+            return MODERATE;
+        case LOW:
+            return LOW;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static DetectedIssueSeverity of(ValueSet value) {
-        return DetectedIssueSeverity.builder().value(value).build();
+    public static DetectedIssueSeverity of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return DetectedIssueSeverity.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return DetectedIssueSeverity.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

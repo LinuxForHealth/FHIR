@@ -20,17 +20,17 @@ public class StructureMapGroupTypeMode extends Code {
     /**
      * Not a Default
      */
-    public static final StructureMapGroupTypeMode NONE = StructureMapGroupTypeMode.of(ValueSet.NONE);
+    public static final StructureMapGroupTypeMode NONE = StructureMapGroupTypeMode.builder().value(ValueSet.NONE).build();
 
     /**
      * Default for Type Combination
      */
-    public static final StructureMapGroupTypeMode TYPES = StructureMapGroupTypeMode.of(ValueSet.TYPES);
+    public static final StructureMapGroupTypeMode TYPES = StructureMapGroupTypeMode.builder().value(ValueSet.TYPES).build();
 
     /**
      * Default for type + combination
      */
-    public static final StructureMapGroupTypeMode TYPE_AND_TYPES = StructureMapGroupTypeMode.of(ValueSet.TYPE_AND_TYPES);
+    public static final StructureMapGroupTypeMode TYPE_AND_TYPES = StructureMapGroupTypeMode.builder().value(ValueSet.TYPE_AND_TYPES).build();
 
     private volatile int hashCode;
 
@@ -38,20 +38,29 @@ public class StructureMapGroupTypeMode extends Code {
         super(builder);
     }
 
-    public static StructureMapGroupTypeMode of(java.lang.String value) {
-        return StructureMapGroupTypeMode.builder().value(value).build();
+    public static StructureMapGroupTypeMode of(ValueSet value) {
+        switch (value) {
+        case NONE:
+            return NONE;
+        case TYPES:
+            return TYPES;
+        case TYPE_AND_TYPES:
+            return TYPE_AND_TYPES;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static StructureMapGroupTypeMode of(ValueSet value) {
-        return StructureMapGroupTypeMode.builder().value(value).build();
+    public static StructureMapGroupTypeMode of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return StructureMapGroupTypeMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return StructureMapGroupTypeMode.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

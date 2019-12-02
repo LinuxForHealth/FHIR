@@ -20,32 +20,32 @@ public class GuidanceResponseStatus extends Code {
     /**
      * Success
      */
-    public static final GuidanceResponseStatus SUCCESS = GuidanceResponseStatus.of(ValueSet.SUCCESS);
+    public static final GuidanceResponseStatus SUCCESS = GuidanceResponseStatus.builder().value(ValueSet.SUCCESS).build();
 
     /**
      * Data Requested
      */
-    public static final GuidanceResponseStatus DATA_REQUESTED = GuidanceResponseStatus.of(ValueSet.DATA_REQUESTED);
+    public static final GuidanceResponseStatus DATA_REQUESTED = GuidanceResponseStatus.builder().value(ValueSet.DATA_REQUESTED).build();
 
     /**
      * Data Required
      */
-    public static final GuidanceResponseStatus DATA_REQUIRED = GuidanceResponseStatus.of(ValueSet.DATA_REQUIRED);
+    public static final GuidanceResponseStatus DATA_REQUIRED = GuidanceResponseStatus.builder().value(ValueSet.DATA_REQUIRED).build();
 
     /**
      * In Progress
      */
-    public static final GuidanceResponseStatus IN_PROGRESS = GuidanceResponseStatus.of(ValueSet.IN_PROGRESS);
+    public static final GuidanceResponseStatus IN_PROGRESS = GuidanceResponseStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Failure
      */
-    public static final GuidanceResponseStatus FAILURE = GuidanceResponseStatus.of(ValueSet.FAILURE);
+    public static final GuidanceResponseStatus FAILURE = GuidanceResponseStatus.builder().value(ValueSet.FAILURE).build();
 
     /**
      * Entered In Error
      */
-    public static final GuidanceResponseStatus ENTERED_IN_ERROR = GuidanceResponseStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final GuidanceResponseStatus ENTERED_IN_ERROR = GuidanceResponseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -53,20 +53,35 @@ public class GuidanceResponseStatus extends Code {
         super(builder);
     }
 
-    public static GuidanceResponseStatus of(java.lang.String value) {
-        return GuidanceResponseStatus.builder().value(value).build();
+    public static GuidanceResponseStatus of(ValueSet value) {
+        switch (value) {
+        case SUCCESS:
+            return SUCCESS;
+        case DATA_REQUESTED:
+            return DATA_REQUESTED;
+        case DATA_REQUIRED:
+            return DATA_REQUIRED;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case FAILURE:
+            return FAILURE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static GuidanceResponseStatus of(ValueSet value) {
-        return GuidanceResponseStatus.builder().value(value).build();
+    public static GuidanceResponseStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return GuidanceResponseStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return GuidanceResponseStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

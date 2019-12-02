@@ -20,22 +20,22 @@ public class MessageHeaderResponseRequest extends Code {
     /**
      * Always
      */
-    public static final MessageHeaderResponseRequest ALWAYS = MessageHeaderResponseRequest.of(ValueSet.ALWAYS);
+    public static final MessageHeaderResponseRequest ALWAYS = MessageHeaderResponseRequest.builder().value(ValueSet.ALWAYS).build();
 
     /**
      * Error/reject conditions only
      */
-    public static final MessageHeaderResponseRequest ON_ERROR = MessageHeaderResponseRequest.of(ValueSet.ON_ERROR);
+    public static final MessageHeaderResponseRequest ON_ERROR = MessageHeaderResponseRequest.builder().value(ValueSet.ON_ERROR).build();
 
     /**
      * Never
      */
-    public static final MessageHeaderResponseRequest NEVER = MessageHeaderResponseRequest.of(ValueSet.NEVER);
+    public static final MessageHeaderResponseRequest NEVER = MessageHeaderResponseRequest.builder().value(ValueSet.NEVER).build();
 
     /**
      * Successful completion only
      */
-    public static final MessageHeaderResponseRequest ON_SUCCESS = MessageHeaderResponseRequest.of(ValueSet.ON_SUCCESS);
+    public static final MessageHeaderResponseRequest ON_SUCCESS = MessageHeaderResponseRequest.builder().value(ValueSet.ON_SUCCESS).build();
 
     private volatile int hashCode;
 
@@ -43,20 +43,31 @@ public class MessageHeaderResponseRequest extends Code {
         super(builder);
     }
 
-    public static MessageHeaderResponseRequest of(java.lang.String value) {
-        return MessageHeaderResponseRequest.builder().value(value).build();
+    public static MessageHeaderResponseRequest of(ValueSet value) {
+        switch (value) {
+        case ALWAYS:
+            return ALWAYS;
+        case ON_ERROR:
+            return ON_ERROR;
+        case NEVER:
+            return NEVER;
+        case ON_SUCCESS:
+            return ON_SUCCESS;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static MessageHeaderResponseRequest of(ValueSet value) {
-        return MessageHeaderResponseRequest.builder().value(value).build();
+    public static MessageHeaderResponseRequest of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return MessageHeaderResponseRequest.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return MessageHeaderResponseRequest.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

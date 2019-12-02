@@ -6,9 +6,6 @@
 
 package com.ibm.fhir.model.visitor;
 
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.delimit;
-import static com.ibm.fhir.model.path.util.FHIRPathUtil.isKeyword;
-
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -84,9 +81,6 @@ public class PathAwareVisitor extends DefaultVisitor {
     }
     
     private void pathStackPush(String elementName, int index) {
-        if (isKeyword(elementName)) {
-            elementName = delimit(elementName);
-        }
         if (index != -1) {
             pathStack.push(elementName + "[" + index + "]");
         } else {

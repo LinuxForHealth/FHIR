@@ -20,42 +20,42 @@ public class RiskAssessmentStatus extends Code {
     /**
      * Registered
      */
-    public static final RiskAssessmentStatus REGISTERED = RiskAssessmentStatus.of(ValueSet.REGISTERED);
+    public static final RiskAssessmentStatus REGISTERED = RiskAssessmentStatus.builder().value(ValueSet.REGISTERED).build();
 
     /**
      * Preliminary
      */
-    public static final RiskAssessmentStatus PRELIMINARY = RiskAssessmentStatus.of(ValueSet.PRELIMINARY);
+    public static final RiskAssessmentStatus PRELIMINARY = RiskAssessmentStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
      */
-    public static final RiskAssessmentStatus FINAL = RiskAssessmentStatus.of(ValueSet.FINAL);
+    public static final RiskAssessmentStatus FINAL = RiskAssessmentStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
      */
-    public static final RiskAssessmentStatus AMENDED = RiskAssessmentStatus.of(ValueSet.AMENDED);
+    public static final RiskAssessmentStatus AMENDED = RiskAssessmentStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Corrected
      */
-    public static final RiskAssessmentStatus CORRECTED = RiskAssessmentStatus.of(ValueSet.CORRECTED);
+    public static final RiskAssessmentStatus CORRECTED = RiskAssessmentStatus.builder().value(ValueSet.CORRECTED).build();
 
     /**
      * Cancelled
      */
-    public static final RiskAssessmentStatus CANCELLED = RiskAssessmentStatus.of(ValueSet.CANCELLED);
+    public static final RiskAssessmentStatus CANCELLED = RiskAssessmentStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
      */
-    public static final RiskAssessmentStatus ENTERED_IN_ERROR = RiskAssessmentStatus.of(ValueSet.ENTERED_IN_ERROR);
+    public static final RiskAssessmentStatus ENTERED_IN_ERROR = RiskAssessmentStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      */
-    public static final RiskAssessmentStatus UNKNOWN = RiskAssessmentStatus.of(ValueSet.UNKNOWN);
+    public static final RiskAssessmentStatus UNKNOWN = RiskAssessmentStatus.builder().value(ValueSet.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -63,20 +63,39 @@ public class RiskAssessmentStatus extends Code {
         super(builder);
     }
 
-    public static RiskAssessmentStatus of(java.lang.String value) {
-        return RiskAssessmentStatus.builder().value(value).build();
+    public static RiskAssessmentStatus of(ValueSet value) {
+        switch (value) {
+        case REGISTERED:
+            return REGISTERED;
+        case PRELIMINARY:
+            return PRELIMINARY;
+        case FINAL:
+            return FINAL;
+        case AMENDED:
+            return AMENDED;
+        case CORRECTED:
+            return CORRECTED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static RiskAssessmentStatus of(ValueSet value) {
-        return RiskAssessmentStatus.builder().value(value).build();
+    public static RiskAssessmentStatus of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return RiskAssessmentStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return RiskAssessmentStatus.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

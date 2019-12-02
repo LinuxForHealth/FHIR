@@ -6,12 +6,17 @@
 
 package com.ibm.fhir.persistence.jdbc.test.spec;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver.TestType;
 import com.ibm.fhir.model.test.TestUtil;
@@ -19,7 +24,6 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
@@ -44,10 +48,29 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     @Test(groups = { "jdbc-seed" })
     public void perform() throws Exception {
-
-        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence,
-            () -> createPersistenceContext(),
-            () -> createHistoryPersistenceContext());
+        // Use connection pool and transaction provider to make sure the resource operations
+        // of each resource are committed after the processing is finished, and because this
+        // testng test process the samples one by one, so set the connection pool size to 1.
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(database, 1);
+        ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+        List<ITestResourceOperation> operations = new ArrayList<>();
+        operations.add(new CreateOperation());
+        operations.add(new ReadOperation());
+        operations.add(new UpdateOperation());
+        operations.add(new UpdateOperation());
+        operations.add(new ReadOperation());
+        operations.add(new VReadOperation());
+        operations.add(new HistoryOperation(3));
+        operations.add(new DeleteOperation());
+        operations.add(new DeleteOperation());
+        operations.add(new HistoryOperation(4));
+        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(
+                operations,
+                this.properties,
+                connectionPool,
+                null,
+                null,
+                transactionProvider);
 
         // Overriding the JDBC ALL to Minimal.
         // Unless the profile tells us differently
@@ -92,7 +115,8 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCImpl(this.properties, database);
+        // Return null to make sure the transaction operations in @BeforeMethod will be skipped
+        return null;
     }
 
     @Override

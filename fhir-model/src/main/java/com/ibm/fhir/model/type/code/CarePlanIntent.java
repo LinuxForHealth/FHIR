@@ -17,13 +17,13 @@ import javax.annotation.Generated;
 
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CarePlanIntent extends Code {
-    public static final CarePlanIntent PROPOSAL = CarePlanIntent.of(ValueSet.PROPOSAL);
+    public static final CarePlanIntent PROPOSAL = CarePlanIntent.builder().value(ValueSet.PROPOSAL).build();
 
-    public static final CarePlanIntent PLAN = CarePlanIntent.of(ValueSet.PLAN);
+    public static final CarePlanIntent PLAN = CarePlanIntent.builder().value(ValueSet.PLAN).build();
 
-    public static final CarePlanIntent ORDER = CarePlanIntent.of(ValueSet.ORDER);
+    public static final CarePlanIntent ORDER = CarePlanIntent.builder().value(ValueSet.ORDER).build();
 
-    public static final CarePlanIntent OPTION = CarePlanIntent.of(ValueSet.OPTION);
+    public static final CarePlanIntent OPTION = CarePlanIntent.builder().value(ValueSet.OPTION).build();
 
     private volatile int hashCode;
 
@@ -31,20 +31,31 @@ public class CarePlanIntent extends Code {
         super(builder);
     }
 
-    public static CarePlanIntent of(java.lang.String value) {
-        return CarePlanIntent.builder().value(value).build();
+    public static CarePlanIntent of(ValueSet value) {
+        switch (value) {
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case ORDER:
+            return ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
     }
 
-    public static CarePlanIntent of(ValueSet value) {
-        return CarePlanIntent.builder().value(value).build();
+    public static CarePlanIntent of(java.lang.String value) {
+        return of(ValueSet.from(value));
     }
 
     public static String string(java.lang.String value) {
-        return CarePlanIntent.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     public static Code code(java.lang.String value) {
-        return CarePlanIntent.builder().value(value).build();
+        return of(ValueSet.from(value));
     }
 
     @Override

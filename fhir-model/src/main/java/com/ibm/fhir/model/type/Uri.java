@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
 
@@ -20,8 +19,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Uri extends Element {
-    private static final Pattern PATTERN = Pattern.compile("\\S*");
-
     protected final java.lang.String value;
 
     private volatile int hashCode;
@@ -29,8 +26,7 @@ public class Uri extends Element {
     protected Uri(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.checkMaxLength(value);
-        ValidationSupport.checkValue(value, PATTERN);
+        ValidationSupport.checkUri(value);
         ValidationSupport.requireValueOrChildren(this);
     }
 
