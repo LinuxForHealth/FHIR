@@ -32,7 +32,6 @@ import com.ibm.fhir.registry.FHIRRegistry;
 public final class ProfileSupport {
     public static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     public static final String HL7_VALUE_SET_URL_PREFIX = "http://hl7.org/fhir/ValueSet/";
-    
     private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
         "$index", 
         "$this", 
@@ -78,14 +77,6 @@ public final class ProfileSupport {
     };
 
     private ProfileSupport() { }
-    
-    public static boolean isKeyword(String identifier) {
-        return KEYWORDS.contains(identifier);
-    }
-    
-    public static String delimit(String identifier) {
-        return String.format("`%s`", identifier);
-    }
 
     private static Map<String, Binding> computeBindingMap(String url) {
         StructureDefinition structureDefinition = getStructureDefinition(url);
@@ -318,5 +309,13 @@ public final class ProfileSupport {
     
     public static boolean isProfile(StructureDefinition structureDefinition) {
         return structureDefinition != null && TypeDerivationRule.CONSTRAINT.equals(structureDefinition.getDerivation());
+    }
+    
+    public static boolean isKeyword(String identifier) {
+        return KEYWORDS.contains(identifier);
+    }
+    
+    public static String delimit(String identifier) {
+        return String.format("`%s`", identifier);
     }
 }
