@@ -17,8 +17,8 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
+import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
-import com.ibm.fhir.model.spec.test.R4ExamplesDriver.TestType;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -73,17 +73,14 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
                 null,
                 transactionProvider);
 
-        // Overriding the JDBC ALL to Minimal.
-        // Unless the profile tells us differently
-        String testType = System.getProperty("com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType", TestType.MINIMAL.toString());
-        System.setProperty("com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType", testType);
-
-        // The driver will iterate over all the JSON examples in the R4 specification, parse
+        // The driver will iterate over all the examples in the index, parse
         // the resource and call the processor.
         R4ExamplesDriver driver = new R4ExamplesDriver();
         driver.setProcessor(processor);
         driver.setValidator(new ValidationProcessor());
-        driver.processAllExamples();
+        String index = System.getProperty(this.getClass().getName()
+            + ".index", Index.MINIMAL_JSON.name());
+        driver.processIndex(Index.valueOf(index));
     }
 
     /**

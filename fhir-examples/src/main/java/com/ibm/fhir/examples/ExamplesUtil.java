@@ -15,6 +15,32 @@ import java.nio.charset.StandardCharsets;
 
 public class ExamplesUtil {
     /**
+     * Return a reader for the specified resource index.
+     * 
+     * @param resource
+     *          The relative path to the example resource within fhir-examples
+     * @return reader A reader for reading the example resource
+     * @throws IllegalStateException
+     *          If the specified resource does not exist
+     */
+    public static Reader indexReader(Index index) throws IOException {
+        InputStream is;
+    
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        is = cl.getResourceAsStream(index.path());
+        if (is == null) {
+            // Try the class's classloader instead
+            is = ExamplesUtil.class.getResourceAsStream(index.path());
+        }
+
+        if (is == null) {
+            throw new FileNotFoundException("resource not found: " + index.path());
+        }
+
+        return new InputStreamReader(is, StandardCharsets.UTF_8);
+    }
+    
+    /**
      * Return a reader for the specified example resource.
      * The resource should be an example resource such as "json/ibm/minimal/Account-1.json".
      * 
@@ -24,7 +50,7 @@ public class ExamplesUtil {
      * @throws IllegalStateException
      *          If the specified resource does not exist
      */
-    public static Reader reader(String resource) throws IOException {
+    public static Reader resourceReader(String resource) throws IOException {
         InputStream is;
     
         ClassLoader cl = Thread.currentThread().getContextClassLoader();

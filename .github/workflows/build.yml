@@ -46,29 +46,47 @@ jobs:
       env:
         BASE: origin/${{ github['base_ref'] }}
       run: |
-        jdbc_paths=(
-          fhir-search/src/main
-          fhir-persistence/src/main
-          fhir-persistence-schema/src/main
-          fhir-persistence-jdbc
-        )
         model_paths=(
           fhir-model
         )
+        validation_paths=(
+          fhir-validation
+          fhir-path/src/main
+        )
+        search_paths=(
+          fhir-search
+        )
+        jdbc_paths=(
+          fhir-persistence-jdbc
+          fhir-search/src/main
+          fhir-persistence/src/main
+          fhir-persistence-schema/src/main
+        )
         declare -a PROFILES_ARR
-
-        if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${jdbc_paths[@]})" ]; then
-          echo "Changes affect fhir-persistence-jdbc, running ALL"
-          PROFILES_ARR+=(jdbc-all-tests)
-        else
-          echo "No changes affect fhir-persistence-jdbc, running MINIMAL"
-        fi
 
         if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${model_paths[@]})" ]; then
           echo "Changes affect fhir-model, running ALL"
           PROFILES_ARR+=(model-all-tests)
         else
           echo "No changes affect fhir-model, running MINIMAL"
+        fi
+        if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${validation_paths[@]})" ]; then
+          echo "Changes affect fhir-validation, running ALL"
+          PROFILES_ARR+=(validation-all-tests)
+        else
+          echo "No changes affect fhir-validation, running MINIMAL"
+        fi
+        if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${search_paths[@]})" ]; then
+          echo "Changes affect fhir-search, running ALL"
+          PROFILES_ARR+=(search-all-tests)
+        else
+          echo "No changes affect fhir-search, running MINIMAL"
+        fi
+        if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${jdbc_paths[@]})" ]; then
+          echo "Changes affect fhir-persistence-jdbc, running ALL"
+          PROFILES_ARR+=(jdbc-all-tests)
+        else
+          echo "No changes affect fhir-persistence-jdbc, running MINIMAL"
         fi
 
         if [ ${#PROFILES[@]} -eq 0 ]; then

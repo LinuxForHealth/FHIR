@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.examples.ExamplesUtil;
+import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
@@ -30,20 +31,7 @@ import com.ibm.fhir.model.resource.Resource;
  * Run through all the examples from the R4 specification
  */
 public class R4ExamplesDriver {
-    
     private static final Logger logger = Logger.getLogger(R4ExamplesDriver.class.getName());
-    // Location of the resource directory holding the examples. Note - these resources
-    // will come from fhir-r4-spec-examples project, in case you're looking for them. We
-    // do this to avoid rebuilding a huge jar full of static files every time.
-    private static final String JSON_PATH = "json";
-    private static final String XML_PATH = "xml";
-
-    // All the examples which should pass validation
-    private static final String ALL_FILE_INDEX = "/all.txt";
-    private static final String MINIMAL_FILE_INDEX = "/minimal.txt";
-    private static final String SPEC_FILE_INDEX = "/spec.txt";
-    private static final String IBM_FILE_INDEX = "/ibm.txt";
-    private static final String PERFORMANCE_FILE_INDEX = "/performance.txt";
 
     // Call this processor for each of the examples, if given
     private IExampleProcessor processor;
@@ -70,15 +58,6 @@ public class R4ExamplesDriver {
     
     // optional metrics collection
     private DriverMetrics metrics;
-
-
-    public static enum TestType {
-        ALL,          // Both R4 spec and IBM generated examples 
-        MINIMAL,      // Small mix of spec and IBM examples used for unit tests to keep build times short
-        SPEC,         // All R4 spec examples
-        IBM,          // All IBM generated examples
-        PERFORMANCE   // R4 spec and IBM examples less than 1MB - used for concurrency tests
-    }
 
     /**
      * Setter for the processor
@@ -118,81 +97,12 @@ public class R4ExamplesDriver {
     }
 
     /**
-     * Use the minimal file set by default for our tests. This avoids issues with memory 
-     * constraints on the build containers.
-     * @throws Exception
-     */
-    public void processAllExamples() throws Exception {
-        // Allow the build to override the default so we can really test everything
-        String ttValue = System.getProperty(this.getClass().getName()
-                + ".testType", TestType.MINIMAL.toString());
-        String ttFormat =
-                System.getProperty(this.getClass().getName() + ".format", Format.JSON.toString());
-        TestType tt = TestType.valueOf(ttValue);
-        Format format = Format.valueOf(ttFormat);
-        processExamples(tt, format);
-    }
-
-    /**
-     * Process each of the examples we find in the SPEC_EXAMPLES path
-     * 
-     * @param testType
-     *            select between all or minimal file sets for the test
-     * @param format 
-     * @throws Exception
-     */
-    public void processExamples(TestType testType, Format format) throws Exception {
-        String dir;
-        switch (format) {
-        case JSON:
-            dir = JSON_PATH;
-            break;
-        case XML:
-            dir = XML_PATH;
-            break;
-        default:
-            throw new IllegalArgumentException("Format '" + testType + "' is not supported.");
-        }
-
-        String filename;
-        switch (testType) {
-        case ALL:
-            filename = dir + ALL_FILE_INDEX;
-            break;
-        case MINIMAL:
-            filename = dir + MINIMAL_FILE_INDEX;
-            break;
-        case SPEC:
-            filename = dir + SPEC_FILE_INDEX;
-            break;
-        case IBM:
-            filename = dir + IBM_FILE_INDEX;
-            break;
-        case PERFORMANCE: 
-            filename = dir + PERFORMANCE_FILE_INDEX;
-            break;
-        default:
-            throw new IllegalArgumentException("shouldn't be necessary");
-        }
-
-        // filename will be a resource we read from the classpath
-        processIndex(filename, format);
-    }
-
-    public void processIndex(String filename) throws Exception {
-        processIndex(filename, Format.JSON);
-    }
-
-    /**
-     * Process the index file. Filename can be a resource on the classpath, or
-     * a file from the file-system if prefixed with "file:..."
-     * @param filename
-     * @param format 
+     * Process all examples referenced from the index file.
      * 
      * @throws Exception
      */
-    public void processIndex(String filename, Format format) throws Exception {
-        logger.info(String.format("Processing index file '%s' with format '%s'", filename, format.toString()));
+    public void processIndex(Index index) throws Exception {
+        logger.info(String.format("Processing index file '%s'", index.path()));
         // reset the state just in case we are called more than once
         this.firstException = null;
         this.testCount.set(0);
@@ -202,8 +112,8 @@ public class R4ExamplesDriver {
 
         List<ExampleProcessorException> errors = new ArrayList<>();
         try {
-            // Each line of this directory should be an example resource in json format
-            try (BufferedReader br = new BufferedReader(ExamplesUtil.reader(filename))) {
+            // Each line of the index file should be a path to an example resource and an expected outcome
+            try (BufferedReader br = new BufferedReader(ExamplesUtil.indexReader(index))) {
                 String line;
 
                 while ((line = br.readLine()) != null) {
@@ -211,19 +121,21 @@ public class R4ExamplesDriver {
                     if (tokens.length == 2) {
                         String expectation = tokens[0];
                         String example = tokens[1];
-                        if (example.toUpperCase().endsWith(".JSON") && format == Format.JSON) {
+                        if (example.toUpperCase().endsWith(".JSON")) {
                             testCount.incrementAndGet();
                             Expectation exp = Expectation.valueOf(expectation);
-                            submitExample(errors, JSON_PATH + "/" + example, format, exp);
+                            submitExample(errors, example, Format.JSON, exp);
                         }
-                        else if (example.toUpperCase().endsWith(".XML") && format == Format.XML) {
+                        else if (example.toUpperCase().endsWith(".XML")) {
                             testCount.incrementAndGet();
                             Expectation exp = Expectation.valueOf(expectation);
-                            submitExample(errors, XML_PATH + "/" + example, format, exp);
+                            submitExample(errors, example, Format.XML, exp);
+                        }
+                        else {
+                            logger.warning("Unable to infer format from '" + example + "'; example files must end in .json or .xml");
                         }
                     }
                 }
-
             }
 
             // If we are running with a thread-pool, then we must wait for everything to complete
@@ -523,7 +435,7 @@ public class R4ExamplesDriver {
 
         // We don't really care about knowing the resource type. We can check this later
         long start = System.nanoTime();
-        try (Reader reader = ExamplesUtil.reader(fileName)) {
+        try (Reader reader = ExamplesUtil.resourceReader(fileName)) {
             return FHIRParser.parser(format).parse(reader);
         }
         finally {

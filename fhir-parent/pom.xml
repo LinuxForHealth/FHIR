@@ -22,8 +22,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
         <my.maven.jar.plugin>3.1.2</my.maven.jar.plugin>
-        <fhir-model.testType>MINIMAL</fhir-model.testType>
-        <fhir-persistence-jdbc.testType>MINIMAL</fhir-persistence-jdbc.testType>
+        <fhir-model.index>MINIMAL_JSON</fhir-model.index>
+        <fhir-validation.index>MINIMAL_JSON</fhir-validation.index>
+        <fhir-search.index>MINIMAL_JSON</fhir-search.index>
+        <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
+        <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
     </properties>
 
@@ -669,15 +672,31 @@
         <profile>
             <id>model-all-tests</id>
             <properties>
-                <!-- for the fhir-model project -->
-                <fhir-model.testType>ALL</fhir-model.testType>
+                <fhir-model.testType>ALL_JSON</fhir-model.testType>
+            </properties>
+        </profile>
+        <profile>
+            <id>validation-all-tests</id>
+            <properties>
+                <fhir-persistence-jdbc.testType>ALL_JSON</fhir-persistence-jdbc.testType>
+            </properties>
+        </profile>
+        <profile>
+            <id>search-all-tests</id>
+            <properties>
+                <fhir-persistence-jdbc.testType>ALL_JSON</fhir-persistence-jdbc.testType>
             </properties>
         </profile>
         <profile>
             <id>jdbc-all-tests</id>
             <properties>
-                <!-- for the fhir-persistence-jdbc -->
-                <fhir-persistence-jdbc.testType>ALL</fhir-persistence-jdbc.testType>
+                <fhir-persistence-jdbc.testType>ALL_JSON</fhir-persistence-jdbc.testType>
+            </properties>
+        </profile>
+        <profile>
+            <id>server-all-tests</id>
+            <properties>
+                <fhir-persistence-jdbc.testType>ALL_JSON</fhir-persistence-jdbc.testType>
             </properties>
         </profile>
         <profile>

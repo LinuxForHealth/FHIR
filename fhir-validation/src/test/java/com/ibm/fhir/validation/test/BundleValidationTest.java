@@ -44,7 +44,7 @@ public class BundleValidationTest {
     public static void testValidationOfBundleOfBundle() throws Exception {
         FHIRParser parser = FHIRParser.parser(Format.JSON);
         
-        Bundle bundleTemplate = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Bundle-1.json"));
+        Bundle bundleTemplate = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Bundle-1.json"));
         
         Bundle validInnerBundle = bundleTemplate;
         
@@ -87,9 +87,9 @@ public class BundleValidationTest {
     public static void testValidationOfBundleEntryReferenceToContainedResource() throws Exception {
         FHIRParser parser = FHIRParser.parser(Format.JSON);
         
-        Bundle bundle = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Bundle-1.json"));
-        Patient patient = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Patient-1.json"));
-        Practitioner practitioner = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Practitioner-1.json"));
+        Bundle bundle = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Bundle-1.json"));
+        Patient patient = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Patient-1.json"));
+        Practitioner practitioner = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Practitioner-1.json"));
         
         patient = patient.toBuilder()
                          .contained(practitioner.toBuilder().id(Id.of("test")).build())
@@ -120,10 +120,10 @@ public class BundleValidationTest {
     public static void testValidationOfBundleEntryReferenceToPeerContainedResource() throws Exception {
         FHIRParser parser = FHIRParser.parser(Format.JSON);
         
-        Bundle bundle = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Bundle-1.json"));
-        Patient patient = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Patient-1.json"));
-        Practitioner practitioner = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Practitioner-1.json"));
-        Basic basic = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Basic-1.json"));
+        Bundle bundle = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Bundle-1.json"));
+        Patient patient = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Patient-1.json"));
+        Practitioner practitioner = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Practitioner-1.json"));
+        Basic basic = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Basic-1.json"));
         
         practitioner = practitioner.toBuilder()
                                    .id(Id.of("test"))
@@ -161,8 +161,8 @@ public class BundleValidationTest {
     @Test
     public static void testValidBundleContainedInDomainResource() throws Exception {
         FHIRParser parser = FHIRParser.parser(Format.JSON);
-        Patient patient = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Patient-1.json"));
-        Practitioner practitioner = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Practitioner-1.json"));
+        Patient patient = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Patient-1.json"));
+        Practitioner practitioner = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Practitioner-1.json"));
         
         practitioner = practitioner.toBuilder()
                 .id(Id.of("practitioner"))
@@ -174,7 +174,7 @@ public class BundleValidationTest {
                     .build())
                 .build();
         
-        Bundle bundle = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Bundle-1.json"));
+        Bundle bundle = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Bundle-1.json"));
         
         bundle = bundle.toBuilder().type(BundleType.BATCH)
                 .id(Id.of("bundle"))
@@ -216,8 +216,8 @@ public class BundleValidationTest {
     @Test
     public static void testInvalidBundleContainedInDomainResource() throws Exception {
         FHIRParser parser = FHIRParser.parser(Format.JSON);
-        Patient patient = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Patient-1.json"));
-        Bundle bundle = parser.parse(ExamplesUtil.reader("json/ibm/minimal/Bundle-1.json"));
+        Patient patient = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Patient-1.json"));
+        Bundle bundle = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Bundle-1.json"));
         
         bundle = bundle.toBuilder().type(BundleType.BATCH)
                 .entry(Entry.builder()
