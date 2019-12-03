@@ -17,11 +17,11 @@ public class ExamplesUtil {
     /**
      * Return a reader for the specified resource index.
      * 
-     * @param resource
-     *          The relative path to the example resource within fhir-examples
-     * @return reader A reader for reading the example resource
-     * @throws IllegalStateException
-     *          If the specified resource does not exist
+     * @param index
+     *          The index file to read
+     * @return reader A reader for reading the index file
+     * @throws FileNotFoundException
+     *          If the specified index could not be found
      */
     public static Reader indexReader(Index index) throws IOException {
         InputStream is;
@@ -47,7 +47,7 @@ public class ExamplesUtil {
      * @param resource
      *          The relative path to the example resource within fhir-examples
      * @return reader A reader for reading the example resource
-     * @throws IllegalStateException
+     * @throws FileNotFoundException
      *          If the specified resource does not exist
      */
     public static Reader resourceReader(String resource) throws IOException {
