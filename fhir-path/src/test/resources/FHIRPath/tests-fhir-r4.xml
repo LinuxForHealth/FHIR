@@ -224,8 +224,8 @@
 		<test name="testLiteralTimeMillisecond" inputfile="patient-example.xml"><expression>@T14:34:28.123.is(Time)</expression><output type="boolean">true</output></test>
         <!--
 		<test name="testLiteralTimeUTC" inputfile="patient-example.xml"><expression invalid="true">@T14:34:28Z.is(Time)</expression></test>
-		-->
 		<test name="testLiteralTimeTimezoneOffset" inputfile="patient-example.xml"><expression invalid="true">@T14:34:28+10:00.is(Time)</expression></test>
+		-->
 
 		<test name="testLiteralQuantityDecimal" inputfile="patient-example.xml"><expression>10.1 'mg'.convertsToQuantity()</expression><output type="boolean">true</output></test>
 		<test name="testLiteralQuantityInteger" inputfile="patient-example.xml"><expression>10 'mg'.convertsToQuantity()</expression><output type="boolean">true</output></test>
@@ -283,7 +283,10 @@
 		<test name="testLiteralNotFalse" inputfile="patient-example.xml"><expression>false.not() = true</expression><output type="boolean">true</output></test>
 		<test name="testIntegerBooleanNotTrue" inputfile="patient-example.xml"><expression>(0).not() = true</expression><output type="boolean">true</output></test>
 		<test name="testIntegerBooleanNotFalse" inputfile="patient-example.xml"><expression>(1).not() = false</expression><output type="boolean">true</output></test>
+        <!-- TODO: uncomment after 4.0.1 spec upgrade -->
+		<!--
 		<test name="testNotInvalid" inputfile="patient-example.xml"><expression invalid="semantic">(1|2).not() = false</expression></test>
+		-->
 	</group>
 
 	<group name="testTypes">
@@ -962,7 +965,9 @@
 		<test name="testConcatenate1" inputfile="patient-example.xml"><expression>'a' &amp; 'b' = 'ab'</expression><output type="boolean">true</output></test>
 		<test name="testConcatenate2" inputfile="patient-example.xml"><expression>'1' &amp; {} = '1'</expression><output type="boolean">true</output></test>
 		<test name="testConcatenate3" inputfile="patient-example.xml"><expression>{} &amp; 'b' = 'b'</expression><output type="boolean">true</output></test>
+		<!--
 		<test name="testConcatenate4" inputfile="patient-example.xml"><expression invalid="semantic">(1 | 2 | 3) &amp; 'b' = '1,2,3b'</expression></test>
+		-->
 	</group>
 
 	<group name="testMinus">

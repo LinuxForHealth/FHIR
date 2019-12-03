@@ -34,6 +34,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTypeCompatible;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
+import static com.ibm.fhir.path.util.FHIRPathUtil.unescape;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -62,6 +63,8 @@ import com.ibm.fhir.path.FHIRPathDateValue;
 import com.ibm.fhir.path.FHIRPathLexer;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathParser;
+import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
+import com.ibm.fhir.path.FHIRPathParser.ParamListContext;
 import com.ibm.fhir.path.FHIRPathQuantityNode;
 import com.ibm.fhir.path.FHIRPathQuantityValue;
 import com.ibm.fhir.path.FHIRPathStringValue;
@@ -70,8 +73,6 @@ import com.ibm.fhir.path.FHIRPathTemporalValue;
 import com.ibm.fhir.path.FHIRPathTimeValue;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
-import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
-import com.ibm.fhir.path.FHIRPathParser.ParamListContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
 
@@ -138,19 +139,8 @@ public class FHIRPathEvaluator {
         return new FHIRPathEvaluator();
     }
     
-    private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {
+    public static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {
         private static final String SYSTEM_NAMESPACE = "System";
-        private static final Map<String, String> UNESCAPED = new HashMap<>();
-        static {
-            UNESCAPED.put("\\`", "`");
-            UNESCAPED.put("\\'", "'");
-            UNESCAPED.put("\\\\", "\\");
-            UNESCAPED.put("\\/", "/");
-            UNESCAPED.put("\\f", "\f");
-            UNESCAPED.put("\\n", "\n");
-            UNESCAPED.put("\\r", "\r");
-            UNESCAPED.put("\\t", "\t");
-        }
 
         private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
         private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createLRUCache(IDENTIFIER_CACHE_MAX_ENTRIES);
@@ -507,9 +497,12 @@ public class FHIRPathEvaluator {
                     result = singleton(leftNode.subtract(rightNode));
                     break;
                 }
-            } else {
+            }
+            /*
+            else {
                 throw new IllegalArgumentException("Invalid argument(s) for '" + operator + "' operator");
             }
+            */
                                     
             indentLevel--;
             return result;
@@ -945,24 +938,6 @@ public class FHIRPathEvaluator {
             return singleton(stringValue(text.substring(1, text.length() - 1)));
         }
         
-        private String unescape(String s) {
-            StringBuilder sb = new StringBuilder();
-            int index = 0;
-            while (index < s.length()) {
-                if (s.regionMatches(index, "\\u", 0, 2)) {
-                    int hex = Integer.parseInt(s.substring(index + 2, index + 6), 16);
-                    sb.append(Character.toChars(hex));
-                    index += 6;
-                } else if (s.regionMatches(index, "\\", 0, 1)) {
-                    sb.append(UNESCAPED.get(s.substring(index, index + 2)));
-                    index += 2;
-                } else {
-                    sb.append(s.charAt(index++));
-                }
-            }
-            return sb.toString();
-        }
-        
         @Override
         public Collection<FHIRPathNode> visitNumberLiteral(FHIRPathParser.NumberLiteralContext ctx) {
             debug(ctx);
@@ -1286,5 +1261,11 @@ public class FHIRPathEvaluator {
         public boolean hasExternalConstant(String name) {
             return externalConstantMap.containsKey(name);
         }
+    }
+    
+    public static void main(String[] args) throws Exception {
+        FHIRPathEvaluator.DEBUG = true;
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate("{} or {}");
+        System.out.println("result: " + result);
     }
 }
