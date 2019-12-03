@@ -95,9 +95,13 @@ public class PoolConnectionProvider implements IConnectionProvider {
                 }
                 else {
                     // simply take the next connection from the head of the list
-                    logger.info("Using db connection from pool");
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine("Using db connection from pool");
+                    }
                     c = free.poll();
-                    logger.info("Got db connection from pool: " + c.toString());
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine("Got db connection from pool: " + c.toString());
+                    }
                     assigned = true;
                 }
             }
@@ -223,7 +227,9 @@ public class PoolConnectionProvider implements IConnectionProvider {
         PooledConnection c = activeConnection.get();
         if (c != null) {
             try {
-                logger.info("Committing transaction");
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Committing transaction");
+                }
                 c.getWrapped().commit();
             }
             finally {

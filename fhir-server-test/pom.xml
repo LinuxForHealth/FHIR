@@ -119,11 +119,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>-Xms1G -Xmx2G</argLine>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
                     <systemPropertyVariables>
                         <com.ibm.fhir.server.test.R4ExampleServerTest.index>${fhir-server-test.index}</com.ibm.fhir.server.test.R4ExampleServerTest.index>
                     </systemPropertyVariables>

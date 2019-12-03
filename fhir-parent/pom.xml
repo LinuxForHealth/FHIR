@@ -672,31 +672,31 @@
         <profile>
             <id>model-all-tests</id>
             <properties>
-                <fhir-model.testType>ALL_JSON</fhir-model.testType>
+                <fhir-model.index>ALL_JSON</fhir-model.index>
             </properties>
         </profile>
         <profile>
             <id>validation-all-tests</id>
             <properties>
-                <fhir-persistence-jdbc.testType>ALL_JSON</fhir-persistence-jdbc.testType>
+                <fhir-validation.index>ALL_JSON</fhir-validation.index>
             </properties>
         </profile>
         <profile>
             <id>search-all-tests</id>
             <properties>
-                <fhir-persistence-jdbc.testType>ALL_JSON</fhir-persistence-jdbc.testType>
+                <fhir-search.index>ALL_JSON</fhir-search.index>
             </properties>
         </profile>
         <profile>
             <id>jdbc-all-tests</id>
             <properties>
-                <fhir-persistence-jdbc.testType>ALL_JSON</fhir-persistence-jdbc.testType>
+                <fhir-persistence-jdbc.index>ALL_JSON</fhir-persistence-jdbc.index>
             </properties>
         </profile>
         <profile>
             <id>server-all-tests</id>
             <properties>
-                <fhir-persistence-jdbc.testType>ALL_JSON</fhir-persistence-jdbc.testType>
+                <fhir-server-test.index>ALL_JSON</fhir-server-test.index>
             </properties>
         </profile>
         <profile>
