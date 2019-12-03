@@ -174,12 +174,14 @@ public class FHIRUtil {
         Dosage.class));
     private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
     private static final OperationOutcome ALL_OK = OperationOutcome.builder()
-                                                            .issue(Issue.builder()
-                                                                    .severity(IssueSeverity.INFORMATION)
-                                                                    .code(IssueType.INFORMATIONAL)
-                                                                    .details(CodeableConcept.builder().text(string("All OK")).build())
-                                                                    .build())
-                                                            .build();
+        .issue(Issue.builder()
+        .severity(IssueSeverity.INFORMATION)
+        .code(IssueType.INFORMATIONAL)
+            .details(CodeableConcept.builder()
+                .text(string("All OK"))
+                .build())
+            .build())
+        .build();
 
     private FHIRUtil() { }
 
