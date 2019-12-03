@@ -14,9 +14,6 @@ import com.ibm.fhir.search.SearchConstants.Prefix;
 
 /**
  * Refactored the code to more consistently apply the output patterns.<br/>
- * 
- * @author paulbastide
- * @author markd
  */
 public class ParameterValue {
 
@@ -25,7 +22,9 @@ public class ParameterValue {
     private String valueString = null;
     private DateTime valueDate = null;
 
+    // Used with Number
     private BigDecimal valueNumber = null;
+
     private String valueSystem = null;
     private String valueCode = null;
 

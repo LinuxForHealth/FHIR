@@ -44,6 +44,7 @@ public class JDBCConstants {
     public static final String WHEN = " WHEN ";
     public static final String THEN = " THEN ";
     public static final String END = " END";
+    public static final char SPACE = ' ';
     
     /**
      * Maps Parameter modifiers to SQL operators.
