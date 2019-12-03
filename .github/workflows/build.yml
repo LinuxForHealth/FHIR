@@ -54,6 +54,9 @@ jobs:
         )
         model_paths=(
           fhir-model
+          fhir-validation/src/main
+          fhir-path/src/main
+          fhir-profile/src/main
         )
         declare -a PROFILES_ARR
 
