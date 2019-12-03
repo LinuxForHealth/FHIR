@@ -26,6 +26,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
+import com.ibm.fhir.validation.test.ValidationProcessor;
 
 public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
@@ -81,6 +82,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         // the resource and call the processor.
         R4ExamplesDriver driver = new R4ExamplesDriver();
         driver.setProcessor(processor);
+        driver.setValidator(new ValidationProcessor());
         driver.processAllExamples();
     }
 

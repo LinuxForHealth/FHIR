@@ -209,16 +209,6 @@ public class FhirResourceGroup {
         final List<String> prfIncludeCols = Arrays.asList(LOGICAL_RESOURCE_ID, VERSION_ID, IS_DELETED);
         final String tableName = prefix + _RESOURCES;
 
-        // Issue #364: The values identified here are unused, and for backwards compatibility,
-        // These values are maintained so the stored procedure agrees with the table definition.
-        final String TX_CORRELATION_ID = "TX_CORRELATION_ID";
-        final String CHANGED_BY = "CHANGED_BY";
-        final String CORRELATION_TOKEN = "CORRELATION_TOKEN";
-        final String REASON = "REASON";
-        final String SERVICE_ID = "SERVICE_ID";
-        final String TENANT_ID = "TENANT_ID";
-
-
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -228,14 +218,6 @@ public class FhirResourceGroup {
                 .addTimestampColumn(    LAST_UPDATED,              false)
                 .addCharColumn(           IS_DELETED,           1, false)
                 .addBlobColumn(                 DATA,  2147483647,  10240,   true)
-                // Start Backwards Compatibility
-                .addVarcharColumn(TX_CORRELATION_ID, 36, true)
-                .addVarcharColumn(CHANGED_BY, 64, true)
-                .addVarcharColumn(CORRELATION_TOKEN, 36, true)
-                .addVarcharColumn(REASON, 255, true)
-                .addVarcharColumn(SERVICE_ID, 32, true)
-                .addVarcharColumn(TENANT_ID, 36, true)
-                // End Backwards Compatibility
                 .addUniqueIndex(tableName + "_PRF_IN1", prfIndexCols, prfIncludeCols)
                 .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
                 .setTablespace(fhirTablespace)
