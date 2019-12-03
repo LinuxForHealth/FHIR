@@ -497,12 +497,9 @@ public class FHIRPathEvaluator {
                     result = singleton(leftNode.subtract(rightNode));
                     break;
                 }
-            }
-            /*
-            else {
+            } else if (!left.isEmpty() && !right.isEmpty()){
                 throw new IllegalArgumentException("Invalid argument(s) for '" + operator + "' operator");
             }
-            */
                                     
             indentLevel--;
             return result;
@@ -1261,11 +1258,5 @@ public class FHIRPathEvaluator {
         public boolean hasExternalConstant(String name) {
             return externalConstantMap.containsKey(name);
         }
-    }
-    
-    public static void main(String[] args) throws Exception {
-        FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate("{} or {}");
-        System.out.println("result: " + result);
     }
 }
