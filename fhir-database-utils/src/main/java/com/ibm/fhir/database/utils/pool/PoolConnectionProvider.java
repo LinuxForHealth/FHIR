@@ -174,12 +174,16 @@ public class PoolConnectionProvider implements IConnectionProvider {
             try {
                 if (pc.isReusable()) {
                     // underlying connection should still be good, so add it back into the pool
-                    logger.info("Adding connection back to pool");
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine("Adding connection back to pool");
+                    }
                     free.add(pc.getWrapped());
                 }
                 else {
                     // Connection appears to be broken, so just close it and walk away
-                    logger.info("Connection is broken, so closing it");
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine("Connection is broken, so closing it");
+                    }
                     pc.forceClosed();
                     
                     // We now have one less allocated connection, so need to reduce our
