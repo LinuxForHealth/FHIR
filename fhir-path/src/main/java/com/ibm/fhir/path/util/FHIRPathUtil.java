@@ -72,6 +72,17 @@ public final class FHIRPathUtil {
         TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_DATE_TIME, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_DATE_TIME, FHIRPathType.SYSTEM_DATE)));
         TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_TIME, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_TIME)));
     }
+    public static final Map<String, String> UNESCAPED = new HashMap<>();
+    static {
+        UNESCAPED.put("\\`", "`");
+        UNESCAPED.put("\\'", "'");
+        UNESCAPED.put("\\\\", "\\");
+        UNESCAPED.put("\\/", "/");
+        UNESCAPED.put("\\f", "\f");
+        UNESCAPED.put("\\n", "\n");
+        UNESCAPED.put("\\r", "\r");
+        UNESCAPED.put("\\t", "\t");
+    }
     
     private FHIRPathUtil() { }
 
@@ -517,5 +528,28 @@ public final class FHIRPathUtil {
             return (FHIRPathTemporalValue) node;
         }
         return (FHIRPathTemporalValue) node.getValue();
+    }
+
+    public static String unescape(String s) {
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+        while (index < s.length()) {
+            if (s.regionMatches(index, "\\u", 0, 2)) {
+                int hex = Integer.parseInt(s.substring(index + 2, index + 6), 16);
+                sb.append(Character.toChars(hex));
+                index += 6;
+            } else if (s.regionMatches(index, "\\", 0, 1)) {
+                String escaped = s.substring(index, index + 2);
+                if (UNESCAPED.containsKey(escaped)) {
+                    sb.append(UNESCAPED.get(escaped));
+                    index += 2;
+                } else {
+                    sb.append(s.charAt(index++));
+                }
+            } else {
+                sb.append(s.charAt(index++));
+            }
+        }
+        return sb.toString();
     }
 }
