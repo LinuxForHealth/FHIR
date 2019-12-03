@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -49,6 +50,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.Oid;
 import com.ibm.fhir.model.type.Uuid;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
@@ -94,14 +96,16 @@ public class FHIRSwaggerGenerator {
         List<String> classNames = getClassNames();
         for (String resourceClassName : classNames) {
             Class<?> resourceModelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + resourceClassName);
-            if (DomainResource.class.isAssignableFrom(resourceModelClass) && filter.acceptResourceType(resourceModelClass)) {
+            if (DomainResource.class.isAssignableFrom(resourceModelClass) 
+                    && DomainResource.class != resourceModelClass 
+                    && filter.acceptResourceType(resourceModelClass)) {
 
                 JsonObjectBuilder swagger = factory.createObjectBuilder();
                 swagger.add("swagger", "2.0");
 
                 JsonObjectBuilder info = factory.createObjectBuilder();
                 info.add("title", resourceClassName + " API");
-                info.add("description", "The IBM FHIR Server API for " + resourceClassName + " resources.");
+                info.add("description", "A simplified version of the HL7 FHIR API for " + resourceClassName + " resources.");
                 info.add("version", "4.0.0");
                 swagger.add("info", info);
 
@@ -129,15 +133,6 @@ public class FHIRSwaggerGenerator {
                 // for error response
                 generateDefinition(OperationOutcome.class, definitions);
 
-                // generate definition for all the defined Types.
-                for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
-                    Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
-                    // System.out.println("Type:  " + className);
-                    if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, resourceModelClass)) {
-                        generateDefinition(typeModelClass, definitions);
-                    }
-                }
-
                 // generate definition for all inner classes inside the top level resource.
                 for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
                     String parentClassName = innerClassName.split("\\$")[0];
@@ -147,8 +142,15 @@ public class FHIRSwaggerGenerator {
                             "Bundle".equals(parentClassName) ||
                             "OperationOutcome".equals(parentClassName)) {
                         Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                        // System.out.println("Resource:  " + className);
                         generateDefinition(innerModelClass, definitions);
+                    }
+                }
+
+                // generate definition for all the applicable defined Types.
+                for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+                    Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+                    if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, resourceModelClass)) {
+                        generateDefinition(typeModelClass, definitions);
                     }
                 }
 
@@ -205,20 +207,20 @@ public class FHIRSwaggerGenerator {
 
         generateDefinition(CapabilityStatement.class, definitions);
 
-        // generate definition for all the applicable data types.
-        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
-            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
-            // System.out.println("Type:  " + className);
-            generateDefinition(typeModelClass, definitions);
-        }
-
         // generate definition for all inner classes inside the top level resources.
         for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
             Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
             if (CapabilityStatement.class.equals(parentClass)) {
                 Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                // System.out.println("Resource:  " + className);
                 generateDefinition(innerModelClass, definitions);
+            }
+        }
+
+        // generate definition for all the applicable data types.
+        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+            if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, CapabilityStatement.class)) {
+                generateDefinition(typeModelClass, definitions);
             }
         }
 
@@ -259,23 +261,21 @@ public class FHIRSwaggerGenerator {
         swagger.add("paths", paths);
 
 
-        generateDefinition(CapabilityStatement.class, definitions);
-
-        // generate definition for all the defined Types.
-        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
-            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
-            // System.out.println("Type:  " + className);
-            generateDefinition(typeModelClass, definitions);
-        }
+        generateDefinition(Bundle.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
         for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
             Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
-            if (CapabilityStatement.class.equals(parentClass)) {
+            if (Bundle.class.equals(parentClass)) {
                 Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                // System.out.println("Resource:  " + className);
                 generateDefinition(innerModelClass, definitions);
             }
+        }
+
+        // generate definition for all the defined Types.
+        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+            generateDefinition(typeModelClass, definitions);
         }
 
         swagger.add("definitions", definitions);
@@ -323,7 +323,7 @@ public class FHIRSwaggerGenerator {
                             modelClass = Class.forName(TYPEPACKAGENAME + "." + className);
                         } catch (ClassNotFoundException e2) {
                             modelClass = null;
-                            // System.out.println(" -- PopulateStructureDefinition failed: " + className);
+                            System.err.println(" -- PopulateStructureDefinition failed: " + className);
                         }
                     } finally {
                         if (modelClass != null) {
@@ -711,6 +711,10 @@ public class FHIRSwaggerGenerator {
     private static void generateMetadataPathItem(JsonObjectBuilder path) {
         JsonObjectBuilder get = factory.createObjectBuilder();
 
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add("Other");
+
+        get.add("tags", tags);
         get.add("summary", "Get the FHIR Capability statement for this endpoint");
         get.add("operationId", "metadata");
 
@@ -736,6 +740,10 @@ public class FHIRSwaggerGenerator {
     private static void generateBatchPathItem(JsonObjectBuilder path) {
         JsonObjectBuilder post = factory.createObjectBuilder();
 
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add("Other");
+
+        post.add("tags", tags);
         post.add("summary", "Perform a batch operation");
         post.add("operationId", "batch");
 
@@ -785,8 +793,28 @@ public class FHIRSwaggerGenerator {
             StructureDefinition structureDefinition = getStructureDefinition(modelClass);
 
             if (structureDefinition == null) {
-                System.out.println("Failed generateDefinition for: " + modelClass.getName());
+                System.err.println("Failed generateDefinition for: " + modelClass.getName());
                 return;
+            }
+            
+            if (Resource.class.isAssignableFrom(modelClass)) {
+                // add the 'resourceType' property
+                JsonObjectBuilder property = factory.createObjectBuilder();
+
+                // Convert all the primitive types to json types.
+                property.add("type", "string");
+                if (Resource.class == modelClass) {
+                    // TODO: when a filter was passed, limit this to just the resource types included in the filter
+                    List<String> typeNames = Arrays.stream(ResourceType.ValueSet.values()).map(ResourceType.ValueSet::value).collect(Collectors.toList());
+                    JsonArrayBuilder enumValues = factory.createArrayBuilder(typeNames);
+                    property.add("enum", enumValues);
+                    properties.add("resourceType", property.build());
+                    required.add("resourceType");
+                } else {
+                    // TODO how to "overwrite" the Resource definition and say that the value is fixed?
+                    // https://github.com/OAI/OpenAPI-Specification/issues/1313
+//                    property.add("enum", modelClass.getSimpleName());
+                }
             }
 
             for (Field field : modelClass.getDeclaredFields()) {
@@ -1053,15 +1081,16 @@ public class FHIRSwaggerGenerator {
             this.filterMap = filterMap;
         }
 
+        /**
+         * @return true if the operation is enables for the specified resourceType, otherwise false
+         */
         public boolean acceptResourceType(Class<?> resourceType) {
             return filterMap.containsKey(resourceType.getSimpleName());
         }
 
-        /*
-         * public boolean acceptOperation(String resourceType, String operation) {
-         * return filterMap.get(resourceType).contains(operation); }
+        /**
+         * @return true if one or more of the resources in the filterMap includes the passed operation, otherwise false
          */
-
         public boolean acceptOperation(Class<?> resourceType, String operation) {
             return filterMap.get(resourceType.getSimpleName()).contains(operation);
         }
