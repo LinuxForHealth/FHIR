@@ -31,7 +31,7 @@ public final class BenchmarkUtil {
      * @return the list of spec examples for which we have both an XML and JSON variant 
      */
     private static List<String> buildSpecExampleNames() {
-        try (Reader jsonReader = ExamplesUtil.reader("json/spec.txt"); Reader xmlReader = ExamplesUtil.reader("xml/spec.txt")) {
+        try (Reader jsonReader = ExamplesUtil.resourceReader("json/spec.txt"); Reader xmlReader = ExamplesUtil.resourceReader("xml/spec.txt")) {
             Set<String> jsonExampleNames = new BufferedReader(jsonReader)
                     .lines()
                     .filter(line -> line.startsWith("OK"))
@@ -67,7 +67,7 @@ public final class BenchmarkUtil {
         default:
             throw new IllegalArgumentException("No examples available for format: " + format);
         }
-        try (Reader reader = ExamplesUtil.reader(resource)) {
+        try (Reader reader = ExamplesUtil.resourceReader(resource)) {
             return new BufferedReader(reader).lines().collect(Collectors.joining(System.lineSeparator()));
         } catch (Exception e) {
             throw new Error(e);

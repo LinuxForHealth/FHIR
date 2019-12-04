@@ -433,7 +433,7 @@ public class FHIRPathEvaluator {
             String operator = ctx.getChild(1).getText();
             
             if ((hasNumberValue(left) && hasNumberValue(right)) || (hasStringValue(left) && hasStringValue(right))) {
-                if (hasNumberValue(left) && hasNumberValue(right)) {            
+                if (hasNumberValue(left) && hasNumberValue(right)) {
                     switch (operator) {
                     case "+":
                         result = singleton(getNumberValue(left).add(getNumberValue(right)));
@@ -452,7 +452,7 @@ public class FHIRPathEvaluator {
                 }
             } else if (((hasStringValue(left) && right.isEmpty()) || (left.isEmpty() && hasStringValue(right))) && ("+".equals(operator) || "&".equals(operator))) {
                 if ("&".equals(operator)) {
-                    // concatenation where an empty collection is treated as an empty string                
+                    // concatenation where an empty collection is treated as an empty string
                     if (hasStringValue(left) && right.isEmpty()) {
                         FHIRPathStringValue leftValue = getStringValue(left);
                         result = singleton(leftValue.asStringValue().concat(EMPTY_STRING));
@@ -500,7 +500,7 @@ public class FHIRPathEvaluator {
             } else if (!left.isEmpty() && !right.isEmpty()){
                 throw new IllegalArgumentException("Invalid argument(s) for '" + operator + "' operator");
             }
-                                    
+
             indentLevel--;
             return result;
         }

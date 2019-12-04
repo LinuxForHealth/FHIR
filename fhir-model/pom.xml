@@ -82,12 +82,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <systemPropertyVariables>
-                        <com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>${fhir-model.testType}</com.ibm.fhir.model.spec.test.R4ExamplesDriver.testType>
+                        <com.ibm.fhir.model.spec.test.R4ExamplesTest.index>${fhir-model.index}</com.ibm.fhir.model.spec.test.R4ExamplesTest.index>
                     </systemPropertyVariables>
-                    <excludes>
-                        <!-- Exluded from build until FHIRPath errors are resolved -->
-                        <exclude>**/FHIRPathSpecTest.java</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

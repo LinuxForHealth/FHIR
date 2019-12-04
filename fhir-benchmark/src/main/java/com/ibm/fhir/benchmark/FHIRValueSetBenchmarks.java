@@ -36,13 +36,13 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 public class FHIRValueSetBenchmarks {
     @Benchmark
     public ValueSet readJsonResource() throws Exception {
-        Reader reader = ExamplesUtil.reader("json/ibm/valueset/ValueSet-large.json");
+        Reader reader = ExamplesUtil.resourceReader("json/ibm/valueset/ValueSet-large.json");
         return FHIRParser.parser(Format.JSON).parse(reader);
     }
     
     @Benchmark
     public ValueSet readXmlResource() throws Exception {
-        Reader reader = ExamplesUtil.reader("xml/ibm/valueset/ValueSet-large.xml");
+        Reader reader = ExamplesUtil.resourceReader("xml/ibm/valueset/ValueSet-large.xml");
         return FHIRParser.parser(Format.XML).parse(reader);
     }
     
@@ -83,7 +83,7 @@ public class FHIRValueSetBenchmarks {
         
         @Setup
         public void setUp() throws Exception {
-            Reader reader = ExamplesUtil.reader("json/ibm/valueset/ValueSet-large.json");
+            Reader reader = ExamplesUtil.resourceReader("json/ibm/valueset/ValueSet-large.json");
             valueSet = FHIRParser.parser(Format.JSON).parse(reader);
             
             List<Contains> concepts = valueSet.getExpansion().getContains();

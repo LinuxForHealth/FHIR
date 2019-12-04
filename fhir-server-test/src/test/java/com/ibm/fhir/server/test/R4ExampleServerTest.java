@@ -8,6 +8,7 @@ package com.ibm.fhir.server.test;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.validation.test.ValidationProcessor;
@@ -31,6 +32,8 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
         driver.setValidator(new ValidationProcessor());
         driver.setProcessor(new ExampleRequestProcessor(this, "default", dm, 1));
 
-        driver.processAllExamples();
+        String index = System.getProperty(this.getClass().getName()
+            + ".index", Index.MINIMAL_JSON.name());
+        driver.processIndex(Index.valueOf(index));
     }
 }

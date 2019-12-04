@@ -15,13 +15,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.DriverStats;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
-import com.ibm.fhir.model.spec.test.R4ExamplesDriver.TestType;
-import com.ibm.fhir.validation.test.ValidationProcessor;
 import com.ibm.fhir.server.test.ExampleRequestProcessor;
+import com.ibm.fhir.validation.test.ValidationProcessor;
 
 /**
  * Simple main to exercise the R4 examples over HTTP. Uses a thread-pool to
@@ -56,7 +55,7 @@ public class Main {
     // Configuration properties
     private Properties properties = new Properties();
     
-    private TestType testType = TestType.PERFORMANCE;
+    private Index index = Index.PERFORMANCE_JSON;
 
     /**
      * Parse the command line arguments
@@ -79,12 +78,12 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for --prop-file argument at posn: " + i);
                 }
                 break;
-            case "--test-type":
+            case "--index":
                 if (++i < args.length) {
-                    this.testType = TestType.valueOf(args[i]);
+                    this.index = Index.valueOf(args[i]);
                 }
                 else {
-                    throw new IllegalArgumentException("Missing value for --prop-file argument at posn: " + i);
+                    throw new IllegalArgumentException("Missing value for --index argument at posn: " + i);
                 }
                 break;
             case "--tenant-id":
@@ -92,7 +91,7 @@ public class Main {
                     this.tenantId = args[i];
                 }
                 else {
-                    throw new IllegalArgumentException("Missing value for --prop-file argument at posn: " + i);
+                    throw new IllegalArgumentException("Missing value for --tenant-id argument at posn: " + i);
                 }
                 break;
             case "--threads":
@@ -181,7 +180,7 @@ public class Main {
         
         // process the examples in the PERFORMANCE index (all examples < 1MB)
         long start = System.nanoTime();
-        driver.processExamples(this.testType, Format.JSON);
+        driver.processIndex(this.index);
         long elapsed = (System.nanoTime() - start) / DriverMetrics.NANOS_MS;
         if (elapsed == 0) {
             elapsed = 1; // unlikely, but just to be on the safe side
