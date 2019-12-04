@@ -47,6 +47,6 @@ public class R4ExamplesValidatorTest {
         self.setup();
         self.driver.setProcessor(new SerializationProcessor());
         self.driver.setValidator(new ValidationProcessor());
-        self.driver.processExample("xml/ibm/complete-mock/RiskAssessment-1.xml", Format.XML, Expectation.OK);
+        self.driver.processExample("json/ibm/complete-absent/CapabilityStatement-1.json", Format.JSON, Expectation.OK);
     }
 }
