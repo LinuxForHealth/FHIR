@@ -13,7 +13,6 @@ import java.util.Queue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
@@ -87,21 +86,15 @@ public class PoolConnectionProvider implements IConnectionProvider {
                     }
                     else {
                         // block until a connection frees up
-                        if (logger.isLoggable(Level.FINE)) {
-                            logger.fine("Max connections allocated, waiting for connection to be freed");
-                        }
+                        logger.info("Max connections allocated, waiting for connection to be freed");
                         this.waitForConnectionCondition.await();
                     }
                 }
                 else {
                     // simply take the next connection from the head of the list
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.fine("Using db connection from pool");
-                    }
+                    logger.fine("Using db connection from pool");
                     c = free.poll();
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.fine("Got db connection from pool: " + c.toString());
-                    }
+                    logger.fine("Got db connection from pool: " + c.toString());
                     assigned = true;
                 }
             }
@@ -163,10 +156,20 @@ public class PoolConnectionProvider implements IConnectionProvider {
 
     /**
      * Remove the active connection on this thread. Called when the transaction completes
+     * @throws SQLException 
      */
-    protected void clearActiveConnection() {
+    protected void clearActiveConnection() throws SQLException {
         PooledConnection pc = activeConnection.get();
         if (pc != null) {
+            // If the open count of current connection is bigger than 0, then it means the connection is
+            // not "closed" yet, then we need to close it to reduce the open count by 1 before the connection
+            // is added back to the connection pool.
+            // This could happen, e.g, in FHIRDbDAOImpl, the external connection is not closed after each 
+            // operation, instead, the connection should be closed only after the whole transaction is committed 
+            // or rolled back.
+            if (pc.getOpenCount() > 0) {
+                pc.close();
+            }
             this.activeConnection.remove();
             if (pc.getOpenCount() != 0) {
                 // Whoops. getConnection called again on the thread...possibly
@@ -178,18 +181,13 @@ public class PoolConnectionProvider implements IConnectionProvider {
             try {
                 if (pc.isReusable()) {
                     // underlying connection should still be good, so add it back into the pool
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.fine("Adding connection back to pool");
-                    }
+                    logger.fine("Adding connection back to pool");
                     free.add(pc.getWrapped());
                 }
                 else {
                     // Connection appears to be broken, so just close it and walk away
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.fine("Connection is broken, so closing it");
-                    }
+                    logger.fine("Connection is broken, so closing it");
                     pc.forceClosed();
-                    
                     // We now have one less allocated connection, so need to reduce our
                     // count accordingly, which might unblock another thread waiting to
                     // create a new connection
@@ -227,9 +225,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
         PooledConnection c = activeConnection.get();
         if (c != null) {
             try {
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("Committing transaction");
-                }
+                logger.fine("Committing transaction");
                 c.getWrapped().commit();
             }
             finally {
@@ -251,7 +247,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
         PooledConnection pc = activeConnection.get();
         if (pc != null) {
             try {
-                logger.info("Rolling back transaction");
+                logger.warning("Rolling back transaction");
                 pc.getWrapped().rollback();
             }
             finally {
