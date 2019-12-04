@@ -48,19 +48,24 @@ jobs:
       run: |
         model_paths=(
           fhir-model
+          fhir-examples
         )
         validation_paths=(
           fhir-validation
           fhir-path/src/main
+          fhir-model/src/main
+          fhir-examples
         )
         search_paths=(
           fhir-search
+          fhir-examples
         )
         jdbc_paths=(
           fhir-persistence-jdbc
           fhir-search/src/main
           fhir-persistence/src/main
           fhir-persistence-schema/src/main
+          fhir-examples
         )
         declare -a PROFILES_ARR
 
