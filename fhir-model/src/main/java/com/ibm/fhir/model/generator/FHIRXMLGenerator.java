@@ -338,6 +338,12 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 }
                 newLine();
                 indentLevel++;
+                if (resource.getId() != null) {
+                    indent();
+                    writer.writeEmptyElement("id");
+                    writer.writeAttribute("value", resource.getId());
+                    newLine();
+                }
             } catch (XMLStreamException e) {
                 throw new RuntimeException(e);
             }
@@ -347,12 +353,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
     public static void main(java.lang.String[] args) throws Exception {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
                 
-        Id id = Id.builder().value(UUID.randomUUID().toString())
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(String.of("Hello, World!"))
-                    .build())
-                .build();
+        java.lang.String id = UUID.randomUUID().toString();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))

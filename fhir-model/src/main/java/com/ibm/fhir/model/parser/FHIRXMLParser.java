@@ -406,7 +406,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -607,7 +607,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -1047,7 +1047,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -1288,7 +1288,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -1545,7 +1545,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -1751,7 +1751,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -1909,7 +1909,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -2358,7 +2358,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -2436,7 +2436,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -2491,7 +2491,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -2814,7 +2814,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -2944,7 +2944,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -3294,7 +3294,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -4188,7 +4188,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -4517,7 +4517,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -4683,7 +4683,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -4841,7 +4841,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -5063,7 +5063,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -5367,7 +5367,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -6327,7 +6327,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -7258,7 +7258,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -7499,7 +7499,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -8055,7 +8055,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -8257,7 +8257,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -8459,7 +8459,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -8625,7 +8625,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -8976,7 +8976,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -9402,7 +9402,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -9659,7 +9659,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -10147,7 +10147,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -11434,7 +11434,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -11714,7 +11714,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -12061,7 +12061,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -12793,7 +12793,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -13002,7 +13002,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -13424,7 +13424,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -13869,7 +13869,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -14019,7 +14019,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -14245,7 +14245,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -14364,7 +14364,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -14546,7 +14546,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -14700,7 +14700,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -15142,7 +15142,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -15933,6 +15933,10 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("defaultValue[x]", 19, position, false);
                     builder.defaultValue(parseDosage("defaultValueDosage", reader, -1));
                     break;
+                case "defaultValueMeta":
+                    position = checkElementOrder("defaultValue[x]", 19, position, false);
+                    builder.defaultValue(parseMeta("defaultValueMeta", reader, -1));
+                    break;
                 case "meaningWhenMissing":
                     position = checkElementOrder("meaningWhenMissing", 20, position, false);
                     builder.meaningWhenMissing((Markdown) parseString(Markdown.builder(), "meaningWhenMissing", reader, -1));
@@ -16137,6 +16141,10 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("fixed[x]", 22, position, false);
                     builder.fixed(parseDosage("fixedDosage", reader, -1));
                     break;
+                case "fixedMeta":
+                    position = checkElementOrder("fixed[x]", 22, position, false);
+                    builder.fixed(parseMeta("fixedMeta", reader, -1));
+                    break;
                 case "patternBase64Binary":
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseBase64Binary("patternBase64Binary", reader, -1));
@@ -16332,6 +16340,10 @@ public class FHIRXMLParser implements FHIRParser {
                 case "patternDosage":
                     position = checkElementOrder("pattern[x]", 23, position, false);
                     builder.pattern(parseDosage("patternDosage", reader, -1));
+                    break;
+                case "patternMeta":
+                    position = checkElementOrder("pattern[x]", 23, position, false);
+                    builder.pattern(parseMeta("patternMeta", reader, -1));
                     break;
                 case "example":
                     position = checkElementOrder("example", 24, position, true);
@@ -16853,6 +16865,10 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseDosage("valueDosage", reader, -1));
                     break;
+                case "valueMeta":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseMeta("valueMeta", reader, -1));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
                 }
@@ -17098,7 +17114,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -17575,7 +17591,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -17678,7 +17694,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -17765,7 +17781,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -17856,7 +17872,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -18061,7 +18077,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -18236,7 +18252,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -18407,7 +18423,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -18673,7 +18689,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -19256,7 +19272,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -21172,6 +21188,10 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("value[x]", 1, position, false);
                     builder.value(parseDosage("valueDosage", reader, -1));
                     break;
+                case "valueMeta":
+                    position = checkElementOrder("value[x]", 1, position, false);
+                    builder.value(parseMeta("valueMeta", reader, -1));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
                 }
@@ -21201,7 +21221,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -21435,7 +21455,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -21526,7 +21546,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -21732,7 +21752,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -22032,7 +22052,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -22253,7 +22273,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -22380,7 +22400,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -22806,7 +22826,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -23134,7 +23154,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -23529,7 +23549,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -23648,7 +23668,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -23869,7 +23889,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -24640,7 +24660,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -25268,7 +25288,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -25548,7 +25568,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -25735,7 +25755,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -25853,7 +25873,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -26019,7 +26039,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -26311,7 +26331,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -26805,7 +26825,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -27214,7 +27234,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -27365,7 +27385,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -27558,7 +27578,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -27815,7 +27835,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -28080,7 +28100,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -29023,7 +29043,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -29383,7 +29403,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -29518,7 +29538,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -29940,7 +29960,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -30181,7 +30201,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -30319,7 +30339,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -30465,7 +30485,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -30776,7 +30796,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -30910,7 +30930,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -30997,7 +31017,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -31226,7 +31246,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -31525,7 +31545,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -31604,7 +31624,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -31865,7 +31885,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -32196,7 +32216,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -32303,7 +32323,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -32989,7 +33009,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -33206,7 +33226,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -33679,7 +33699,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -34048,7 +34068,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -34285,7 +34305,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -34672,7 +34692,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -34798,7 +34818,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -34952,7 +34972,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -35122,7 +35142,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -35379,6 +35399,10 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseDosage("valueDosage", reader, -1));
                     break;
+                case "valueMeta":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseMeta("valueMeta", reader, -1));
+                    break;
                 case "resource":
                     position = checkElementOrder("resource", 4, position, false);
                     builder.resource(parseResource("resource", reader, -1));
@@ -35416,7 +35440,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -35708,7 +35732,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -35815,7 +35839,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -36103,7 +36127,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -36249,7 +36273,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -36992,7 +37016,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -37146,7 +37170,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -37363,7 +37387,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -37786,7 +37810,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -38053,7 +38077,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -38544,7 +38568,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -38997,7 +39021,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -39151,7 +39175,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -39519,7 +39543,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -39718,7 +39742,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -40036,7 +40060,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -40289,7 +40313,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -40380,7 +40404,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -40582,7 +40606,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -41103,7 +41127,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -41194,7 +41218,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -41404,7 +41428,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -41678,7 +41702,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -41781,7 +41805,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -42093,7 +42117,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -42466,7 +42490,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -42821,7 +42845,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -43402,6 +43426,10 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("defaultValue[x]", 6, position, false);
                     builder.defaultValue(parseDosage("defaultValueDosage", reader, -1));
                     break;
+                case "defaultValueMeta":
+                    position = checkElementOrder("defaultValue[x]", 6, position, false);
+                    builder.defaultValue(parseMeta("defaultValueMeta", reader, -1));
+                    break;
                 case "element":
                     position = checkElementOrder("element", 7, position, false);
                     builder.element(parseString("element", reader, -1));
@@ -43640,7 +43668,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -43782,7 +43810,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -44081,7 +44109,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -44337,7 +44365,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -44734,7 +44762,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -44880,7 +44908,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -45195,7 +45223,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -45632,7 +45660,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -46413,7 +46441,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -46575,7 +46603,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -46765,7 +46793,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -47158,6 +47186,10 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseDosage("valueDosage", reader, -1));
                     break;
+                case "valueMeta":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseMeta("valueMeta", reader, -1));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
                 }
@@ -47397,6 +47429,10 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseDosage("valueDosage", reader, -1));
                     break;
+                case "valueMeta":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseMeta("valueMeta", reader, -1));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
                 }
@@ -47477,7 +47513,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -48122,7 +48158,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -48656,7 +48692,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -50104,7 +50140,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -50707,7 +50743,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -51011,7 +51047,7 @@ public class FHIRXMLParser implements FHIRParser {
                 switch (localName) {
                 case "id":
                     position = checkElementOrder("id", 0, position, false);
-                    builder.id((Id) parseString(Id.builder(), "id", reader, -1));
+                    builder.id(parseJavaString("id", reader, -1));
                     break;
                 case "meta":
                     position = checkElementOrder("meta", 1, position, false);
@@ -51265,6 +51301,25 @@ public class FHIRXMLParser implements FHIRParser {
         return joiner.toString();
     }
 
+    private java.lang.String parseJavaString(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        java.lang.String javaString = reader.getAttributeValue(null, "value");
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return javaString;
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
     private java.lang.String getResourceType(XMLStreamReader reader) throws XMLStreamException {
         java.lang.String resourceType = reader.getLocalName();
         try {

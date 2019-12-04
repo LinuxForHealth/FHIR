@@ -203,7 +203,7 @@ public class SortingTest extends FHIRServerTestBase {
         Observation responseObservation = response.readEntity(Observation.class);
 
         // use it for search
-        observationId = responseObservation.getId().getValue();
+        observationId = responseObservation.getId();
         TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
@@ -226,7 +226,7 @@ public class SortingTest extends FHIRServerTestBase {
         Observation responseObservation = response.readEntity(Observation.class);
 
         // use it for search
-        observationId = responseObservation.getId().getValue();
+        observationId = responseObservation.getId();
         TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
@@ -249,7 +249,7 @@ public class SortingTest extends FHIRServerTestBase {
         Observation responseObservation = response.readEntity(Observation.class);
 
         // use it for search
-        observationId = responseObservation.getId().getValue();
+        observationId = responseObservation.getId();
         TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
@@ -272,7 +272,7 @@ public class SortingTest extends FHIRServerTestBase {
         Observation responseObservation = response.readEntity(Observation.class);
 
         // use it for search
-        observationId = responseObservation.getId().getValue();
+        observationId = responseObservation.getId();
         TestUtil.assertResourceEquals(observation, responseObservation);
     }
 

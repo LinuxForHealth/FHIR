@@ -80,7 +80,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        String practitionerId = savedCreatedPractitioner.getId().getValue();
+        String practitionerId = savedCreatedPractitioner.getId();
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         patient = patient.toBuilder()
                 .generalPractitioner(Reference.builder().reference(string("Practitioner/" + practitionerId)).build())
@@ -107,7 +107,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Next, create an Observation belonging to the new patient.
-        String patientId = savedCreatedPatient.getId().getValue();
+        String patientId = savedCreatedPatient.getId();
         Observation observation = TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
@@ -130,7 +130,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Next, create a Condition belonging to the new patient.
-        String patientId = savedCreatedPatient.getId().getValue();
+        String patientId = savedCreatedPatient.getId();
         Condition condition = buildCondition(patientId, "Condition.json");
         Entity<Condition> obs = Entity.entity(condition, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Condition").request().post(obs, Response.class);
@@ -153,7 +153,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Next, create a AllergyIntolerance belonging to the new patient.
-        String patientId = savedCreatedPatient.getId().getValue();
+        String patientId = savedCreatedPatient.getId();
         AllergyIntolerance allergyIntolerance = buildAllergyIntolerance(patientId, "AllergyIntolerance.json");
         Entity<AllergyIntolerance> obs = Entity.entity(allergyIntolerance, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("AllergyIntolerance").request().post(obs, Response.class);
@@ -175,11 +175,11 @@ public class FHIROperationTest extends FHIRServerTestBase {
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreateObservation" })
     public void testCreateComposition() throws Exception {
-        String practitionerId = savedCreatedPractitioner.getId().getValue();
-        String patientId = savedCreatedPatient.getId().getValue();
-        String observationId = savedCreatedObservation.getId().getValue();
-        String conditionId = savedCreatedCondition.getId().getValue();
-        String allergyIntoleranceId = savedCreatedAllergyIntolerance.getId().getValue();
+        String practitionerId = savedCreatedPractitioner.getId();
+        String patientId = savedCreatedPatient.getId();
+        String observationId = savedCreatedObservation.getId();
+        String conditionId = savedCreatedCondition.getId();
+        String allergyIntoleranceId = savedCreatedAllergyIntolerance.getId();
 
         WebTarget target = getWebTarget();
 
@@ -371,7 +371,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
                 .parameter(Parameter.builder().name(string("resource")).resource(savedCreatedPatient).build()).build();
 
         FHIRClient client = getFHIRClient();
-        FHIRResponse response = client.invoke("Patient", "$validate", savedCreatedPatient.getId().getValue(),
+        FHIRResponse response = client.invoke("Patient", "$validate", savedCreatedPatient.getId(),
                 parameters);
 
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
@@ -383,7 +383,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
     // Testcase for "GET
     // [baseUrl]/{resourceTypeName}/{logicalId}/${operationName}?persist=true"
     public void testGetRscIdDocumentOperation() throws Exception {
-        String compositionId = savedCreatedComposition.getId().getValue();
+        String compositionId = savedCreatedComposition.getId();
 
         FHIRParameters parameters = new FHIRParameters();
         parameters.queryParam("persist", "true");
@@ -425,7 +425,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
                 .parameter(Parameter.builder().name(string("resource")).resource(savedCreatedPatient).build()).build();
 
         FHIRClient client = getFHIRClient();
-        FHIRResponse response = client.invoke("Patient", "$validate", savedCreatedPatient.getId().getValue(), "1",
+        FHIRResponse response = client.invoke("Patient", "$validate", savedCreatedPatient.getId(), "1",
                 parameters);
 
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
@@ -437,7 +437,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
     // Testcase for "GET
     // [baseUrl]/{resourceTypeName}/{logicalId}/_history/{versionId}/${operationName}?persist=true"
     public void testPostRscIdVersionDocumentOperation() throws Exception {
-        String compositionId = savedCreatedComposition.getId().getValue();
+        String compositionId = savedCreatedComposition.getId();
 
         FHIRParameters parameters = new FHIRParameters();
         parameters.queryParam("persist", "true");

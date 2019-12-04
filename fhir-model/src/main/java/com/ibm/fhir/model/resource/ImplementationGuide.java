@@ -90,7 +90,7 @@ public class ImplementationGuide extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -122,7 +122,7 @@ public class ImplementationGuide extends DomainResource {
         bindingName = "SPDXLicense",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The license that applies to an Implementation Guide (using an SPDX license Identifiers, or 'not-open-source'). The binding is required but new SPDX license Identifiers are allowed to be used (https://spdx.org/licenses/).",
-        valueSet = "http://hl7.org/fhir/ValueSet/spdx-license|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/spdx-license|4.0.1"
     )
     private final SPDXLicense license;
     @Summary
@@ -130,7 +130,7 @@ public class ImplementationGuide extends DomainResource {
         bindingName = "FHIRVersion",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "All published FHIR Versions.",
-        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
     )
     @Required
     private final List<FHIRVersion> fhirVersion;
@@ -337,7 +337,7 @@ public class ImplementationGuide extends DomainResource {
     /**
      * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
      * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
-     * [minor], which is 4.0.0. for this version.
+     * [minor], which is 4.0.1. for this version.
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link FHIRVersion}.
@@ -576,7 +576,7 @@ public class ImplementationGuide extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1061,7 +1061,7 @@ public class ImplementationGuide extends DomainResource {
         /**
          * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
          * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
-         * [minor], which is 4.0.0. for this version.
+         * [minor], which is 4.0.1. for this version.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -1083,7 +1083,7 @@ public class ImplementationGuide extends DomainResource {
         /**
          * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
          * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
-         * [minor], which is 4.0.0. for this version.
+         * [minor], which is 4.0.1. for this version.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
@@ -1556,7 +1556,7 @@ public class ImplementationGuide extends DomainResource {
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )
         @Required
         private final ResourceType type;
@@ -2555,7 +2555,7 @@ public class ImplementationGuide extends DomainResource {
                 bindingName = "FHIRVersion",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "All published FHIR Versions.",
-                valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
             )
             private final List<FHIRVersion> fhirVersion;
             private final String name;
@@ -2993,7 +2993,7 @@ public class ImplementationGuide extends DomainResource {
                 bindingName = "GuidePageGeneration",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "A code that indicates how the page is generated.",
-                valueSet = "http://hl7.org/fhir/ValueSet/guide-page-generation|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/guide-page-generation|4.0.1"
             )
             @Required
             private final GuidePageGeneration generation;
@@ -3360,7 +3360,7 @@ public class ImplementationGuide extends DomainResource {
                 bindingName = "GuideParameterCode",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Code of parameter that is input to the guide.",
-                valueSet = "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.0.1"
             )
             @Required
             private final GuideParameterCode code;

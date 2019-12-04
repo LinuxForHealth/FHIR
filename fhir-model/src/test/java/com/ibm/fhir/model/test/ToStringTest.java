@@ -86,12 +86,7 @@ public class ToStringTest {
     private static Patient buildPatient() {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
         
-        Id id = Id.builder().value("9aac1d9c-ea5f-4513-af9c-897ab21dd11d")
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(String.of("Hello, World!"))
-                    .build())
-                .build();
+        java.lang.String id = "9aac1d9c-ea5f-4513-af9c-897ab21dd11d";
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
                 .lastUpdated(Instant.of("2019-01-01T12:00:00.000Z"))

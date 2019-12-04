@@ -16,7 +16,6 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Uri;
@@ -58,7 +57,7 @@ import com.ibm.fhir.model.util.ValidationSupport;
     level = "Warning",
     location = "(base)",
     description = "A resource should have narrative for robust management",
-    expression = "text.`div`.exists()"
+    expression = "text.``div``.exists()"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public abstract class DomainResource extends Resource {
@@ -162,7 +161,7 @@ public abstract class DomainResource extends Resource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

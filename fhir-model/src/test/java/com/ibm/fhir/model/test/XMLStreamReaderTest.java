@@ -33,9 +33,7 @@ public class XMLStreamReaderTest {
     public static void main(java.lang.String[] args) throws Exception {
         String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
         
-        Id id = Id.builder()
-                .value(UUID.randomUUID().toString())
-                .build();
+        String id = UUID.randomUUID().toString();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))

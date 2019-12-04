@@ -29,7 +29,7 @@ public class RelatedArtifact extends Element {
         bindingName = "RelatedArtifactType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of relationship to the related artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.0.1"
     )
     @Required
     private final RelatedArtifactType type;

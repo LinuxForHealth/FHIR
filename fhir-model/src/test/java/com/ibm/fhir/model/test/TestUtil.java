@@ -257,12 +257,12 @@ public class TestUtil {
         int count = 0;
         
         String resourceTypeToFind = FHIRUtil.getResourceTypeName(resourceToFind);
-        String idToFind = resourceToFind.getId().getValue();
+        String idToFind = resourceToFind.getId();
         String versionToFind = resourceToFind.getMeta().getVersionId().getValue();
         
         for (Resource r : resources) {
             String resourceType = FHIRUtil.getResourceTypeName(r);
-            String id = r.getId().getValue();
+            String id = r.getId();
             String version = r.getMeta().getVersionId().getValue();
             if (idToFind.equals(id) && resourceTypeToFind.equals(resourceType)) {
                 if (versionToFind.equals(version)) {

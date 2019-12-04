@@ -208,7 +208,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(createdPatient);
         
         // Read the patient, then modify it.
-        FHIRResponse response = client.read("Patient", createdPatient.getId().getValue());
+        FHIRResponse response = client.read("Patient", createdPatient.getId());
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Patient patient = response.getResource(Patient.class);
@@ -246,7 +246,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(createdPatient);
         
         // Read the patient, then modify it.
-        FHIRResponse response = client.read("Patient", createdPatient.getId().getValue());
+        FHIRResponse response = client.read("Patient", createdPatient.getId());
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Patient patient = response.getResource(Patient.class);
@@ -282,7 +282,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testCreatePatient" })
     public void testReadPatient() throws Exception {
         assertNotNull(createdPatient);
-        FHIRResponse response = client.read("Patient", createdPatient.getId().getValue());
+        FHIRResponse response = client.read("Patient", createdPatient.getId());
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         assertNotNull(response.getETag());
@@ -303,7 +303,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testVReadPatient() throws Exception {
         assertNotNull(updatedPatient);
-        FHIRResponse response = client.vread("Patient", updatedPatient.getId().getValue(), updatedPatient.getMeta().getVersionId().getValue());
+        FHIRResponse response = client.vread("Patient", updatedPatient.getId(), updatedPatient.getMeta().getVersionId().getValue());
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         assertNotNull(response.getETag());
@@ -312,7 +312,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test(dependsOnMethods = { "testUpdatePatient", "testUpdatePatientJsonObject" })
     public void testHistoryPatientNoParams() throws Exception {
-        FHIRResponse response = client.history("Patient", updatedPatient.getId().getValue(), null);
+        FHIRResponse response = client.history("Patient", updatedPatient.getId(), null);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         
@@ -325,7 +325,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testHistoryPatientNoParams" })
     public void testHistoryPatientWithCountPage() throws Exception {
         FHIRParameters parameters = new FHIRParameters().count(1).page(2);
-        FHIRResponse response = client.history("Patient", updatedPatient.getId().getValue(), parameters);
+        FHIRResponse response = client.history("Patient", updatedPatient.getId(), parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         
@@ -339,7 +339,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     public void testHistoryPatientWithSince() throws Exception {
         String since = updatedPatient.getMeta().getLastUpdated().getValue().toString();
         FHIRParameters parameters = new FHIRParameters().since(since);
-        FHIRResponse response = client.history("Patient", updatedPatient.getId().getValue(), parameters);
+        FHIRResponse response = client.history("Patient", updatedPatient.getId(), parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         
@@ -393,7 +393,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     public void testSearchPatientWithParams3() throws Exception {
         FHIRParameters parameters = new FHIRParameters()
                 .searchParam("birthdate", ValuePrefix.LE, "1950-01-01")
-                .searchParam("_id", updatedPatient.getId().getValue());
+                .searchParam("_id", updatedPatient.getId());
                 
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
@@ -409,7 +409,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     public void testSearchPatientWithParams4() throws Exception {
         FHIRParameters parameters = new FHIRParameters()
                 .searchParam("birthdate", ValuePrefix.GE, "1970-01-01")
-                .searchParam("_id", updatedPatient.getId().getValue());
+                .searchParam("_id", updatedPatient.getId());
                 
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
@@ -495,11 +495,11 @@ public class FHIRClientTest extends FHIRClientTestBase {
         Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
         
         // read
-        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId(), null);
         // vread
-        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
         // history
-        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId() + "/_history", null);
         // search
         requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
         
@@ -520,11 +520,11 @@ public class FHIRClientTest extends FHIRClientTestBase {
     public void testTransaction() throws Exception {
         Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
         // read
-        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId(), null);
         // vread
-        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
         // history
-        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId() + "/_history", null);
         // search
         requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
         

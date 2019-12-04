@@ -1062,6 +1062,10 @@ public class CodeGenerator {
                 }
             }
             
+            if ("Resource".equals(className) && !nested) {
+                cb.invoke("ValidationSupport", "checkId", args("id"));
+            }
+            
             if ("Element".equals(className) && !nested) {
                 cb.invoke("ValidationSupport", "checkString", args("id"));
             }
@@ -1604,7 +1608,11 @@ public class CodeGenerator {
             imports.add("java.util.Collection");
         }
         
-        if ("Resource".equals(name) || "Element".equals(name)) {
+        if ("Resource".equals(name)) {
+            imports.add("com.ibm.fhir.model.util.ValidationSupport");
+            imports.add("com.ibm.fhir.model.builder.AbstractBuilder");
+        }
+        if ("Element".equals(name)) {
             imports.add("com.ibm.fhir.model.builder.AbstractBuilder");
         }
         
@@ -1977,6 +1985,30 @@ public class CodeGenerator {
             ._end()
             ._return("joiner.toString()")
         .end().newLine();
+        
+        cb.method(mods("private"), "java.lang.String", "parseJavaString", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"),
+                throwsExceptions("XMLStreamException"))
+            .invoke("stackPush", args("elementName", "elementIndex"))
+            .assign("java.lang.String javaString", "reader.getAttributeValue(null, \"value\")")
+            ._while("reader.hasNext()")
+                .assign("int eventType", "reader.next()")
+                ._switch("eventType")
+            
+                ._case("XMLStreamReader.START_ELEMENT")
+                    .assign("java.lang.String localName", "reader.getLocalName()")
+                    ._throw(_new("IllegalArgumentException", args("\"Unrecognized element: '\" + localName + \"'\"")))
+                
+                ._case("XMLStreamReader.END_ELEMENT")
+                    ._if("reader.getLocalName().equals(elementName)")
+                        .invoke("stackPop", args())
+                        ._return("javaString")
+                    ._end()
+                    ._break()
+                ._end()
+                
+            ._end()
+            ._throw(_new("XMLStreamException", args(quote("Unexpected end of stream"))))
+        .end();
         
         cb.method(mods("private"), "java.lang.String", "getResourceType", params("XMLStreamReader reader"), throwsExceptions("XMLStreamException"))
             .assign("java.lang.String resourceType", "reader.getLocalName()")
@@ -2496,7 +2528,7 @@ public class CodeGenerator {
         cb.end().newLine();
     }
     
-    private void generateParseMethod(String generatedClassName, JsonObject structureDefinition, CodeBuilder cb) {                
+    private void generateParseMethod(String generatedClassName, JsonObject structureDefinition, CodeBuilder cb) {
         if (isQuantitySubtype(structureDefinition)) {
             return;
         }
@@ -3100,6 +3132,23 @@ public class CodeGenerator {
         return elementDefinition.getString("contentReference", null);
     }
 
+    private String getFHIRTypeExtension(JsonObject elementDefinition) {
+        JsonArray extensions = elementDefinition.getJsonArray("extension");
+        if (extensions == null) {
+            return null;
+        }
+        for (JsonValue jsonValue : extensions) {
+            if (jsonValue instanceof JsonObject) {
+                String url = jsonValue.asJsonObject().getString("url");
+                if ("http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type".equals(url)) {
+                    return ((JsonObject) jsonValue).getString("valueUrl");
+                }
+            }
+        }
+        return null;
+    }
+    
+
     private String getDisplay(JsonObject concept) {
         return concept.getString("display", null);
     }
@@ -3295,10 +3344,10 @@ public class CodeGenerator {
             return "Element";
         }
         
-        if ("Element.id".equals(basePath) || "Extension.url".equals(basePath)) {
+        if ("Resource.id".equals(basePath) || "Element.id".equals(basePath) || "Extension.url".equals(basePath)) {
             return "java.lang.String";
         }
-                
+
         String fieldType = null;
         
         List<JsonObject> types = getTypes(elementDefinition);
@@ -3308,8 +3357,11 @@ public class CodeGenerator {
             contentReference = contentReference.substring(1);
             fieldType = Arrays.asList(contentReference.split("\\.")).stream().map(s -> titleCase(s)).collect(Collectors.joining("."));
         } else if (types.isEmpty() || isBackboneElement(elementDefinition)) {
-            fieldType = titleCase(path.substring(path.lastIndexOf(".") + 1));     
+            fieldType = titleCase(path.substring(path.lastIndexOf(".") + 1));
         } else {
+            if (types.size() > 1) {
+                throw new RuntimeException("Expected a single type but found " + types.size());
+            }
             fieldType = titleCase(types.get(0).getString("code"));
             if (types.get(0).containsKey("profile")) {
                 String profile = types.get(0).getJsonArray("profile").getString(0);
@@ -3406,6 +3458,10 @@ public class CodeGenerator {
     
     private boolean hasContentReference(JsonObject elementDefinition) {
         return getContentReference(elementDefinition) != null;
+    }
+    
+    private boolean hasFHIRTypeExtension(JsonObject elementDefinition) {
+        return getFHIRTypeExtension(elementDefinition) != null;
     }
 
     private boolean hasRequiredBinding(JsonObject elementDefinition) {

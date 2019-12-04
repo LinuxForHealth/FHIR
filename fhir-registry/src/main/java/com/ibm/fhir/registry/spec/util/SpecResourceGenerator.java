@@ -55,7 +55,7 @@ public class SpecResourceGenerator {
                         url = url.substring(0, idx);
                     }
                     if (url != null && version != null) {
-                        String fileName = resource.getClass().getSimpleName() + "-" + resource.getId().getValue() + ".json";
+                        String fileName = resource.getClass().getSimpleName() + "-" + resource.getId() + ".json";
                         File file = new File("src/main/resources/resources/" + fileName);
                         if (!file.exists()) {
                             file.getParentFile().mkdirs();

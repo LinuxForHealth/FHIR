@@ -33,7 +33,6 @@ import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Expression;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
@@ -85,7 +84,7 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -142,7 +141,7 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "ActivityDefinitionKind",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of activity the definition is describing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.0.1"
     )
     private final ActivityDefinitionKind kind;
     private final Canonical profile;
@@ -158,14 +157,14 @@ public class ActivityDefinition extends DomainResource {
         bindingName = "RequestIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
     private final RequestIntent intent;
     @Binding(
         bindingName = "RequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
     private final RequestPriority priority;
     @Summary
@@ -1057,7 +1056,7 @@ public class ActivityDefinition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1936,7 +1935,7 @@ public class ActivityDefinition extends DomainResource {
          * workflow chain.
          * 
          * @param intent
-         *     proposal | plan | order
+         *     proposal | plan | directive | order | original-order | reflex-order | filler-order | instance-order | option
          * 
          * @return
          *     A reference to this Builder instance
@@ -2381,7 +2380,7 @@ public class ActivityDefinition extends DomainResource {
             bindingName = "ActivityParticipantType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of participant in the activity.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.1"
         )
         @Required
         private final ActivityParticipantType type;

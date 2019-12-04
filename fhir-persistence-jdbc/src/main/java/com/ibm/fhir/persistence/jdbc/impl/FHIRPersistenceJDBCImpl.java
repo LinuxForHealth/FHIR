@@ -207,7 +207,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
             // Set the resource id and meta fields.
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            resultBuilder.id(Id.of(logicalId));
+            resultBuilder.id(logicalId);
             Meta meta = resource.getMeta();
             Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
             metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
@@ -329,7 +329,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
             
             // Set the resource id and meta fields.
-            resultBuilder.id(Id.of(logicalId));
+            resultBuilder.id(logicalId);
             Meta meta = resource.getMeta();
             Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
             metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
@@ -1043,7 +1043,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                         // log and continue with the other parameters
                         StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
                         if (sp.getId() != null) {
-                            msg.append(" with id '" + sp.getId().getValue() + "'");
+                            msg.append(" with id '" + sp.getId() + "'");
                         }
                         msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
                         // just use the message...no need for the whole stack trace

@@ -26,7 +26,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
@@ -66,7 +65,7 @@ public class ExampleScenario extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -478,7 +477,7 @@ public class ExampleScenario extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1131,7 +1130,7 @@ public class ExampleScenario extends DomainResource {
             bindingName = "ExampleScenarioActorType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of actor - system or human.",
-            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.0.1"
         )
         @Required
         private final ExampleScenarioActorType type;
@@ -1472,7 +1471,7 @@ public class ExampleScenario extends DomainResource {
             bindingName = "FHIRResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of resource.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )
         @Required
         private final FHIRResourceType resourceType;

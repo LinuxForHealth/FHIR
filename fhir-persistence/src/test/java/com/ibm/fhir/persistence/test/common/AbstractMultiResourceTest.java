@@ -20,7 +20,6 @@ import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.persistence.SingleResourceResult;
 
 /**
@@ -40,12 +39,11 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
         Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
         
         // Update the id on the resource
-        encounter = encounter.toBuilder().id(Id.of(commonId)).build();
+        encounter = encounter.toBuilder().id(commonId).build();
         
         encounter = persistence.update(getDefaultPersistenceContext(), commonId, encounter).getResource();
         assertNotNull(encounter);
         assertNotNull(encounter.getId());
-        assertNotNull(encounter.getId().getValue());
         assertNotNull(encounter.getMeta());
         assertNotNull(encounter.getMeta().getVersionId().getValue());
         assertEquals("1", encounter.getMeta().getVersionId().getValue());
@@ -53,11 +51,10 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
         Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
 
         // update the id on the resource
-        observation = observation.toBuilder().id(Id.of(commonId)).build();
+        observation = observation.toBuilder().id(commonId).build();
         observation = persistence.update(getDefaultPersistenceContext(), commonId, observation).getResource();
         assertNotNull(observation);
         assertNotNull(observation.getId());
-        assertNotNull(observation.getId().getValue());
         assertNotNull(observation.getMeta());
         assertNotNull(observation.getMeta().getVersionId().getValue());
         assertEquals("1", observation.getMeta().getVersionId().getValue());

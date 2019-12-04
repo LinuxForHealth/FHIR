@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -24,7 +23,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
@@ -64,13 +62,7 @@ public class AppointmentTest {
      * @return
      */
     public Appointment buildAppointment() {
-        Id id = Id.builder()
-                .value(UUID.randomUUID().toString())
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(string("Hello, World!"))
-                    .build())
-                .build();
+        String id = "http://www.ibm.com/someExtension";
 
         Meta meta =
             Meta.builder()

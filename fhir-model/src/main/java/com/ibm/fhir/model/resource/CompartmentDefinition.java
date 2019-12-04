@@ -24,7 +24,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -63,7 +62,7 @@ public class CompartmentDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -84,7 +83,7 @@ public class CompartmentDefinition extends DomainResource {
         bindingName = "CompartmentType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Which type a compartment definition describes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.1"
     )
     @Required
     private final CompartmentType code;
@@ -427,7 +426,7 @@ public class CompartmentDefinition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -943,7 +942,7 @@ public class CompartmentDefinition extends DomainResource {
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )
         @Required
         private final ResourceType code;

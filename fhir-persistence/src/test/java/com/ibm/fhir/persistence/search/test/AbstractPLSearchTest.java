@@ -73,7 +73,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     @AfterClass
     public void removeSavedResourcesAndResetTenant() throws Exception {
         if (savedResource != null && persistence.isDeleteSupported()) {
-            persistence.delete(getDefaultPersistenceContext(), Basic.class, savedResource.getId().getValue());
+            persistence.delete(getDefaultPersistenceContext(), Basic.class, savedResource.getId());
             if (persistence.isTransactional()) {
                 persistence.getTransaction().commit();
             }
@@ -91,18 +91,16 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         resource = result.getResource();
         assertNotNull(resource);
         assertNotNull(resource.getId());
-        assertNotNull(resource.getId().getValue());
         assertNotNull(resource.getMeta());
         assertNotNull(resource.getMeta().getVersionId().getValue());
         assertEquals("1", resource.getMeta().getVersionId().getValue());
         
         // update the resource to verify that historical versions won't be returned in search results
-        result = persistence.update(getDefaultPersistenceContext(), resource.getId().getValue(), resource);
+        result = persistence.update(getDefaultPersistenceContext(), resource.getId(), resource);
         assertTrue(result.isSuccess());
         resource = result.getResource();
         assertNotNull(resource);
         assertNotNull(resource.getId());
-        assertNotNull(resource.getId().getValue());
         assertNotNull(resource.getMeta());
         assertNotNull(resource.getMeta().getVersionId().getValue());
         assertEquals("2", resource.getMeta().getVersionId().getValue());
@@ -157,7 +155,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     protected Composition createCompositionReferencingSavedResource() throws Exception {
         
         Reference ref = Reference.builder()
-                .reference(com.ibm.fhir.model.type.String.of("Basic/" + savedResource.getId().getValue()))
+                .reference(com.ibm.fhir.model.type.String.of("Basic/" + savedResource.getId()))
                 .build();
         
         composition = Composition.builder()
@@ -175,18 +173,16 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         composition = result.getResource();
         assertNotNull(composition);
         assertNotNull(composition.getId());
-        assertNotNull(composition.getId().getValue());
         assertNotNull(composition.getMeta());
         assertNotNull(composition.getMeta().getVersionId().getValue());
         assertEquals("1", composition.getMeta().getVersionId().getValue());
         
         // update the resource to verify that historical versions won't be returned in search results
-        result = persistence.update(getDefaultPersistenceContext(), composition.getId().getValue(), composition);
+        result = persistence.update(getDefaultPersistenceContext(), composition.getId(), composition);
         assertTrue(result.isSuccess());
         composition = result.getResource();
         assertNotNull(composition);
         assertNotNull(composition.getId());
-        assertNotNull(composition.getId().getValue());
         assertNotNull(composition.getMeta());
         assertNotNull(composition.getMeta().getVersionId().getValue());
         assertEquals("2", composition.getMeta().getVersionId().getValue());

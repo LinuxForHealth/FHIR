@@ -25,7 +25,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Money;
@@ -48,7 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "ipn-1",
     level = "Rule",
     location = "(base)",
-    description = "The organization SHALL at least have a name or an identifier, and possibly more than one",
+    description = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
     expression = "(identifier.count() + name.count()) > 0"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -60,7 +59,7 @@ public class InsurancePlan extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     private final PublicationStatus status;
     @Summary
@@ -410,7 +409,7 @@ public class InsurancePlan extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -3681,7 +3680,7 @@ public class InsurancePlan extends DomainResource {
                         bindingName = "BenefitCostApplicability",
                         strength = BindingStrength.ValueSet.REQUIRED,
                         description = "Whether the cost applies to in-network or out-of-network providers.",
-                        valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.0.0"
+                        valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.0.1"
                     )
                     private final CodeableConcept applicability;
                     private final List<CodeableConcept> qualifiers;

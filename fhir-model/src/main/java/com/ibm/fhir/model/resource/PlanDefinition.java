@@ -100,7 +100,7 @@ public class PlanDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -769,7 +769,7 @@ public class PlanDefinition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -2583,7 +2583,7 @@ public class PlanDefinition extends DomainResource {
             bindingName = "RequestPriority",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Identifies the level of importance to be assigned to actioning the request.",
-            valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
         )
         private final RequestPriority priority;
         private final List<CodeableConcept> code;
@@ -2617,35 +2617,35 @@ public class PlanDefinition extends DomainResource {
             bindingName = "ActionGroupingBehavior",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Defines organization behavior of a group.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.0.1"
         )
         private final ActionGroupingBehavior groupingBehavior;
         @Binding(
             bindingName = "ActionSelectionBehavior",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Defines selection behavior of a group.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.0.1"
         )
         private final ActionSelectionBehavior selectionBehavior;
         @Binding(
             bindingName = "ActionRequiredBehavior",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Defines expectations around whether an action or action group is required.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-required-behavior|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/action-required-behavior|4.0.1"
         )
         private final ActionRequiredBehavior requiredBehavior;
         @Binding(
             bindingName = "ActionPrecheckBehavior",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Defines selection frequency behavior for an action or group.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.0.1"
         )
         private final ActionPrecheckBehavior precheckBehavior;
         @Binding(
             bindingName = "ActionCardinalityBehavior",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Defines behavior for an action or a group for how many times that item may be repeated.",
-            valueSet = "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.0.1"
         )
         private final ActionCardinalityBehavior cardinalityBehavior;
         @Choice({ Canonical.class, Uri.class })
@@ -3977,7 +3977,7 @@ public class PlanDefinition extends DomainResource {
                 bindingName = "ActionConditionKind",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines the kinds of conditions that can appear on actions.",
-                valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.1"
             )
             @Required
             private final ActionConditionKind kind;
@@ -4252,7 +4252,7 @@ public class PlanDefinition extends DomainResource {
                 bindingName = "ActionRelationshipType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines the types of relationships between actions.",
-                valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.1"
             )
             @Required
             private final ActionRelationshipType relationship;
@@ -4567,7 +4567,7 @@ public class PlanDefinition extends DomainResource {
                 bindingName = "ActionParticipantType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The type of participant for the action.",
-                valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.1"
             )
             @Required
             private final ActionParticipantType type;

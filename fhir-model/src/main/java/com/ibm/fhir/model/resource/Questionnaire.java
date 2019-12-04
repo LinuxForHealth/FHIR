@@ -32,7 +32,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Markdown;
@@ -174,7 +173,7 @@ public class Questionnaire extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -185,7 +184,7 @@ public class Questionnaire extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
     private final List<ResourceType> subjectType;
     @Summary
@@ -685,7 +684,7 @@ public class Questionnaire extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1424,7 +1423,7 @@ public class Questionnaire extends DomainResource {
             bindingName = "QuestionnaireItemType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Distinguishes groups from questions and display text and indicates data type for questions.",
-            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.0.1"
         )
         @Required
         private final QuestionnaireItemType type;
@@ -1433,7 +1432,7 @@ public class Questionnaire extends DomainResource {
             bindingName = "EnableWhenBehavior",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.0.1"
         )
         private final EnableWhenBehavior enableBehavior;
         private final Boolean required;
@@ -2296,7 +2295,7 @@ public class Questionnaire extends DomainResource {
                 bindingName = "QuestionnaireItemOperator",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The criteria by which a question is enabled.",
-                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.0.1"
             )
             @Required
             private final QuestionnaireItemOperator operator;

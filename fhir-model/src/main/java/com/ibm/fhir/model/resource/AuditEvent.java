@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -77,7 +76,7 @@ public class AuditEvent extends DomainResource {
         bindingName = "AuditEventAction",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicator for type of action performed during the event that generated the event.",
-        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.0.1"
     )
     private final AuditEventAction action;
     private final Period period;
@@ -89,7 +88,7 @@ public class AuditEvent extends DomainResource {
         bindingName = "AuditEventOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether the event succeeded or failed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.0.1"
     )
     private final AuditEventOutcome outcome;
     @Summary
@@ -381,7 +380,7 @@ public class AuditEvent extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1508,7 +1507,7 @@ public class AuditEvent extends DomainResource {
                 bindingName = "AuditEventAgentNetworkType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "The type of network access point of this agent in the audit event.",
-                valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.0.1"
             )
             private final AuditEventAgentNetworkType type;
 

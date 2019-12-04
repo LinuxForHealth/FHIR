@@ -44,7 +44,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient/" + patient.getId().getValue()).request().put(entity, Response.class);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         
         // Get the patient's logical id value.
@@ -63,7 +63,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .build().toJsonArray();
         
         Entity<JsonArray> patchEntity = Entity.entity(array, "application/json-patch+json");
-        response = target.path("Patient/" + patient.getId().getValue())
+        response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -87,7 +87,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient/" + patient.getId().getValue()).request().put(entity, Response.class);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         
         // Get the patient's logical id value.
@@ -102,7 +102,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .build().toJsonArray();
         
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
-        response = target.path("Patient/" + patient.getId().getValue())
+        response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -126,7 +126,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient/" + patient.getId().getValue()).request().put(entity, Response.class);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         
         // Get the patient's logical id value.
@@ -141,7 +141,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .build().toJsonArray();
         
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
-        response = target.path("Patient/" + patient.getId().getValue())
+        response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -165,7 +165,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient/" + patient.getId().getValue()).request().put(entity, Response.class);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         
         // Get the patient's logical id value.
@@ -184,7 +184,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .build().toJsonArray();
         
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
-        response = target.path("Patient/" + patient.getId().getValue())
+        response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -208,7 +208,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient/" + patient.getId().getValue()).request().put(entity, Response.class);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         
         // Get the patient's logical id value.
@@ -228,7 +228,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .build().toJsonArray();
         
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
-        response = target.path("Patient/" + patient.getId().getValue())
+        response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -247,9 +247,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     private Patient buildPatient() {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
         
-        Id id = Id.builder()
-                .value(UUID.randomUUID().toString())
-                .build();
+        java.lang.String id = UUID.randomUUID().toString();
         
         Meta meta = Meta.builder()
                 .versionId(Id.of("1"))
