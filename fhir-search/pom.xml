@@ -74,6 +74,14 @@
                     </formatFileSets>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <com.ibm.fhir.search.test.ExamplesDriverTest.index>${fhir-search.index}</com.ibm.fhir.search.test.ExamplesDriverTest.index>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

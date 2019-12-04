@@ -89,7 +89,7 @@ public class TestUtil {
         Format fmt = (fileName.endsWith(".xml") ? Format.XML : Format.JSON);
 
         // Deserialize the file contents.
-        try (Reader reader = ExamplesUtil.reader(fileName)) {
+        try (Reader reader = ExamplesUtil.resourceReader(fileName)) {
             return FHIRParser.parser(fmt).parse(reader);
         }
     }

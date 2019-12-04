@@ -175,11 +175,17 @@ public class FHIRValidator {
             validate(node);
         }
 
+        /**
+         * @throws IllegalStateException if the registered constraints cannot be evaluated for the passed node
+         */
         private void validate(FHIRPathElementNode elementNode) {
             Class<?> elementType = elementNode.element().getClass();
             validate(elementType, elementNode, ModelSupport.getConstraints(elementType));
         }
         
+        /**
+         * @throws IllegalStateException if the registered constraints cannot be evaluated for the passed node
+         */
         private void validate(FHIRPathResourceNode resourceNode) {
             Class<?> resourceType = resourceNode.resource().getClass();
             validate(resourceType, resourceNode, ModelSupport.getConstraints(resourceType));
@@ -191,6 +197,11 @@ public class FHIRValidator {
             }
         }
         
+        /**
+         * @throws IllegalStateException if one of the passed constraints cannot be evaluated for the passed node
+         * @implNote IllegalStateException is favored over IllegalArgumentException because the constraints
+         *           are coming directly from the spec and we'd rather not wrap the IllegalArgumentException from the caller
+         */
         private void validate(Class<?> type, FHIRPathNode node, Collection<Constraint> constraints) {
             for (Constraint constraint : constraints) {
                 if (constraint.modelChecked()) {
@@ -203,6 +214,11 @@ public class FHIRValidator {
             }
         }
 
+        /**
+         * @throws IllegalStateException if the passed constraint cannot be evaluated for the passed node
+         * @implNote IllegalStateException is favored over IllegalArgumentException because the constraints
+         *           are coming directly from the spec and we'd rather not wrap the IllegalArgumentException from the caller
+         */
         private void validate(Class<?> type, FHIRPathNode node, Constraint constraint) {
             String path = node.path();
             try {
@@ -237,10 +253,10 @@ public class FHIRValidator {
 
                     if (DEBUG) {
                         System.out.println("    Evaluation result: " + result + ", Path: " + contextNode.path());
-                    }                    
+                    }
                 }
             } catch (Exception e) {
-                throw new Error("An error occurred while validating constraint: " + constraint.id() +
+                throw new IllegalStateException("An error occurred while validating constraint: " + constraint.id() +
                     " with location: " + constraint.location() + " and expression: " + constraint.expression() +
                     " at path: " + path, e);
             }

@@ -140,7 +140,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <systemPropertyVariables>
-                        <com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType>${fhir-persistence-jdbc.testType}</com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.testType>
+                        <com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.index>${fhir-persistence-jdbc.index}</com.ibm.fhir.persistence.jdbc.test.spec.R4JDBCExamplesTest.index>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

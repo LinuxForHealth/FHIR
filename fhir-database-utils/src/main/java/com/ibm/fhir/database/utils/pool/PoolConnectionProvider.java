@@ -188,7 +188,6 @@ public class PoolConnectionProvider implements IConnectionProvider {
                     // Connection appears to be broken, so just close it and walk away
                     logger.fine("Connection is broken, so closing it");
                     pc.forceClosed();
-                    
                     // We now have one less allocated connection, so need to reduce our
                     // count accordingly, which might unblock another thread waiting to
                     // create a new connection
