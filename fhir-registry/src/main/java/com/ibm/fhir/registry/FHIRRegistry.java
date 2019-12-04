@@ -36,6 +36,28 @@ public final class FHIRRegistry {
         return INSTANCE;
     }
     
+    public boolean hasResource(String url) {
+        if (Objects.isNull(url)) {
+            return false;
+        }
+        
+//      String id = null;
+        int index = url.indexOf("#");
+        if (index != -1) {
+//          id = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
+        
+        String version = null;
+        index = url.indexOf("|");
+        if (index != -1) {
+            version = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
+        
+        return (findResource(url, version) != null);
+    }
+    
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
         Objects.requireNonNull(url);
         Objects.requireNonNull(resourceType);

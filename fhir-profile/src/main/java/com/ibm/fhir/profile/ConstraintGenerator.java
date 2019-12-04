@@ -6,12 +6,12 @@
 
 package com.ibm.fhir.profile;
 
+import static com.ibm.fhir.model.util.ModelSupport.delimit;
+import static com.ibm.fhir.model.util.ModelSupport.isKeyword;
 import static com.ibm.fhir.profile.ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_PREFIX;
 import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
-import static com.ibm.fhir.profile.ProfileSupport.delimit;
 import static com.ibm.fhir.profile.ProfileSupport.getBinding;
 import static com.ibm.fhir.profile.ProfileSupport.getElementDefinition;
-import static com.ibm.fhir.profile.ProfileSupport.isKeyword;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,7 +35,6 @@ import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.ElementDefinition.Binding;
 import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 
@@ -298,7 +297,11 @@ public class ConstraintGenerator {
         if (pattern.is(CodeableConcept.class)) {
             CodeableConcept codeableConcept = pattern.as(CodeableConcept.class);
             Coding coding = codeableConcept.getCoding().get(0);
-            sb.append(".where(coding.where(system = '").append(coding.getSystem().getValue()).append("' and code = '").append(coding.getCode().getValue()).append("').exists()).exists()");
+            sb.append(".where(coding.where(system = '")
+                .append(coding.getSystem().getValue())
+                .append("' and code = '")
+                .append(coding.getCode().getValue())
+                .append("').exists()).exists()");
         }
         
         return sb.toString();
@@ -448,20 +451,33 @@ public class ConstraintGenerator {
 
     private boolean hasExtensionConstraint(ElementDefinition elementDefinition) {
         List<Type> types = getTypes(elementDefinition);
+        
         if (types.size() != 1) {
             return false;
         }
+        
         Type type = types.get(0);
         String code = type.getCode().getValue();
-        return "Extension".equals(code) && !type.getProfile().isEmpty();
+        if (!"Extension".equals(code)) {
+            return false;
+        }
+        
+        List<Canonical> profile = type.getProfile();
+        if (profile.size() != 1) {
+            return false;
+        }
+        
+        String url = profile.get(0).getValue();
+        
+        return FHIRRegistry.getInstance().hasResource(url);
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {
-        return elementDefinition.getFixed() != null;
+        return elementDefinition.getFixed() != null && (elementDefinition.getFixed() instanceof Uri || elementDefinition.getFixed() instanceof Code);
     }
 
     private boolean hasPatternValueConstraint(ElementDefinition elementDefinition) {
-        return elementDefinition.getPattern() != null;
+        return elementDefinition.getPattern() != null && (elementDefinition.getPattern() instanceof CodeableConcept);
     }
 
     private boolean hasReferenceTypeConstraint(ElementDefinition elementDefinition) {
@@ -479,10 +495,12 @@ public class ConstraintGenerator {
         if (binding != null && isCodedElement(elementDefinition)) {
             Binding baseBinding = getBinding(elementDefinition.getBase().getPath().getValue());
             String baseStrength = (baseBinding != null) ? baseBinding.getStrength().getValue() : null;
+            String baseValueSet = (baseBinding != null) ? baseBinding.getValueSet().getValue() : null;
             String strength = binding.getStrength().getValue();
+            String valueSet = binding.getValueSet().getValue();
             return (!"required".equals(baseStrength) && "required".equals(strength))
 //                  || ("required".equals(baseStrength) && "required".equals(strength) && !binding.getValueSet().equals(baseBinding.getValueSet()));
-                    || ("required".equals(baseStrength) && "required".equals(strength) && !valueSetEqualsIgnoreVersion(binding.getValueSet().getValue(), baseBinding.getValueSet().getValue()));
+                    || ("required".equals(baseStrength) && "required".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet));
         }
         return false;
     }
@@ -512,10 +530,6 @@ public class ConstraintGenerator {
             return "code".equals(code) || "Coding".equals(code) || "CodeableConcept".equals(code);
         }
         return false;
-    }
-
-    private boolean isExtensionDefinition(StructureDefinition structureDefinition) {
-        return "Extension".equals(structureDefinition.getType().getValue()) && TypeDerivationRule.CONSTRAINT.equals(structureDefinition.getDerivation());
     }
 
     private boolean isExtensionUrl(ElementDefinition elementDefinition) {
