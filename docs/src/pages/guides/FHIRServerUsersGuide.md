@@ -47,6 +47,8 @@ View information about recent changes that were made to this document. For more 
 # 2 Installation
 
 ## 2.1 Installing a new server
+0.  Prereqs: The IBM FHIR Server requires Java 8 or higher and has been tested with OpenJDK 8, OpenJDK 11, and the IBM SDK, Java Technology Edition, Version 8. To install Java on your system, we recommend downloading and installing OpenJDK 8 from https://adoptopenjdk.net/.
+
 1.  To install the FHIR server, build or download the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
 The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
