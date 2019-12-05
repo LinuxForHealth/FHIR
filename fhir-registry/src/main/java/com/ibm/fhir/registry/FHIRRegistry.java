@@ -41,8 +41,10 @@ public final class FHIRRegistry {
             return false;
         }
         
+        String id = null;
         int index = url.indexOf("#");
         if (index != -1) {
+            id = url.substring(index + 1);
             url = url.substring(0, index);
         }
         
@@ -53,7 +55,8 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
         
-        return (findResource(url, version) != null);
+        FHIRRegistryResource resource = findResource(url, version);
+        return (id != null) ? (getResource(resource, url, id) != null) : (resource != null);
     }
     
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
