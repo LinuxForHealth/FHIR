@@ -19,14 +19,13 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Compose;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
+import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -105,24 +104,24 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         
         Expansion expansion = valueSet.getExpansion();
         if (expansion != null) {
-            result.addAll(Stream.concat(expansion.getContains().stream(), expansion.getContains().stream().flatMap(contains -> contains.getContains().stream()))
-                .map(contains -> contains.getCode().getValue())
-                .collect(Collectors.toList()));
+            for (Contains contains : expansion.getContains()) {
+                result.addAll(getValues(contains));
+            }
         } else {
             Compose compose = valueSet.getCompose();
             if (compose != null) {
                 for (Include include : compose.getInclude()) {
                     if (!include.getConcept().isEmpty()) {
-                        result.addAll(include.getConcept().stream()
-                            .map(concept -> concept.getCode().getValue())
-                            .collect(Collectors.toList()));
+                        for (Include.Concept concept : include.getConcept()) {
+                            result.add(concept.getCode().getValue());
+                        }
                     } else if (include.getSystem() != null){
                         String system = include.getSystem().getValue();
                         if (FHIRRegistry.getInstance().hasResource(system)) {
                             CodeSystem codeSystem = FHIRRegistry.getInstance().getResource(system, CodeSystem.class);
-                            result.addAll(Stream.concat(codeSystem.getConcept().stream(), codeSystem.getConcept().stream().flatMap(concept -> concept.getConcept().stream()))
-                                .map(concept -> concept.getCode().getValue())
-                                .collect(Collectors.toList()));
+                            for (CodeSystem.Concept concept : codeSystem.getConcept()) {
+                                result.addAll(getValues(concept));
+                            }
                         }
                     }
                 }
@@ -132,6 +131,24 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         // TODO: add support for exclude
         
         return result;
+    }
+    
+    private Set<String> getValues(Contains contains) {
+        Set<String> values = new LinkedHashSet<>();
+        values.add(contains.getCode().getValue());
+        for (Contains c : contains.getContains()) {
+            values.addAll(getValues(c));
+        }
+        return values;
+    }
+
+    private Set<String> getValues(CodeSystem.Concept concept) {
+        Set<String> values = new LinkedHashSet<>();
+        values.add(concept.getCode().getValue());
+        for (CodeSystem.Concept c : concept.getConcept()) {
+            values.addAll(getValues(c));
+        }
+        return values;
     }
 
     private boolean isCodedElement(Element element) {
