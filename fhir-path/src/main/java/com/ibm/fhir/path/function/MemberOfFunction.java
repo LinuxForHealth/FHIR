@@ -15,7 +15,6 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.hasElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
