@@ -1,123 +1,122 @@
 <MedicinalProductInteraction xmlns="http://hl7.org/fhir">
-  <id value="Madmx--dDc"/>
   <meta>
-    <versionId value="TiIC8OouxA"/>
-    <lastUpdated value="2019-08-08T09:17:29.631-04:00"/>
-    <source value="Hcz84d6PCV"/>
-    <profile value="v8AknG1Z4z"/>
+    <versionId value="XjPAXLfHnp"/>
+    <lastUpdated value="2019-12-04T21:42:34.766-05:00"/>
+    <source value="v6cIt8ABvb"/>
+    <profile value="Cs43ujbNzn"/>
     <security>
-      <system value="q36ZlnPBJQ"/>
-      <version value="0aa7Cfj5tj"/>
-      <code value="mmSYyWqGKI"/>
-      <display value="f0e8iY1F4u"/>
+      <system value="XOUElHoqPZ"/>
+      <version value="LCc3gs82mJ"/>
+      <code value="Cy0RkmU45Y"/>
+      <display value="IeqfsGDD4s"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="erP8Crhdc0"/>
-      <version value="oDzcpZnBMQ"/>
-      <code value="NGl65nzusq"/>
-      <display value="2hfldJigOt"/>
+      <system value="u2m1TvZwqD"/>
+      <version value="52P4ziyEd8"/>
+      <code value="teQb1pPIyo"/>
+      <display value="OvCnRvyy22"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="IkP66pZ0CR"/>
-  <language value="xnmBeNdaXJ"/>
+  <implicitRules value="QON5YFG2At"/>
+  <language value="wKY6JsgBYz"/>
   <text>
-    <status value="empty"/>
+    <status value="additional"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <subject>
-    <reference value="gaha0zVB9H"/>
-    <type value="ZnKuxTIoz0"/>
+    <reference value="3mjapluzZ5"/>
+    <type value="gnO933TkcH"/>
     <identifier>
-      <use value="secondary"/>
+      <use value="usual"/>
       <type>
         <coding>
-          <system value="ibACe4hRxu"/>
-          <version value="n0ybvlrZQQ"/>
-          <code value="OiGg5RV_nU"/>
-          <display value="C4gcaTs5Xb"/>
+          <system value="n_ToaFYdxG"/>
+          <version value="pDnTMaBtKq"/>
+          <code value="jdBBNHGSko"/>
+          <display value="IdRJk3k7LE"/>
           <userSelected value="true"/>
         </coding>
-        <text value="mMJcS5vzJZ"/>
+        <text value="CNcQ1_ni2v"/>
       </type>
-      <system value="FD6pk7po5A"/>
-      <value value="3Y4YOLBs4U"/>
+      <system value="1RnxWlBc2g"/>
+      <value value="SESavw2Fvl"/>
       <period>
-        <start value="2019-08-08T09:17:29.632-04:00"/>
-        <end value="2019-08-08T09:17:29.632-04:00"/>
+        <start value="2019-12-04T21:42:34.765-05:00"/>
+        <end value="2019-12-04T21:42:34.765-05:00"/>
       </period>
     </identifier>
-    <display value="zhrMGiK4e3"/>
+    <display value="FpiMUfLQ7A"/>
   </subject>
-  <description value="8JmVKVja9G"/>
+  <description value="tafMVZoFxD"/>
   <interactant>
     <itemReference>
-      <reference value="AyWR7IBOsj"/>
-      <type value="n4ZBRtBumc"/>
+      <reference value="HryRswG4S5"/>
+      <type value="VSWjEu8Uoq"/>
       <identifier>
-        <use value="secondary"/>
+        <use value="old"/>
         <type>
           <coding>
-            <system value="wRvkEeApPc"/>
-            <version value="HLzK2xZ_lB"/>
-            <code value="HUME0ppKCI"/>
-            <display value="evtmuCCoQG"/>
+            <system value="45_Ods8Kbi"/>
+            <version value="3Z9njEVnIv"/>
+            <code value="JDzM6_Pq74"/>
+            <display value="iGwQvKExZM"/>
             <userSelected value="true"/>
           </coding>
-          <text value="Rm60LosZYm"/>
+          <text value="0KL6na4bRC"/>
         </type>
-        <system value="H1_tImpZ1S"/>
-        <value value="6mN0Zx6by5"/>
+        <system value="TOFUiDlS4Y"/>
+        <value value="P2eCmHZS5c"/>
         <period>
-          <start value="2019-08-08T09:17:29.633-04:00"/>
-          <end value="2019-08-08T09:17:29.633-04:00"/>
+          <start value="2019-12-04T21:42:34.767-05:00"/>
+          <end value="2019-12-04T21:42:34.767-05:00"/>
         </period>
       </identifier>
-      <display value="gH7YmJ7P2z"/>
+      <display value="XevMgvzwN5"/>
     </itemReference>
   </interactant>
   <type>
     <coding>
-      <system value="6Wqm_nto42"/>
-      <version value="9J2X8vfg5x"/>
-      <code value="sfmdr983Fw"/>
-      <display value="F7AibX4hlY"/>
+      <system value="kPTM3_EBts"/>
+      <version value="IMoGeXHbtk"/>
+      <code value="qNHcAg2Rhu"/>
+      <display value="Tk1lq0gwrQ"/>
       <userSelected value="true"/>
     </coding>
-    <text value="5uchsq5oF8"/>
+    <text value="9K5yW6rmnf"/>
   </type>
   <effect>
     <coding>
-      <system value="AbSfHOtU7u"/>
-      <version value="CSRNS4SbFE"/>
-      <code value="JC2N_0rfc7"/>
-      <display value="IAVti83Ik9"/>
+      <system value="a8aBrPmMJN"/>
+      <version value="I6knS27Kdr"/>
+      <code value="qIa6TKyYMe"/>
+      <display value="VtuJECI3Ck"/>
       <userSelected value="true"/>
     </coding>
-    <text value="3RSHoBwHWA"/>
+    <text value="d0KyVu4DXQ"/>
   </effect>
   <incidence>
     <coding>
-      <system value="o_zDpr9c2z"/>
-      <version value="F2eD7beYq9"/>
-      <code value="eQnp6xjdJG"/>
-      <display value="ynMXadzcES"/>
+      <system value="tQ2dugzq4M"/>
+      <version value="cu_VHBkpKn"/>
+      <code value="3Y_w4aSAEr"/>
+      <display value="RljL1bL3YB"/>
       <userSelected value="true"/>
     </coding>
-    <text value="owXqQBCcWP"/>
+    <text value="LBJHidzCzg"/>
   </incidence>
   <management>
     <coding>
-      <system value="zlpcgCq2Wj"/>
-      <version value="cNHFVdFsOc"/>
-      <code value="UP18lNQve9"/>
-      <display value="kDC50UNGu_"/>
+      <system value="7tzlUs48hV"/>
+      <version value="QofcX0PuJP"/>
+      <code value="Tpeh8bWSBj"/>
+      <display value="WMBmasqei6"/>
       <userSelected value="true"/>
     </coding>
-    <text value="lW39SBiFZD"/>
+    <text value="X5QUukQMHw"/>
   </management>
 </MedicinalProductInteraction>
