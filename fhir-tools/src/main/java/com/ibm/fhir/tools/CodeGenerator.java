@@ -1993,7 +1993,7 @@ public class CodeGenerator {
             ._while("reader.hasNext()")
                 .assign("int eventType", "reader.next()")
                 ._switch("eventType")
-            
+                
                 ._case("XMLStreamReader.START_ELEMENT")
                     .assign("java.lang.String localName", "reader.getLocalName()")
                     ._throw(_new("IllegalArgumentException", args("\"Unrecognized element: '\" + localName + \"'\"")))
@@ -2008,7 +2008,8 @@ public class CodeGenerator {
                 
             ._end()
             ._throw(_new("XMLStreamException", args(quote("Unexpected end of stream"))))
-        .end();
+        .end()
+        .newLine();
         
         cb.method(mods("private"), "java.lang.String", "getResourceType", params("XMLStreamReader reader"), throwsExceptions("XMLStreamException"))
             .assign("java.lang.String resourceType", "reader.getLocalName()")

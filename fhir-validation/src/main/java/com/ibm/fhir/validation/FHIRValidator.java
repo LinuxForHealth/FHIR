@@ -234,7 +234,8 @@ public class FHIRValidator {
                 IssueSeverity severity = Constraint.LEVEL_WARNING.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
 
                 for (FHIRPathNode contextNode : initialContext) {
-                    evaluationContext.setExternalConstant("resource", getResourceNode(type, contextNode));
+                    evaluationContext.setExternalConstant("rootResource", getRootResourceNode(contextNode));
+                    evaluationContext.setExternalConstant("resource", getResourceNode(contextNode));
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
@@ -265,31 +266,35 @@ public class FHIRValidator {
         /**
          * Get the resource node to use as a value for the %resource external constant.
          * 
-         * @param type
-         *     indicates the type that supplied the constraints currently under evaluation
          * @param node
          *     the context node
          * @return
          *     the resource node
          */
-        private FHIRPathResourceNode getResourceNode(Class<?> type, FHIRPathNode node) {
-            if (node.isResourceNode()) {
-                // return the context node
-                return node.asResourceNode();
-            }
-            
+        private FHIRPathResourceNode getResourceNode(FHIRPathNode node) {
             // get resource node ancestors for the context node
             List<FHIRPathResourceNode> resourceNodes = getResourceNodes(node);
-            
-            if (!Resource.class.isAssignableFrom(type) && isContained(resourceNodes)) {
-                // constraints currently under evaluation are from a data type and the context node is from a resource that is contained in a domain resource
-                // return the second nearest resource node ancestor
-                return resourceNodes.get(1);
-            }
 
-            // the context node is in a resource that is not contained in a domain resource
             // return nearest resource node ancestor
             return resourceNodes.get(0);
+        }
+        
+        /**
+         * Get the resource node to use as a value for the %rootResource external constant.
+         * 
+         * @param node
+         *     the context node
+         * @return
+         *     the rootResource node
+         */
+        private FHIRPathResourceNode getRootResourceNode(FHIRPathNode node) {
+            // get resource node ancestors for the context node
+            List<FHIRPathResourceNode> resourceNodes = getResourceNodes(node);
+            if (isContained(resourceNodes)) {
+                return resourceNodes.get(1);
+            } else {
+                return resourceNodes.get(0);
+            }
         }
         
         /**
@@ -305,8 +310,9 @@ public class FHIRValidator {
         }
         
         /**
-         * Get the list of resource node ancestors for the given context node. The ancestors are ordered from
-         * node to root (i.e. the node at index 0 is the nearest resource node ancestor).
+         * Get the list of resource nodes in the path of the given context node (including the context node itself).
+         * The ancestors are ordered from node to root (i.e. the node at index 0 is either the current node or 
+         * the nearest resource node ancestor).
          * 
          * @param node
          *     the context node
@@ -315,6 +321,11 @@ public class FHIRValidator {
          */
         private List<FHIRPathResourceNode> getResourceNodes(FHIRPathNode node) {
             List<FHIRPathResourceNode> resourceNodes = new ArrayList<>();
+            
+            if (node.isResourceNode()) {
+                resourceNodes.add(node.asResourceNode());
+            }
+            
             String path = node.path();
             int index = path.lastIndexOf(".");
             while (index != -1) {

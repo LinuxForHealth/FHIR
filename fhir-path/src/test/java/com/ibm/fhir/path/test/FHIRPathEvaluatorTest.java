@@ -15,6 +15,8 @@ import java.util.UUID;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Extension;
@@ -58,9 +60,13 @@ public class FHIRPathEvaluatorTest {
                 .given(String.of("value no extension"))
                 .family(String.of("Doe"))
                 .build();
-                
+        
+        Resource patient1 = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json").toBuilder().id("1").build();
+        Resource patient2 = TestUtil.readExampleResource("json/ibm/minimal/Patient-2.json").toBuilder().id("2").build();
+        
         Patient patient = Patient.builder()
                 .id(id)
+                .contained(patient1, patient2)
                 .active(Boolean.TRUE)
                 .deceased(Boolean.FALSE)
                 .multipleBirth(Integer.of(2))
@@ -85,7 +91,7 @@ public class FHIRPathEvaluatorTest {
         EvaluationContext evaluationContext = new EvaluationContext(patient);
         
         FHIRPathEvaluator.DEBUG = true;
-        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "Patient.deceased.exists() and Patient.deceased != false");
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "%rootResource.contained.id");
         
         System.out.println("result: " + result);
     }

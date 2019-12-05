@@ -24,7 +24,7 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
-public class FHIRPathTree {    
+public class FHIRPathTree {
     private final FHIRPathNode root;
     private final Map<String, FHIRPathNode> pathNodeMap;
     
