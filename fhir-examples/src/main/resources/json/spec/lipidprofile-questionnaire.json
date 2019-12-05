@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DiagnosticReport.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:829e806f-89c7-4f40-b27f-4938d1ca200f",
-        "timestamp": "2018-12-27T22:43:40+11:00",
+        "identifier": "urn:uuid:8d45898c-de5b-4c50-bcde-353dd08d9d95",
+        "timestamp": "2019-11-01T09:35:05+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,7 +31,7 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
   "date": "2012-05-12T00:00:00+10:00",
   "publisher": "Grahame Grieve",
@@ -1021,7 +1021,7 @@
                   }
                 }
               ],
-              "text": "[Observations](observation.html)  that are part of this diagnostic report. Observations can contain observations.",
+              "text": "[Observations](http://hl7.org/fhir/observation.html)  that are part of this diagnostic report. Observations can contain observations.",
               "type": "display"
             },
             {

@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ResearchElementDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:062f1b5f-1c60-481b-b17b-092733dcd646",
-        "timestamp": "2018-12-27T22:45:28+11:00",
+        "identifier": "urn:uuid:def7ebd5-bcf3-4586-8471-587edb4b112f",
+        "timestamp": "2019-11-01T09:36:50+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ResearchElementDefinition.characteristic.definition[x]",
       "expansion": {
-        "identifier": "urn:uuid:c7532a95-fa6b-423b-8fa0-9caa01c587b9",
-        "timestamp": "2018-12-27T22:45:28+11:00",
+        "identifier": "urn:uuid:0922d1f0-0cde-4764-b09e-0880aad48ada",
+        "timestamp": "2019-11-01T09:36:50+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:93a9fd03-3efa-4e82-98a6-9f722a034014",
-        "timestamp": "2018-12-27T22:45:28+11:00",
+        "identifier": "urn:uuid:e6065ad7-c0d0-4d4f-be5e-665b399d793c",
+        "timestamp": "2019-11-01T09:36:50+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -88,8 +88,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.dateFilter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:0bc59033-d290-4787-9cd2-b9dbe7cd51fe",
-        "timestamp": "2018-12-27T22:45:28+11:00",
+        "identifier": "urn:uuid:91f775c1-dad9-4755-a0c8-11ec1f24b180",
+        "timestamp": "2019-11-01T09:36:50+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -116,8 +116,8 @@
       "status": "active",
       "description": "Type options for ResearchElementDefinition.characteristic.studyEffective[x]",
       "expansion": {
-        "identifier": "urn:uuid:9f82de7a-0bed-4b95-9624-38720f9c3cd4",
-        "timestamp": "2018-12-27T22:45:28+11:00",
+        "identifier": "urn:uuid:f62a5055-7fd8-451c-a150-def0d6b8551b",
+        "timestamp": "2019-11-01T09:36:50+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -149,8 +149,8 @@
       "status": "active",
       "description": "Type options for ResearchElementDefinition.characteristic.participantEffective[x]",
       "expansion": {
-        "identifier": "urn:uuid:bb26fcc8-aa8c-411f-bc51-73937def4c2a",
-        "timestamp": "2018-12-27T22:45:28+11:00",
+        "identifier": "urn:uuid:ef80234e-9c02-4aaf-b304-2a257f2290b6",
+        "timestamp": "2019-11-01T09:36:50+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -181,9 +181,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {

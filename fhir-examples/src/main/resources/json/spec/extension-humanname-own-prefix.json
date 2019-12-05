@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/humanname-own-prefix",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "name": "own-prefix",
   "status": "draft",
   "date": "2015-11-22",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "The prefix portion (e.g. voorvoegsel) of the family name that is derived from the person\u0027s own surname, as distinguished from any portion that is derived from the surname of the person\u0027s partner or spouse.",
-  "fhirVersion": "4.0.0",
+  "fhirVersion": "4.0.1",
   "mapping": [
     {
       "identity": "v2",
@@ -56,16 +56,6 @@
     "element": [
       {
         "id": "Extension",
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
-            "valueCode": "normative"
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
-            "valueCode": "4.0.0"
-          }
-        ],
         "path": "Extension",
         "short": "Voorvoegsel derived from person\u0027s own surname",
         "definition": "The prefix portion (e.g. voorvoegsel) of the family name that is derived from the person\u0027s own surname, as distinguished from any portion that is derived from the surname of the person\u0027s partner or spouse.",
@@ -87,7 +77,7 @@
             "human": "All FHIR elements must have a @value or children",
             "expression": "hasValue() or (children().count() \u003e id.count())",
             "xpath": "@value|f:*|h:div",
-            "source": "Element"
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
             "key": "ext-1",
@@ -95,7 +85,7 @@
             "human": "Must have either extensions or value[x], not both",
             "expression": "extension.exists() !\u003d value.exists()",
             "xpath": "exists(f:extension)!\u003dexists(f:*[starts-with(local-name(.), \u0027value\u0027)])",
-            "source": "Extension"
+            "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
         "isModifier": false,
@@ -127,7 +117,13 @@
         },
         "type": [
           {
-            "code": "string"
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "string"
+              }
+            ],
+            "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
         "isModifier": false,
@@ -166,6 +162,24 @@
             "code": "Extension"
           }
         ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          },
+          {
+            "key": "ext-1",
+            "severity": "error",
+            "human": "Must have either extensions or value[x], not both",
+            "expression": "extension.exists() !\u003d value.exists()",
+            "xpath": "exists(f:extension)!\u003dexists(f:*[starts-with(local-name(.), \"value\")])",
+            "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+          }
+        ],
         "isModifier": false,
         "isSummary": false
       },
@@ -187,7 +201,13 @@
         },
         "type": [
           {
-            "code": "uri"
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "uri"
+              }
+            ],
+            "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
         "fixedUri": "http://hl7.org/fhir/StructureDefinition/humanname-own-prefix",
@@ -201,11 +221,11 @@
         ]
       },
       {
-        "id": "Extension.valueString",
-        "path": "Extension.valueString",
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
-        "min": 0,
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "min": 1,
         "max": "1",
         "base": {
           "path": "Extension.value[x]",
@@ -215,6 +235,16 @@
         "type": [
           {
             "code": "string"
+          }
+        ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
         "isModifier": false,
@@ -257,16 +287,12 @@
       {
         "id": "Extension.url",
         "path": "Extension.url",
-        "type": [
-          {
-            "code": "uri"
-          }
-        ],
         "fixedUri": "http://hl7.org/fhir/StructureDefinition/humanname-own-prefix"
       },
       {
-        "id": "Extension.valueString",
-        "path": "Extension.valueString",
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "min": 1,
         "type": [
           {
             "code": "string"

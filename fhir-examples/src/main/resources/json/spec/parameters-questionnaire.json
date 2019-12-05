@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Parameters.parameter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:870e533f-7d21-4e39-8870-9570105c8c96",
-        "timestamp": "2018-12-27T22:42:54+11:00",
+        "identifier": "urn:uuid:a83d35d3-0828-44a9-ac80-18221d9b859b",
+        "timestamp": "2019-11-01T09:34:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -246,6 +246,11 @@
             "system": "http://hl7.org/fhir/data-types",
             "code": "Dosage",
             "display": "Dosage"
+          },
+          {
+            "system": "http://hl7.org/fhir/data-types",
+            "code": "Meta",
+            "display": "Meta"
           }
         ]
       }
@@ -257,8 +262,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:ddf26432-a224-4a18-8cb7-c3bd2baa01b0",
-        "timestamp": "2018-12-27T22:42:54+11:00",
+        "identifier": "urn:uuid:b7c3d468-97b0-44c1-aea1-e78c8d713e21",
+        "timestamp": "2019-11-01T09:34:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -280,8 +285,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.dateFilter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:7f6c3b2b-3fe6-435a-9550-dda478cfb29c",
-        "timestamp": "2018-12-27T22:42:54+11:00",
+        "identifier": "urn:uuid:6f2142e0-62e8-4093-bab5-bddfbeabb5c4",
+        "timestamp": "2019-11-01T09:34:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -308,8 +313,8 @@
       "status": "active",
       "description": "Type options for TriggerDefinition.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:4c573478-ce0f-4d4d-bbf0-1c64cfc43a2a",
-        "timestamp": "2018-12-27T22:42:54+11:00",
+        "identifier": "urn:uuid:b1de0391-3d3a-4a65-963f-5b4db47dce72",
+        "timestamp": "2019-11-01T09:34:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -341,8 +346,8 @@
       "status": "active",
       "description": "Type options for UsageContext.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:957802ed-764e-4d80-932e-3db385175aef",
-        "timestamp": "2018-12-27T22:42:54+11:00",
+        "identifier": "urn:uuid:d16fea6e-6402-4e5d-a8a0-e0cefe95ac7b",
+        "timestamp": "2019-11-01T09:34:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -404,8 +409,8 @@
       "status": "active",
       "description": "Type options for Dosage.asNeeded[x]",
       "expansion": {
-        "identifier": "urn:uuid:39527293-f9c7-4a41-9b8e-785e6bb1be05",
-        "timestamp": "2018-12-27T22:42:54+11:00",
+        "identifier": "urn:uuid:730b86a3-1b25-42bf-a458-20faeacc2278",
+        "timestamp": "2019-11-01T09:34:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -427,8 +432,8 @@
       "status": "active",
       "description": "Type options for Dosage.doseAndRate.dose[x]",
       "expansion": {
-        "identifier": "urn:uuid:e3435649-54c2-42d5-83ea-0a9f16251635",
-        "timestamp": "2018-12-27T22:42:54+11:00",
+        "identifier": "urn:uuid:91f89071-5c5c-459b-b2fc-6aedc55519c6",
+        "timestamp": "2019-11-01T09:34:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -450,8 +455,8 @@
       "status": "active",
       "description": "Type options for Dosage.doseAndRate.rate[x]",
       "expansion": {
-        "identifier": "urn:uuid:2732384b-152e-44bc-84d7-31d1f6d501d9",
-        "timestamp": "2018-12-27T22:42:54+11:00",
+        "identifier": "urn:uuid:1bb4d4cf-1d31-4dfa-8d0c-ed01c26f56b0",
+        "timestamp": "2019-11-01T09:34:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -477,9 +482,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "active",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -6550,6 +6555,10 @@
                           ]
                         }
                       ]
+                    },
+                    {
+                      "linkId": "Parameters.parameter.value[x]._null",
+                      "type": "group"
                     }
                   ]
                 }

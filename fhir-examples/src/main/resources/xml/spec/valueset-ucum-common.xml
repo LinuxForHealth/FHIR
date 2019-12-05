@@ -16,8 +16,12 @@
 
       </div>
       <p>
-        <b>Copyright Statement:</b> UCUM is Copyright © 1999-2013 Regenstrief Institute, Inc. and The UCUM Organization, Indianapolis, IN. All rights reserved. See http://unitsofmeasure.org/trac//wiki/TermsOfUse for details.
+        <b>Copyright Statement:</b>
       </p>
+      <div>
+        <p>UCUM is Copyright © 1999-2013 Regenstrief Institute, Inc. and The UCUM Organization, Indianapolis, IN. All rights reserved. See http://unitsofmeasure.org/trac//wiki/TermsOfUse for details.</p>
+
+      </div>
       <p>This value set includes codes from the following code systems:</p>
       <ul>
         <li>Include these codes as defined in 
@@ -6862,7 +6866,7 @@
     <valueBoolean value="true"/>
   </extension>
   <url value="http://hl7.org/fhir/ValueSet/ucum-common"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="Common UCUM units"/>
   <status value="draft"/>
   <publisher value="FHIR Project"/>

@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.born[x]",
       "expansion": {
-        "identifier": "urn:uuid:9e8e320b-e613-479a-895f-a621a9e13201",
-        "timestamp": "2018-12-27T22:43:58+11:00",
+        "identifier": "urn:uuid:7fa07554-cf9f-49e4-84d4-6b19f44f27ef",
+        "timestamp": "2019-11-01T09:35:18+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.age[x]",
       "expansion": {
-        "identifier": "urn:uuid:664a5ce3-74f8-41b2-97ba-b49b2edc3e26",
-        "timestamp": "2018-12-27T22:43:58+11:00",
+        "identifier": "urn:uuid:f0c62d48-8431-4fc8-8f20-4b461ff795d3",
+        "timestamp": "2019-11-01T09:35:18+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.deceased[x]",
       "expansion": {
-        "identifier": "urn:uuid:52cb66cd-a630-4495-8949-d676b4dfbfe4",
-        "timestamp": "2018-12-27T22:43:58+11:00",
+        "identifier": "urn:uuid:9a28b959-6f2a-455d-8e7c-f6cf61b1b1e9",
+        "timestamp": "2019-11-01T09:35:18+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -103,8 +103,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.condition.onset[x]",
       "expansion": {
-        "identifier": "urn:uuid:7939d22f-aaf0-4708-8694-c7561a2a5c72",
-        "timestamp": "2018-12-27T22:43:58+11:00",
+        "identifier": "urn:uuid:c05d9aeb-8302-4e4e-87c9-ecb6cd6a9007",
+        "timestamp": "2019-11-01T09:35:18+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -135,9 +135,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {

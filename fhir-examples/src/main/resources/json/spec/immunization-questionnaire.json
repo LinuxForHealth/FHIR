@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Immunization.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:1573fbb6-1ab3-4ed3-9416-d382758e220d",
-        "timestamp": "2018-12-27T22:44:04+11:00",
+        "identifier": "urn:uuid:9d651acf-de49-4a50-95ce-6fe64629d8d9",
+        "timestamp": "2019-11-01T09:35:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Immunization.protocolApplied.doseNumber[x]",
       "expansion": {
-        "identifier": "urn:uuid:e63b18bf-6bd1-4a9b-85a7-b1bdcf8e2bc2",
-        "timestamp": "2018-12-27T22:44:04+11:00",
+        "identifier": "urn:uuid:b640a32d-9877-4aef-b5d0-b268d6b846d8",
+        "timestamp": "2019-11-01T09:35:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for Immunization.protocolApplied.seriesDoses[x]",
       "expansion": {
-        "identifier": "urn:uuid:124d09fd-d209-4d48-b408-fc77c80f1c8a",
-        "timestamp": "2018-12-27T22:44:04+11:00",
+        "identifier": "urn:uuid:894cb34f-8a9e-48dd-a496-c0e7d7c591ea",
+        "timestamp": "2019-11-01T09:35:25+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Public Health and Emergency Response)",
   "item": [
     {

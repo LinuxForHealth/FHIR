@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for CoverageEligibilityResponse.serviced[x]",
       "expansion": {
-        "identifier": "urn:uuid:3f26ca79-4735-4a13-b4b2-124f91006131",
-        "timestamp": "2018-12-27T22:43:30+11:00",
+        "identifier": "urn:uuid:7772b0d5-b471-4237-8126-db80ef4864c9",
+        "timestamp": "2019-11-01T09:34:57+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for CoverageEligibilityResponse.insurance.item.benefit.allowed[x]",
       "expansion": {
-        "identifier": "urn:uuid:df953b18-4399-436b-8bc0-c4fba2f40be6",
-        "timestamp": "2018-12-27T22:43:30+11:00",
+        "identifier": "urn:uuid:6b46d6d9-2052-4b25-b1ac-a81e2a886926",
+        "timestamp": "2019-11-01T09:34:57+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -60,8 +60,8 @@
       "status": "active",
       "description": "Type options for CoverageEligibilityResponse.insurance.item.benefit.used[x]",
       "expansion": {
-        "identifier": "urn:uuid:809d5bbe-679e-456d-a535-0fda5b9eb322",
-        "timestamp": "2018-12-27T22:43:30+11:00",
+        "identifier": "urn:uuid:9fcb24d6-fc8b-41bf-9787-7404fde27c9f",
+        "timestamp": "2019-11-01T09:34:57+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -87,9 +87,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {

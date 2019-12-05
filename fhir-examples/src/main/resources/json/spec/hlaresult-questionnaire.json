@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DiagnosticReport.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:9114fc7d-4b7a-4157-a687-1cb7ad989190",
-        "timestamp": "2018-12-27T22:43:42+11:00",
+        "identifier": "urn:uuid:aa262efe-280a-4366-95df-731ba6e95754",
+        "timestamp": "2019-11-01T09:35:07+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,7 +31,7 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
   "date": "2015-10-09T00:00:00+11:00",
   "publisher": "Health Level Seven International (Clinical Genomics)",
@@ -1003,7 +1003,7 @@
                   }
                 }
               ],
-              "text": "[Observations](observation.html)  that are part of this diagnostic report. Observations can contain observations.",
+              "text": "[Observations](http://hl7.org/fhir/observation.html)  that are part of this diagnostic report. Observations can contain observations.",
               "type": "display"
             },
             {

@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 
 import com.ibm.fhir.model.builder.Builder;
+import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
@@ -83,6 +84,11 @@ public class MinimalDataCreator extends DataCreatorBase {
     }
     
     private boolean isRequiredElement(Class<?> clazz, String name) {
+        // Special case for AllergyIntolerance
+        if (AllergyIntolerance.class.isAssignableFrom(clazz) && "clinicalStatus".equals(name)) {
+            // ait-1: AllergyIntolerance.clinicalStatus SHALL be present if verificationStatus is not entered-in-error. (AllergyIntolerance)
+            return true;
+        }
         return ModelSupport.isRequiredElement(clazz, name);
     }
 

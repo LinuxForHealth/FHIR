@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for BiologicallyDerivedProduct.collection.collected[x]",
       "expansion": {
-        "identifier": "urn:uuid:c9d4b9ae-bba6-47bf-ae43-2f5118a7d99b",
-        "timestamp": "2018-12-27T22:43:01+11:00",
+        "identifier": "urn:uuid:639b359b-b826-4bca-a5e5-0a1752d97974",
+        "timestamp": "2019-11-01T09:34:33+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for BiologicallyDerivedProduct.processing.time[x]",
       "expansion": {
-        "identifier": "urn:uuid:616b6a9b-7de3-4f7e-842d-114b051c4447",
-        "timestamp": "2018-12-27T22:43:01+11:00",
+        "identifier": "urn:uuid:141bf312-a218-4cca-b316-13d473c717ee",
+        "timestamp": "2019-11-01T09:34:33+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for BiologicallyDerivedProduct.manipulation.time[x]",
       "expansion": {
-        "identifier": "urn:uuid:ce386d35-f503-45f8-a536-e042db055720",
-        "timestamp": "2018-12-27T22:43:01+11:00",
+        "identifier": "urn:uuid:bd7c9edc-ee6a-49cf-9fdb-e00b11e159ba",
+        "timestamp": "2019-11-01T09:34:33+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {

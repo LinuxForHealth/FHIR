@@ -1,6 +1,6 @@
 {
   "resourceType": "StructureDefinition",
-  "id": "structuredefinition-json-type",
+  "id": "operationdefinition-allowed-type",
   "extension": [
     {
       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
@@ -11,9 +11,10 @@
       "valueInteger": 1
     }
   ],
-  "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type",
-  "version": "4.0.0",
-  "name": "json-type",
+  "url": "http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type",
+  "version": "4.0.1",
+  "name": "allowed-type",
+  "title": "Allowed Type",
   "status": "draft",
   "date": "2014-01-31",
   "publisher": "Health Level Seven, Inc. - [WG Name] WG",
@@ -27,8 +28,8 @@
       ]
     }
   ],
-  "description": "The JSON type of a property - used for the value property of a primitive type (for which there is no type in the FHIR typing system).",
-  "fhirVersion": "4.0.0",
+  "description": "When the base type is an abstract type (e.g. Resource or Element) then this extension defines which concrete types are allowed to be used for a parameter. In the absence of this extension, any type is allowed.",
+  "fhirVersion": "4.0.1",
   "mapping": [
     {
       "identity": "rim",
@@ -41,7 +42,7 @@
   "context": [
     {
       "type": "element",
-      "expression": "ElementDefinition.type.code"
+      "expression": "OperationDefinition.parameter"
     }
   ],
   "type": "Extension",
@@ -51,22 +52,11 @@
     "element": [
       {
         "id": "Extension",
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
-            "valueCode": "normative"
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
-            "valueCode": "4.0.0"
-          }
-        ],
         "path": "Extension",
-        "short": "Json type of value property",
-        "definition": "The JSON type of a property - used for the value property of a primitive type (for which there is no type in the FHIR typing system).",
-        "comment": "This is in effect, compiler magic for the typing system.",
+        "short": "Which types are allowed for a parameter, when the base type is Abstract",
+        "definition": "When the base type is an abstract type (e.g. Resource or Element) then this extension defines which concrete types are allowed to be used for a parameter. In the absence of this extension, any type is allowed.",
         "min": 0,
-        "max": "1",
+        "max": "*",
         "base": {
           "path": "Extension",
           "min": 0,
@@ -82,7 +72,7 @@
             "human": "All FHIR elements must have a @value or children",
             "expression": "hasValue() or (children().count() \u003e id.count())",
             "xpath": "@value|f:*|h:div",
-            "source": "Element"
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
             "key": "ext-1",
@@ -90,7 +80,7 @@
             "human": "Must have either extensions or value[x], not both",
             "expression": "extension.exists() !\u003d value.exists()",
             "xpath": "exists(f:extension)!\u003dexists(f:*[starts-with(local-name(.), \u0027value\u0027)])",
-            "source": "Extension"
+            "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
         "isModifier": false
@@ -112,7 +102,13 @@
         },
         "type": [
           {
-            "code": "string"
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "string"
+              }
+            ],
+            "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
         "isModifier": false,
@@ -151,6 +147,24 @@
             "code": "Extension"
           }
         ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          },
+          {
+            "key": "ext-1",
+            "severity": "error",
+            "human": "Must have either extensions or value[x], not both",
+            "expression": "extension.exists() !\u003d value.exists()",
+            "xpath": "exists(f:extension)!\u003dexists(f:*[starts-with(local-name(.), \"value\")])",
+            "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+          }
+        ],
         "isModifier": false,
         "isSummary": false
       },
@@ -172,10 +186,16 @@
         },
         "type": [
           {
-            "code": "uri"
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "uri"
+              }
+            ],
+            "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
-        "fixedUri": "http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type",
+        "fixedUri": "http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type",
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -186,11 +206,11 @@
         ]
       },
       {
-        "id": "Extension.valueString",
-        "path": "Extension.valueString",
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
-        "min": 0,
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "min": 1,
         "max": "1",
         "base": {
           "path": "Extension.value[x]",
@@ -199,7 +219,17 @@
         },
         "type": [
           {
-            "code": "string"
+            "code": "uri"
+          }
+        ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
         "isModifier": false,
@@ -218,11 +248,10 @@
       {
         "id": "Extension",
         "path": "Extension",
-        "short": "Json type of value property",
-        "definition": "The JSON type of a property - used for the value property of a primitive type (for which there is no type in the FHIR typing system).",
-        "comment": "This is in effect, compiler magic for the typing system.",
+        "short": "Which types are allowed for a parameter, when the base type is Abstract",
+        "definition": "When the base type is an abstract type (e.g. Resource or Element) then this extension defines which concrete types are allowed to be used for a parameter. In the absence of this extension, any type is allowed.",
         "min": 0,
-        "max": "1"
+        "max": "*"
       },
       {
         "id": "Extension.extension",
@@ -232,19 +261,15 @@
       {
         "id": "Extension.url",
         "path": "Extension.url",
+        "fixedUri": "http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type"
+      },
+      {
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "min": 1,
         "type": [
           {
             "code": "uri"
-          }
-        ],
-        "fixedUri": "http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type"
-      },
-      {
-        "id": "Extension.valueString",
-        "path": "Extension.valueString",
-        "type": [
-          {
-            "code": "string"
           }
         ]
       }

@@ -25,10 +25,12 @@
       "input": [
         {
           "name": "source",
+          "type": "ActivityDefinition",
           "mode": "source"
         },
         {
           "name": "target",
+          "type": "SupplyRequest",
           "mode": "target"
         }
       ],

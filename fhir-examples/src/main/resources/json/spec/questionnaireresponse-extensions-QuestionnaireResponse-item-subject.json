@@ -2,7 +2,7 @@
   "resourceType": "SearchParameter",
   "id": "questionnaireresponse-extensions-QuestionnaireResponse-item-subject",
   "url": "http://hl7.org/fhir/SearchParameter/questionnaireresponse-extensions-QuestionnaireResponse-item-subject",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "name": "item-subject",
   "status": "draft",
   "experimental": true,
@@ -13,7 +13,5 @@
   ],
   "type": "reference",
   "expression": "QuestionnaireResponse.item.where(hasExtension(\u0027http://hl7.org/fhir/StructureDefinition/questionnaireresponse-isSubject\u0027)).answer.value.ofType(Reference)",
-  "xpathUsage": "normal",
-  "multipleOr": true,
-  "multipleAnd": true
+  "xpathUsage": "normal"
 }

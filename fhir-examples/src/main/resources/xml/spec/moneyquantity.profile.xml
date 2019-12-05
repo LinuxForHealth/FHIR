@@ -22,10 +22,10 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/MoneyQuantity"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="MoneyQuantity"/>
   <status value="active"/>
-  <date value="2018-12-27T22:37:54+11:00"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -34,7 +34,7 @@
     </telecom>
   </contact>
   <description value="An amount of money. With regard to precision, see [Decimal Precision](datatypes.html#precision)"/>
-  <fhirVersion value="4.0.0"/>
+  <fhirVersion value="4.0.1"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -52,12 +52,6 @@
   <derivation value="constraint"/>
   <snapshot>
     <element id="Quantity">
-      <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
-        <valueCode value="normative"/>
-      </extension>
-      <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version">
-        <valueCode value="4.0.0"/>
-      </extension>
       <path value="Quantity"/>
       <short value="An amount of money. With regard to precision, see [Decimal Precision](datatypes.html#precision)"/>
       <definition value="There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency)."/>
@@ -76,7 +70,14 @@
         <human value="All FHIR elements must have a @value or children"/>
         <expression value="hasValue() or (children().count() &gt; id.count())"/>
         <xpath value="@value|f:*|h:div"/>
-        <source value="Element"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="mqty-1"/>
+        <severity value="error"/>
+        <human value="There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency)."/>
+        <expression value="(code.exists() or value.empty()) and (system.empty() or system = &#39;urn:iso:std:iso:4217&#39;)"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;urn:iso:std:iso:4217&#39;)"/>
       </constraint>
       <constraint>
         <key value="qty-3"/>
@@ -84,14 +85,7 @@
         <human value="If a code for the unit is present, the system SHALL also be present"/>
         <expression value="code.empty() or system.exists()"/>
         <xpath value="not(exists(f:code)) or exists(f:system)"/>
-        <source value="Quantity"/>
-      </constraint>
-      <constraint>
-        <key value="mtqy-1"/>
-        <severity value="error"/>
-        <human value="There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency)."/>
-        <expression value="(code.exists() or value.empty()) and (system.empty() or system = &#39;urn:iso:std:iso:4217&#39;)"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;urn:iso:std:iso:4217&#39;)"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Quantity"/>
       </constraint>
       <isModifier value="false"/>
       <mapping>
@@ -120,7 +114,10 @@
         <max value="1"/>
       </base>
       <type>
-        <code value="string"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
+          <valueUrl value="string"/>
+        </extension>
+        <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
       <isModifier value="false"/>
       <isSummary value="false"/>
@@ -154,6 +151,22 @@
       <type>
         <code value="Extension"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -177,6 +190,14 @@
       <type>
         <code value="decimal"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -204,6 +225,14 @@
         <code value="code"/>
       </type>
       <meaningWhenMissing value="If there is no comparator, then there is no modification of the value"/>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="true"/>
       <isModifierReason value="This is labeled as &quot;Is Modifier&quot; because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value"/>
       <isSummary value="true"/>
@@ -213,7 +242,7 @@
         </extension>
         <strength value="required"/>
         <description value="How the Quantity should be understood and represented."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.1"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -242,6 +271,14 @@
       <type>
         <code value="string"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -269,6 +306,14 @@
         <code value="uri"/>
       </type>
       <condition value="qty-3"/>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -296,6 +341,14 @@
       <type>
         <code value="code"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <mapping>
@@ -316,7 +369,7 @@
       <min value="0"/>
       <max value="*"/>
       <constraint>
-        <key value="mtqy-1"/>
+        <key value="mqty-1"/>
         <severity value="error"/>
         <human value="There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency)."/>
         <expression value="(code.exists() or value.empty()) and (system.empty() or system = &#39;urn:iso:std:iso:4217&#39;)"/>

@@ -38,13 +38,12 @@ public class R4ExamplesValidatorTest {
 
     /**
      * Main method only used for driving ad-hoc testing
-     * @throws Exception
      */
     public static void main(String[] args) throws Exception {
         R4ExamplesValidatorTest self = new R4ExamplesValidatorTest();
         self.setup();
         self.driver.setProcessor(new SerializationProcessor());
         self.driver.setValidator(new ValidationProcessor());
-        self.driver.processExample("json/ibm/complete-mock/Observation-1.json", Format.JSON, Expectation.OK);
+        self.driver.processExample("json/spec/dataelements.json", Format.JSON, Expectation.OK);
     }
 }

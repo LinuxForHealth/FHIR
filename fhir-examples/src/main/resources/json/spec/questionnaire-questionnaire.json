@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.enableWhen.answer[x]",
       "expansion": {
-        "identifier": "urn:uuid:41d62918-797e-4000-b0b8-5ad9d9f2f632",
-        "timestamp": "2018-12-27T22:45:21+11:00",
+        "identifier": "urn:uuid:83931df4-7562-4840-ab90-f01579ac873d",
+        "timestamp": "2019-11-01T09:36:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -72,8 +72,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.answerOption.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:68be7454-380b-47c6-92fd-05aa945f8e13",
-        "timestamp": "2018-12-27T22:45:21+11:00",
+        "identifier": "urn:uuid:b730835c-004e-416e-b68f-2430a9952b62",
+        "timestamp": "2019-11-01T09:36:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -115,8 +115,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.initial.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:aa6b15cf-d53d-4b6b-bb1c-e66c7e935f1c",
-        "timestamp": "2018-12-27T22:45:21+11:00",
+        "identifier": "urn:uuid:a29f85fb-2b5c-4810-9107-f899b67915ab",
+        "timestamp": "2019-11-01T09:36:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -187,9 +187,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {

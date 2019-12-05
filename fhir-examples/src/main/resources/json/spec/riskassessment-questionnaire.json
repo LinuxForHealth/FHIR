@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:63de76de-e39f-4563-8896-0796d9d57005",
-        "timestamp": "2018-12-27T22:45:30+11:00",
+        "identifier": "urn:uuid:165479fd-646c-42a4-97a0-e54295d7b5ff",
+        "timestamp": "2019-11-01T09:36:51+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.prediction.probability[x]",
       "expansion": {
-        "identifier": "urn:uuid:9daa5d2e-0870-4bcb-8b9b-082e8f95c9c3",
-        "timestamp": "2018-12-27T22:45:30+11:00",
+        "identifier": "urn:uuid:97b57625-6897-47b6-aa71-4855179546f4",
+        "timestamp": "2019-11-01T09:36:51+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.prediction.when[x]",
       "expansion": {
-        "identifier": "urn:uuid:4c949f3a-5756-45a2-8573-5ff54cef2a5f",
-        "timestamp": "2018-12-27T22:45:30+11:00",
+        "identifier": "urn:uuid:0b3ed1ee-6f20-4d73-9a1b-bda08176103a",
+        "timestamp": "2019-11-01T09:36:51+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
