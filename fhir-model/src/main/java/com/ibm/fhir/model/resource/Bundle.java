@@ -86,7 +86,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Bundle.entry",
     description = "fullUrl cannot be a version specific reference",
-    expression = "fullUrl.`contains`('/_history/').not()"
+    expression = "fullUrl.contains('/_history/').not()"
 )
 @Constraint(
     id = "bdl-9",

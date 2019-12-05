@@ -718,7 +718,7 @@ public class CodeGenerator {
                 ("Resource".equals(className) || "Element".equals(className)))) {
             cb.invoke("super.from", args(paramName));
         }
-        for (JsonObject elementDefinition : declaredElementDefinitions) {                
+        for (JsonObject elementDefinition : declaredElementDefinitions) {
             String fieldName = getFieldName(elementDefinition, path);
             String prefix = "";
             if (fieldName.equals(paramName)) {
@@ -1343,9 +1343,9 @@ public class CodeGenerator {
             Map<String, String> valueMap = new LinkedHashMap<>();
             valueMap.put("id", quote(key));
             valueMap.put("level", "error".equals(severity) ? quote("Rule") : quote("Warning"));
-            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path.replace("div", "`div`").replace("contains", "`contains`").replace("[x]", "")));
+            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path.replace(".div", ".`div`").replace("[x]", "")));
             valueMap.put("description", quote(human.replace("\"", "\\\"")));
-            valueMap.put("expression", quote(expression.replace("\"", "\\\"").replace("div", "`div`").replace(".contains(", ".`contains`(")));
+            valueMap.put("expression", quote(expression.replace("\"", "\\\"")));
             if (MODEL_CHECKED_CONSTRAINTS.contains(key)) {
                 valueMap.put("modelChecked", "true");
             }
@@ -1353,7 +1353,7 @@ public class CodeGenerator {
         }
     }
     
-    private boolean hasConstraints(JsonObject structureDefinition) {        
+    private boolean hasConstraints(JsonObject structureDefinition) {
         for (JsonObject elementDefinition : getElementDefinitions(structureDefinition)) {
             if (elementDefinition.containsKey("constraint")) {
                 return true;

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -62,7 +63,7 @@ public class AppointmentTest {
      * @return
      */
     public Appointment buildAppointment() {
-        String id = "http://www.ibm.com/someExtension";
+        String id = UUID.randomUUID().toString();
 
         Meta meta =
             Meta.builder()
@@ -70,7 +71,7 @@ public class AppointmentTest {
                 .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
     
-        // Identify as generated. 
+        // Identify as generated
         Narrative narrative =
                 Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"))

@@ -57,7 +57,7 @@ import com.ibm.fhir.model.util.ValidationSupport;
     level = "Warning",
     location = "(base)",
     description = "A resource should have narrative for robust management",
-    expression = "text.``div``.exists()"
+    expression = "text.`div`.exists()"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public abstract class DomainResource extends Resource {

@@ -18,8 +18,6 @@ import com.ibm.fhir.model.spec.test.SerializationProcessor;
 /**
  * Exercise the examples driver, which will process each entry in the test
  * resources directory
-
- *
  */
 public class R4ExamplesValidatorTest {
     private R4ExamplesDriver driver;
@@ -47,6 +45,6 @@ public class R4ExamplesValidatorTest {
         self.setup();
         self.driver.setProcessor(new SerializationProcessor());
         self.driver.setValidator(new ValidationProcessor());
-        self.driver.processExample("json/ibm/complete-absent/CapabilityStatement-1.json", Format.JSON, Expectation.OK);
+        self.driver.processExample("json/ibm/complete-mock/Observation-1.json", Format.JSON, Expectation.OK);
     }
 }

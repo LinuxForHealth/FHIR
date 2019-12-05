@@ -124,7 +124,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "In any snapshot or differential, no label, code or requirements on an element without a \".\" in the path (e.g. the first element)",
-    expression = "children().element.where(path.`contains`('.').not()).label.empty() and children().element.where(path.`contains`('.').not()).code.empty() and children().element.where(path.`contains`('.').not()).requirements.empty()"
+    expression = "children().element.where(path.contains('.').not()).label.empty() and children().element.where(path.contains('.').not()).code.empty() and children().element.where(path.contains('.').not()).requirements.empty()"
 )
 @Constraint(
     id = "sdf-10",
@@ -159,7 +159,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If the first element in a differential has no \".\" in the path and it's not a logical model, it has no type",
-    expression = "(kind!='logical'  and differential.element.first().path.`contains`('.').not()) implies differential.element.first().type.empty()"
+    expression = "(kind!='logical'  and differential.element.first().path.contains('.').not()) implies differential.element.first().type.empty()"
 )
 @Constraint(
     id = "sdf-16",
@@ -194,7 +194,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "StructureDefinition.differential",
     description = "No slicing on the root element",
-    expression = "element.where(path.`contains`('.').not()).slicing.empty()"
+    expression = "element.where(path.contains('.').not()).slicing.empty()"
 )
 @Constraint(
     id = "sdf-21",
@@ -215,7 +215,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "No slice name on root",
-    expression = "(snapshot | differential).element.all(path.`contains`('.').not() implies sliceName.empty())"
+    expression = "(snapshot | differential).element.all(path.contains('.').not() implies sliceName.empty())"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StructureDefinition extends DomainResource {

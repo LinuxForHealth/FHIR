@@ -81,21 +81,21 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Constraint(
     id = "vsd-6",
     level = "Rule",
-    location = "ValueSet.expansion.`contains`",
+    location = "ValueSet.expansion.contains",
     description = "SHALL have a code or a display",
     expression = "code.exists() or display.exists()"
 )
 @Constraint(
     id = "vsd-9",
     level = "Rule",
-    location = "ValueSet.expansion.`contains`",
+    location = "ValueSet.expansion.contains",
     description = "Must have a code if not abstract",
     expression = "code.exists() or abstract = true"
 )
 @Constraint(
     id = "vsd-10",
     level = "Rule",
-    location = "ValueSet.expansion.`contains`",
+    location = "ValueSet.expansion.contains",
     description = "Must have a system if a code is present",
     expression = "code.empty() or system.exists()"
 )
