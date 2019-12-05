@@ -154,11 +154,11 @@ OK         json/ibm/complete-mock/ResearchElementDefinition-2.json
 OK         json/ibm/complete-mock/Group-3.json 
 OK         json/ibm/complete-mock/MedicationKnowledge-2.json 
 OK         json/ibm/complete-mock/Questionnaire-11.json 
-OK         json/ibm/complete-mock/Observation-7.json 
+VALIDATION json/ibm/complete-mock/Observation-7.json 
 OK         json/ibm/complete-mock/Parameters-49.json 
 OK         json/ibm/complete-mock/VerificationResult-1.json 
 OK         json/ibm/complete-mock/Practitioner-1.json 
-VALIDATION json/ibm/complete-mock/RiskAssessment-1.json 
+OK         json/ibm/complete-mock/RiskAssessment-1.json 
 OK         json/ibm/complete-mock/Task-5.json 
 OK         json/ibm/complete-mock/SupplyRequest-1.json 
 OK         json/ibm/complete-mock/Task-13.json 
@@ -273,7 +273,7 @@ OK         json/ibm/complete-mock/DeviceDefinition-2.json
 OK         json/ibm/complete-mock/Task-12.json 
 OK         json/ibm/complete-mock/ExampleScenario-1.json 
 OK         json/ibm/complete-mock/Questionnaire-10.json 
-OK         json/ibm/complete-mock/Observation-6.json 
+VALIDATION json/ibm/complete-mock/Observation-6.json 
 OK         json/ibm/complete-mock/Parameters-48.json 
 OK         json/ibm/complete-mock/Library-1.json 
 OK         json/ibm/complete-mock/ClinicalImpression-1.json 
@@ -288,7 +288,7 @@ OK         json/ibm/complete-mock/Consent-1.json
 OK         json/ibm/complete-mock/StructureMap-14.json 
 OK         json/ibm/complete-mock/Specimen-1.json 
 OK         json/ibm/complete-mock/Task-19.json 
-VALIDATION json/ibm/complete-mock/Questionnaire-7.json 
+OK         json/ibm/complete-mock/Questionnaire-7.json 
 OK         json/ibm/complete-mock/Parameters-1.json 
 OK         json/ibm/complete-mock/StructureMap-43.json 
 OK         json/ibm/complete-mock/PlanDefinition-3.json 
@@ -316,7 +316,7 @@ OK         json/ibm/complete-mock/MedicationKnowledge-4.json
 VALIDATION json/ibm/complete-mock/MeasureReport-1.json 
 OK         json/ibm/complete-mock/Parameters-18.json 
 OK         json/ibm/complete-mock/MessageHeader-2.json 
-OK         json/ibm/complete-mock/Observation-1.json 
+VALIDATION json/ibm/complete-mock/Observation-1.json 
 OK         json/ibm/complete-mock/CoverageEligibilityResponse-2.json 
 OK         json/ibm/complete-mock/ImmunizationRecommendation-1.json 
 OK         json/ibm/complete-mock/ResearchStudy-1.json 
@@ -449,10 +449,10 @@ VALIDATION json/ibm/complete-mock/TestScript-1.json
 OK         json/ibm/complete-mock/Task-1.json 
 OK         json/ibm/complete-mock/Questionnaire-9.json 
 OK         json/ibm/complete-mock/SubstanceProtein-1.json 
-OK         json/ibm/complete-mock/Observation-3.json 
+VALIDATION json/ibm/complete-mock/Observation-3.json 
 OK         json/ibm/complete-mock/EventDefinition-1.json 
 OK         json/ibm/complete-mock/MessageHeader-1.json 
-OK         json/ibm/complete-mock/Observation-2.json 
+VALIDATION json/ibm/complete-mock/Observation-2.json 
 OK         json/ibm/complete-mock/ImmunizationEvaluation-2.json 
 OK         json/ibm/complete-mock/ImmunizationRecommendation-2.json 
 OK         json/ibm/complete-mock/Questionnaire-8.json 
@@ -523,7 +523,7 @@ OK         json/ibm/complete-mock/DeviceDefinition-1.json
 OK         json/ibm/complete-mock/SupplyRequest-3.json 
 OK         json/ibm/complete-mock/Task-7.json 
 OK         json/ibm/complete-mock/Parameters-9.json 
-OK         json/ibm/complete-mock/Observation-5.json 
+VALIDATION json/ibm/complete-mock/Observation-5.json 
 OK         json/ibm/complete-mock/Library-2.json 
 OK         json/ibm/complete-mock/Group-1.json 
 OK         json/ibm/complete-mock/ClinicalImpression-2.json 
@@ -539,7 +539,7 @@ OK         json/ibm/complete-mock/ActivityDefinition-5.json
 OK         json/ibm/complete-mock/Contract-10.json 
 OK         json/ibm/complete-mock/Account-1.json 
 OK         json/ibm/complete-mock/FamilyMemberHistory-5.json 
-VALIDATION json/ibm/complete-mock/Organization-1.json 
+OK         json/ibm/complete-mock/Organization-1.json 
 OK         json/ibm/complete-mock/ExplanationOfBenefit-5.json 
 OK         json/ibm/complete-mock/MedicationDispense-2.json 
 OK         json/ibm/complete-mock/Communication-2.json 
@@ -547,7 +547,7 @@ OK         json/ibm/complete-mock/Measure-1.json
 OK         json/ibm/complete-mock/Goal-2.json 
 OK         json/ibm/complete-mock/QuestionnaireResponse-6.json 
 OK         json/ibm/complete-mock/Task-31.json 
-OK         json/ibm/complete-mock/Observation-10.json 
+VALIDATION json/ibm/complete-mock/Observation-10.json 
 OK         json/ibm/complete-mock/StructureMap-47.json 
 OK         json/ibm/complete-mock/EvidenceVariable-4.json 
 OK         json/ibm/complete-mock/Questionnaire-3.json 
@@ -556,7 +556,7 @@ OK         json/ibm/complete-mock/StructureMap-10.json
 OK         json/ibm/complete-mock/Media-1.json 
 OK         json/ibm/complete-mock/DeviceUseStatement-1.json 
 OK         json/ibm/complete-mock/DeviceMetric-1.json 
-OK         json/ibm/complete-mock/Observation-9.json 
+VALIDATION json/ibm/complete-mock/Observation-9.json 
 OK         json/ibm/complete-mock/Parameters-47.json 
 OK         json/ibm/complete-mock/OperationOutcome-1.json 
 OK         json/ibm/complete-mock/Claim-5.json 
@@ -565,7 +565,7 @@ OK         json/ibm/complete-mock/Parameters-10.json
 OK         json/ibm/complete-mock/Parameters-11.json 
 OK         json/ibm/complete-mock/Claim-4.json 
 OK         json/ibm/complete-mock/VisionPrescription-1.json 
-OK         json/ibm/complete-mock/Observation-8.json 
+VALIDATION json/ibm/complete-mock/Observation-8.json 
 OK         json/ibm/complete-mock/Parameters-46.json 
 OK         json/ibm/complete-mock/StructureMap-11.json 
 OK         json/ibm/complete-mock/DiagnosticReport-2.json 
@@ -576,7 +576,7 @@ OK         json/ibm/complete-mock/SubstanceReferenceInformation-1.json
 OK         json/ibm/complete-mock/AdverseEvent-1.json 
 OK         json/ibm/complete-mock/StructureMap-46.json 
 OK         json/ibm/complete-mock/PlanDefinition-6.json 
-OK         json/ibm/complete-mock/Observation-11.json 
+VALIDATION json/ibm/complete-mock/Observation-11.json 
 OK         json/ibm/complete-mock/MedicinalProductManufactured-1.json 
 OK         json/ibm/complete-mock/Goal-3.json 
 OK         json/ibm/complete-mock/QuestionnaireResponse-7.json 
@@ -596,9 +596,9 @@ OK         json/ibm/complete-mock/CodeSystem-6.json
 OK         json/ibm/complete-mock/MedicationKnowledge-1.json 
 OK         json/ibm/complete-mock/ResearchElementDefinition-1.json 
 OK         json/ibm/complete-mock/Device-1.json 
-OK         json/ibm/complete-mock/Observation-4.json 
+VALIDATION json/ibm/complete-mock/Observation-4.json 
 OK         json/ibm/complete-mock/Questionnaire-12.json 
-VALIDATION json/ibm/complete-mock/RiskAssessment-2.json 
+OK         json/ibm/complete-mock/RiskAssessment-2.json 
 OK         json/ibm/complete-mock/Appointment-1.json 
 OK         json/ibm/complete-mock/Parameters-8.json 
 OK         json/ibm/complete-mock/Task-10.json 
