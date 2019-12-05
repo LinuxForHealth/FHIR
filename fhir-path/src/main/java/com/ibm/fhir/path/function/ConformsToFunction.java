@@ -18,6 +18,8 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -28,6 +30,7 @@ import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 public class ConformsToFunction extends FHIRPathAbstractFunction {
+    private static final Logger log = Logger.getLogger(ConformsToFunction.class.getName());
     private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     
     @Override
@@ -80,7 +83,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
                         return SINGLETON_FALSE;
                     }
                 } catch (FHIRPathException e) {
-                    // TODO: log this
+                    log.log(Level.WARNING, "An unexpected error occurred while evaluating the following expression: " + constraint.expression(), e);
                 }
             }
         }

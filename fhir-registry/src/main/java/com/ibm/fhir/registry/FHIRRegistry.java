@@ -41,10 +41,8 @@ public final class FHIRRegistry {
             return false;
         }
         
-//      String id = null;
         int index = url.indexOf("#");
         if (index != -1) {
-//          id = url.substring(index + 1);
             url = url.substring(0, index);
         }
         
