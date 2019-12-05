@@ -16,6 +16,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -101,7 +102,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     }
     
     private Set<String> computeValueSet(ValueSet valueSet) {
-        Set<String> result = new HashSet<>();
+        Set<String> result = new LinkedHashSet<>();
         
         Expansion expansion = valueSet.getExpansion();
         if (expansion != null) {
