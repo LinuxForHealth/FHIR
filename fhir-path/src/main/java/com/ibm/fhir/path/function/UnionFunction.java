@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class UnionFunction extends FHIRPathAbstractFunction {
     @Override
@@ -30,7 +31,8 @@ public class UnionFunction extends FHIRPathAbstractFunction {
         return 1;
     }
     
-    public Collection<FHIRPathNode> apply(Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+    @Override
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         Set<FHIRPathNode> union = new LinkedHashSet<>(context);
         union.addAll(arguments.get(0));
         return new ArrayList<>(union);
