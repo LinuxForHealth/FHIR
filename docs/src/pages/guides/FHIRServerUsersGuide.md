@@ -154,7 +154,7 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
     }
     ```
 
-Throughout this document, we use a path notation to refer to property names. For example, the name of the `truststorePassword` property in the preceding example would be `fhirServer/test/enabled`.
+Throughout this document, we use a path notation to refer to property names. For example, the name of the `truststorePassword` property in the preceding example would be `fhirServer/core/truststorePassword`.
 
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
