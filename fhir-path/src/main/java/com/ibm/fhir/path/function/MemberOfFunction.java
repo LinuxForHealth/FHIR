@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -104,8 +105,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         
         Expansion expansion = valueSet.getExpansion();
         if (expansion != null) {
-            result.addAll(expansion.getContains().stream()
-                .flatMap(contains -> contains.getContains().stream())
+            result.addAll(Stream.concat(expansion.getContains().stream(), expansion.getContains().stream().flatMap(contains -> contains.getContains().stream()))
                 .map(contains -> contains.getCode().getValue())
                 .collect(Collectors.toList()));
         } else {
@@ -120,8 +120,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                         String system = include.getSystem().getValue();
                         if (FHIRRegistry.getInstance().hasResource(system)) {
                             CodeSystem codeSystem = FHIRRegistry.getInstance().getResource(system, CodeSystem.class);
-                            result.addAll(codeSystem.getConcept().stream()
-                                .flatMap(concept -> concept.getConcept().stream())
+                            result.addAll(Stream.concat(codeSystem.getConcept().stream(), codeSystem.getConcept().stream().flatMap(concept -> concept.getConcept().stream()))
                                 .map(concept -> concept.getCode().getValue())
                                 .collect(Collectors.toList()));
                         }
