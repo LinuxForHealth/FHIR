@@ -269,7 +269,7 @@ public class FHIRJsonGenerator extends FHIRAbstractGenerator {
         }
         
         @Override
-        public void visit(java.lang.String elementName, java.lang.String value) {
+        public void doVisit(java.lang.String elementName, java.lang.String value) {
             writeValue(elementName, -1, value);
         }
     

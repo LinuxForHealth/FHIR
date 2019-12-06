@@ -36,9 +36,11 @@ public class ToStringTest {
         Patient patient = buildPatient();
         
         FHIRModel.setToStringPrettyPrinting(false);
+        Assert.assertEquals(patient.getMeta().getVersionId().toString(), "{\"id\":\"1\"}");
         Assert.assertEquals(patient.getMeta().toString(), "{\"versionId\":\"1\",\"lastUpdated\":\"2019-01-01T12:00:00Z\"}");
         
         FHIRModel.setToStringFormat(Format.XML);
+        Assert.assertEquals(patient.getMeta().getVersionId().toString(), "<id value=\"1\"/>");
         Assert.assertEquals(patient.getMeta().toString(), "<Meta><versionId value=\"1\"/><lastUpdated value=\"2019-01-01T12:00:00Z\"/></Meta>");
     }
     

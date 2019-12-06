@@ -252,7 +252,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
             else if (resource instanceof Patient) {
                 assertEquals(savedPatient2.getId(), resource.getId());
-                assertEquals("2", savedPatient2.getMeta().getVersionId());
+                assertEquals("2", savedPatient2.getMeta().getVersionId().getValue());
             }
             else if (resource instanceof Encounter) {
                 assertEquals(savedEncounter1.getId(), resource.getId());
@@ -420,7 +420,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
             else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
-                assertEquals("2", savedDevice1.getMeta().getVersionId());
+                assertEquals("2", savedDevice1.getMeta().getVersionId().getValue());
             }
             else if (resource instanceof Patient) {
                 assertEquals(savedPatient3.getId(), resource.getId());

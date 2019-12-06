@@ -145,15 +145,14 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
         }
     }
     @Override
-    public void visit(java.lang.String elementName, java.lang.String value) {
+    public void doVisit(java.lang.String elementName, java.lang.String value) {
         // exclude the id and meta.versionId values from the fingerprint 
         // because they are injected by FHIR. NOTE: startsWith is important
         // because we need to ignore any extension fields which may be
         // present
         if (includePath()) {
-            updateDigest(getPath(), value.toString());
+            updateDigest(getPath(), value);
         }
-        
     }
     @Override
     public void visit(java.lang.String elementName, Year value) {

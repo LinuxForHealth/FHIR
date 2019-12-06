@@ -171,6 +171,12 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 } catch (XMLStreamException e) {
                     throw new RuntimeException(e);
                 }
+            } else {
+                try {
+                    writer.writeCharacters("");
+                } catch (XMLStreamException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
