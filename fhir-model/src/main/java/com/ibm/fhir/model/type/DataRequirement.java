@@ -51,7 +51,7 @@ public class DataRequirement extends Element {
         bindingName = "FHIRAllTypes",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
-        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
     )
     @Required
     private final FHIRAllTypes type;
@@ -1297,7 +1297,7 @@ public class DataRequirement extends Element {
             bindingName = "SortDirection",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The possible sort directions, ascending or descending.",
-            valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.0.1"
         )
         @Required
         private final SortDirection direction;

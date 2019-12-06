@@ -440,7 +440,7 @@ public class Timing extends BackboneElement {
             bindingName = "UnitsOfTime",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "A unit of time (units from UCUM).",
-            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.1"
         )
         private final UnitsOfTime durationUnit;
         @Summary
@@ -456,14 +456,14 @@ public class Timing extends BackboneElement {
             bindingName = "UnitsOfTime",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "A unit of time (units from UCUM).",
-            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/units-of-time|4.0.1"
         )
         private final UnitsOfTime periodUnit;
         @Summary
         @Binding(
             bindingName = "DayOfWeek",
             strength = BindingStrength.ValueSet.REQUIRED,
-            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
         )
         private final List<DayOfWeek> dayOfWeek;
         @Summary
@@ -473,7 +473,7 @@ public class Timing extends BackboneElement {
             bindingName = "EventTiming",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Real world event relating to the schedule.",
-            valueSet = "http://hl7.org/fhir/ValueSet/event-timing|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/event-timing|4.0.1"
         )
         private final List<EventTiming> when;
         @Summary

@@ -17,7 +17,7 @@ public class DeleteOperation extends BaseOperation {
         final Resource resource = tc.getResource();
         final FHIRPersistenceContext context = tc.createPersistenceContext();
 
-        final String logicalId = resource.getId().getValue();
+        final String logicalId = resource.getId();
         
         Resource newResource = tc.getPersistence().delete(context, resource.getClass(), logicalId).getResource();
         

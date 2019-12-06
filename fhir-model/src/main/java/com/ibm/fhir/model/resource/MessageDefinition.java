@@ -29,7 +29,6 @@ import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
@@ -83,7 +82,7 @@ public class MessageDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -130,7 +129,7 @@ public class MessageDefinition extends DomainResource {
         bindingName = "MessageSignificanceCategory",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The impact of the content of a message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.0.1"
     )
     private final MessageSignificanceCategory category;
     @Summary
@@ -139,7 +138,7 @@ public class MessageDefinition extends DomainResource {
         bindingName = "messageheader-response-request",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "HL7-defined table of codes which identify conditions under which acknowledgments are required to be returned in response to a message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.0.1"
     )
     private final MessageHeaderResponseRequest responseRequired;
     private final List<AllowedResponse> allowedResponse;
@@ -640,7 +639,7 @@ public class MessageDefinition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1433,7 +1432,7 @@ public class MessageDefinition extends DomainResource {
             bindingName = "ResourceType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )
         @Required
         private final ResourceType code;

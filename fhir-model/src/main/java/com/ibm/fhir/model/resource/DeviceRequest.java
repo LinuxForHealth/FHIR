@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -67,7 +66,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "DeviceRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes representing the status of the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
     private final DeviceRequestStatus status;
     @Summary
@@ -75,7 +74,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "RequestIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of diagnostic request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
     @Required
     private final RequestIntent intent;
@@ -84,7 +83,7 @@ public class DeviceRequest extends DomainResource {
         bindingName = "RequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
     private final RequestPriority priority;
     @Summary
@@ -622,7 +621,7 @@ public class DeviceRequest extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1000,7 +999,7 @@ public class DeviceRequest extends DomainResource {
          * The status of the request.
          * 
          * @param status
-         *     draft | active | suspended | completed | entered-in-error | cancelled
+         *     draft | active | on-hold | revoked | completed | entered-in-error | unknown
          * 
          * @return
          *     A reference to this Builder instance
@@ -1016,7 +1015,7 @@ public class DeviceRequest extends DomainResource {
          * <p>This element is required.
          * 
          * @param intent
-         *     proposal | plan | original-order | encoded | reflex-order
+         *     proposal | plan | directive | order | original-order | reflex-order | filler-order | instance-order | option
          * 
          * @return
          *     A reference to this Builder instance
@@ -1030,7 +1029,7 @@ public class DeviceRequest extends DomainResource {
          * Indicates how quickly the {{title}} should be addressed with respect to other requests.
          * 
          * @param priority
-         *     Indicates how quickly the {{title}} should be addressed with respect to other requests
+         *     routine | urgent | asap | stat
          * 
          * @return
          *     A reference to this Builder instance

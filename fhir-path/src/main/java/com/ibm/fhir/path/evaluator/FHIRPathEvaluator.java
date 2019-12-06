@@ -1203,20 +1203,33 @@ public class FHIRPathEvaluator {
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
         
+        /**
+         * Create an empty evaluation context, evaluating stand-alone expressions
+         */
         public EvaluationContext() {
             this((FHIRPathTree) null);
         }
         
+        /**
+         * Create an evaluation context where the passed resource is the context root.
+         * Sets %resource and %rootResource external constants to the passed resource, but these can be overridden. 
+         * @param resource
+         */
         public EvaluationContext(Resource resource) {
             this(FHIRPathTree.tree(resource));
+            externalConstantMap.put("rootResource", singleton(tree.getRoot()));
             externalConstantMap.put("resource", singleton(tree.getRoot()));
         }
         
+        /**
+         * Create an evaluation context where the passed element is the context root.
+         * @param element
+         */
         public EvaluationContext(Element element) {
             this(FHIRPathTree.tree(element));
         }
         
-        public EvaluationContext(FHIRPathTree tree) {
+        private EvaluationContext(FHIRPathTree tree) {
             this.tree = tree;
         }
         

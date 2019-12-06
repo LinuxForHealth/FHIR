@@ -6,16 +6,32 @@
 
 package com.ibm.fhir.path.function;
 
+import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
+import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getSingleton;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.hasElementNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.hasResourceNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.profile.ProfileSupport;
+import com.ibm.fhir.registry.FHIRRegistry;
 
 public class ConformsToFunction extends FHIRPathAbstractFunction {
-//  private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
+    private static final Logger log = Logger.getLogger(ConformsToFunction.class.getName());
+    private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     
     @Override
     public String getName() {
@@ -34,7 +50,6 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        /*
         if (!hasResourceNode(context) && !hasElementNode(context)) {
             throw new IllegalArgumentException("The 'conformsTo' function can only be invoked on a Resource or Element node");
         }
@@ -43,20 +58,36 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             throw new IllegalArgumentException("The argument to the 'conformsTo' function must be a string");
         }
         
-        Class<?> modelClass = getSingleton(context).type().modelClass();
+        FHIRPathNode node = getSingleton(context);
         
-        String url = getStringValue(arguments.get(0)).string();
-        if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
-            String s = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
-            if (modelClass != null && s.equals(modelClass.getSimpleName())) {
-                return SINGLETON_TRUE;
-            }
-        } else {
-            throw new IllegalArgumentException("Unrecognized url: " + url);
+        if (node.isResourceNode() && node.asResourceNode().resource() == null) {
+            return SINGLETON_TRUE;
         }
         
-        return SINGLETON_FALSE;
-        */
+        Class<?> modelClass = node.type().modelClass();
+        String url = getStringValue(arguments.get(0)).string();
+                
+        if (modelClass != null && FHIRRegistry.getInstance().hasResource(url)) {
+            if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
+                String s = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
+                if (s.equals(modelClass.getSimpleName())) {
+                    return SINGLETON_TRUE;
+                }
+            }
+            
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();    
+            for (Constraint constraint : ProfileSupport.getConstraints(url, modelClass)) {
+                try {
+                    Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), context);
+                    if (evaluatesToBoolean(result) && isFalse(result)) {
+                        return SINGLETON_FALSE;
+                    }
+                } catch (FHIRPathException e) {
+                    log.log(Level.WARNING, "An unexpected error occurred while evaluating the following expression: " + constraint.expression(), e);
+                }
+            }
+        }
+        
         return SINGLETON_TRUE;
     }
 }

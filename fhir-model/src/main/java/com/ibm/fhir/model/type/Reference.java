@@ -26,7 +26,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "SHALL have a contained resource if a local reference is provided",
-    expression = "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %resource.contained.id.trace('ids'))"
+    expression = "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Reference extends Element {

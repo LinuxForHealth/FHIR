@@ -84,7 +84,7 @@ public class ImportOperation extends AbstractOperation {
         }
 
         OperationOutcome operationOutcome =
-                OperationOutcome.builder().id(Id.of("NoError")).text(Narrative.builder().status(NarrativeStatus.ADDITIONAL).div(xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No ERROR</p></div>")).build()).issue(issues).build();
+                OperationOutcome.builder().id("NoError").text(Narrative.builder().status(NarrativeStatus.ADDITIONAL).div(xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No ERROR</p></div>")).build()).issue(issues).build();
 
         return operationOutcome;
     }

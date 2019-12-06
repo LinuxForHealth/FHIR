@@ -300,7 +300,7 @@ public enum FHIRPathType {
     /**
      * "Special" FHIR type returned by the resolve() function when the resource type cannot be determined from a reference.
      */
-    FHIR_UNKNOWN_RESOURCE_TYPE("FHIR", "UnknownResourceType"),
+    FHIR_UNKNOWN_RESOURCE_TYPE("FHIR", "UnknownResourceType", FHIR_RESOURCE),
     
     // FHIRPath system types
     SYSTEM_ANY("System", "Any"),

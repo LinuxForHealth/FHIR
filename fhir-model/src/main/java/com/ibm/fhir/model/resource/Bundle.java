@@ -22,7 +22,6 @@ import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
@@ -87,7 +86,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Bundle.entry",
     description = "fullUrl cannot be a version specific reference",
-    expression = "fullUrl.`contains`('/_history/').not()"
+    expression = "fullUrl.contains('/_history/').not()"
 )
 @Constraint(
     id = "bdl-9",
@@ -101,7 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "A document must have a date",
-    expression = "type = 'document' implies (meta.lastUpdated.hasValue())"
+    expression = "type = 'document' implies (timestamp.hasValue())"
 )
 @Constraint(
     id = "bdl-11",
@@ -126,7 +125,7 @@ public class Bundle extends Resource {
         bindingName = "BundleType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the purpose of a bundle - how it is intended to be used.",
-        valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.0.1"
     )
     @Required
     private final BundleType type;
@@ -340,7 +339,7 @@ public class Bundle extends Resource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1275,7 +1274,7 @@ public class Bundle extends Resource {
                 bindingName = "SearchEntryMode",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
-                valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.0.1"
             )
             private final SearchEntryMode mode;
             @Summary
@@ -1545,7 +1544,7 @@ public class Bundle extends Resource {
                 bindingName = "HTTPVerb",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
-                valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.0.1"
             )
             @Required
             private final HTTPVerb method;

@@ -58,7 +58,7 @@ public class BloodPressureObservationTest {
             .effective(DateTime.builder()
                 .value("2019-01-01")
                 .build())
-                        
+            
             // observation category (vital signs)
             .category(CodeableConcept.builder()
                 .coding(Coding.builder()
@@ -124,11 +124,11 @@ public class BloodPressureObservationTest {
             }
 
             @Override
-            public void flush() {                
+            public void flush() {
             }
 
             @Override
-            public void close() throws SecurityException {                
+            public void close() throws SecurityException {
             }
         });
         List<Issue> issues = FHIRValidator.validator().validate(bloodPressureObservation);

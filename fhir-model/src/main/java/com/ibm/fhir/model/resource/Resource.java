@@ -12,10 +12,10 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.builder.AbstractBuilder;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 
 /**
@@ -24,7 +24,7 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public abstract class Resource extends AbstractVisitable {
     @Summary
-    protected final Id id;
+    protected final java.lang.String id;
     @Summary
     protected final Meta meta;
     @Summary
@@ -43,15 +43,16 @@ public abstract class Resource extends AbstractVisitable {
         meta = builder.meta;
         implicitRules = builder.implicitRules;
         language = builder.language;
+        ValidationSupport.checkId(id);
     }
 
     /**
      * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
      * 
      * @return
-     *     An immutable object of type {@link Id}.
+     *     An immutable object of type {@link java.lang.String}.
      */
-    public Id getId() {
+    public java.lang.String getId() {
         return id;
     }
 
@@ -106,7 +107,7 @@ public abstract class Resource extends AbstractVisitable {
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends AbstractBuilder<Resource> {
-        protected Id id;
+        protected java.lang.String id;
         protected Meta meta;
         protected Uri implicitRules;
         protected Code language;
@@ -124,7 +125,7 @@ public abstract class Resource extends AbstractVisitable {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             this.id = id;
             return this;
         }

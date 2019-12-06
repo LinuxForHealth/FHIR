@@ -28,7 +28,7 @@ public class HistoryOperation extends BaseOperation {
 	    final FHIRPersistenceContext context = tc.createHistoryPersistenceContext();
         final Resource resource = tc.getResource();
         
-        final String logicalId = resource.getId().getValue();
+        final String logicalId = resource.getId();
         
         List<? extends Resource> resources = tc.getPersistence().history(context, resource.getClass(), logicalId).getResource();
         if (resources.size() != this.expectedCount) {

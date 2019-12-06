@@ -110,7 +110,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "StructureDefinition.differential",
     description = "In any differential, all the elements must start with the StructureDefinition's specified type for non-logical models, or with the same type name for logical models",
-    expression = "(%resource.kind = 'logical' or element.first().path.startsWith(%resource.type)) and (element.tail().not() or  element.tail().all(path.startsWith(%resource.differential.element.first().path.replaceMatches('\\..*','')&'.')))"
+    expression = "(%resource.kind = 'logical' or element.first().path.startsWith(%resource.type)) and (element.tail().empty() or element.tail().all(path.startsWith(%resource.differential.element.first().path.replaceMatches('\\..*','')&'.')))"
 )
 @Constraint(
     id = "sdf-8b",
@@ -124,7 +124,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "In any snapshot or differential, no label, code or requirements on an element without a \".\" in the path (e.g. the first element)",
-    expression = "children().element.where(path.`contains`('.').not()).label.empty() and children().element.where(path.`contains`('.').not()).code.empty() and children().element.where(path.`contains`('.').not()).requirements.empty()"
+    expression = "children().element.where(path.contains('.').not()).label.empty() and children().element.where(path.contains('.').not()).code.empty() and children().element.where(path.contains('.').not()).requirements.empty()"
 )
 @Constraint(
     id = "sdf-10",
@@ -152,28 +152,28 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "The first element in a snapshot has no type unless model is a logical model.",
-    expression = "kind!='logical'  implies snapshot.element.first().type.empty()"
+    expression = "kind!='logical' implies snapshot.element.first().type.empty()"
 )
 @Constraint(
     id = "sdf-15a",
     level = "Rule",
     location = "(base)",
     description = "If the first element in a differential has no \".\" in the path and it's not a logical model, it has no type",
-    expression = "(kind!='logical'  and differential.element.first().path.`contains`('.').not()) implies differential.element.first().type.empty()"
+    expression = "(kind!='logical'  and differential.element.first().path.contains('.').not()) implies differential.element.first().type.empty()"
 )
 @Constraint(
     id = "sdf-16",
     level = "Rule",
     location = "(base)",
     description = "All element definitions must have unique ids (snapshot)",
-    expression = "snapshot.element.all(id) and snapshot.element.id.trace('ids').isDistinct()"
+    expression = "snapshot.element.all(id.exists()) and snapshot.element.id.trace('ids').isDistinct()"
 )
 @Constraint(
     id = "sdf-17",
     level = "Rule",
     location = "(base)",
     description = "All element definitions must have unique ids (diff)",
-    expression = "differential.element.all(id) and differential.element.id.trace('ids').isDistinct()"
+    expression = "differential.element.all(id.exists()) and differential.element.id.trace('ids').isDistinct()"
 )
 @Constraint(
     id = "sdf-18",
@@ -187,14 +187,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "FHIR Specification models only use FHIR defined types",
-    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (differential.element.type.code.all(hasValue() implies matches('^[a-zA-Z0-9]+$')) and snapshot.element.type.code.all(hasValue() implies matches('^[a-zA-Z0-9]+$')))"
+    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (differential.element.type.code.all(matches('^[a-zA-Z0-9]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')) and snapshot.element.type.code.all(matches('^[a-zA-Z0-9\\.]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')))"
 )
 @Constraint(
     id = "sdf-20",
     level = "Rule",
     location = "StructureDefinition.differential",
     description = "No slicing on the root element",
-    expression = "element.where(path.`contains`('.').not()).slicing.empty()"
+    expression = "element.where(path.contains('.').not()).slicing.empty()"
 )
 @Constraint(
     id = "sdf-21",
@@ -215,7 +215,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "No slice name on root",
-    expression = "(snapshot | differential).element.all(path.`contains`('.').not() implies sliceName.empty())"
+    expression = "(snapshot | differential).element.all(path.contains('.').not() implies sliceName.empty())"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StructureDefinition extends DomainResource {
@@ -236,7 +236,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -274,7 +274,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "FHIRVersion",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "All published FHIR Versions.",
-        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
     )
     private final FHIRVersion fhirVersion;
     private final List<Mapping> mapping;
@@ -283,7 +283,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "StructureDefinitionKind",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Defines the type of structure that a definition is describing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.1"
     )
     @Required
     private final StructureDefinitionKind kind;
@@ -310,7 +310,7 @@ public class StructureDefinition extends DomainResource {
         bindingName = "TypeDerivationRule",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "How a type relates to its baseDefinition.",
-        valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.0.1"
     )
     private final TypeDerivationRule derivation;
     private final Snapshot snapshot;
@@ -528,7 +528,7 @@ public class StructureDefinition extends DomainResource {
 
     /**
      * The version of the FHIR specification on which this StructureDefinition is based - this is the formal version of the 
-     * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.0. for this version.
+     * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version.
      * 
      * @return
      *     An immutable object of type {@link FHIRVersion}.
@@ -868,7 +868,7 @@ public class StructureDefinition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1406,7 +1406,7 @@ public class StructureDefinition extends DomainResource {
 
         /**
          * The version of the FHIR specification on which this StructureDefinition is based - this is the formal version of the 
-         * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.0. for this version.
+         * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version.
          * 
          * @param fhirVersion
          *     FHIR Version this StructureDefinition targets
@@ -2027,7 +2027,7 @@ public class StructureDefinition extends DomainResource {
             bindingName = "ExtensionContextType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "How an extension context is interpreted.",
-            valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.1"
         )
         @Required
         private final ExtensionContextType type;

@@ -26,7 +26,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
@@ -92,7 +91,7 @@ public class OperationDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -101,7 +100,7 @@ public class OperationDefinition extends DomainResource {
         bindingName = "OperationKind",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Whether an operation is a normal operation or a query.",
-        valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.1"
     )
     @Required
     private final OperationKind kind;
@@ -138,7 +137,7 @@ public class OperationDefinition extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
     private final List<ResourceType> resource;
     @Summary
@@ -686,7 +685,7 @@ public class OperationDefinition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1456,7 +1455,7 @@ public class OperationDefinition extends DomainResource {
             bindingName = "OperationParameterUse",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Whether an operation parameter is an input or an output parameter.",
-            valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.1"
         )
         @Required
         private final OperationParameterUse use;
@@ -1469,7 +1468,7 @@ public class OperationDefinition extends DomainResource {
             bindingName = "FHIRAllTypes",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
-            valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
         )
         private final FHIRAllTypes type;
         private final List<Canonical> targetProfile;
@@ -1477,7 +1476,7 @@ public class OperationDefinition extends DomainResource {
             bindingName = "SearchParamType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Data types allowed to be used for search parameters.",
-            valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.1"
         )
         private final SearchParamType searchType;
         private final Binding binding;
@@ -2110,7 +2109,7 @@ public class OperationDefinition extends DomainResource {
                 bindingName = "BindingStrength",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Indication of the degree of conformance expectations associated with a binding.",
-                valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.1"
             )
             @Required
             private final BindingStrength strength;

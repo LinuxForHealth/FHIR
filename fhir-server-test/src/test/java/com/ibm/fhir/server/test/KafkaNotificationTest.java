@@ -125,7 +125,7 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
         expectedCreateCounterValue++;
 
         // Next, create an Observation belonging to the new patient.
-        patientId = savedCreatedPatient.getId().getValue();
+        patientId = savedCreatedPatient.getId();
         Observation observation = TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Observation").request().post(obs, Response.class);
@@ -137,13 +137,13 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
         expectedCreateCounterValue++;
 
         // Create an updated Observation based on the original saved observation
-        patientId = savedCreatedPatient.getId().getValue();
+        patientId = savedCreatedPatient.getId();
         observation = TestUtil.buildPatientObservation(patientId, "Observation2.json");
         observation = observation.toBuilder().id(savedCreatedObservation.getId()).build();
         obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
 
         // Call the 'update' API.
-        String targetPath = "Observation/" + observation.getId().getValue();
+        String targetPath = "Observation/" + observation.getId();
         response = target.path(targetPath).request().put(obs, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         observationId = getLocationLogicalId(response);

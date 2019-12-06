@@ -13,8 +13,13 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 
 import com.ibm.fhir.model.builder.Builder;
+import com.ibm.fhir.model.resource.AllergyIntolerance;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -27,9 +32,13 @@ public class MinimalDataCreator extends DataCreatorBase {
 
     @Override
     protected Builder<?> addData(Builder<?> builder, int choiceIndicator) throws Exception {
-        Method[] methods = builder.getClass().getDeclaredMethods();
+        if (builder instanceof Resource.Builder) {
+            tag((Resource.Builder) builder, "ibm/minimal");
+        }
         
         boolean empty = true;
+        
+        Method[] methods = builder.getClass().getDeclaredMethods();
         for (Method method : methods) {
             String name = reverseJavaEncoding(method.getName());
             
@@ -75,6 +84,11 @@ public class MinimalDataCreator extends DataCreatorBase {
     }
     
     private boolean isRequiredElement(Class<?> clazz, String name) {
+        // Special case for AllergyIntolerance
+        if (AllergyIntolerance.class.isAssignableFrom(clazz) && "clinicalStatus".equals(name)) {
+            // ait-1: AllergyIntolerance.clinicalStatus SHALL be present if verificationStatus is not entered-in-error. (AllergyIntolerance)
+            return true;
+        }
         return ModelSupport.isRequiredElement(clazz, name);
     }
 
@@ -85,5 +99,21 @@ public class MinimalDataCreator extends DataCreatorBase {
             return javaName.substring(1);
         }
         return javaName;
+    }
+
+    /**
+     * Tag the resource
+     * 
+     * @param resource 
+     *      the resource to tag
+     * @param tag 
+     *      the tag to tag it with
+     * @return
+     */
+    protected Resource.Builder tag(Resource.Builder resourceBuilder, String tag) {
+        Meta.Builder metaBuilder = Meta.builder()
+                .tag(Coding.builder().code(Code.of(tag))
+                .build());
+        return resourceBuilder.meta(metaBuilder.build());
     }
 }

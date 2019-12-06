@@ -24,7 +24,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
@@ -64,13 +63,7 @@ public class AppointmentTest {
      * @return
      */
     public Appointment buildAppointment() {
-        Id id = Id.builder()
-                .value(UUID.randomUUID().toString())
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(string("Hello, World!"))
-                    .build())
-                .build();
+        String id = UUID.randomUUID().toString();
 
         Meta meta =
             Meta.builder()
@@ -78,7 +71,7 @@ public class AppointmentTest {
                 .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
     
-        // Identify as generated. 
+        // Identify as generated
         Narrative narrative =
                 Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"))

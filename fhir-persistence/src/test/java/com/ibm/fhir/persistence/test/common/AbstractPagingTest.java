@@ -71,8 +71,8 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         resource3 = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("pagingTest")).build()).getResource();
         
         // update resource3 two times so we have 3 different versions
-        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId().getValue(), resource3).getResource();
-        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId().getValue(), resource3).getResource();
+        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
+        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
     }
     
     @AfterClass
@@ -80,7 +80,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         Resource[] resources = {resource1, resource2, resource3};
         if (persistence.isDeleteSupported()) {
             for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId().getValue());
+                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
             }
             if (persistence.isTransactional()) {
                 persistence.getTransaction().commit();
@@ -133,7 +133,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         historyContext.setPageNumber(1);
         context = this.getPersistenceContextForHistory(historyContext);
         
-        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
         results = result.getResource();
         assertEquals(results.size(), 1, "expected number of results");
@@ -144,7 +144,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         historyContext.setPageNumber(2);
         context = this.getPersistenceContextForHistory(historyContext);
         
-        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
         results = result.getResource();
         assertEquals(results.size(), 1, "expected number of results");
@@ -156,7 +156,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         historyContext.setPageNumber(3);
         context = this.getPersistenceContextForHistory(historyContext);
         
-        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
         results = result.getResource();
         assertEquals(results.size(), 1, "expected number of results");
@@ -168,7 +168,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         historyContext.setPageNumber(0);
         context = this.getPersistenceContextForHistory(historyContext);
         
-        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
         results = result.getResource();
         assertEquals(results.size(), 1, "expected number of results");
@@ -185,7 +185,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         historyContext.setPageNumber(4);
         context = this.getPersistenceContextForHistory(historyContext);
         
-        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
         results = result.getResource();
         assertEquals(results.size(), 1, "expected number of results");
@@ -202,7 +202,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         historyContext.setPageNumber(0);
         context = this.getPersistenceContextForHistory(historyContext);
         
-        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertFalse(result.isSuccess());
         results = result.getResource();
         assertEquals(results.size(), 0, "expected number of results");
@@ -218,7 +218,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         historyContext.setPageNumber(4);
         context = this.getPersistenceContextForHistory(historyContext);
         
-        result = persistence.history(context, resource3.getClass(), resource3.getId().getValue());
+        result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertFalse(result.isSuccess());
         results = result.getResource();
         assertEquals(results.size(), 0, "expected number of results");

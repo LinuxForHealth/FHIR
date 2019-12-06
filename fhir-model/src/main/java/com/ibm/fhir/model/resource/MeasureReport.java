@@ -24,7 +24,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
@@ -66,7 +65,7 @@ public class MeasureReport extends DomainResource {
         bindingName = "MeasureReportStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the measure report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.0.1"
     )
     @Required
     private final MeasureReportStatus status;
@@ -75,7 +74,7 @@ public class MeasureReport extends DomainResource {
         bindingName = "MeasureReportType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The type of the measure report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.0.1"
     )
     @Required
     private final MeasureReportType type;
@@ -96,7 +95,7 @@ public class MeasureReport extends DomainResource {
         bindingName = "MeasureImprovementNotation",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.1"
     )
     private final CodeableConcept improvementNotation;
     private final List<Group> group;
@@ -379,7 +378,7 @@ public class MeasureReport extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

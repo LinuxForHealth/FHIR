@@ -28,7 +28,6 @@ import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
@@ -92,7 +91,7 @@ public class ConceptMap extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -525,7 +524,7 @@ public class ConceptMap extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1853,7 +1852,7 @@ public class ConceptMap extends DomainResource {
                     bindingName = "ConceptMapEquivalence",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The degree of equivalence between concepts.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.0.1"
                 )
                 @Required
                 private final ConceptMapEquivalence equivalence;
@@ -2645,7 +2644,7 @@ public class ConceptMap extends DomainResource {
                 bindingName = "ConceptMapGroupUnmappedMode",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Defines which action to take if there is no match in the group.",
-                valueSet = "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.0.1"
             )
             @Required
             private final ConceptMapGroupUnmappedMode mode;

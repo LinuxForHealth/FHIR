@@ -21,7 +21,6 @@ import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
@@ -153,7 +152,7 @@ public class OperationOutcome extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -409,7 +408,7 @@ public class OperationOutcome extends DomainResource {
             bindingName = "IssueSeverity",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "How the issue affects the success of the action.",
-            valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.1"
         )
         @Required
         private final IssueSeverity severity;
@@ -418,7 +417,7 @@ public class OperationOutcome extends DomainResource {
             bindingName = "IssueType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "A code that describes the type of issue.",
-            valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.1"
         )
         @Required
         private final IssueType code;

@@ -1,102 +1,101 @@
 <NamingSystem xmlns="http://hl7.org/fhir">
-  <id value="BXoCktMymJ"/>
   <meta>
-    <versionId value="6RdiGavtKL"/>
-    <lastUpdated value="2019-08-08T09:17:29.829-04:00"/>
-    <source value="V3xq6SOrD4"/>
-    <profile value="521K9xGu2c"/>
+    <versionId value="GfHwqNRsba"/>
+    <lastUpdated value="2019-12-04T21:42:34.961-05:00"/>
+    <source value="Dv8qJK6L3O"/>
+    <profile value="RWdsjt3keO"/>
     <security>
-      <system value="tKV1Nb2RHK"/>
-      <version value="xxkddruBKL"/>
-      <code value="kjHkhxVzZb"/>
-      <display value="wGLLaOE9ae"/>
+      <system value="oclNmrlzgU"/>
+      <version value="ue5PRlMq88"/>
+      <code value="WgtYf9hSW4"/>
+      <display value="pCAwBv0VBL"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="mhA4zl3eK1"/>
-      <version value="vUTWmLijfk"/>
-      <code value="fabNnDG1RX"/>
-      <display value="pMsvMBNB8i"/>
+      <system value="BI_utuxSMU"/>
+      <version value="kRlDTXdFgb"/>
+      <code value="ZL7Ax6_Vp2"/>
+      <display value="8MvOlGGt2W"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="LEEtwUefei"/>
-  <language value="ia3LDpwR7i"/>
+  <implicitRules value="wTfm84a0qq"/>
+  <language value="QE8Xk5KOEt"/>
   <text>
-    <status value="additional"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
-  <name value="3gQN5NBmGW"/>
-  <status value="retired"/>
+  <name value="4X4UI31Dwo"/>
+  <status value="draft"/>
   <kind value="codesystem"/>
-  <date value="2019-08-08T09:17:29.830-04:00"/>
-  <publisher value="YvJZJHz6Y6"/>
+  <date value="2019-12-04T21:42:34.962-05:00"/>
+  <publisher value="1_rXDGl0o2"/>
   <contact>
-    <name value="U5fQNyFKYR"/>
+    <name value="LjkTMci4am"/>
     <telecom>
       <system value="url"/>
-      <value value="k390AZxl33"/>
-      <use value="mobile"/>
-      <rank value="2106395702"/>
+      <value value="nfhtDIEPr4"/>
+      <use value="temp"/>
+      <rank value="982851135"/>
       <period>
-        <start value="2019-08-08T09:17:29.829-04:00"/>
-        <end value="2019-08-08T09:17:29.829-04:00"/>
+        <start value="2019-12-04T21:42:34.962-05:00"/>
+        <end value="2019-12-04T21:42:34.962-05:00"/>
       </period>
     </telecom>
   </contact>
-  <responsible value="0ReskxWHfR"/>
+  <responsible value="vnF9UDagGt"/>
   <type>
     <coding>
-      <system value="z48g66axFt"/>
-      <version value="UPzQDYWwuc"/>
-      <code value="ojvs9WxfS7"/>
-      <display value="w6nkJmfCt1"/>
+      <system value="BXTbhg4iyU"/>
+      <version value="GP5CL0AQ5P"/>
+      <code value="tMcziQPBL6"/>
+      <display value="oPE61vfMyx"/>
       <userSelected value="true"/>
     </coding>
-    <text value="Cue_yH29vM"/>
+    <text value="tZT0FxGr4f"/>
   </type>
-  <description value="OcACC9PkSN"/>
+  <description value="o7g5J9VoKo"/>
   <useContext>
     <code>
-      <system value="5TTQYaRDba"/>
-      <version value="qINgts5Hhh"/>
-      <code value="YGb5xbd1KE"/>
-      <display value="M9kqFImrsG"/>
+      <system value="5JaejJKopY"/>
+      <version value="L5AEtYKsdo"/>
+      <code value="cuEsZNH04c"/>
+      <display value="dwsDaWQWwe"/>
       <userSelected value="true"/>
     </code>
     <valueCodeableConcept>
       <coding>
-        <system value="g6A44Ow9MQ"/>
-        <version value="WB90ntDl8j"/>
-        <code value="UooUNThSnN"/>
-        <display value="Rbu30Oz6DV"/>
+        <system value="4QALoXKqA6"/>
+        <version value="6N5poKq0RY"/>
+        <code value="0sigwhsWR0"/>
+        <display value="0D3i4Ii0jQ"/>
         <userSelected value="true"/>
       </coding>
-      <text value="n_oWZj_tDn"/>
+      <text value="rzKlEalQkX"/>
     </valueCodeableConcept>
   </useContext>
   <jurisdiction>
     <coding>
-      <system value="kxRGT6n0Vs"/>
-      <version value="Gj0YDbJbbQ"/>
-      <code value="B1_1HkmkvQ"/>
-      <display value="UH8hRyV_YV"/>
+      <system value="5ZzkbQ5s_f"/>
+      <version value="AoGVKSHvkd"/>
+      <code value="OuJnQCv3bf"/>
+      <display value="9u8sHaNgKt"/>
       <userSelected value="true"/>
     </coding>
-    <text value="MnDMizs0Qp"/>
+    <text value="MM4H2s7nzb"/>
   </jurisdiction>
-  <usage value="DQHcXSaPTD"/>
+  <usage value="gNr3LkFGpx"/>
   <uniqueId>
-    <type value="uri"/>
-    <value value="m3RdLvwZWD"/>
+    <type value="oid"/>
+    <value value="IwHjiyGJ2D"/>
     <preferred value="true"/>
-    <comment value="VSw0MUT2tJ"/>
+    <comment value="UZzGRYfTgv"/>
     <period>
-      <start value="2019-08-08T09:17:29.830-04:00"/>
-      <end value="2019-08-08T09:17:29.830-04:00"/>
+      <start value="2019-12-04T21:42:34.96-05:00"/>
+      <end value="2019-12-04T21:42:34.96-05:00"/>
     </period>
   </uniqueId>
 </NamingSystem>

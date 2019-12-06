@@ -18,7 +18,6 @@ import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
@@ -111,8 +110,19 @@ public class ExtensionSearchTool {
         Code code = Code.of(codeStr);
         Collection<ResourceType> base = baseStrings;
 
-        SearchParameter param =
-                SearchParameter.builder().url(url).name(string(name)).status(status).description(description).code(code).base(base).type(type).id(Id.of(id)).expression(string(expression)).xpath(string(xpath)).xpathUsage(XPathUsageType.NORMAL).build();
+        SearchParameter param = SearchParameter.builder()
+                .url(url)
+                .name(string(name))
+                .status(status)
+                .description(description)
+                .code(code)
+                .base(base)
+                .type(type)
+                .id(id)
+                .expression(string(expression))
+                .xpath(string(xpath))
+                .xpathUsage(XPathUsageType.NORMAL)
+                .build();
         return param;
     }
 

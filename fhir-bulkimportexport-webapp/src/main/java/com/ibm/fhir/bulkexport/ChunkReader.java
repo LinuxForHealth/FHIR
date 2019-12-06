@@ -123,7 +123,7 @@ public class ChunkReader extends AbstractItemReader {
                 } catch (FHIRGeneratorException e) {
                     if (res.getId() != null) {
                         logger.log(Level.WARNING, "updateChunkDataSizeInfo: Error while writing resources with id '"
-                                + res.getId().getValue() + "'", e);
+                                + res.getId() + "'", e);
                     } else {
                         logger.log(Level.WARNING,
                                 "updateChunkDataSizeInfo: Error while writing resources with unknown id", e);
@@ -147,7 +147,6 @@ public class ChunkReader extends AbstractItemReader {
      * @see AbstractItemReader#readItem()
      */
     @Override
-    @SuppressWarnings("unchecked")
     public Object readItem() throws Exception {
         List<String> ResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
 

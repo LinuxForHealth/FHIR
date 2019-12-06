@@ -318,7 +318,7 @@ public class ResourceComparatorVisitor extends PathAwareVisitor {
     }
     
     @Override
-    public void visit(java.lang.String elementName, java.lang.String value) {
+    public void doVisit(java.lang.String elementName, java.lang.String value) {
         this.values.put(getPath(), new StringComparer(value));
     }
     

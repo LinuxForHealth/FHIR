@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.medication[x]",
       "expansion": {
-        "identifier": "urn:uuid:570b837a-399a-470a-a2b1-fade9a95de86",
-        "timestamp": "2018-12-27T22:44:22+11:00",
+        "identifier": "urn:uuid:a55a710a-577e-4f4b-94ee-45689860ce21",
+        "timestamp": "2019-11-01T09:35:49+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:f4d6a81a-04ac-45ca-a95f-869177cc8536",
-        "timestamp": "2018-12-27T22:44:22+11:00",
+        "identifier": "urn:uuid:8e47c253-72ba-46a8-9cce-936b6db51ef9",
+        "timestamp": "2019-11-01T09:35:49+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.dosage.rate[x]",
       "expansion": {
-        "identifier": "urn:uuid:1a6ece3a-2dee-4e27-a13e-232514794d80",
-        "timestamp": "2018-12-27T22:44:22+11:00",
+        "identifier": "urn:uuid:41a4c662-51f6-4ddc-a773-806f953dcc05",
+        "timestamp": "2019-11-01T09:35:49+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {

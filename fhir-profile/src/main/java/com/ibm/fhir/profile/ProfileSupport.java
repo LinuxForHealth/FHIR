@@ -8,7 +8,6 @@ package com.ibm.fhir.profile;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -32,39 +31,6 @@ import com.ibm.fhir.registry.FHIRRegistry;
 public final class ProfileSupport {
     public static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     public static final String HL7_VALUE_SET_URL_PREFIX = "http://hl7.org/fhir/ValueSet/";
-    private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
-        "$index", 
-        "$this", 
-        "$total", 
-        "and", 
-        "as", 
-        "contains", 
-        "day", 
-        "days", 
-        "div", 
-        "false", 
-        "hour", 
-        "hours", 
-        "implies", 
-        "in", 
-        "is", 
-        "millisecond", 
-        "milliseconds", 
-        "minute", 
-        "minutes", 
-        "mod", 
-        "month", 
-        "months", 
-        "or", 
-        "seconds", 
-        "true", 
-        "week", 
-        "weeks", 
-        "xor", 
-        "year", 
-        "years", 
-        "second"
-    ));
 
     private static final Map<String, List<Constraint>> CONSTRAINT_CACHE = new ConcurrentHashMap<>();
     private static final Map<String, Map<String, ElementDefinition>> ELEMENT_DEFINITION_CACHE = new ConcurrentHashMap<>();
@@ -94,10 +60,10 @@ public final class ProfileSupport {
         return Collections.emptyMap();
     }
 
-    private static List<Constraint> computeConstraints(StructureDefinition profile, Class<?> resourceType) {
+    private static List<Constraint> computeConstraints(StructureDefinition profile, Class<?> type) {
         List<Constraint> constraints = new ArrayList<>();
         Set<String> difference = new HashSet<>(getKeys(profile));
-        difference.removeAll(getKeys(getStructureDefinition(resourceType)));
+        difference.removeAll(getKeys(getStructureDefinition(type)));
         for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
             if (elementDefinition.getConstraint().isEmpty()) {
                 continue;
@@ -204,12 +170,12 @@ public final class ProfileSupport {
         return bindingMap;
     }
 
-    public static List<Constraint> getConstraints(List<String> urls, Class<?> resourceType) {
+    public static List<Constraint> getConstraints(List<String> urls, Class<?> type) {
         List<Constraint> constraints = new ArrayList<>();
         for (String url : urls) {
-            StructureDefinition profile = getProfile(url, resourceType);
+            StructureDefinition profile = getProfile(url, type);
             if (profile != null) {
-                constraints.addAll(getConstraints(profile, resourceType));
+                constraints.addAll(getConstraints(profile, type));
             }
         }
         return constraints;
@@ -229,15 +195,15 @@ public final class ProfileSupport {
         return Collections.emptyList();
     }
 
-    public static List<Constraint> getConstraints(String url, Class<?> resourceType) {
-        return getConstraints(Collections.singletonList(url), resourceType);
+    public static List<Constraint> getConstraints(String url, Class<?> type) {
+        return getConstraints(Collections.singletonList(url), type);
     }
 
-    private static List<Constraint> getConstraints(StructureDefinition profile, Class<?> resourceType) {
+    private static List<Constraint> getConstraints(StructureDefinition profile, Class<?> type) {
         String url = profile.getUrl().getValue();
         List<Constraint> constraints = CONSTRAINT_CACHE.get(url);
         if (constraints == null) {
-            constraints = CONSTRAINT_CACHE.computeIfAbsent(url, key -> computeConstraints(profile, resourceType));
+            constraints = CONSTRAINT_CACHE.computeIfAbsent(url, key -> computeConstraints(profile, type));
         }
         return constraints;
     }
@@ -248,8 +214,8 @@ public final class ProfileSupport {
         return elementDefinitionMap.get(path);
     }
     
-    public static Map<String, ElementDefinition> getElementDefinitionMap(Class<?> modelClass) {
-        return getElementDefinitionMap(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
+    public static Map<String, ElementDefinition> getElementDefinitionMap(Class<?> type) {
+        return getElementDefinitionMap(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(type));
     }
     
     public static Map<String, ElementDefinition> getElementDefinitionMap(String url) {
@@ -275,9 +241,9 @@ public final class ProfileSupport {
         return isProfile(structureDefinition) ? structureDefinition : null;
     }
     
-    public static StructureDefinition getProfile(String url, Class<?> resourceType) {
+    public static StructureDefinition getProfile(String url, Class<?> type) {
         StructureDefinition profile = getProfile(url);
-        return (profile != null && isApplicable(profile, resourceType)) ? profile : null;
+        return (profile != null && isApplicable(profile, type)) ? profile : null;
     }
 
     private static StructureDefinition getStructureDefinition(Class<?> modelClass) {
@@ -298,8 +264,8 @@ public final class ProfileSupport {
         return HL7_STRUCTURE_DEFINITION_URL_PREFIX + typeName;
     }
     
-    public static boolean isApplicable(StructureDefinition profile, Class<?> resourceType) {
-        return isApplicable(profile, ModelSupport.getTypeNames(resourceType));
+    public static boolean isApplicable(StructureDefinition profile, Class<?> type) {
+        return isApplicable(profile, ModelSupport.getTypeNames(type));
     }
     
     private static boolean isApplicable(StructureDefinition profile, Set<String> typeNames) {
@@ -309,13 +275,5 @@ public final class ProfileSupport {
     
     public static boolean isProfile(StructureDefinition structureDefinition) {
         return structureDefinition != null && TypeDerivationRule.CONSTRAINT.equals(structureDefinition.getDerivation());
-    }
-    
-    public static boolean isKeyword(String identifier) {
-        return KEYWORDS.contains(identifier);
-    }
-    
-    public static String delimit(String identifier) {
-        return String.format("`%s`", identifier);
     }
 }

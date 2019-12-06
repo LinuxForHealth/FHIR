@@ -23,7 +23,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -48,7 +47,7 @@ public class ImmunizationEvaluation extends DomainResource {
         bindingName = "ImmunizationEvaluationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the evaluation being done.",
-        valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.0.1"
     )
     @Required
     private final ImmunizationEvaluationStatus status;
@@ -397,7 +396,7 @@ public class ImmunizationEvaluation extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

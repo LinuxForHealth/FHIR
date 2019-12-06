@@ -162,7 +162,7 @@ public class PatientTrackTest {
         }
         FHIRResponse response = client.update(patient, ifMatch);
         if (response.getStatus() != Status.OK.getStatusCode()) {
-            String msg = "Error updating Patient/" + patient.getId().getValue() + ", status code = " + response.getStatus();
+            String msg = "Error updating Patient/" + patient.getId() + ", status code = " + response.getStatus();
             log(msg);
             displayOperationOutcome(response);
             throw new Exception(msg);
@@ -195,7 +195,7 @@ public class PatientTrackTest {
             return;
         }
 
-        String patientId = patient.getId().getValue();
+        String patientId = patient.getId();
         FHIRResponse response = client.history("Patient", patientId, null);
         if (response.getStatus() != Status.OK.getStatusCode()) {
             String msg = "Error retrieving resource history for Patient/" + patientId + ", status code = " + response.getStatus();

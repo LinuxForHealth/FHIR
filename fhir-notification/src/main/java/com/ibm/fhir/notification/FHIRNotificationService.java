@@ -224,7 +224,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             Resource resource = pEvent.getFhirResource();
             event.setLastUpdated(resource.getMeta().getLastUpdated().getValue().toString());
             event.setLocation((String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI));
-            event.setResourceId(resource.getId().getValue());
+            event.setResourceId(resource.getId());
             event.setResource(resource);
             event.setHttpHeaders(pEvent.getHttpHeaders());
 

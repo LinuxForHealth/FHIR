@@ -46,28 +46,16 @@
             <b>Profile</b>
           </th>
           <th>
-            <b>Read</b>
+            <b title="GET a resource (read interaction)">Read</b>
           </th>
           <th>
-            <b>V-Read</b>
+            <b title="GET all set of resources of the type (search interaction)">Search</b>
           </th>
           <th>
-            <b>Search</b>
+            <b title="PUT a new resource version (update interaction)">Update</b>
           </th>
           <th>
-            <b>Update</b>
-          </th>
-          <th>
-            <b>Updates</b>
-          </th>
-          <th>
-            <b>Create</b>
-          </th>
-          <th>
-            <b>Delete</b>
-          </th>
-          <th>
-            <b>History</b>
+            <b title="POST a new resource (create interaction)">Create</b>
           </th>
         </tr>
         <tr>
@@ -76,11 +64,7 @@
             <a href="StructureDefinition/ValueSet">StructureDefinition/ValueSet</a>
           </td>
           <td>y</td>
-          <td/>
           <td>y</td>
-          <td/>
-          <td/>
-          <td/>
           <td/>
           <td/>
         </tr>
@@ -90,11 +74,7 @@
             <a href="StructureDefinition/ConceptMap">StructureDefinition/ConceptMap</a>
           </td>
           <td>y</td>
-          <td/>
           <td>y</td>
-          <td/>
-          <td/>
-          <td/>
           <td/>
           <td/>
         </tr>
@@ -105,7 +85,7 @@
     <valueUri value="http://loinc.org"/>
   </extension>
   <url value="http://hl7.org/fhir/terminology-server"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="Terminology Service Capability Statement"/>
   <status value="draft"/>
   <date value="2015-07-05"/>
@@ -122,7 +102,7 @@
   <software>
     <name value="ACME Terminology Server"/>
   </software>
-  <fhirVersion value="4.0.0"/>
+  <fhirVersion value="4.0.1"/>
   <format value="json"/>
   <format value="xml"/>
   <rest>
