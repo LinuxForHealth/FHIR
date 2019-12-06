@@ -20,7 +20,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LATITUDE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LONGITUDE_VALUE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETERS_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
@@ -62,13 +61,13 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.persistence.util.BoundingBox;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.ParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -301,7 +300,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected JDBCOperator getPrefixOperator(ParameterValue queryParmValue) {
+    public JDBCOperator getPrefixOperator(ParameterValue queryParmValue) {
         final String METHODNAME = "getOperator(ParameterValue)";
         log.entering(CLASSNAME, METHODNAME, queryParmValue.getPrefix());
 
@@ -1089,42 +1088,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        JDBCOperator operator;
-        boolean parmValueProcessed = false;
         List<Object> bindVariables = new ArrayList<>();
-        SqlQueryData queryData;
-
+        
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
-        whereClauseSegment.append(AND).append(LEFT_PAREN);
-        for (ParameterValue value : queryParm.getValues()) {
-            if (value.getPrefix() == Prefix.EB || value.getPrefix() == Prefix.SA) {
-                boolean isIntegerSearch = false;
-                try {
-                    isIntegerSearch = ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
-                } catch (FHIRSearchException e) {
-                    log.log(Level.INFO, "Caught exception while checking the value types for parameter '" + queryParm.getCode() + "'; continuing...", e);
-                    // do nothing
-                }
-                if (isIntegerSearch) {
-                    throw new FHIRPersistenceException("Search prefixes '" + Prefix.EB.value() + "' and '" + Prefix.SA.value()
-                            + "' are not supported for integer searches.");
-                }
-            }
-            operator = this.getPrefixOperator(value);
-            // If multiple values are present, we need to OR them together.
-            if (parmValueProcessed) {
-                whereClauseSegment.append(JDBCOperator.OR.value());
-            }
-            // Build this piece: p1.value_string {operator} search-attribute-value
-            whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE).append(operator.value()).append(BIND_VAR);
-            bindVariables.add(value.getValueNumber());
-            parmValueProcessed = true;
-        }
-        whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
-        queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+        // Calls to the NumberParmBehaviorUtil which encapsulates the precision 
+        // selection criteria. 
+        NumberParmBehaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, resourceType, tableAlias, this);
+        SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
 
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
         return queryData;

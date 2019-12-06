@@ -402,11 +402,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         int searchResultCount = 0;
         SqlQueryData countQuery;
         SqlQueryData query;
-                
+
         try {
             queryBuilder = new JDBCQueryBuilder((ParameterDAO)this.getParameterDao(),
                                                           (ResourceDAO)this.getResourceDao());
-             
+
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
             if (countQuery != null) {                
                 searchResultCount = this.getResourceDao().searchCount(countQuery);
@@ -416,7 +416,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 searchContext.setTotalCount(searchResultCount);
                 
                 List<OperationOutcome.Issue> issues = validatePagingContext(searchContext);
-                
                 if (!issues.isEmpty()) {
                     resultBuilder.outcome(OperationOutcome.builder()
                         .issue(issues)
@@ -425,9 +424,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                         return resultBuilder.success(false).build();
                     }
                 }
-                                
+
                 // For _summary=count or pageSize == 0, we return only the count
-                if (searchResultCount > 0 && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter()) && searchContext.getPageSize() > 0) {
+                if (searchResultCount > 0 
+                        && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter()) 
+                        && searchContext.getPageSize() > 0) {
                     query = queryBuilder.buildQuery(resourceType, searchContext);
                     
                     List<String> elements = searchContext.getElementsParameters();
@@ -436,7 +437,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     if (elements == null && searchContext.hasSummaryParameter()) {
                         Set<String> summaryElements = null;
                         SummaryValueSet summary = searchContext.getSummaryParameter();
-                        
+
                         switch (summary) {
                         case TRUE:
                             summaryElements = JsonSupport.getSummaryElementNames(resourceType);
@@ -449,15 +450,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                             break;
                         default:
                             break;
-                            
                         }
 
                         if (summaryElements != null) {
-                            elements = new ArrayList<String>();
+                            elements = new ArrayList<>();
                             elements.addAll(summaryElements);
                         }
                     }
-                    
+
                     if (searchContext.hasSortParameters()) {
                         // Sorting results of a system-level search is limited, and has a different logic path
                         // than other sorted searches.
@@ -475,7 +475,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     }  
                 }
             }
-            
+
             return resultBuilder
                     .success(true)
                     .resource(resources)
@@ -502,9 +502,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return resourceDao;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.FHIRPersistence#delete(com.ibm.fhir.persistence.context.FHIRPersistenceContext, Class<? extends Resource> resourceType, java.lang.String)
-     */
     @Override
     public <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
         final String METHODNAME = "delete";
@@ -608,9 +605,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.FHIRPersistence#read(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
-     */
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
                             throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {

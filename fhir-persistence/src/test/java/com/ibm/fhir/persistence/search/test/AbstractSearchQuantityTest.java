@@ -255,7 +255,12 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Quantity:missing", "false");
     }
     
-
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
+    
 //    @Test
 //    public void testSearchQuantity_Quantity_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Quantity:missing", "false");
