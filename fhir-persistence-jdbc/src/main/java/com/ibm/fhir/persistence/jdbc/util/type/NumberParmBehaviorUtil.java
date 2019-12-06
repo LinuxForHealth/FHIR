@@ -38,7 +38,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 public class NumberParmBehaviorUtil {
     private static final Logger log = java.util.logging.Logger.getLogger(NumberParmBehaviorUtil.class.getName());
 
-    private static final BigDecimal FACTOR = new BigDecimal(".1");
+    protected static final BigDecimal FACTOR = new BigDecimal(".1");
 
     private NumberParmBehaviorUtil() {
         // No operation
