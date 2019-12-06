@@ -31,7 +31,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Markdown;
@@ -82,21 +81,21 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Constraint(
     id = "vsd-6",
     level = "Rule",
-    location = "ValueSet.expansion.`contains`",
+    location = "ValueSet.expansion.contains",
     description = "SHALL have a code or a display",
     expression = "code.exists() or display.exists()"
 )
 @Constraint(
     id = "vsd-9",
     level = "Rule",
-    location = "ValueSet.expansion.`contains`",
+    location = "ValueSet.expansion.contains",
     description = "Must have a code if not abstract",
     expression = "code.exists() or abstract = true"
 )
 @Constraint(
     id = "vsd-10",
     level = "Rule",
-    location = "ValueSet.expansion.`contains`",
+    location = "ValueSet.expansion.contains",
     description = "Must have a system if a code is present",
     expression = "code.empty() or system.exists()"
 )
@@ -117,7 +116,7 @@ public class ValueSet extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -549,7 +548,7 @@ public class ValueSet extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -2591,7 +2590,7 @@ public class ValueSet extends DomainResource {
                     bindingName = "FilterOperator",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The kind of operation to perform as a part of a property based filter.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.1"
                 )
                 @Required
                 private final FilterOperator op;

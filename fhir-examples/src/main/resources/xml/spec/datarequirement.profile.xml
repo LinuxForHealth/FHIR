@@ -35,7 +35,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement" title="DataRequirement : Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of the data.">DataRequirement</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
             <a style="padding-left: 3px; padding-right: 3px; border: 1px grey solid; font-weight: bold; color: black; background-color: #fff5e6" href="versions.html#std-process" title="Standards Status = Trial Use">TU</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy"></td>
@@ -57,7 +57,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.type" title="DataRequirement.type : The type of the required data, specified as the type name of a resource. For profiles, this value is set to the type of the base resource of the profile.">type</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">1..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -78,7 +78,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.profile" title="DataRequirement.profile : The profile of the required data, specified as the uri of the profile definition.">profile</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..*</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -98,7 +98,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.subject_x_" title="DataRequirement.subject[x] : The intended subjects of the data requirement. If this element is not provided, a Patient subject is assumed.">subject[x]</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy"></td>
@@ -149,7 +149,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.mustSupport" title="DataRequirement.mustSupport : Indicates that specific elements of the type are referenced by the knowledge module and must be supported by the consumer in order to obtain an effective evaluation. This does not mean that a value is required for this element, only that the consuming system must understand the element and be able to provide values for it if they are available. &#xA;&#xA;The value of mustSupport SHALL be a FHIRPath resolveable on the type of the DataRequirement. The path SHALL consist only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details).">mustSupport</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..*</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -168,8 +168,8 @@
             <a href="metadatatypes-definitions.html#DataRequirement.codeFilter" title="DataRequirement.codeFilter : Code filters specify additional constraints on the data, specifying the value set of interest for a particular element of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND&#39;ed, not OR&#39;ed.">codeFilter</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="conformance-rules.html#constraints" title="This element has or is affected by some invariants">I</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="conformance-rules.html#constraints" title="This element has or is affected by some invariants">I</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..*</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -191,7 +191,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.codeFilter.path" title="DataRequirement.codeFilter.path : The code-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). Note that the index must be an integer constant. The path must resolve to an element of type code, Coding, or CodeableConcept.">path</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -209,7 +209,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.codeFilter.searchParam" title="DataRequirement.codeFilter.searchParam : A token parameter that refers to a search parameter defined on the specified type of the DataRequirement, and which searches on elements of type code, Coding, or CodeableConcept.">searchParam</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -227,7 +227,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.codeFilter.valueSet" title="DataRequirement.codeFilter.valueSet : The valueset for the code filter. The valueSet and code elements are additive. If valueSet is specified, the filter will return only those data items for which the value of the code-valued element specified in the path is a member of the specified valueset.">valueSet</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -246,7 +246,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.codeFilter.code" title="DataRequirement.codeFilter.code : The codes for the code filter. If values are given, the filter will return only those data items for which the code-valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.">code</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..*</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -265,8 +265,8 @@
             <a href="metadatatypes-definitions.html#DataRequirement.dateFilter" title="DataRequirement.dateFilter : Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. Each date filter specifies an additional constraint on the data, i.e. date filters are AND&#39;ed, not OR&#39;ed.">dateFilter</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="conformance-rules.html#constraints" title="This element has or is affected by some invariants">I</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="conformance-rules.html#constraints" title="This element has or is affected by some invariants">I</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..*</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -288,7 +288,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.dateFilter.path" title="DataRequirement.dateFilter.path : The date-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). Note that the index must be an integer constant. The path must resolve to an element of type date, dateTime, Period, Schedule, or Timing.">path</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -306,7 +306,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.dateFilter.searchParam" title="DataRequirement.dateFilter.searchParam : A date parameter that refers to a search parameter defined on the specified type of the DataRequirement, and which searches on elements of type date, dateTime, Period, Schedule, or Timing.">searchParam</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -324,7 +324,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.dateFilter.value_x_" title="DataRequirement.dateFilter.value[x] : The value of the filter. If period is specified, the filter will return only those data items that fall within the bounds determined by the Period, inclusive of the period boundaries. If dateTime is specified, the filter will return only those data items that are equal to the specified dateTime. If a Duration is specified, the filter will return only those data items that fall within Duration before now.">value[x]</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy"></td>
@@ -390,7 +390,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.limit" title="DataRequirement.limit : Specifies a maximum number of results that are required (uses the _count search parameter).">limit</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -407,7 +407,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.sort" title="DataRequirement.sort : Specifies the order of the results to be returned.">sort</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">0..*</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -427,7 +427,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.sort.path" title="DataRequirement.sort.path : The attribute of the sort. The specified path must be resolvable from the type of the required data. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements. Note that the index must be an integer constant.">path</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">1..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -445,7 +445,7 @@
             <a href="metadatatypes-definitions.html#DataRequirement.sort.direction" title="DataRequirement.sort.direction : The direction of the sort, ascending or descending.">direction</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
-            <a style="padding-left: 3px; padding-right: 3px; color: black; background-color: white" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
+            <a style="padding-left: 3px; padding-right: 3px; color: black; null" href="elementdefinition-definitions.html#ElementDefinition.isSummary" title="This element is included in summaries">&#x3A3;</a>
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">1..1</td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">
@@ -473,10 +473,10 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/DataRequirement"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="DataRequirement"/>
   <status value="draft"/>
-  <date value="2018-12-27T22:37:54+11:00"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -485,7 +485,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for DataRequirement Type: Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of the data."/>
-  <fhirVersion value="4.0.0"/>
+  <fhirVersion value="4.0.1"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -518,7 +518,7 @@
         <human value="All FHIR elements must have a @value or children"/>
         <expression value="hasValue() or (children().count() &gt; id.count())"/>
         <xpath value="@value|f:*|h:div"/>
-        <source value="Element"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
       <mapping>
@@ -538,8 +538,12 @@
         <min value="0"/>
         <max value="1"/>
       </base>
+    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
-        <code value="string"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
+          <valueUrl value="string"/>
+        </extension>
+        <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
       <isModifier value="false"/>
       <isSummary value="false"/>
@@ -573,6 +577,22 @@
       <type>
         <code value="Extension"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -594,6 +614,14 @@
       <type>
         <code value="code"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <binding>
@@ -605,7 +633,7 @@
         </extension>
         <strength value="required"/>
         <description value="A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/all-types|4.0.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/all-types|4.0.1"/>
       </binding>
     </element>
     <element id="DataRequirement.profile">
@@ -623,6 +651,14 @@
         <code value="canonical"/>
         <targetProfile value="http://hl7.org/fhir/StructureDefinition/StructureDefinition"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -646,6 +682,14 @@
         <targetProfile value="http://hl7.org/fhir/StructureDefinition/Group"/>
       </type>
       <meaningWhenMissing value="Patient"/>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <binding>
@@ -671,6 +715,14 @@
       <type>
         <code value="string"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -689,19 +741,19 @@
         <code value="Element"/>
       </type>
       <constraint>
-        <key value="ele-1"/>
-        <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
-        <source value="Element"/>
-      </constraint>
-      <constraint>
         <key value="drq-1"/>
         <severity value="error"/>
         <human value="Either a path or a searchParam must be provided, but not both"/>
         <expression value="path.exists() xor searchParam.exists()"/>
         <xpath value="(exists(f:path) and not(exists(f:searchParam))) or (not(exists(f:path)) and exists(f:searchParam))"/>
+      </constraint>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
@@ -718,8 +770,12 @@
         <min value="0"/>
         <max value="1"/>
       </base>
+    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
-        <code value="string"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
+          <valueUrl value="string"/>
+        </extension>
+        <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
       <isModifier value="false"/>
       <isSummary value="false"/>
@@ -753,6 +809,22 @@
       <type>
         <code value="Extension"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -775,6 +847,14 @@
       <type>
         <code value="string"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -792,6 +872,14 @@
       <type>
         <code value="string"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -810,6 +898,14 @@
         <code value="canonical"/>
         <targetProfile value="http://hl7.org/fhir/StructureDefinition/ValueSet"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -827,6 +923,14 @@
       <type>
         <code value="Coding"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -845,19 +949,19 @@
         <code value="Element"/>
       </type>
       <constraint>
-        <key value="ele-1"/>
-        <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
-        <source value="Element"/>
-      </constraint>
-      <constraint>
         <key value="drq-2"/>
         <severity value="error"/>
         <human value="Either a path or a searchParam must be provided, but not both"/>
         <expression value="path.exists() xor searchParam.exists()"/>
         <xpath value="(exists(f:path) and not(exists(f:searchParam))) or (not(exists(f:path)) and exists(f:searchParam))"/>
+      </constraint>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
@@ -874,8 +978,12 @@
         <min value="0"/>
         <max value="1"/>
       </base>
+    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
-        <code value="string"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
+          <valueUrl value="string"/>
+        </extension>
+        <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
       <isModifier value="false"/>
       <isSummary value="false"/>
@@ -909,6 +1017,22 @@
       <type>
         <code value="Extension"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -931,6 +1055,14 @@
       <type>
         <code value="string"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -948,6 +1080,14 @@
       <type>
         <code value="string"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -971,6 +1111,14 @@
       <type>
         <code value="Duration"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -990,6 +1138,14 @@
       <type>
         <code value="positiveInt"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -1015,7 +1171,7 @@
         <human value="All FHIR elements must have a @value or children"/>
         <expression value="hasValue() or (children().count() &gt; id.count())"/>
         <xpath value="@value|f:*|h:div"/>
-        <source value="Element"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
@@ -1032,8 +1188,12 @@
         <min value="0"/>
         <max value="1"/>
       </base>
+    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (j) -->
       <type>
-        <code value="string"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
+          <valueUrl value="string"/>
+        </extension>
+        <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
       <isModifier value="false"/>
       <isSummary value="false"/>
@@ -1067,6 +1227,22 @@
       <type>
         <code value="Extension"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="false"/>
       <mapping>
@@ -1088,6 +1264,14 @@
       <type>
         <code value="string"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
     </element>
@@ -1105,6 +1289,14 @@
       <type>
         <code value="code"/>
       </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
       <isModifier value="false"/>
       <isSummary value="true"/>
       <binding>
@@ -1113,7 +1305,7 @@
         </extension>
         <strength value="required"/>
         <description value="The possible sort directions, ascending or descending."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/sort-direction|4.0.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/sort-direction|4.0.1"/>
       </binding>
     </element>
   </snapshot>
@@ -1147,7 +1339,7 @@
         </extension>
         <strength value="required"/>
         <description value="A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/all-types|4.0.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/all-types|4.0.1"/>
       </binding>
     </element>
     <element id="DataRequirement.profile">
@@ -1373,7 +1565,7 @@
         </extension>
         <strength value="required"/>
         <description value="The possible sort directions, ascending or descending."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/sort-direction|4.0.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/sort-direction|4.0.1"/>
       </binding>
     </element>
   </differential>

@@ -18,7 +18,7 @@ public class VReadOperation extends BaseOperation {
         final Resource resource = tc.getResource();
         final FHIRPersistenceContext context = tc.createPersistenceContext();
         
-        final String logicalId = resource.getId().getValue();
+        final String logicalId = resource.getId();
         final String versionId = resource.getMeta().getVersionId().getValue();
         
         Resource newResource = tc.getPersistence().vread(context, resource.getClass(), logicalId, versionId).getResource();

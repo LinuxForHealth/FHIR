@@ -27,7 +27,6 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 
@@ -403,7 +402,7 @@ public class DeleteTest extends FHIRServerTestBase {
         String obsId = UUID.randomUUID().toString();
         Observation obs = TestUtil.readLocalResource("Observation1.json");
         
-        obs = obs.toBuilder().id(Id.of(obsId)).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
+        obs = obs.toBuilder().id(obsId).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
 
         
         // First conditional delete should find no matches, so we should get back a 200 OK.

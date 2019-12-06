@@ -29,7 +29,6 @@ import com.ibm.fhir.model.type.Dosage;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -59,7 +58,7 @@ public class MedicationRequest extends DomainResource {
         bindingName = "MedicationRequestStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept specifying the state of the prescribing event. Describes the lifecycle of the prescription.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.0.1"
     )
     @Required
     private final MedicationRequestStatus status;
@@ -75,7 +74,7 @@ public class MedicationRequest extends DomainResource {
         bindingName = "MedicationRequestIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The kind of medication order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.0.1"
     )
     @Required
     private final MedicationRequestIntent intent;
@@ -91,7 +90,7 @@ public class MedicationRequest extends DomainResource {
         bindingName = "MedicationRequestPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
     private final MedicationRequestPriority priority;
     @Summary
@@ -788,7 +787,7 @@ public class MedicationRequest extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1050,7 +1049,7 @@ public class MedicationRequest extends DomainResource {
          * <p>This element is required.
          * 
          * @param intent
-         *     proposal | plan | order | original-order | instance-order | option
+         *     proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
          * 
          * @return
          *     A reference to this Builder instance

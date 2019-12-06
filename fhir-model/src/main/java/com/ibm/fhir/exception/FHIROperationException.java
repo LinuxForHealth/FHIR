@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class FHIROperationException extends FHIRException {
@@ -35,8 +33,7 @@ public class FHIROperationException extends FHIRException {
     }
     
     public OperationOutcome buildOperationOutcome() {
-        Id probeId = Id.builder().value(getUniqueId()).build();
-        return FHIRUtil.buildOperationOutcome(getIssues()).toBuilder().id(probeId).build();
+        return FHIRUtil.buildOperationOutcome(getIssues()).toBuilder().id(getUniqueId()).build();
     }
 
     public List<OperationOutcome.Issue> getIssues() {

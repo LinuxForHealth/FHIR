@@ -217,7 +217,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             HashSet<String> resourceIdSet = new HashSet<String>();  
             for (Entry entry: bundle.getEntry()) {
                 resourceIdSet.add(entry.getResource().getClass().getSimpleName()
-                        + ":" + entry.getResource().getId().getValue());
+                        + ":" + entry.getResource().getId());
             }
             assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }
@@ -259,7 +259,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             HashSet<String> resourceIdSet = new HashSet<String>();  
             for (Entry entry: bundle.getEntry()) {
                 resourceIdSet.add(entry.getResource().getClass().getSimpleName()
-                        + ":" + entry.getResource().getId().getValue());
+                        + ":" + entry.getResource().getId());
             }
             assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }
@@ -300,7 +300,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             HashSet<String> resourceIdSet = new HashSet<String>();  
             for (Entry entry: bundle.getEntry()) {
                 resourceIdSet.add(entry.getResource().getClass().getSimpleName()
-                        + ":" + entry.getResource().getId().getValue());
+                        + ":" + entry.getResource().getId());
             }
             assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }
@@ -341,7 +341,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             HashSet<String> resourceIdSet = new HashSet<String>();  
             for (Entry entry: bundle.getEntry()) {
                 resourceIdSet.add(entry.getResource().getClass().getSimpleName()
-                        + ":" + entry.getResource().getId().getValue());
+                        + ":" + entry.getResource().getId());
             }
             assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }

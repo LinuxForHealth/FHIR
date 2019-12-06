@@ -1,39 +1,14 @@
 {
   "resourceType": "Questionnaire",
   "id": "qs1",
-  "contained": [
-    {
-      "resourceType": "ValueSet",
-      "id": "vs2",
-      "name": "Type options for GuidanceResponse.module[x]",
-      "status": "active",
-      "description": "Type options for GuidanceResponse.module[x]",
-      "expansion": {
-        "identifier": "urn:uuid:73b6c90f-20dd-4da2-b1e5-1917b05f8267",
-        "timestamp": "2018-12-27T22:44:02+11:00",
-        "contains": [
-          {
-            "system": "http://hl7.org/fhir/data-types",
-            "code": "uri",
-            "display": "uri"
-          },
-          {
-            "system": "http://hl7.org/fhir/data-types",
-            "code": "CodeableConcept",
-            "display": "CodeableConcept"
-          }
-        ]
-      }
-    }
-  ],
   "identifier": [
     {
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "HL7",
   "item": [
     {
@@ -480,10 +455,13 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
               "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "uri"
             }
           ],
           "linkId": "GuidanceResponse.module[x]",
-          "text": "What guidance was requested",
           "type": "group",
           "required": true,
           "repeats": true,
@@ -507,76 +485,58 @@
               "type": "display"
             },
             {
-              "linkId": "GuidanceResponse.module[x]._type",
-              "text": "type",
-              "type": "choice",
+              "linkId": "GuidanceResponse.module[x].value",
+              "text": "What guidance was requested",
+              "type": "string",
               "required": false,
-              "repeats": false,
-              "answerValueSet": "#vs2",
-              "item": [
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs",
+              "valueInteger": 1
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
+              "valueString": "uri"
+            }
+          ],
+          "linkId": "GuidanceResponse.module[x]",
+          "type": "group",
+          "required": true,
+          "repeats": true,
+          "item": [
+            {
+              "extension": [
                 {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
-                      "valueString": "uri"
-                    }
-                  ],
-                  "linkId": "GuidanceResponse.module[x]._null",
-                  "type": "group",
-                  "item": [
-                    {
-                      "linkId": "GuidanceResponse.module[x]._null.value",
-                      "type": "string",
-                      "required": false,
-                      "repeats": false
-                    }
-                  ]
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
-                      "valueString": "uri"
-                    }
-                  ],
-                  "linkId": "GuidanceResponse.module[x]._null",
-                  "type": "group",
-                  "item": [
-                    {
-                      "linkId": "GuidanceResponse.module[x]._null.value",
-                      "type": "string",
-                      "required": false,
-                      "repeats": false
-                    }
-                  ]
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType",
-                      "valueString": "CodeableConcept"
-                    }
-                  ],
-                  "linkId": "GuidanceResponse.module[x]._null",
-                  "type": "group",
-                  "item": [
-                    {
-                      "linkId": "GuidanceResponse.module[x]._null.coding",
-                      "text": "code:",
-                      "type": "open-choice",
-                      "required": false,
-                      "repeats": false
-                    },
-                    {
-                      "linkId": "GuidanceResponse.module[x]._null.text",
-                      "text": "text:",
-                      "type": "string",
-                      "required": false,
-                      "repeats": false
-                    }
-                  ]
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "flyover",
+                        "display": "Fly-over"
+                      }
+                    ]
+                  }
                 }
-              ]
+              ],
+              "text": "An identifier, CodeableConcept or canonical reference to the guidance that was requested.",
+              "type": "display"
+            },
+            {
+              "linkId": "GuidanceResponse.module[x].value",
+              "text": "What guidance was requested",
+              "type": "string",
+              "required": false,
+              "repeats": false
             }
           ]
         },

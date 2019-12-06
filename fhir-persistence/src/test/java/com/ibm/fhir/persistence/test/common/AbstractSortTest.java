@@ -107,7 +107,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         Resource[] resources = {resource1a, resource1b, resource2a, resource2b, resource3a, resource3b};
         if (persistence.isDeleteSupported()) {
             for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId().getValue());
+                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
             }
             if (persistence.isTransactional()) {
                 persistence.getTransaction().commit();
@@ -303,11 +303,11 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         // Verify that resources are sorted in ascending order of logical id.
         for (Resource resource : resources) {
             if (previousId == null) {
-                previousId = resource.getId().getValue();
+                previousId = resource.getId();
             }
             else {
-                currentId = resource.getId().getValue();
-                assertTrue(previousId.compareTo(resource.getId().getValue()) <=0);
+                currentId = resource.getId();
+                assertTrue(previousId.compareTo(resource.getId()) <=0);
                 previousId = currentId;
             }
         }

@@ -4,6 +4,11 @@
       <code value="ibm/minimal"/>
     </tag>
   </meta>
+  <clinicalStatus>
+    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+      <valueCode value="unknown"/>
+    </extension>
+  </clinicalStatus>
   <patient>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
       <valueCode value="unknown"/>

@@ -282,6 +282,7 @@ public class R4ExamplesDriver {
                 successCount.incrementAndGet();
             } else {
                 // oops, hit an unexpected parse error
+                System.out.println();
                 logger.severe("readResource(" + file + ") unexpected failure: " + fpx.getMessage()
                         + ", " + fpx.getPath());
 
@@ -329,6 +330,7 @@ public class R4ExamplesDriver {
                 if (expectation == Expectation.VALIDATION) {
                     // this is a problem, because we expected validation to fail
                     resource = null; // prevent processing
+                    System.out.println();
                     logger.severe("validateResource(" + file + ") should've failed but didn't");
                     ExampleProcessorException error =
                             new ExampleProcessorException(file, expectation, actual);
@@ -347,6 +349,7 @@ public class R4ExamplesDriver {
                     successCount.incrementAndGet();
                 } else {
                     // oops, hit an unexpected validation error
+                    System.out.println();
                     logger.severe("validateResource(" + file + ") unexpected failure: "
                             + x.getMessage());
 
@@ -376,6 +379,7 @@ public class R4ExamplesDriver {
 
                 if (expectation == Expectation.PROCESS) {
                     // this is a problem, because we expected validation to fail
+                    System.out.println();
                     logger.severe("processResource(" + file + ") should've failed but didn't");
                     ExampleProcessorException error =
                             new ExampleProcessorException(file, expectation, actual);
@@ -396,6 +400,7 @@ public class R4ExamplesDriver {
                     successCount.incrementAndGet();
                 } else {
                     // processing error, but didn't expect it
+                    System.out.println();
                     logger.log(Level.SEVERE, "processResource(" + file
                             + ") unexpected failure: ", x);
 

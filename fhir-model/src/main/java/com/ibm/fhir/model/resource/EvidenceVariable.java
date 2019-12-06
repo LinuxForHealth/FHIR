@@ -33,7 +33,6 @@ import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Expression;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
@@ -83,7 +82,7 @@ public class EvidenceVariable extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -128,7 +127,7 @@ public class EvidenceVariable extends DomainResource {
         bindingName = "EvidenceVariableType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-        valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.1"
     )
     private final EvidenceVariableType type;
     @Summary
@@ -685,7 +684,7 @@ public class EvidenceVariable extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1591,7 +1590,7 @@ public class EvidenceVariable extends DomainResource {
             bindingName = "GroupMeasure",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
-            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
         )
         private final GroupMeasure groupMeasure;
 

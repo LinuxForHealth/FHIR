@@ -25,7 +25,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -73,7 +72,7 @@ public class Composition extends DomainResource {
         bindingName = "CompositionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The workflow/clinical status of the composition.",
-        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.1"
     )
     @Required
     private final CompositionStatus status;
@@ -112,7 +111,7 @@ public class Composition extends DomainResource {
         bindingName = "DocumentConfidentiality",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes specifying the level of confidentiality of the composition.",
-        valueSet = "http://terminology.hl7.org/ValueSet/v3-ConfidentialityClassification|4.0.0"
+        valueSet = "http://terminology.hl7.org/ValueSet/v3-ConfidentialityClassification|2014-03-26"
     )
     private final DocumentConfidentiality confidentiality;
     private final List<Attester> attester;
@@ -465,7 +464,7 @@ public class Composition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1049,7 +1048,7 @@ public class Composition extends DomainResource {
             bindingName = "CompositionAttestationMode",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The way in which a person authenticated a composition.",
-            valueSet = "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.0.1"
         )
         @Required
         private final CompositionAttestationMode mode;
@@ -1354,7 +1353,7 @@ public class Composition extends DomainResource {
             bindingName = "DocumentRelationshipType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relationship between documents.",
-            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.1"
         )
         @Required
         private final DocumentRelationshipType code;
@@ -2000,7 +1999,7 @@ public class Composition extends DomainResource {
             bindingName = "SectionMode",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The processing mode that applies to this section.",
-            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.1"
         )
         private final SectionMode mode;
         @Binding(

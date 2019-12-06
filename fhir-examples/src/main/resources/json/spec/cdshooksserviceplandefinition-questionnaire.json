@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:72bfecb4-028c-4fe5-a982-b560f162aa63",
-        "timestamp": "2018-12-27T22:45:15+11:00",
+        "identifier": "urn:uuid:bc7b1001-62b3-474c-a143-e55df944925b",
+        "timestamp": "2019-11-01T09:36:36+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.goal.target.detail[x]",
       "expansion": {
-        "identifier": "urn:uuid:724fd03e-2ec5-4fe9-a3c9-d4f244f8e270",
-        "timestamp": "2018-12-27T22:45:15+11:00",
+        "identifier": "urn:uuid:7edb9f29-f177-4314-bd08-c827be906a41",
+        "timestamp": "2019-11-01T09:36:36+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -60,8 +60,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:c2ed02e4-e6af-4406-9f3c-f37da0b41e88",
-        "timestamp": "2018-12-27T22:45:15+11:00",
+        "identifier": "urn:uuid:f1658166-4293-47e1-a28d-0f88bb300cbf",
+        "timestamp": "2019-11-01T09:36:36+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -83,8 +83,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.relatedAction.offset[x]",
       "expansion": {
-        "identifier": "urn:uuid:61e4ed92-d470-4053-bcc1-aeaac7572f70",
-        "timestamp": "2018-12-27T22:45:15+11:00",
+        "identifier": "urn:uuid:6f04d3e9-3ecd-4780-8433-f5e544a6d1fa",
+        "timestamp": "2019-11-01T09:36:36+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -106,8 +106,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:7d135134-645f-406f-919f-b7ae30c6a6ba",
-        "timestamp": "2018-12-27T22:45:15+11:00",
+        "identifier": "urn:uuid:fbcb09c1-3c9b-46fd-91b3-3a8c3fa29b40",
+        "timestamp": "2019-11-01T09:36:36+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -149,8 +149,8 @@
       "status": "active",
       "description": "Type options for PlanDefinition.action.definition[x]",
       "expansion": {
-        "identifier": "urn:uuid:8e3757f0-b91e-4e9f-a88e-6247b0b48ee1",
-        "timestamp": "2018-12-27T22:45:15+11:00",
+        "identifier": "urn:uuid:a155d90d-5566-4e78-a137-8ccb429935db",
+        "timestamp": "2019-11-01T09:36:36+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -181,9 +181,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "HL7",
   "item": [
     {
@@ -528,7 +528,7 @@
                   }
                 }
               ],
-              "text": "An absolute URI that is used to identify this plan definition when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this plan definition is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the plan definition is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
+              "text": "An absolute URI that is used to identify this plan definition when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this plan definition is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the plan definition is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
             {
@@ -4799,7 +4799,7 @@
                           }
                         }
                       ],
-                      "text": "The path to the element to be customized. This is the path on the resource that will hold the result of the calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). To specify the path to the current action being realized, the %action environment variable is available in this path. For example, to specify the description element of the target action, the path would be %action.description. The path attribute contains a [Simple FHIRPath Subset](fhirpath.html#simple) that allows path traversal, but not calculation.",
+                      "text": "The path to the element to be customized. This is the path on the resource that will hold the result of the calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](http://hl7.org/fhir/fhirpath.html#simple) for full details). To specify the path to the current action being realized, the %action environment variable is available in this path. For example, to specify the description element of the target action, the path would be %action.description. The path attribute contains a [Simple FHIRPath Subset](http://hl7.org/fhir/fhirpath.html#simple) that allows path traversal, but not calculation.",
                       "type": "display"
                     },
                     {

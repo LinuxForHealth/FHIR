@@ -27,8 +27,8 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
-import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Observation.Component;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -135,7 +135,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
             }
 
             // use it for search
-            observationId = responseObservation.getId().getValue();
+            observationId = responseObservation.getId();
             TestUtil.assertResourceEquals(observation, responseObservation);
         }
     }
@@ -315,7 +315,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         }
         assertNotNull(observation);
         assertNotNull(patient);
-        assertEquals(patientId, patient.getId().getValue());
+        assertEquals(patientId, patient.getId());
         assertEquals("Patient/"
                 + patientId, observation.getSubject().getReference().getValue());
     }
@@ -398,7 +398,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
 
         assertNotNull(patient);
         assertFalse(FHIRUtil.hasTag(patient, subsettedTag));
-        assertEquals(patientId, patient.getId().getValue());
+        assertEquals(patientId, patient.getId());
         assertEquals("Patient/"
                 + patientId, observation.getSubject().getReference().getValue());
     }
@@ -429,7 +429,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         }
         assertNotNull(observation);
         assertNotNull(patient);
-        assertEquals(patientId, patient.getId().getValue());
+        assertEquals(patientId, patient.getId());
         assertEquals("Patient/"
                 + patientId, observation.getSubject().getReference().getValue());
     }

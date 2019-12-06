@@ -18,6 +18,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
+import javax.xml.stream.util.StreamReaderDelegate;
 
 public final class XMLSupport {
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
@@ -228,17 +229,35 @@ public final class XMLSupport {
         writeAttributes(reader, writer);
     }
     
+    /**
+     * Simple subclass of {@link javax.xml.stream.util.StreamReaderDelegate} to make it AutoCloseable
+     */
     public static class StreamReaderDelegate extends javax.xml.stream.util.StreamReaderDelegate implements AutoCloseable {
         public StreamReaderDelegate(XMLStreamReader reader) {
             super(reader);
         }
     }
     
+    /**
+     * The corollary to {@link javax.xml.stream.util.StreamReaderDelegate}.
+     * 
+     * This class is designed to sit between an XMLStreamWriter and an
+     * application's XMLStreamWriter.
+     * By default each method does nothing but call the corresponding method 
+     * on the parent interface.
+     */
     public static class StreamWriterDelegate implements XMLStreamWriter, AutoCloseable {
         protected final XMLStreamWriter writer;
                 
         public StreamWriterDelegate(XMLStreamWriter writer) {
             this.writer = writer;
+        }
+        
+        /**
+         * @return the underlying writer being delegated to
+         */
+        public XMLStreamWriter getWriter() {
+            return writer;
         }
         
         @Override

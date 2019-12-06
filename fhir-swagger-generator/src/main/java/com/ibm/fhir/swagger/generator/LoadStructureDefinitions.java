@@ -14,7 +14,6 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.StructureDefinition;
-import com.ibm.fhir.model.type.Id;
 
 public class LoadStructureDefinitions {
     public static void main(String[] args) throws Exception {
@@ -26,18 +25,18 @@ public class LoadStructureDefinitions {
             if (entry.getResource() instanceof StructureDefinition) {
                 StructureDefinition structureDefinition = (StructureDefinition) entry.getResource();
                 if (structureDefinition != null) {
-                    Id id = structureDefinition.getId();
+                    String id = structureDefinition.getId();
                     if (id != null) {
-                        System.out.println("StructureDefinition.id: " + id.getValue());
+                        System.out.println("StructureDefinition.id: " + id);
                     }
                 }
             }
             if (entry.getResource() instanceof OperationDefinition) {
                 OperationDefinition operationDefinition = (OperationDefinition) entry.getResource();
                 if (operationDefinition != null) {
-                    Id id = operationDefinition.getId();
+                    String id = operationDefinition.getId();
                     if (id != null) {
-                        System.out.println("OperationDefinition.id: " + id.getValue());
+                        System.out.println("OperationDefinition.id: " + id);
                     }
                 }
             }

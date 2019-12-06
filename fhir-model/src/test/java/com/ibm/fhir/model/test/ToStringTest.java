@@ -36,10 +36,12 @@ public class ToStringTest {
         Patient patient = buildPatient();
         
         FHIRModel.setToStringPrettyPrinting(false);
-        Assert.assertEquals(patient.getId().toString(), "{\"id\":\"9aac1d9c-ea5f-4513-af9c-897ab21dd11d\",\"_id\":{\"extension\":[{\"url\":\"http://www.ibm.com/someExtension\",\"valueString\":\"Hello, World!\"}]}}");
+        Assert.assertEquals(patient.getMeta().getVersionId().toString(), "{\"id\":\"1\"}");
+        Assert.assertEquals(patient.getMeta().toString(), "{\"versionId\":\"1\",\"lastUpdated\":\"2019-01-01T12:00:00Z\"}");
         
         FHIRModel.setToStringFormat(Format.XML);
-        Assert.assertEquals(patient.getId().toString(), "<id value=\"9aac1d9c-ea5f-4513-af9c-897ab21dd11d\"><extension url=\"http://www.ibm.com/someExtension\"><valueString value=\"Hello, World!\"/></extension></id>");
+        Assert.assertEquals(patient.getMeta().getVersionId().toString(), "<id value=\"1\"/>");
+        Assert.assertEquals(patient.getMeta().toString(), "<Meta><versionId value=\"1\"/><lastUpdated value=\"2019-01-01T12:00:00Z\"/></Meta>");
     }
     
     
@@ -86,15 +88,10 @@ public class ToStringTest {
     private static Patient buildPatient() {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
         
-        Id id = Id.builder().value("9aac1d9c-ea5f-4513-af9c-897ab21dd11d")
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(String.of("Hello, World!"))
-                    .build())
-                .build();
+        java.lang.String id = "9aac1d9c-ea5f-4513-af9c-897ab21dd11d";
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.of("2019-01-01T12:00:00.000Z"))
+                .lastUpdated(Instant.of("2019-01-01T12:00:00Z"))
                 .build();
         
         String given = String.builder().value("John")

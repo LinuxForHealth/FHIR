@@ -10,7 +10,7 @@
         <a href="valueset-immunization-status.html">http://hl7.org/fhir/ValueSet/immunization-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on 27/12/2018 10:37:54 PM by FHIR Project team (
+      <p>DRAFT. Published on 01/11/2019 9:29:23 AM by FHIR Project team (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>). 
       </p>
       <div>
@@ -36,34 +36,24 @@
           <td>error</td>
         </tr>
         <tr>
-          <td>in-progress</td>
-          <td>equivalent</td>
-          <td>active</td>
-        </tr>
-        <tr>
-          <td>on-hold</td>
-          <td>equivalent</td>
-          <td>suspended</td>
-        </tr>
-        <tr>
-          <td>stopped</td>
-          <td>equivalent</td>
-          <td>failed</td>
-        </tr>
-        <tr>
           <td>completed</td>
           <td>equivalent</td>
           <td>complete</td>
+        </tr>
+        <tr>
+          <td>not-done</td>
+          <td>equivalent</td>
+          <td>abandoned</td>
         </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-immunization-status"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="ImmunizationStatusCodesCanonicalMap"/>
   <title value="Canonical Mapping for &quot;Immunization Status Codes&quot;"/>
   <status value="draft"/>
-  <date value="2018-12-27T22:37:54+11:00"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
   <publisher value="FHIR Project team"/>
   <contact>
     <telecom>
@@ -85,30 +75,16 @@
       </target>
     </element>
     <element>
-      <code value="in-progress"/>
-      <target>
-        <code value="active"/>
-        <equivalence value="equivalent"/>
-      </target>
-    </element>
-    <element>
-      <code value="on-hold"/>
-      <target>
-        <code value="suspended"/>
-        <equivalence value="equivalent"/>
-      </target>
-    </element>
-    <element>
-      <code value="stopped"/>
-      <target>
-        <code value="failed"/>
-        <equivalence value="equivalent"/>
-      </target>
-    </element>
-    <element>
       <code value="completed"/>
       <target>
         <code value="complete"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="not-done"/>
+      <target>
+        <code value="abandoned"/>
         <equivalence value="equivalent"/>
       </target>
     </element>

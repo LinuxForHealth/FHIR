@@ -16,9 +16,9 @@ import com.ibm.fhir.persistence.test.common.AbstractIncludeRevincludeTest;
 
 
 public class JDBCIncludeRevincludeTest extends AbstractIncludeRevincludeTest {
-    
+
     private Properties testProps;
-    
+
     public JDBCIncludeRevincludeTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
@@ -32,7 +32,7 @@ public class JDBCIncludeRevincludeTest extends AbstractIncludeRevincludeTest {
             derbyInit.bootstrapDb(false);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         return new FHIRPersistenceJDBCImpl(this.testProps);

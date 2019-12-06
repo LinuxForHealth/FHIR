@@ -26,7 +26,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Money;
@@ -59,7 +58,7 @@ public class MedicationKnowledge extends DomainResource {
         bindingName = "MedicationKnowledgeStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A coded concept defining if the medication is in active use.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.0.1"
     )
     private final MedicationKnowledgeStatus status;
     @Summary
@@ -557,7 +556,7 @@ public class MedicationKnowledge extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

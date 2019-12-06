@@ -20,7 +20,6 @@ import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -44,7 +43,7 @@ public class Flag extends DomainResource {
         bindingName = "FlagStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
-        valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.1"
     )
     @Required
     private final FlagStatus status;
@@ -302,7 +301,7 @@ public class Flag extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

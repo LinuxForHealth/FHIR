@@ -10,7 +10,7 @@
         <a href="valueset-event-status.html">http://hl7.org/fhir/ValueSet/event-status</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on 27/12/2018 10:37:54 PM by HL7 (FHIR Project) (
+      <p>DRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
         <a href="mailto:fhir@lists.hl7.org">fhir@lists.hl7.org</a>). 
       </p>
@@ -47,12 +47,12 @@
           <td>active</td>
         </tr>
         <tr>
-          <td>suspended</td>
+          <td>on-hold</td>
           <td>equivalent</td>
           <td>suspended</td>
         </tr>
         <tr>
-          <td>aborted</td>
+          <td>stopped</td>
           <td>equivalent</td>
           <td>failed</td>
         </tr>
@@ -60,6 +60,11 @@
           <td>completed</td>
           <td>equivalent</td>
           <td>complete</td>
+        </tr>
+        <tr>
+          <td>not-done</td>
+          <td>equivalent</td>
+          <td>abandoned</td>
         </tr>
         <tr>
           <td>unknown</td>
@@ -70,11 +75,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-event-status"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="EventStatusCanonicalMap"/>
   <title value="Canonical Mapping for &quot;EventStatus&quot;"/>
   <status value="draft"/>
-  <date value="2018-12-27T22:37:54+11:00"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -114,14 +119,14 @@
       </target>
     </element>
     <element>
-      <code value="suspended"/>
+      <code value="on-hold"/>
       <target>
         <code value="suspended"/>
         <equivalence value="equivalent"/>
       </target>
     </element>
     <element>
-      <code value="aborted"/>
+      <code value="stopped"/>
       <target>
         <code value="failed"/>
         <equivalence value="equivalent"/>
@@ -131,6 +136,13 @@
       <code value="completed"/>
       <target>
         <code value="complete"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="not-done"/>
+      <target>
+        <code value="abandoned"/>
         <equivalence value="equivalent"/>
       </target>
     </element>

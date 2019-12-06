@@ -111,7 +111,7 @@ public class DocumentOperation extends AbstractOperation {
         //bundleEntry.setResource(composition);
         entryBuilder.resource(composition);
        
-        setFullUrl(operationContext, entryBuilder, "Composition/" + composition.getId().getValue());
+        setFullUrl(operationContext, entryBuilder, "Composition/" + composition.getId());
         
         //document.getEntry().add(bundleEntry);
         documentBuilder.entry(entryBuilder.build());

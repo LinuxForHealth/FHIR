@@ -19,7 +19,6 @@ import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -44,7 +43,7 @@ public class ResearchSubject extends DomainResource {
         bindingName = "ResearchSubjectStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the progression of a study subject through a study.",
-        valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.0.1"
     )
     @Required
     private final ResearchSubjectStatus status;
@@ -284,7 +283,7 @@ public class ResearchSubject extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

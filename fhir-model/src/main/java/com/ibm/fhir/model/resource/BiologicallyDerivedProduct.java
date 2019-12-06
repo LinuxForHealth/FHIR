@@ -23,7 +23,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
@@ -51,7 +50,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         bindingName = "BiologicallyDerivedProductCategory",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Biologically Derived Product Category.",
-        valueSet = "http://hl7.org/fhir/ValueSet/product-category|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/product-category|4.0.1"
     )
     private final BiologicallyDerivedProductCategory productCategory;
     @Binding(
@@ -64,7 +63,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         bindingName = "BiologicallyDerivedProductStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Biologically Derived Product Status.",
-        valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.0.1"
     )
     private final BiologicallyDerivedProductStatus status;
     private final List<Reference> request;
@@ -351,7 +350,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1740,7 +1739,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             bindingName = "BiologicallyDerivedProductStorageScale",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "BiologicallyDerived Product Storage Scale.",
-            valueSet = "http://hl7.org/fhir/ValueSet/product-storage-scale|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/product-storage-scale|4.0.1"
         )
         private final BiologicallyDerivedProductStorageScale scale;
         private final Period duration;

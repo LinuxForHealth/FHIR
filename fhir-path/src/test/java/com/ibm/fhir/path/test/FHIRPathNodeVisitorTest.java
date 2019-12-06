@@ -42,7 +42,6 @@ import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
 public class FHIRPathNodeVisitorTest {
     private static final List<String> EXPECTED = Arrays.asList(
         "FHIRPathResourceNode: Patient", 
-        "FHIRPathElementNode: Id", 
         "FHIRPathStringValue: e8459165-5f3e-48e3-8f8a-cde399cd652b", 
         "FHIRPathElementNode: Meta", 
         "FHIRPathElementNode: Id", 
@@ -72,9 +71,10 @@ public class FHIRPathNodeVisitorTest {
     @Test
     public void testFHIRPathNodeVisitor() {
         Patient patient = buildPatient();
-        FHIRPathTree tree = FHIRPathTree.tree(patient);        
+        FHIRPathTree tree = FHIRPathTree.tree(patient);
         ListBuildingVisitor visitor = new ListBuildingVisitor();
         tree.getRoot().accept(visitor);
+        // TODO: make sure Resource.id paths work in FHIRPath
         Assert.assertEquals(visitor.getResult(), EXPECTED);
     }
     
@@ -139,9 +139,7 @@ public class FHIRPathNodeVisitorTest {
     private Patient buildPatient() {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
         
-        Id id = Id.builder()
-                .value("e8459165-5f3e-48e3-8f8a-cde399cd652b")
-                .build();
+        java.lang.String id = "e8459165-5f3e-48e3-8f8a-cde399cd652b";
         
         Meta meta = Meta.builder()
                 .versionId(Id.of("1"))

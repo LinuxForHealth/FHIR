@@ -16,10 +16,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/MoneyQuantity",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "name": "MoneyQuantity",
   "status": "active",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -32,7 +32,7 @@
     }
   ],
   "description": "An amount of money. With regard to precision, see [Decimal Precision](datatypes.html#precision)",
-  "fhirVersion": "4.0.0",
+  "fhirVersion": "4.0.1",
   "mapping": [
     {
       "identity": "v2",
@@ -54,16 +54,6 @@
     "element": [
       {
         "id": "Quantity",
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
-            "valueCode": "normative"
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
-            "valueCode": "4.0.0"
-          }
-        ],
         "path": "Quantity",
         "short": "An amount of money. With regard to precision, see [Decimal Precision](datatypes.html#precision)",
         "definition": "There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system \u003d \"urn:iso:std:iso:4217\" - currency).",
@@ -85,7 +75,14 @@
             "human": "All FHIR elements must have a @value or children",
             "expression": "hasValue() or (children().count() \u003e id.count())",
             "xpath": "@value|f:*|h:div",
-            "source": "Element"
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          },
+          {
+            "key": "mqty-1",
+            "severity": "error",
+            "human": "There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system \u003d \"urn:iso:std:iso:4217\" - currency).",
+            "expression": "(code.exists() or value.empty()) and (system.empty() or system \u003d \u0027urn:iso:std:iso:4217\u0027)",
+            "xpath": "(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value\u003d\u0027urn:iso:std:iso:4217\u0027)"
           },
           {
             "key": "qty-3",
@@ -93,14 +90,7 @@
             "human": "If a code for the unit is present, the system SHALL also be present",
             "expression": "code.empty() or system.exists()",
             "xpath": "not(exists(f:code)) or exists(f:system)",
-            "source": "Quantity"
-          },
-          {
-            "key": "mtqy-1",
-            "severity": "error",
-            "human": "There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system \u003d \"urn:iso:std:iso:4217\" - currency).",
-            "expression": "(code.exists() or value.empty()) and (system.empty() or system \u003d \u0027urn:iso:std:iso:4217\u0027)",
-            "xpath": "(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value\u003d\u0027urn:iso:std:iso:4217\u0027)"
+            "source": "http://hl7.org/fhir/StructureDefinition/Quantity"
           }
         ],
         "isModifier": false,
@@ -136,7 +126,13 @@
         },
         "type": [
           {
-            "code": "string"
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "string"
+              }
+            ],
+            "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
         "isModifier": false,
@@ -180,6 +176,24 @@
             "code": "Extension"
           }
         ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          },
+          {
+            "key": "ext-1",
+            "severity": "error",
+            "human": "Must have either extensions or value[x], not both",
+            "expression": "extension.exists() !\u003d value.exists()",
+            "xpath": "exists(f:extension)!\u003dexists(f:*[starts-with(local-name(.), \"value\")])",
+            "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+          }
+        ],
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -206,6 +220,16 @@
         "type": [
           {
             "code": "decimal"
+          }
+        ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
         "isModifier": false,
@@ -240,6 +264,16 @@
           }
         ],
         "meaningWhenMissing": "If there is no comparator, then there is no modification of the value",
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          }
+        ],
         "isModifier": true,
         "isModifierReason": "This is labeled as \"Is Modifier\" because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value",
         "isSummary": true,
@@ -252,7 +286,7 @@
           ],
           "strength": "required",
           "description": "How the Quantity should be understood and represented.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.1"
         },
         "mapping": [
           {
@@ -289,6 +323,16 @@
             "code": "string"
           }
         ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          }
+        ],
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -323,6 +367,16 @@
         "condition": [
           "qty-3"
         ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          }
+        ],
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -355,6 +409,16 @@
             "code": "code"
           }
         ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          }
+        ],
         "isModifier": false,
         "isSummary": true,
         "mapping": [
@@ -381,7 +445,7 @@
         "max": "*",
         "constraint": [
           {
-            "key": "mtqy-1",
+            "key": "mqty-1",
             "severity": "error",
             "human": "There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system \u003d \"urn:iso:std:iso:4217\" - currency).",
             "expression": "(code.exists() or value.empty()) and (system.empty() or system \u003d \u0027urn:iso:std:iso:4217\u0027)",

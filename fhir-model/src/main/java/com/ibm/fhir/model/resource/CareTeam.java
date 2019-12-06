@@ -23,7 +23,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -45,7 +44,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "CareTeam.participant",
     description = "CareTeam.participant.onBehalfOf can only be populated when CareTeam.participant.member is a Practitioner",
-    expression = "onBehalfOf.exists() implies (member.resolve() is Practitioner)"
+    expression = "onBehalfOf.exists() implies (member.resolve().iif(empty(), true, ofType(Practitioner).exists()))"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CareTeam extends DomainResource {
@@ -56,7 +55,7 @@ public class CareTeam extends DomainResource {
         bindingName = "CareTeamStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the status of the care team.",
-        valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.0.1"
     )
     private final CareTeamStatus status;
     @Summary
@@ -395,7 +394,7 @@ public class CareTeam extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

@@ -16,8 +16,12 @@
 
       </div>
       <p>
-        <b>Copyright Statement:</b> CPT Copyright © 2014 American Medical Association. All rights reserved.
+        <b>Copyright Statement:</b>
       </p>
+      <div>
+        <p>CPT Copyright © 2014 American Medical Association. All rights reserved.</p>
+
+      </div>
       <p>This value set includes codes from the following code systems:</p>
       <ul>
         <li>Include all codes defined in 
@@ -27,7 +31,7 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ValueSet/cpt-all"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="All CPT codes"/>
   <status value="active"/>
   <date value="2015-03-12"/>

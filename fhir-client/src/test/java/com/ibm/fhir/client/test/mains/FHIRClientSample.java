@@ -190,7 +190,7 @@ public class FHIRClientSample {
     }
 
     private Observation createObservation(Patient p, double glucoseReading) {
-        String subject = "Patient/" + p.getId().getValue();
+        String subject = "Patient/" + p.getId();
         Observation o = Observation.builder()
                 .status(ObservationStatus.PRELIMINARY)
                 .code(CodeableConcept.builder().coding(Coding.builder().code(Code.of("15074-8"))

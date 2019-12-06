@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.server.test;
 
-import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertNotSame;
@@ -42,12 +41,7 @@ public class ReferenceMappingVistorTest {
     private HashMap<java.lang.String , java.lang.String> localRefMap;
     @BeforeClass
     public void setUp() throws Exception {
-        Id id = Id.builder().value(UUID.randomUUID().toString())
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(string("Hello, World!"))
-                    .build())
-                .build();
+        java.lang.String id = UUID.randomUUID().toString();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))

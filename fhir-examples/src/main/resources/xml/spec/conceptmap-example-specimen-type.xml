@@ -12,7 +12,7 @@
     <div xmlns="http://www.w3.org/1999/xhtml">
       <h2>Specimen mapping from v2 table 0487 to SNOMED CT (http://hl7.org/fhir/ConceptMap/102)</h2>
       <p>Mapping from 
-        <a href="v2/0487/index.html">http://terminology.hl7.org/ValueSet/v2-0487</a> to http://snomed.info/id?fhir_vs
+        <a href="v2/0487/index.html">http://terminology.hl7.org/ValueSet/v2-0487</a> to http://snomed.info/sct?fhir_vs
       </p>
       <p>DRAFT. Published on 25/07/2013 by FHIR project team (original source: LabMCoP) (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>, 
@@ -3065,7 +3065,7 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/102"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="Specimen mapping from v2 table 0487 to SNOMED CT"/>
   <status value="draft"/>
   <experimental value="false"/>
@@ -3084,7 +3084,7 @@
     </telecom>
   </contact>
   <sourceCanonical value="http://terminology.hl7.org/ValueSet/v2-0487"/>
-  <targetCanonical value="http://snomed.info/id?fhir_vs"/>
+  <targetCanonical value="http://snomed.info/sct?fhir_vs"/>
   <group>
     <source value="http://terminology.hl7.org/CodeSystem/v2-0487"/>
     <target value="http://snomed.info/sct"/>

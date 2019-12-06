@@ -23,7 +23,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -50,7 +49,7 @@ public class Encounter extends DomainResource {
         bindingName = "EncounterStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Current state of the encounter.",
-        valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.1"
     )
     @Required
     private final EncounterStatus status;
@@ -596,7 +595,7 @@ public class Encounter extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1449,7 +1448,7 @@ public class Encounter extends DomainResource {
             bindingName = "EncounterStatus",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Current state of the encounter.",
-            valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.1"
         )
         @Required
         private final EncounterStatus status;
@@ -3223,7 +3222,7 @@ public class Encounter extends DomainResource {
             bindingName = "EncounterLocationStatus",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The status of the location.",
-            valueSet = "http://hl7.org/fhir/ValueSet/encounter-location-status|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-location-status|4.0.1"
         )
         private final EncounterLocationStatus status;
         @Binding(

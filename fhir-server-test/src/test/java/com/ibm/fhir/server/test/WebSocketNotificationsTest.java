@@ -108,8 +108,8 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
             Patient responsePatient = response.readEntity(Patient.class);
             savedCreatedPatient = responsePatient;
 
-            FHIRNotificationEvent event = getEvent(responsePatient.getId().getValue());
-            assertEquals(event.getResourceId(), responsePatient.getId().getValue());
+            FHIRNotificationEvent event = getEvent(responsePatient.getId());
+            assertEquals(event.getResourceId(), responsePatient.getId());
             TestUtil.assertResourceEquals(patient, responsePatient);
         }
 
@@ -124,7 +124,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
             System.out.println("skipping this test ");
         } else {
             // Next, create an Observation belonging to the new patient.
-            String patientId = savedCreatedPatient.getId().getValue();
+            String patientId = savedCreatedPatient.getId();
             Observation observation = TestUtil.buildPatientObservation(patientId, "Observation1.json");
             Entity<Observation> obs =
                     Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -141,9 +141,9 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
             Observation responseObs = response.readEntity(Observation.class);
             savedCreatedObservation = responseObs;
 
-            FHIRNotificationEvent event = getEvent(savedCreatedObservation.getId().getValue());
+            FHIRNotificationEvent event = getEvent(savedCreatedObservation.getId());
 
-            assertEquals(event.getResourceId(), responseObs.getId().getValue());
+            assertEquals(event.getResourceId(), responseObs.getId());
             TestUtil.assertResourceEquals(observation, responseObs);
         }
     }
@@ -158,14 +158,14 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
             System.out.println("skipping this test ");
         } else {
             // Create an updated Observation based on the original saved observation
-            String patientId = savedCreatedPatient.getId().getValue();
+            String patientId = savedCreatedPatient.getId();
             Observation observation = TestUtil.buildPatientObservation(patientId, "Observation2.json");
             observation = observation.toBuilder().id(savedCreatedObservation.getId()).build();
             Entity<Observation> obs =
                     Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
 
             // Call the 'update' API.
-            String targetPath = "Observation/" + observation.getId().getValue();
+            String targetPath = "Observation/" + observation.getId();
             Response response = target.path(targetPath).request().put(obs, Response.class);
             assertResponse(response, Response.Status.OK.getStatusCode());
             String observationId = getLocationLogicalId(response);
@@ -177,9 +177,9 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
             Observation responseObservation = response.readEntity(Observation.class);
 
-            FHIRNotificationEvent event = getEvent(responseObservation.getId().getValue());
+            FHIRNotificationEvent event = getEvent(responseObservation.getId());
 
-            assertEquals(event.getResourceId(), responseObservation.getId().getValue());
+            assertEquals(event.getResourceId(), responseObservation.getId());
             assertNotNull(responseObservation);
             TestUtil.assertResourceEquals(observation, responseObservation);
         }

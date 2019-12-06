@@ -23,7 +23,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
@@ -68,7 +67,7 @@ public class ObservationDefinition extends DomainResource {
         bindingName = "ObservationDataType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Permitted data type for observation value.",
-        valueSet = "http://hl7.org/fhir/ValueSet/permitted-data-type|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/permitted-data-type|4.0.1"
     )
     private final List<ObservationDataType> permittedDataType;
     private final Boolean multipleResultsAllowed;
@@ -392,7 +391,7 @@ public class ObservationDefinition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1223,7 +1222,7 @@ public class ObservationDefinition extends DomainResource {
             bindingName = "ObservationRangeCategory",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Codes identifying the category of observation range.",
-            valueSet = "http://hl7.org/fhir/ValueSet/observation-range-category|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/observation-range-category|4.0.1"
         )
         private final ObservationRangeCategory category;
         private final Range range;
@@ -1245,7 +1244,7 @@ public class ObservationDefinition extends DomainResource {
             bindingName = "AdministrativeGender",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
         )
         private final AdministrativeGender gender;
         private final Range age;

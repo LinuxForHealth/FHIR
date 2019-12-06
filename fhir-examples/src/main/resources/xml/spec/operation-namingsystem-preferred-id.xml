@@ -71,7 +71,7 @@
             <a href="datatypes.html#code">code</a>
           </td>
           <td>
-            <a href="valueset-namingsystem-identifier-type.html">http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.0</a> (Required)
+            <a href="valueset-namingsystem-identifier-type.html">http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.1</a> (Required)
           </td>
           <td/>
         </tr>
@@ -108,11 +108,11 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/NamingSystem-preferred-id"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="Fetch Preferred it"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2018-12-27T22:37:54+11:00"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -147,7 +147,7 @@
     <type value="code"/>
     <binding>
       <strength value="required"/>
-      <valueSet value="http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.0"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.1"/>
     </binding>
   </parameter>
   <parameter>

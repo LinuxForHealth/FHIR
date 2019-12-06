@@ -90,7 +90,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
@@ -1118,7 +1117,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // For R4, resources may contain an id. For create, this should be ignored and
             // we no longer reject the request.
             if (resource.getId() != null && log.isLoggable(Level.FINE)) {
-                log.fine(String.format("create request resource includes id: '%s'", resource.getId().getValue()));
+                log.fine(String.format("create request resource includes id: '%s'", resource.getId()));
             }
 
             // Validate the input resource and return any validation errors, but warnings are OK
@@ -1312,26 +1311,26 @@ public class FHIRResource implements FHIRResourceHelpers {
                     ior.setPrevResource(null);
 
                     // if no id provided, then generate an id for the input resource
-                    if (newResource.getId() == null || newResource.getId().getValue() == null) {
+                    if (newResource.getId() == null || newResource.getId() == null) {
                         id = UUID.randomUUID().toString();
-                        newResource = newResource.toBuilder().id(Id.of(id)).build();
+                        newResource = newResource.toBuilder().id(id).build();
                     } else {
-                        id = newResource.getId().getValue();
+                        id = newResource.getId();
                     }
                 } else if (resultCount == 1) {
                     // If we found a single match, then we'll perform a normal update on the matched resource.
                     ior.setPrevResource(responseBundle.getEntry().get(0).getResource());
-                    id = ior.getPrevResource().getId().getValue();
+                    id = ior.getPrevResource().getId();
 
                     // If the id of the input resource is different from the id of the search result, 
                     // then throw exception.
-                    if (newResource.getId() != null && newResource.getId().getValue() != null
-                            && !newResource.getId().getValue().equalsIgnoreCase(id)) {
+                    if (newResource.getId() != null && newResource.getId() != null
+                            && !newResource.getId().equalsIgnoreCase(id)) {
                         String msg = "Input resource 'id' attribute must match the id of the search result resource.";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.VALUE);
                     }
                     // Make sure the id of the newResource is not null and is the same as the id of the found resource.
-                    newResource = newResource.toBuilder().id(Id.of(id)).build();
+                    newResource = newResource.toBuilder().id(id).build();
                 } else {
                     String msg =
                             "The search criteria specified for a conditional update/patch operation returned multiple matches.";
@@ -1353,7 +1352,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                     }
                     
-                    if (!newResource.getId().getValue().equals(id)) {
+                    if (!newResource.getId().equals(id)) {
                         String msg = "Input resource 'id' attribute must match 'id' parameter.";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.VALUE);
                     }
@@ -1388,7 +1387,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             // First, create the persistence event.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId().getValue(), null, requestProperties));
+                    new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId(), null, requestProperties));
 
             // Next, set the "previous resource" in the persistence event.
             event.setPrevFhirResource(ior.getPrevResource());
@@ -1578,7 +1577,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 } else if (resultCount == 1) {
                     // If we found a single match, then we'll delete this one.
                     Resource resource = responseBundle.getEntry().get(0).getResource();
-                    id = resource.getId().getValue();
+                    id = resource.getId();
                     resourceToDelete = resource;
                 } else {
                     String msg =
@@ -2539,7 +2538,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     // If the request entry contains a resource, then validate it now.
                     if (resource != null) {
                         if (method.equals(HTTPVerb.PUT)) {
-                            if (resource.getId() == null || resource.getId().getValue() == null) {
+                            if (resource.getId() == null || resource.getId() == null) {
                                 String msg =
                                         "Bundle.Entry.resource must contain an id field for a PUT operation.";
                                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
@@ -3370,7 +3369,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         Resource resource) {
         if (localIdentifier != null) {
             String externalIdentifier =
-                    FHIRUtil.getResourceTypeName(resource) + "/" + resource.getId().getValue();
+                    FHIRUtil.getResourceTypeName(resource) + "/" + resource.getId();
             localRefMap.put(localIdentifier, externalIdentifier);
             log.finer("Added local/ext identifier mapping: " + localIdentifier + " --> "
                     + externalIdentifier);
@@ -3435,7 +3434,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         if (resource != null) {
             resBuilder =
-                    resBuilder.id(resource.getId().getValue()).lastModified(resource.getMeta().getLastUpdated()).etag(string(getEtagValue(resource)));
+                    resBuilder.id(resource.getId()).lastModified(resource.getMeta().getLastUpdated()).etag(string(getEtagValue(resource)));
 
             if (HTTPReturnPreference.REPRESENTATION.equals(FHIRRequestContext.get().getReturnPreference())) {
                 bundleEntryBuilder.resource(resource);
@@ -3785,16 +3784,16 @@ public class FHIRResource implements FHIRResourceHelpers {
         // generate ID for this bundle and set total
         Bundle.Builder bundleBuider = Bundle.builder()
                                             .type(BundleType.SEARCHSET)
-                                            .id(Id.of(UUID.randomUUID().toString()))
+                                            .id(UUID.randomUUID().toString())
                                             .total(totalCount);
 
         for (Resource resource : resources) {
-            if (resource.getId() == null || !resource.getId().hasValue()) {
+            if (resource.getId() == null) {
                 throw new IllegalStateException("Returned resources must have an id.");
             }
             Bundle.Entry entry = Bundle.Entry.builder().fullUrl(Uri.of(getRequestBaseUri() + "/"
                     + resource.getClass().getSimpleName() + "/"
-                    + resource.getId().getValue())).resource(resource).build();
+                    + resource.getId())).resource(resource).build();
 
             bundleBuider.entry(entry);
         }
@@ -3828,7 +3827,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         // generate ID for this bundle and set the "total" field for the bundle
         Bundle.Builder bundleBuilder = Bundle.builder()
                                              .type(BundleType.HISTORY)
-                                             .id(Id.of(UUID.randomUUID().toString()))
+                                             .id(UUID.randomUUID().toString())
                                              .total(totalCount);
 
         Map<String, List<Integer>> deletedResourcesMap = historyContext.getDeletedResources();
@@ -3836,12 +3835,12 @@ public class FHIRResource implements FHIRResourceHelpers {
         for (int i = 0; i < resources.size(); i++) {
             Resource resource = resources.get(i);
 
-            if (resource.getId() == null || !resource.getId().hasValue()) {
+            if (resource.getId() == null) {
                 throw new IllegalStateException("Returned resources must have an id.");
             }
 
             Integer versionId = Integer.valueOf(resource.getMeta().getVersionId().getValue());
-            String logicalId = resource.getId().getValue();
+            String logicalId = resource.getId();
             String resourceType = FHIRUtil.getResourceTypeName(resource);
             List<Integer> deletedVersions = deletedResourcesMap.get(logicalId);
 
@@ -3868,7 +3867,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Bundle.Entry entry =
                     Bundle.Entry.builder().request(request).fullUrl(Uri.of(getRequestBaseUri() + "/"
                             + resource.getClass().getSimpleName() + "/"
-                            + resource.getId().getValue())).response(response).resource(resource).build();
+                            + resource.getId())).response(response).resource(resource).build();
 
             bundleBuilder.entry(entry);
         }

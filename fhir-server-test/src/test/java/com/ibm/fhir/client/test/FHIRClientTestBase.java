@@ -71,8 +71,8 @@ public abstract class FHIRClientTestBase {
         
         // Verify the id attribute.
         assertNotNull(oo.getId());
-        assertNotNull(oo.getId().getValue());
-        assertEquals("exception", oo.getId().getValue());
+        assertNotNull(oo.getId());
+        assertEquals("exception", oo.getId());
         
         // Make sure the OperationOutcomeIssue has a message containing 'msgPart'.
         assertNotNull(oo.getIssue());
@@ -99,8 +99,8 @@ public abstract class FHIRClientTestBase {
         
         // Verify the id attribute.
         assertNotNull(oo.getId());
-        assertNotNull(oo.getId().getValue());
-        assertEquals("validationfail", oo.getId().getValue());
+        assertNotNull(oo.getId());
+        assertEquals("validationfail", oo.getId());
         
         // Make sure that we can find the 'msgPart' in one of the OperationOutcomeIssue objects.
         boolean foundIt = false;

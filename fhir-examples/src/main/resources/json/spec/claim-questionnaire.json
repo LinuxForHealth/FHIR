@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Claim.supportingInfo.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:27733601-1d96-4c6b-b4ed-1e26c1e1cbfd",
-        "timestamp": "2018-12-27T22:43:11+11:00",
+        "identifier": "urn:uuid:c501cf7c-6668-448a-89ba-479c36dc5382",
+        "timestamp": "2019-11-01T09:34:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Claim.supportingInfo.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:07f546d7-aeaf-4615-9cf7-3fd0fc478e27",
-        "timestamp": "2018-12-27T22:43:11+11:00",
+        "identifier": "urn:uuid:0fac50a9-b187-4bdd-b957-111f084a4c02",
+        "timestamp": "2019-11-01T09:34:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -70,8 +70,8 @@
       "status": "active",
       "description": "Type options for Claim.diagnosis.diagnosis[x]",
       "expansion": {
-        "identifier": "urn:uuid:a1ba94c0-7bc8-4a2c-8369-517bac729dad",
-        "timestamp": "2018-12-27T22:43:11+11:00",
+        "identifier": "urn:uuid:acdaabc5-d018-4b4f-b8a1-2ce32d76dad6",
+        "timestamp": "2019-11-01T09:34:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -93,8 +93,8 @@
       "status": "active",
       "description": "Type options for Claim.procedure.procedure[x]",
       "expansion": {
-        "identifier": "urn:uuid:0114c1c1-79a2-47a5-a794-8e3be9083e5f",
-        "timestamp": "2018-12-27T22:43:11+11:00",
+        "identifier": "urn:uuid:c918ad41-53d0-4a0e-a785-a505dc38aca7",
+        "timestamp": "2019-11-01T09:34:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -116,8 +116,8 @@
       "status": "active",
       "description": "Type options for Claim.accident.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:cb4234fb-e2be-4fc7-9820-b50dbf826de6",
-        "timestamp": "2018-12-27T22:43:11+11:00",
+        "identifier": "urn:uuid:2108f8c6-5fdb-45b6-baf1-64cb1415a638",
+        "timestamp": "2019-11-01T09:34:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -139,8 +139,8 @@
       "status": "active",
       "description": "Type options for Claim.item.serviced[x]",
       "expansion": {
-        "identifier": "urn:uuid:0bff0ee9-e537-4304-9af4-440154d86c08",
-        "timestamp": "2018-12-27T22:43:11+11:00",
+        "identifier": "urn:uuid:6a9810cb-41fa-4d75-aacc-089562cff5d2",
+        "timestamp": "2019-11-01T09:34:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -162,8 +162,8 @@
       "status": "active",
       "description": "Type options for Claim.item.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:70b8f4cf-c04f-4615-8430-01b7b34f3750",
-        "timestamp": "2018-12-27T22:43:11+11:00",
+        "identifier": "urn:uuid:9002fb64-c386-4338-9478-cd7021033c3d",
+        "timestamp": "2019-11-01T09:34:42+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -189,9 +189,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {

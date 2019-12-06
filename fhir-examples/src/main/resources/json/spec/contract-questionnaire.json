@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Contract.topic[x]",
       "expansion": {
-        "identifier": "urn:uuid:528225dc-5965-4e8e-9d48-3867a1b09821",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:c0530c5b-5207-4d5a-a48d-8bcf78709025",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Contract.term.topic[x]",
       "expansion": {
-        "identifier": "urn:uuid:5b097fbf-0f6a-46df-8750-f6051088a12b",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:5525c273-e441-4385-8753-72a874bcdb1b",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for Contract.term.offer.answer.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:7a25af20-f580-4c23-b837-6733762bf9eb",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:54ebd0a5-0c2f-4634-943c-f6bdc90abdaa",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -128,8 +128,8 @@
       "status": "active",
       "description": "Type options for Contract.term.asset.valuedItem.entity[x]",
       "expansion": {
-        "identifier": "urn:uuid:a5578e68-5ab9-4e2c-be2c-d9a642563c2b",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:e8f9008e-9943-4ef0-81b4-88ccaeed9f19",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -151,8 +151,8 @@
       "status": "active",
       "description": "Type options for Contract.term.action.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:9a4a01b9-c2ed-431e-83c9-b680504c54e7",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:a346201d-e907-41bd-a1f8-033924b0702a",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -179,8 +179,8 @@
       "status": "active",
       "description": "Type options for Contract.friendly.content[x]",
       "expansion": {
-        "identifier": "urn:uuid:7a0c3d84-3c42-4218-8ce5-ba82c4988010",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:47502332-3d19-4992-a314-29300a34fb45",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -212,8 +212,8 @@
       "status": "active",
       "description": "Type options for Contract.legal.content[x]",
       "expansion": {
-        "identifier": "urn:uuid:e1eba179-67d6-4632-b7aa-bfa9e77f74bb",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:ae48ce65-57b7-4a1b-aa7c-4f595285d4b2",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -245,8 +245,8 @@
       "status": "active",
       "description": "Type options for Contract.rule.content[x]",
       "expansion": {
-        "identifier": "urn:uuid:72bb8fab-6448-4d8e-8ffd-81912a0ae9ca",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:713907d6-fb83-4acd-9fa6-548dbbf59f55",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -268,8 +268,8 @@
       "status": "active",
       "description": "Type options for Contract.legallyBinding[x]",
       "expansion": {
-        "identifier": "urn:uuid:bd4b5cec-e6b9-41d1-9cc3-3b25ba1c3d25",
-        "timestamp": "2018-12-27T22:43:27+11:00",
+        "identifier": "urn:uuid:1c523d50-e779-4b91-936f-a08352a560ca",
+        "timestamp": "2019-11-01T09:34:54+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -305,9 +305,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -2165,7 +2165,7 @@
                       }
                     }
                   ],
-                  "text": "draft | active | retired | unknown.",
+                  "text": "amended | appended | cancelled | disputed | entered-in-error | executable | executed | negotiable | offered | policy | rejected | renewed | revoked | resolved | terminated.",
                   "type": "display"
                 },
                 {

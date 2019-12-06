@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Money;
@@ -62,7 +61,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "EligibilityResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
     @Required
     private final EligibilityResponseStatus status;
@@ -71,7 +70,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "EligibilityResponsePurpose",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the types of information being requested.",
-        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.0.1"
     )
     @Required
     private final List<EligibilityResponsePurpose> purpose;
@@ -92,7 +91,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The outcome of the processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
     @Required
     private final RemittanceOutcome outcome;
@@ -450,7 +449,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

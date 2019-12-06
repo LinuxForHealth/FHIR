@@ -26,7 +26,6 @@ import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -53,7 +52,7 @@ public class Person extends DomainResource {
         bindingName = "AdministrativeGender",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
     private final AdministrativeGender gender;
     @Summary
@@ -322,7 +321,7 @@ public class Person extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -785,7 +784,7 @@ public class Person extends DomainResource {
             bindingName = "IdentityAssuranceLevel",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The level of confidence that this link represents the same actual person, based on NIST Authentication Levels.",
-            valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.0.1"
         )
         private final IdentityAssuranceLevel assurance;
 

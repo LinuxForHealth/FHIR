@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for RequestGroup.action.relatedAction.offset[x]",
       "expansion": {
-        "identifier": "urn:uuid:d725f8fa-79a5-440e-b618-9405a04d8bec",
-        "timestamp": "2018-12-27T22:45:26+11:00",
+        "identifier": "urn:uuid:6bda53e0-16cb-4773-a1b8-4cb42f0c44a4",
+        "timestamp": "2019-11-01T09:36:48+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for RequestGroup.action.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:43adf4be-b26c-4bf7-ab11-4b83ac05f6b6",
-        "timestamp": "2018-12-27T22:45:26+11:00",
+        "identifier": "urn:uuid:60ba1b26-7779-496c-9ef6-730fd09ab425",
+        "timestamp": "2019-11-01T09:36:48+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -74,9 +74,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "HL7",
   "item": [
     {
@@ -2784,7 +2784,7 @@
                       }
                     }
                   ],
-                  "text": "The resource that is the target of the action (e.g. CommunicationRequest). The target resource SHALL be a [Request](request.html) resource with a Request.intent set to \"option\".",
+                  "text": "The resource that is the target of the action (e.g. CommunicationRequest). The target resource SHALL be a [Request](http://hl7.org/fhir/request.html) resource with a Request.intent set to \"option\".",
                   "type": "display"
                 },
                 {

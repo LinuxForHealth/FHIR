@@ -28,7 +28,6 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -90,7 +89,7 @@ public class Consent extends DomainResource {
         bindingName = "ConsentState",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates the state of the consent.",
-        valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.0.1"
     )
     @Required
     private final ConsentState status;
@@ -448,7 +447,7 @@ public class Consent extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1573,7 +1572,7 @@ public class Consent extends DomainResource {
             bindingName = "ConsentProvisionType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "How a rule statement is applied, such as adding additional consent or removing consent.",
-            valueSet = "http://hl7.org/fhir/ValueSet/consent-provision-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/consent-provision-type|4.0.1"
         )
         private final ConsentProvisionType type;
         @Summary
@@ -2615,7 +2614,7 @@ public class Consent extends DomainResource {
                 bindingName = "ConsentDataMeaning",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "How a resource reference is interpreted when testing consent restrictions.",
-                valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.0.1"
             )
             @Required
             private final ConsentDataMeaning meaning;

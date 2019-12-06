@@ -34,7 +34,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
         
-        assertEquals(operationOutcome.getId().getValue(), "NoError");
+        assertEquals(operationOutcome.getId(), "NoError");
         assertEquals(operationOutcome.getIssue().size(), 1);
         assertEquals(operationOutcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
         assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("dom-6"));
@@ -50,7 +50,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
         
-        assertEquals(operationOutcome.getId().getValue(), "Error");
+        assertEquals(operationOutcome.getId(), "Error");
         assertEquals(operationOutcome.getIssue().size(), 2);
         assertEquals(operationOutcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
         assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("dom-6"));

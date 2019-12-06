@@ -30,7 +30,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Markdown;
@@ -84,7 +83,7 @@ public class CodeSystem extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -118,7 +117,7 @@ public class CodeSystem extends DomainResource {
         bindingName = "CodeSystemHierarchyMeaning",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The meaning of the hierarchy of concepts in a code system.",
-        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.1"
     )
     private final CodeSystemHierarchyMeaning hierarchyMeaning;
     @Summary
@@ -130,7 +129,7 @@ public class CodeSystem extends DomainResource {
         bindingName = "CodeSystemContentMode",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
-        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.1"
     )
     @Required
     private final CodeSystemContentMode content;
@@ -676,7 +675,7 @@ public class CodeSystem extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1457,7 +1456,7 @@ public class CodeSystem extends DomainResource {
             bindingName = "FilterOperator",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The kind of operation to perform as a part of a property based filter.",
-            valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.1"
         )
         @Required
         private final List<FilterOperator> operator;
@@ -1739,7 +1738,7 @@ public class CodeSystem extends DomainResource {
              * <p>This element is required.
              * 
              * @param operator
-             *     Operators that can be used with filter
+             *     = | is-a | descendent-of | is-not-a | regex | in | not-in | generalizes | exists
              * 
              * @return
              *     A reference to this Builder instance
@@ -1759,7 +1758,7 @@ public class CodeSystem extends DomainResource {
              * <p>This element is required.
              * 
              * @param operator
-             *     Operators that can be used with filter
+             *     = | is-a | descendent-of | is-not-a | regex | in | not-in | generalizes | exists
              * 
              * @return
              *     A reference to this Builder instance
@@ -1830,7 +1829,7 @@ public class CodeSystem extends DomainResource {
             bindingName = "PropertyType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of a property value.",
-            valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.0.1"
         )
         @Required
         private final PropertyType type;

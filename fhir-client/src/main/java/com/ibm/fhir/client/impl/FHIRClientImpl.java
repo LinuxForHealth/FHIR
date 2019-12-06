@@ -243,7 +243,7 @@ public class FHIRClientImpl implements FHIRClient {
             throw new IllegalArgumentException("The 'resource' argument is required but was null.");
         }
         String resourceType = resource.getClass().getSimpleName();
-        String resourceId = (resource.getId() != null ? resource.getId().getValue() : null);
+        String resourceId = (resource.getId() != null ? resource.getId() : null);
         if (resourceId == null || resourceId.isEmpty()) {
             throw new IllegalArgumentException("Unable to retrieve the resource id from the resource.");
         }

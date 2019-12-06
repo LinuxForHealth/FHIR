@@ -361,7 +361,7 @@ public class MessageHeader extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1508,7 +1508,7 @@ public class MessageHeader extends DomainResource {
             bindingName = "ResponseType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The kind of response to a message.",
-            valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.1"
         )
         @Required
         private final ResponseType code;

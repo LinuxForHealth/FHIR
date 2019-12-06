@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -63,7 +62,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
-    expression = "clinicalStatus.exists() or verificationStatus='entered-in-error' or category.select($this='problem-list-item').empty()"
+    expression = "clinicalStatus.exists() or verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code = 'entered-in-error').exists() or category.select($this='problem-list-item').empty()"
 )
 @Constraint(
     id = "con-4",
@@ -88,7 +87,7 @@ public class Condition extends DomainResource {
         bindingName = "ConditionClinicalStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The clinical status of the condition or diagnosis.",
-        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.0.1"
     )
     private final CodeableConcept clinicalStatus;
     @Summary
@@ -96,7 +95,7 @@ public class Condition extends DomainResource {
         bindingName = "ConditionVerificationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The verification status to support or decline the clinical status of the condition or diagnosis.",
-        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.0.1"
     )
     private final CodeableConcept verificationStatus;
     @Binding(
@@ -523,7 +522,7 @@ public class Condition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
