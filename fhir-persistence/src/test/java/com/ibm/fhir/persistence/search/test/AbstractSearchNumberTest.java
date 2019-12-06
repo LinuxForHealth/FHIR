@@ -302,12 +302,12 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
     }
 
     /*
-     * <PRE>
+     * <pre>
      * {
      * "url": "http://example.org/precision",
      * "valueDecimal": 100.25
      * }
-     * </PRE>
+     * </pre>
      */
     @Test
     public void testSearchNumber_Precision() throws Exception {
@@ -337,11 +337,9 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("precision", "1e2");
         assertSearchDoesntReturnSavedResource("precision", "1.05e2");
 
-        // [parameter]=1e3
-        // Value: 1e3
-        // Precision: 0
-        // Implied Range: [50 ... 150)
-        assertSearchReturnsSavedResource("precision", "100");
+        // [parameter]=1e2
+        // Implied Range: [50 to 150)
+        assertSearchReturnsSavedResource("precision", "1.0e2");
     }
 
     /*

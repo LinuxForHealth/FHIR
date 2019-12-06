@@ -32,8 +32,8 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
  * Number Parameter Behavior Util encapsulates the logic specific to Prefix
- * treatment of the
- * Search queries related to numbers, and the implied ranges therein.
+ * treatment of the Search queries related to numbers, and the implied ranges
+ * therein.
  */
 public class NumberParmBehaviorUtil {
     private static final Logger log = java.util.logging.Logger.getLogger(NumberParmBehaviorUtil.class.getName());
