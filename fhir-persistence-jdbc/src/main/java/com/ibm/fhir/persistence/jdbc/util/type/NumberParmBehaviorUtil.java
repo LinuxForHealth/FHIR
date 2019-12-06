@@ -139,10 +139,12 @@ public class NumberParmBehaviorUtil {
                     break;
                 case AP:
                     // ap - approximate
-                    // -10%
-                    bindVariables.add(originalNumber.multiply(LOWER_BOUND));
-                    // +10%
-                    bindVariables.add(originalNumber.multiply(UPPER_BOUND));
+                    // -10% of the Lower Bound
+                    BigDecimal lowerBound = generateLowerBound(originalNumber);
+                    BigDecimal upperBound = generateUpperBound(originalNumber);
+                    bindVariables.add(lowerBound.multiply(LOWER_BOUND));
+                    // +10% of the UPPER Bound
+                    bindVariables.add(upperBound.multiply(UPPER_BOUND));
 
                     // <CODE>BASIC_NUMBER_VALUE >= ? AND BASIC_NUMBER_VALUE <= ?</CODE> 
                     whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
