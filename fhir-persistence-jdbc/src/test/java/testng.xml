@@ -5,6 +5,8 @@
             <class name="com.ibm.fhir.persistence.jdbc.test.util.CacheUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.QueryBuilderUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.ParameterExtractionTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.UriModifierUtilTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.NumberParmBehaviorUtilTest" />
         </classes>
     </test>
     <test name="JDBCSpecTest">
