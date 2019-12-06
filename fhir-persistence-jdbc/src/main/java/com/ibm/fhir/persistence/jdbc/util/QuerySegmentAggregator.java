@@ -15,12 +15,12 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
+import com.ibm.fhir.search.location.NearLocationHandler;
+import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.Parameter;
 
 /**
@@ -318,7 +318,6 @@ class QuerySegmentAggregator {
     protected String buildWhereClause(String overrideType) {
         final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
-        boolean isLocationQuery;
         
         // Override the Type is null, then use the default type here. 
         if(overrideType == null) {
@@ -347,9 +346,6 @@ class QuerySegmentAggregator {
 
                         whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (SELECT LOGICAL_RESOURCE_ID FROM ");
                         whereClause.append(overrideType);
-                        isLocationQuery =
-                                Location.class.equals(this.resourceType)
-                                        && param.getCode().equals(AbstractQueryBuilder.NEAR);
                         switch (param.getType()) {
                         case URI:
                         case REFERENCE:
@@ -366,7 +362,7 @@ class QuerySegmentAggregator {
                             whereClause.append("_DATE_VALUES ");
                             break;
                         case TOKEN:
-                            if (isLocationQuery) {
+                            if (LocationUtil.isLocation(this.resourceType, param)) {
                                 whereClause.append("_LATLNG_VALUES ");
                             } else {
                                 whereClause.append("_TOKEN_VALUES ");

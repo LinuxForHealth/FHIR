@@ -17,9 +17,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_EXPR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LATITUDE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LONGITUDE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETERS_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
@@ -63,12 +61,14 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
-import com.ibm.fhir.persistence.util.BoundingBox;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.location.NearLocationHandler;
+import com.ibm.fhir.search.location.bounding.BoundingRadius;
+import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.ParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -213,7 +213,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         if (Location.class.equals(resourceType)) {
             querySegment = this.processLocationPosition(searchParameters);
             if (querySegment != null) {
-                nearParameterIndex = this.findNearParameterIndex(searchParameters);
+                nearParameterIndex = LocationUtil.findNearParameterIndex(searchParameters);
                 helper.addQueryData(querySegment, searchParameters.get(nearParameterIndex));
             }
             // If there are Location-position parameters but a querySegment was not built,
@@ -1308,31 +1308,20 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData buildLocationQuerySegment(String parmName, BoundingBox boundingBox) throws FHIRPersistenceException {
+    protected SqlQueryData buildLocationQuerySegment(String parmName, List<BoundingRadius> boundingRads) throws FHIRPersistenceException {
         final String METHODNAME = "buildLocationQuerySegment";
         log.entering(CLASSNAME, METHODNAME, parmName);
 
-        StringBuilder whereClauseSegment = new StringBuilder();
-        List<Object> bindVariables = new ArrayList<>();
-        SqlQueryData queryData;
-
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
+        StringBuilder whereClauseSegment = new StringBuilder();
         this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETER_TABLE_ALIAS);
+        
+        List<Object> bindVariables = new ArrayList<>();
+        LocationBehaviorUtil behaviorUtil = new LocationBehaviorUtil();
+        behaviorUtil.buildLocationSearchQuery(whereClauseSegment, bindVariables, boundingRads);
 
-        // Now build the piece that compares the BoundingBox longitude and latitude values
-        // to the persisted longitude and latitude parameters.
-        whereClauseSegment.append(JDBCOperator.AND.value()).append(LEFT_PAREN).append(PARAMETER_TABLE_ALIAS
-                + DOT).append(LONGITUDE_VALUE).append(JDBCOperator.LTE.value()).append(BIND_VAR).append(JDBCOperator.AND.value()).append(PARAMETER_TABLE_ALIAS
-                        + DOT).append(LONGITUDE_VALUE).append(JDBCOperator.GTE.value()).append(BIND_VAR).append(JDBCOperator.AND.value()).append(PARAMETER_TABLE_ALIAS
-                                + DOT).append(LATITUDE_VALUE).append(JDBCOperator.LTE.value()).append(BIND_VAR).append(JDBCOperator.AND.value()).append(PARAMETER_TABLE_ALIAS
-                                        + DOT).append(LATITUDE_VALUE).append(JDBCOperator.GTE.value()).append(BIND_VAR).append(RIGHT_PAREN).append(RIGHT_PAREN);
-        bindVariables.add(boundingBox.getMaxLongitude());
-        bindVariables.add(boundingBox.getMinLongitude());
-        bindVariables.add(boundingBox.getMaxLatitude());
-        bindVariables.add(boundingBox.getMinLatitude());
-
-        queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+        SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
         return queryData;
     }
@@ -1375,25 +1364,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      */
     private String nullCheck(Integer n) {
         return n == null ? "-1" : n.toString();
-    }
-
-    /**
-     * Finds the index of the 'near' parameter in the passed list of search parameters. If not found, -1 is returned.
-     * 
-     * @param searchParameters
-     * @return int - The index of the 'near' parameter in the passed List.
-     */
-    private int findNearParameterIndex(List<Parameter> searchParameters) {
-
-        int nearParameterIndex = -1;
-
-        for (int i = 0; i < searchParameters.size(); i++) {
-            if (searchParameters.get(i).getCode().equals(NEAR)) {
-                nearParameterIndex = i;
-                break;
-            }
-        }
-        return nearParameterIndex;
     }
 
     /**
@@ -1509,19 +1479,17 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     protected SqlQueryData buildQueryParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-        
+
         SqlQueryData databaseQueryParm = null;
         Type type;
-        
+
         try {
             if (Modifier.MISSING.equals(queryParm.getModifier())) {
                 return this.processMissingParm(resourceType, queryParm, tableAlias);
             }
-            // NOTE: The special logic needed to process NEAR and NEAR_DISTANCE query parms for the Location resource type is
+            // NOTE: The special logic needed to process NEAR query parms for the Location resource type is
             // found in method processLocationPosition(). This method will not handle those.
-            if (! (Location.class.equals(resourceType) && 
-                (queryParm.getCode().equals(NEAR) || queryParm.getCode().equals(NEAR_DISTANCE)))) {
-                
+            if (!LocationUtil.isLocation(resourceType, queryParm)) {
                 type = queryParm.getType();
                 switch(type) {
                 case STRING:    databaseQueryParm = this.processStringParm(queryParm, tableAlias);
@@ -1546,10 +1514,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                         break;
                 case URI:       databaseQueryParm = this.processUriParm(queryParm, tableAlias);
                         break;
-                
                 default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
                 }
-            }
+            } 
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});

@@ -23,8 +23,8 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -33,8 +33,8 @@ import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
-import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -229,8 +229,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         log.entering(CLASSNAME, METHODNAME);
         
         char returnChar = 0;
-        if(AbstractQueryBuilder.NEAR.equals(parameter.getName()) || 
-           AbstractQueryBuilder.NEAR_DISTANCE.equals(parameter.getName())) {
+        if ( NearLocationHandler.NEAR.equals(parameter.getName())) {
             returnChar = 'G';
         }
         else {
@@ -600,8 +599,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_LATLNG_VALUES").toString();
             for (Parameter parameter : parameters) {
-                if (AbstractQueryBuilder.NEAR.equals(parameter.getName()) || 
-                    AbstractQueryBuilder.NEAR_DISTANCE.equals(parameter.getName())) {
+                if (NearLocationHandler.NEAR.equals(parameter.getName())) {
                     rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
                                             parameter.getValueLatitude(), parameter.getValueLongitude()};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
