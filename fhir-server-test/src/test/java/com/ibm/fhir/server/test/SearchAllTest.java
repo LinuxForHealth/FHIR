@@ -18,6 +18,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -32,6 +33,7 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
@@ -48,6 +50,9 @@ public class SearchAllTest extends FHIRServerTestBase {
     private String patientId;
     private Instant lastUpdated;
     private Patient patient4DuplicationTest = null;
+    
+    private String strUniqueTag = UUID.randomUUID().toString();
+    Coding uniqueTag = Coding.builder().system(uri("http://ibm.com/fhir/tag")).code(code(strUniqueTag)).build();
 
     @Test(groups = { "server-search-all" })
     public void testCreatePatient() throws Exception {
@@ -66,6 +71,7 @@ public class SearchAllTest extends FHIRServerTestBase {
                         .tag(tag)
                         .tag(tag)
                         .tag(tag2)
+                        .tag(uniqueTag)
                         .profile(Canonical.of("http://ibm.com/fhir/profile/Profile"))
                         .build())
                 .build();
@@ -88,6 +94,27 @@ public class SearchAllTest extends FHIRServerTestBase {
         TestUtil.assertResourceEquals(patient, patient4DuplicationTest);
 
         lastUpdated = patient4DuplicationTest.getMeta().getLastUpdated();
+    }
+    
+    
+    @Test(groups = { "server-search-all" }, dependsOnMethods = {"testCreatePatient" })
+    public void testCreateObservation() throws Exception {
+        WebTarget target = getWebTarget();
+
+        Observation observation =
+                TestUtil.buildPatientObservation(patientId, "Observation1.json");
+        observation = observation.toBuilder()
+                .meta(Meta.builder()
+                        .tag(uniqueTag)
+                        .build())
+                .build();
+
+        Entity<Observation> entity =
+                Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("Observation").request()
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
@@ -345,5 +372,43 @@ public class SearchAllTest extends FHIRServerTestBase {
             }
             assertTrue(bundle.getEntry().size() == resourceIdSet.size());
         }
+    }
+    
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreateObservation" })
+    public void testSearchAll2UsingUniqueTag() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        FHIRResponse response = client.searchAll2(parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assert(bundle.getEntry().size() == 2);
+    }
+    
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreateObservation" })
+    public void testSearchAll2UsingUniqueTag_OneType() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        parameters.searchParam("_type", "Patient");
+        FHIRResponse response = client.searchAll2(parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assert(bundle.getEntry().size() == 1);
+    }
+    
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreateObservation" })
+    public void testSearchAll2UsingUniqueTag_TwoTypes() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        parameters.searchParam("_type", "Patient,Observation");
+        FHIRResponse response = client.searchAll2(parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assert(bundle.getEntry().size() == 2);
     }
 }

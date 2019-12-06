@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -39,6 +40,10 @@ public class QuerySegmentAggregatorFactory {
         }
         else {
             qsa = new QuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao);
+        }
+        
+        if( Resource.class.equals(resourceType) && searchContext.getSearchResourceTypes()!= null) {
+            qsa.setResourceTypes(searchContext.getSearchResourceTypes());
         }
         
         log.exiting(CLASSNAME, METHODNAME);

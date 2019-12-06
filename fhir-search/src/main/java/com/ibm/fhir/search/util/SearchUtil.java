@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.search.util;
 
+import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
+
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -588,6 +590,41 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewInvalidSearchException(
                     "_sort search result parameter not supported with _include or _revinclude.");
         }
+        HashSet<String> resourceTypes = new HashSet<String>(); 
+        if (Resource.class.equals(resourceType)) {
+            if (queryParameters.containsKey(SearchConstants.INCLUDE)
+                        || queryParameters.containsKey(SearchConstants.REVINCLUDE)) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        "system search not supported with _include or _revinclude.");
+            }
+            
+            if (queryParameters.containsKey(SearchConstants.RESTYPE)) {
+                for (String ResTypes : queryParameters.get(SearchConstants.RESTYPE)) {
+                    List<String> tmpResourceTypes = Arrays.asList(ResTypes.split("\\s*,\\s*"));
+                    for (String resType : tmpResourceTypes) {
+                        if (ModelSupport.isResourceType(resType)) {
+                            resourceTypes.add(resType);
+                        } else {
+                            if (lenient) {
+                                log.log(Level.FINE, resType + " is not valid resource type!");
+                                continue;
+                            } else {
+                                throw SearchExceptionUtil.buildNewInvalidSearchException(
+                                        "_type search parameter has invilid resource type:" + resType);
+                            }
+                        }
+                    }
+                }
+            } 
+        }
+        
+        queryParameters.remove(SearchConstants.RESTYPE);
+        
+        Boolean isMultiResTypeSearch = Resource.class.equals(resourceType) && !resourceTypes.isEmpty();
+        
+        if (isMultiResTypeSearch) {
+            context.setSearchResourceTypes(new ArrayList<>(resourceTypes));
+        }
 
         for (Entry<String, List<String>> entry : queryParameters.entrySet()) {
             String name = entry.getKey();
@@ -598,18 +635,27 @@ public class SearchUtil {
                 }
 
                 if (isSearchResultParameter(name)) {
-                    parseSearchResultParameter(resourceType, context, name, params, lenient);
-                    // _include and _revinclude parameters cannot be mixed with _summary=text 
-                    // TODO: this will fire on each search result parameter; maybe move this above to where we handle _sort + _include/_revinclude?
-                    if (context.getSummaryParameter() != null
-                            && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
-                        context.getIncludeParameters().clear();
-                        context.getRevIncludeParameters().clear();
+                    if (isMultiResTypeSearch) {
+                        parseSearchResultParameter(resourceTypes, context, name, params, lenient);
+                    } else {
+                        parseSearchResultParameter(resourceType, context, name, params, lenient);
+                        // _include and _revinclude parameters cannot be mixed with _summary=text 
+                        // TODO: this will fire on each search result parameter; maybe move this above to where we handle _sort + _include/_revinclude?
+                        if (context.getSummaryParameter() != null
+                                && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
+                            context.getIncludeParameters().clear();
+                            context.getRevIncludeParameters().clear();
+                        }
                     }
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
-                        Parameter chainedParameter = parseChainedParameter(resourceType, name, chainedParameterString);
+                        Parameter chainedParameter;
+                        if (isMultiResTypeSearch) {
+                            chainedParameter = parseChainedParameter(resourceTypes, name, chainedParameterString);
+                        } else {
+                            chainedParameter = parseChainedParameter(resourceType, name, chainedParameterString);
+                        }
                         parameters.add(chainedParameter);
                     }
                 } else {
@@ -620,14 +666,31 @@ public class SearchUtil {
                         mod           = parameterName.substring(parameterName.indexOf(":") + 1);
                         parameterName = parameterName.substring(0, parameterName.indexOf(":"));
                     }
-
-                    // Get the search parameter from our filtered set of applicable SPs for this resource type.
-                    SearchParameter searchParameter = applicableSPs.get(parameterName);
-                    if (searchParameter == null) {
-                        String msg =
-                                "Search parameter '" + parameterName + "' for resource type '"
-                                        + resourceType.getSimpleName() + "' was not found.";
-                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    
+                    SearchParameter searchParameter = null;
+                    if (isMultiResTypeSearch) {
+                      // Find the SearchParameter that will apply to all the resource types.
+                      for (String resType: resourceTypes) {
+                          Map<String, SearchParameter> resTypeSPs = getApplicableSearchParametersMap(resType);
+  
+                          // Get the search parameter from our filtered set of applicable SPs for this resource type.
+                          searchParameter = resTypeSPs.get(parameterName);
+                          if (searchParameter == null) {
+                              String msg =
+                                      "Search parameter '" + parameterName + "' for resource type '"
+                                              + resType + "' was not found.";
+                              throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                          }
+                      }
+                    } else {
+                        // Get the search parameter from our filtered set of applicable SPs for this resource type.
+                        searchParameter = applicableSPs.get(parameterName);
+                        if (searchParameter == null) {
+                            String msg =
+                                    "Search parameter '" + parameterName + "' for resource type '"
+                                            + resourceType.getSimpleName() + "' was not found.";
+                            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                        }
                     }
 
                     // Get the type of parameter so that we can use it to parse the value.
@@ -687,7 +750,7 @@ public class SearchUtil {
                 throw SearchExceptionUtil.buildNewParseParameterException(name, e);
             }
         } // end for
-
+        
         context.setSearchParameters(parameters);
         return context;
     }
@@ -954,9 +1017,20 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewParseParameterException(name, e);
         }
     }
+    
+    private static void parseSearchResultParameter(HashSet<String> resourceTypes, FHIRSearchContext context, String name,
+            List<String> values, boolean lenient) throws FHIRSearchException {
+        
+        
+    }
 
     public static boolean isChainedParameter(String name) {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);
+    }
+    
+    private static Parameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
+            throws Exception {
+        return null;
     }
 
     private static Parameter parseChainedParameter(Class<?> resourceType, String name, String valuesString)

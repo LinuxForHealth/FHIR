@@ -346,6 +346,9 @@ public interface FHIRClient {
      */
     FHIRResponse searchAll(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
+    
+    FHIRResponse searchAll2(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
+    
     /**
      * Invokes the 'validate' FHIR REST API operation.
      * @param resource the resource to be validated

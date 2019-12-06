@@ -50,6 +50,9 @@ class QuerySegmentAggregator {
     private static final Set<String> SKIP_WHERE = new HashSet<>(Arrays.asList("_id"));
     
     protected Class<?> resourceType;
+    
+    // Used for whole system search on multiple resource types.
+    private List<String> resourceTypes = null;
 
     /**
      * querySegments and searchQueryParameters are used as parallel arrays
@@ -83,6 +86,10 @@ class QuerySegmentAggregator {
         this.querySegments = new ArrayList<>();
         this.searchQueryParameters = new ArrayList<>();
          
+    }
+    
+    public void setResourceTypes(List<String> resourceTypes) {
+        this.resourceTypes = resourceTypes;
     }
     
     /**
@@ -205,6 +212,10 @@ class QuerySegmentAggregator {
         
         for(Map.Entry<String,Integer> resourceEntry : resourceNameMap.entrySet()) {
             String resourceTypeName =  resourceEntry.getKey();
+            // Only search the required resource types if any.
+            if (this.resourceTypes != null && !this.resourceTypes.contains(resourceTypeName)) {
+                continue;
+            }
             
             tempFromClause = this.buildFromClause(resourceTypeName);
             

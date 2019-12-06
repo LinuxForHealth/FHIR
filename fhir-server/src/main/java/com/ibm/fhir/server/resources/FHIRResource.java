@@ -783,6 +783,32 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
+
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("_search")
+    public Response searchAll2() {
+        log.entering(this.getClass().getName(), "searchAll2()");
+
+        try {
+            checkInitComplete();
+
+            MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+            Bundle bundle =
+                    doSearch("Resource", null, null, queryParameters, getRequestUri(), null, null);
+            return Response.ok(bundle).build();
+        } catch (FHIRHttpException e) {
+            return exceptionResponse(e);
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "searchAll2()");
+        }
+    }
+
+
     @GET
     @Path("${operationName}")
     public Response invoke(@PathParam("operationName") String operationName) {
