@@ -90,6 +90,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
             visitor = new XMLGeneratingVisitor(delegate, prettyPrinting, indentAmount);
             delegate.setDefaultNamespace(FHIR_NS_URI);
             visitable.accept(visitor);
+            delegate.getWriter().writeEndDocument();
             delegate.flush();
         } catch (Exception e) {
             throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
@@ -168,12 +169,6 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
             if (prettyPrinting) {
                 try {
                     writer.writeCharacters(System.lineSeparator());
-                } catch (XMLStreamException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                try {
-                    writer.writeCharacters("");
                 } catch (XMLStreamException e) {
                     throw new RuntimeException(e);
                 }
