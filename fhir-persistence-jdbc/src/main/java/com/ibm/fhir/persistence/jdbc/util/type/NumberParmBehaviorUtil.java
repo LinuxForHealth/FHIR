@@ -38,8 +38,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 public class NumberParmBehaviorUtil {
     private static final Logger log = java.util.logging.Logger.getLogger(NumberParmBehaviorUtil.class.getName());
 
-    private static final BigDecimal LOWER_BOUND = new BigDecimal(".9");
-    private static final BigDecimal UPPER_BOUND = new BigDecimal("1.1");
+    private static final BigDecimal FACTOR = new BigDecimal(".1");
 
     private NumberParmBehaviorUtil() {
         // No operation
@@ -142,9 +141,10 @@ public class NumberParmBehaviorUtil {
                     // -10% of the Lower Bound
                     BigDecimal lowerBound = generateLowerBound(originalNumber);
                     BigDecimal upperBound = generateUpperBound(originalNumber);
-                    bindVariables.add(lowerBound.multiply(LOWER_BOUND));
+                    BigDecimal factor = originalNumber.multiply(FACTOR);
+                    bindVariables.add(lowerBound.subtract(factor));
                     // +10% of the UPPER Bound
-                    bindVariables.add(upperBound.multiply(UPPER_BOUND));
+                    bindVariables.add(upperBound.add(factor));
 
                     // <CODE>BASIC_NUMBER_VALUE >= ? AND BASIC_NUMBER_VALUE <= ?</CODE> 
                     whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);

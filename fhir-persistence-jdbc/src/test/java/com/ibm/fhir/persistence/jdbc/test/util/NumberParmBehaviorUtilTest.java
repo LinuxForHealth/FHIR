@@ -275,12 +275,12 @@ public class NumberParmBehaviorUtilTest {
 
         // expectedBindVariables are pivoted on 100
         // Precision is implied by the use of ap
-        // Implied Range: (89.55 ... 110.55)
+        // Implied Range: (89.5 ... 110.5)
 
         Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "100");
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("89.55"));
-        expectedBindVariables.add(new BigDecimal("110.55"));
+        expectedBindVariables.add(new BigDecimal("89.5"));
+        expectedBindVariables.add(new BigDecimal("110.5"));
         String expectedSql = " AND (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
@@ -294,12 +294,12 @@ public class NumberParmBehaviorUtilTest {
 
         // expectedBindVariables are pivoted on 100
         // Precision is implied by the use of ap
-        // Implied Range: (.45 ... 1.65)
+        // Implied Range: (.4 ... 1.6)
 
         Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "1");
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("0.45"));
-        expectedBindVariables.add(new BigDecimal("1.65"));
+        expectedBindVariables.add(new BigDecimal("0.4"));
+        expectedBindVariables.add(new BigDecimal("1.6"));
         String expectedSql = " AND (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
@@ -319,8 +319,8 @@ public class NumberParmBehaviorUtilTest {
 
         Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100" });
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("89.55"));
-        expectedBindVariables.add(new BigDecimal("110.55"));
+        expectedBindVariables.add(new BigDecimal("89.5"));
+        expectedBindVariables.add(new BigDecimal("110.5"));
         String expectedSql = " AND (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
@@ -333,17 +333,14 @@ public class NumberParmBehaviorUtilTest {
         //  [parameter]=ap100,ap100.00
 
         // expectedBindVariables are pivoted on 100
-        // Precision is implied by the use of ap
-        // Implied Range: (90 ... 110)
-
         // It should NOT de-dupe
 
         Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100.00" });
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("89.55"));
-        expectedBindVariables.add(new BigDecimal("110.55"));
-        expectedBindVariables.add(new BigDecimal("89.9955"));
-        expectedBindVariables.add(new BigDecimal("110.0055"));
+        expectedBindVariables.add(new BigDecimal("89.5"));
+        expectedBindVariables.add(new BigDecimal("110.5"));
+        expectedBindVariables.add(new BigDecimal("89.995"));
+        expectedBindVariables.add(new BigDecimal("110.005"));
         String expectedSql =
                 " AND (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?) OR (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?))";
         runTest(queryParm,
