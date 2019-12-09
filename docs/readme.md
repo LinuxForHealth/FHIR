@@ -5,7 +5,7 @@ https://github.com/carbon-design-system/gatsby-theme-carbon
 
 The site uses the following gatsby plugins:
 - [gatsby-plugin-slug](https://www.gatsbyjs.org/packages/gatsby-plugin-slug/)
-    - reoslves inter-page links e.g. conformance to license is resolved to /FHIR/LICENSE
+    - resolves inter-page links e.g. conformance to license is resolved to /FHIR/LICENSE
 - [gatsby-plugin-manifest](https://www.gatsbyjs.org/packages/gatsby-plugin-manifest/?=gatsby-plugin-manifest)
     - favicon, general theme details, metadata
 - [gatsby-plugin-sitemap](https://www.gatsbyjs.org/packages/gatsby-plugin-sitemap/)
