@@ -127,10 +127,9 @@ public class QuantityParmBehaviorUtilTest {
         QuantityParmBehaviorUtil behavior = new QuantityParmBehaviorUtil();
         behavior.addSystemIfPresent(parameterDao, actualWhereClauseSegment, tableAlias, actualBindVariables, system);
 
-        if (log.isLoggable(LOG_LEVEL)) {
-            log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
-            log.info("bind variables -> " + actualBindVariables);
-        }
+        log.fine("whereClauseSegment -> " + actualWhereClauseSegment.toString());
+        log.fine("bind variables -> " + actualBindVariables);
+
         assertEquals(actualWhereClauseSegment.toString(), expectedSql);
 
         for (Object o : expectedBindVariables) {

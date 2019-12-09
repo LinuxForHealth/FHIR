@@ -63,14 +63,8 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Quantity_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
         assertSearchReturnsComposition("subject:Basic.Quantity", "25||s");
-
-        // DSTU2 does not say if this is allowed or not, but we do not support it.
-        // In more recent versions, they clarified that it should work:  https://build.fhir.org/search.html#quantity
-        //  assertSearchReturnsComposition("Quantity", "25");
-
-        // I think this should return the resource but it currently doesn't.
-        // https://jira.hl7.org/browse/FHIR-19597
-        // assertSearchReturnsComposition("Quantity", "25||sec");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "25");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "25||sec");
     }
 
     @Test
@@ -84,11 +78,11 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_withPrefix_NE() throws Exception {
-        //assertSearchReturnsSavedResource("Quantity", "ne24|http://unitsofmeasure.org|s");
+        assertSearchReturnsSavedResource("Quantity", "ne24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "ne24.4999||s");
-        //        assertSearchDoesntReturnSavedResource("Quantity", "ne24.5||s");
+        assertSearchReturnsSavedResource("Quantity", "ne24.5||s");
         assertSearchDoesntReturnSavedResource("Quantity", "ne25||s");
-        //        assertSearchDoesntReturnSavedResource("Quantity", "ne25.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "ne25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "ne25.5||s");
         assertSearchReturnsSavedResource("Quantity", "ne26|http://unitsofmeasure.org|s");
     }
@@ -215,16 +209,14 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_LessThan() throws Exception {
-        // Later versions of the spec indicate that there is an implicit precision 
-        // of .5 of the next least significant digit.  We don't support that now, but 
-        // lets use numbers far enough away that it won't matter.
-        //        assertSearchReturnsSavedResource("Quantity-lessThan", "2||lt");
+        // For more details, please see Quantity search does not consider the quantity comparator field #493 https://github.com/IBM/FHIR/issues/493
+        // assertSearchReturnsSavedResource("Quantity-lessThan", "2||lt");
         assertSearchDoesntReturnSavedResource("Quantity-lessThan", "4||lt");
 
+        // For more details, please see Quantity search does not consider the quantity comparator field #493 https://github.com/IBM/FHIR/issues/493
         // With implicit ranges, 3 (+/-0.5) actually might be < 3
-        //      assertSearchDoesntReturnSavedResource("Quantity-lessThan", "3||lt");
-
-        //        assertSearchReturnsSavedResource("Quantity-lessThan", "lt2||lt");      // < 3 may be < 2
+        // assertSearchDoesntReturnSavedResource("Quantity-lessThan", "3||lt");
+        // assertSearchReturnsSavedResource("Quantity-lessThan", "lt2||lt");      // < 3 may be < 2
         assertSearchReturnsSavedResource("Quantity-lessThan", "gt2||lt"); // < 3 may be > 2
         assertSearchReturnsSavedResource("Quantity-lessThan", "lt4||lt"); // < 3 may be < 4 
         assertSearchDoesntReturnSavedResource("Quantity-lessThan", "gt4||lt"); // < 3 is not > 4
@@ -232,19 +224,23 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_GreaterThan() throws Exception {
-        // Later versions of the spec indicate that there is an implicit precision 
-        // of .5 of the next least significant digit.  We don't support that now, but 
-        // lets use numbers far enough away that it won't matter.
         assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "2||gt");
-        //        assertSearchReturnsSavedResource("Quantity-greaterThan", "4||gt");
 
+        // For more details, please see Quantity search does not consider the quantity comparator field #493 https://github.com/IBM/FHIR/issues/493
+        // In this test, the comparator should be from the DB
+        // assertSearchReturnsSavedResource("Quantity-greaterThan", "4||gt");
+
+        // In this test, the comparator should be from the DB
         // With implicit ranges, 3 (+/-0.5) actually might be > 3
-        //      assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "3||gt");
+        // For more details, please see Quantity search does not consider the quantity comparator field #493 https://github.com/IBM/FHIR/issues/493
+        //assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "3||gt");
+        assertSearchReturnsSavedResource("Quantity-greaterThan", "3||gt");
 
         assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "lt2||gt"); // > 3 is not < 2
         assertSearchReturnsSavedResource("Quantity-greaterThan", "gt2||gt"); // > 3 may be > 2
-        assertSearchReturnsSavedResource("Quantity-greaterThan", "lt4||gt"); // > 3 may be < 4 
-        //        assertSearchReturnsSavedResource("Quantity-greaterThan", "gt4||gt");      // > 3 may be > 4
+        assertSearchReturnsSavedResource("Quantity-greaterThan", "lt4||gt"); // > 3 may be < 4
+        // For more details, please see Quantity search does not consider the quantity comparator field #493 https://github.com/IBM/FHIR/issues/493
+        // assertSearchReturnsSavedResource("Quantity-greaterThan", "gt4||gt");      // > 3 may be > 4
     }
 
     @Test
