@@ -430,7 +430,6 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
-        //
         assert(bundle.getEntry().size() == 1);
     }
     

@@ -1387,7 +1387,7 @@ public class SearchUtil {
         /*
          * the bulk of this method was refactored into UriBuilder.java the signature is
          * maintained here for backwards
-         * compatability, and as a simple helper function.
+         * compatibility, and as a simple helper function.
          */
         return UriBuilder.builder().context(context).requestUri(requestUriString).toSearchSelfUri();
     }
