@@ -69,7 +69,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         //  assertSearchReturnsComposition("Quantity", "25");
 
         // I think this should return the resource but it currently doesn't.
-        // https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
+        // https://jira.hl7.org/browse/FHIR-19597
         // assertSearchReturnsComposition("Quantity", "25||sec");
     }
 
