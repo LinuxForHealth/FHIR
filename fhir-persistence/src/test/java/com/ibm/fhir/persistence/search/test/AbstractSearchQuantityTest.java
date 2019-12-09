@@ -120,7 +120,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         // For the following test, as the upper bound is now the lower bound of the range
         // the following must use a lower value of the range/precision 
         // To keep from hitting, we have to make it more precise. 
-        assertSearchDoesntReturnSavedResource("Quantity", "gt25.05||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "gt25||s");
         assertSearchDoesntReturnSavedResource("Quantity", "gt25.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "gt25.5||s");
         assertSearchDoesntReturnSavedResource("Quantity", "gt26|http://unitsofmeasure.org|s");
@@ -134,7 +134,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity", "le24.5||s");
 
         // We have to make the following test more precise since the implied range is used. 
-        assertSearchReturnsSavedResource("Quantity", "le25.01||s");
+        assertSearchReturnsSavedResource("Quantity", "le25||s");
         assertSearchReturnsSavedResource("Quantity", "le25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "le25.5||s");
         assertSearchReturnsSavedResource("Quantity", "le26|http://unitsofmeasure.org|s");
@@ -168,17 +168,17 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity", "eb24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "eb24.5||s");
         assertSearchDoesntReturnSavedResource("Quantity", "eb25||s");
-        assertSearchDoesntReturnSavedResource("Quantity", "eb24.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "eb25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "eb25.5||s");
         assertSearchReturnsSavedResource("Quantity", "eb26|http://unitsofmeasure.org|s");
     }
 
     @Test
     public void testSearchQuantity_Quantity_withPrefixes_chained() throws Exception {
-        assertSearchReturnsComposition("subject:Basic.Quantity", "lt26.0|http://unitsofmeasure.org|s");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "lt26|http://unitsofmeasure.org|s");
         assertSearchReturnsComposition("subject:Basic.Quantity", "gt24|http://unitsofmeasure.org|s");
         assertSearchReturnsComposition("subject:Basic.Quantity", "le26|http://unitsofmeasure.org|s");
-        assertSearchReturnsComposition("subject:Basic.Quantity", "le25.02|http://unitsofmeasure.org|s");
+        assertSearchReturnsComposition("subject:Basic.Quantity", "le25|http://unitsofmeasure.org|s");
         assertSearchReturnsComposition("subject:Basic.Quantity", "ge25|http://unitsofmeasure.org|s");
         assertSearchReturnsComposition("subject:Basic.Quantity", "ge24|http://unitsofmeasure.org|s");
     }
@@ -214,7 +214,6 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity-lessThan", "4||lt");
 
         // For more details, please see Quantity search does not consider the quantity comparator field #493 https://github.com/IBM/FHIR/issues/493
-        // With implicit ranges, 3 (+/-0.5) actually might be < 3
         // assertSearchDoesntReturnSavedResource("Quantity-lessThan", "3||lt");
         // assertSearchReturnsSavedResource("Quantity-lessThan", "lt2||lt");      // < 3 may be < 2
         assertSearchReturnsSavedResource("Quantity-lessThan", "gt2||lt"); // < 3 may be > 2
@@ -249,14 +248,14 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "3||lte");
         assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "4||lte");
 
-        assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "lt2||lte");      // <= 2 may be < 2
+        assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "lt2||lte");      // <= 3 may be < 2
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "gt2||lte"); // <= 3 may be > 2
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "lt4||lte"); // <= 3 may be < 4 
         assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "gt4||lte"); // <= 3 is not > 4
         
         // As we have added implict ranges to the prefix processing, we need to add precision 
         // >= 3 may be <= 3 uses precision and bounding for the range. 
-        assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "le3.01||lte");
+        assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "le3||lte");
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "ge3||lte"); // <= 3 may be >= 3
     }
 
@@ -273,7 +272,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         
         // As we have added implict ranges to the prefix processing, we need to add precision 
         // >= 3 may be <= 3 uses precision and bounding for the range. 
-        assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "le3.01||gte"); 
+        assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "le3||gte"); 
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "ge3||gte"); // >= 3 is >= 3
     }
 
@@ -317,9 +316,10 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Range", "lt4||s");
         assertSearchDoesntReturnSavedResource("Range", "lt5||s");
 
-        // Lower Bound is 9.5 for 11, therefore adding precision. 
+        // Lower Bound is 9.5 for 11, therefore adding precision.
+        // And this is still a RANGE search.
         assertSearchReturnsSavedResource("Range", "lt10.05||s");
-        assertSearchReturnsSavedResource("Range", "lt11.0||s");
+        assertSearchReturnsSavedResource("Range", "lt11||s");
     }
 
     @Test

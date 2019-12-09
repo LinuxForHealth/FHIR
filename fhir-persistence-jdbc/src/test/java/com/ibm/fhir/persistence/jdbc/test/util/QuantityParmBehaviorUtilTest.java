@@ -387,7 +387,7 @@ public class QuantityParmBehaviorUtilTest {
         Parameter queryParm = generateParameter(SearchConstants.Prefix.GT, null, "1e3");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("999.5"));
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         String expectedSql =
@@ -400,7 +400,7 @@ public class QuantityParmBehaviorUtilTest {
         queryParm             = generateParameter(SearchConstants.Prefix.LT, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("999.5"));
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
@@ -413,7 +413,7 @@ public class QuantityParmBehaviorUtilTest {
         queryParm             = generateParameter(SearchConstants.Prefix.GE, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("999.5"));
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
@@ -426,7 +426,7 @@ public class QuantityParmBehaviorUtilTest {
         queryParm             = generateParameter(SearchConstants.Prefix.LE, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("999.5"));
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
@@ -439,7 +439,7 @@ public class QuantityParmBehaviorUtilTest {
         queryParm             = generateParameter(SearchConstants.Prefix.SA, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1000.5"));
-        expectedBindVariables.add(new BigDecimal("1000.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
@@ -452,7 +452,7 @@ public class QuantityParmBehaviorUtilTest {
         queryParm             = generateParameter(SearchConstants.Prefix.EB, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("999.5"));
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
