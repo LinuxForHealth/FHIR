@@ -388,7 +388,7 @@ public class ElementDefinition extends BackboneElement {
      * @return
      *     An immutable object of type {@link String}.
      */
-    public String getshort() {
+    public String getShort() {
         return _short;
     }
 
