@@ -3677,7 +3677,7 @@ public class ValueSet extends DomainResource {
              * @return
              *     An immutable object of type {@link Boolean}.
              */
-            public Boolean getabstract() {
+            public Boolean getAbstract() {
                 return _abstract;
             }
 

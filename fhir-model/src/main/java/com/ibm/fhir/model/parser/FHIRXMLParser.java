@@ -51320,6 +51320,7 @@ public class FHIRXMLParser implements FHIRParser {
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
+
     private java.lang.String getResourceType(XMLStreamReader reader) throws XMLStreamException {
         java.lang.String resourceType = reader.getLocalName();
         try {

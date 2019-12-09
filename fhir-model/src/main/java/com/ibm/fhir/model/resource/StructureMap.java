@@ -367,7 +367,7 @@ public class StructureMap extends DomainResource {
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
-    public List<Canonical> getimport() {
+    public List<Canonical> getImport() {
         return _import;
     }
 
@@ -1611,7 +1611,7 @@ public class StructureMap extends DomainResource {
          * @return
          *     An immutable object of type {@link Id}.
          */
-        public Id getextends() {
+        public Id getExtends() {
             return _extends;
         }
 
