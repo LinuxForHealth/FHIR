@@ -209,7 +209,6 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     /***
      * FHIR Server does not yet use quantity comparator to calculate search results.
-     * *
      *********************************************************************************/
     // Quantity search is of the form <prefix><number>|<unit_system>|<unit>.
     // We use custom units to mark the quantity comparators so we can scope our searches in the tests.
