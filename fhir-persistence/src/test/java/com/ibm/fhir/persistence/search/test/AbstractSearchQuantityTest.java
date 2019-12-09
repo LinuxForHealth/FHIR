@@ -39,7 +39,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity", "25||s");
         assertSearchReturnsSavedResource("Quantity", "25");
 
-        // https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
+        // https://jira.hl7.org/browse/FHIR-19597
         assertSearchReturnsSavedResource("Quantity", "25||sec");
 
         assertSearchDoesntReturnSavedResource("Quantity", "24.4999||s");
