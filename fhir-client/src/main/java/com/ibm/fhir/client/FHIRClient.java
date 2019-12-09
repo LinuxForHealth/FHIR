@@ -344,10 +344,10 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains the results of the 'search-all' operation
      * @throws Exception
      */
-    FHIRResponse searchAll(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
+    FHIRResponse searchAllGet(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     
-    FHIRResponse searchAll2(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
+    FHIRResponse searchAllPost(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'validate' FHIR REST API operation.

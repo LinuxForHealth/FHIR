@@ -761,7 +761,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @GET
-    @Path("_search")
+    @Path("/")
     public Response searchAll() {
         log.entering(this.getClass().getName(), "searchAll()");
 

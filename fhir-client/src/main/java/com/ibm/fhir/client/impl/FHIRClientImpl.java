@@ -439,9 +439,9 @@ public class FHIRClientImpl implements FHIRClient {
     }
 
     @Override
-    public FHIRResponse searchAll(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse searchAllGet(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
-        endpoint = endpoint.path("_search");
+        endpoint = endpoint.path("/");
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
@@ -450,13 +450,13 @@ public class FHIRClientImpl implements FHIRClient {
     }
     
     @Override
-    public FHIRResponse searchAll2(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse searchAllPost(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path("_search");
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
-        Entity entity = null;
+        Entity<Form> entity = Entity.form(parameters.getParameterMap());
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
     }

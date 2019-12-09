@@ -18,6 +18,6 @@ public class SearchAllInvoker extends OperationInvoker {
      */
     @Override
     public void doInvoke(InvocationContext ic) throws Exception {
-        response = client.searchAll(queryParameters, requestHeaders);
+        response = client.searchAllGet(queryParameters, requestHeaders);
     }
 }
