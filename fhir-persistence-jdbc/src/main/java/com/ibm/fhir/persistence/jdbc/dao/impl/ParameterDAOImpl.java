@@ -8,9 +8,7 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import java.sql.Array;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.Struct;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +21,8 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -46,10 +44,6 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     private static final String CLASSNAME = ParameterDAOImpl.class.getName(); 
     
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
-    
-    private static final String SQL_INSERT = "INSERT INTO PARAMETERS_GTT (PARAMETER_NAME_ID, PARAMETER_TYPE, STR_VALUE, STR_VALUE_LCASE, DATE_VALUE, DATE_START, DATE_END, " +
-            "NUMBER_VALUE, NUMBER_VALUE_LOW, NUMBER_VALUE_HIGH, LATITUDE_VALUE, LONGITUDE_VALUE, TOKEN_VALUE, CODE_SYSTEM_ID, CODE) " +
-            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
     private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT = 512;
     private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS = 1024;
@@ -80,106 +74,6 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      */
     public ParameterDAOImpl(Connection managedConnection) {
         super(managedConnection);
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO#insert(java.util.List)
-     */
-    @Override
-    public void insert(List<Parameter> parameters)
-                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-        final String METHODNAME = "insert";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        String parameterName;
-        Integer parameterId;
-        String tokenSystem;
-        Integer tokenSystemId;
-        boolean acquiredFromCache;
-        long dbCallStartTime;
-        double dbCallDuration;
-                        
-        try {
-            connection = this.getConnection();
-            stmt = connection.prepareStatement(SQL_INSERT);
-            
-            for (Parameter parameter: parameters) {
-                parameterName = parameter.getName();
-                parameterId = ParameterNamesCache.getParameterNameId(parameterName);
-                if (parameterId == null) {
-                    acquiredFromCache = false;
-                    parameterId = this.readOrAddParameterNameId(parameterName);
-                    this.addParameterNamesCacheCandidate(parameterName, parameterId);
-                }
-                else {
-                    acquiredFromCache = true;
-                }
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("paramenterName=" + parameterName + "  parameterId=" + parameterId + 
-                              "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ParameterNamesCache.getCacheNameForTenantDatastore());
-                }
-                stmt.setInt(1, parameterId);
-                stmt.setString(2, String.valueOf(this.determineParameterTypeChar(parameter)));
-                stmt.setString(3, parameter.getValueString());
-                stmt.setString(4, SearchUtil.normalizeForSearch(parameter.getValueString()));
-                stmt.setTimestamp(5, parameter.getValueDate());
-                stmt.setTimestamp(6, parameter.getValueDateStart());
-                stmt.setTimestamp(7, parameter.getValueDateEnd());
-                stmt.setObject(8, parameter.getValueNumber(), Types.DOUBLE);
-                stmt.setObject(9, parameter.getValueNumberLow(), Types.DOUBLE);
-                stmt.setObject(10, parameter.getValueNumberHigh(), Types.DOUBLE);
-                stmt.setObject(11, parameter.getValueLatitude(), Types.DOUBLE);
-                stmt.setObject(12, parameter.getValueLongitude(), Types.DOUBLE);
-                stmt.setString(13, parameter.getValueCode());
-                tokenSystem = parameter.getValueSystem();
-                if ((parameter.getType().equals(Type.TOKEN) || parameter.getType().equals(Type.QUANTITY)) &&
-                    (tokenSystem == null || tokenSystem.isEmpty())) {
-                        tokenSystem = DEFAULT_TOKEN_SYSTEM;
-                }
-                if(tokenSystem != null) {
-                    tokenSystemId = CodeSystemsCache.getCodeSystemId(tokenSystem);
-                    if (tokenSystemId == null) {
-                        acquiredFromCache = false;
-                        tokenSystem = SqlParameterEncoder.encode(tokenSystem);
-                        tokenSystemId = this.readOrAddCodeSystemId(tokenSystem);
-                        this.addCodeSystemsCacheCandidate(tokenSystem, tokenSystemId);
-                    }
-                    else {
-                        acquiredFromCache = true;
-                    }
-                    stmt.setInt(14, tokenSystemId);
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("tokenSystem=" + tokenSystem + "  tokenSystemId=" + tokenSystemId + 
-                                  "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + CodeSystemsCache.getCacheNameForTenantDatastore());
-                    }
-                }
-                else {
-                    stmt.setObject(14, null, Types.INTEGER);
-                }
-                stmt.setString(15, parameter.getValueCode());
-                stmt.addBatch();
-            }
-            dbCallStartTime = System.nanoTime();
-            stmt.executeBatch();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Batch DB Parameter insert complete. executionTime=" + dbCallDuration + "ms");
-            }
-        }
-        catch(FHIRPersistenceDBConnectException e) {
-            throw e;
-        }
-        catch(Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Parameter batch.");
-            throw severe(log, fx, e);
-        }
-        finally {
-            this.cleanup(stmt, connection);
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-
     }
 
     @Override
@@ -216,46 +110,6 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-    }
-    
-    /**
-     * Examines the type of the passed parameter and maps that enumerated Type to a char that can then be persisted
-     * in one of the parameter values tables.
-     * @param parameter A search Parameter containing a valid Type.
-     * @return char - A character indicating the search parameter type that can be persisted.
-     */
-    private char determineParameterTypeChar(Parameter parameter) {
-        final String METHODNAME = "determineParameterTypeChar";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        char returnChar = 0;
-        if(AbstractQueryBuilder.NEAR.equals(parameter.getName()) || 
-           AbstractQueryBuilder.NEAR_DISTANCE.equals(parameter.getName())) {
-            returnChar = 'G';
-        }
-        else {
-            switch(parameter.getType()) {
-                case REFERENCE :
-                case URI: 
-                case STRING :     returnChar = 'S';
-                                  break;
-                              
-                case TOKEN :      returnChar = 'C';
-                                  break;
-                
-                case QUANTITY : returnChar = 'Q';  
-                                break;
-                              
-                case NUMBER :     returnChar = 'N';
-                                break;
-                    
-                case DATE :     returnChar = 'D'; 
-                                break;
-            }
-        }
-        
-        log.exiting(CLASSNAME, METHODNAME);
-        return returnChar;
     }
     
     /**

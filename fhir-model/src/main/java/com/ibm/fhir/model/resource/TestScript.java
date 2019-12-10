@@ -4142,7 +4142,7 @@ public class TestScript extends DomainResource {
              * @return
              *     An immutable object of type {@link Assert}.
              */
-            public Assert getassert() {
+            public Assert getAssert() {
                 return _assert;
             }
 
@@ -6748,7 +6748,7 @@ public class TestScript extends DomainResource {
              * @return
              *     An immutable object of type {@link TestScript.Setup.Action.Assert}.
              */
-            public TestScript.Setup.Action.Assert getassert() {
+            public TestScript.Setup.Action.Assert getAssert() {
                 return _assert;
             }
 

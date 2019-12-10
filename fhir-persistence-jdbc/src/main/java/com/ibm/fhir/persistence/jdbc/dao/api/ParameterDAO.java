@@ -21,14 +21,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  * and retrieving rows in the IBM FHIR Server parameter-related tables.
  */
 public interface ParameterDAO extends FHIRDbDAO {
-    
-    /**
-     * Performs a batch insert of the passed Parameter objects into the FHIR database.
-     * @param parameters - A List of search parameters associated with a FHIR Resource.
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     */
-    void insert(List<Parameter> parameters) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
      * Deletes from the Parameter table all rows associated with the passed resource id.

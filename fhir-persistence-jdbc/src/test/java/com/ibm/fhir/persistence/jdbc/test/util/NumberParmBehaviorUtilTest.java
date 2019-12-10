@@ -31,7 +31,7 @@ import com.ibm.fhir.search.parameters.ParameterValue;
 
 public class NumberParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(NumberParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.INFO;
+    private static final Level LOG_LEVEL = Level.FINE;
 
     private ParameterValue generateParameterValue(String value, SearchConstants.Prefix prefix) {
         ParameterValue parameterValue = new ParameterValue();

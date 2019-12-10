@@ -1099,7 +1099,7 @@ public class CodeGenerator {
                 if (elementDefinition.getString("path").equals(basePath)) {
                     String fieldName = getFieldName(elementDefinition, path);
                     String fieldType = getFieldType(structureDefinition, elementDefinition);
-                    String methodName = "get" + titleCase(fieldName).replace("_", "");
+                    String methodName = "get" + titleCase(fieldName.replace("_", ""));
                     generateGetterMethodJavadoc(structureDefinition, elementDefinition, fieldType, cb);
                     cb.method(mods("public"), fieldType, methodName)._return(fieldName).end().newLine();
                 }
@@ -3133,27 +3133,10 @@ public class CodeGenerator {
         return elementDefinition.getString("contentReference", null);
     }
 
-    private String getFHIRTypeExtension(JsonObject elementDefinition) {
-        JsonArray extensions = elementDefinition.getJsonArray("extension");
-        if (extensions == null) {
-            return null;
-        }
-        for (JsonValue jsonValue : extensions) {
-            if (jsonValue instanceof JsonObject) {
-                String url = jsonValue.asJsonObject().getString("url");
-                if ("http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type".equals(url)) {
-                    return ((JsonObject) jsonValue).getString("valueUrl");
-                }
-            }
-        }
-        return null;
-    }
-    
-
     private String getDisplay(JsonObject concept) {
         return concept.getString("display", null);
     }
-    
+
     private JsonObject getElementDefinition(JsonObject structureDefinition, String path) {
         for (JsonObject elementDefinition : getElementDefinitions(structureDefinition)) {
             if (path.equals(elementDefinition.getString("path"))) {
@@ -3170,7 +3153,7 @@ public class CodeGenerator {
     private List<JsonObject> getElementDefinitions(JsonObject structureDefinition, boolean snapshot) {
         List<JsonObject> elementDefinitions = new ArrayList<>();
         JsonObject snapshotOrDifferential = structureDefinition.getJsonObject(snapshot ? "snapshot" : "differential");
-        for (JsonValue element : snapshotOrDifferential.getJsonArray("element")) {            
+        for (JsonValue element : snapshotOrDifferential.getJsonArray("element")) {
             elementDefinitions.add(element.asJsonObject());
             if (snapshot) {
                 String path = element.asJsonObject().getString("path");
@@ -3459,10 +3442,6 @@ public class CodeGenerator {
     
     private boolean hasContentReference(JsonObject elementDefinition) {
         return getContentReference(elementDefinition) != null;
-    }
-    
-    private boolean hasFHIRTypeExtension(JsonObject elementDefinition) {
-        return getFHIRTypeExtension(elementDefinition) != null;
     }
 
     private boolean hasRequiredBinding(JsonObject elementDefinition) {

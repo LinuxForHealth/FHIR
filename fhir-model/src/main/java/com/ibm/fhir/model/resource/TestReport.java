@@ -1418,7 +1418,7 @@ public class TestReport extends DomainResource {
              * @return
              *     An immutable object of type {@link Assert}.
              */
-            public Assert getassert() {
+            public Assert getAssert() {
                 return _assert;
             }
 
@@ -2608,7 +2608,7 @@ public class TestReport extends DomainResource {
              * @return
              *     An immutable object of type {@link TestReport.Setup.Action.Assert}.
              */
-            public TestReport.Setup.Action.Assert getassert() {
+            public TestReport.Setup.Action.Assert getAssert() {
                 return _assert;
             }
 
