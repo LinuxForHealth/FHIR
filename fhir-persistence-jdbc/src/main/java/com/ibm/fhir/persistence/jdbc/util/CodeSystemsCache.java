@@ -39,17 +39,16 @@ public class CodeSystemsCache {
      */
     public static Integer getCodeSystemId(String systemName) {
         
-        String tenantDatstoreCacheName = getCacheNameForTenantDatastore();
-        ConcurrentHashMap<String,Integer> currentDsMap;
+        String tenantDatastoreCacheName = getCacheNameForTenantDatastore();
         Integer systemId = null;
         String encodedSysName = SqlParameterEncoder.encode(systemName);
         
         if (enabled) {
-            currentDsMap = codeSystemIdMaps.putIfAbsent(tenantDatstoreCacheName, new ConcurrentHashMap<String,Integer>());
+            ConcurrentHashMap<String,Integer> currentDsMap = codeSystemIdMaps.putIfAbsent(tenantDatastoreCacheName, new ConcurrentHashMap<String,Integer>());
             if (currentDsMap == null) {
-                log.fine("getCodeSystemId() - Added new cache map for tennantDatastore=" + tenantDatstoreCacheName);
+                log.fine("getCodeSystemId() - Added new cache map for tennantDatastore=" + tenantDatastoreCacheName);
             }
-            currentDsMap = codeSystemIdMaps.get(tenantDatstoreCacheName);
+            currentDsMap = codeSystemIdMaps.get(tenantDatastoreCacheName);
             systemId = currentDsMap.get(encodedSysName);
         }
         return systemId;
