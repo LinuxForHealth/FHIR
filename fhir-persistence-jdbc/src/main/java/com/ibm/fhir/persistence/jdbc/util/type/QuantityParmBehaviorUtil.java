@@ -285,41 +285,41 @@ public class QuantityParmBehaviorUtil {
             // EB - Ends Before
             // the range of the search value does not overlap with the range of the target value,
             // and the range above the search value contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    JDBCOperator.LT.value(), value, lowerBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
+                    JDBCOperator.LT.value(), value, value);
             break;
         case SA:
             // SA - Starts After
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    JDBCOperator.GT.value(), value, upperBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
+                    JDBCOperator.GT.value(), value, value);
             break;
         case GE:
             // GE - Greater Than Equal
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    JDBCOperator.GTE.value(), value, lowerBound);
+                    JDBCOperator.GTE.value(), value, value);
             break;
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    JDBCOperator.GT.value(), value, lowerBound);
+                    JDBCOperator.GT.value(), value, value);
             break;
         case LE:
             // LE - Less Than Equal
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    JDBCOperator.LTE.value(), value, lowerBound);
+                    JDBCOperator.LTE.value(), value, value);
             break;
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    JDBCOperator.LT.value(), value, lowerBound);
+                    JDBCOperator.LT.value(), value, value);
             break;
         case AP:
             // AP - Approximate - Relative

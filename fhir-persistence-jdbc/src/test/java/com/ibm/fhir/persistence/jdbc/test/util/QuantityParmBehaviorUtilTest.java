@@ -386,7 +386,7 @@ public class QuantityParmBehaviorUtilTest {
         // gt - Greater Than
         Parameter queryParm = generateParameter(SearchConstants.Prefix.GT, null, "1e3");
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
@@ -399,7 +399,7 @@ public class QuantityParmBehaviorUtilTest {
         // lt - Less Than
         queryParm             = generateParameter(SearchConstants.Prefix.LT, null, "1e3");
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
@@ -412,7 +412,7 @@ public class QuantityParmBehaviorUtilTest {
         // ge - Greater than Equal
         queryParm             = generateParameter(SearchConstants.Prefix.GE, null, "1e3");
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
@@ -425,7 +425,7 @@ public class QuantityParmBehaviorUtilTest {
         // le - Less than Equal
         queryParm             = generateParameter(SearchConstants.Prefix.LE, null, "1e3");
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
@@ -438,12 +438,12 @@ public class QuantityParmBehaviorUtilTest {
         // sa - starts after
         queryParm             = generateParameter(SearchConstants.Prefix.SA, null, "1e3");
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("1000.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE > ? OR Basic.QUANTITY_VALUE_HIGH > ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                " AND (((Basic.QUANTITY_VALUE > ? OR Basic.QUANTITY_VALUE_LOW > ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -451,12 +451,12 @@ public class QuantityParmBehaviorUtilTest {
         // eb - Ends before
         queryParm             = generateParameter(SearchConstants.Prefix.EB, null, "1e3");
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("999.5"));
+        expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE < ? OR Basic.QUANTITY_VALUE_LOW < ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                " AND (((Basic.QUANTITY_VALUE < ? OR Basic.QUANTITY_VALUE_HIGH < ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);

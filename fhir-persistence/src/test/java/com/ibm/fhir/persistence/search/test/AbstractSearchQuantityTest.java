@@ -116,10 +116,6 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity", "gt24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "gt24.4999||s");
         assertSearchReturnsSavedResource("Quantity", "gt24.5||s");
-
-        // For the following test, as the upper bound is now the lower bound of the range
-        // the following must use a lower value of the range/precision 
-        // To keep from hitting, we have to make it more precise. 
         assertSearchDoesntReturnSavedResource("Quantity", "gt25||s");
         assertSearchDoesntReturnSavedResource("Quantity", "gt25.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "gt25.5||s");
@@ -132,8 +128,6 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity", "le24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "le24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "le24.5||s");
-
-        // We have to make the following test more precise since the implied range is used. 
         assertSearchReturnsSavedResource("Quantity", "le25||s");
         assertSearchReturnsSavedResource("Quantity", "le25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "le25.5||s");
@@ -315,17 +309,14 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Range_LT() throws Exception {
         assertSearchDoesntReturnSavedResource("Range", "lt4||s");
         assertSearchDoesntReturnSavedResource("Range", "lt5||s");
-
-        // Lower Bound is 9.5 for 11, therefore adding precision.
-        // And this is still a RANGE search.
-        assertSearchReturnsSavedResource("Range", "lt10.05||s");
+        assertSearchDoesntReturnSavedResource("Range", "lt10||s");
         assertSearchReturnsSavedResource("Range", "lt11||s");
     }
 
     @Test
     public void testSearchQuantity_Range_GT() throws Exception {
         assertSearchReturnsSavedResource("Range", "gt4||s");
-        assertSearchReturnsSavedResource("Range", "gt5||s");
+        assertSearchDoesntReturnSavedResource("Range", "gt5||s");
         assertSearchDoesntReturnSavedResource("Range", "gt10||s");
         assertSearchDoesntReturnSavedResource("Range", "gt11||s");
     }
@@ -334,14 +325,14 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Range_EB() throws Exception {
         assertSearchDoesntReturnSavedResource("Range", "eb4||s");
         assertSearchDoesntReturnSavedResource("Range", "eb5||s");
-        // We use the range, so we actually return the value here. 
-        assertSearchReturnsSavedResource("Range", "eb10||s");
+        assertSearchDoesntReturnSavedResource("Range", "eb10||s");
         assertSearchReturnsSavedResource("Range", "eb11||s");
     }
 
     @Test
     public void testSearchQuantity_Range_SA() throws Exception {
         assertSearchReturnsSavedResource("Range", "sa4||s");
+        assertSearchDoesntReturnSavedResource("Range", "sa5||s");
         assertSearchDoesntReturnSavedResource("Range", "sa10||s");
         assertSearchDoesntReturnSavedResource("Range", "sa10.0||s");
         assertSearchDoesntReturnSavedResource("Range", "sa11||s");
@@ -351,7 +342,6 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Range_GE() throws Exception {
         assertSearchReturnsSavedResource("Range", "ge4||s");
         assertSearchReturnsSavedResource("Range", "ge5||s");
-        // We're using the lowerbound to trigger the range search
         assertSearchDoesntReturnSavedResource("Range", "ge10||s");
         assertSearchDoesntReturnSavedResource("Range", "ge11||s");
     }
@@ -359,9 +349,8 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     @Test
     public void testSearchQuantity_Range_LE() throws Exception {
         assertSearchDoesntReturnSavedResource("Range", "le4||s");
-        assertSearchDoesntReturnSavedResource("Range", "le5.01||s");
-        // the upper bound is actually higher than the valueRange we inserted. 
-        assertSearchDoesntReturnSavedResource("Range", "le10||s");
+        assertSearchDoesntReturnSavedResource("Range", "le5||s");
+        assertSearchReturnsSavedResource("Range", "le10||s");
         assertSearchReturnsSavedResource("Range", "le10.01||s");
         assertSearchReturnsSavedResource("Range", "le11||s");
     }
@@ -370,7 +359,6 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Range_missing() throws Exception {
         assertSearchReturnsSavedResource("Range:missing", "false");
         assertSearchDoesntReturnSavedResource("Range:missing", "true");
-
         assertSearchReturnsSavedResource("missing-Range:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Range:missing", "false");
     }
