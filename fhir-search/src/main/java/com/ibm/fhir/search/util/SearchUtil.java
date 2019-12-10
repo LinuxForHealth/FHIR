@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.search.util;
 
-import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
-
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -85,7 +83,13 @@ public class SearchUtil {
             "Search parameter: '%s' must have resource type name modifier";
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
     private static final String UNSUPPOTED_EXPR_NULL =
-            "An empty expression is found or the parameter type is unsupported [%s][%s]";;
+            "An empty expression is found or the parameter type is unsupported [%s][%s]";
+    
+    private static final String MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE =
+            "Modifier resource type [%s] is not allowed for search parameter [%s] of resource type [%s].";
+    
+    private static final String Different_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES =
+            "Different Modifier resource types are found for search parameter [%s] of the to-be-searched resource types.";
 
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
@@ -1030,7 +1034,114 @@ public class SearchUtil {
     
     private static Parameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
             throws Exception {
-        return null;
+        Parameter rootParameter = null;
+        Class<?> resourceType = null;
+
+        try {
+            List<String> components = Arrays.asList(name.split("\\."));
+            int lastIndex = components.size() - 1;
+            int currentIndex = 0;
+
+            SearchConstants.Type type = null;
+
+            for (String component : components) {
+                SearchConstants.Modifier modifier = null;
+                String modifierResourceTypeName = null;
+                String parameterName = component;
+
+                // Optimization opportunity
+                // substring + indexOf and contains execute similar operations
+                // collapsing the branching logic is ideal
+                int loc = parameterName.indexOf(SearchConstants.COLON_DELIMITER);
+                if (loc > 0) {
+                    // Parameter exists
+                    String mod = parameterName.substring(loc + 1);
+                    if (ModelSupport.isResourceType(mod)) {
+                        modifier                 = SearchConstants.Modifier.TYPE;
+                        modifierResourceTypeName = mod;
+                    } else {
+                        modifier = SearchConstants.Modifier.fromValue(mod);
+                    }
+
+                    if (modifier != null && !SearchConstants.Modifier.TYPE.equals(modifier)
+                            && currentIndex < lastIndex) {
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(
+                                String.format(MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION, modifier));
+                    }
+                    parameterName = parameterName.substring(0, parameterName.indexOf(":"));
+                }
+                
+                SearchParameter searchParameter;
+                HashSet<String> modifierResourceTypeName4ResourceTypes = new HashSet<String>();
+                if (resourceType != null) {
+                    searchParameter = getSearchParameter(resourceType, parameterName);
+                    type = SearchConstants.Type.fromValue(searchParameter.getType().getValue()); 
+                } else {
+                    for (String resTypeName: resourceTypes) {
+                        searchParameter = getSearchParameter(ModelSupport.getResourceType(resTypeName), parameterName);
+                        type = SearchConstants.Type.fromValue(searchParameter.getType().getValue());
+
+                        if (!SearchConstants.Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
+                            throw SearchExceptionUtil.buildNewInvalidSearchException(
+                                    String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type));
+                        }
+                        
+                        List<ResourceType> targets = searchParameter.getTarget();
+                        if (modifierResourceTypeName != null && !targets.contains(ResourceType.of(modifierResourceTypeName))) {
+                            throw SearchExceptionUtil.buildNewInvalidSearchException(
+                                    String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName, 
+                                            parameterName, resTypeName));
+                        }
+                        
+                        if (modifierResourceTypeName == null && targets.size() > 1 && currentIndex < lastIndex) {
+                            throw SearchExceptionUtil.buildNewInvalidSearchException(
+                                    String.format(SEARCH_PARAMETER_MODIFIER_NAME, parameterName));
+                        }
+                        
+                        if (modifierResourceTypeName == null && currentIndex < lastIndex) {
+                            modifier                 = SearchConstants.Modifier.TYPE;
+                            modifierResourceTypeName4ResourceTypes.add(targets.get(0).getValue());
+                        }
+                    }
+                }
+
+
+                if (modifierResourceTypeName4ResourceTypes.size() > 1) {
+                    String.format(Different_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES, parameterName);
+                } else if (modifierResourceTypeName4ResourceTypes.size() == 1) {
+                    modifierResourceTypeName = modifierResourceTypeName4ResourceTypes.iterator().next();
+                }
+
+                Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
+                if (rootParameter == null) {
+                    rootParameter = parameter;
+                } else {
+                    if (rootParameter.getChain().isEmpty()) {
+                        rootParameter.setNextParameter(parameter);
+                    } else {
+                        rootParameter.getChain().getLast().setNextParameter(parameter);
+                    }
+                }
+
+                // moves the movement of the chain.
+                // Non standard resource support?
+                if (currentIndex < lastIndex) {
+                    // FHIRUtil.getResourceType(modifierResourceTypeName)
+                    resourceType = ModelSupport.getResourceType(modifierResourceTypeName);
+                }
+
+                currentIndex++;
+            } // end for loop
+
+            List<ParameterValue> valueList = parseQueryParameterValuesString(type, valuesString);
+            rootParameter.getChain().getLast().getValues().addAll(valueList);
+        } catch (FHIRSearchException e) {
+            throw e;
+        } catch (Exception e) {
+            throw SearchExceptionUtil.buildNewChainedParameterException(name, e);
+        }
+
+        return rootParameter;
     }
 
     private static Parameter parseChainedParameter(Class<?> resourceType, String name, String valuesString)
@@ -1081,6 +1192,13 @@ public class SearchUtil {
                 }
 
                 List<ResourceType> targets = searchParameter.getTarget();
+                // Check if the modifier resource type is invalid.
+                if (modifierResourceTypeName != null && !targets.contains(ResourceType.of(modifierResourceTypeName))) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(
+                            String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName, 
+                                    parameterName, resourceType.getSimpleName()));
+                }
+                
                 if (modifierResourceTypeName == null && targets.size() > 1 && currentIndex < lastIndex) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                             String.format(SEARCH_PARAMETER_MODIFIER_NAME, parameterName));

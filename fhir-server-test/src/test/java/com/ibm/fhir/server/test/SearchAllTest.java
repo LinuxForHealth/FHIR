@@ -33,7 +33,9 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
@@ -47,7 +49,7 @@ public class SearchAllTest extends FHIRServerTestBase {
 
     private static final boolean DEBUG_SEARCH = false;
 
-    private String patientId;
+    private String patientId, patientId2;
     private Instant lastUpdated;
     private Patient patient4DuplicationTest = null;
     private String strUniqueTag = UUID.randomUUID().toString();
@@ -388,11 +390,11 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         
         // Get the patient's logical id value.
-        patientId = getLocationLogicalId(response);
+        patientId2 = getLocationLogicalId(response);
         
         // Create a new observation with the unique tag for the above patient.
         Observation observation =
-                TestUtil.buildPatientObservation(patientId, "Observation1.json");
+                TestUtil.buildPatientObservation(patientId2, "Observation1.json");
         observation = observation.toBuilder()
                 .meta(Meta.builder()
                         .tag(uniqueTag)
@@ -405,6 +407,12 @@ public class SearchAllTest extends FHIRServerTestBase {
                 target.path("Observation").request()
                 .post(entity2, Response.class);
         assertResponse(response2, Response.Status.CREATED.getStatusCode());
+        
+        // Create a Condition with subject points to the created patient.
+        Condition condition = buildCondition(patientId2, "Condition.json");
+        Entity<Condition> obs = Entity.entity(condition, FHIRMediaType.APPLICATION_FHIR_JSON);
+        response = target.path("Condition").request().post(obs, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
 
     }
     
@@ -417,7 +425,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
-        assert(bundle.getEntry().size() == 2);
+        assertTrue(bundle.getEntry().size() == 2);
     }
     
     @Test(groups = { "server-search-all"}, dependsOnMethods = {
@@ -430,7 +438,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
-        assert(bundle.getEntry().size() == 1);
+        assertTrue(bundle.getEntry().size() == 1);
     }
     
     @Test(groups = { "server-search-all"}, dependsOnMethods = {
@@ -443,6 +451,34 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+    }
+    
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2_TwoTypes_ChainedParameter() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("subject:Patient._tag", strUniqueTag);
+        parameters.searchParam("_type", "Observation,Condition");
+        FHIRResponse response = client.searchAllPost(parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
         assert(bundle.getEntry().size() == 2);
+        // verify self link in the response bundle
+        assertTrue(bundle.getLink().size() == 1);
+        assertTrue(bundle.getLink().get(0).getUrl().getValue().contains("subject:Patient._tag"));
+    }
+    
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2_TwoTypes_InvalidChainedParameter() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("subject:Practitioner.name", "John");
+        parameters.searchParam("_type", "Account,Observation");
+        FHIRResponse response = client.searchAllPost(parameters);
+        assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
+        assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
+                "Modifier resource type [Practitioner] is not allowed for search parameter [subject] of resource type [Observation]");
     }
 }
