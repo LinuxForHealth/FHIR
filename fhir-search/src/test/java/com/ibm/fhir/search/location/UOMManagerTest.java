@@ -19,7 +19,22 @@ import com.ibm.fhir.search.location.uom.standard.StatuteLengthUnits;
 public class UOMManagerTest {
 
     @Test
-    public void testLocations() {
+    public void testLocationUnitFoundUS() {
+        assertEquals(UOMManager.getUnitToMetersFactor("mi_us"), 1.609344);
+    }
+    
+    @Test
+    public void testLocationUnitFoundBR() {
+        assertEquals(UOMManager.getUnitToMetersFactor("mi_br"), 1.6093427328000003);
+    }
+
+    @Test
+    public void testLocationUnitNotFound() {
+        assertNull(UOMManager.getUnitToMetersFactor("zzzzzzz"));
+    }
+
+    @Test
+    public void testLocationUnitFoundMetric() {
         assertEquals(UOMManager.getUnitToMetersFactor("km"), 1000.0);
     }
 
@@ -72,18 +87,18 @@ public class UOMManagerTest {
     public void testConvertUnitToValue() {
         assertEquals(UOMManager.convertUnitsToMeters("km", 1.0), 1000.0);
     }
-    
+
     @Test
     public void testConvertUnitToValueInvalidUnit() {
         assertNull(UOMManager.convertUnitsToMeters("failed", 1.0));
     }
-    
+
     @Test
     public void testConvertUnitToKiloValue() {
         assertEquals(UOMManager.convertUnitsToKiloMeters("km", 1.0), 1.0);
         assertEquals(UOMManager.convertUnitsToKiloMeters("m", 1.0), 0.001);
     }
-    
+
     @Test
     public void testConvertUnitToKiloValueInvalidUnit() {
         assertNull(UOMManager.convertUnitsToKiloMeters("failed", 1.0));

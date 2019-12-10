@@ -16,15 +16,7 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.uom.UOMManager;
 
 public class NearLocationHandlerTest {
-    @Test
-    public void testLocationUnitFound() {
-        assertEquals(UOMManager.getUnitToMetersFactor("mi"), 1609.344);
-    }
-    
-    @Test
-    public void testLocationUnitNotFound() {
-        assertNull(UOMManager.getUnitToMetersFactor("zzzzzzz"));
-    }
+
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testLocationNegativeSizeBoundary() throws FHIRSearchException {

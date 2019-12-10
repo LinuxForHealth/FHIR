@@ -54,7 +54,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.util.type.LocationBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
@@ -1136,7 +1136,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETER_TABLE_ALIAS);
         
         List<Object> bindVariables = new ArrayList<>();
-        LocationBehaviorUtil behaviorUtil = new LocationBehaviorUtil();
+        LocationParmBehaviorUtil behaviorUtil = new LocationParmBehaviorUtil();
         behaviorUtil.buildLocationSearchQuery(whereClauseSegment, bindVariables, boundingAreas);
 
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
