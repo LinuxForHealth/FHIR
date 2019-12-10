@@ -299,26 +299,26 @@ public class QuantityParmBehaviorUtil {
             // GE - Greater Than Equal
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
                     JDBCOperator.GTE.value(), value, value);
             break;
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
                     JDBCOperator.GT.value(), value, value);
             break;
         case LE:
             // LE - Less Than Equal
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
                     JDBCOperator.LTE.value(), value, value);
             break;
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
                     JDBCOperator.LT.value(), value, value);
             break;
         case AP:

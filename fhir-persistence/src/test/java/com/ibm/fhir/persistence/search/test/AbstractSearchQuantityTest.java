@@ -232,6 +232,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "lt2||gt"); // > 3 is not < 2
         assertSearchReturnsSavedResource("Quantity-greaterThan", "gt2||gt"); // > 3 may be > 2
         assertSearchReturnsSavedResource("Quantity-greaterThan", "lt4||gt"); // > 3 may be < 4
+
         // For more details, please see Quantity search does not consider the quantity comparator field #493 https://github.com/IBM/FHIR/issues/493
         // assertSearchReturnsSavedResource("Quantity-greaterThan", "gt4||gt");      // > 3 may be > 4
     }
@@ -242,12 +243,11 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "3||lte");
         assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "4||lte");
 
-        assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "lt2||lte");      // <= 3 may be < 2
+        assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "lt2||lte"); // <= 3 may be < 2
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "gt2||lte"); // <= 3 may be > 2
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "lt4||lte"); // <= 3 may be < 4 
         assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "gt4||lte"); // <= 3 is not > 4
-        
-        // As we have added implict ranges to the prefix processing, we need to add precision 
+
         // >= 3 may be <= 3 uses precision and bounding for the range. 
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "le3||lte");
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "ge3||lte"); // <= 3 may be >= 3
@@ -262,11 +262,10 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "lt2||gte"); // >= 3 is not < 2
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "gt2||gte"); // >= 3 may be > 2
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "lt4||gte"); // >= 3 may be < 4 
-        assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "gt4||gte");      // >= 3 may be > 4
-        
-        // As we have added implict ranges to the prefix processing, we need to add precision 
+        assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "gt4||gte"); // >= 3 may be > 4
+
         // >= 3 may be <= 3 uses precision and bounding for the range. 
-        assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "le3||gte"); 
+        assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "le3||gte");
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "ge3||gte"); // >= 3 is >= 3
     }
 
@@ -309,14 +308,14 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Range_LT() throws Exception {
         assertSearchDoesntReturnSavedResource("Range", "lt4||s");
         assertSearchDoesntReturnSavedResource("Range", "lt5||s");
-        assertSearchDoesntReturnSavedResource("Range", "lt10||s");
+        assertSearchReturnsSavedResource("Range", "lt10||s");
         assertSearchReturnsSavedResource("Range", "lt11||s");
     }
 
     @Test
     public void testSearchQuantity_Range_GT() throws Exception {
         assertSearchReturnsSavedResource("Range", "gt4||s");
-        assertSearchDoesntReturnSavedResource("Range", "gt5||s");
+        assertSearchReturnsSavedResource("Range", "gt5||s");
         assertSearchDoesntReturnSavedResource("Range", "gt10||s");
         assertSearchDoesntReturnSavedResource("Range", "gt11||s");
     }
@@ -337,19 +336,19 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Range", "sa10.0||s");
         assertSearchDoesntReturnSavedResource("Range", "sa11||s");
     }
-    
+
     @Test
     public void testSearchQuantity_Range_GE() throws Exception {
         assertSearchReturnsSavedResource("Range", "ge4||s");
         assertSearchReturnsSavedResource("Range", "ge5||s");
-        assertSearchDoesntReturnSavedResource("Range", "ge10||s");
+        assertSearchReturnsSavedResource("Range", "ge10||s");
         assertSearchDoesntReturnSavedResource("Range", "ge11||s");
     }
 
     @Test
     public void testSearchQuantity_Range_LE() throws Exception {
         assertSearchDoesntReturnSavedResource("Range", "le4||s");
-        assertSearchDoesntReturnSavedResource("Range", "le5||s");
+        assertSearchReturnsSavedResource("Range", "le5||s");
         assertSearchReturnsSavedResource("Range", "le10||s");
         assertSearchReturnsSavedResource("Range", "le10.01||s");
         assertSearchReturnsSavedResource("Range", "le11||s");

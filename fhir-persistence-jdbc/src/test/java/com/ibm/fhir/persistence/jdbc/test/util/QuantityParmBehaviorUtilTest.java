@@ -391,7 +391,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         String expectedSql =
-                " AND (((Basic.QUANTITY_VALUE > ? OR Basic.QUANTITY_VALUE_LOW > ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                " AND (((Basic.QUANTITY_VALUE > ? OR Basic.QUANTITY_VALUE_HIGH > ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -404,7 +404,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE < ? OR Basic.QUANTITY_VALUE_HIGH < ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                " AND (((Basic.QUANTITY_VALUE < ? OR Basic.QUANTITY_VALUE_LOW < ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -417,7 +417,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE >= ? OR Basic.QUANTITY_VALUE_LOW >= ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                " AND (((Basic.QUANTITY_VALUE >= ? OR Basic.QUANTITY_VALUE_HIGH >= ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -430,7 +430,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE <= ? OR Basic.QUANTITY_VALUE_HIGH <= ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                " AND (((Basic.QUANTITY_VALUE <= ? OR Basic.QUANTITY_VALUE_LOW <= ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
