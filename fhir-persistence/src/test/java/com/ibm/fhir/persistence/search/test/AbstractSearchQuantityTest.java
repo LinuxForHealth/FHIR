@@ -248,7 +248,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "lt4||lte"); // <= 3 may be < 4 
         assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "gt4||lte"); // <= 3 is not > 4
 
-        // >= 3 may be <= 3 uses precision and bounding for the range. 
+        // >= 3 may be <= 3
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "le3||lte");
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "ge3||lte"); // <= 3 may be >= 3
     }
@@ -264,7 +264,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "lt4||gte"); // >= 3 may be < 4 
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "gt4||gte"); // >= 3 may be > 4
 
-        // >= 3 may be <= 3 uses precision and bounding for the range. 
+        // >= 3 may be <= 3
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "le3||gte");
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "ge3||gte"); // >= 3 is >= 3
     }
