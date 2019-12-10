@@ -26,7 +26,6 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -54,7 +53,7 @@ public class Location extends DomainResource {
         bindingName = "LocationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether the location is still in use.",
-        valueSet = "http://hl7.org/fhir/ValueSet/location-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/location-status|4.0.1"
     )
     private final LocationStatus status;
     @Summary
@@ -75,7 +74,7 @@ public class Location extends DomainResource {
         bindingName = "LocationMode",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether a resource instance represents a specific location or a class of locations.",
-        valueSet = "http://hl7.org/fhir/ValueSet/location-mode|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/location-mode|4.0.1"
     )
     private final LocationMode mode;
     @Summary
@@ -478,7 +477,7 @@ public class Location extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1382,7 +1381,7 @@ public class Location extends DomainResource {
             bindingName = "DaysOfWeek",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The days of the week.",
-            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
         )
         private final List<DaysOfWeek> daysOfWeek;
         private final Boolean allDay;

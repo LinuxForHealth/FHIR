@@ -16,10 +16,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/decimal",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "name": "decimal",
   "status": "active",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -32,7 +32,7 @@
     }
   ],
   "description": "Base StructureDefinition for decimal Type: A rational number with implicit precision",
-  "fhirVersion": "4.0.0",
+  "fhirVersion": "4.0.1",
   "kind": "primitive-type",
   "abstract": false,
   "type": "decimal",
@@ -60,7 +60,7 @@
             "human": "All FHIR elements must have a @value or children",
             "expression": "hasValue() or (children().count() \u003e id.count())",
             "xpath": "@value|f:*|h:div",
-            "source": "Element"
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
         "isModifier": false,
@@ -83,7 +83,13 @@
         },
         "type": [
           {
-            "code": "string"
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "string"
+              }
+            ],
+            "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
         "isModifier": false,
@@ -111,6 +117,24 @@
             "code": "Extension"
           }
         ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          },
+          {
+            "key": "ext-1",
+            "severity": "error",
+            "human": "Must have either extensions or value[x], not both",
+            "expression": "extension.exists() !\u003d value.exists()",
+            "xpath": "exists(f:extension)!\u003dexists(f:*[starts-with(local-name(.), \u0027value\u0027)])",
+            "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+          }
+        ],
         "isModifier": false,
         "isSummary": false
       },
@@ -133,26 +157,15 @@
           {
             "extension": [
               {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "decimal"
+              },
+              {
                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
                 "valueString": "-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?"
               }
             ],
-            "_code": {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type",
-                  "valueString": "number"
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-xml-type",
-                  "valueString": "xsd:decimal OR xsd:double"
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-rdf-type",
-                  "valueString": "xsd:decimal OR xsd:double"
-                }
-              ]
-            }
+            "code": "http://hl7.org/fhirpath/System.Decimal"
           }
         ],
         "isModifier": false,
@@ -185,26 +198,15 @@
           {
             "extension": [
               {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "decimal"
+              },
+              {
                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
                 "valueString": "-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?"
               }
             ],
-            "_code": {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type",
-                  "valueString": "number"
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-xml-type",
-                  "valueString": "xsd:decimal OR xsd:double"
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-rdf-type",
-                  "valueString": "xsd:decimal OR xsd:double"
-                }
-              ]
-            }
+            "code": "http://hl7.org/fhirpath/System.Decimal"
           }
         ]
       }

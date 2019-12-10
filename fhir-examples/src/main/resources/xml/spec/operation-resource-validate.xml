@@ -80,7 +80,7 @@
             <a href="datatypes.html#code">code</a>
           </td>
           <td>
-            <a href="valueset-resource-validation-mode.html">http://hl7.org/fhir/ValueSet/resource-validation-mode|4.0.0</a> (Required)
+            <a href="valueset-resource-validation-mode.html">http://hl7.org/fhir/ValueSet/resource-validation-mode|4.0.1</a> (Required)
           </td>
           <td>
             <div>
@@ -141,14 +141,14 @@
     <valueCode value="normative"/>
   </extension>
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version">
-    <valueCode value="4.0.0"/>
+    <valueCode value="4.0.1"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Resource-validate"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="Validate a resource"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2018-12-27T22:37:54+11:00"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -184,7 +184,7 @@
     <type value="code"/>
     <binding>
       <strength value="required"/>
-      <valueSet value="http://hl7.org/fhir/ValueSet/resource-validation-mode|4.0.0"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/resource-validation-mode|4.0.1"/>
     </binding>
   </parameter>
   <parameter>

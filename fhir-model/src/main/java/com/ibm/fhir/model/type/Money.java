@@ -29,7 +29,7 @@ public class Money extends Element {
         bindingName = "CurrencyCode",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code indicating the currency, taken from ISO 4217.",
-        valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.0.1"
     )
     private final Code currency;
 

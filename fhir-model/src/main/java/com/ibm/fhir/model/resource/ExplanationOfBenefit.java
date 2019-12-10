@@ -30,7 +30,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Money;
@@ -63,7 +62,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "ExplanationOfBenefitStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1"
     )
     @Required
     private final ExplanationOfBenefitStatus status;
@@ -88,7 +87,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "Use",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Complete, proposed, exploratory, other.",
-        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.1"
     )
     @Required
     private final Use use;
@@ -141,7 +140,7 @@ public class ExplanationOfBenefit extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The result of the claim processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
     @Required
     private final RemittanceOutcome outcome;
@@ -970,7 +969,7 @@ public class ExplanationOfBenefit extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -11061,7 +11060,7 @@ public class ExplanationOfBenefit extends DomainResource {
             bindingName = "NoteType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The presentation types of notes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.1"
         )
         private final NoteType type;
         private final String text;

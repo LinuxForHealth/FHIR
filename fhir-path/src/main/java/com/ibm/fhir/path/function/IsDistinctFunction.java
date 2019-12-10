@@ -10,12 +10,16 @@ import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class IsDistinctFunction extends FHIRPathAbstractFunction {
+    private boolean DEBUG = false;
+    
     @Override
     public String getName() {
         return "isDistinct";
@@ -33,9 +37,15 @@ public class IsDistinctFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (context.size() == context.stream().distinct().count()) {
-            return SINGLETON_TRUE;
+        Set<FHIRPathNode> items = new HashSet<>();
+        for (FHIRPathNode node : context) {
+            if (!items.add(node)) {
+                if (DEBUG) {
+                    System.out.println("Found duplicate node:" + node);
+                }
+                return SINGLETON_FALSE;
+            }
         }
-        return SINGLETON_FALSE;
+        return SINGLETON_TRUE;
     }
 }

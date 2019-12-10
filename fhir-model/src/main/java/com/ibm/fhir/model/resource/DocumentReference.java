@@ -23,7 +23,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
@@ -55,7 +54,7 @@ public class DocumentReference extends DomainResource {
         bindingName = "DocumentReferenceStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the document reference.",
-        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.1"
     )
     @Required
     private final DocumentReferenceStatus status;
@@ -64,7 +63,7 @@ public class DocumentReference extends DomainResource {
         bindingName = "ReferredDocumentStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Status of the underlying document.",
-        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.1"
     )
     private final ReferredDocumentStatus docStatus;
     @Summary
@@ -468,7 +467,7 @@ public class DocumentReference extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -723,7 +722,7 @@ public class DocumentReference extends DomainResource {
          * The status of the underlying document.
          * 
          * @param docStatus
-         *     preliminary | final | appended | amended | entered-in-error
+         *     preliminary | final | amended | entered-in-error
          * 
          * @return
          *     A reference to this Builder instance
@@ -1062,7 +1061,7 @@ public class DocumentReference extends DomainResource {
             bindingName = "DocumentRelationshipType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of relationship between documents.",
-            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.1"
         )
         @Required
         private final DocumentRelationshipType code;

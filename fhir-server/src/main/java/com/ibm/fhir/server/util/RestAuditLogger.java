@@ -421,7 +421,7 @@ public class RestAuditLogger {
                 tempResourceBuilder = Basic.builder().code(CodeableConcept.builder()
                         .coding(Coding.builder().code(Code.of("forLogging")).build()).build());
                 if (logicalId != null) {
-                    tempResourceBuilder.id(Id.of(logicalId));
+                    tempResourceBuilder.id(logicalId);
                 }
                 if (versionId != null) {
                     meta = Meta.builder().versionId(Id.of(versionId)).build();
@@ -499,7 +499,7 @@ public class RestAuditLogger {
         if (resource!= null) {
             entry.getContext().setData(Data.builder().resourceType(resource.getClass().getSimpleName()).build());
             if (resource.getId() != null) {
-                entry.getContext().getData().setId(resource.getId().getValue());
+                entry.getContext().getData().setId(resource.getId());
             }
             if (resource.getMeta() != null && resource.getMeta().getVersionId() != null) {
                 entry.getContext().getData().setVersionId(resource.getMeta().getVersionId().getValue());

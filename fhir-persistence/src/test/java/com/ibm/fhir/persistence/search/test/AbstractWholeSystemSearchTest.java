@@ -67,7 +67,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     
     @Test
     public void testSearchAllUsingId() throws Exception {
-        List<Resource> resources = runQueryTest(Resource.class, "_id", savedResource.getId().getValue());
+        List<Resource> resources = runQueryTest(Resource.class, "_id", savedResource.getId());
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
@@ -84,7 +84,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     @Test
     public void testSearchAllUsingIdAndLastUpdated() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        List<String> savedId = Collections.singletonList(savedResource.getId().getValue());
+        List<String> savedId = Collections.singletonList(savedResource.getId());
         List<String> savedLastUpdated = Collections.singletonList(savedResource.getMeta().getLastUpdated().getValue().toString());
         queryParms.put("_id", savedId);
         queryParms.put("_lastUpdated", savedLastUpdated);
@@ -111,7 +111,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     @Test
     public void testSearchAllUsingMultipleIds() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        List<String> multipleIds = Collections.singletonList(savedResource.getId().getValue() + ",a-totally-stinking-phony-id");
+        List<String> multipleIds = Collections.singletonList(savedResource.getId() + ",a-totally-stinking-phony-id");
         queryParms.put("_id", multipleIds);
 
         List<Resource> resources = runQueryTest(Resource.class, queryParms);

@@ -28,7 +28,6 @@ import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 
 /**
@@ -118,7 +117,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         Parameters.Builder builder = Parameters.builder();
-        builder.id(Id.of(UUID.randomUUID().toString()));
+        builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
 

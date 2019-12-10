@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -66,7 +65,7 @@ public class NutritionOrder extends DomainResource {
         bindingName = "NutritionOrderStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes identifying the lifecycle stage of the nutrition order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
     @Required
     private final NutritionOrderStatus status;
@@ -75,7 +74,7 @@ public class NutritionOrder extends DomainResource {
         bindingName = "NutritiionOrderIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
     @Required
     private final NutritionOrderIntent intent;
@@ -489,7 +488,7 @@ public class NutritionOrder extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -823,7 +822,7 @@ public class NutritionOrder extends DomainResource {
          * <p>This element is required.
          * 
          * @param status
-         *     proposed | draft | planned | requested | active | on-hold | completed | cancelled | entered-in-error
+         *     draft | active | on-hold | revoked | completed | entered-in-error | unknown
          * 
          * @return
          *     A reference to this Builder instance
@@ -840,7 +839,7 @@ public class NutritionOrder extends DomainResource {
          * <p>This element is required.
          * 
          * @param intent
-         *     proposal | plan | order
+         *     proposal | plan | directive | order | original-order | reflex-order | filler-order | instance-order | option
          * 
          * @return
          *     A reference to this Builder instance

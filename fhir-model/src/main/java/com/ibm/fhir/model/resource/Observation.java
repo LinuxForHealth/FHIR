@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
@@ -71,7 +70,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If Observation.code is the same as an Observation.component.code then the value element associated with the code SHALL NOT be present",
-    expression = "value.empty() or component.code.where( (coding.code = %resource.code.coding.code) and (coding.system = %resource.code.coding.system)).empty()"
+    expression = "value.empty() or component.code.where(coding.intersect(%resource.code.coding).exists()).empty()"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Observation extends DomainResource {
@@ -86,7 +85,7 @@ public class Observation extends DomainResource {
         bindingName = "ObservationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes providing the status of an observation.",
-        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
     )
     @Required
     private final ObservationStatus status;
@@ -659,7 +658,7 @@ public class Observation extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

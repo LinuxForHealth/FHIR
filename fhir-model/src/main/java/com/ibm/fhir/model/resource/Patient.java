@@ -31,7 +31,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
@@ -71,7 +70,7 @@ public class Patient extends DomainResource {
         bindingName = "AdministrativeGender",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
     private final AdministrativeGender gender;
     @Summary
@@ -458,7 +457,7 @@ public class Patient extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1118,7 +1117,7 @@ public class Patient extends DomainResource {
             bindingName = "AdministrativeGender",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
         )
         private final AdministrativeGender gender;
         private final Reference organization;
@@ -1863,7 +1862,7 @@ public class Patient extends DomainResource {
             bindingName = "LinkType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of link between this patient resource and another patient resource.",
-            valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.0.1"
         )
         @Required
         private final LinkType type;

@@ -25,7 +25,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -55,7 +54,7 @@ public class Device extends DomainResource {
         bindingName = "FHIRDeviceStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The availability status of the device.",
-        valueSet = "http://hl7.org/fhir/ValueSet/device-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/device-status|4.0.1"
     )
     private final FHIRDeviceStatus status;
     @Binding(
@@ -612,7 +611,7 @@ public class Device extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1436,7 +1435,7 @@ public class Device extends DomainResource {
             bindingName = "UDIEntryType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Codes to identify how UDI data was entered.",
-            valueSet = "http://hl7.org/fhir/ValueSet/udi-entry-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/udi-entry-type|4.0.1"
         )
         private final UDIEntryType entryType;
 
@@ -1856,7 +1855,7 @@ public class Device extends DomainResource {
             bindingName = "DeviceNameType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of name the device is referred by.",
-            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.1"
         )
         @Required
         private final DeviceNameType type;

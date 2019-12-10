@@ -185,7 +185,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Next, create an Observation belonging to the new patient.
-        String patientId = savedCreatedPatient.getId().getValue();
+        String patientId = savedCreatedPatient.getId();
         Observation observation = TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
@@ -221,7 +221,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
 
         // Now call the 'update' API.
-        String targetPath = "Patient/" + patient.getId().getValue();
+        String targetPath = "Patient/" + patient.getId();
         Response response = target.path(targetPath).request().put(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
 
@@ -244,7 +244,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Create an updated Observation based on the original saved observation
-        String patientId = savedCreatedPatient.getId().getValue();
+        String patientId = savedCreatedPatient.getId();
         Observation observation = TestUtil.buildPatientObservation(patientId, "Observation2.json");
 
         observation = observation.toBuilder().id(savedCreatedObservation.getId()).build();
@@ -252,7 +252,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
 
         // Call the 'update' API.
-        String targetPath = "Observation/" + observation.getId().getValue();
+        String targetPath = "Observation/" + observation.getId();
         Response response = target.path(targetPath).request().put(obs, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         String observationId = getLocationLogicalId(response);
@@ -275,7 +275,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Call the 'history' API to retrieve both the original and updated versions of
         // the patient.
-        String targetPath = "Patient/" + savedCreatedPatient.getId().getValue() + "/_history";
+        String targetPath = "Patient/" + savedCreatedPatient.getId() + "/_history";
         Response response = target.path(targetPath).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
@@ -285,7 +285,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         Patient updatedPatient = (Patient) resources.getEntry().get(0).getResource();
         Patient originalPatient = (Patient) resources.getEntry().get(1).getResource();
         // Make sure patient ids are equal, and versionIds are NOT equal.
-        assertEquals(originalPatient.getId().getValue(), updatedPatient.getId().getValue());
+        assertEquals(originalPatient.getId(), updatedPatient.getId());
         assertTrue(!updatedPatient.getMeta().getVersionId().getValue()
                 .contentEquals(originalPatient.getMeta().getVersionId().getValue()));
         // Patient create time should be earlier than Patient update time.       
@@ -304,7 +304,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Call the 'history' API to retrieve both the original and updated versions of
         // the observation.
-        String targetPath = "Observation/" + savedCreatedObservation.getId().getValue() + "/_history";
+        String targetPath = "Observation/" + savedCreatedObservation.getId() + "/_history";
         Response response = target.path(targetPath).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
@@ -314,7 +314,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         Observation updatedObservation = (Observation) resources.getEntry().get(0).getResource();
         Observation originalObservation = (Observation) resources.getEntry().get(1).getResource();
         // Make sure observation ids are equal, and versionIds are NOT equal.
-        assertEquals(originalObservation.getId().getValue(), updatedObservation.getId().getValue());
+        assertEquals(originalObservation.getId(), updatedObservation.getId());
         assertTrue(!updatedObservation.getMeta().getVersionId().getValue()
                 .contentEquals(originalObservation.getMeta().getVersionId().getValue()));
         // Observation create time should be earlier than Observation update time.
@@ -331,7 +331,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Call the 'version read' API to retrieve the original created version of the
         // patient.
-        String targetPath = "Patient/" + savedCreatedPatient.getId().getValue() + "/_history/"
+        String targetPath = "Patient/" + savedCreatedPatient.getId() + "/_history/"
                 + savedCreatedPatient.getMeta().getVersionId().getValue();
         Response response = target.path(targetPath).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -340,7 +340,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         TestUtil.assertResourceEquals(savedCreatedPatient, originalPatient);
 
         // Now try reading a Patient, passing a bogus version.
-        targetPath = "Patient/" + savedCreatedPatient.getId().getValue() + "/_history/" + "-44";
+        targetPath = "Patient/" + savedCreatedPatient.getId() + "/_history/" + "-44";
         response = target.path(targetPath).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
@@ -354,7 +354,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         // Call the 'version read' API to retrieve the original created version of the
         // observation.
-        String targetPath = "Observation/" + savedCreatedObservation.getId().getValue() + "/_history/"
+        String targetPath = "Observation/" + savedCreatedObservation.getId() + "/_history/"
                 + savedCreatedObservation.getMeta().getVersionId().getValue();
         Response response = target.path(targetPath).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -363,7 +363,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         TestUtil.assertResourceEquals(savedCreatedObservation, originalObservation);
 
         // Now try reading an Observation, passing a bogus version.
-        targetPath = "Observation/" + savedCreatedObservation.getId().getValue() + "/_history/" + "-44";
+        targetPath = "Observation/" + savedCreatedObservation.getId() + "/_history/" + "-44";
         response = target.path(targetPath).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
@@ -417,10 +417,10 @@ public class BasicServerTest extends FHIRServerTestBase {
         Patient patient;
         for (Bundle.Entry entry : bundle.getEntry()) {
             patient = (Patient) entry.getResource();
-            if (patientLogicalIds.contains(patient.getId().getValue())) {
-                fail("Duplicate logicalId found: " + patient.getId().getValue());
+            if (patientLogicalIds.contains(patient.getId())) {
+                fail("Duplicate logicalId found: " + patient.getId());
             } else {
-                patientLogicalIds.add(patient.getId().getValue());
+                patientLogicalIds.add(patient.getId());
             }
         }
     }
@@ -434,7 +434,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Next, retrieve the Observation via a search.
-        String patientId = savedCreatedPatient.getId().getValue();
+        String patientId = savedCreatedPatient.getId();
         Response response = target.path("Observation").queryParam("subject", "Patient/" + patientId)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());

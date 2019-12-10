@@ -47,7 +47,6 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Decimal;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Quantity;
@@ -171,7 +170,7 @@ public class SearchTest extends FHIRServerTestBase {
         String id = UUID.randomUUID().toString();
 
         Person person =
-                Person.builder().id(Id.of(id))
+                Person.builder().id(id)
                       .identifier(Identifier.builder().value(string(identifier)).system(uri("test")).build())
                       .link(Link.builder().target(Reference.builder().reference(string(patientRef)).build()).build())
                       .build();
@@ -376,7 +375,7 @@ public class SearchTest extends FHIRServerTestBase {
                 response.readEntity(Observation.class);
 
         // use it for search
-        observationId = responseObservation.getId().getValue();
+        observationId = responseObservation.getId();
         TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
@@ -413,7 +412,7 @@ public class SearchTest extends FHIRServerTestBase {
         }
 
         // use it for search
-        observationId = responseObservation.getId().getValue();
+        observationId = responseObservation.getId();
         TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
@@ -490,7 +489,7 @@ public class SearchTest extends FHIRServerTestBase {
         }
         assertNotNull(observation);
         assertNotNull(patient);
-        assertEquals(patientId, patient.getId().getValue());
+        assertEquals(patientId, patient.getId());
         assertEquals("Patient/"
                 + patientId, observation.getSubject().getReference().getValue());
     }
@@ -571,7 +570,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         assertNotNull(patient);
         assertFalse(FHIRUtil.hasTag(patient, subsettedTag));
-        assertEquals(patientId, patient.getId().getValue());
+        assertEquals(patientId, patient.getId());
         assertEquals("Patient/"
                 + patientId, observation.getSubject().getReference().getValue());
     }
@@ -603,7 +602,7 @@ public class SearchTest extends FHIRServerTestBase {
         }
         assertNotNull(observation);
         assertNotNull(patient);
-        assertEquals(patientId, patient.getId().getValue());
+        assertEquals(patientId, patient.getId());
         assertEquals("Patient/"
                 + patientId, observation.getSubject().getReference().getValue());
     }
@@ -1096,7 +1095,7 @@ public class SearchTest extends FHIRServerTestBase {
             // no duplicated resource in the search results, Just need to do the verification for the second run.
             HashSet<String> patientSet = new HashSet<String>();
             for (Entry entry: bundle.getEntry()) {
-                patientSet.add(((Patient) entry.getResource()).getId().getValue());
+                patientSet.add(((Patient) entry.getResource()).getId());
             }
             assertTrue(bundle.getEntry().size() == patientSet.size());
         }
@@ -1136,7 +1135,7 @@ public class SearchTest extends FHIRServerTestBase {
             // no duplicated resource in the search results, Just need to do the verification for the second run.
             HashSet<String> patientSet = new HashSet<String>();
             for (Entry entry: bundle.getEntry()) {
-                patientSet.add(((Patient) entry.getResource()).getId().getValue());
+                patientSet.add(((Patient) entry.getResource()).getId());
             }
             assertTrue(bundle.getEntry().size() == patientSet.size());
         }
@@ -1175,7 +1174,7 @@ public class SearchTest extends FHIRServerTestBase {
             // no duplicated resource in the search results, Just need to do the verification for the second run.
             HashSet<String> patientSet = new HashSet<String>();
             for (Entry entry: bundle.getEntry()) {
-                patientSet.add(((Patient) entry.getResource()).getId().getValue());
+                patientSet.add(((Patient) entry.getResource()).getId());
             }
             assertTrue(bundle.getEntry().size() == patientSet.size());
         }
@@ -1214,7 +1213,7 @@ public class SearchTest extends FHIRServerTestBase {
             // no duplicated resource in the search results, Just need to do the verification for the second run.
             HashSet<String> patientSet = new HashSet<String>();
             for (Entry entry: bundle.getEntry()) {
-                patientSet.add(((Patient) entry.getResource()).getId().getValue());
+                patientSet.add(((Patient) entry.getResource()).getId());
             }
             assertTrue(bundle.getEntry().size() == patientSet.size());
         }

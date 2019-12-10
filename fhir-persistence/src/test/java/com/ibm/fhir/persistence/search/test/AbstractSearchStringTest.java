@@ -108,6 +108,12 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         runQueryTest(Basic.class, "string", "\\", Integer.MAX_VALUE);
     }
     
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
+    
 //    @Test
 //    public void testSearchString_string_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.string:missing", "false");

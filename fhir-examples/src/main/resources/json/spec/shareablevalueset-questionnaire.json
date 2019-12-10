@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ValueSet.expansion.parameter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:9f0d576f-b4bb-4dd3-b960-2b2ffa2c4df0",
-        "timestamp": "2018-12-27T22:41:20+11:00",
+        "identifier": "urn:uuid:e4af6ee0-58d7-409e-a9d2-9df8319aaa30",
+        "timestamp": "2019-11-01T09:32:43+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -56,9 +56,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "HL7",
   "item": [
     {
@@ -93,7 +93,7 @@
               }
             }
           ],
-          "text": "A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements](terminologies.html).",
+          "text": "A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between [CodeSystem](http://hl7.org/fhir/codesystem.html) definitions and their use in [coded elements](http://hl7.org/fhir/terminologies.html).",
           "type": "display"
         },
         {
@@ -407,7 +407,7 @@
                   }
                 }
               ],
-              "text": "An absolute URI that is used to identify this value set when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this value set is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the value set is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
+              "text": "An absolute URI that is used to identify this value set when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this value set is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the value set is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](http://hl7.org/fhir/resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](http://hl7.org/fhir/resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
             {
@@ -645,7 +645,7 @@
                   }
                 }
               ],
-              "text": "The status of this value set. Enables tracking the life-cycle of the content. The status of the value set applies to the value set definition (ValueSet.compose) and the associated ValueSet metadata. Expansions do not have a state. Allows filtering of value sets that are appropriate for use versus not.See also the [valueset-workflowStatus](extension-valueset-workflowstatus.html) extension for additional status information related to the editorial process.",
+              "text": "The status of this value set. Enables tracking the life-cycle of the content. The status of the value set applies to the value set definition (ValueSet.compose) and the associated ValueSet metadata. Expansions do not have a state. Allows filtering of value sets that are appropriate for use versus not.See also the [valueset-workflowStatus](http://hl7.org/fhir/extension-valueset-workflowstatus.html) extension for additional status information related to the editorial process.",
               "type": "display"
             },
             {
@@ -1735,7 +1735,7 @@
                       "repeats": true,
                       "item": [
                         {
-                          "text": "Concepts have both a ```display``` and an array of ```designation```. The display is equivalent to a special designation with an implied ```designation.use``` of \"primary code\" and a language equal to the [Resource Language](resource.html#language).",
+                          "text": "Concepts have both a ```display``` and an array of ```designation```. The display is equivalent to a special designation with an implied ```designation.use``` of \"primary code\" and a language equal to the [Resource Language](http://hl7.org/fhir/resource.html#language).",
                           "type": "display"
                         },
                         {
@@ -2286,7 +2286,7 @@
                           }
                         }
                       ],
-                      "text": "Selects the concepts found in this value set (based on its value set definition). This is an absolute URI that is a reference to ValueSet.url.  If multiple value sets are specified this includes the union of the contents of all of the referenced value sets. The value set URI is either a logical reference to a defined value set such as a [SNOMED CT reference set](snomedct.html#implicit), or a direct reference to a value set definition using ValueSet.url. The reference might not refer to an actual FHIR ValueSet resource; in this case, whatever is referred to is an implicit definition of a value set that needs to be clear about how versions are resolved.",
+                      "text": "Selects the concepts found in this value set (based on its value set definition). This is an absolute URI that is a reference to ValueSet.url.  If multiple value sets are specified this includes the union of the contents of all of the referenced value sets. The value set URI is either a logical reference to a defined value set such as a [SNOMED CT reference set](http://hl7.org/fhir/snomedct.html#implicit), or a direct reference to a value set definition using ValueSet.url. The reference might not refer to an actual FHIR ValueSet resource; in this case, whatever is referred to is an implicit definition of a value set that needs to be clear about how versions are resolved.",
                       "type": "display"
                     },
                     {
@@ -2347,7 +2347,7 @@
           "repeats": false,
           "item": [
             {
-              "text": "Expansion is performed to produce a collection of codes that are ready to use for data entry or validation. Value set expansions are always considered to be stateless - they are a record of the set of codes in the value set at a point in time under a given set of conditions, and are not subject to ongoing maintenance.\n\nExpansion.parameter is  a simplified list of parameters - a subset of the features of the [Parameters](parameters.html) resource.",
+              "text": "Expansion is performed to produce a collection of codes that are ready to use for data entry or validation. Value set expansions are always considered to be stateless - they are a record of the set of codes in the value set at a point in time under a given set of conditions, and are not subject to ongoing maintenance.\n\nExpansion.parameter is  a simplified list of parameters - a subset of the features of the [Parameters](http://hl7.org/fhir/parameters.html) resource.",
               "type": "display"
             },
             {

@@ -41,28 +41,16 @@
             <b>Profile</b>
           </th>
           <th>
-            <b>Read</b>
+            <b title="GET a resource (read interaction)">Read</b>
           </th>
           <th>
-            <b>V-Read</b>
+            <b title="GET all set of resources of the type (search interaction)">Search</b>
           </th>
           <th>
-            <b>Search</b>
+            <b title="PUT a new resource version (update interaction)">Update</b>
           </th>
           <th>
-            <b>Update</b>
-          </th>
-          <th>
-            <b>Updates</b>
-          </th>
-          <th>
-            <b>Create</b>
-          </th>
-          <th>
-            <b>Delete</b>
-          </th>
-          <th>
-            <b>History</b>
+            <b title="POST a new resource (create interaction)">Create</b>
           </th>
         </tr>
         <tr>
@@ -71,20 +59,16 @@
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/CapabilityStatement/base2"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="Base FHIR Capability Statement (Empty)"/>
   <status value="draft"/>
   <experimental value="true"/>
-  <date value="2018-12-27T22:37:54+11:00"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
   <publisher value="FHIR Project Team"/>
   <contact>
     <telecom>
@@ -97,7 +81,7 @@
   <software>
     <name value="Insert your software name here..."/>
   </software>
-  <fhirVersion value="4.0.0"/>
+  <fhirVersion value="4.0.1"/>
   <format value="xml"/>
   <format value="json"/>
   <rest>

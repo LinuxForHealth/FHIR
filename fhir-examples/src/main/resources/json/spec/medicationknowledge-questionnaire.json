@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationKnowledge.ingredient.item[x]",
       "expansion": {
-        "identifier": "urn:uuid:26867673-9177-463c-b37c-53d4fc864d52",
-        "timestamp": "2018-12-27T22:44:29+11:00",
+        "identifier": "urn:uuid:2560e668-4bea-4fc6-83ea-8b5869fee7b2",
+        "timestamp": "2019-11-01T09:35:57+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for MedicationKnowledge.administrationGuidelines.indication[x]",
       "expansion": {
-        "identifier": "urn:uuid:1920cd8c-139e-4061-acb6-43e91174e610",
-        "timestamp": "2018-12-27T22:44:29+11:00",
+        "identifier": "urn:uuid:dc70eddc-9857-406e-8d01-19dbdeb25340",
+        "timestamp": "2019-11-01T09:35:57+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for MedicationKnowledge.administrationGuidelines.patientCharacteristics.characteristic[x]",
       "expansion": {
-        "identifier": "urn:uuid:bce66b41-2109-4462-9970-8468ed9d15a6",
-        "timestamp": "2018-12-27T22:44:29+11:00",
+        "identifier": "urn:uuid:5639f77b-b019-4043-86a2-3f823cc748ef",
+        "timestamp": "2019-11-01T09:35:57+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -78,8 +78,8 @@
       "status": "active",
       "description": "Type options for MedicationKnowledge.drugCharacteristic.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:51b24fe6-cfc9-40cb-af81-cdc73d41f5bb",
-        "timestamp": "2018-12-27T22:44:29+11:00",
+        "identifier": "urn:uuid:96b58456-b692-4b4a-a562-f08688365856",
+        "timestamp": "2019-11-01T09:35:57+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -110,9 +110,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {

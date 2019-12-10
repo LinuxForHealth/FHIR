@@ -168,7 +168,7 @@ public class TestScript extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -697,7 +697,7 @@ public class TestScript extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -4142,7 +4142,7 @@ public class TestScript extends DomainResource {
              * @return
              *     An immutable object of type {@link Assert}.
              */
-            public Assert getassert() {
+            public Assert getAssert() {
                 return _assert;
             }
 
@@ -4383,7 +4383,7 @@ public class TestScript extends DomainResource {
                     bindingName = "FHIRDefinedType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.1"
                 )
                 private final FHIRDefinedType resource;
                 private final String label;
@@ -4392,14 +4392,14 @@ public class TestScript extends DomainResource {
                     bindingName = "MimeType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
                 )
                 private final Code accept;
                 @Binding(
                     bindingName = "MimeType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
                 )
                 private final Code contentType;
                 private final Integer destination;
@@ -4409,7 +4409,7 @@ public class TestScript extends DomainResource {
                     bindingName = "TestScriptRequestMethodCode",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The allowable request method or HTTP operation codes.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.1"
                 )
                 private final TestScriptRequestMethodCode method;
                 private final Integer origin;
@@ -5452,7 +5452,7 @@ public class TestScript extends DomainResource {
                     bindingName = "AssertionDirectionType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The type of direction to use for assertion.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.0.1"
                 )
                 private final AssertionDirectionType direction;
                 private final String compareToSourceId;
@@ -5462,7 +5462,7 @@ public class TestScript extends DomainResource {
                     bindingName = "MimeType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
                 )
                 private final Code contentType;
                 private final String expression;
@@ -5473,7 +5473,7 @@ public class TestScript extends DomainResource {
                     bindingName = "AssertionOperatorType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The type of operator to use for assertion.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.0.1"
                 )
                 private final AssertionOperatorType operator;
                 private final String path;
@@ -5481,7 +5481,7 @@ public class TestScript extends DomainResource {
                     bindingName = "TestScriptRequestMethodCode",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The allowable request method or HTTP operation codes.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.1"
                 )
                 private final TestScriptRequestMethodCode requestMethod;
                 private final String requestURL;
@@ -5489,14 +5489,14 @@ public class TestScript extends DomainResource {
                     bindingName = "FHIRDefinedType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.1"
                 )
                 private final FHIRDefinedType resource;
                 @Binding(
                     bindingName = "AssertionResponseTypes",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "The type of response code to use for assertion.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.0.1"
                 )
                 private final AssertionResponseTypes response;
                 private final String responseCode;
@@ -6748,7 +6748,7 @@ public class TestScript extends DomainResource {
              * @return
              *     An immutable object of type {@link TestScript.Setup.Action.Assert}.
              */
-            public TestScript.Setup.Action.Assert getassert() {
+            public TestScript.Setup.Action.Assert getAssert() {
                 return _assert;
             }
 

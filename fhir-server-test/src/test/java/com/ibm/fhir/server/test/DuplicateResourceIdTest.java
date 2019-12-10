@@ -24,7 +24,6 @@ import com.ibm.fhir.model.resource.Contract;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Device.UdiCarrier;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Reference;
 
 /**
@@ -58,8 +57,10 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
         // Create a Device resource using the previously generated id
         this.deviceUdi = UUID.randomUUID().toString();
         Device device = TestUtil.readLocalResource("Device.json");
-        device = device.toBuilder().id(Id.of(dupId))
-                .udiCarrier(UdiCarrier.builder().deviceIdentifier(string(this.deviceUdi)).build()).build();
+        device = device.toBuilder()
+                .id(dupId)
+                .udiCarrier(UdiCarrier.builder().deviceIdentifier(string(this.deviceUdi)).build())
+                .build();
 
         response = client.update(device);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -79,7 +80,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
             subjectList.add(ref);
         }
 
-        contract = contract.toBuilder().subject(subjectList).id(Id.of(dupId)).build();
+        contract = contract.toBuilder().subject(subjectList).id(dupId).build();
 
         response = client.update(contract);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -97,14 +98,14 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
         FHIRResponse response;
 
         // Call the 'read' API to retrieve the previously created Device and verify it.
-        response = client.read("Device", this.device.getId().getValue());
+        response = client.read("Device", this.device.getId());
         assertResponse(response, Response.Status.OK.getStatusCode());
         Device responseDevice = response.getResource(Device.class);
         TestUtil.assertResourceEquals(this.device, responseDevice);
 
         // Call the 'read' API to retrieve the previously created Contract and verify
         // it.
-        response = client.read("Contract", this.contract.getId().getValue());
+        response = client.read("Contract", this.contract.getId());
         assertResponse(response, Response.Status.OK.getStatusCode());
         Contract responseContract = response.getResource(Contract.class);
         TestUtil.assertResourceEquals(this.contract, responseContract);
@@ -121,14 +122,14 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
         FHIRResponse response;
 
         // Call the 'vread' API to retrieve the previously created Device and verify it.
-        response = client.vread("Device", this.device.getId().getValue(), "1");
+        response = client.vread("Device", this.device.getId(), "1");
         assertResponse(response, Response.Status.OK.getStatusCode());
         Device responseDevice = response.getResource(Device.class);
         TestUtil.assertResourceEquals(this.device, responseDevice);
 
         // Call the 'read' API to retrieve the previously created Contract and verify
         // it.
-        response = client.vread("Contract", this.contract.getId().getValue(), "1");
+        response = client.vread("Contract", this.contract.getId(), "1");
         assertResponse(response, Response.Status.OK.getStatusCode());
         Contract responseContract = response.getResource(Contract.class);
         TestUtil.assertResourceEquals(this.contract, responseContract);
@@ -182,7 +183,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
         // Do a history on the previously created Device. Ensure only 1 result is
         // returned and that it validates.
-        response = client.history("Device", this.device.getId().getValue(), null);
+        response = client.history("Device", this.device.getId(), null);
         assertResponse(response, Response.Status.OK.getStatusCode());
         responseBundle = response.getResource(Bundle.class);
         assertEquals(1, responseBundle.getTotal().getValue().intValue());
@@ -191,7 +192,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
         // Do a history on the previously created Contract. Ensure only 1 result is
         // returned and that it validates.
-        response = client.history("Contract", this.contract.getId().getValue(), null);
+        response = client.history("Contract", this.contract.getId(), null);
         assertResponse(response, Response.Status.OK.getStatusCode());
         responseBundle = response.getResource(Bundle.class);
         assertEquals(1, responseBundle.getTotal().getValue().intValue());

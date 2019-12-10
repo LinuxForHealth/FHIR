@@ -6,7 +6,7 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
   "date": "2013-12-03T00:00:00+11:00",
   "publisher": "Health Level Seven International",
@@ -384,7 +384,7 @@
               "valueString": "datetime"
             }
           ],
-          "linkId": "Provenance.occurredDateTime",
+          "linkId": "Provenance.occurred[x]",
           "type": "group",
           "required": true,
           "repeats": true,
@@ -408,7 +408,7 @@
               "type": "display"
             },
             {
-              "linkId": "Provenance.occurredDateTime.value",
+              "linkId": "Provenance.occurred[x].value",
               "text": "When the activity occurred",
               "type": "dateTime",
               "required": false,

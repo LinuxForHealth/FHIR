@@ -119,7 +119,7 @@ public class COSUtils {
 
                 txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
                 txn.begin();
-                fhirPersistence.update(persistenceContext, fhirRes.getId().getValue(), fhirRes);
+                fhirPersistence.update(persistenceContext, fhirRes.getId(), fhirRes);
                 txn.commit();
                 exported++;
             }

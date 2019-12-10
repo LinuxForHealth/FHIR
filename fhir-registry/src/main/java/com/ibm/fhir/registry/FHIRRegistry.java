@@ -106,7 +106,7 @@ public final class FHIRRegistry {
         if (result != null && id != null) {
             if (result.is(DomainResource.class)) {
                 for (Resource contained : result.as(DomainResource.class).getContained()) {
-                    if (contained.getId() != null && id.equals(contained.getId().getValue())) {
+                    if (contained.getId() != null && id.equals(contained.getId())) {
                         return contained;
                     }
                 }

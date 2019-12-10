@@ -23,7 +23,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
@@ -82,7 +81,7 @@ public class Appointment extends DomainResource {
         bindingName = "AppointmentStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The free/busy status of an appointment.",
-        valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.0.1"
     )
     @Required
     private final AppointmentStatus status;
@@ -613,7 +612,7 @@ public class Appointment extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1423,7 +1422,7 @@ public class Appointment extends DomainResource {
             bindingName = "ParticipantRequired",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Is the Participant required to attend the appointment.",
-            valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.0.1"
         )
         private final ParticipantRequired required;
         @Summary
@@ -1431,7 +1430,7 @@ public class Appointment extends DomainResource {
             bindingName = "ParticipationStatus",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The Participation status of an appointment.",
-            valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.1"
         )
         @Required
         private final ParticipationStatus status;

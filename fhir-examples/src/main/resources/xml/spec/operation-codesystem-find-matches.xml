@@ -128,7 +128,12 @@
           <td>property.value</td>
           <td>0..1</td>
           <td>
-            <a href="datatypes.html#code">code</a>
+            <a href="datatypes.html#code">code</a> | 
+            <a href="datatypes.html#Coding">Coding</a> | 
+            <a href="datatypes.html#string">string</a> | 
+            <a href="datatypes.html#integer">integer</a> | 
+            <a href="datatypes.html#boolean">boolean</a> | 
+            <a href="datatypes.html#dateTime">dateTime</a>
           </td>
           <td/>
           <td>
@@ -171,7 +176,12 @@
           <td>property.subproperty.value</td>
           <td>1..1</td>
           <td>
-            <a href="datatypes.html#code">code</a>
+            <a href="datatypes.html#code">code</a> | 
+            <a href="datatypes.html#Coding">Coding</a> | 
+            <a href="datatypes.html#string">string</a> | 
+            <a href="datatypes.html#integer">integer</a> | 
+            <a href="datatypes.html#boolean">boolean</a> | 
+            <a href="datatypes.html#dateTime">dateTime</a>
           </td>
           <td/>
           <td>
@@ -272,7 +282,12 @@
           <td>match.unmatched.value</td>
           <td>1..1</td>
           <td>
-            <a href="datatypes.html#code">code</a>
+            <a href="datatypes.html#code">code</a> | 
+            <a href="datatypes.html#Coding">Coding</a> | 
+            <a href="datatypes.html#string">string</a> | 
+            <a href="datatypes.html#integer">integer</a> | 
+            <a href="datatypes.html#boolean">boolean</a> | 
+            <a href="datatypes.html#dateTime">dateTime</a>
           </td>
           <td/>
           <td>
@@ -315,7 +330,12 @@
           <td>match.unmatched.property.value</td>
           <td>1..1</td>
           <td>
-            <a href="datatypes.html#code">code</a>
+            <a href="datatypes.html#code">code</a> | 
+            <a href="datatypes.html#Coding">Coding</a> | 
+            <a href="datatypes.html#string">string</a> | 
+            <a href="datatypes.html#integer">integer</a> | 
+            <a href="datatypes.html#boolean">boolean</a> | 
+            <a href="datatypes.html#dateTime">dateTime</a>
           </td>
           <td/>
           <td>
@@ -351,11 +371,11 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/CodeSystem-find-matches"/>
-  <version value="4.0.0"/>
+  <version value="4.0.1"/>
   <name value="Finding codes based on supplied properties"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2018-12-27T22:37:54+11:00"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -404,12 +424,30 @@
       <type value="code"/>
     </part>
     <part>
+      <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+        <valueUri value="code"/>
+      </extension>
+      <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+        <valueUri value="Coding"/>
+      </extension>
+      <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+        <valueUri value="string"/>
+      </extension>
+      <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+        <valueUri value="integer"/>
+      </extension>
+      <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+        <valueUri value="boolean"/>
+      </extension>
+      <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+        <valueUri value="dateTime"/>
+      </extension>
       <name value="value"/>
       <use value="in"/>
       <min value="0"/>
       <max value="1"/>
       <documentation value="The value of the property provided"/>
-      <type value="code"/>
+      <type value="Element"/>
     </part>
     <part>
       <name value="subproperty"/>
@@ -426,12 +464,30 @@
         <type value="code"/>
       </part>
       <part>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="code"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="Coding"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="string"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="integer"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="boolean"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="dateTime"/>
+        </extension>
         <name value="value"/>
         <use value="in"/>
         <min value="1"/>
         <max value="1"/>
         <documentation value="The value of the sub-property provided"/>
-        <type value="code"/>
+        <type value="Element"/>
       </part>
     </part>
   </parameter>
@@ -480,12 +536,30 @@
         <type value="code"/>
       </part>
       <part>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="code"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="Coding"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="string"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="integer"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="boolean"/>
+        </extension>
+        <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+          <valueUri value="dateTime"/>
+        </extension>
         <name value="value"/>
         <use value="out"/>
         <min value="1"/>
         <max value="1"/>
         <documentation value="The value of the property provided"/>
-        <type value="code"/>
+        <type value="Element"/>
       </part>
       <part>
         <name value="property"/>
@@ -502,12 +576,30 @@
           <type value="code"/>
         </part>
         <part>
+          <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+            <valueUri value="code"/>
+          </extension>
+          <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+            <valueUri value="Coding"/>
+          </extension>
+          <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+            <valueUri value="string"/>
+          </extension>
+          <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+            <valueUri value="integer"/>
+          </extension>
+          <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+            <valueUri value="boolean"/>
+          </extension>
+          <extension url="http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type">
+            <valueUri value="dateTime"/>
+          </extension>
           <name value="value"/>
           <use value="out"/>
           <min value="1"/>
           <max value="1"/>
           <documentation value="The value of the sub-property provided"/>
-          <type value="code"/>
+          <type value="Element"/>
         </part>
       </part>
     </part>

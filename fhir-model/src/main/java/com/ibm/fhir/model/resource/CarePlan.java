@@ -28,7 +28,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -76,7 +75,7 @@ public class CarePlan extends DomainResource {
         bindingName = "CarePlanStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
     @Required
     private final CarePlanStatus status;
@@ -85,7 +84,7 @@ public class CarePlan extends DomainResource {
         bindingName = "CarePlanIntent",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a care plan.",
-        valueSet = "http://hl7.org/fhir/ValueSet/care-plan-intent|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/care-plan-intent|4.0.1"
     )
     @Required
     private final CarePlanIntent intent;
@@ -592,7 +591,7 @@ public class CarePlan extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -994,7 +993,7 @@ public class CarePlan extends DomainResource {
          * <p>This element is required.
          * 
          * @param status
-         *     draft | active | suspended | completed | entered-in-error | cancelled | unknown
+         *     draft | active | on-hold | revoked | completed | entered-in-error | unknown
          * 
          * @return
          *     A reference to this Builder instance
@@ -1887,7 +1886,7 @@ public class CarePlan extends DomainResource {
                 bindingName = "CarePlanActivityKind",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Resource types defined as part of FHIR that can be represented as in-line definitions of a care plan activity.",
-                valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.0.1"
             )
             private final CarePlanActivityKind kind;
             private final List<Canonical> instantiatesCanonical;
@@ -1912,7 +1911,7 @@ public class CarePlan extends DomainResource {
                 bindingName = "CarePlanActivityStatus",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Codes that reflect the current state of a care plan activity within its overall life cycle.",
-                valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.0.1"
             )
             @Required
             private final CarePlanActivityStatus status;
@@ -2393,7 +2392,8 @@ public class CarePlan extends DomainResource {
                  * example, a MedicationRequest, a ServiceRequest, or a CommunicationRequest.
                  * 
                  * @param kind
-                 *     Kind of resource
+                 *     Appointment | CommunicationRequest | DeviceRequest | MedicationRequest | NutritionOrder | Task | ServiceRequest | 
+                 *     VisionPrescription
                  * 
                  * @return
                  *     A reference to this Builder instance

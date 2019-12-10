@@ -20,7 +20,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  * ISO 4217 (system = "urn:iso:std:iso:4217" - currency).
  */
 @Constraint(
-    id = "mtqy-1",
+    id = "mqty-1",
     level = "Rule",
     location = "Quantity",
     description = "There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = \"urn:iso:std:iso:4217\" - currency).",

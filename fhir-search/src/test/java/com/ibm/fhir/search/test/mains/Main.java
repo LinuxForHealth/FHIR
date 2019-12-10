@@ -15,7 +15,6 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -60,9 +59,6 @@ public class Main extends BaseSearchTest {
         }
 
         // Build Patient Resource
-        Id.Builder idBuilder = Id.builder();
-        idBuilder.id("1234");
-
         HumanName.Builder humanNameBuilder = HumanName.builder();
         humanNameBuilder.given(com.ibm.fhir.model.type.String.of("John"));
         humanNameBuilder.family(com.ibm.fhir.model.type.String.of("Doe"));
@@ -82,7 +78,7 @@ public class Main extends BaseSearchTest {
         telecomBuilder.use(contactPointUseBuilder.build());
 
         Patient.Builder builder = Patient.builder();
-        builder.id(idBuilder.build());
+        builder.id("1234");
         builder.name(humanNameBuilder.build());
         builder.birthDate(birthDateBuilder.build());
         builder.telecom(telecomBuilder.build());

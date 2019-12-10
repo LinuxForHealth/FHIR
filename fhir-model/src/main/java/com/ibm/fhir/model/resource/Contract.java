@@ -30,7 +30,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Markdown;
@@ -68,7 +67,7 @@ public class Contract extends DomainResource {
         bindingName = "ContractStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/contract-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/contract-status|4.0.1"
     )
     private final ContractStatus status;
     @Binding(
@@ -794,7 +793,7 @@ public class Contract extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1046,7 +1045,8 @@ public class Contract extends DomainResource {
          * The status of the resource instance.
          * 
          * @param status
-         *     draft | active | suspended | cancelled | completed | entered-in-error | unknown
+         *     amended | appended | cancelled | disputed | entered-in-error | executable | executed | negotiable | offered | policy | 
+         *     rejected | renewed | revoked | resolved | terminated
          * 
          * @return
          *     A reference to this Builder instance
@@ -1848,7 +1848,7 @@ public class Contract extends DomainResource {
             bindingName = "ContractPublicationStatus",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Status of the publication of contract content.",
-            valueSet = "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.0.1"
         )
         @Required
         private final ContractPublicationStatus publicationStatus;
@@ -1911,7 +1911,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * draft | active | retired | unknown.
+         * amended | appended | cancelled | disputed | entered-in-error | executable | executed | negotiable | offered | policy | 
+         * rejected | renewed | revoked | resolved | terminated.
          * 
          * @return
          *     An immutable object of type {@link ContractPublicationStatus}.
@@ -2188,12 +2189,14 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * draft | active | retired | unknown.
+             * amended | appended | cancelled | disputed | entered-in-error | executable | executed | negotiable | offered | policy | 
+             * rejected | renewed | revoked | resolved | terminated.
              * 
              * <p>This element is required.
              * 
              * @param publicationStatus
-             *     draft | active | retired | unknown
+             *     amended | appended | cancelled | disputed | entered-in-error | executable | executed | negotiable | offered | policy | 
+             *     rejected | renewed | revoked | resolved | terminated
              * 
              * @return
              *     A reference to this Builder instance

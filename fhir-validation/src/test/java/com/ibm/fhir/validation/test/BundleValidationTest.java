@@ -29,7 +29,6 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
@@ -92,7 +91,7 @@ public class BundleValidationTest {
         Practitioner practitioner = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Practitioner-1.json"));
         
         patient = patient.toBuilder()
-                         .contained(practitioner.toBuilder().id(Id.of("test")).build())
+                         .contained(practitioner.toBuilder().id("test").build())
                          .generalPractitioner(Reference.builder().reference(String.of("#test")).build())
                          .build();
         
@@ -126,7 +125,7 @@ public class BundleValidationTest {
         Basic basic = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Basic-1.json"));
         
         practitioner = practitioner.toBuilder()
-                                   .id(Id.of("test"))
+                                   .id("test")
                                    .build();
         
         patient = patient.toBuilder()
@@ -165,7 +164,7 @@ public class BundleValidationTest {
         Practitioner practitioner = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Practitioner-1.json"));
         
         practitioner = practitioner.toBuilder()
-                .id(Id.of("practitioner"))
+                .id("practitioner")
                 .extension(Extension.builder()
                     .url("http://ibm.com/fhir/ext")
                     .value(Reference.builder()
@@ -177,7 +176,7 @@ public class BundleValidationTest {
         Bundle bundle = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Bundle-1.json"));
         
         bundle = bundle.toBuilder().type(BundleType.BATCH)
-                .id(Id.of("bundle"))
+                .id("bundle")
                 .entry(Entry.builder()
                     .request(Request.builder()
                         .url(Uri.of("fhir-server/v4/api/Patient"))

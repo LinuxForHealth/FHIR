@@ -2,7 +2,7 @@
   "resourceType": "SearchParameter",
   "id": "patient-extensions-Patient-birthOrderBoolean",
   "url": "http://hl7.org/fhir/SearchParameter/patient-extensions-Patient-birthOrderBoolean",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "name": "birthOrderBoolean",
   "status": "draft",
   "experimental": true,
@@ -13,7 +13,5 @@
   ],
   "type": "token",
   "xpath": "f:Patient/f:multipleBirthBoolean | f:Patient/f:multipleBirthInteger",
-  "xpathUsage": "normal",
-  "multipleOr": true,
-  "multipleAnd": true
+  "xpathUsage": "normal"
 }

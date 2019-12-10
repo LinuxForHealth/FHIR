@@ -53,13 +53,7 @@ public class PatientTest {
      * @return
      */
     public static Patient buildTestPatient() {
-        Id id = Id.builder()
-                    .value(UUID.randomUUID().toString())
-                    .extension(Extension.builder()
-                        .url("http://www.ibm.com/someExtension")
-                        .value(string("Hello, World!"))
-                        .build())
-                    .build();
+        String id = UUID.randomUUID().toString();
 
         Meta meta =
                 Meta.builder()

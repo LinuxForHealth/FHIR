@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DeviceRequest.code[x]",
       "expansion": {
-        "identifier": "urn:uuid:969f1ebc-4eba-4271-8a5f-117ac3be1e3b",
-        "timestamp": "2018-12-27T22:43:33+11:00",
+        "identifier": "urn:uuid:62c4ee0e-cc99-4fe1-aa17-980c8f494e65",
+        "timestamp": "2019-11-01T09:35:00+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for DeviceRequest.parameter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:aeb97da3-d1f4-47a3-82cd-285ec5b1f23b",
-        "timestamp": "2018-12-27T22:43:33+11:00",
+        "identifier": "urn:uuid:d95091b3-26cf-431c-86a0-85c1f08e09fd",
+        "timestamp": "2019-11-01T09:35:00+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for DeviceRequest.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:ab2d77c0-df9b-44b7-a075-7b315b8daa8c",
-        "timestamp": "2018-12-27T22:43:33+11:00",
+        "identifier": "urn:uuid:885baa7f-8486-473a-8b0c-08753ec1d22a",
+        "timestamp": "2019-11-01T09:35:00+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -92,9 +92,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {

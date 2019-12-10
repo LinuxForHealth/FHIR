@@ -217,7 +217,6 @@ public class BulkExportBatchLet implements Batchlet {
     /**
      * Main entry point.
      */
-    @SuppressWarnings("unchecked")
     @Override
     public String process() throws Exception {
         String exitStatus;
@@ -316,7 +315,7 @@ public class BulkExportBatchLet implements Batchlet {
                     } catch (FHIRGeneratorException e) {
                         if (res.getId() != null) {
                             logger.log(Level.WARNING,
-                                    "Error while writing resources with id '" + res.getId().getValue() + "'", e);
+                                    "Error while writing resources with id '" + res.getId() + "'", e);
                         } else {
                             logger.log(Level.WARNING, "Error while writing resources with unknown id", e);
                         }

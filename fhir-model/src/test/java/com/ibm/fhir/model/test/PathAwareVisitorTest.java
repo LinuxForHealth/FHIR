@@ -26,12 +26,7 @@ import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
 public class PathAwareVisitorTest {
     public static void main(java.lang.String[] args) throws Exception {
-        Id id = Id.builder().value(UUID.randomUUID().toString())
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(String.of("Hello, World!"))
-                    .build())
-                .build();
+        java.lang.String id = UUID.randomUUID().toString();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))

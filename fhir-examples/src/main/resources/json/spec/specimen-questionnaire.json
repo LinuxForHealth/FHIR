@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Specimen.collection.collected[x]",
       "expansion": {
-        "identifier": "urn:uuid:8a3495af-e3dc-44e9-9039-cce544112a24",
-        "timestamp": "2018-12-27T22:45:37+11:00",
+        "identifier": "urn:uuid:75208b39-2f11-44fe-a97a-1026ec20d66a",
+        "timestamp": "2019-11-01T09:36:56+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Specimen.collection.fastingStatus[x]",
       "expansion": {
-        "identifier": "urn:uuid:6966cbb5-04e3-4376-ae19-4cf0596e6694",
-        "timestamp": "2018-12-27T22:45:37+11:00",
+        "identifier": "urn:uuid:2b05e70d-f051-41d0-8905-168bec9bb324",
+        "timestamp": "2019-11-01T09:36:56+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for Specimen.processing.time[x]",
       "expansion": {
-        "identifier": "urn:uuid:07b3ad8c-83e0-462a-9c7d-8dbf5b469315",
-        "timestamp": "2018-12-27T22:45:37+11:00",
+        "identifier": "urn:uuid:7e7fe658-57e1-4e64-a1d7-a126c67349ad",
+        "timestamp": "2019-11-01T09:36:56+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -78,8 +78,8 @@
       "status": "active",
       "description": "Type options for Specimen.container.additive[x]",
       "expansion": {
-        "identifier": "urn:uuid:6b51c6e9-27a4-4a01-96fb-6d461b4bbeee",
-        "timestamp": "2018-12-27T22:45:37+11:00",
+        "identifier": "urn:uuid:12e129ac-20fb-4bd7-8d2d-262978fbcb9e",
+        "timestamp": "2019-11-01T09:36:56+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -100,9 +100,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {

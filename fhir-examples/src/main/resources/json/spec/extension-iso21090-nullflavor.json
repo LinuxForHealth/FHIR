@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/iso21090-nullFlavor",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "name": "nullFlavor",
   "status": "draft",
   "date": "2012-06-24",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "If the value is not a proper value, indicates the reason.",
-  "fhirVersion": "4.0.0",
+  "fhirVersion": "4.0.1",
   "mapping": [
     {
       "identity": "v2",
@@ -46,7 +46,7 @@
   "context": [
     {
       "type": "element",
-      "expression": "Resource"
+      "expression": "Element"
     }
   ],
   "type": "Extension",
@@ -56,16 +56,6 @@
     "element": [
       {
         "id": "Extension",
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
-            "valueCode": "normative"
-          },
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
-            "valueCode": "4.0.0"
-          }
-        ],
         "path": "Extension",
         "short": "NI | OTH | NINF | PINF | UNK | ASKU | NAV | NASK | TRC | MSK | NA | QS",
         "definition": "If the value is not a proper value, indicates the reason.",
@@ -87,7 +77,7 @@
             "human": "All FHIR elements must have a @value or children",
             "expression": "hasValue() or (children().count() \u003e id.count())",
             "xpath": "@value|f:*|h:div",
-            "source": "Element"
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
             "key": "ext-1",
@@ -95,7 +85,7 @@
             "human": "Must have either extensions or value[x], not both",
             "expression": "extension.exists() !\u003d value.exists()",
             "xpath": "exists(f:extension)!\u003dexists(f:*[starts-with(local-name(.), \u0027value\u0027)])",
-            "source": "Extension"
+            "source": "http://hl7.org/fhir/StructureDefinition/Extension"
           }
         ],
         "isModifier": false,
@@ -127,7 +117,13 @@
         },
         "type": [
           {
-            "code": "string"
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "string"
+              }
+            ],
+            "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
         "isModifier": false,
@@ -166,6 +162,24 @@
             "code": "Extension"
           }
         ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
+          },
+          {
+            "key": "ext-1",
+            "severity": "error",
+            "human": "Must have either extensions or value[x], not both",
+            "expression": "extension.exists() !\u003d value.exists()",
+            "xpath": "exists(f:extension)!\u003dexists(f:*[starts-with(local-name(.), \"value\")])",
+            "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+          }
+        ],
         "isModifier": false,
         "isSummary": false
       },
@@ -187,7 +201,13 @@
         },
         "type": [
           {
-            "code": "uri"
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "uri"
+              }
+            ],
+            "code": "http://hl7.org/fhirpath/System.String"
           }
         ],
         "fixedUri": "http://hl7.org/fhir/StructureDefinition/iso21090-nullFlavor",
@@ -201,11 +221,11 @@
         ]
       },
       {
-        "id": "Extension.valueCode",
-        "path": "Extension.valueCode",
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
-        "min": 0,
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "min": 1,
         "max": "1",
         "base": {
           "path": "Extension.value[x]",
@@ -215,6 +235,16 @@
         "type": [
           {
             "code": "code"
+          }
+        ],
+        "constraint": [
+          {
+            "key": "ele-1",
+            "severity": "error",
+            "human": "All FHIR elements must have a @value or children",
+            "expression": "hasValue() or (children().count() \u003e id.count())",
+            "xpath": "@value|f:*|h:div",
+            "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],
         "isModifier": false,
@@ -228,7 +258,7 @@
           ],
           "strength": "required",
           "description": "A collection of codes specifying why a valid value is not present.",
-          "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.0.0"
+          "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.0.1"
         },
         "mapping": [
           {
@@ -268,16 +298,12 @@
       {
         "id": "Extension.url",
         "path": "Extension.url",
-        "type": [
-          {
-            "code": "uri"
-          }
-        ],
         "fixedUri": "http://hl7.org/fhir/StructureDefinition/iso21090-nullFlavor"
       },
       {
-        "id": "Extension.valueCode",
-        "path": "Extension.valueCode",
+        "id": "Extension.value[x]",
+        "path": "Extension.value[x]",
+        "min": 1,
         "type": [
           {
             "code": "code"
@@ -292,7 +318,7 @@
           ],
           "strength": "required",
           "description": "A collection of codes specifying why a valid value is not present.",
-          "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.0.0"
+          "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.0.1"
         }
       }
     ]

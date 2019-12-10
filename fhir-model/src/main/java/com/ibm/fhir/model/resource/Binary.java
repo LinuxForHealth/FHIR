@@ -15,7 +15,6 @@ import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
@@ -34,7 +33,7 @@ public class Binary extends Resource {
         bindingName = "MimeType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
     @Required
     private final Code contentType;
@@ -179,7 +178,7 @@ public class Binary extends Resource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

@@ -28,7 +28,6 @@ import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
@@ -63,7 +62,7 @@ public class Goal extends DomainResource {
         bindingName = "GoalLifecycleStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
-        valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.0.1"
     )
     @Required
     private final GoalLifecycleStatus lifecycleStatus;
@@ -483,7 +482,7 @@ public class Goal extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
