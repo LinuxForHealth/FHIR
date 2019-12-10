@@ -248,7 +248,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "lt4||lte"); // <= 3 may be < 4 
         assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "gt4||lte"); // <= 3 is not > 4
 
-        // >= 3 may be <= 3
+        // <= 3 may be <= 3
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "le3||lte");
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "ge3||lte"); // <= 3 may be >= 3
     }
