@@ -19,7 +19,6 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.SearchConstants.Modifier;
-import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.Parameter;
 
@@ -27,7 +26,7 @@ import com.ibm.fhir.search.parameters.Parameter;
  * This class assists the JDBCQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
  * FHIR Resource count query. 
  */
-class QuerySegmentAggregator {
+public class QuerySegmentAggregator {
     private static final String CLASSNAME = QuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 
@@ -39,7 +38,7 @@ class QuerySegmentAggregator {
     private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
 
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
-    protected static final String PARAMETER_TABLE_ALIAS = "pX";
+    public static final String PARAMETER_TABLE_ALIAS = "pX";
     private static final String FROM = " FROM ";
     private static final String UNION = " UNION ALL ";
     protected static final String ON = " ON ";

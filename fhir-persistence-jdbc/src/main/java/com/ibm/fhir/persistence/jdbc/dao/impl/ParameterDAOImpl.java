@@ -111,46 +111,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
-    
-    /**
-     * Examines the type of the passed parameter and maps that enumerated Type to a char that can then be persisted
-     * in one of the parameter values tables.
-     * @param parameter A search Parameter containing a valid Type.
-     * @return char - A character indicating the search parameter type that can be persisted.
-     */
-    private char determineParameterTypeChar(Parameter parameter) {
-        final String METHODNAME = "determineParameterTypeChar";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        char returnChar = 0;
-        if ( NearLocationHandler.NEAR.equals(parameter.getName())) {
-            returnChar = 'G';
-        }
-        else {
-            switch(parameter.getType()) {
-                case REFERENCE :
-                case URI: 
-                case STRING :     returnChar = 'S';
-                                  break;
-                              
-                case TOKEN :      returnChar = 'C';
-                                  break;
-                
-                case QUANTITY : returnChar = 'Q';  
-                                break;
-                              
-                case NUMBER :     returnChar = 'N';
-                                break;
-                    
-                case DATE :     returnChar = 'D'; 
-                                break;
-            }
-        }
-        
-        log.exiting(CLASSNAME, METHODNAME);
-        return returnChar;
-    }
-    
+
     /**
      * Calls a stored procedure to read the name contained in the passed Parameter in the Parameter_Names table.
      * If it's not in the DB, it will be stored and a unique id will be returned.

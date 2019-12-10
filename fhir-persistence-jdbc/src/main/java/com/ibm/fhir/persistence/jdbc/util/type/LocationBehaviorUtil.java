@@ -1,4 +1,4 @@
-package com.ibm.fhir.persistence.jdbc.util;
+package com.ibm.fhir.persistence.jdbc.util.type;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
