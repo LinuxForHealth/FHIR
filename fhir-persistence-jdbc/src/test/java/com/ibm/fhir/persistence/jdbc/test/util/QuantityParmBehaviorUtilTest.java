@@ -36,7 +36,7 @@ import com.ibm.fhir.search.parameters.ParameterValue;
 
 public class QuantityParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(QuantityParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.INFO;
+    private static final Level LOG_LEVEL = Level.FINE;
 
     //---------------------------------------------------------------------------------------------------------
     // Supporting Methods: 
