@@ -527,13 +527,11 @@ public class SearchUtil {
             }
 
             // Process the Expression
-            // Disable the processing of composite and "special" types
+            // Disable the processing of composite
             // <code>"type" : "composite",</code>
-            // <code>"type" : "special",</code>
             // Alternatives, which are possible, on loading the map, filter out at that time.
             SearchParamType type = parameter.getType();
-            if (expression != null && !SearchParamType.COMPOSITE.equals(type)
-                    && !SearchParamType.SPECIAL.equals(type)) {
+            if (expression != null && !SearchParamType.COMPOSITE.equals(type)) {
 
                 try {
                     Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
@@ -679,7 +677,6 @@ public class SearchUtil {
                                 + resourceType.getSimpleName();
                 if (lenient) {
                     log.log(Level.FINE, msg, se);
-                    continue;
                 } else {
                     throw se;
                 }

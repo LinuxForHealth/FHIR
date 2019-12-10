@@ -175,12 +175,9 @@ public class SearchConstants {
 
     /**
      * Types
-     * 
-     * @author markd
-     *
      */
     public enum Type {
-        NUMBER("number"), DATE("date"), STRING("string"), TOKEN("token"), REFERENCE("reference"), QUANTITY("quantity"), URI("uri");
+        NUMBER("number"), DATE("date"), STRING("string"), TOKEN("token"), REFERENCE("reference"), QUANTITY("quantity"), URI("uri"), SPECIAL("special");
 
         private String value = null;
 

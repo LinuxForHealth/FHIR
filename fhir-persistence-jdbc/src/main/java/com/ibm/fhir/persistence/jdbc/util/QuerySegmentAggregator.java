@@ -19,7 +19,6 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.SearchConstants.Modifier;
-import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.Parameter;
 
 /**
@@ -360,12 +359,13 @@ public class QuerySegmentAggregator {
                         case DATE:
                             whereClause.append("_DATE_VALUES ");
                             break;
+                        case SPECIAL: 
+                            // in search-parameters.json we only support latlng for 'near'
+                            // in the future if special expands beyond lat/lng we'll have to add logic to support. 
+                            whereClause.append("_LATLNG_VALUES ");
+                            break;
                         case TOKEN:
-                            if (LocationUtil.isLocation(this.resourceType, param)) {
-                                whereClause.append("_LATLNG_VALUES ");
-                            } else {
-                                whereClause.append("_TOKEN_VALUES ");
-                            }
+                            whereClause.append("_TOKEN_VALUES ");
                             break;
                         }
                         whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");

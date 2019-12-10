@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -553,6 +554,19 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             // TODO how to properly calculate the outer limits if there are no "bounds"?
         }
         return false;
+    }
+
+    @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
+        // The parameter isn't added unless either low or high holds a value
+        Parameter p = new Parameter();
+        p.setName(searchParamCode);
+        Double lat = position.getLatitude().getValue().doubleValue();
+        Double lon = position.getLongitude().getValue().doubleValue();
+        p.setValueLatitude(lat);
+        p.setValueLongitude(lon);
+        result.add(p);
+        return false; 
     }
 
     /*====================

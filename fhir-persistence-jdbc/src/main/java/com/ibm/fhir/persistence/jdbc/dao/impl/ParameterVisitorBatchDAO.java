@@ -391,6 +391,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
             locations.setInt(1, getParameterNameId(parameterName));
             locations.setDouble(2, lat);
             locations.setDouble(3, lng);
+            locations.setLong(4, logicalResourceId);
             locations.addBatch();
             
             if (++locationCount == this.batchSize) {

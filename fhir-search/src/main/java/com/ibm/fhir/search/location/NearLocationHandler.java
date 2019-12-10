@@ -79,8 +79,8 @@ public class NearLocationHandler {
                             / Math.cos(latitude * (180.0 / Math.PI));
 
             BoundingBox boundingBox =
-                    BoundingBox.builder().minLatitude(minLatitude).maxLatitude(maxLatitude).minLongitude(minLongitude)
-                            .maxLongitude(maxLongitude).build();
+                    BoundingBox.builder().minLatitude(-89.0).maxLatitude(89.0).minLongitude(-179.0)
+                            .maxLongitude(179.0).build();
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("distance: [" + convertedDistance + "] km, original unit: [" + unit + "]");
@@ -112,13 +112,16 @@ public class NearLocationHandler {
                     double longitude = 0.0;
                     double distance = DEFAULT_DISTANCE;
                     String unit = DEFAULT_UNIT;
+                    
+                    // -83.694810|42.256500|11.20|km
                     if (value.getValueSystem() != null) {
-
                         latitude = Double.parseDouble(value.getValueSystem());
                     }
                     if (value.getValueCode() != null) {
                         longitude = Double.parseDouble(value.getValueCode());
                     }
+                    
+                    System.out.println(createBoundingBox(latitude, longitude, distance, unit));
                     boundingBoxes.add(createBoundingBox(latitude, longitude, distance, unit));
                 }
             }

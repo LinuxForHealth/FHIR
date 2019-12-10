@@ -1128,6 +1128,16 @@ public class DefaultVisitor implements Visitor {
     public boolean visit(java.lang.String elementName, int elementIndex, Location location) {
         return visit(elementName, elementIndex, (DomainResource) location);
     }
+    
+    /**
+     * Delegates to {@link #visit(elementName, elementIndex, Location.Position)}
+     * @return
+     *     {@inheritDoc}
+     */
+    @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
+        return visit(elementName, elementIndex, (BackboneElement) position);
+    }
 
     /**
      * Delegates to {@link #visit(elementName, elementIndex, String)}

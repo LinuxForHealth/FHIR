@@ -65,12 +65,12 @@ public class BoundingBox implements Bounding {
     public void validate() {
         if (LocationUtil.checkNull(minLatitude) || LocationUtil.checkNull(maxLatitude)
                 || !LocationUtil.checkLatValid(minLatitude)
-                || !LocationUtil.checkLonValid(maxLatitude)) {
+                || !LocationUtil.checkLatValid(maxLatitude)) {
             throw new IllegalArgumentException("Null or Invalid number for the latitude");
         }
 
         if (LocationUtil.checkNull(minLongitude) || LocationUtil.checkNull(maxLongitude)
-                || !LocationUtil.checkLatValid(minLongitude)
+                || !LocationUtil.checkLonValid(minLongitude)
                 || !LocationUtil.checkLonValid(maxLongitude)) {
             throw new IllegalArgumentException("Null or Invalid number for the longitude");
         }
