@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.uom.UOMManager;
 import com.ibm.fhir.search.parameters.Parameter;
@@ -98,8 +99,8 @@ public class NearLocationHandler {
      * @param queryParameters
      * @return
      */
-    public List<BoundingBox> generateLocationPositionsFromParameters(List<Parameter> queryParameters) {
-        List<BoundingBox> boundingBoxes = new ArrayList<>();
+    public List<Bounding> generateLocationPositionsFromParameters(List<Parameter> queryParameters) {
+        List<Bounding> boundingBoxes = new ArrayList<>();
         // We are only interested in the near and near-distance parameters.
         // Extract the following data elements: latitude, longitude, distance, distance unit
         Iterator<Parameter> queryParms = queryParameters.iterator();

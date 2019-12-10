@@ -66,8 +66,7 @@ import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.location.NearLocationHandler;
-import com.ibm.fhir.search.location.bounding.BoundingRadius;
+import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.ParameterValue;
@@ -1308,7 +1307,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData buildLocationQuerySegment(String parmName, List<BoundingRadius> boundingRads) throws FHIRPersistenceException {
+    protected SqlQueryData buildLocationQuerySegment(String parmName, List<Bounding> boundingAreas) throws FHIRPersistenceException {
         final String METHODNAME = "buildLocationQuerySegment";
         log.entering(CLASSNAME, METHODNAME, parmName);
 
@@ -1319,7 +1318,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         
         List<Object> bindVariables = new ArrayList<>();
         LocationBehaviorUtil behaviorUtil = new LocationBehaviorUtil();
-        behaviorUtil.buildLocationSearchQuery(whereClauseSegment, bindVariables, boundingRads);
+        behaviorUtil.buildLocationSearchQuery(whereClauseSegment, bindVariables, boundingAreas);
 
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());

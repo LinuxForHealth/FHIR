@@ -16,7 +16,8 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.location.NearLocationHandler;
-import com.ibm.fhir.search.location.bounding.BoundingRadius;
+import com.ibm.fhir.search.location.bounding.Bounding;
+import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.ParameterValue;
 
@@ -93,7 +94,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
         try {
             // NOTE: The special logic needed to process NEAR query parmeters for the Location resource type is
             // found in method processLocationPosition(). This method will not handle those.
-            if (!NearLocationHandler.isLocation(resourceType, queryParm)) {
+            if (!LocationUtil.isLocation(resourceType, queryParm)) {
                 type = queryParm.getType();
                 switch (type) {
                 case STRING:
@@ -276,11 +277,11 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
         log.entering(CLASSNAME, METHODNAME);
 
         NearLocationHandler handler = new NearLocationHandler();
-        List<BoundingRadius> boundingRad = handler.generateLocationPositionsFromParameters(queryParameters);
+        List<Bounding> boundingAreas = handler.generateLocationPositionsFromParameters(queryParameters);
 
         T1 parmRoot = null;
-        if (!boundingRad.isEmpty()) {
-            parmRoot = this.buildLocationQuerySegment(NearLocationHandler.NEAR, boundingRad);
+        if (!boundingAreas.isEmpty()) {
+            parmRoot = this.buildLocationQuerySegment(NearLocationHandler.NEAR, boundingAreas);
         }
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -292,12 +293,12 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * data contained with the passed BoundingBox
      * 
      * @param parmName    - The name of the search parameter
-     * @param boundingRads - Container for the geospatial data needed to construct
+     * @param boundingAreas - Container for the geospatial data needed to construct
      *                    the query segment.
      * @return T1 - The query segment necessary for searching locations that are
      *         inside the bounding box.
      */
-    protected abstract T1 buildLocationQuerySegment(String parmName, List<BoundingRadius> boundingRads)
+    protected abstract T1 buildLocationQuerySegment(String parmName, List<Bounding> boundingAreas)
             throws FHIRPersistenceException;
 
 }
