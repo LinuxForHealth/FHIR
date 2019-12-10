@@ -447,6 +447,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
+        parameters.searchParam("_sort", "_lastUpdated");
         FHIRResponse response = client.searchAllPost(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -460,6 +461,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject:Patient._tag", strUniqueTag);
         parameters.searchParam("_type", "Observation,Condition");
+        parameters.searchParam("_sort", "_id");
         FHIRResponse response = client.searchAllPost(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -481,4 +483,49 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
                 "Modifier resource type [Practitioner] is not allowed for search parameter [subject] of resource type [Observation]");
     }
+    
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2UsingUniqueTag_TwoTypes_Summary() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        parameters.searchParam("_type", "Patient,Observation");
+        parameters.searchParam("_sort", "_lastUpdated");
+        parameters.searchParam("_summary", "true");
+        FHIRResponse response = client.searchAllPost(parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+    }
+    
+    
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2UsingUniqueTag_TwoTypes_elements() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        parameters.searchParam("_type", "Patient,Observation");
+        parameters.searchParam("_sort", "_lastUpdated");
+        parameters.searchParam("_elements", "id");
+        FHIRResponse response = client.searchAllPost(parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+    }
+    
+    @Test(groups = { "server-search-all"}, dependsOnMethods = {
+    "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2_TwoTypes_InvalidInclude() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("subject:Practitioner.name", "John");
+        parameters.searchParam("_type", "Account,Observation");
+        parameters.searchParam("_include", "Observation:subject");
+        FHIRResponse response = client.searchAllPost(parameters);
+        assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
+        assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
+                "system search not supported with _include or _revinclude");
+    }
+    
 }

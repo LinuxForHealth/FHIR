@@ -596,6 +596,8 @@ public class SearchUtil {
         }
         HashSet<String> resourceTypes = new HashSet<String>(); 
         if (Resource.class.equals(resourceType)) {
+            // Because _include and _revinclude searches all require certain resource type modifier in 
+            // search parameter, so we just don't support it.
             if (queryParameters.containsKey(SearchConstants.INCLUDE)
                         || queryParameters.containsKey(SearchConstants.REVINCLUDE)) {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(
@@ -639,17 +641,13 @@ public class SearchUtil {
                 }
 
                 if (isSearchResultParameter(name)) {
-                    if (isMultiResTypeSearch) {
-                        parseSearchResultParameter(resourceTypes, context, name, params, lenient);
-                    } else {
-                        parseSearchResultParameter(resourceType, context, name, params, lenient);
-                        // _include and _revinclude parameters cannot be mixed with _summary=text 
-                        // TODO: this will fire on each search result parameter; maybe move this above to where we handle _sort + _include/_revinclude?
-                        if (context.getSummaryParameter() != null
-                                && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
-                            context.getIncludeParameters().clear();
-                            context.getRevIncludeParameters().clear();
-                        }
+                    parseSearchResultParameter(resourceType, context, name, params, lenient);
+                    // _include and _revinclude parameters cannot be mixed with _summary=text 
+                    // TODO: this will fire on each search result parameter; maybe move this above to where we handle _sort + _include/_revinclude?
+                    if (context.getSummaryParameter() != null
+                            && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
+                        context.getIncludeParameters().clear();
+                        context.getRevIncludeParameters().clear();
                     }
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
@@ -1021,12 +1019,7 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewParseParameterException(name, e);
         }
     }
-    
-    private static void parseSearchResultParameter(HashSet<String> resourceTypes, FHIRSearchContext context, String name,
-            List<String> values, boolean lenient) throws FHIRSearchException {
-        
-        
-    }
+
 
     public static boolean isChainedParameter(String name) {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);
