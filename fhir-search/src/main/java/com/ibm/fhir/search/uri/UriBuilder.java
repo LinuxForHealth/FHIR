@@ -222,15 +222,19 @@ public class UriBuilder {
             while (process) {
                 param   = param.getNextParameter();
                 process = param != null && param.isChained();
+                // A guard is added as the original code 'could' result in an NPE.
                 if (param != null) {
-                    // A guard is added as the original code 'could' result in an NPE.
-                    returnString.append(param.getCode());
+                    if (param.isChained()) {
+                        returnString.append(SearchConstants.CHAINED_PARAMETER_CHARACTER).append(param.getCode());
+                    } else {
+                        returnString.append(SearchConstants.CHAINED_PARAMETER_CHARACTER);
+                        appendNormalParameter(param, returnString);
+                    }
                 }
-
             }
+        } else {
+            appendNormalParameter(param, returnString);
         }
-
-        appendNormalParameter(param, returnString);
 
         return returnString.toString();
     }
