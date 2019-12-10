@@ -13,7 +13,7 @@ import com.ibm.fhir.search.location.util.LocationUtil;
 
 /**
  * The maximum number of BoundedBoxes for a single coordinate is 4.<br>
- * lat = 0, long 0 with any boundary the result is 4 Bounded Boxes.<br>
+ * lat = 90,-90, long = 180, -180 with any boundary the result is 4 Bounded Boxes.<br>
  * <br>
  * The bounded boxes must adhere to the following constraints: <br>
  * There are four points.
@@ -63,19 +63,25 @@ public class BoundingBox implements Bounding {
     }
 
     public void validate() {
-        if (LocationUtil.checkNull(minLatitude) || LocationUtil.checkNull(maxLatitude) || !LocationUtil.checkLatValid(minLatitude)
+        if (LocationUtil.checkNull(minLatitude) || LocationUtil.checkNull(maxLatitude)
+                || !LocationUtil.checkLatValid(minLatitude)
                 || !LocationUtil.checkLonValid(maxLatitude)) {
             throw new IllegalArgumentException("Null or Invalid number for the latitude");
         }
 
-        if (LocationUtil.checkNull(minLongitude) || LocationUtil.checkNull(maxLongitude) || !LocationUtil.checkLatValid(minLongitude)
+        if (LocationUtil.checkNull(minLongitude) || LocationUtil.checkNull(maxLongitude)
+                || !LocationUtil.checkLatValid(minLongitude)
                 || !LocationUtil.checkLonValid(maxLongitude)) {
             throw new IllegalArgumentException("Null or Invalid number for the longitude");
         }
     }
-    
-    public List<Double> getDataPoints(){
+
+    public List<Double> getDataPoints() {
         return Arrays.asList(minLatitude, minLongitude, maxLatitude, maxLongitude);
+    }
+
+    public BoundingType getType() {
+        return BoundingType.BOX;
     }
 
     /**

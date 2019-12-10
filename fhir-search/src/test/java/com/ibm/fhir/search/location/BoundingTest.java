@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.bounding.BoundingRadius;
+import com.ibm.fhir.search.location.bounding.BoundingType;
 
 public class BoundingTest {
 
@@ -31,6 +32,7 @@ public class BoundingTest {
         assertEquals(bounding.toString(),
                 "BoundingBox [minLatitude=-10.0, maxLatitude=10.0, minLongitude=-10.0, maxLongitude=20.0]");
         assertEquals(bounding.getDataPoints(), Arrays.asList(-10.0,  -10.0, 10.0, 20.0));
+        assertEquals(bounding.getType(), BoundingType.BOX);
     }
 
     @Test(expectedExceptions = { IllegalArgumentException.class })
@@ -122,5 +124,6 @@ public class BoundingTest {
         assertEquals(bounding.getRadius(), 4.0);
         assertEquals(bounding.toString(), "BoundingRadius [latitude=10.0, longitude=20.0]");
         assertEquals(bounding.getDataPoints(), Arrays.asList(10.0, 20.0, 4.0));
+        assertEquals(bounding.getType(), BoundingType.RADIUS);
     }
 }

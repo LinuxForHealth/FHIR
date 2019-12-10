@@ -56,9 +56,13 @@ public class BoundingRadius implements Bounding {
             throw new IllegalArgumentException("Null or Invalid number for the longitude");
         }
     }
-    
-    public List<Double> getDataPoints(){
+
+    public List<Double> getDataPoints() {
         return Arrays.asList(latitude, longitude, radius);
+    }
+
+    public BoundingType getType() {
+        return BoundingType.RADIUS;
     }
 
     /**

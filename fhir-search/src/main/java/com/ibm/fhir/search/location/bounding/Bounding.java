@@ -24,4 +24,10 @@ public interface Bounding {
      * @return
      */
     public List<Double> getDataPoints();
+    
+    /**
+     * returns the bounding type - radius or box. 
+     * @return
+     */
+    public BoundingType getType();
 }
