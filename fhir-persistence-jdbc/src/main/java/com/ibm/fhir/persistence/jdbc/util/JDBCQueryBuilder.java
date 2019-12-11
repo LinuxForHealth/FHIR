@@ -64,8 +64,8 @@ import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
@@ -97,19 +97,19 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     private ParameterDAO parameterDao;
     private ResourceDAO resourceDao;
 
-    public static final boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
+    public static final boolean isIntegerSearch(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
     }
 
-    public static final boolean isRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
+    public static final boolean isRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm);
     }
 
-    public static final boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
+    public static final boolean isDateSearch(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm);
     }
 
-    public static final boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws Exception {
+    public static final boolean isDateRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm);
     }
 
@@ -178,13 +178,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         SqlQueryData querySegment;
         int nearParameterIndex;
-        List<Parameter> searchParameters = searchContext.getSearchParameters();
+        List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         
         // Forces _id to come before all other parameters, which is good for this bit here
         // zero is used to for all other cases.
-        searchParameters.sort(new Comparator<Parameter>() {
+        searchParameters.sort(new Comparator<QueryParameter>() {
             @Override
-            public int compare(Parameter leftParameter, Parameter rightParameter) {
+            public int compare(QueryParameter leftParameter, QueryParameter rightParameter) {
                 
                 int result = 0;
                 if("_id".compareTo(leftParameter.getCode())==0) {
@@ -220,7 +220,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         }
 
         // For each search parm, build a query parm that will satisfy the search.
-        for (Parameter queryParameter : searchParameters) {
+        for (QueryParameter queryParameter : searchParameters) {
             querySegment = this.buildQueryParm(resourceType, queryParameter, PARAMETER_TABLE_ALIAS);
             if (querySegment != null) {
                 helper.addQueryData(querySegment, queryParameter);
@@ -236,7 +236,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected JDBCOperator getOperator(Parameter queryParm) {
+    protected JDBCOperator getOperator(QueryParameter queryParm) {
         final String METHODNAME = "getOperator(Parameter)";
         log.entering(CLASSNAME, METHODNAME, queryParm.getModifier());
 
@@ -274,7 +274,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @return T2 - A supported operator.
      */
     @Override
-    protected JDBCOperator getOperator(Parameter queryParm, JDBCOperator defaultOverride) {
+    protected JDBCOperator getOperator(QueryParameter queryParm, JDBCOperator defaultOverride) {
         final String METHODNAME = "getOperator(Parameter, JDBCOperator)";
         log.entering(CLASSNAME, METHODNAME, queryParm.getModifier());
 
@@ -296,7 +296,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    public JDBCOperator getPrefixOperator(ParameterValue queryParmValue) {
+    public JDBCOperator getPrefixOperator(QueryParameterValue queryParmValue) {
         final String METHODNAME = "getOperator(ParameterValue)";
         log.entering(CLASSNAME, METHODNAME, queryParmValue.getPrefix());
 
@@ -315,11 +315,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData processStringParm(Parameter queryParm) throws FHIRPersistenceException {
+    protected SqlQueryData processStringParm(QueryParameter queryParm) throws FHIRPersistenceException {
         return processStringParm(queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    private SqlQueryData processStringParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    private SqlQueryData processStringParm(QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -336,7 +336,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
-        for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameterValue value : queryParm.getValues()) {
             List<String> values = new ArrayList<>();
             
             appendEscape = false;
@@ -419,11 +419,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData processReferenceParm(Class<?> resourceType, Parameter queryParm) throws Exception {
+    protected SqlQueryData processReferenceParm(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return processReferenceParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    private SqlQueryData processReferenceParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    private SqlQueryData processReferenceParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processReferenceParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -439,7 +439,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
-        for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameterValue value : queryParm.getValues()) {
             // Handle query parm representing this name/value pair construct:
             // {name} = {resource-type/resource-id}
             searchValue = SqlParameterEncoder.encode(value.getValueString());
@@ -507,14 +507,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @throws Exception
      */
     @Override
-    protected SqlQueryData processChainedReferenceParm(Parameter queryParm) throws Exception {
+    protected SqlQueryData processChainedReferenceParm(QueryParameter queryParm) throws Exception {
         final String METHODNAME = "processChainedReferenceParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         final String CR = "CR";
         final String CLR = "CLR";
         final String CP = "CP";
-        Parameter currentParm;
+        QueryParameter currentParm;
         int refParmIndex = 0;
         String chainedResourceVar = null;
         String chainedLogicalResourceVar = null;
@@ -526,7 +526,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         currentParm = queryParm;
         while (currentParm != null) {
-            Parameter nextParameter = currentParm.getNextParameter();
+            QueryParameter nextParameter = currentParm.getNextParameter();
             if (nextParameter != null) {
                 Type nextParmaterType = nextParameter.getType();
                 if (refParmIndex == 0) {
@@ -583,7 +583,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         return queryData;
     }
 
-    private void appendMidChainParm(StringBuilder whereClauseSegment, Parameter currentParm, String chainedParmVar)
+    private void appendMidChainParm(StringBuilder whereClauseSegment, QueryParameter currentParm, String chainedParmVar)
         throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException, FHIRPersistenceException {
         Integer parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getCode());
         if (parameterNameId == null) {
@@ -595,7 +595,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         whereClauseSegment.append(chainedParmVar).append(".").append("PARAMETER_NAME_ID").append(JDBCOperator.EQ.value()).append(parameterNameId).append(JDBCOperator.AND.value()).append(chainedParmVar).append(".").append(STR_VALUE).append(JDBCOperator.IN.value());
     }
 
-    private void appendInnerSelect(StringBuilder whereClauseSegment, Parameter currentParm, Type nextParmaterType, String resourceTypeName,
+    private void appendInnerSelect(StringBuilder whereClauseSegment, QueryParameter currentParm, Type nextParmaterType, String resourceTypeName,
         String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar) {
         String chainedResourceTableAlias = chainedResourceVar + ".";
         String chainedLogicalResourceTableAlias = chainedLogicalResourceVar + ".";
@@ -642,14 +642,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * 
      * @throws Exception
      */
-    private void processWildcardChainedRefParm(Parameter currentParm, String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar,
+    private void processWildcardChainedRefParm(QueryParameter currentParm, String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar,
         StringBuilder whereClauseSegment, List<Object> bindVariables) throws Exception {
         final String METHODNAME = "processChainedReferenceParm";
         log.entering(CLASSNAME, METHODNAME, currentParm.toString());
 
         String resourceTypeName;
         Collection<Integer> resourceTypeIds;
-        Parameter lastParm;
+        QueryParameter lastParm;
         boolean selectGenerated = false;
         Map<String, Integer> resourceNameIdMap = null;
         Map<Integer, String> resourceIdNameMap = null;
@@ -755,13 +755,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      *      criteria for a resource to be included in a compartment.
      */
     @Override
-    protected SqlQueryData processInclusionCriteria(Parameter queryParm) throws Exception {
+    protected SqlQueryData processInclusionCriteria(QueryParameter queryParm) throws Exception {
         final String METHODNAME = "processInclusionCriteria";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
         JDBCOperator operator = JDBCOperator.EQ;
-        Parameter currentParm;
+        QueryParameter currentParm;
         String currentParmValue;
         List<Object> bindVariables = new ArrayList<>();
         SqlQueryData queryData;
@@ -805,11 +805,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
     
     @Override
-    protected SqlQueryData processDateParm(Class<?> resourceType, Parameter queryParm) throws Exception {
+    protected SqlQueryData processDateParm(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return processDateParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
 
-    private SqlQueryData processDateParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    private SqlQueryData processDateParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processDateParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -839,7 +839,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
-        for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameterValue value : queryParm.getValues()) {
             operator = getPrefixOperator(value);
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
@@ -1014,11 +1014,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData processTokenParm(Parameter queryParm) throws FHIRPersistenceException {
+    protected SqlQueryData processTokenParm(QueryParameter queryParm) throws FHIRPersistenceException {
         return processTokenParm(queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    private SqlQueryData processTokenParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    private SqlQueryData processTokenParm(QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processTokenParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1034,7 +1034,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
-        for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameterValue value : queryParm.getValues()) {
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
                 whereClauseSegment.append(JDBCOperator.OR.value());
@@ -1075,11 +1075,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData processNumberParm(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException {
+    protected SqlQueryData processNumberParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         return processNumberParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    private SqlQueryData processNumberParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    private SqlQueryData processNumberParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processNumberParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1100,11 +1100,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData processQuantityParm(Class<?> resourceType, Parameter queryParm) throws Exception {
+    protected SqlQueryData processQuantityParm(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return processQuantityParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
     
-    private SqlQueryData processQuantityParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    private SqlQueryData processQuantityParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processQuantityParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1201,7 +1201,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @param searchParameters
      * @return int - The index of the 'near' parameter in the passed List.
      */
-    private int findNearParameterIndex(List<Parameter> searchParameters) {
+    private int findNearParameterIndex(List<QueryParameter> searchParameters) {
 
         int nearParameterIndex = -1;
 
@@ -1225,12 +1225,12 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @return SqlQueryData - the where clause segment and bind variables for a chained inclusion criterion.
      * @throws Exception
      */
-    private SqlQueryData processChainedInclusionCriteria(Parameter queryParm) throws Exception {
+    private SqlQueryData processChainedInclusionCriteria(QueryParameter queryParm) throws Exception {
         final String METHODNAME = "processChainedInclusionCriteria";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         SqlQueryData queryData;
-        Parameter rootParameter = null;
+        QueryParameter rootParameter = null;
 
         // Transform the passed query parm into a chained parameter representation.
         rootParameter = SearchUtil.parseChainedInclusionCriteria(queryParm);
@@ -1242,14 +1242,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     }
 
-    private SqlQueryData processMissingParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    private SqlQueryData processMissingParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         // boolean to track whether the user has requested the resources missing this parameter (true) or not missing it
         // (false)
         Boolean missing = null;
-        for (ParameterValue parameterValue : queryParm.getValues()) {
+        for (QueryParameterValue parameterValue : queryParm.getValues()) {
             if (missing == null) {
                 missing = Boolean.parseBoolean(parameterValue.getValueCode());
             } else {
@@ -1324,7 +1324,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @return T1 - An object representing the selector query segment for the passed search parm.
      * @throws Exception 
      */
-    protected SqlQueryData buildQueryParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
+    protected SqlQueryData buildQueryParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
         
@@ -1381,13 +1381,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @param tableAlias
      * @return
      */
-    private SqlQueryData processCompositeParm(Parameter queryParm, String tableAlias) {
+    private SqlQueryData processCompositeParm(QueryParameter queryParm, String tableAlias) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    protected SqlQueryData processUriParm(Parameter queryParm) throws FHIRPersistenceException {
+    protected SqlQueryData processUriParm(QueryParameter queryParm) throws FHIRPersistenceException {
         return processUriParm(queryParm, PARAMETERS_TABLE_ALIAS);
     }
 
@@ -1398,7 +1398,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @return T1 - An object containing query segment. 
      * @throws FHIRPersistenceException 
      */
-    protected SqlQueryData processUriParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    protected SqlQueryData processUriParm(QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processUriParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
         SqlQueryData parmRoot = this.processStringParm(queryParm, tableAlias);

@@ -13,7 +13,7 @@ import java.util.Map;
 
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -36,7 +36,7 @@ public class ParameterTestMain extends BaseSearchTest {
         Class<? extends Resource> resourceType = Observation.class;
         Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
         queryParameters.put("subject", Collections.singletonList("http://localhost:9080/fhir-server/api/v4/Patient/1234"));
-        for (Parameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters).getSearchParameters()) {
+        for (QueryParameter parameter : SearchUtil.parseQueryParameters(resourceType, queryParameters).getSearchParameters()) {
             System.out.println(parameter);
             System.out.println("");
         }

@@ -14,28 +14,18 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * This class defines the Data Transfer Object representing a row in the X_DATE_VALUES tables.
  */
-public class CompositeParameter implements IParameter {
+public class CompositeParmVal implements ExtractedParameterValue {
     
-    private long id;
-    private long resourceId;
     private String resourceType;
     private String name;
-    private List<IParameter> component;
+    private List<ExtractedParameterValue> component;
     
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
 
-    public CompositeParameter() {
+    public CompositeParmVal() {
         super();
         component = new ArrayList<>(2);
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public void setName(String name) {
@@ -54,19 +44,11 @@ public class CompositeParameter implements IParameter {
         this.resourceType = resourceType;
     }
 
-    public long getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(long resourceId) {
-        this.resourceId = resourceId;
-    }
-    
     /**
      * We know our type, so we can call the correct method on the visitor
      */
-    public void accept(IParameterVisitor visitor) throws FHIRPersistenceException {
-        for (IParameter param : component) {
+    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
+        for (ExtractedParameterValue param : component) {
             param.accept(visitor);
         }
     }
@@ -88,22 +70,22 @@ public class CompositeParameter implements IParameter {
     /**
      * @return get the list of components in this composite parameter
      */
-    public List<IParameter> getComponent() {
+    public List<ExtractedParameterValue> getComponent() {
         return component;
     }
 
     /**
      * @param set the list of components in this composite parameter
      */
-    public void setComponent(List<IParameter> components) {
+    public void setComponent(List<ExtractedParameterValue> components) {
         this.component.addAll(components);
     }
 
     /**
      * @return the second component in this composite parameter
      */
-    public void addComponent(IParameter... component) {
-        for (IParameter value : component) {
+    public void addComponent(ExtractedParameterValue... component) {
+        for (ExtractedParameterValue value : component) {
             this.component.add(value);
         }
     }

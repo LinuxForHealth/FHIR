@@ -19,12 +19,14 @@ import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
-import com.ibm.fhir.persistence.jdbc.dto.IParameter;
-import com.ibm.fhir.persistence.jdbc.dto.StringParameter;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 
 /**
+ * Data access object for writing FHIR resources to an Apache Derby database.
+ * 
+ * @implNote The original implementation (for DSTU2) used a global temporary table
  * to pass the parameter list into the stored procedure, but this approach
- * exposed some query optimizer issues in DB2 resulting in significant 
+ * exposed some query optimizer issues in DB2 resulting in significant
  * concurrency problems (related to dynamic statistics collection and
  * query compilation). The solution used row type arrays instead, but these
  * aren't supported in Derby, and have since been replaced by a DAO-based
@@ -95,7 +97,7 @@ public class DerbyResourceDAO {
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<IParameter> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted, 
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted, 
         String p_source_key, Integer p_version) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
@@ -328,7 +330,7 @@ public class DerbyResourceDAO {
                 // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100, 
                     new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
-                    for (IParameter p: parameters) {
+                    for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }
                 }

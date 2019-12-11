@@ -6,30 +6,18 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
-import java.sql.Array;
 import java.sql.Connection;
-import java.sql.Struct;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
-import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
-import com.ibm.fhir.persistence.jdbc.dto.DateParameter;
-import com.ibm.fhir.persistence.jdbc.dto.IParameter;
-import com.ibm.fhir.persistence.jdbc.dto.LocationParameter;
-import com.ibm.fhir.persistence.jdbc.dto.NumberParameter;
-import com.ibm.fhir.persistence.jdbc.dto.QuantityParameter;
-import com.ibm.fhir.persistence.jdbc.dto.StringParameter;
-import com.ibm.fhir.persistence.jdbc.dto.TokenParameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
@@ -37,7 +25,6 @@ import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This Data Access Object implements the ParameterDAO interface for creating, updating, 
@@ -49,11 +36,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
     
-    private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT = 512;
-    private static final int SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS = 1024;
-    
     private Map<String, Integer> newParameterNameIds = new HashMap<>();
-        
     private Map<String, Integer> newCodeSystemIds = new HashMap<>();
     
     private boolean runningInTrx = false;
@@ -86,7 +69,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readAllSearchParameterNames";
         log.entering(CLASSNAME, METHODNAME);
                 
-        Connection connection = null;        
+        Connection connection = null;
         try {
             connection = this.getConnection();
             ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
@@ -308,281 +291,6 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         }
         
         return codeSystemId;
-    }
-
-    @Override
-    public Array transformStringParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
-        final String METHODNAME = "transformStringParameters";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        Array sqlParmArray = null;
-        List<Struct> sqlParmList = new ArrayList<>();
-        Struct[] structArray;
-        Object[] rowData;
-        String structTypeName;
-        
-        try {
-            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_STR_VALUES").toString();
-            for (IParameter parameter : parameters) {
-                if (parameter instanceof StringParameter) {
-                    StringParameter stringParam = (StringParameter) parameter;
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), stringParam.getValueString(), 
-                                            SearchUtil.normalizeForSearch(stringParam.getValueString())}; 
-                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
-                }
-            }
-            if (!sqlParmList.isEmpty()) {
-                if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS) {
-                    String msg = "Resource contains too many search parameter values of type " + 
-                            "String. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_STRINGS + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
-                }
-                structArray = new Struct[sqlParmList.size()];
-                sqlParmList.toArray(structArray);
-                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
-            }
-        }
-        catch(FHIRPersistenceDataAccessException e) {
-            throw e;
-        }
-        catch(Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming String parameters.");
-            throw severe(log, fx, e);
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        
-        return sqlParmArray;
-    }
-    
-    @Override
-    public Array transformNumberParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
-        final String METHODNAME = "transformNumberParameters";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        Array sqlParmArray = null;
-        List<Struct> sqlParmList = new ArrayList<>();
-        Struct[] structArray;
-        Object[] rowData;
-        String structTypeName;
-        
-        try {
-            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_NUMBER_VALUES").toString();
-            for (IParameter parameter : parameters) {
-                if (parameter instanceof NumberParameter) {
-                    NumberParameter numberParam = (NumberParameter) parameter;
-                    // TODO: we're forcing the BigDecimal into a DOUBLE and we're losing precision...DB schema should be updated to use DECIMAL
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), numberParam.getValueNumber().doubleValue()};
-                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
-                }
-            }
-            if (!sqlParmList.isEmpty()) {
-                if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    String msg = "Resource contains too many search parameter values of type " + 
-                            "Number. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
-                }
-                structArray = new Struct[sqlParmList.size()];
-                sqlParmList.toArray(structArray);
-                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
-            }
-        }
-        catch(FHIRPersistenceDataAccessException e) {
-            throw e;
-        }
-        catch(Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Number parameters.");
-            throw severe(log, fx, e);
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        return sqlParmArray;
-    }
-    
-    @Override
-    public Array transformDateParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
-        final String METHODNAME = "transformDateParameters";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        Array sqlParmArray = null;
-        List<Struct> sqlParmList = new ArrayList<>();
-        Struct[] structArray;
-        Object[] rowData;
-        String structTypeName;
-        
-        try {
-            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_DATE_VALUES").toString();
-            for (IParameter parameter : parameters) {
-                if (parameter instanceof DateParameter) {
-                    DateParameter dateParam = (DateParameter) parameter;
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), dateParam.getValueDate(), 
-                            dateParam.getValueDateStart(), dateParam.getValueDateEnd()};
-                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
-                }
-            }
-            if (!sqlParmList.isEmpty()) {
-                if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    String msg = "Resource contains too many search parameter values of type " + 
-                            "Date. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
-                }
-                structArray = new Struct[sqlParmList.size()];
-                sqlParmList.toArray(structArray);
-                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
-            }
-        }
-        catch(FHIRPersistenceDataAccessException e) {
-            throw e;
-        }
-        catch(Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Date parameters.");
-            throw severe(log, fx, e);
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        return sqlParmArray;
-    }
-    
-    @Override
-    public Array transformLatLongParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
-        final String METHODNAME = "transformLatLongParameters";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        Array sqlParmArray = null;
-        List<Struct> sqlParmList = new ArrayList<>();
-        Struct[] structArray;
-        Object[] rowData;
-        String structTypeName;
-        
-        try {
-            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_LATLNG_VALUES").toString();
-            for (IParameter parameter : parameters) {
-                // AbstractQueryBuilder.NEAR.equals(parameter.getName())
-                if (parameter instanceof LocationParameter) {
-                    LocationParameter locParam = (LocationParameter) parameter;
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
-                            locParam.getValueLatitude(), locParam.getValueLongitude()};
-                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
-                }
-            }
-            if (!sqlParmList.isEmpty()) {
-                if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    String msg = "Resource contains too many search parameter values of type " + 
-                            "LatLong. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
-                }
-                structArray = new Struct[sqlParmList.size()];
-                sqlParmList.toArray(structArray);
-                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
-            }
-        }
-        catch(FHIRPersistenceDataAccessException e) {
-            throw e;
-        }
-        catch(Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Lat/Lng parameters.");
-            throw severe(log, fx, e);
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        return sqlParmArray;
-    }
-    
-    @Override
-    public Array transformTokenParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
-        final String METHODNAME = "transformTokenParameters";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        Array sqlParmArray = null;
-        List<Struct> sqlParmList = new ArrayList<>();
-        Struct[] structArray;
-        Object[] rowData;
-        String structTypeName;
-        
-        try {
-            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_TOKEN_VALUES").toString();
-            for (IParameter parameter : parameters) {
-                if ((parameter instanceof TokenParameter)) {
-                    TokenParameter tokenParam = (TokenParameter) parameter;
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
-                                            this.acquireCodeSystemId(tokenParam.getValueSystem()), tokenParam.getValueCode()};
-                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
-                }
-            }
-            if (!sqlParmList.isEmpty()) {
-                if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    String msg = "Resource contains too many search parameter values of type " + 
-                            "Token. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
-                }
-                structArray = new Struct[sqlParmList.size()];
-                sqlParmList.toArray(structArray);
-                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
-            }
-        }
-        catch(FHIRPersistenceDataAccessException e) {
-            throw e;
-        }
-        catch(Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Token parameters.");
-            throw severe(log, fx, e);
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        return sqlParmArray;
-    }
-    
-    @Override
-    public Array transformQuantityParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
-        final String METHODNAME = "transformQuantityParameters";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        Array sqlParmArray = null;
-        List<Struct> sqlParmList = new ArrayList<>();
-        Struct[] structArray;
-        Object[] rowData;
-        String structTypeName;
-        
-        try {
-            structTypeName = new StringBuilder().append(schemaName).append(".").append("T_QUANTITY_VALUES").toString();
-            for (IParameter parameter : parameters) {
-                if (parameter instanceof QuantityParameter) {
-                    QuantityParameter quantParam = (QuantityParameter) parameter;
-                    // TODO: we're forcing the BigDecimal into a DOUBLE and we're losing precision...DB schema should be updated to use DECIMAL
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
-                            quantParam.getValueCode(), quantParam.getValueNumber().doubleValue(),
-                            quantParam.getValueNumberLow().doubleValue(), quantParam.getValueNumberHigh().doubleValue(),
-                            this.acquireCodeSystemId(quantParam.getValueSystem())};
-                    sqlParmList.add(connection.createStruct(structTypeName, rowData));
-                }
-            }
-            if (!sqlParmList.isEmpty()) {
-                if (sqlParmList.size() > SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT) {
-                    String msg = "Resource contains too many search parameter values of type " + 
-                            "Quantity. " + "Max: " + SQL_INSERT_PARAMETERS_MAX_ARRAY_SIZE_DEFAULT + "; " + "Actual: " + sqlParmList.size();
-                    throw buildExceptionWithIssue(msg, IssueType.TOO_COSTLY);
-                }
-                structArray = new Struct[sqlParmList.size()];
-                sqlParmList.toArray(structArray);
-                sqlParmArray = connection.createArrayOf(structTypeName, structArray);
-            }
-        }
-        catch(FHIRPersistenceDataAccessException e) {
-            throw e;
-        }
-        catch(Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure transforming Quantity parameters.");
-            throw severe(log, fx, e);
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        return sqlParmArray;
     }
 
     @Override

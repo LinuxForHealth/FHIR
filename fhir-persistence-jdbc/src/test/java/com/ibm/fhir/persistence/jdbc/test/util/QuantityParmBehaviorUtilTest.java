@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.jdbc.test.util;
 import static org.testng.Assert.assertEquals;
 
 import java.math.BigDecimal;
-import java.sql.Array;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +24,14 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dto.IParameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
 
 public class QuantityParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(QuantityParmBehaviorUtilTest.class.getName());
@@ -51,8 +49,8 @@ public class QuantityParmBehaviorUtilTest {
         FHIRRequestContext.get().setTenantId("default");
     }
 
-    private ParameterValue generateParameterValue(String value, SearchConstants.Prefix prefix) {
-        ParameterValue parameterValue = new ParameterValue();
+    private QueryParameterValue generateParameterValue(String value, SearchConstants.Prefix prefix) {
+        QueryParameterValue parameterValue = new QueryParameterValue();
         parameterValue.setPrefix(prefix);
         parameterValue.setValueNumber(new BigDecimal(value));
         parameterValue.setValueCode("code");
@@ -60,26 +58,26 @@ public class QuantityParmBehaviorUtilTest {
         return parameterValue;
     }
 
-    private Parameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
+    private QueryParameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
             String code, String... values) {
-        Parameter parameter = new Parameter(SearchConstants.Type.QUANTITY, code, modifier, null);
+        QueryParameter parameter = new QueryParameter(SearchConstants.Type.QUANTITY, code, modifier, null);
         for (String value : values) {
             parameter.getValues().add(generateParameterValue(value, prefix));
         }
         return parameter;
     }
 
-    private Parameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
+    private QueryParameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
             String value) {
         return generateParameter(prefix, modifier, "Quantity", new String[] { value });
     }
 
-    private Parameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
+    private QueryParameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
             String... values) {
         return generateParameter(prefix, modifier, "Quantity", values);
     }
 
-    private void runTest(Parameter queryParm, List<Object> expectedBindVariables, String expectedSql, boolean sendNull)
+    private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql, boolean sendNull)
             throws Exception {
         runTest(queryParm, expectedBindVariables, expectedSql, "Basic", sendNull);
     }
@@ -88,7 +86,7 @@ public class QuantityParmBehaviorUtilTest {
         assertEquals(NumberParmBehaviorUtil.calculateSignificantFigures(new BigDecimal(value)), significantDigits);
     }
 
-    private void runTest(Parameter queryParm, List<Object> expectedBindVariables, String expectedSql,
+    private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql,
             String tableAlias, boolean sendNull)
             throws Exception {
         StringBuilder actualWhereClauseSegment = new StringBuilder();
@@ -243,61 +241,18 @@ public class QuantityParmBehaviorUtilTest {
             @Override
             public void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId)
                     throws FHIRPersistenceException {
-
+                // do nothing
             }
 
             @Override
             public void addParameterNamesCacheCandidate(String parameterName, Integer parameterId)
                     throws FHIRPersistenceException {
-
-            }
-
-            @Override
-            public Array transformStringParameters(Connection connection, String schemaName,
-                    List<IParameter> parameters)
-                    throws FHIRPersistenceException {
-                return null;
-            }
-
-            @Override
-            public Array transformNumberParameters(Connection connection, String schemaName,
-                    List<IParameter> parameters)
-                    throws FHIRPersistenceException {
-                return null;
-            }
-
-            @Override
-            public Array transformDateParameters(Connection connection, String schemaName,
-                    List<IParameter> parameters)
-                    throws FHIRPersistenceException {
-                return null;
-            }
-
-            @Override
-            public Array transformLatLongParameters(Connection connection, String schemaName,
-                    List<IParameter> parameters)
-                    throws FHIRPersistenceException {
-                return null;
-            }
-
-            @Override
-            public Array transformTokenParameters(Connection connection, String schemaName,
-                    List<IParameter> parameters)
-                    throws FHIRPersistenceException {
-                return null;
-            }
-
-            @Override
-            public Array transformQuantityParameters(Connection connection, String schemaName,
-                    List<IParameter> parameters)
-                    throws FHIRPersistenceException {
-
-                return null;
+                // do nothing
             }
 
             @Override
             public void setExternalConnection(Connection connection) {
-
+                // do nothing
             }
         };
     }
@@ -385,7 +340,7 @@ public class QuantityParmBehaviorUtilTest {
     @Test
     public void testHandleQuantityRangeComparisonWithExact() throws Exception {
         // gt - Greater Than
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.GT, null, "1e3");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.GT, null, "1e3");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(new BigDecimal("1E+3"));
@@ -471,7 +426,7 @@ public class QuantityParmBehaviorUtilTest {
         //  [parameter]=100
         //  [parameter]=eq100
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "100");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "100");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(new BigDecimal(100.5));
@@ -532,7 +487,7 @@ public class QuantityParmBehaviorUtilTest {
          * </pre>
          */
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, new String[] { "100", "1.00" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, new String[] { "100", "1.00" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("99.5"));
         expectedBindVariables.add(new BigDecimal("100.5"));
@@ -591,7 +546,7 @@ public class QuantityParmBehaviorUtilTest {
         // Condition:
         //  [parameter]=ne100
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "100");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "100");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(new BigDecimal(100.5));
@@ -611,7 +566,7 @@ public class QuantityParmBehaviorUtilTest {
         // Condition:
         //  [parameter]=ap100
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "100");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "100");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(89.5));
         expectedBindVariables.add(new BigDecimal(110.5));
@@ -631,7 +586,7 @@ public class QuantityParmBehaviorUtilTest {
         // Condition:
         //  [parameter]=ap1
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "1");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "1");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("0.4"));
         expectedBindVariables.add(new BigDecimal("1.6"));
@@ -652,7 +607,7 @@ public class QuantityParmBehaviorUtilTest {
         //  [parameter]=ap100,ap100
         // It should de-dupe
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(89.5));
         expectedBindVariables.add(new BigDecimal(110.5));
@@ -676,7 +631,7 @@ public class QuantityParmBehaviorUtilTest {
         // expectedBindVariables are pivoted on 100
         // It should NOT de-dupe
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100.00" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100.00" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(89.5));
         expectedBindVariables.add(new BigDecimal(110.5));

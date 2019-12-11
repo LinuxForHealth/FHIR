@@ -25,8 +25,8 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.test.BaseSearchTest;
@@ -244,11 +244,11 @@ public class SortParameterParseTest extends BaseSearchTest {
         // Do search parameter validation
         assertNotNull(searchContext.getSearchParameters());
         assertEquals(1, searchContext.getSearchParameters().size());
-        Parameter searchParm = searchContext.getSearchParameters().get(0);
+        QueryParameter searchParm = searchContext.getSearchParameters().get(0);
         assertEquals(searchParmName, searchParm.getCode());
         assertNotNull(searchParm.getValues());
         assertEquals(1, searchParm.getValues().size());
-        ParameterValue parmValue = searchParm.getValues().get(0);
+        QueryParameterValue parmValue = searchParm.getValues().get(0);
         assertEquals(searchParmValue, parmValue.getValueString());
 
         String selfUri =
@@ -317,11 +317,11 @@ public class SortParameterParseTest extends BaseSearchTest {
         // Do search parameter validation
         assertNotNull(searchContext.getSearchParameters());
         assertEquals(1, searchContext.getSearchParameters().size());
-        Parameter searchParm = searchContext.getSearchParameters().get(0);
+        QueryParameter searchParm = searchContext.getSearchParameters().get(0);
         assertEquals(searchParmName, searchParm.getCode());
         assertNotNull(searchParm.getValues());
         assertEquals(1, searchParm.getValues().size());
-        ParameterValue parmValue = searchParm.getValues().get(0);
+        QueryParameterValue parmValue = searchParm.getValues().get(0);
         assertEquals(searchParmValue, parmValue.getValueString());
 
         // Check the component parts and build up the QueryString parts 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -99,13 +99,13 @@ public class ExpressionTree extends BaseSearchTest {
     }
 
     public static class ParameterReference extends Expression {
-        private Parameter parameter = null;
+        private QueryParameter parameter = null;
 
-        public ParameterReference(Parameter parameter) {
+        public ParameterReference(QueryParameter parameter) {
             this.parameter = parameter;
         }
 
-        public Parameter getParameter() {
+        public QueryParameter getParameter() {
             return parameter;
         }
 
@@ -124,13 +124,13 @@ public class ExpressionTree extends BaseSearchTest {
     public static void main(String[] args) throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<String, List<String>>();
         queryParameters.put("language", Arrays.asList("FR,NL", "EN"));
-        List<Parameter> parameters = SearchUtil.parseQueryParameters(Patient.class, queryParameters).getSearchParameters();
+        List<QueryParameter> parameters = SearchUtil.parseQueryParameters(Patient.class, queryParameters).getSearchParameters();
 
         Expression left = null, right = null;
 
         AndExpression and = null;
 
-        for (Parameter parameter : parameters) {
+        for (QueryParameter parameter : parameters) {
             System.out.println(parameter);
             ParameterReference reference = new ParameterReference(parameter);
             if (left == null && right == null) {

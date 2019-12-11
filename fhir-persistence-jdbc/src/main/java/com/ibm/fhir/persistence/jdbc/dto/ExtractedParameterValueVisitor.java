@@ -11,12 +11,12 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * A visitor passed to the parameter visit method
  */
-public interface IParameterVisitor {
+public interface ExtractedParameterValueVisitor {
 
     /**
      * Process a string parameter value
      */
-    void visit(StringParameter stringParameter) throws FHIRPersistenceException;
+    void visit(StringParmVal stringParameter) throws FHIRPersistenceException;
 
     /**
      * Process a reference parameter value
@@ -31,25 +31,25 @@ public interface IParameterVisitor {
     /**
      * Process a number parameter value
      */
-    void visit(NumberParameter numberParameter) throws FHIRPersistenceException;
+    void visit(NumberParmVal numberParameter) throws FHIRPersistenceException;
 
     /**
      * Process a date parameter value
      */
-    void visit(DateParameter dateParameter) throws FHIRPersistenceException;
+    void visit(DateParmVal dateParameter) throws FHIRPersistenceException;
 
     /**
      * Process a token parameter value
      */
-    void visit(TokenParameter tokenParameter) throws FHIRPersistenceException;
+    void visit(TokenParmVal tokenParameter) throws FHIRPersistenceException;
 
     /**
      * Process a quantity parameter value
      */
-    void visit(QuantityParameter quantityParameter) throws FHIRPersistenceException;
+    void visit(QuantityParmVal quantityParameter) throws FHIRPersistenceException;
 
     /**
      * Process a location parameter value
      */
-    void visit(LocationParameter locationParameter) throws FHIRPersistenceException;
+    void visit(LocationParmVal locationParameter) throws FHIRPersistenceException;
 }

@@ -12,7 +12,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 
 /**
  * This is a root interface for child Data Access Object interfaces. 
- * 
  */
 public interface FHIRDbDAO {
 

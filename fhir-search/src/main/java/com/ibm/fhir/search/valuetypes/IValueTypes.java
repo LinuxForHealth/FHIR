@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
  * Encapsulates the definitions of the is Search type.
@@ -29,7 +29,7 @@ public interface IValueTypes {
      * @return
      * @throws FHIRSearchException
      */
-    public boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException;
+    public boolean isDateRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException;
 
     /**
      * checks the resource value types against the indicators of the search type Date search.
@@ -39,7 +39,7 @@ public interface IValueTypes {
      * @return
      * @throws FHIRSearchException
      */
-    public boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException;
+    public boolean isDateSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException;
 
     /**
      * checks the resource value types against the indicators of the search type Range search.
@@ -49,7 +49,7 @@ public interface IValueTypes {
      * @return
      * @throws FHIRSearchException
      */
-    public boolean isRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException;
+    public boolean isRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException;
 
     /**
      * checks the resource value types against the indicators of the search type Integer search.
@@ -59,7 +59,7 @@ public interface IValueTypes {
      * @return
      * @throws FHIRSearchException
      */
-    public boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException;
+    public boolean isIntegerSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException;
 
     /**
      * gets the value types for the given class and name of the parameter.

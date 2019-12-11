@@ -84,13 +84,13 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
-import com.ibm.fhir.persistence.jdbc.dto.CompositeParameter;
-import com.ibm.fhir.persistence.jdbc.dto.DateParameter;
-import com.ibm.fhir.persistence.jdbc.dto.IParameter;
-import com.ibm.fhir.persistence.jdbc.dto.NumberParameter;
-import com.ibm.fhir.persistence.jdbc.dto.QuantityParameter;
-import com.ibm.fhir.persistence.jdbc.dto.StringParameter;
-import com.ibm.fhir.persistence.jdbc.dto.TokenParameter;
+import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
@@ -131,7 +131,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     private Connection managedConnection;
 
     /**
-     * Constructor for use when running as web application in WLP. O
+     * Constructor for use when running as web application in WLP.
      * @throws Exception 
      */
     public FHIRPersistenceJDBCImpl() throws Exception {
@@ -143,11 +143,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
         
         ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE, 
-                                       Boolean.TRUE.booleanValue()));
+                                       Boolean.TRUE));
         CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE, 
-                                    Boolean.TRUE.booleanValue()));
+                                    Boolean.TRUE));
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE, 
-                                      Boolean.TRUE.booleanValue()));
+                                      Boolean.TRUE));
         this.resourceDao = new ResourceDAOImpl(this.getTrxSynchRegistry());
         this.parameterDao = new ParameterDAOImpl(this.getTrxSynchRegistry());
         
@@ -992,7 +992,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
      * @throws Exception 
      */
-    private List<IParameter> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) 
+    private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) 
                  throws Exception {
         final String METHODNAME = "extractSearchParameters";
         log.entering(CLASSNAME, METHODNAME);
@@ -1002,7 +1002,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         String type;
         String expression;
         
-        List<IParameter> allParameters = new ArrayList<>();
+        List<ExtractedParameterValue> allParameters = new ArrayList<>();
         
         try {
             map = SearchUtil.extractParameterValues(fhirResource);
@@ -1036,9 +1036,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                             throw new IllegalStateException("Composite parameter expression must select one or more FHIR elements");
                         }
                         
-                        CompositeParameter p = new CompositeParameter();
+                        CompositeParmVal p = new CompositeParmVal();
                         p.setName(code);
-                        p.setResourceId(resourceDTO.getId());
                         p.setResourceType(fhirResource.getClass().getSimpleName());
                         
                         for (int i = 0; i < components.size(); i++) {
@@ -1059,7 +1058,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                                         // parameterBuilder aggregates the results for later retrieval
                                         node.asElementNode().element().accept(parameterBuilder);
                                         // retrieve the list of parameters built from all the FHIRPathElementNode values 
-                                        List<IParameter> parameters = parameterBuilder.getResult();
+                                        List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
                                         if (parameters.size() > 1) {
                                             log.fine("Selected element '" + node.path() + "' resulted in multiple search parameters; "
                                                     + "skipping composite parameter '" + sp.getName() + "'.");
@@ -1070,18 +1069,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                                             continue;
                                         } else {
                                             // exactly 1
-                                            IParameter componentParam = parameters.get(0);
+                                            ExtractedParameterValue componentParam = parameters.get(0);
                                             // override the component parameter name with the composite parameter name
                                             componentParam.setName(code);
                                             componentParam.setResourceType(p.getResourceType());
-                                            componentParam.setResourceId(p.getResourceId());
                                             componentParam.setBase(p.getBase());
                                             p.addComponent(parameters.get(0));
                                         }
                                     } else if (node.isSystemValue()){
-                                        IParameter primitiveParam = processPrimitiveValue(node.asSystemValue());
+                                        ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
                                         primitiveParam.setName(code);
-                                        primitiveParam.setResourceId(resourceDTO.getId());
                                         primitiveParam.setResourceType(fhirResource.getClass().getSimpleName());
                                         
                                         if (log.isLoggable(Level.FINE)) {
@@ -1126,9 +1123,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                                 // parameterBuilder aggregates the results for later retrieval
                                 value.asElementNode().element().accept(parameterBuilder);
                             } else if (value.isSystemValue()){
-                                IParameter p = processPrimitiveValue(value.asSystemValue());
+                                ExtractedParameterValue p = processPrimitiveValue(value.asSystemValue());
                                 p.setName(code);
-                                p.setResourceId(resourceDTO.getId());
                                 p.setResourceType(fhirResource.getClass().getSimpleName());
                                 allParameters.add(p);
                                 if (log.isLoggable(Level.FINE)) {
@@ -1157,9 +1153,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                         }
                     }
                     // retrieve the list of parameters built from all the FHIRPathElementNode values 
-                    List<IParameter> parameters = parameterBuilder.getResult();
-                    for (IParameter p : parameters) {
-                        p.setResourceId(resourceDTO.getId());
+                    List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
+                    for (ExtractedParameterValue p : parameters) {
                         p.setResourceType(fhirResource.getClass().getSimpleName());
                         allParameters.add(p);
                         if (log.isLoggable(Level.FINE)) {
@@ -1180,10 +1175,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * Note: this method only sets the value; 
      * caller is responsible for setting all other fields on the created Parameter.
      */
-    private IParameter processPrimitiveValue(FHIRPathSystemValue systemValue) {
-        IParameter parameter = null;
+    private ExtractedParameterValue processPrimitiveValue(FHIRPathSystemValue systemValue) {
+        ExtractedParameterValue parameter = null;
         if (systemValue.isBooleanValue()) {
-            TokenParameter p = new TokenParameter();
+            TokenParmVal p = new TokenParmVal();
             if (systemValue.asBooleanValue()._boolean()) {
                 p.setValueCode("true");
             } else {
@@ -1191,19 +1186,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
             parameter = p;
         } else if (systemValue.isTemporalValue()) {
-            DateParameter p = new DateParameter();
+            DateParmVal p = new DateParmVal();
             p.setValueDate(Timestamp.from(QueryBuilderUtil.getInstantFromPartial(systemValue.asTemporalValue().temporal())));
             parameter = p;
         } else if (systemValue.isStringValue()) {
-            StringParameter p = new StringParameter();
+            StringParmVal p = new StringParmVal();
             p.setValueString(systemValue.asStringValue().string());
             parameter = p;
         } else if (systemValue.isNumberValue()) {
-            NumberParameter p = new NumberParameter();
+            NumberParmVal p = new NumberParmVal();
             p.setValueNumber(systemValue.asNumberValue().decimal());
             parameter = p;
         } else if (systemValue.isQuantityValue()) {
-            QuantityParameter p = new QuantityParameter();
+            QuantityParmVal p = new QuantityParmVal();
             p.setValueNumber(systemValue.asQuantityValue().value());
             p.setValueSystem("http://unitsofmeasure.org"); // FHIRPath Quantity requires UCUM units
             p.setValueCode(systemValue.asQuantityValue().unit());

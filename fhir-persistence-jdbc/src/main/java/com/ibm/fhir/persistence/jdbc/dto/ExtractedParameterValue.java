@@ -9,12 +9,9 @@ package com.ibm.fhir.persistence.jdbc.dto;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
- * This class defines the Data Transfer Object representing a row in the FHIR Parameter table.
+ * A search parameter value extracted from a resource and ready to store / index for search
  */
-public interface IParameter {
-    public void setId(long id);
-
-    public long getId();
+public interface ExtractedParameterValue {
 
     public void setName(String name);
 
@@ -23,13 +20,10 @@ public interface IParameter {
     public String getResourceType();
     public void setResourceType(String resourceType);
 
-    public long getResourceId();
-    public void setResourceId(long resourceId);
-
     /**
      * We know our type, so we can call the correct method on the visitor
      */
-    public void accept(IParameterVisitor visitor) throws FHIRPersistenceException;
+    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException;
 
     /**
      * @return the base

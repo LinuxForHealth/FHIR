@@ -18,25 +18,24 @@ import java.util.logging.Logger;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
-import com.ibm.fhir.persistence.jdbc.dto.DateParameter;
-import com.ibm.fhir.persistence.jdbc.dto.IParameter;
-import com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor;
-import com.ibm.fhir.persistence.jdbc.dto.LocationParameter;
-import com.ibm.fhir.persistence.jdbc.dto.NumberParameter;
-import com.ibm.fhir.persistence.jdbc.dto.QuantityParameter;
-import com.ibm.fhir.persistence.jdbc.dto.StringParameter;
-import com.ibm.fhir.persistence.jdbc.dto.TokenParameter;
+import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValueVisitor;
+import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
  * Batch insert into the parameter values tables. Avoids having to create one stored procedure
- * per resource type, because in the row type array approach apparently won't work with dynamic
+ * per resource type, because the row type array approach apparently won't work with dynamic
  * SQL (EXECUTE ... USING ...). Unfortunately this means we have more database round-trips, we
  * don't have a choice.
- *
  */
-public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseable {
+public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
 
     // the max number of rows we accumulate for a given statement before we submit the batch
@@ -159,7 +158,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void visit(StringParameter param) throws FHIRPersistenceException {
+    public void visit(StringParmVal param) throws FHIRPersistenceException {
         String parameterName = param.getName();
         String value = param.getValueString();
         
@@ -224,7 +223,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void visit(NumberParameter param) throws FHIRPersistenceException {
+    public void visit(NumberParmVal param) throws FHIRPersistenceException {
         String parameterName = param.getName();
         BigDecimal value = param.getValueNumber();
         BigDecimal valueLow = param.getValueNumberLow();
@@ -254,7 +253,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void visit(DateParameter param) throws FHIRPersistenceException {
+    public void visit(DateParmVal param) throws FHIRPersistenceException {
         String parameterName = param.getName();
         Timestamp date = param.getValueDate();
         Timestamp dateStart = param.getValueDateStart();
@@ -308,7 +307,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void visit(TokenParameter param) throws FHIRPersistenceException {
+    public void visit(TokenParmVal param) throws FHIRPersistenceException {
         String parameterName = param.getName();
         String codeSystem = param.getValueSystem();
         String tokenValue = param.getValueCode();
@@ -361,7 +360,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void visit(QuantityParameter param) throws FHIRPersistenceException {
+    public void visit(QuantityParmVal param) throws FHIRPersistenceException {
         String parameterName = param.getName();
         String code = param.getValueCode();
         String codeSystem = param.getValueSystem();
@@ -412,7 +411,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
     
     @Override
-    public void visit(LocationParameter param) throws FHIRPersistenceException {
+    public void visit(LocationParmVal param) throws FHIRPersistenceException {
         String parameterName = param.getName();
         double lat = param.getValueLatitude();
         double lng = param.getValueLongitude();
@@ -518,7 +517,7 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
-    private boolean isBase(IParameter param) {
+    private boolean isBase(ExtractedParameterValue param) {
         return "Resource".equals(param.getBase());
     }
 

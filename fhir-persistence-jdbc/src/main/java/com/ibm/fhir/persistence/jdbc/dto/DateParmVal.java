@@ -6,34 +6,51 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
+import java.sql.Timestamp;
+
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.search.SearchConstants.Type;
 
 /**
- * This class defines the Data Transfer Object representing a row in the X_STR_VALUES tables.
+ * This class defines the Data Transfer Object representing a row in the X_DATE_VALUES tables.
  */
-public class StringParameter implements IParameter {
+public class DateParmVal implements ExtractedParameterValue {
     
-    private long id;
-    private long resourceId;
-    private Type type;
     private String resourceType;
     private String name;
-    private String valueString;
+    private Timestamp valueDate;
+    private Timestamp valueDateStart;
+    private Timestamp valueDateEnd;
     
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
+    
+    public enum TimeType{
+        YEAR,
+        YEAR_MONTH,
+        LOCAL_DATE,
+        ZONE_DATE,
+        UNKNOWN,
+        DEFAULT
+    }
 
-    public StringParameter() {
+    public DateParmVal() {
         super();
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public Timestamp getValueDateStart() {
+        return valueDateStart;
     }
 
-    public long getId() {
-        return id;
+    public void setValueDateStart(Timestamp valueDateStart) {
+        this.valueDateStart = valueDateStart;
+    }
+
+    public Timestamp getValueDateEnd() {
+        return valueDateEnd;
+    }
+
+    public void setValueDateEnd(Timestamp valueDateEnd) {
+        this.valueDateEnd = valueDateEnd;
     }
 
     public void setName(String name) {
@@ -44,12 +61,12 @@ public class StringParameter implements IParameter {
         return name;
     }
 
-    public String getValueString() {
-        return valueString;
+    public Timestamp getValueDate() {
+        return valueDate;
     }
 
-    public void setValueString(String valueString) {
-        this.valueString = valueString;
+    public void setValueDate(Timestamp valueDate) {
+        this.valueDate = valueDate;
     }
 
     public String getResourceType() {
@@ -60,26 +77,10 @@ public class StringParameter implements IParameter {
         this.resourceType = resourceType;
     }
 
-    public long getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(long resourceId) {
-        this.resourceId = resourceId;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-    
     /**
      * We know our type, so we can call the correct method on the visitor
      */
-    public void accept(IParameterVisitor visitor) throws FHIRPersistenceException {
+    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
 

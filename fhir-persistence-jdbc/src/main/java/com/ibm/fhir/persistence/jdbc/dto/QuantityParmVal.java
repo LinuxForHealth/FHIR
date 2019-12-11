@@ -6,38 +6,31 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
+import java.math.BigDecimal;
+
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.search.SearchConstants.Type;
 
 /**
- * This class defines the Data Transfer Object representing a row in the X_TOKEN_VALUES tables.
+ * This class defines the Data Transfer Object representing a row in the X_QUANTITY_VALUES tables.
  */
-public class TokenParameter implements IParameter {
+public class QuantityParmVal implements ExtractedParameterValue {
     
-    private long id;
-    private long resourceId;
-    private Type type;
     private String resourceType;
     private String name;
+    private BigDecimal valueNumber;
+    private BigDecimal valueNumberLow;
+    private BigDecimal valueNumberHigh;
     private String valueSystem;
     private String valueCode;
     
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
-    
+
     // A default value for the token-system as the schema column is not null (simplifying queries)
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
-
-    public TokenParameter() {
+    
+    public QuantityParmVal() {
         super();
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public void setName(String name) {
@@ -46,6 +39,14 @@ public class TokenParameter implements IParameter {
 
     public String getName() {
         return name;
+    }
+
+    public BigDecimal getValueNumber() {
+        return valueNumber;
+    }
+
+    public void setValueNumber(BigDecimal valueNumber) {
+        this.valueNumber = valueNumber;
     }
 
     public String getValueSystem() {
@@ -67,6 +68,22 @@ public class TokenParameter implements IParameter {
         this.valueCode = valueCode;
     }
 
+    public BigDecimal getValueNumberLow() {
+        return valueNumberLow;
+    }
+
+    public void setValueNumberLow(BigDecimal valueNumberLow) {
+        this.valueNumberLow = valueNumberLow;
+    }
+
+    public BigDecimal getValueNumberHigh() {
+        return valueNumberHigh;
+    }
+
+    public void setValueNumberHigh(BigDecimal valueNumberHigh) {
+        this.valueNumberHigh = valueNumberHigh;
+    }
+
     public String getResourceType() {
         return resourceType;
     }
@@ -75,26 +92,10 @@ public class TokenParameter implements IParameter {
         this.resourceType = resourceType;
     }
 
-    public long getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(long resourceId) {
-        this.resourceId = resourceId;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-    
     /**
      * We know our type, so we can call the correct method on the visitor
      */
-    public void accept(IParameterVisitor visitor) throws FHIRPersistenceException {
+    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
 

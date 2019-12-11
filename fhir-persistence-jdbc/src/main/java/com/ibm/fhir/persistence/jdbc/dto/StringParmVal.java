@@ -7,13 +7,12 @@
 package com.ibm.fhir.persistence.jdbc.dto;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.search.SearchConstants.Type;
 
-public class UriParameter implements IParameter {
+/**
+ * This class defines the Data Transfer Object representing a row in the X_STR_VALUES tables.
+ */
+public class StringParmVal implements ExtractedParameterValue {
     
-    private long id;
-    private long resourceId;
-    private Type type;
     private String resourceType;
     private String name;
     private String valueString;
@@ -21,16 +20,8 @@ public class UriParameter implements IParameter {
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
 
-    public UriParameter() {
+    public StringParmVal() {
         super();
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public void setName(String name) {
@@ -57,27 +48,11 @@ public class UriParameter implements IParameter {
         this.resourceType = resourceType;
     }
 
-    public long getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(long resourceId) {
-        this.resourceId = resourceId;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-    
     /**
      * We know our type, so we can call the correct method on the visitor
      */
-    public void accept(IParameterVisitor visitor) throws FHIRPersistenceException {
-//        visitor.visit(this);
+    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
+        visitor.visit(this);
     }
 
     /**

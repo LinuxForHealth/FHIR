@@ -51,8 +51,8 @@ import com.ibm.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.parameters.InclusionParameter;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
 import com.ibm.fhir.search.sort.Sort;
@@ -62,8 +62,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 /**
  * Search Utility<br/>
  * This class uses FHIRPath Expressions (and currently does not support XPath)
- * and uses init to activate the
- * Parameters/Compartments/ValueTypes components.
+ * and uses init to activate the Parameters/Compartments/ValueTypes components.
  */
 public class SearchUtil {
     private static final String CLASSNAME = SearchUtil.class.getName();
@@ -83,7 +82,7 @@ public class SearchUtil {
     private static final String SEARCH_PARAMETER_MODIFIER_NAME =
             "Search parameter: '%s' must have resource type name modifier";
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
-    private static final String UNSUPPOTED_EXPR_NULL =
+    private static final String UNSUPPORTED_EXPR_NULL =
             "An empty expression is found or the parameter type is unsupported [%s][%s]";
 
     private static final String MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE =
@@ -519,7 +518,7 @@ public class SearchUtil {
 
     /**
      * skips the empty extracted search parameters
-     *
+     * 
      * @param resource
      * @return
      * @throws Exception
@@ -531,7 +530,7 @@ public class SearchUtil {
 
     /**
      * extract parameter values.
-     *
+     * 
      * @param resource
      * @param skipEmpty
      * @return
@@ -566,10 +565,9 @@ public class SearchUtil {
             }
 
             // Process the Expression
-            // Disable the processing of composite and "special" types
-            // <code>"type" : "composite",</code>
+            // Disable the processing of "special" types
             // <code>"type" : "special",</code>
-            // Alternatives, which are possible, on loading the map, filter out at that time.
+            // Alternative: filter that out while loading the search parameters map
             SearchParamType type = parameter.getType();
             if (expression == null || SearchParamType.SPECIAL.equals(type)) {
                 if (log.isLoggable(Level.FINER)) {
@@ -612,7 +610,7 @@ public class SearchUtil {
 
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
-        List<Parameter> parameters = new ArrayList<>();
+        List<QueryParameter> parameters = new ArrayList<>();
 
         // Retrieve the SearchParameters that will apply to this resource type (including those for Resource.class).
         Map<String, SearchParameter> applicableSPs = getApplicableSearchParametersMap(resourceType.getSimpleName());
@@ -625,7 +623,7 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewInvalidSearchException(
                     "_sort search result parameter not supported with _include or _revinclude.");
         }
-        HashSet<String> resourceTypes = new HashSet<String>();
+        HashSet<String> resourceTypes = new HashSet<>();
         if (Resource.class.equals(resourceType)) {
             // Because _include and _revinclude searches all require certain resource type modifier in
             // search parameter, so we just don't support it.
@@ -683,7 +681,7 @@ public class SearchUtil {
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
-                        Parameter chainedParameter;
+                        QueryParameter chainedParameter;
                         if (isMultiResTypeSearch) {
                             chainedParameter = parseChainedParameter(resourceTypes, name, chainedParameterString);
                         } else {
@@ -753,8 +751,8 @@ public class SearchUtil {
                     }
 
                     for (String queryParameterValueString : queryParameters.get(name)) {
-                        Parameter parameter = new Parameter(type, parameterCode, modifier, modifierResourceTypeName);
-                        List<ParameterValue> queryParameterValues;
+                        QueryParameter parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
+                        List<QueryParameterValue> queryParameterValues;
                         if (SearchConstants.Modifier.MISSING.equals(modifier)) {
                             // FHIR search considers booleans a special case of token for some reason...
                             queryParameterValues =
@@ -788,13 +786,13 @@ public class SearchUtil {
         return context;
     }
 
-    private static List<ParameterValue> parseQueryParameterValuesString(SearchConstants.Type type,
+    private static List<QueryParameterValue> parseQueryParameterValuesString(SearchConstants.Type type,
             String queryParameterValuesString)
             throws FHIRSearchException {
-        List<ParameterValue> parameterValues = new ArrayList<>();
+        List<QueryParameterValue> parameterValues = new ArrayList<>();
 
         for (String v : queryParameterValuesString.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
-            ParameterValue parameterValue = new ParameterValue();
+            QueryParameterValue parameterValue = new QueryParameterValue();
             SearchConstants.Prefix prefix = null;
             switch (type) {
             case DATE: {
@@ -892,9 +890,8 @@ public class SearchUtil {
     }
 
     /**
-     * Un-escape search parameter values that were encoding based on FHIR escaping
-     * rules
-     *
+     * Un-escape search parameter values that were encoding based on FHIR escaping rules
+     * 
      * @param escapedString
      * @return unescapedString
      * @throws FHIRSearchException
@@ -963,10 +960,10 @@ public class SearchUtil {
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType,
             Map<String, List<String>> queryParameters, String queryString, boolean lenient) throws Exception {
-        List<Parameter> parameters = new ArrayList<>();
-        Parameter parameter;
-        ParameterValue value;
-        Parameter rootParameter = null;
+        List<QueryParameter> parameters = new ArrayList<>();
+        QueryParameter parameter;
+        QueryParameterValue value;
+        QueryParameter rootParameter = null;
 
         if (compartmentName != null && compartmentLogicalId != null) {
             // The inclusion criteria are represented as a chain of parameters, each with a value of the
@@ -976,8 +973,8 @@ public class SearchUtil {
                     CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName,
                             resourceType.getSimpleName());
             for (String criteria : inclusionCriteria) {
-                parameter = new Parameter(SearchConstants.Type.REFERENCE, criteria, null, null, true);
-                value     = new ParameterValue();
+                parameter = new QueryParameter(SearchConstants.Type.REFERENCE, criteria, null, null, true);
+                value     = new QueryParameterValue();
                 value.setValueString(compartmentName + "/" + compartmentLogicalId);
                 parameter.getValues().add(value);
                 if (rootParameter == null) {
@@ -1056,9 +1053,9 @@ public class SearchUtil {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);
     }
 
-    private static Parameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
+    private static QueryParameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
             throws Exception {
-        Parameter rootParameter = null;
+        QueryParameter rootParameter = null;
         Class<?> resourceType = null;
 
         try {
@@ -1078,7 +1075,7 @@ public class SearchUtil {
                 // collapsing the branching logic is ideal
                 int loc = parameterName.indexOf(SearchConstants.COLON_DELIMITER);
                 if (loc > 0) {
-                    // Parameter exists
+                    // QueryParameter exists
                     String mod = parameterName.substring(loc + 1);
                     if (ModelSupport.isResourceType(mod)) {
                         modifier                 = SearchConstants.Modifier.TYPE;
@@ -1136,7 +1133,7 @@ public class SearchUtil {
                     modifierResourceTypeName = modifierResourceTypeName4ResourceTypes.iterator().next();
                 }
 
-                Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
+                QueryParameter parameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName);
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else {
@@ -1157,7 +1154,7 @@ public class SearchUtil {
                 currentIndex++;
             } // end for loop
 
-            List<ParameterValue> valueList = parseQueryParameterValuesString(type, valuesString);
+            List<QueryParameterValue> valueList = parseQueryParameterValuesString(type, valuesString);
             rootParameter.getChain().getLast().getValues().addAll(valueList);
         } catch (FHIRSearchException e) {
             throw e;
@@ -1168,10 +1165,10 @@ public class SearchUtil {
         return rootParameter;
     }
 
-    private static Parameter parseChainedParameter(Class<?> resourceType, String name, String valuesString)
+    private static QueryParameter parseChainedParameter(Class<?> resourceType, String name, String valuesString)
             throws Exception {
 
-        Parameter rootParameter = null;
+        QueryParameter rootParameter = null;
 
         try {
             List<String> components = Arrays.asList(name.split("\\."));
@@ -1190,7 +1187,7 @@ public class SearchUtil {
                 // collapsing the branching logic is ideal
                 int loc = parameterName.indexOf(SearchConstants.COLON_DELIMITER);
                 if (loc > 0) {
-                    // Parameter exists
+                    // QueryParameter exists
                     String mod = parameterName.substring(loc + 1);
                     if (ModelSupport.isResourceType(mod)) {
                         modifier                 = SearchConstants.Modifier.TYPE;
@@ -1233,7 +1230,7 @@ public class SearchUtil {
                     modifier                 = SearchConstants.Modifier.TYPE;
                 }
 
-                Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
+                QueryParameter parameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName);
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else {
@@ -1254,7 +1251,7 @@ public class SearchUtil {
                 currentIndex++;
             } // end for loop
 
-            List<ParameterValue> valueList = parseQueryParameterValuesString(type, valuesString);
+            List<QueryParameterValue> valueList = parseQueryParameterValuesString(type, valuesString);
             rootParameter.getChain().getLast().getValues().addAll(valueList);
         } catch (FHIRSearchException e) {
             throw e;
@@ -1266,22 +1263,23 @@ public class SearchUtil {
     }
 
     /**
-     * Transforms the passed Parameter representing chained inclusion criteria, into
-     * an actual chain of Parameter
-     * objects. This method consumes Parameters with names of this form:
-     * "{attribute1}.{attribute2}:{resourceType}" For
-     * specific examples of chained inclusion criteria, see the FHIR spec for the
-     * Patient compartment here:
-     *
-     * @see https://www.hl7.org/fhir/compartment-patient.html
+     * Transforms the passed QueryParameter representing chained inclusion criteria, into
+     * an actual chain of QueryParameter objects. This method consumes QueryParameters 
+     * with names of this form:
+     * <pre>
+     * "{attribute1}.{attribute2}:{resourceType}"
+     * </pre>
+     * For specific examples of chained inclusion criteria, see the FHIR spec for the
+     * <a href="https://www.hl7.org/fhir/compartment-patient.html">Patient compartment</a>
+     * 
      * @param inclusionCriteriaParm
-     * @return Parameter - The root of a parameter chain for chained inclusion
+     * @return QueryParameter - The root of a parameter chain for chained inclusion
      *         criteria.
      */
-    public static Parameter parseChainedInclusionCriteria(Parameter inclusionCriteriaParm) {
+    public static QueryParameter parseChainedInclusionCriteria(QueryParameter inclusionCriteriaParm) {
 
-        Parameter rootParameter = null;
-        Parameter chainedInclusionCriteria = null;
+        QueryParameter rootParameter = null;
+        QueryParameter chainedInclusionCriteria = null;
         String[] qualifiedInclusionCriteria;
         String[] parmNames = inclusionCriteriaParm.getCode().split("\\.");
         String resourceType = inclusionCriteriaParm.getCode().split(SearchConstants.COLON_DELIMITER_STR)[1];
@@ -1291,11 +1289,11 @@ public class SearchUtil {
             if (parmNames[i].indexOf(SearchConstants.COLON_DELIMITER) != -1) {
                 qualifiedInclusionCriteria = parmNames[i].split(SearchConstants.COLON_DELIMITER_STR);
                 chainedInclusionCriteria   =
-                        new Parameter(SearchConstants.Type.REFERENCE, qualifiedInclusionCriteria[0], null, resourceType,
+                        new QueryParameter(SearchConstants.Type.REFERENCE, qualifiedInclusionCriteria[0], null, resourceType,
                                 inclusionCriteriaParm.getValues());
             } else {
                 chainedInclusionCriteria =
-                        new Parameter(SearchConstants.Type.REFERENCE, parmNames[i], null, resourceType);
+                        new QueryParameter(SearchConstants.Type.REFERENCE, parmNames[i], null, resourceType);
             }
             if (rootParameter == null) {
                 rootParameter = chainedInclusionCriteria;
@@ -1333,7 +1331,7 @@ public class SearchUtil {
      * InclusionParameter objects to represent those parameters. The
      * InclusionParameter objects are included in the
      * appropriate collections encapsulated in the passed FHIRSearchContext.
-     *
+     * 
      * @throws Exception
      */
     private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context,
@@ -1396,7 +1394,7 @@ public class SearchUtil {
      * Builds and returns a collection of InclusionParameter objects representing
      * occurrences the _include search result
      * parameter in the query string.
-     *
+     * 
      * @throws FHIRSearchException
      */
     private static List<InclusionParameter> buildIncludeParameter(Class<?> resourceType, String joinResourceType,
@@ -1432,9 +1430,8 @@ public class SearchUtil {
 
     /**
      * Builds and returns a collection of InclusionParameter objects representing
-     * occurrences the _revinclude search
-     * result parameter in the query string.
-     *
+     * occurrences the _revinclude search result parameter in the query string.
+     * 
      * @throws FHIRSearchException
      */
     private static InclusionParameter buildRevIncludeParameter(Class<?> resourceType, String joinResourceType,
@@ -1462,7 +1459,7 @@ public class SearchUtil {
     /**
      * Verifies that the passed searchParameterTargetType is a valid target type for
      * the passed searchParm
-     *
+     * 
      * @param searchParameterTargetType
      * @param searchParm
      * @return
@@ -1486,7 +1483,7 @@ public class SearchUtil {
      * represent the values for _elements. Those Strings are included in the
      * elementsParameters collection contained in
      * the passed FHIRSearchContext.
-     *
+     * 
      * @param lenient
      *                Whether to ignore unknown or unsupported elements
      * @throws Exception
@@ -1520,7 +1517,7 @@ public class SearchUtil {
 
     /**
      * Build the self link from the search parameters actually used by the server
-     *
+     * 
      * @throws URISyntaxException
      * @see https://hl7.org/fhir/r4/search.html#conformance
      */
@@ -1539,7 +1536,7 @@ public class SearchUtil {
      * only top-level mandatory elements.
      * The id, meta and the top-level mandatory elements will be added by the
      * ElementFilter automatically.
-     *
+     * 
      * @param resourceType
      * @return
      */

@@ -17,8 +17,8 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * This class defines a reusable method structure and common functionality for a FHIR peristence query builder.
@@ -83,7 +83,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object representing the selector query segment for the passed search parm.
      * @throws Exception 
      */
-    protected T1 buildQueryParm(Class<?> resourceType, Parameter queryParm) 
+    protected T1 buildQueryParm(Class<?> resourceType, QueryParameter queryParm) 
             throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -137,7 +137,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @param queryParm - A valid query Parameter.
      * @return T2 - A supported operator.
      */
-    protected abstract T2 getOperator(Parameter queryParm);
+    protected abstract T2 getOperator(QueryParameter queryParm);
     
     /**
      * Map the Modifier in the passed Parameter to a supported query operator. 
@@ -147,21 +147,21 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @param defaultOverride - An operator that should override the default operator.
      * @return T2 - A supported operator.
      */
-    protected abstract T2 getOperator(Parameter queryParm, T2 defaultOverride);
+    protected abstract T2 getOperator(QueryParameter queryParm, T2 defaultOverride);
         
     /**
      * Map the Prefix in the passed ParameterValue to a supported query operator.
      * @param queryParmValue - A valid query ParameterValue.
      * @return T2 - A supported operator.
      */
-    protected abstract T2 getPrefixOperator(ParameterValue queryParmValue);
+    protected abstract T2 getPrefixOperator(QueryParameterValue queryParmValue);
     
     /**
      * Creates a query segment for a String type parameter.
      * @param queryParm - The query parameter. 
      * @return T1 - An object containing query segment. 
      */
-    protected abstract T1 processStringParm(Parameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processStringParm(QueryParameter queryParm) throws FHIRPersistenceException;
     
     /**
      * Creates a query segment for a Reference type parameter.
@@ -169,7 +169,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws Exception 
      */
-    protected abstract T1 processReferenceParm(Class<?> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processReferenceParm(Class<?> resourceType, QueryParameter queryParm) throws Exception;
     
     /**
      * Contains special logic for handling chained reference search parameters.
@@ -178,7 +178,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing a query segment. 
      * @throws FHIRPersistenceException
      */
-    protected abstract T1 processChainedReferenceParm(Parameter queryParm) throws Exception;
+    protected abstract T1 processChainedReferenceParm(QueryParameter queryParm) throws Exception;
     
     /**
      * Contains special logic for handling Compartment based searches.
@@ -187,7 +187,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing a query segment. 
      * @throws FHIRPersistenceException
      */
-    protected abstract T1 processInclusionCriteria(Parameter queryParm) throws Exception;
+    protected abstract T1 processInclusionCriteria(QueryParameter queryParm) throws Exception;
     
     /**
      * Creates a query segment for a Date type parameter.
@@ -195,14 +195,14 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws Exception 
      */
-    protected abstract T1 processDateParm(Class<?> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processDateParm(Class<?> resourceType, QueryParameter queryParm) throws Exception;
     
     /**
      * Creates a query segment for a Token type parameter.
      * @param queryParm - The query parameter. 
      * @return T1 - An object containing query segment. 
      */
-    protected abstract T1 processTokenParm(Parameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processTokenParm(QueryParameter queryParm) throws FHIRPersistenceException;
     
     /**
      * Creates a query segment for a Number type parameter.
@@ -210,7 +210,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws FHIRPersistenceException 
      */
-    protected abstract T1 processNumberParm(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processNumberParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
     
     /**
      * Creates a query segment for a Quantity type parameter.
@@ -218,7 +218,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws Exception 
      */
-    protected abstract T1 processQuantityParm(Class<?> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processQuantityParm(Class<?> resourceType, QueryParameter queryParm) throws Exception;
     
     /**
      * Creates a query segment for a URI type parameter.
@@ -226,18 +226,18 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws FHIRPersistenceException 
      */
-    protected T1 processUriParm(Parameter queryParm) throws FHIRPersistenceException {
+    protected T1 processUriParm(QueryParameter queryParm) throws FHIRPersistenceException {
         final String METHODNAME = "processUriParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
         
         T1 parmRoot;
-        Parameter myQueryParm;
+        QueryParameter myQueryParm;
                 
         myQueryParm = queryParm;
         Modifier queryParmModifier = queryParm.getModifier();
         // A BELOW modifier has the same behavior as a "starts with" String search parm. 
         if (queryParmModifier != null && queryParmModifier.equals(Modifier.BELOW)) {
-             myQueryParm = new Parameter(queryParm.getType(), queryParm.getCode(), null,
+             myQueryParm = new QueryParameter(queryParm.getType(), queryParm.getCode(), null,
                                  queryParm.getModifierResourceTypeName(), queryParm.getValues());
         }
         parmRoot = this.processStringParm(myQueryParm);
@@ -252,7 +252,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - A query segment related to a LocationPosition
      * @throws FHIRPersistenceException 
      */
-    protected T1 processLocationPosition(List<Parameter> queryParameters) throws FHIRPersistenceException {
+    protected T1 processLocationPosition(List<QueryParameter> queryParameters) throws FHIRPersistenceException {
         final String METHODNAME = "processLocationPosition";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -261,16 +261,16 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
         double distance = DEFAULT_DISTANCE;
         String unit = DEFAULT_UNIT;
         BoundingBox boundingBox;
-        Parameter queryParm;
+        QueryParameter queryParm;
         boolean nearFound = false;
         T1 parmRoot = null;
         
         // We are only interested in the near and near-distance parameters.
         // Extract the following data elements: latitude, longitude, distance, distance unit
-        Iterator<Parameter> queryParms = queryParameters.iterator();
+        Iterator<QueryParameter> queryParms = queryParameters.iterator();
         while (queryParms.hasNext()) {
                queryParm = queryParms.next();
-            for (ParameterValue value : queryParm.getValues()) {
+            for (QueryParameterValue value : queryParm.getValues()) {
                 if (queryParm.getCode().equals(NEAR)) {
                     if (value.getValueSystem() != null) {
                         latitude = Double.parseDouble(value.getValueSystem());

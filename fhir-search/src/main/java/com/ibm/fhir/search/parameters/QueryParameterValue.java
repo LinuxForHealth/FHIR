@@ -15,7 +15,7 @@ import com.ibm.fhir.search.SearchConstants.Prefix;
 /**
  * Refactored the code to more consistently apply the output patterns.<br/>
  */
-public class ParameterValue {
+public class QueryParameterValue {
 
     private Prefix prefix = null;
 
@@ -31,7 +31,7 @@ public class ParameterValue {
     // The delimiter starts off as EMPTY and goes to SearchConstants.PARAMETER_DELIMETER
     private String delim = "";
 
-    public ParameterValue() {
+    public QueryParameterValue() {
         // No Operation
     }
 
@@ -39,7 +39,7 @@ public class ParameterValue {
         this.prefix = prefix;
     }
 
-    public ParameterValue withPrefix(Prefix prefix) {
+    public QueryParameterValue withPrefix(Prefix prefix) {
         setPrefix(prefix);
         return this;
     }

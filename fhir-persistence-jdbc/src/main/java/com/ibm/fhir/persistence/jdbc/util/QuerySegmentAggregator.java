@@ -21,7 +21,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
  * This class assists the JDBCQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
@@ -59,10 +59,10 @@ class QuerySegmentAggregator {
      * and should be added to/removed together. 
      */
     protected List<SqlQueryData> querySegments;
-    protected List<Parameter> searchQueryParameters;
+    protected List<QueryParameter> searchQueryParameters;
     
     // used for special treatment of _id
-    protected Parameter queryParamId = null;
+    protected QueryParameter queryParamId = null;
     
     private int offset;
     private int pageSize;
@@ -97,7 +97,7 @@ class QuerySegmentAggregator {
      * @param querySegment A piece of a SQL WHERE clause 
      * @param queryParm - The corresponding query parameter
      */
-    protected void addQueryData(SqlQueryData querySegment,Parameter queryParm) {
+    protected void addQueryData(SqlQueryData querySegment,QueryParameter queryParm) {
         final String METHODNAME = "addQueryData";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -343,7 +343,7 @@ class QuerySegmentAggregator {
         if (!this.querySegments.isEmpty()) {
             for (int i = 0; i < this.querySegments.size(); i++) {
                 SqlQueryData querySegment = this.querySegments.get(i);
-                Parameter param = this.searchQueryParameters.get(i);
+                QueryParameter param = this.searchQueryParameters.get(i);
 
                 // Being bold here... this part should NEVER get a NPE. 
                 // The parameter would not be parsed and passed successfully,

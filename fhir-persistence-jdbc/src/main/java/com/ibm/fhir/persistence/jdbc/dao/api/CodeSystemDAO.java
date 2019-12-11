@@ -17,9 +17,9 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 public interface CodeSystemDAO {
     
     /**
-     * Reads all rows in the Parameter_Names table and returns the data as a Map
+     * Reads all rows in the code_systems table and returns the data as a Map
      * 
-     * @return A map containing key=parameter-name, value=parameter-name-id
+     * @return A map containing key=system-name, value=system-id
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */

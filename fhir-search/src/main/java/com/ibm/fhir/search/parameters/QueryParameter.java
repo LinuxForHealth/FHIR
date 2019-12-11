@@ -20,18 +20,18 @@ import com.ibm.fhir.search.SearchConstants.Type;
 /**
  * general type of parameter. 
  */
-public class Parameter {
+public class QueryParameter {
 
     private Type type = null;
     private String code = null;
 
     private Modifier modifier = null;
     private String modifierResourceTypeName = null;
-    private List<ParameterValue> values = null;
-    private Parameter nextParameter = null;
+    private List<QueryParameterValue> values = null;
+    private QueryParameter nextParameter = null;
     private boolean isInclusionCriteria = false;
 
-    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName) {
+    public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName) {
         this.type = type;
         this.code = code;
         this.modifier = modifier;
@@ -39,12 +39,12 @@ public class Parameter {
         values = new ArrayList<>();
     }
 
-    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria) {
+    public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria) {
         this(type, code, modifier, modifierResourceTypeName);
         this.isInclusionCriteria = isInclusionCriteria;
     }
 
-    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, List<ParameterValue> parmValues) {
+    public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, List<QueryParameterValue> parmValues) {
         this(type, code, modifier, modifierResourceTypeName);
         this.values = parmValues;
     }
@@ -65,7 +65,7 @@ public class Parameter {
         return modifierResourceTypeName;
     }
 
-    public List<ParameterValue> getValues() {
+    public List<QueryParameterValue> getValues() {
         return values;
     }
 
@@ -119,8 +119,8 @@ public class Parameter {
         buffer.append(inclusionCriteria);
         buffer.append(SearchConstants.NL);
 
-        List<ParameterValue> values = getValues();
-        for (ParameterValue value : values) {
+        List<QueryParameterValue> values = getValues();
+        for (QueryParameterValue value : values) {
             Prefix prefix = value.getPrefix();
             if (prefix != null) {
                 buffer.append("    prefix: ");
@@ -162,11 +162,11 @@ public class Parameter {
         return buffer.toString();
     }
 
-    public Parameter getNextParameter() {
+    public QueryParameter getNextParameter() {
         return nextParameter;
     }
 
-    public void setNextParameter(Parameter nextParameter) {
+    public void setNextParameter(QueryParameter nextParameter) {
         this.nextParameter = nextParameter;
     }
 
@@ -175,10 +175,10 @@ public class Parameter {
      * 
      * @return
      */
-    public LinkedList<Parameter> getChain() {
+    public LinkedList<QueryParameter> getChain() {
 
-        LinkedList<Parameter> parameterChain = new LinkedList<>();
-        Parameter currentParameter = this.getNextParameter();
+        LinkedList<QueryParameter> parameterChain = new LinkedList<>();
+        QueryParameter currentParameter = this.getNextParameter();
         while (currentParameter != null) {
             parameterChain.addLast(currentParameter);
             currentParameter = currentParameter.getNextParameter();

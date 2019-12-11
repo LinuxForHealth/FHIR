@@ -34,7 +34,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchExcept
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dto.IParameter;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -454,7 +454,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public Resource insert(Resource resource, List<IParameter> parameters, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
             final String METHODNAME = "insert(Resource, List<Parameter>";
             log.entering(CLASSNAME, METHODNAME);
@@ -484,7 +484,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDb2(Resource resource, List<IParameter> parameters, ParameterDAO parameterDao)
+    private Resource insertToDb2(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
                     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDb2";
         log.entering(CLASSNAME, METHODNAME);
@@ -541,7 +541,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (parameters != null) {
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true, resource.getId(), 100,
                     new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
-                    for (IParameter p: parameters) {
+                    for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }
                 }
@@ -587,7 +587,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDerby(Resource resource, List<IParameter> parameters, ParameterDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+    private Resource insertToDerby(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDerby";
         log.entering(CLASSNAME, METHODNAME);
 

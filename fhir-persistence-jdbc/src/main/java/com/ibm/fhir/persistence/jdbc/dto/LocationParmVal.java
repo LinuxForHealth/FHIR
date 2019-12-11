@@ -7,29 +7,22 @@
 package com.ibm.fhir.persistence.jdbc.dto;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.search.SearchConstants.Type;
 
-public class ReferenceParameter implements IParameter {
+/**
+ * This class defines the Data Transfer Object representing a row in the X_LATLNG_VALUES tables.
+ */
+public class LocationParmVal implements ExtractedParameterValue {
     
-    private long id;
-    private long resourceId;
     private String resourceType;
     private String name;
-    private String valueString;
+    private Double valueLongitude;
+    private Double valueLatitude;
     
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
-
-    public ReferenceParameter() {
+    
+    public LocationParmVal() {
         super();
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public void setName(String name) {
@@ -40,14 +33,21 @@ public class ReferenceParameter implements IParameter {
         return name;
     }
 
-    public String getValueString() {
-        return valueString;
+    public Double getValueLongitude() {
+        return valueLongitude;
     }
 
-    public void setValueString(String valueString) {
-        this.valueString = valueString;
+    public void setValueLongitude(Double valueLongitude) {
+        this.valueLongitude = valueLongitude;
     }
 
+    public Double getValueLatitude() {
+        return valueLatitude;
+    }
+
+    public void setValueLatitude(Double valueLatitude) {
+        this.valueLatitude = valueLatitude;
+    }
 
     public String getResourceType() {
         return resourceType;
@@ -57,23 +57,11 @@ public class ReferenceParameter implements IParameter {
         this.resourceType = resourceType;
     }
 
-    public long getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(long resourceId) {
-        this.resourceId = resourceId;
-    }
-
-    public Type getType() {
-        return Type.REFERENCE;
-    }
-
     /**
      * We know our type, so we can call the correct method on the visitor
      */
-    public void accept(IParameterVisitor visitor) throws FHIRPersistenceException {
-//        visitor.visit(this);
+    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
+        visitor.visit(this);
     }
 
     /**
