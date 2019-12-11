@@ -123,7 +123,7 @@ public final class UOMManager {
     }
 
     private static double calculateImperial(double factor) {
-        return factor / 1000;
+        return factor;
     }
 
     private static double calculateMetric(double factor) {
@@ -131,7 +131,7 @@ public final class UOMManager {
     }
     
     private static double calculateStatute(double factor) {
-        return factor * .3048 / 1000;
+        return factor * .3048;
     }
 
     /**

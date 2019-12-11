@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.search.location.bounding;
 
+/**
+ * Bounding Type
+ */
 public enum BoundingType {
     BOX, 
     RADIUS

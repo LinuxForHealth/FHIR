@@ -7,26 +7,38 @@
 package com.ibm.fhir.search.location;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SearchConstants.Prefix;
+import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
+import com.ibm.fhir.search.location.bounding.BoundingRadius;
 import com.ibm.fhir.search.location.uom.UOMManager;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.ParameterValue;
 
-/** 
- * 
- * 
+/**
+ * <a href="https://www.hl7.org/fhir/r4/location.html#search"> FHIR Search:
+ * Special Location - Positional Searching</a>
+ * <br>
+ * Custom processing of the NEAR Location into Bounding Boxes or Bounding
+ * Radius.
  */
 public class NearLocationHandler {
     private static final String CLASSNAME = NearLocationHandler.class.getName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
-    public static final double EARTH_RADIUS_KILOMETERS = 6371.0; // earth radius in kilometers
+    // Radix for the Earth: 
+    private static final double RADIUS_MERIDIAN = 6378.137;
+    private static final double RADIUS_EQUATORIAL = 6356.7523;
 
     // Constants used in token (data type LocationPosition) searches
     public static final String LATITUDE = "-latitude";
@@ -35,52 +47,101 @@ public class NearLocationHandler {
     public static final double DEFAULT_DISTANCE = 5.0;
     public static final String DEFAULT_UNIT = "km";
 
+    // Turns on the use of the bounding raidus, if it's configured. 
+    boolean boundingRadius = false;
+
     public NearLocationHandler() {
-        // No Operation
+        try {
+            PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+            fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE,
+                    false);
+        } catch (Exception e) {
+            logger.fine("Issue loading the fhir configuration, defaulting to BoundingBox");
+        }
     }
 
     /**
-     * Method to build a bounding box given a latitude, longitude and distance
+     * degrees to radians
+     * 
+     * @param deg
+     * @return
+     */
+    public double degree2radians(double deg) {
+        return Math.PI * deg / 180.0;
+    }
+
+    /**
+     * radians to degrees
+     * 
+     * @param rad
+     * @return
+     */
+    public double radians2degrees(double rad) {
+        return 180.0 * rad / Math.PI;
+    }
+
+    /**
+     * build a bounding box given a latitude, longitude and distance.
+     * <br>
+     * WGS84 format
+     * [latitude]|[longitude]|[distance]|[units]
+     * <br>
      * 
      * @param latitude
      * @param longitude
      * @param distance
      * @param unit
      * @return
+     * @throws FHIRSearchException
      */
-    public BoundingBox createBoundingBox(double latitude, double longitude, double distance, String unit) {
+    public BoundingBox createBoundingBox(double latitude, double longitude, double distance, String unit)
+            throws FHIRSearchException {
         logger.entering(NearLocationHandler.class.getName(), "createBoundingBox");
 
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(
-                    "distance   :" + distance + ":unit:" + unit + ":latitude :" + latitude + ":longitude:" + longitude);
+                    "distance:[" + distance + "] unit:[" + unit + "] latitude:[" + latitude + "] longitude:["
+                            + longitude + "]");
         }
         try {
             Double convertedDistance = UOMManager.convertUnitsToKiloMeters(unit, distance);
             if (convertedDistance == null) {
-                throw new IllegalArgumentException(
+                throw new FHIRSearchException(
                         "Invalid unit: '" + unit + "'. Must a UOM length.");
             }
 
-            // Since we're centering the box, we divide in half.
-            double box = distance / 2;
+            // Initially set to zero, until we determine the distance is greater than 0.
+            double minLatitude = latitude;
+            double maxLatitude = latitude;
+            double minLongitude = longitude;
+            double maxLongitude = longitude;
 
-            // build bounding box points
-            // The max/min ensures we don't loop infinitely over the pole, and are not taking silly. 
-            // latitude parameters when calculated with the distance.
+            // If distance is not zero, we're going for boxed match. 
+            if (distance != 0) {
+                // Convert to Radians to do the ARC calculation
+                // Based on https://stackoverflow.com/a/238558/1873438
+                // Verified at https://www.movable-type.co.uk/scripts/latlong.html
+                double latRad = degree2radians(latitude);
+                double lonRad = degree2radians(longitude);
 
-            double minLatitude = Math.max(-90.0, latitude - (box / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI));
-            double maxLatitude = Math.min(90.0, latitude + (box / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI));
-            double minLongitude =
-                    longitude - ((box / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI))
-                            / Math.cos(latitude * (180.0 / Math.PI));
-            double maxLongitude =
-                    longitude + ((box / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI))
-                            / Math.cos(latitude * (180.0 / Math.PI));
+                // build bounding box points
+                // The max/min ensures we don't loop infinitely over the pole, and are not taking silly. 
+                // latitude parameters when calculated with the distance.
+                double latMin = latRad - distance / RADIUS_EQUATORIAL;
+                double latMax = latRad + distance / RADIUS_EQUATORIAL;
+                double lonMin = lonRad - distance / (RADIUS_MERIDIAN * Math.cos(latRad));
+                double lonMax = lonRad + distance / (RADIUS_MERIDIAN * Math.cos(latRad));
+
+                // Convert back to degrees, and minimize the box. 
+                minLatitude  = Math.max(-90, radians2degrees(latMin));
+                maxLatitude  = Math.min(90, radians2degrees(latMax));
+                minLongitude = Math.max(-180, radians2degrees(lonMin));
+                maxLongitude = Math.min(180, radians2degrees(lonMax));
+            }
 
             BoundingBox boundingBox =
-                    BoundingBox.builder().minLatitude(-89.0).maxLatitude(89.0).minLongitude(-179.0)
-                            .maxLongitude(179.0).build();
+                    BoundingBox.builder().minLatitude(minLatitude).maxLatitude(maxLatitude).minLongitude(minLongitude)
+                            .maxLongitude(maxLongitude).build();
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("distance: [" + convertedDistance + "] km, original unit: [" + unit + "]");
@@ -98,34 +159,111 @@ public class NearLocationHandler {
      * 
      * @param queryParameters
      * @return
+     * @throws FHIRSearchException
      */
-    public List<Bounding> generateLocationPositionsFromParameters(List<Parameter> queryParameters) {
-        List<Bounding> boundingBoxes = new ArrayList<>();
+    public List<Bounding> generateLocationPositionsFromParameters(List<Parameter> queryParameters)
+            throws FHIRSearchException {
+        List<Bounding> boundingAreas = new ArrayList<>();
         // We are only interested in the near and near-distance parameters.
         // Extract the following data elements: latitude, longitude, distance, distance unit
-        Iterator<Parameter> queryParms = queryParameters.iterator();
-        while (queryParms.hasNext()) {
-            Parameter queryParm = queryParms.next();
+        for (Parameter queryParm : queryParameters.stream().collect(Collectors.toList())) {
             for (ParameterValue value : queryParm.getValues()) {
                 if (NEAR.equals(queryParm.getCode())) {
-                    double latitude = 0.0;
-                    double longitude = 0.0;
+
+                    // Make sure that the prefixes are properly defined. 
+                    Prefix prefix = value.getPrefix();
+                    if (prefix != null && Prefix.EQ.compareTo(prefix) != 0) {
+                        throw new FHIRSearchException("Only prefixes allowed for near search are [default/empty, EQ].");
+                    }
+
+                    double latitude;
+                    double longitude;
                     double distance = DEFAULT_DISTANCE;
                     String unit = DEFAULT_UNIT;
-                    
-                    // -83.694810|42.256500|11.20|km
-                    if (value.getValueSystem() != null) {
-                        latitude = Double.parseDouble(value.getValueSystem());
+
+                    try {
+                        // [latitude]|[longitude]|[distance]|[units]
+                        // -83.694810|42.256500|11.20|km
+                        String[] components =
+                                value.getValueString().split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
+
+                        // If less than 2, it's going to generate an NPE (caught in the outer exception). 
+                        latitude  = Double.parseDouble(components[0]);
+                        longitude = Double.parseDouble(components[1]);
+
+                        // Distance is included
+                        if (components.length >= 3) {
+                            distance = Double.parseDouble(components[2]);
+                        }
+
+                        // The user has set the units value. 
+                        if (components.length >= 3) {
+                            unit = components[3];
+                        }
+                    } catch (NumberFormatException | NullPointerException e) {
+                        throw SearchExceptionUtil
+                                .buildNewInvalidSearchException("Invalid parameters for the 'near' search");
                     }
-                    if (value.getValueCode() != null) {
-                        longitude = Double.parseDouble(value.getValueCode());
+
+                    // Switch between the types bounding radius and boxes. 
+                    if (boundingRadius) {
+                        boundingAreas.add(createBoundingRadius(latitude, longitude, distance, unit));
+                    } else {
+                        boundingAreas.add(createBoundingBox(latitude, longitude, distance, unit));
                     }
-                    
-                    System.out.println(createBoundingBox(latitude, longitude, distance, unit));
-                    boundingBoxes.add(createBoundingBox(latitude, longitude, distance, unit));
+
                 }
             }
         }
-        return boundingBoxes;
+        return boundingAreas;
+    }
+
+    /**
+     * create bounding radius.
+     * 
+     * @param latitude
+     * @param longitude
+     * @param distance
+     * @param unit
+     * @return
+     * @throws FHIRSearchException
+     */
+    public Bounding createBoundingRadius(double latitude, double longitude, double distance, String unit)
+            throws FHIRSearchException {
+        logger.entering(NearLocationHandler.class.getName(), "createBoundingRadius");
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(
+                    "distance:[" + distance + "] unit:[" + unit + "] latitude:[" + latitude + "] longitude:["
+                            + longitude + "]");
+        }
+        try {
+            Double convertedDistance = UOMManager.convertUnitsToKiloMeters(unit, distance);
+            if (convertedDistance == null) {
+                throw new FHIRSearchException(
+                        "Invalid unit: '" + unit + "'. Must a UOM length.");
+            }
+
+            BoundingRadius boundingRadiusObj =
+                    BoundingRadius.builder().latitude(latitude).longitude(longitude).radius(convertedDistance)
+                            .build();
+
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("distance: [" + convertedDistance + "] km, original unit: [" + unit + "]");
+                logger.fine("bounding radius: [" + boundingRadiusObj + "]");
+            }
+
+            return boundingRadiusObj;
+        } finally {
+            logger.exiting(NearLocationHandler.class.getName(), "createBoundingRadius");
+        }
+    }
+
+    /**
+     * overrides the bounding functionality. 
+     * @param boundingRadius
+     */
+    public void setBounding(boolean boundingRadius) {
+        this.boundingRadius = boundingRadius;
     }
 }

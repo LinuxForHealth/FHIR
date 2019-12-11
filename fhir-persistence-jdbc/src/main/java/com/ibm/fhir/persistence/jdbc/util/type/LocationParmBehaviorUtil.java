@@ -89,24 +89,28 @@ public class LocationParmBehaviorUtil {
         // to the persisted longitude and latitude parameters.
         whereClauseSegment
                 .append(JDBCConstants.SPACE)
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.LTE.value())
+                // LAT <= ? --- LAT >= MIN_LAT
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.GTE.value())
                 .append(BIND_VAR)
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.GTE.value())
-                .append(BIND_VAR)
+                // LAT <= ? --- LAT <= MAX_LAT
                 .append(JDBCOperator.AND.value())
                 .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.LTE.value())
                 .append(BIND_VAR)
+                // LON <= ? --- LON >= MIN_LON
                 .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(BIND_VAR)
+                // LON <= ? --- LON <= MAX_LON
+                .append(JDBCOperator.AND.value())
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.LTE.value())
                 .append(BIND_VAR)
                 .append(RIGHT_PAREN);
 
         // The following order is important. 
-        bindVariables.add(boundingBox.getMaxLongitude());
-        bindVariables.add(boundingBox.getMinLongitude());
-        bindVariables.add(boundingBox.getMaxLatitude());
         bindVariables.add(boundingBox.getMinLatitude());
+        bindVariables.add(boundingBox.getMaxLatitude());
+        bindVariables.add(boundingBox.getMinLongitude());
+        bindVariables.add(boundingBox.getMaxLongitude());
     }
 
     /**

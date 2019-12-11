@@ -784,6 +784,21 @@ public class SearchUtil {
                 parameterValue.setValueString(unescapeSearchParm(v));
                 break;
             }
+            case SPECIAL: {
+                // Just in case any instance of SPECIAL supports prefix. 
+                prefix = getPrefix(v);
+                if (prefix != null) {
+                    v = v.substring(2);
+                    parameterValue.setPrefix(prefix);
+                }
+                
+                // One specific instance of SPECIAL is 'near'
+                //[parameter]=[latitude]|[longitude]|[distance]|[units] 
+                // As there may be more in the future, we're leaving the parameter as a String
+                // so the custom downstream logic can treat appropriately. 
+                parameterValue.setValueString(unescapeSearchParm(v));
+                break;
+            }
             default:
                 break;
             }

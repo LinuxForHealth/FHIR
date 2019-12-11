@@ -15,6 +15,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.util.LocationUtil;
@@ -277,7 +278,12 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
         log.entering(CLASSNAME, METHODNAME);
 
         NearLocationHandler handler = new NearLocationHandler();
-        List<Bounding> boundingAreas = handler.generateLocationPositionsFromParameters(queryParameters);
+        List<Bounding> boundingAreas;
+        try {
+            boundingAreas = handler.generateLocationPositionsFromParameters(queryParameters);
+        } catch (FHIRSearchException e) {
+            throw new FHIRPersistenceException("input parameter is invalid bounding area, bad prefix, or bad units", e);
+        }
 
         T1 parmRoot = null;
         if (!boundingAreas.isEmpty()) {

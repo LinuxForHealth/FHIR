@@ -20,12 +20,12 @@ public class UOMManagerTest {
 
     @Test
     public void testLocationUnitFoundUS() {
-        assertEquals(UOMManager.getUnitToMetersFactor("mi_us"), 1.609344);
+        assertEquals(UOMManager.getUnitToMetersFactor("mi_us"), 1609.344);
     }
     
     @Test
     public void testLocationUnitFoundBR() {
-        assertEquals(UOMManager.getUnitToMetersFactor("mi_br"), 1.6093427328000003);
+        assertEquals(UOMManager.getUnitToMetersFactor("mi_br"), 1609.3427328000002);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class UOMManagerTest {
     }
 
     @Test
-    public void testLocationUnitFoundMetric() {
+    public void testLocations() {
         assertEquals(UOMManager.getUnitToMetersFactor("km"), 1000.0);
     }
 
