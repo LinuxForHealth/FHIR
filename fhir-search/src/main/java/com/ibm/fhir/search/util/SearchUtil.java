@@ -662,11 +662,11 @@ public class SearchUtil {
                     }
                 } else {
                     // Parse name into parameter name and modifier (if present).
-                    String parameterName = name;
+                    String parameterCode = name;
                     String mod = null;
-                    if (parameterName.contains(":")) {
-                        mod           = parameterName.substring(parameterName.indexOf(":") + 1);
-                        parameterName = parameterName.substring(0, parameterName.indexOf(":"));
+                    if (parameterCode.contains(":")) {
+                        mod           = parameterCode.substring(parameterCode.indexOf(":") + 1);
+                        parameterCode = parameterCode.substring(0, parameterCode.indexOf(":"));
                     }
                     
                     SearchParameter searchParameter = null;
@@ -676,20 +676,20 @@ public class SearchUtil {
                           Map<String, SearchParameter> resTypeSPs = getApplicableSearchParametersMap(resType);
   
                           // Get the search parameter from our filtered set of applicable SPs for this resource type.
-                          searchParameter = resTypeSPs.get(parameterName);
+                          searchParameter = resTypeSPs.get(parameterCode);
                           if (searchParameter == null) {
                               String msg =
-                                      "Search parameter '" + parameterName + "' for resource type '"
+                                      "Search parameter '" + parameterCode + "' for resource type '"
                                               + resType + "' was not found.";
                               throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                           }
                       }
                     } else {
                         // Get the search parameter from our filtered set of applicable SPs for this resource type.
-                        searchParameter = applicableSPs.get(parameterName);
+                        searchParameter = applicableSPs.get(parameterCode);
                         if (searchParameter == null) {
                             String msg =
-                                    "Search parameter '" + parameterName + "' for resource type '"
+                                    "Search parameter '" + parameterCode + "' for resource type '"
                                             + resourceType.getSimpleName() + "' was not found.";
                             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                         }
@@ -722,7 +722,7 @@ public class SearchUtil {
                     }
 
                     for (String queryParameterValueString : queryParameters.get(name)) {
-                        Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
+                        Parameter parameter = new Parameter(type, parameterCode, modifier, modifierResourceTypeName);
                         List<ParameterValue> queryParameterValues;
                         if (SearchConstants.Modifier.MISSING.equals(modifier)) {
                             // FHIR search considers booleans a special case of token for some reason...
