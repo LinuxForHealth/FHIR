@@ -118,7 +118,7 @@ public class LocationParmBehaviorUtilTest {
         expectedBindVariables.add(-10.0);
 
         String expectedSql =
-                " pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ?)";
+                " pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?)";
 
         BoundingBox boundingBox =
                 BoundingBox.builder().maxLatitude(10.0).minLatitude(-10.0).maxLongitude(20.0).minLongitude(-20.0)
@@ -166,11 +166,11 @@ public class LocationParmBehaviorUtilTest {
         expectedBindVariables.add(new Double(11.0));
         expectedBindVariables.add(new Double(-10.0));
 
-        String expectedSql = " AND "
-                + "( pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? "
-                +   "AND ACOS(SIN(?) * SIN(pX.LATITUDE_VALUE) + COS(?) * COS(pX.LATITUDE_VALUE) * COS(pX.LONGITUDE_VALUE))<= ?)"
-                + " OR "
-                + "( pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ?))";
+        String expectedSql =
+                " AND "
+                + "( pX.LATITUDE_VALUE <= ? AND pX.LATITUDE_VALUE >= ? "
+                + "AND pX.LONGITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? "
+                + "AND ACOS(SIN(?) * SIN(pX.LATITUDE_VALUE) + COS(?) * COS(pX.LATITUDE_VALUE) * COS(pX.LONGITUDE_VALUE))<= ?) OR ( pX.LATITUDE_VALUE >= ? AND pX.LATITUDE_VALUE <= ? AND pX.LONGITUDE_VALUE >= ? AND pX.LONGITUDE_VALUE <= ?))";
 
         runTestBoundingList(expectedBindVariables, expectedSql, boundingAreas);
     }
