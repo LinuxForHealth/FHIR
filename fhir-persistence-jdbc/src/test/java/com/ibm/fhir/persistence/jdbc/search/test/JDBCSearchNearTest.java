@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.search.test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
@@ -137,7 +138,7 @@ public class JDBCSearchNearTest {
     public void testSearchPositionSearchExactLargeRangeMatch() throws Exception {
         // Should match the loaded resource with a real range
         String searchParamCode = "near";
-        String queryValue = "42.25475478|0|10.0|km";
+        String queryValue = "42.25475478|0|10000.0|km";
 
         MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
@@ -149,11 +150,11 @@ public class JDBCSearchNearTest {
     public void testSearchPositionSearchExactMatchWithinSmallRange() throws Exception {
         // Should match the loaded resource
         String searchParamCode = "near";
-        String queryValue = "-83.0|42.0|500.0|km";
+        String queryValue = "42.0|-83.0|500.0|km";
 
         MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertFalse(result.getResource().size() == 0);
+        assertNotEquals(result.getResource().size(), 0);
         assertNull(result.getOutcome());
     }
 
@@ -188,18 +189,18 @@ public class JDBCSearchNearTest {
 
         MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertNotEquals(result.getResource().size(), 0);
     }
 
     @Test
     public void testSearchPositionSearchExactMatch() throws Exception {
         // Should match the loaded resource
         String searchParamCode = "near";
-        String queryValue = "-83.6945691|42.25475478|0.0|km";
+        String queryValue = "42.25475478|-83.6945691|0.0|km";
 
         MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertFalse(result.getResource().size() == 0);
+        assertNotEquals(result.getResource().size(), 0);
         assertNull(result.getOutcome());
     }
 
@@ -211,14 +212,14 @@ public class JDBCSearchNearTest {
 
         MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertEquals(result.getResource().size(), 0);
     }
 
     @Test
     public void testSearchPositionSearchExactMatchUnitMiles() throws Exception {
         // Should match the loaded resource
         String searchParamCode = "near";
-        String queryValue = "-83.6945691|42.25475478|0.0|mi_us";
+        String queryValue = "42.25475478|-83.6945691|0.0|mi_us";
 
         MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
@@ -285,7 +286,7 @@ public class JDBCSearchNearTest {
     public void testSearchPositionSearchExactMatchGoodPrefix() throws Exception {
         // Should match the loaded resource
         String searchParamCode = "near";
-        String queryValue = "eq-83.6945691|42.25475478|0.0|km";
+        String queryValue = "eq42.25475478|-83.6945691|0.0|km";
 
         MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
