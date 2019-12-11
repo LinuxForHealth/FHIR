@@ -337,17 +337,15 @@ public interface FHIRClient {
     FHIRResponse _search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
     
     /**
-     * Invokes the 'search-all' FHIR REST API operation.
+     * Invokes the 'search-all' FHIR REST API operation with HTTP POST.
      * @param parameters  an optional collection of request parameters for the 'search-all' operation;
      * may be specified as null if no parameters need to be passed to the 'search' operation;
-     * search parameters for this operation will go in the request body
+     * for Post, search parameters for this operation will go in the request body as FORM parameters
+     * for Get, search parameters for this operation will go in the request url as parameters
      * @return a FHIRResponse that contains the results of the 'search-all' operation
      * @throws Exception
-     */
-    FHIRResponse searchAllGet(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
-    
-    
-    FHIRResponse searchAllPost(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
+     */    
+    FHIRResponse searchAll(FHIRParameters parameters, boolean isPost, FHIRRequestHeader... headers) throws Exception;
     
     /**
      * Invokes the 'validate' FHIR REST API operation.

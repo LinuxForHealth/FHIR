@@ -112,11 +112,11 @@ public class UriBuilder {
     private void appendResourceTypesParameter() {
         if (context.getSearchResourceTypes() != null && !context.getSearchResourceTypes().isEmpty()) {
             queryString.append(SearchConstants.AND_CHAR);
-            queryString.append(SearchConstants.RESTYPE);
+            queryString.append(SearchConstants.RESOURCE_TYPE);
             queryString.append(SearchConstants.EQUALS_CHAR);
             String delim = SearchConstants.EMPTY_QUERY_STRING;
             for (String param : context.getSearchResourceTypes()) {
-                queryString.append(delim + param);
+                queryString.append(delim).append(param);
                 delim = SearchConstants.JOIN_STR;
             }
         }
@@ -224,10 +224,10 @@ public class UriBuilder {
                 process = param != null && param.isChained();
                 // A guard is added as the original code 'could' result in an NPE.
                 if (param != null) {
+                    returnString.append(SearchConstants.CHAINED_PARAMETER_CHARACTER);
                     if (param.isChained()) {
-                        returnString.append(SearchConstants.CHAINED_PARAMETER_CHARACTER).append(param.getCode());
+                        returnString.append(param.getCode());
                     } else {
-                        returnString.append(SearchConstants.CHAINED_PARAMETER_CHARACTER);
                         appendNormalParameter(param, returnString);
                     }
                 }

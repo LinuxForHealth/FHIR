@@ -604,9 +604,9 @@ public class SearchUtil {
                         "system search not supported with _include or _revinclude.");
             }
             
-            if (queryParameters.containsKey(SearchConstants.RESTYPE)) {
-                for (String ResTypes : queryParameters.get(SearchConstants.RESTYPE)) {
-                    List<String> tmpResourceTypes = Arrays.asList(ResTypes.split("\\s*,\\s*"));
+            if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
+                for (String resTypes : queryParameters.get(SearchConstants.RESOURCE_TYPE)) {
+                    List<String> tmpResourceTypes = Arrays.asList(resTypes.split("\\s*,\\s*"));
                     for (String resType : tmpResourceTypes) {
                         if (ModelSupport.isResourceType(resType)) {
                             resourceTypes.add(resType);
@@ -624,7 +624,7 @@ public class SearchUtil {
             } 
         }
         
-        queryParameters.remove(SearchConstants.RESTYPE);
+        queryParameters.remove(SearchConstants.RESOURCE_TYPE);
         
         Boolean isMultiResTypeSearch = Resource.class.equals(resourceType) && !resourceTypes.isEmpty();
         
@@ -752,7 +752,7 @@ public class SearchUtil {
                 throw SearchExceptionUtil.buildNewParseParameterException(name, e);
             }
         } // end for
-        
+
         context.setSearchParameters(parameters);
         return context;
     }
