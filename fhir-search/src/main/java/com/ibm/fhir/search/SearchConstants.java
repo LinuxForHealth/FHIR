@@ -154,7 +154,15 @@ public class SearchConstants {
      * Prefixes for Search parameters
      */
     public enum Prefix {
-        EQ("eq"), NE("ne"), GT("gt"), LT("lt"), GE("ge"), LE("le"), SA("sa"), EB("eb"), AP("ap");
+        EQ("eq"), 
+        NE("ne"), 
+        GT("gt"), 
+        LT("lt"), 
+        GE("ge"), 
+        LE("le"), 
+        SA("sa"), 
+        EB("eb"), 
+        AP("ap");
 
         private String value = null;
 
@@ -183,7 +191,14 @@ public class SearchConstants {
      *
      */
     public enum Type {
-        NUMBER("number"), DATE("date"), STRING("string"), TOKEN("token"), REFERENCE("reference"), QUANTITY("quantity"), URI("uri");
+        NUMBER("number"), 
+        DATE("date"), 
+        STRING("string"), 
+        TOKEN("token"), 
+        REFERENCE("reference"), 
+        QUANTITY("quantity"), 
+        URI("uri"), 
+        COMPOSITE("composite");
 
         private String value = null;
 

@@ -18,7 +18,14 @@ import java.util.logging.Logger;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
+import com.ibm.fhir.persistence.jdbc.dto.DateParameter;
+import com.ibm.fhir.persistence.jdbc.dto.IParameter;
 import com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor;
+import com.ibm.fhir.persistence.jdbc.dto.LocationParameter;
+import com.ibm.fhir.persistence.jdbc.dto.NumberParameter;
+import com.ibm.fhir.persistence.jdbc.dto.QuantityParameter;
+import com.ibm.fhir.persistence.jdbc.dto.StringParameter;
+import com.ibm.fhir.persistence.jdbc.dto.TokenParameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
@@ -152,7 +159,10 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void stringValue(String parameterName, String value, boolean isBase) throws FHIRPersistenceException {
+    public void visit(StringParameter param) throws FHIRPersistenceException {
+        String parameterName = param.getName();
+        String value = param.getValueString();
+        
         while (value != null && value.getBytes().length > FhirSchemaConstants.MAX_SEARCH_STRING_BYTES) {
             // keep chopping the string in half until its byte representation fits inside
             // the VARCHAR
@@ -161,14 +171,13 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         
         try {
             int parameterNameId = getParameterNameId(parameterName);
-            if (isBase) {
+            if (isBase(param)) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("baseStringValue: " + parameterName + "[" + parameterNameId + "], " + value);
                 }
                 
                 resourceStrings.setInt(1, parameterNameId);
                 if (value != null) {
-                    
                     resourceStrings.setString(2, value);
                     resourceStrings.setString(3, value.toLowerCase());
                 }
@@ -215,7 +224,12 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void numberValue(String parameterName, BigDecimal value, BigDecimal valueLow, BigDecimal valueHigh) throws FHIRPersistenceException {
+    public void visit(NumberParameter param) throws FHIRPersistenceException {
+        String parameterName = param.getName();
+        BigDecimal value = param.getValueNumber();
+        BigDecimal valueLow = param.getValueNumberLow();
+        BigDecimal valueHigh = param.getValueNumberHigh();
+        
         try {
             int parameterNameId = getParameterNameId(parameterName);
             
@@ -235,16 +249,20 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
             }
         }
         catch (SQLException x) {
-            throw new FHIRPersistenceDataAccessException(parameterName + "={" + value + "}", x);
+            throw new FHIRPersistenceDataAccessException(parameterName + "={" + value + " ["+ valueLow + "," + valueHigh + "}", x);
         }
     }
 
     @Override
-    public void dateValue(String parameterName, Timestamp date, Timestamp dateStart, Timestamp dateEnd, boolean isBase) throws FHIRPersistenceException {
+    public void visit(DateParameter param) throws FHIRPersistenceException {
+        String parameterName = param.getName();
+        Timestamp date = param.getValueDate();
+        Timestamp dateStart = param.getValueDateStart();
+        Timestamp dateEnd = param.getValueDateEnd();
         try {
             int parameterNameId = getParameterNameId(parameterName);
             
-            if (isBase) {
+            if (isBase(param)) {
                 // store in the base (resource) table
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("baseDateValue: " + parameterName + "[" + parameterNameId + "], " 
@@ -290,13 +308,15 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void tokenValue(String parameterName, String codeSystem, String tokenValue, boolean isBase) throws FHIRPersistenceException {
-        
+    public void visit(TokenParameter param) throws FHIRPersistenceException {
+        String parameterName = param.getName();
+        String codeSystem = param.getValueSystem();
+        String tokenValue = param.getValueCode();
         try {
             int parameterNameId = getParameterNameId(parameterName);
             int codeSystemId = getCodeSystemId(codeSystem);
             
-            if (isBase) {
+            if (isBase(param)) {
                 // store in the base (resource) table
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("baseTokenValue: " + parameterName + "[" + parameterNameId + "], " 
@@ -341,8 +361,14 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
 
     @Override
-    public void quantityValue(String parameterName, String code, String codeSystem, BigDecimal quantityValue, BigDecimal quantityLow, BigDecimal quantityHigh) throws FHIRPersistenceException {
-
+    public void visit(QuantityParameter param) throws FHIRPersistenceException {
+        String parameterName = param.getName();
+        String code = param.getValueCode();
+        String codeSystem = param.getValueSystem();
+        BigDecimal quantityValue = param.getValueNumber();
+        BigDecimal quantityLow = param.getValueNumberLow();
+        BigDecimal quantityHigh = param.getValueNumberHigh();
+        
         // XXX why no check for isBase on this one?
         
         // Skip anything with a null code
@@ -386,7 +412,11 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
     }
     
     @Override
-    public void locationValue(String parameterName, double lat, double lng) throws FHIRPersistenceException {
+    public void visit(LocationParameter param) throws FHIRPersistenceException {
+        String parameterName = param.getName();
+        double lat = param.getValueLatitude();
+        double lng = param.getValueLongitude();
+        
         try {
             locations.setInt(1, getParameterNameId(parameterName));
             locations.setDouble(2, lat);
@@ -488,5 +518,8 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
     }
 
+    private boolean isBase(IParameter param) {
+        return "Resource".equals(param.getBase());
+    }
 
 }

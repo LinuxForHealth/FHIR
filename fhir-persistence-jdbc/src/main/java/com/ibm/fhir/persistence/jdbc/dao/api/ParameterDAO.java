@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.fhir.persistence.jdbc.dto.IParameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -129,8 +129,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @return An SQL Array containing rows of parameter names and values.
      * @throws FHIRPersistenceException
      */
-    Array transformStringParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
-    
+    Array transformStringParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException;
     
     /**
      * Extracts Number type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
@@ -140,7 +139,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @return An SQL Array containing rows of parameter names and values.
      * @throws FHIRPersistenceException
      */
-    Array transformNumberParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
+    Array transformNumberParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException;
     
     /**
      * Extracts Date type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
@@ -150,7 +149,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @return An SQL Array containing rows of parameter names and values.
      * @throws FHIRPersistenceException
      */
-    Array transformDateParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
+    Array transformDateParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException;
     
     /**
      * Extracts Latitude/Longitude type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
@@ -160,7 +159,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @return An SQL Array containing rows of parameter names and values.
      * @throws FHIRPersistenceException
      */
-    Array transformLatLongParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
+    Array transformLatLongParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException;
     
     /**
      * Extracts Token type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
@@ -170,7 +169,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @return An SQL Array containing rows of parameter names and values.
      * @throws FHIRPersistenceException
      */
-    Array transformTokenParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
+    Array transformTokenParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException;
     
     /**
      * Extracts Quantity type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
@@ -180,7 +179,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @return An SQL Array containing rows of parameter names and values.
      * @throws FHIRPersistenceException
      */
-    Array transformQuantityParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
+    Array transformQuantityParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException;
     
     /**
      * Sets an externally managed DB connection, used by the DAO for all DB activity.

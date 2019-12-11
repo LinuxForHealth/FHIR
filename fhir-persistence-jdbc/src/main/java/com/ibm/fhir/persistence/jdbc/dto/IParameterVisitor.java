@@ -6,9 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
-import java.math.BigDecimal;
-import java.sql.SQLException;
-
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
@@ -18,59 +15,41 @@ public interface IParameterVisitor {
 
     /**
      * Process a string parameter value
-     * @param parameterName
-     * @param value
-     * @throws SQLException
      */
-    void stringValue(String parameterName, String value, boolean isBase) throws FHIRPersistenceException;
+    void visit(StringParameter stringParameter) throws FHIRPersistenceException;
+
+    /**
+     * Process a reference parameter value
+     */
+//    void visit(ReferenceParameter stringParameter) throws FHIRPersistenceException;
+
+    /**
+     * Process a uri parameter value
+     */
+//    void visit(UriParameter stringParameter) throws FHIRPersistenceException;
 
     /**
      * Process a number parameter value
-     * @param parameterName
-     * @param value
-     * @param valueLow
-     * @param valueHigh
-     * @throws SQLException
      */
-    void numberValue(String parameterName, BigDecimal value, BigDecimal valueLow, BigDecimal valueHigh) throws FHIRPersistenceException;
+    void visit(NumberParameter numberParameter) throws FHIRPersistenceException;
 
     /**
      * Process a date parameter value
-     * @param parameterName
-     * @param date
-     * @param dateStart
-     * @param dateEnd
-     * @throws SQLException
      */
-    void dateValue(String parameterName, java.sql.Timestamp date, java.sql.Timestamp dateStart, java.sql.Timestamp dateEnd, boolean isBase) throws FHIRPersistenceException;
+    void visit(DateParameter dateParameter) throws FHIRPersistenceException;
 
     /**
      * Process a token parameter value
-     * @param parameterName
-     * @param codeSystem
-     * @param tokenValue
-     * @throws SQLException
      */
-    void tokenValue(String parameterName, String codeSystem, String tokenValue, boolean isBase) throws FHIRPersistenceException;
+    void visit(TokenParameter tokenParameter) throws FHIRPersistenceException;
 
     /**
      * Process a quantity parameter value
-     * @param parameterName
-     * @param code
-     * @param codeSystem
-     * @param quantityValue
-     * @param quantityLow
-     * @param quantityHigh
-     * @throws SQLException
      */
-    void quantityValue(String parameterName, String code, String codeSystem, BigDecimal quantityValue, BigDecimal quantityLow, BigDecimal quantityHigh) throws FHIRPersistenceException;
+    void visit(QuantityParameter quantityParameter) throws FHIRPersistenceException;
 
     /**
      * Process a location parameter value
-     * @param parameterName
-     * @param lat
-     * @param lng
-     * @throws SQLException
      */
-    void locationValue(String parameterName, double lat, double lng) throws FHIRPersistenceException;
+    void visit(LocationParameter locationParameter) throws FHIRPersistenceException;
 }

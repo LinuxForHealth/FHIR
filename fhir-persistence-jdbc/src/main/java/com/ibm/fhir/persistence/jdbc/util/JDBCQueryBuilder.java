@@ -1364,7 +1364,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                         break;
                 case URI:       databaseQueryParm = this.processUriParm(queryParm, tableAlias);
                         break;
-                
+                case COMPOSITE: databaseQueryParm = this.processCompositeParm(queryParm, tableAlias);
+                        break;
                 default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
                 }
             }
@@ -1373,6 +1374,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
         }
         return databaseQueryParm;
+    }
+
+    /**
+     * @param queryParm
+     * @param tableAlias
+     * @return
+     */
+    private SqlQueryData processCompositeParm(Parameter queryParm, String tableAlias) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

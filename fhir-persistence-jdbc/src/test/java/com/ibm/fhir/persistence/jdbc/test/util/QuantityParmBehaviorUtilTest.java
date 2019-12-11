@@ -25,6 +25,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dto.IParameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
@@ -253,42 +254,42 @@ public class QuantityParmBehaviorUtilTest {
 
             @Override
             public Array transformStringParameters(Connection connection, String schemaName,
-                    List<com.ibm.fhir.persistence.jdbc.dto.Parameter> parameters)
+                    List<IParameter> parameters)
                     throws FHIRPersistenceException {
                 return null;
             }
 
             @Override
             public Array transformNumberParameters(Connection connection, String schemaName,
-                    List<com.ibm.fhir.persistence.jdbc.dto.Parameter> parameters)
+                    List<IParameter> parameters)
                     throws FHIRPersistenceException {
                 return null;
             }
 
             @Override
             public Array transformDateParameters(Connection connection, String schemaName,
-                    List<com.ibm.fhir.persistence.jdbc.dto.Parameter> parameters)
+                    List<IParameter> parameters)
                     throws FHIRPersistenceException {
                 return null;
             }
 
             @Override
             public Array transformLatLongParameters(Connection connection, String schemaName,
-                    List<com.ibm.fhir.persistence.jdbc.dto.Parameter> parameters)
+                    List<IParameter> parameters)
                     throws FHIRPersistenceException {
                 return null;
             }
 
             @Override
             public Array transformTokenParameters(Connection connection, String schemaName,
-                    List<com.ibm.fhir.persistence.jdbc.dto.Parameter> parameters)
+                    List<IParameter> parameters)
                     throws FHIRPersistenceException {
                 return null;
             }
 
             @Override
             public Array transformQuantityParameters(Connection connection, String schemaName,
-                    List<com.ibm.fhir.persistence.jdbc.dto.Parameter> parameters)
+                    List<IParameter> parameters)
                     throws FHIRPersistenceException {
 
                 return null;

@@ -23,7 +23,13 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.fhir.persistence.jdbc.dto.DateParameter;
+import com.ibm.fhir.persistence.jdbc.dto.IParameter;
+import com.ibm.fhir.persistence.jdbc.dto.LocationParameter;
+import com.ibm.fhir.persistence.jdbc.dto.NumberParameter;
+import com.ibm.fhir.persistence.jdbc.dto.QuantityParameter;
+import com.ibm.fhir.persistence.jdbc.dto.StringParameter;
+import com.ibm.fhir.persistence.jdbc.dto.TokenParameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
@@ -31,8 +37,6 @@ import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
-import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
-import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -307,7 +311,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     }
 
     @Override
-    public Array transformStringParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+    public Array transformStringParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
         final String METHODNAME = "transformStringParameters";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -319,11 +323,11 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_STR_VALUES").toString();
-            for (Parameter parameter : parameters) {
-                if (parameter.getType().equals(Type.STRING) || parameter.getType().equals(Type.REFERENCE) ||
-                    parameter.getType().equals(Type.URI)) {
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), parameter.getValueString(), 
-                                            SearchUtil.normalizeForSearch(parameter.getValueString())}; 
+            for (IParameter parameter : parameters) {
+                if (parameter instanceof StringParameter) {
+                    StringParameter stringParam = (StringParameter) parameter;
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), stringParam.getValueString(), 
+                                            SearchUtil.normalizeForSearch(stringParam.getValueString())}; 
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
                 }
             }
@@ -353,7 +357,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     }
     
     @Override
-    public Array transformNumberParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+    public Array transformNumberParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
         final String METHODNAME = "transformNumberParameters";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -365,10 +369,11 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_NUMBER_VALUES").toString();
-            for (Parameter parameter : parameters) {
-                if (parameter.getType().equals(Type.NUMBER)) {
+            for (IParameter parameter : parameters) {
+                if (parameter instanceof NumberParameter) {
+                    NumberParameter numberParam = (NumberParameter) parameter;
                     // TODO: we're forcing the BigDecimal into a DOUBLE and we're losing precision...DB schema should be updated to use DECIMAL
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), parameter.getValueNumber().doubleValue()};
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), numberParam.getValueNumber().doubleValue()};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
                 }
             }
@@ -397,7 +402,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     }
     
     @Override
-    public Array transformDateParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+    public Array transformDateParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
         final String METHODNAME = "transformDateParameters";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -409,10 +414,11 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_DATE_VALUES").toString();
-            for (Parameter parameter : parameters) {
-                if (parameter.getType().equals(Type.DATE)) {
-                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), parameter.getValueDate(), 
-                                            parameter.getValueDateStart(), parameter.getValueDateEnd()};
+            for (IParameter parameter : parameters) {
+                if (parameter instanceof DateParameter) {
+                    DateParameter dateParam = (DateParameter) parameter;
+                    rowData = new Object[] {this.acquireParameterNameId(parameter.getName()), dateParam.getValueDate(), 
+                            dateParam.getValueDateStart(), dateParam.getValueDateEnd()};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
                 }
             }
@@ -441,7 +447,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     }
     
     @Override
-    public Array transformLatLongParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+    public Array transformLatLongParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
         final String METHODNAME = "transformLatLongParameters";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -453,11 +459,12 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_LATLNG_VALUES").toString();
-            for (Parameter parameter : parameters) {
-                if (AbstractQueryBuilder.NEAR.equals(parameter.getName()) || 
-                    AbstractQueryBuilder.NEAR_DISTANCE.equals(parameter.getName())) {
+            for (IParameter parameter : parameters) {
+                // AbstractQueryBuilder.NEAR.equals(parameter.getName())
+                if (parameter instanceof LocationParameter) {
+                    LocationParameter locParam = (LocationParameter) parameter;
                     rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
-                                            parameter.getValueLatitude(), parameter.getValueLongitude()};
+                            locParam.getValueLatitude(), locParam.getValueLongitude()};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
                 }
             }
@@ -486,7 +493,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     }
     
     @Override
-    public Array transformTokenParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+    public Array transformTokenParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
         final String METHODNAME = "transformTokenParameters";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -498,10 +505,11 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_TOKEN_VALUES").toString();
-            for (Parameter parameter : parameters) {
-                if (parameter.getType().equals(Type.TOKEN)) {
+            for (IParameter parameter : parameters) {
+                if ((parameter instanceof TokenParameter)) {
+                    TokenParameter tokenParam = (TokenParameter) parameter;
                     rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
-                                            this.acquireCodeSystemId(parameter.getValueSystem()), parameter.getValueCode()};
+                                            this.acquireCodeSystemId(tokenParam.getValueSystem()), tokenParam.getValueCode()};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
                 }
             }
@@ -530,7 +538,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     }
     
     @Override
-    public Array transformQuantityParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException {
+    public Array transformQuantityParameters(Connection connection, String schemaName, List<IParameter> parameters) throws FHIRPersistenceException {
         final String METHODNAME = "transformQuantityParameters";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -542,14 +550,14 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_QUANTITY_VALUES").toString();
-            for (Parameter parameter : parameters) {
-                
-                if (parameter.getType().equals(Type.QUANTITY)) {
+            for (IParameter parameter : parameters) {
+                if (parameter instanceof QuantityParameter) {
+                    QuantityParameter quantParam = (QuantityParameter) parameter;
                     // TODO: we're forcing the BigDecimal into a DOUBLE and we're losing precision...DB schema should be updated to use DECIMAL
                     rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
-                                            parameter.getValueCode(), parameter.getValueNumber().doubleValue(),
-                                            parameter.getValueNumberLow().doubleValue(), parameter.getValueNumberHigh().doubleValue(),
-                                            this.acquireCodeSystemId(parameter.getValueSystem())};
+                            quantParam.getValueCode(), quantParam.getValueNumber().doubleValue(),
+                            quantParam.getValueNumberLow().doubleValue(), quantParam.getValueNumberHigh().doubleValue(),
+                            this.acquireCodeSystemId(quantParam.getValueSystem())};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));
                 }
             }
