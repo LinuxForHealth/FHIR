@@ -759,12 +759,10 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "_search(String)");
         }
     }
-
-    @GET
-    @Path("_search")
-    public Response searchAll() {
-        log.entering(this.getClass().getName(), "searchAll()");
-
+    
+    
+    private Response doSearchAll() {
+        log.entering(this.getClass().getName(), "doSearchAll()");
         try {
             checkInitComplete();
 
@@ -779,9 +777,24 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (Exception e) {
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-            log.exiting(this.getClass().getName(), "searchAll()");
+            log.exiting(this.getClass().getName(), "doSearchAll()");
         }
     }
+
+    @GET
+    @Path("/")
+    public Response searchAllGet() {
+        return doSearchAll();
+    }
+
+
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("_search")
+    public Response searchAllPost() {
+        return doSearchAll();
+    }
+
 
     @GET
     @Path("${operationName}")

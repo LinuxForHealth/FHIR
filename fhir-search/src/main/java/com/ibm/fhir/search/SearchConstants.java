@@ -89,6 +89,9 @@ public class SearchConstants {
     
     // _pretty
     public static final String PRETTY = "_pretty";
+    
+    // _type
+    public static final String RESOURCE_TYPE = "_type";
 
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =

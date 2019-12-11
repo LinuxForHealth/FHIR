@@ -43,14 +43,17 @@ import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.model.resource.CapabilityStatement;
+import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
@@ -657,5 +660,12 @@ public abstract class FHIRServerTestBase {
             }
         }
         return result;
+    }
+    
+    protected Condition buildCondition(String patientId, String fileName) throws Exception {
+        Condition condition = TestUtil.readLocalResource(fileName);
+        condition = condition.toBuilder().subject(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
+
+        return condition;
     }
 }
