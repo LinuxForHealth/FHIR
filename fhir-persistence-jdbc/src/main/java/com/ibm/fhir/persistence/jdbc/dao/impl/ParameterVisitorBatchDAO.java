@@ -266,8 +266,8 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
             }
             else {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], " 
-                            + date + " [" + dateStart + ", " + dateEnd + "]");
+                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], value: [" 
+                            + date + "], period: [" + dateStart + ", " + dateEnd + "]");
                 }
                 
                 dates.setInt(1, parameterNameId);

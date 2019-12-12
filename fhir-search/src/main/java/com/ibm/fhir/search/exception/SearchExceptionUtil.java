@@ -23,6 +23,7 @@ public class SearchExceptionUtil {
     private static final String PARSE_PARAMETER_EXCEPTION = "An error occurred while parsing parameter '%s'.";
     private static final String CHAINED_PARAMETER_EXCEPTION = "Unable to parse chained parameter: '%s'";
     private static final String GET_SEARCH_FAILED = "Unable to process getSearch ";
+    private static final String BADFORMAT_EXCEPTION = "Invalid Date Time Format found please use 'yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm].'";
     
     private SearchExceptionUtil() {
         // No Op
@@ -89,5 +90,13 @@ public class SearchExceptionUtil {
     public static FHIRSearchException buildNewFHIRSearchExecption(Exception e) {
         return new FHIRSearchException(GET_SEARCH_FAILED, e);
     }
-
+    
+    /**
+     * build data time format exception
+     * @param exception e
+     * @return
+     */
+    public static FHIRSearchException buildNewDateTimeFormatException(Exception e) {
+        return new FHIRSearchException(BADFORMAT_EXCEPTION, e);
+    }
 }

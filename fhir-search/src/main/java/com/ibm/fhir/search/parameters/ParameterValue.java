@@ -7,8 +7,8 @@
 package com.ibm.fhir.search.parameters;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
-import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 
@@ -20,7 +20,10 @@ public class ParameterValue {
     private Prefix prefix = null;
 
     private String valueString = null;
-    private DateTime valueDate = null;
+
+    private Instant valueDate = null;
+    private Instant valueDateLowerBound = null;
+    private Instant valueDateUpperBound = null;
 
     // Used with Number
     private BigDecimal valueNumber = null;
@@ -56,11 +59,11 @@ public class ParameterValue {
         this.valueString = valueString;
     }
 
-    public DateTime getValueDate() {
+    public Instant getValueDate() {
         return valueDate;
     }
 
-    public void setValueDate(DateTime valueDate) {
+    public void setValueDate(Instant valueDate) {
         this.valueDate = valueDate;
     }
 
@@ -88,6 +91,22 @@ public class ParameterValue {
         this.valueCode = valueCode;
     }
 
+    public Instant getValueDateLowerBound() {
+        return valueDateLowerBound;
+    }
+
+    public void setValueDateLowerBound(Instant valueDateLowerBound) {
+        this.valueDateLowerBound = valueDateLowerBound;
+    }
+
+    public Instant getValueDateUpperBound() {
+        return valueDateUpperBound;
+    }
+
+    public void setValueDateUpperBound(Instant valueDateUpperBound) {
+        this.valueDateUpperBound = valueDateUpperBound;
+    }
+
     /**
      * Serialize the ParameterValue to a query parameter string
      */
@@ -112,6 +131,8 @@ public class ParameterValue {
         outputBuilder(returnString, valueCode);
         outputBuilder(returnString, valueString);
         outputBuilder(returnString, valueDate);
+        outputBuilder(returnString, valueDateLowerBound);
+        outputBuilder(returnString, valueDateUpperBound);
 
         return returnString.toString();
     }

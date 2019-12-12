@@ -404,7 +404,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     protected int runCountQuery(String sql, Object... searchArgs) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "runCountQuery";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         int rowCount = 0;
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -412,7 +412,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         String errMsg = "Failure retrieving count. SQL=" + sql + NEWLINE + "  searchArgs=" + Arrays.toString(searchArgs);
         long dbCallStartTime;
         double dbCallDuration;
-                        
+
         try {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sql);

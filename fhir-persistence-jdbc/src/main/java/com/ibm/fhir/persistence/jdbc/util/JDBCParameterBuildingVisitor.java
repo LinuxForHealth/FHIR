@@ -14,6 +14,8 @@ import static com.ibm.fhir.model.type.code.SearchParamType.STRING;
 import static com.ibm.fhir.model.type.code.SearchParamType.TOKEN;
 import static com.ibm.fhir.model.type.code.SearchParamType.URI;
 
+import static com.ibm.fhir.search.date.DateTimeHandler.generateTimestamp;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.visitor.DefaultVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.persistence.jdbc.dto.Parameter;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter.TimeType;
+import com.ibm.fhir.search.date.DateTimeHandler;
 
 /**
  * This class is the JDBC persistence layer implementation for transforming SearchParameters into Parameter Data Transfer Objects.
@@ -64,8 +66,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     // DB2: https://www.ibm.com/support/knowledgecenter/en/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
     // Derby: https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj271.html
     private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.valueOf("0001-01-01 00:00:00.000000");
-    // 23:59:59.999999 used instead of 24:00:00.000000 to ensure it could be represented in FHIR if needed
-    private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 23:59:59.999999");
+
+    // 00:00:00.000000 used instead of 24:00:00.000000 to ensure it could be represented in FHIR if needed
+    // Have to account for Timezone shifts
+    private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 00:00:00.000000");
 
     // We only need the SearchParameter type and code, so just store those directly as members
     private final String searchParamCode;
@@ -208,7 +212,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, instant);
             }
             p.setName(searchParamCode);
-            p.setValueDate(Timestamp.from(instant.getValue().toInstant()));
+            p.setValueDate(generateTimestamp(instant.getValue().toInstant()));
             result.add(p);
         }
         return false;
@@ -435,14 +439,14 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         if (period.getStart() == null || period.getStart().getValue() == null) {
             p.setValueDateStart(SMALLEST_TIMESTAMP);
         } else {
-            java.time.Instant startInst = QueryBuilderUtil.getInstant(period.getStart());
-            p.setValueDateStart(Timestamp.from(startInst));
+            java.time.Instant startInst = DateTimeHandler.generateValue(period.getStart().getValue());
+            p.setValueDateStart(generateTimestamp(startInst));
         }
         if (period.getEnd() == null || period.getEnd().getValue() == null) {
             p.setValueDateEnd(LARGEST_TIMESTAMP);
         } else {
-            java.time.Instant endInst = QueryBuilderUtil.getInstant(period.getEnd());
-            p.setValueDateEnd(Timestamp.from(endInst));
+            java.time.Instant endInst = DateTimeHandler.generateValue(period.getEnd().getValue());
+            p.setValueDateEnd(generateTimestamp(endInst));
         }
         result.add(p);
         return false;
@@ -567,9 +571,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * @param date
      */
     private void setDateValues(Parameter p, Date date) {
-        java.time.Instant start = QueryBuilderUtil.getStart(date);
-        java.time.Instant end = QueryBuilderUtil.getEnd(date);
-        setDateValues(p, start, end);
+        if (date.getValue() != null) {
+            java.time.Instant inst = DateTimeHandler.generateValue(date.getValue());
+            p.setValueDate(DateTimeHandler.generateTimestamp(inst));
+        }
     }
 
     /**
@@ -581,48 +586,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * @throws NullPointerException if p or dateTime are null
      */
     private void setDateValues(Parameter p, DateTime dateTime) {
-        if (dateTime.isPartial()) {
-            java.time.Instant start = QueryBuilderUtil.getStart(dateTime);
-            java.time.Instant end = QueryBuilderUtil.getEnd(dateTime);
-            setDateValues(p, start, end);
-        } else {
-            // fully specified time including zone, so we can interpret as an instant
-            p.setValueDate(java.sql.Timestamp.from(java.time.Instant.from(dateTime.getValue())));
+        if (dateTime.getValue() != null) {
+            java.time.Instant inst = DateTimeHandler.generateValue(dateTime.getValue());
+            p.setValueDate(DateTimeHandler.generateTimestamp(inst));
         }
-    }
-
-    /**
-     * Set the date values on the {@link Parameter}, adjusting the end time slightly to make it inclusive (which is a TODO to fix).
-     *
-     * @param p
-     * @param start
-     * @param end
-     */
-    private void setDateValues(Parameter p, java.time.Instant start, java.time.Instant end) {
-        if (start != null) {
-            Timestamp startTime = Timestamp.from(start);
-            p.setValueDateStart(startTime);
-            p.setValueDate(startTime);
-            p.setTimeType(TimeType.UNKNOWN);
-        }
-
-        if (end != null) {
-            Timestamp implicitEndExclusive = Timestamp.from(end);
-            // TODO: Is it possible to avoid this by using <= or BETWEEN instead of < when constructing the query?
-            Timestamp implicitEndInclusive = convertToInclusiveEnd(implicitEndExclusive);
-            p.setValueDateEnd(implicitEndInclusive);
-        }
-    }
-
-    /**
-     * Convert a period's end timestamp from an exclusive end timestamp to an inclusive one
-     *
-     * @param exlusiveEndTime
-     * @return inclusiveEndTime
-     */
-    private Timestamp convertToInclusiveEnd(Timestamp exlusiveEndTime) {
-        // Our current schema uses the db2/derby default of 6 decimal places (1000 nanoseconds) for fractional seconds.
-        return Timestamp.from(exlusiveEndTime.toInstant().minusNanos(1000));
     }
 
     private IllegalArgumentException invalidComboException(SearchParamType paramType, Element value) {

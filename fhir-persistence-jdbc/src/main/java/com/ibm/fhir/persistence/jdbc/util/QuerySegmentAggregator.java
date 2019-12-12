@@ -61,8 +61,9 @@ class QuerySegmentAggregator {
     protected List<SqlQueryData> querySegments;
     protected List<Parameter> searchQueryParameters;
     
-    // used for special treatment of _id
+    // used for special treatment of _id and _lastUpdated
     protected Parameter queryParamId = null;
+    protected Parameter queryParamLastUpdate = null;
     
     private int offset;
     private int pageSize;

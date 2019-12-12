@@ -7,15 +7,16 @@
 package com.ibm.fhir.search.parameters;
 
 import java.math.BigDecimal;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.date.DateTimeHandler;
 
 /**
  * general type of parameter. 
@@ -134,9 +135,9 @@ public class Parameter {
                 buffer.append(SearchConstants.NL);
             }
 
-            DateTime valueDate = value.getValueDate();
+            TemporalAccessor valueDate = value.getValueDate();
             if (valueDate != null) {
-                buffer.append("    valueDate: " + valueDate.getValue());
+                buffer.append("    valueDate: " + DateTimeHandler.serialize(valueDate));
                 buffer.append(SearchConstants.NL);
             }
 
