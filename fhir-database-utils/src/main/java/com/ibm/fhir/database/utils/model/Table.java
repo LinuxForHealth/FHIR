@@ -30,6 +30,9 @@ public class Table extends BaseObject {
     // The primary key definition for this table (optional)
     private final PrimaryKeyDef primaryKey;
     
+    // The identity definition for this table (optional)
+    private final IdentityDef identity;
+    
     // All the indexes defined for this table
     private final List<IndexDef> indexes = new ArrayList<>();
     
@@ -53,6 +56,7 @@ public class Table extends BaseObject {
      * @param tenantColumnName
      * @param columns
      * @param pk
+     * @param identity
      * @param indexes
      * @param fkConstraints
      * @param accessControlVar
@@ -61,14 +65,15 @@ public class Table extends BaseObject {
      * @param tags
      * @param privileges
      */
-    public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns, PrimaryKeyDef pk, Collection<IndexDef> indexes,
-            Collection<ForeignKeyConstraint> fkConstraints,
+    public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns, PrimaryKeyDef pk, 
+            IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
             Collection<GroupPrivilege> privileges) {
         super(schemaName, name, DatabaseObjectType.TABLE, version);
         this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
         this.primaryKey = pk;
+        this.identity = identity;
         this.indexes.addAll(indexes);
         this.fkConstraints.addAll(fkConstraints);
         this.accessControlVar = accessControlVar;
@@ -89,6 +94,14 @@ public class Table extends BaseObject {
     }
 
     /**
+     * Getter for the identity definition, or null if there isn't one
+     * @return
+     */
+    public IdentityDef getIdentity() {
+        return identity;
+    }
+
+    /**
      * Getter for the optional tenant id column name
      * @return
      */
@@ -99,19 +112,18 @@ public class Table extends BaseObject {
     @Override
     public void apply(IDatabaseAdapter target) {
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
-        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, this.primaryKey, tsName);
-        
+        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, this.primaryKey, this.identity, tsName);
+
         // Now add any indexes associated with this table
         for (IndexDef idx: this.indexes) {
             idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target);
         }
-        
+
         // Foreign key constraints
         for (ForeignKeyConstraint fkc: this.fkConstraints) {
             fkc.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target);
         }
-        
-        
+
         // Apply tenant access control if required
         if (this.accessControlVar != null) {
             // The accessControlVar represents a DB2 session variable. Programs must set this value
@@ -157,6 +169,9 @@ public class Table extends BaseObject {
 
         // The definition of the primary key, or null if there isn't one
         private PrimaryKeyDef primaryKey;
+        
+        // The definition of the identity column for the table, or null if there isn't one
+        private IdentityDef identity;
         
         // All the indexes defined for the table we are building
         private Map<String,IndexDef> indexes = new HashMap<>();
@@ -343,6 +358,17 @@ public class Table extends BaseObject {
         }
 
         /**
+         * Set one of the columns to be the identity column for the table
+         * @param constraintName
+         * @param columns
+         * @return
+         */
+        public Builder setIdentityColumn(String columnName, Generated generated) {
+            this.identity = new IdentityDef(columnName, generated);
+            return this;
+        }
+
+        /**
          * Add a primary key constraint to the table
          * @param constraintName
          * @param columns
@@ -478,13 +504,8 @@ public class Table extends BaseObject {
             
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
-            return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.indexes.values(),
-                    this.fkConstraints.values(),
-                    this.accessControlVar,
-                    this.tablespace,
-                    allDependencies,
-                    tags,
-                    privileges);
+            return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
+                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges);
             
         }
         

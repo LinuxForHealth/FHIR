@@ -27,6 +27,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Tenant;
@@ -82,10 +83,8 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     
     /**
      * Build the list of columns in the create table statement
-     * @param columns
-     * @return
      */
-    protected String buildColumns(List<ColumnBase> columns) {
+    protected String buildColumns(List<ColumnBase> columns, IdentityDef identity) {
         StringBuilder result = new StringBuilder();
         for (ColumnBase column: columns) {
             if (result.length() > 0) {
@@ -95,7 +94,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             result.append(column.getName());
             result.append(" ");
             result.append(column.getTypeInfo(this));
-            if (!column.isNullable()) {
+            if (identity != null && column.getName().equals(identity.getColumnName())) {
+                result.append(" GENERATED " + identity.getGenerated() + " AS IDENTITY");
+            } // AS IDENTITY implies NOT NULL so this can be and else if
+            else if (!column.isNullable()) {
                 result.append(" NOT NULL");
             }
         }
@@ -114,12 +116,12 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @param tablespaceName
      * @return
      */
-    protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, String tablespaceName) {
+    protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, IdentityDef identity, String tablespaceName) {
         StringBuilder result = new StringBuilder();
         result.append("CREATE TABLE ");
         result.append(getQualifiedName(schema, name));
         result.append("(");
-        result.append(buildColumns(columns));
+        result.append(buildColumns(columns, identity));
         
         // Add the primary key definition after the columns
         if (pkDef != null) {

@@ -48,9 +48,7 @@ public class CompositeParmVal implements ExtractedParameterValue {
      * We know our type, so we can call the correct method on the visitor
      */
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
-        for (ExtractedParameterValue param : component) {
-            param.accept(visitor);
-        }
+        visitor.visit(this);
     }
 
     /**

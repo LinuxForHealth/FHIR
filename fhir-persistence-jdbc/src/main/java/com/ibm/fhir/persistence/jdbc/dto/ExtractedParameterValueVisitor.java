@@ -52,4 +52,9 @@ public interface ExtractedParameterValueVisitor {
      * Process a location parameter value
      */
     void visit(LocationParmVal locationParameter) throws FHIRPersistenceException;
+
+    /**
+     * Process a composite parameter value
+     */
+    void visit(CompositeParmVal compositeParameter) throws FHIRPersistenceException;
 }

@@ -108,6 +108,7 @@ public class FhirSchemaConstants {
 
     public static final String IDX = "IDX_";
     public static final String FK = "FK_";
+    public static final String PK = "PK_";
 
     // Initial partition range values for table create
     public static final int PART_LOWER = 0;

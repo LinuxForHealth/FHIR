@@ -157,7 +157,6 @@ public class FhirSchemaGenerator {
         for (FHIRResourceType.ValueSet rt: FHIRResourceType.ValueSet.values()) {
             resourceTypes.add(rt.value());
         }
-        
     }
 
     /**
@@ -194,7 +193,7 @@ public class FhirSchemaGenerator {
                 Arrays.asList(allAdminTablesComplete), 
                 procedurePrivileges);
         setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        
+
         // A final marker which is used to block any FHIR data schema activity until the admin schema is completed
         this.adminSchemaComplete = new NopObject(adminSchemaName, "adminSchemaComplete");
         this.adminSchemaComplete.addDependencies(Arrays.asList(setTenant));
@@ -249,7 +248,7 @@ public class FhirSchemaGenerator {
 
         this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS)
                 .addIntColumn(        TENANT_KEY_ID,             false) // PK
-                .addIntColumn(            MT_ID,             false) // FK to TENANTS
+                .addIntColumn(                MT_ID,             false) // FK to TENANTS
                 .addVarcharColumn(      TENANT_SALT,        44,  false) // 32 bytes == 44 Base64 symbols
                 .addVarbinaryColumn(    TENANT_HASH,        32,  false) // SHA-256 => 32 bytes
                 .addUniqueIndex(IDX + "TENANT_KEY_SALT", TENANT_SALT)   // we want every salt to be unique
@@ -529,7 +528,7 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceGroup frg = new FhirResourceGroup(model, this.schemaName, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);

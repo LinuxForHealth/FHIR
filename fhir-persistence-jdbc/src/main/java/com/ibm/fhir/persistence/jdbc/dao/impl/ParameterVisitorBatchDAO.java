@@ -9,15 +9,20 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
+import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValueVisitor;
@@ -38,6 +43,9 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
 
+    // the connection to use for the inserts
+    private final Connection connection;
+    
     // the max number of rows we accumulate for a given statement before we submit the batch
     private final int batchSize;
     
@@ -45,23 +53,33 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private final long logicalResourceId;
     
     // Maintainers: remember to close all statements in AutoCloseable#close()
+    private final String insertString;
     private final PreparedStatement strings;
     private int stringCount;
     
+    private final String insertNumber;
     private final PreparedStatement numbers;
     private int numberCount;
     
+    private final String insertDate;
     private final PreparedStatement dates;
     private int dateCount;
     
     private final PreparedStatement tokens;
+    // token is the most common component type in composite params, so prepare a statement for it
+    private final PreparedStatement tokenComp;
     private int tokenCount;
     
+    private final String insertQuantity;
     private final PreparedStatement quantities;
     private int quantityCount;
     
-    private final PreparedStatement locations;
-    private int locationCount;
+    // rarely used so no need for PreparedStatement or batching on this one;
+    // even on Location resources its only there once by default
+    private final String insertLocation;
+    
+    private final PreparedStatement composites;
+    private int compositesCount;
     
     // Searchable string attributes stored at the Resource (system) level
     private final PreparedStatement resourceStrings;
@@ -87,55 +105,85 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
      * @param resourceId
      */
     public ParameterVisitorBatchDAO(Connection c, String adminSchemaName, String tablePrefix, boolean multitenant, long logicalResourceId, int batchSize,
-        IParameterNameCache pnc, ICodeSystemCache csc) throws SQLException {
+            IParameterNameCache pnc, ICodeSystemCache csc) throws SQLException {
         if (batchSize < 1) {
             throw new IllegalArgumentException("batchSize must be >= 1");
         }
         
+        this.connection = c;
         this.logicalResourceId = logicalResourceId;
         this.batchSize = batchSize;
         this.parameterNameCache = pnc;
         this.codeSystemCache = csc;
 
-        String insert;
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
-        strings = c.prepareStatement(insert);
+        insertString = multitenant ?
+                "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                :
+                "INSERT INTO " + tablePrefix + "_str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
+        strings = c.prepareStatement(insertString);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_number_values (mt_id, parameter_name_id, number_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?)"
-                :"INSERT INTO " + tablePrefix + "_number_values (parameter_name_id, number_value, logical_resource_id) VALUES (?,?,?)";
-        numbers = c.prepareStatement(insert);
+        insertNumber = multitenant ?
+                "INSERT INTO " + tablePrefix + "_number_values (mt_id, parameter_name_id, number_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?)"
+                :
+                "INSERT INTO " + tablePrefix + "_number_values (parameter_name_id, number_value, logical_resource_id) VALUES (?,?,?)";
+        numbers = c.prepareStatement(insertNumber);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
-        dates = c.prepareStatement(insert);
+        insertDate = multitenant ?
+                "INSERT INTO " + tablePrefix + "_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                :
+                "INSERT INTO " + tablePrefix + "_date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+        dates = c.prepareStatement(insertDate);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_token_values (mt_id, parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_token_values (parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (?,?,?,?)";
-        tokens = c.prepareStatement(insert);
+        String insertToken = multitenant ?
+                "INSERT INTO " + tablePrefix + "_token_values (mt_id, parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                :
+                "INSERT INTO " + tablePrefix + "_token_values (parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (?,?,?,?)";
+        tokens = c.prepareStatement(insertToken);
+        tokenComp = c.prepareStatement(insertToken, Statement.RETURN_GENERATED_KEYS);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_quantity_values (mt_id, parameter_name_id, code_system_id, code, quantity_value, quantity_value_low, quantity_value_high, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?,?,?)"
-                : "INSERT INTO " + tablePrefix + "_quantity_values (parameter_name_id, code_system_id, code, quantity_value, quantity_value_low, quantity_value_high, logical_resource_id) VALUES (?,?,?,?,?,?,?)";
-        quantities = c.prepareStatement(insert);
+        insertQuantity = multitenant ?
+                "INSERT INTO " + tablePrefix + "_quantity_values (mt_id, parameter_name_id, code_system_id, code, quantity_value, quantity_value_low, quantity_value_high, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?,?,?)"
+                :
+                "INSERT INTO " + tablePrefix + "_quantity_values (parameter_name_id, code_system_id, code, quantity_value, quantity_value_low, quantity_value_high, logical_resource_id) VALUES (?,?,?,?,?,?,?)";
+        quantities = c.prepareStatement(insertQuantity);
         
-        insert = multitenant ? "INSERT INTO " + tablePrefix + "_latlng_values (mt_id, parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+        insertLocation = multitenant ? "INSERT INTO " + tablePrefix + "_latlng_values (mt_id, parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
                 : "INSERT INTO " + tablePrefix + "_latlng_values (parameter_name_id, latitude_value, longitude_value, logical_resource_id) VALUES (?,?,?,?)";
-        locations = c.prepareStatement(insert);
+        
+        String insertComposite = multitenant ?
+                "INSERT INTO " + tablePrefix + "_composites (mt_id, parameter_name_id, logical_resource_id, "
+                + "comp1_str, comp1_number, comp1_date, comp1_token, comp1_quantity, comp1_latlng, "
+                + "comp2_str, comp2_number, comp2_date, comp2_token, comp2_quantity, comp2_latlng, "
+                + "comp3_str, comp3_number, comp3_date, comp3_token, comp3_quantity, comp3_latlng"
+                + ") VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,  ?,?,?,?,?,?,  ?,?,?,?,?,?,  ?,?,?,?,?,?)"
+                :
+                "INSERT INTO " + tablePrefix + "_composites (parameter_name_id, logical_resource_id, "
+                + "comp1_str, comp1_number, comp1_date, comp1_token, comp1_quantity, comp1_latlng, "
+                + "comp2_str, comp2_number, comp2_date, comp2_token, comp2_quantity, comp2_latlng, "
+                + "comp3_str, comp3_number, comp3_date, comp3_token, comp3_quantity, comp3_latlng"
+                + ") VALUES (?,?,  ?,?,?,?,?,?,  ?,?,?,?,?,?,  ?,?,?,?,?,?)";
+        composites = c.prepareStatement(insertComposite);
 
         // Resource level string attributes
-        insert = multitenant ? "INSERT INTO resource_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO resource_str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
-        resourceStrings = c.prepareStatement(insert);
+        String insertResourceString = multitenant ?
+                "INSERT INTO resource_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                :
+                "INSERT INTO resource_str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
+        resourceStrings = c.prepareStatement(insertResourceString);
         
         // Resource level date attributes
-        insert = multitenant ? "INSERT INTO resource_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
-                : "INSERT INTO resource_date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
-        resourceDates = c.prepareStatement(insert);
+        String insertResourceDate = multitenant ?
+                "INSERT INTO resource_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                :
+                "INSERT INTO resource_date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+        resourceDates = c.prepareStatement(insertResourceDate);
         
         // Resource level token attributes
-        insert = multitenant ? "INSERT INTO resource_token_values (mt_id, parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                : "INSERT INTO resource_token_values (parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (?,?,?,?)";
-        resourceTokens = c.prepareStatement(insert);
+        String insertResourceToken = multitenant ?
+                "INSERT INTO resource_token_values (mt_id, parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                :
+                "INSERT INTO resource_token_values (parameter_name_id, code_system_id, token_value, logical_resource_id) VALUES (?,?,?,?)";
+        resourceTokens = c.prepareStatement(insertResourceToken);
     }
 
     /**
@@ -198,17 +246,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
                 }
                 
-                strings.setInt(1, parameterNameId);
-                if (value != null) {
-                    
-                    strings.setString(2, value);
-                    strings.setString(3, value.toLowerCase());
-                }
-                else {
-                    strings.setNull(2, Types.VARCHAR);
-                    strings.setNull(3, Types.VARCHAR);
-                }
-                strings.setLong(4, logicalResourceId);
+                setStringParms(strings, parameterNameId, value);
                 strings.addBatch();
                 
                 if (++stringCount == this.batchSize) {
@@ -220,6 +258,19 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "=" + value, x);
         }
+    }
+
+    private void setStringParms(PreparedStatement insert, int parameterNameId, String value) throws SQLException {
+        insert.setInt(1, parameterNameId);
+        if (value != null) {
+            insert.setString(2, value);
+            insert.setString(3, value.toLowerCase());
+        }
+        else {
+            insert.setNull(2, Types.VARCHAR);
+            insert.setNull(3, Types.VARCHAR);
+        }
+        insert.setLong(4, logicalResourceId);
     }
 
     @Override
@@ -237,9 +288,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                         + value + " [" + valueLow + ", " + valueHigh + "]");
             }
             
-            numbers.setInt(1, parameterNameId);
-            numbers.setBigDecimal(2, value);
-            numbers.setLong(3, logicalResourceId);
+            setNumberParms(numbers, parameterNameId, value);
             numbers.addBatch();
         
             if (++numberCount == this.batchSize) {
@@ -250,6 +299,12 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "={" + value + " ["+ valueLow + "," + valueHigh + "}", x);
         }
+    }
+
+    private void setNumberParms(PreparedStatement insert, int parameterNameId, BigDecimal value) throws SQLException {
+        insert.setInt(1, parameterNameId);
+        insert.setBigDecimal(2, value);
+        insert.setLong(3, logicalResourceId);
     }
 
     @Override
@@ -287,11 +342,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                             + date + " [" + dateStart + ", " + dateEnd + "]");
                 }
                 
-                dates.setInt(1, parameterNameId);
-                dates.setTimestamp(2, date);
-                dates.setTimestamp(3, dateStart);
-                dates.setTimestamp(4, dateEnd);
-                dates.setLong(5, logicalResourceId);
+                setDateParms(dates, parameterNameId, date, dateStart, dateEnd);
                 dates.addBatch();
                 
                 if (++dateCount == this.batchSize) {
@@ -304,6 +355,14 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             throw new FHIRPersistenceDataAccessException(parameterName + "={" + date + ", " + dateStart + ", " + dateEnd + "}", x);
         }
         
+    }
+
+    private void setDateParms(PreparedStatement insert, int parameterNameId, Timestamp date, Timestamp dateStart, Timestamp dateEnd) throws SQLException {
+        insert.setInt(1, parameterNameId);
+        insert.setTimestamp(2, date);
+        insert.setTimestamp(3, dateStart);
+        insert.setTimestamp(4, dateEnd);
+        insert.setLong(5, logicalResourceId);
     }
 
     @Override
@@ -339,10 +398,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                             + codeSystem + "[" + codeSystemId + "], " + tokenValue);
                 }
                 
-                tokens.setInt(1, parameterNameId);
-                tokens.setInt(2, codeSystemId);
-                tokens.setString(3, tokenValue);
-                tokens.setLong(4, logicalResourceId);
+                setTokenParms(tokens, parameterNameId, codeSystemId, tokenValue);
                 tokens.addBatch();
                 
                 if (++tokenCount == this.batchSize) {
@@ -357,6 +413,13 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "=" + codeSystem + ":" + tokenValue, x);
         }
+    }
+
+    private void setTokenParms(PreparedStatement insert, int parameterNameId, int codeSystemId, String tokenValue) throws SQLException {
+        insert.setInt(1, parameterNameId);
+        insert.setInt(2, codeSystemId);
+        insert.setString(3, tokenValue);
+        insert.setLong(4, logicalResourceId);
     }
 
     @Override
@@ -385,13 +448,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                             + quantityValue + " [" + quantityLow + ", " + quantityHigh + "]");
                 }
                 
-                quantities.setInt(1, parameterNameId);
-                quantities.setInt(2, getCodeSystemId(codeSystem));
-                quantities.setString(3, code);
-                quantities.setBigDecimal(4, quantityValue);
-                quantities.setBigDecimal(5, quantityLow);
-                quantities.setBigDecimal(6, quantityHigh);
-                quantities.setLong(7, logicalResourceId);
+                setQuantityParms(quantities, parameterNameId, codeSystem, code, quantityValue, quantityLow, quantityHigh);
                 quantities.addBatch();
                 
                 if (++quantityCount == batchSize) {
@@ -409,6 +466,17 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
         
     }
+
+    private void setQuantityParms(PreparedStatement insert, int parameterNameId, String codeSystem, String code, BigDecimal quantityValue, BigDecimal quantityLow, BigDecimal quantityHigh)
+            throws SQLException, FHIRPersistenceException {
+        insert.setInt(1, parameterNameId);
+        insert.setInt(2, getCodeSystemId(codeSystem));
+        insert.setString(3, code);
+        insert.setBigDecimal(4, quantityValue);
+        insert.setBigDecimal(5, quantityLow);
+        insert.setBigDecimal(6, quantityHigh);
+        insert.setLong(7, logicalResourceId);
+    }
     
     @Override
     public void visit(LocationParmVal param) throws FHIRPersistenceException {
@@ -417,18 +485,139 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         double lng = param.getValueLongitude();
         
         try {
-            locations.setInt(1, getParameterNameId(parameterName));
-            locations.setDouble(2, lat);
-            locations.setDouble(3, lng);
-            locations.addBatch();
-            
-            if (++locationCount == this.batchSize) {
-                locations.executeBatch();
-                locationCount = 0;
-            }
+            PreparedStatement insert = connection.prepareStatement(insertLocation);
+            setLocationParms(insert, getParameterNameId(parameterName), lat, lng);
+            insert.executeUpdate();
         }
         catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "={" + lat + ", " + lng + "}", x);
+        }
+    }
+
+    private void setLocationParms(PreparedStatement insert, int parameterNameId, double lat, double lng) throws SQLException, FHIRPersistenceException {
+        insert.setInt(1, parameterNameId);
+        insert.setDouble(2, lat);
+        insert.setDouble(3, lng);
+        insert.setLong(4, logicalResourceId);
+    }
+
+    @Override
+    public void visit(CompositeParmVal compositeParameter) throws FHIRPersistenceException {
+        String parameterName = compositeParameter.getName();
+        
+        List<ExtractedParameterValue> component = compositeParameter.getComponent();
+        if (component.size() > 3) {
+            throw new UnsupportedOperationException("Expected 3 or fewer components, but found " + component.size());
+        }
+        
+        try {
+            int i = 1;
+            int parameterNameId = getParameterNameId(parameterName);
+            composites.setInt(i++, parameterNameId);
+            composites.setLong(i++, logicalResourceId);
+            
+            for (ExtractedParameterValue val : component) {
+                // TODO figure out how to use the visitor here and still get back the generated id
+                // THE ORDER OF THESE IF STATEMENTS MUST MATCH THE ORDER OF THE INSERT FIELDS
+                if (val instanceof StringParmVal) {
+                    try (PreparedStatement insert = connection.prepareStatement(insertString, Statement.RETURN_GENERATED_KEYS)) {
+                        setStringParms(insert, parameterNameId, ((StringParmVal) val).getValueString());
+                        insert.executeUpdate();
+                        // closing the insert statement also closes the resultset
+                        ResultSet rs = insert.getGeneratedKeys();
+                        if (rs.next()) {
+                            composites.setLong(i++, rs.getLong(1));
+                        }
+                    }
+                } else {
+                    composites.setNull(i++, Types.BIGINT);
+                }
+                
+                if (val instanceof NumberParmVal) {
+                    try (PreparedStatement insert = connection.prepareStatement(insertNumber, Statement.RETURN_GENERATED_KEYS)) {
+                        setNumberParms(insert, parameterNameId, ((NumberParmVal) val).getValueNumber());
+                        insert.executeUpdate();
+                        // closing the insert statement also closes the resultset
+                        ResultSet rs = insert.getGeneratedKeys();
+                        if (rs.next()) {
+                            composites.setLong(i++, rs.getLong(1));
+                        }
+                    }
+                } else {
+                    composites.setNull(i++, Types.BIGINT);
+                }
+                
+                if (val instanceof DateParmVal) {
+                    try (PreparedStatement insert = connection.prepareStatement(insertDate, Statement.RETURN_GENERATED_KEYS)) {
+                        DateParmVal dVal = (DateParmVal) val;
+                        setDateParms(insert, parameterNameId, dVal.getValueDate(), dVal.getValueDateStart(), dVal.getValueDateEnd());
+                        insert.executeUpdate();
+                        // closing the insert statement also closes the resultset
+                        ResultSet rs = insert.getGeneratedKeys();
+                        if (rs.next()) {
+                            composites.setLong(i++, rs.getLong(1));
+                        }
+                    }
+                } else {
+                    composites.setNull(i++, Types.BIGINT);
+                }
+                
+                if (val instanceof TokenParmVal) {
+                    TokenParmVal tVal = (TokenParmVal) val;
+                    setTokenParms(tokenComp, parameterNameId, getCodeSystemId(tVal.getValueSystem()), tVal.getValueCode());
+                    tokenComp.executeUpdate();
+                    try (ResultSet rs = tokenComp.getGeneratedKeys()) {
+                        if (rs.next()) {
+                            composites.setLong(i++, rs.getLong(1));
+                        }
+                    }
+                } else {
+                    composites.setNull(i++, Types.BIGINT);
+                }
+                
+                if (val instanceof QuantityParmVal) {
+                    try (PreparedStatement insert = connection.prepareStatement(insertQuantity, Statement.RETURN_GENERATED_KEYS)) {
+                        QuantityParmVal qVal = (QuantityParmVal) val;
+                        setQuantityParms(insert, parameterNameId, qVal.getValueSystem(), qVal.getValueCode(), 
+                                qVal.getValueNumber(), qVal.getValueNumberLow(), qVal.getValueNumberHigh());
+                        insert.executeUpdate();
+                        // closing the insert statement also closes the resultset
+                        ResultSet rs = insert.getGeneratedKeys();
+                        if (rs.next()) {
+                            composites.setLong(i++, rs.getLong(1));
+                        }
+                    }
+                } else {
+                    composites.setNull(i++, Types.BIGINT);
+                }
+                
+                if (val instanceof LocationParmVal) {
+                    try (PreparedStatement insert = connection.prepareStatement(insertLocation, Statement.RETURN_GENERATED_KEYS)) {
+                        LocationParmVal lVal = (LocationParmVal) val;
+                        setLocationParms(insert, parameterNameId, lVal.getValueLatitude(), lVal.getValueLongitude());
+                        insert.executeUpdate();
+                        // closing the insert statement also closes the resultset
+                        ResultSet rs = insert.getGeneratedKeys();
+                        if (rs.next()) {
+                            composites.setLong(i++, rs.getLong(1));
+                        }
+                    }
+                } else {
+                    composites.setNull(i++, Types.BIGINT);
+                }
+            }
+            while (i <= 20) {
+                composites.setNull(i++, Types.BIGINT);
+            }
+            composites.addBatch();
+            
+            if (++compositesCount == this.batchSize) {
+                composites.executeBatch();
+                compositesCount = 0;
+            }
+        } catch (SQLException x) {
+            throw new FHIRPersistenceDataAccessException(parameterName + " of composite " + 
+                    component.stream().map(c -> c.getClass().getSimpleName()).collect(Collectors.joining(",")), x);
         }
     }
 
@@ -462,9 +651,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 quantityCount = 0;
             }
             
-            if (locationCount > 0) {
-                locations.executeBatch();
-                locationCount = 0;
+            if (compositesCount > 0) {
+                composites.executeBatch();
+                compositesCount = 0;
             }
             
             if (resourceStringCount > 0) {
@@ -497,8 +686,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         closeStatement(numbers);
         closeStatement(dates);
         closeStatement(tokens);
+        closeStatement(tokenComp);
         closeStatement(quantities);
-        closeStatement(locations);
         closeStatement(resourceStrings);
         closeStatement(resourceDates);
         closeStatement(resourceTokens);
@@ -520,5 +709,4 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private boolean isBase(ExtractedParameterValue param) {
         return "Resource".equals(param.getBase());
     }
-
 }
