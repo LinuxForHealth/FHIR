@@ -561,18 +561,26 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         // The parameter isn't added unless either low or high holds a value
         Parameter p = new Parameter();
         p.setName(searchParamCode);
-
+        
+        // The following code ensures that the lat/lon is only added when there is a pair. 
+        boolean add = false;
         if (position.getLatitude() != null && position.getLatitude().getValue() != null) {
             Double lat = position.getLatitude().getValue().doubleValue();
             p.setValueLatitude(lat);
+
+            if (position.getLongitude() != null && position.getLongitude().getValue() != null) {
+                Double lon = position.getLongitude().getValue().doubleValue();
+                p.setValueLongitude(lon);
+                result.add(p);
+                add = true;
+            }
         }
 
-        if (position.getLongitude() != null && position.getLongitude().getValue() != null) {
-            Double lon = position.getLongitude().getValue().doubleValue();
-            p.setValueLongitude(lon);
+        if(!add && log.isLoggable(Level.FINE)) { 
+            log.fine("The Location.Position parameter is invalid, and not added '" + searchParamCode + "'"); 
         }
-        result.add(p);
-        return false; 
+
+        return add; 
     }
 
     /*====================
