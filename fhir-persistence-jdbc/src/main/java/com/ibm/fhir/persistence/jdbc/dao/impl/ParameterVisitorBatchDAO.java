@@ -384,15 +384,18 @@ public class ParameterVisitorBatchDAO implements IParameterVisitor, AutoCloseabl
         }
         
     }
-    
+
     @Override
     public void locationValue(String parameterName, double lat, double lng) throws FHIRPersistenceException {
+        // Must match the insert
+        // <code>latlng_values (parameter_name_id, latitude_value, longitude_value, logical_resource_id)</code>
         try {
             locations.setInt(1, getParameterNameId(parameterName));
             locations.setDouble(2, lat);
             locations.setDouble(3, lng);
+            locations.setLong(4, logicalResourceId);
             locations.addBatch();
-            
+
             if (++locationCount == this.batchSize) {
                 locations.executeBatch();
                 locationCount = 0;

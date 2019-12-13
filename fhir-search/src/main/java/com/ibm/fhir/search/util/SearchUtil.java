@@ -533,13 +533,11 @@ public class SearchUtil {
             }
 
             // Process the Expression
-            // Disable the processing of composite and "special" types
+            // Disable the processing of composite
             // <code>"type" : "composite",</code>
-            // <code>"type" : "special",</code>
             // Alternatives, which are possible, on loading the map, filter out at that time.
             SearchParamType type = parameter.getType();
-            if (expression != null && !SearchParamType.COMPOSITE.equals(type)
-                    && !SearchParamType.SPECIAL.equals(type)) {
+            if (expression != null && !SearchParamType.COMPOSITE.equals(type)) {
 
                 try {
                     Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
@@ -744,7 +742,6 @@ public class SearchUtil {
                                 + resourceType.getSimpleName();
                 if (lenient) {
                     log.log(Level.FINE, msg, se);
-                    continue;
                 } else {
                     throw se;
                 }
@@ -849,6 +846,21 @@ public class SearchUtil {
             }
             case URI: {
                 // [parameter]=[value]
+                parameterValue.setValueString(unescapeSearchParm(v));
+                break;
+            }
+            case SPECIAL: {
+                // Just in case any instance of SPECIAL supports prefix. 
+                prefix = getPrefix(v);
+                if (prefix != null) {
+                    v = v.substring(2);
+                    parameterValue.setPrefix(prefix);
+                }
+                
+                // One specific instance of SPECIAL is 'near'
+                //[parameter]=[latitude]|[longitude]|[distance]|[units] 
+                // As there may be more in the future, we're leaving the parameter as a String
+                // so the custom downstream logic can treat appropriately. 
                 parameterValue.setValueString(unescapeSearchParm(v));
                 break;
             }
