@@ -33,6 +33,7 @@ import com.ibm.fhir.client.impl.FHIRBasicAuthenticator;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 import com.ibm.fhir.operation.bulkdata.model.BulkExportJobExecutionResponse;
 import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceRequest;
@@ -137,7 +138,7 @@ public class BulkDataClient {
      * @throws Exception
      */
     public String submit(MediaType outputFormat, Instant since, List<String> types,
-        Map<String, String> properties) throws Exception {
+        Map<String, String> properties, ExportType exportType) throws Exception {
 
         // Need to push this into a property.
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
@@ -147,7 +148,14 @@ public class BulkDataClient {
         BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
-        builder.jobXMLName("FhirBulkExportChunkJob");
+        switch (exportType) {
+        case PATIENT:
+            builder.jobXMLName("FhirBulkExportChunkJob");
+            break;
+        default:
+            builder.jobXMLName("FhirBulkExportPatientChunkJob");
+            break;
+        }
 
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
         builder.cosLocation(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_LOCATION));
@@ -271,22 +279,25 @@ public class BulkDataClient {
         // TODO: Convert to yyyy-MM-dd'T'HH:mm:ss
         result.setTransactionTime(response.getLastUpdatedTime());
         // Compose outputs for all exported ndjson files from the batch job exit status,
-        // e.g, Patient[1000,1000,200]:Observation[1000,1000,200]
+        // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
+        //      COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
-        List<String> ResourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
+        if (!exitStatus.contentEquals("COMPLETED")) {
+            List<String> ResourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
 
-        List< PollingLocationResponse.Output> outPutList = new ArrayList< PollingLocationResponse.Output>();
-        for (String resourceTypeInf: ResourceTypeInfs) {
-            String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
-            String resourceCounts[] = resourceTypeInf.substring(resourceTypeInf.indexOf("[")+1, resourceTypeInf.indexOf("]"))
-                    .split("\\s*,\\s*");
-            for (int i = 0; i < resourceCounts.length; i++) {
-                String downloadUrl =
-                        baseCosUrl + "/" + bucket + "/job" + jobId + "/" + resourceType + "_" + (i+1) + ".ndjson";
-                outPutList.add(new PollingLocationResponse.Output(resourceType, downloadUrl, resourceCounts[i]));
+            List< PollingLocationResponse.Output> outPutList = new ArrayList< PollingLocationResponse.Output>();
+            for (String resourceTypeInf: ResourceTypeInfs) {
+                String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
+                String resourceCounts[] = resourceTypeInf.substring(resourceTypeInf.indexOf("[")+1, resourceTypeInf.indexOf("]"))
+                        .split("\\s*,\\s*");
+                for (int i = 0; i < resourceCounts.length; i++) {
+                    String downloadUrl =
+                            baseCosUrl + "/" + bucket + "/job" + jobId + "/" + resourceType + "_" + (i+1) + ".ndjson";
+                    outPutList.add(new PollingLocationResponse.Output(resourceType, downloadUrl, resourceCounts[i]));
+                }
             }
+            result.setOutput(outPutList);
         }
-        result.setOutput(outPutList);
 
         return result;
     }

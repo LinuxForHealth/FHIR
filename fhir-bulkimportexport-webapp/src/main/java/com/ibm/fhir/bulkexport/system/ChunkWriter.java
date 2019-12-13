@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bulkexport;
+package com.ibm.fhir.bulkexport.system;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,9 +23,10 @@ import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
 import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
 import com.ibm.fhir.bulkcommon.COSUtils;
 import com.ibm.fhir.bulkcommon.Constants;
+import com.ibm.fhir.bulkexport.common.TransientUserData;
 
 /**
- * Bulk export Chunk implementation - the Writer.
+ * Bulk system export Chunk implementation - the Writer.
  *
  */
 public class ChunkWriter extends AbstractItemWriter {
@@ -53,7 +54,7 @@ public class ChunkWriter extends AbstractItemWriter {
     String cosEndpintUrl;
 
     /**
-     * The Cos End point URL.
+     * The Cos End point location.
      */
     @Inject
     @BatchProperty(name = "cos.location")
@@ -67,21 +68,21 @@ public class ChunkWriter extends AbstractItemWriter {
     String cosBucketName;
 
     /**
-     * The Cos bucket name.
+     * The Cos bucket path prefix.
      */
     @Inject
     @BatchProperty(name = "cos.bucket.pathprefix")
     String cosBucketPathPrefix;
 
     /**
-     * If use IBM credential.
+     * If use IBM credential or Amazon secret keys.
      */
     @Inject
     @BatchProperty(name = "cos.credential.ibm")
     String cosCredentialIbm;
 
     /**
-     * The Cos object name.
+     * The Cos object name(only used by system export for exporting single resource type)
      */
     @Inject
     @BatchProperty(name = "cos.bucket.objectname")
@@ -104,13 +105,18 @@ public class ChunkWriter extends AbstractItemWriter {
         super();
     }
 
+
+    protected List<String> getResourceTypes() throws Exception {
+        return Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
+    }
+
     private void pushFhirJsons2Cos(InputStream in, int dataLength) throws Exception {
         if (cosClient == null) {
             logger.warning("pushFhirJsons2Cos: no cosClient!");
             throw new Exception("pushFhirJsons2Cos: no cosClient!");
         }
 
-        List<String> ResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
+        List<String> ResourceTypes = getResourceTypes();
 
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
         if (chunkData == null) {
